@@ -12,7 +12,7 @@ extension ElasticTranscoderClient {
     ///     - input: A `[ListJobsByPipelineInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByPipelineOutput`
     public func listJobsByPipelinePaginated(input: ListJobsByPipelineInput) -> ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listJobsByPipeline(input:))
+        return ClientRuntime.PaginatorSequence<ListJobsByPipelineInput, ListJobsByPipelineOutput>(input: input, inputKey: \ListJobsByPipelineInput.pageToken, outputKey: \ListJobsByPipelineOutput.nextPageToken, paginationFunction: self.listJobsByPipeline(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListJobsByPipelineInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListJobsByPipelineInput, OperationStackOutput == ListJobsByPipelineOutput {
+extension PaginatorSequence where Input == ListJobsByPipelineInput, Output == ListJobsByPipelineOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsByPipelinePaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Job]`
     /// - Returns: `[ElasticTranscoderClientTypes.Job]`
@@ -43,7 +43,7 @@ extension ElasticTranscoderClient {
     ///     - input: A `[ListJobsByStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByStatusOutput`
     public func listJobsByStatusPaginated(input: ListJobsByStatusInput) -> ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listJobsByStatus(input:))
+        return ClientRuntime.PaginatorSequence<ListJobsByStatusInput, ListJobsByStatusOutput>(input: input, inputKey: \ListJobsByStatusInput.pageToken, outputKey: \ListJobsByStatusOutput.nextPageToken, paginationFunction: self.listJobsByStatus(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListJobsByStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListJobsByStatusInput, OperationStackOutput == ListJobsByStatusOutput {
+extension PaginatorSequence where Input == ListJobsByStatusInput, Output == ListJobsByStatusOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsByStatusPaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Job]`
     /// - Returns: `[ElasticTranscoderClientTypes.Job]`
@@ -74,7 +74,7 @@ extension ElasticTranscoderClient {
     ///     - input: A `[ListPipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
     public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listPipelines(input:))
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.pageToken, outputKey: \ListPipelinesOutput.nextPageToken, paginationFunction: self.listPipelines(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPipelinesInput, OperationStackOutput == ListPipelinesOutput {
+extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Pipeline]`
     /// - Returns: `[ElasticTranscoderClientTypes.Pipeline]`
@@ -104,7 +104,7 @@ extension ElasticTranscoderClient {
     ///     - input: A `[ListPresetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPresetsOutput`
     public func listPresetsPaginated(input: ListPresetsInput) -> ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listPresets(input:))
+        return ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput>(input: input, inputKey: \ListPresetsInput.pageToken, outputKey: \ListPresetsOutput.nextPageToken, paginationFunction: self.listPresets(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListPresetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPresetsInput, OperationStackOutput == ListPresetsOutput {
+extension PaginatorSequence where Input == ListPresetsInput, Output == ListPresetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPresetsPaginated`
     /// to access the nested member `[ElasticTranscoderClientTypes.Preset]`
     /// - Returns: `[ElasticTranscoderClientTypes.Preset]`

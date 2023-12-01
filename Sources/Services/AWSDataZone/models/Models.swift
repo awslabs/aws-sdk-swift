@@ -11520,7 +11520,7 @@ extension DataZoneClientTypes.FilterClause: Swift.Codable {
 
 extension DataZoneClientTypes {
     /// A search filter clause in Amazon DataZone.
-    public indirect enum FilterClause: Swift.Equatable {
+    public enum FilterClause: Swift.Equatable {
         /// A search filter in Amazon DataZone.
         case filter(DataZoneClientTypes.Filter)
         /// The 'and' search filter clause in Amazon DataZone.

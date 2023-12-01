@@ -12,7 +12,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAlarmRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAlarmRecommendationsOutput`
     public func listAlarmRecommendationsPaginated(input: ListAlarmRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAlarmRecommendations(input:))
+        return ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(input: input, inputKey: \ListAlarmRecommendationsInput.nextToken, outputKey: \ListAlarmRecommendationsOutput.nextToken, paginationFunction: self.listAlarmRecommendations(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppAssessmentComplianceDriftsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentComplianceDriftsOutput`
     public func listAppAssessmentComplianceDriftsPaginated(input: ListAppAssessmentComplianceDriftsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppAssessmentComplianceDrifts(input:))
+        return ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(input: input, inputKey: \ListAppAssessmentComplianceDriftsInput.nextToken, outputKey: \ListAppAssessmentComplianceDriftsOutput.nextToken, paginationFunction: self.listAppAssessmentComplianceDrifts(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppAssessmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentsOutput`
     public func listAppAssessmentsPaginated(input: ListAppAssessmentsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppAssessments(input:))
+        return ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutput>(input: input, inputKey: \ListAppAssessmentsInput.nextToken, outputKey: \ListAppAssessmentsOutput.nextToken, paginationFunction: self.listAppAssessments(input:))
     }
 }
 
@@ -83,7 +83,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppComponentCompliancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppComponentCompliancesOutput`
     public func listAppComponentCompliancesPaginated(input: ListAppComponentCompliancesInput) -> ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppComponentCompliances(input:))
+        return ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(input: input, inputKey: \ListAppComponentCompliancesInput.nextToken, outputKey: \ListAppComponentCompliancesOutput.nextToken, paginationFunction: self.listAppComponentCompliances(input:))
     }
 }
 
@@ -105,7 +105,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppComponentRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppComponentRecommendationsOutput`
     public func listAppComponentRecommendationsPaginated(input: ListAppComponentRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppComponentRecommendations(input:))
+        return ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(input: input, inputKey: \ListAppComponentRecommendationsInput.nextToken, outputKey: \ListAppComponentRecommendationsOutput.nextToken, paginationFunction: self.listAppComponentRecommendations(input:))
     }
 }
 
@@ -127,7 +127,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppInputSourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInputSourcesOutput`
     public func listAppInputSourcesPaginated(input: ListAppInputSourcesInput) -> ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInputSources(input:))
+        return ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutput>(input: input, inputKey: \ListAppInputSourcesInput.nextToken, outputKey: \ListAppInputSourcesOutput.nextToken, paginationFunction: self.listAppInputSources(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppsOutput`
     public func listAppsPaginated(input: ListAppsInput) -> ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApps(input:))
+        return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \ListAppsInput.nextToken, outputKey: \ListAppsOutput.nextToken, paginationFunction: self.listApps(input:))
     }
 }
 
@@ -176,7 +176,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppVersionAppComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionAppComponentsOutput`
     public func listAppVersionAppComponentsPaginated(input: ListAppVersionAppComponentsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppVersionAppComponents(input:))
+        return ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(input: input, inputKey: \ListAppVersionAppComponentsInput.nextToken, outputKey: \ListAppVersionAppComponentsOutput.nextToken, paginationFunction: self.listAppVersionAppComponents(input:))
     }
 }
 
@@ -199,7 +199,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppVersionResourceMappingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionResourceMappingsOutput`
     public func listAppVersionResourceMappingsPaginated(input: ListAppVersionResourceMappingsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppVersionResourceMappings(input:))
+        return ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(input: input, inputKey: \ListAppVersionResourceMappingsInput.nextToken, outputKey: \ListAppVersionResourceMappingsOutput.nextToken, paginationFunction: self.listAppVersionResourceMappings(input:))
     }
 }
 
@@ -222,7 +222,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppVersionResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionResourcesOutput`
     public func listAppVersionResourcesPaginated(input: ListAppVersionResourcesInput) -> ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppVersionResources(input:))
+        return ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(input: input, inputKey: \ListAppVersionResourcesInput.nextToken, outputKey: \ListAppVersionResourcesOutput.nextToken, paginationFunction: self.listAppVersionResources(input:))
     }
 }
 
@@ -246,7 +246,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListAppVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionsOutput`
     public func listAppVersionsPaginated(input: ListAppVersionsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutput>(input: input, inputKey: \ListAppVersionsInput.nextToken, outputKey: \ListAppVersionsOutput.nextToken, paginationFunction: self.listAppVersions(input:))
     }
 }
 
@@ -270,7 +270,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListRecommendationTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationTemplatesOutput`
     public func listRecommendationTemplatesPaginated(input: ListRecommendationTemplatesInput) -> ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendationTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>(input: input, inputKey: \ListRecommendationTemplatesInput.nextToken, outputKey: \ListRecommendationTemplatesOutput.nextToken, paginationFunction: self.listRecommendationTemplates(input:))
     }
 }
 
@@ -296,7 +296,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListResiliencyPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResiliencyPoliciesOutput`
     public func listResiliencyPoliciesPaginated(input: ListResiliencyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResiliencyPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>(input: input, inputKey: \ListResiliencyPoliciesInput.nextToken, outputKey: \ListResiliencyPoliciesOutput.nextToken, paginationFunction: self.listResiliencyPolicies(input:))
     }
 }
 
@@ -318,7 +318,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListSopRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSopRecommendationsOutput`
     public func listSopRecommendationsPaginated(input: ListSopRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSopRecommendations(input:))
+        return ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutput>(input: input, inputKey: \ListSopRecommendationsInput.nextToken, outputKey: \ListSopRecommendationsOutput.nextToken, paginationFunction: self.listSopRecommendations(input:))
     }
 }
 
@@ -340,7 +340,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListSuggestedResiliencyPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSuggestedResiliencyPoliciesOutput`
     public func listSuggestedResiliencyPoliciesPaginated(input: ListSuggestedResiliencyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSuggestedResiliencyPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>(input: input, inputKey: \ListSuggestedResiliencyPoliciesInput.nextToken, outputKey: \ListSuggestedResiliencyPoliciesOutput.nextToken, paginationFunction: self.listSuggestedResiliencyPolicies(input:))
     }
 }
 
@@ -361,7 +361,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListTestRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestRecommendationsOutput`
     public func listTestRecommendationsPaginated(input: ListTestRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestRecommendations(input:))
+        return ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutput>(input: input, inputKey: \ListTestRecommendationsInput.nextToken, outputKey: \ListTestRecommendationsOutput.nextToken, paginationFunction: self.listTestRecommendations(input:))
     }
 }
 
@@ -383,7 +383,7 @@ extension ResiliencehubClient {
     ///     - input: A `[ListUnsupportedAppVersionResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUnsupportedAppVersionResourcesOutput`
     public func listUnsupportedAppVersionResourcesPaginated(input: ListUnsupportedAppVersionResourcesInput) -> ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUnsupportedAppVersionResources(input:))
+        return ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(input: input, inputKey: \ListUnsupportedAppVersionResourcesInput.nextToken, outputKey: \ListUnsupportedAppVersionResourcesOutput.nextToken, paginationFunction: self.listUnsupportedAppVersionResources(input:))
     }
 }
 

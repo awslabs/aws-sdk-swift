@@ -28,8 +28,6 @@ import ClientRuntime
 ///
 /// To view the open source resource repository on GitHub, see [aws-cloudformation/aws-cloudformation-resource-providers-controltower](https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-controltower) Recording API Requests AWS Control Tower supports AWS CloudTrail, a service that records AWS API calls for your AWS account and delivers log files to an Amazon S3 bucket. By using information collected by CloudTrail, you can determine which requests the AWS Control Tower service received, who made the request and when, and so on. For more about AWS Control Tower and its support for CloudTrail, see [Logging AWS Control Tower Actions with AWS CloudTrail](https://docs.aws.amazon.com/controltower/latest/userguide/logging-using-cloudtrail.html) in the AWS Control Tower User Guide. To learn more about CloudTrail, including how to turn it on and find your log files, see the AWS CloudTrail User Guide.
 public protocol ControlTowerClientProtocol {
-    /// Performs the `DisableControl` operation on the `AWSControlTowerApis` service.
-    ///
     /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
     ///
     /// - Parameter DisableControlInput : [no documentation found]
@@ -47,8 +45,6 @@ public protocol ControlTowerClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func disableControl(input: DisableControlInput) async throws -> DisableControlOutput
-    /// Performs the `EnableControl` operation on the `AWSControlTowerApis` service.
-    ///
     /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
     ///
     /// - Parameter EnableControlInput : [no documentation found]
@@ -66,8 +62,6 @@ public protocol ControlTowerClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func enableControl(input: EnableControlInput) async throws -> EnableControlOutput
-    /// Performs the `GetControlOperation` operation on the `AWSControlTowerApis` service.
-    ///
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
     ///
     /// - Parameter GetControlOperationInput : [no documentation found]
@@ -83,8 +77,6 @@ public protocol ControlTowerClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutput
-    /// Performs the `GetEnabledControl` operation on the `AWSControlTowerApis` service.
-    ///
     /// Provides details about the enabled control. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html). Returned values
     ///
     /// * TargetRegions: Shows target AWS Regions where the enabled control is available to be deployed.
@@ -106,8 +98,6 @@ public protocol ControlTowerClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getEnabledControl(input: GetEnabledControlInput) async throws -> GetEnabledControlOutput
-    /// Performs the `ListEnabledControls` operation on the `AWSControlTowerApis` service.
-    ///
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
     ///
     /// - Parameter ListEnabledControlsInput : [no documentation found]

@@ -2208,6 +2208,32 @@ enum CreateExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct CreateHostedConfigurationVersionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateHostedConfigurationVersionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateHostedConfigurationVersionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateHostedConfigurationVersionOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let content = input.operationInput.content {
+            let contentData = content
+            let contentBody = ClientRuntime.HttpBody.data(contentData)
+            input.builder.withBody(contentBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateHostedConfigurationVersionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateHostedConfigurationVersionOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateHostedConfigurationVersionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateHostedConfigurationVersionInput(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), latestVersionNumber: \(Swift.String(describing: latestVersionNumber)), versionLabel: \(Swift.String(describing: versionLabel)), content: \"CONTENT_REDACTED\")"}

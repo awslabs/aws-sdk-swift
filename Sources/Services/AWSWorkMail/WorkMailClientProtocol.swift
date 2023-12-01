@@ -24,8 +24,6 @@ import ClientRuntime
 ///
 /// All WorkMail API operations are Amazon-authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of AWS Identity and Access Management users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the WorkMail site, the IAM user gains full administrative visibility into the entire WorkMail organization (or as set in the IAM policy). This includes, but is not limited to, the ability to create, update, and delete users, groups, and resources. This allows developers to perform the scenarios listed above, as well as give users the ability to grant access on a selective basis using the IAM model.
 public protocol WorkMailClientProtocol {
-    /// Performs the `AssociateDelegateToResource` operation on the `WorkMailService` service.
-    ///
     /// Adds a member (user or group) to the resource's set of delegates.
     ///
     /// - Parameter AssociateDelegateToResourceInput : [no documentation found]
@@ -42,8 +40,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func associateDelegateToResource(input: AssociateDelegateToResourceInput) async throws -> AssociateDelegateToResourceOutput
-    /// Performs the `AssociateMemberToGroup` operation on the `WorkMailService` service.
-    ///
     /// Adds a member (user or group) to the group's set.
     ///
     /// - Parameter AssociateMemberToGroupInput : [no documentation found]
@@ -62,8 +58,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func associateMemberToGroup(input: AssociateMemberToGroupInput) async throws -> AssociateMemberToGroupOutput
-    /// Performs the `AssumeImpersonationRole` operation on the `WorkMailService` service.
-    ///
     /// Assumes an impersonation role for the given WorkMail organization. This method returns an authentication token you can use to make impersonated calls.
     ///
     /// - Parameter AssumeImpersonationRoleInput : [no documentation found]
@@ -78,8 +72,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func assumeImpersonationRole(input: AssumeImpersonationRoleInput) async throws -> AssumeImpersonationRoleOutput
-    /// Performs the `CancelMailboxExportJob` operation on the `WorkMailService` service.
-    ///
     /// Cancels a mailbox export job. If the mailbox export job is near completion, it might not be possible to cancel it.
     ///
     /// - Parameter CancelMailboxExportJobInput : [no documentation found]
@@ -94,8 +86,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func cancelMailboxExportJob(input: CancelMailboxExportJobInput) async throws -> CancelMailboxExportJobOutput
-    /// Performs the `CreateAlias` operation on the `WorkMailService` service.
-    ///
     /// Adds an alias to the set of a given member (user or group) of WorkMail.
     ///
     /// - Parameter CreateAliasInput : [no documentation found]
@@ -115,8 +105,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    /// Performs the `CreateAvailabilityConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
     /// - Parameter CreateAvailabilityConfigurationInput : [no documentation found]
@@ -132,8 +120,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func createAvailabilityConfiguration(input: CreateAvailabilityConfigurationInput) async throws -> CreateAvailabilityConfigurationOutput
-    /// Performs the `CreateGroup` operation on the `WorkMailService` service.
-    ///
     /// Creates a group that can be used in WorkMail by calling the [RegisterToWorkMail] operation.
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
@@ -152,8 +138,6 @@ public protocol WorkMailClientProtocol {
     /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    /// Performs the `CreateImpersonationRole` operation on the `WorkMailService` service.
-    ///
     /// Creates an impersonation role for the given WorkMail organization. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions.
     ///
     /// - Parameter CreateImpersonationRoleInput : [no documentation found]
@@ -170,8 +154,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func createImpersonationRole(input: CreateImpersonationRoleInput) async throws -> CreateImpersonationRoleOutput
-    /// Performs the `CreateMobileDeviceAccessRule` operation on the `WorkMailService` service.
-    ///
     /// Creates a new mobile device access rule for the specified WorkMail organization.
     ///
     /// - Parameter CreateMobileDeviceAccessRuleInput : [no documentation found]
@@ -186,8 +168,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func createMobileDeviceAccessRule(input: CreateMobileDeviceAccessRuleInput) async throws -> CreateMobileDeviceAccessRuleOutput
-    /// Performs the `CreateOrganization` operation on the `WorkMailService` service.
-    ///
     /// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see [Adding an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html) in the WorkMail Administrator Guide. You can associate multiple email domains with an organization, then choose your default email domain from the WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see [Adding a domain](https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html) and [Choosing the default domain](https://docs.aws.amazon.com/workmail/latest/adminguide/default_domain.html) in the WorkMail Administrator Guide. Optionally, you can use a customer managed key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail creates a default, AWS managed key for you.
     ///
     /// - Parameter CreateOrganizationInput : [no documentation found]
@@ -203,8 +183,6 @@ public protocol WorkMailClientProtocol {
     /// - `LimitExceededException` : The request exceeds the limit of the resource.
     /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
     func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput
-    /// Performs the `CreateResource` operation on the `WorkMailService` service.
-    ///
     /// Creates a new WorkMail resource.
     ///
     /// - Parameter CreateResourceInput : [no documentation found]
@@ -223,8 +201,6 @@ public protocol WorkMailClientProtocol {
     /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
-    /// Performs the `CreateUser` operation on the `WorkMailService` service.
-    ///
     /// Creates a user who can be used in WorkMail by calling the [RegisterToWorkMail] operation.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -244,8 +220,6 @@ public protocol WorkMailClientProtocol {
     /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    /// Performs the `DeleteAccessControlRule` operation on the `WorkMailService` service.
-    ///
     /// Deletes an access control rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter DeleteAccessControlRuleInput : [no documentation found]
@@ -258,8 +232,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteAccessControlRule(input: DeleteAccessControlRuleInput) async throws -> DeleteAccessControlRuleOutput
-    /// Performs the `DeleteAlias` operation on the `WorkMailService` service.
-    ///
     /// Remove one or more specified aliases from a set of aliases for a given user.
     ///
     /// - Parameter DeleteAliasInput : [no documentation found]
@@ -275,8 +247,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
-    /// Performs the `DeleteAvailabilityConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
     /// - Parameter DeleteAvailabilityConfigurationInput : [no documentation found]
@@ -289,8 +259,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteAvailabilityConfiguration(input: DeleteAvailabilityConfigurationInput) async throws -> DeleteAvailabilityConfigurationOutput
-    /// Performs the `DeleteEmailMonitoringConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Deletes the email monitoring configuration for a specified organization.
     ///
     /// - Parameter DeleteEmailMonitoringConfigurationInput : [no documentation found]
@@ -304,8 +272,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteEmailMonitoringConfiguration(input: DeleteEmailMonitoringConfigurationInput) async throws -> DeleteEmailMonitoringConfigurationOutput
-    /// Performs the `DeleteGroup` operation on the `WorkMailService` service.
-    ///
     /// Deletes a group from WorkMail.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
@@ -323,8 +289,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    /// Performs the `DeleteImpersonationRole` operation on the `WorkMailService` service.
-    ///
     /// Deletes an impersonation role for the given WorkMail organization.
     ///
     /// - Parameter DeleteImpersonationRoleInput : [no documentation found]
@@ -338,8 +302,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteImpersonationRole(input: DeleteImpersonationRoleInput) async throws -> DeleteImpersonationRoleOutput
-    /// Performs the `DeleteMailboxPermissions` operation on the `WorkMailService` service.
-    ///
     /// Deletes permissions granted to a member (user or group).
     ///
     /// - Parameter DeleteMailboxPermissionsInput : [no documentation found]
@@ -355,8 +317,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteMailboxPermissions(input: DeleteMailboxPermissionsInput) async throws -> DeleteMailboxPermissionsOutput
-    /// Performs the `DeleteMobileDeviceAccessOverride` operation on the `WorkMailService` service.
-    ///
     /// Deletes the mobile device access override for the given WorkMail organization, user, and device. Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter DeleteMobileDeviceAccessOverrideInput : [no documentation found]
@@ -371,8 +331,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteMobileDeviceAccessOverride(input: DeleteMobileDeviceAccessOverrideInput) async throws -> DeleteMobileDeviceAccessOverrideOutput
-    /// Performs the `DeleteMobileDeviceAccessRule` operation on the `WorkMailService` service.
-    ///
     /// Deletes a mobile device access rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter DeleteMobileDeviceAccessRuleInput : [no documentation found]
@@ -386,8 +344,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteMobileDeviceAccessRule(input: DeleteMobileDeviceAccessRuleInput) async throws -> DeleteMobileDeviceAccessRuleOutput
-    /// Performs the `DeleteOrganization` operation on the `WorkMailService` service.
-    ///
     /// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see [Removing an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/remove_organization.html) in the WorkMail Administrator Guide.
     ///
     /// - Parameter DeleteOrganizationInput : [no documentation found]
@@ -401,8 +357,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutput
-    /// Performs the `DeleteResource` operation on the `WorkMailService` service.
-    ///
     /// Deletes the specified resource.
     ///
     /// - Parameter DeleteResourceInput : [no documentation found]
@@ -418,8 +372,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
-    /// Performs the `DeleteRetentionPolicy` operation on the `WorkMailService` service.
-    ///
     /// Deletes the specified retention policy from the specified organization.
     ///
     /// - Parameter DeleteRetentionPolicyInput : [no documentation found]
@@ -433,8 +385,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutput
-    /// Performs the `DeleteUser` operation on the `WorkMailService` service.
-    ///
     /// Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the [DescribeUser] action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
@@ -452,8 +402,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    /// Performs the `DeregisterFromWorkMail` operation on the `WorkMailService` service.
-    ///
     /// Mark a user, group, or resource as no longer used in WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
     ///
     /// - Parameter DeregisterFromWorkMailInput : [no documentation found]
@@ -469,8 +417,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deregisterFromWorkMail(input: DeregisterFromWorkMailInput) async throws -> DeregisterFromWorkMailOutput
-    /// Performs the `DeregisterMailDomain` operation on the `WorkMailService` service.
-    ///
     /// Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first remove any email address used by WorkMail entities before you remove the domain.
     ///
     /// - Parameter DeregisterMailDomainInput : [no documentation found]
@@ -486,8 +432,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func deregisterMailDomain(input: DeregisterMailDomainInput) async throws -> DeregisterMailDomainOutput
-    /// Performs the `DescribeEmailMonitoringConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Describes the current email monitoring configuration for a specified organization.
     ///
     /// - Parameter DescribeEmailMonitoringConfigurationInput : [no documentation found]
@@ -502,8 +446,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func describeEmailMonitoringConfiguration(input: DescribeEmailMonitoringConfigurationInput) async throws -> DescribeEmailMonitoringConfigurationOutput
-    /// Performs the `DescribeEntity` operation on the `WorkMailService` service.
-    ///
     /// Returns basic details about an entity in WorkMail.
     ///
     /// - Parameter DescribeEntityInput : [no documentation found]
@@ -518,8 +460,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func describeEntity(input: DescribeEntityInput) async throws -> DescribeEntityOutput
-    /// Performs the `DescribeGroup` operation on the `WorkMailService` service.
-    ///
     /// Returns the data available for the group.
     ///
     /// - Parameter DescribeGroupInput : [no documentation found]
@@ -534,8 +474,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
-    /// Performs the `DescribeInboundDmarcSettings` operation on the `WorkMailService` service.
-    ///
     /// Lists the settings in a DMARC policy for a specified organization.
     ///
     /// - Parameter DescribeInboundDmarcSettingsInput : [no documentation found]
@@ -548,8 +486,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func describeInboundDmarcSettings(input: DescribeInboundDmarcSettingsInput) async throws -> DescribeInboundDmarcSettingsOutput
-    /// Performs the `DescribeMailboxExportJob` operation on the `WorkMailService` service.
-    ///
     /// Describes the current status of a mailbox export job.
     ///
     /// - Parameter DescribeMailboxExportJobInput : [no documentation found]
@@ -564,8 +500,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func describeMailboxExportJob(input: DescribeMailboxExportJobInput) async throws -> DescribeMailboxExportJobOutput
-    /// Performs the `DescribeOrganization` operation on the `WorkMailService` service.
-    ///
     /// Provides more information regarding a given organization based on its identifier.
     ///
     /// - Parameter DescribeOrganizationInput : [no documentation found]
@@ -578,8 +512,6 @@ public protocol WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutput
-    /// Performs the `DescribeResource` operation on the `WorkMailService` service.
-    ///
     /// Returns the data available for the resource.
     ///
     /// - Parameter DescribeResourceInput : [no documentation found]
@@ -595,8 +527,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput
-    /// Performs the `DescribeUser` operation on the `WorkMailService` service.
-    ///
     /// Provides information regarding the user.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
@@ -611,8 +541,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    /// Performs the `DisassociateDelegateFromResource` operation on the `WorkMailService` service.
-    ///
     /// Removes a member from the resource's set of delegates.
     ///
     /// - Parameter DisassociateDelegateFromResourceInput : [no documentation found]
@@ -629,8 +557,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func disassociateDelegateFromResource(input: DisassociateDelegateFromResourceInput) async throws -> DisassociateDelegateFromResourceOutput
-    /// Performs the `DisassociateMemberFromGroup` operation on the `WorkMailService` service.
-    ///
     /// Removes a member from a group.
     ///
     /// - Parameter DisassociateMemberFromGroupInput : [no documentation found]
@@ -649,8 +575,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func disassociateMemberFromGroup(input: DisassociateMemberFromGroupInput) async throws -> DisassociateMemberFromGroupOutput
-    /// Performs the `GetAccessControlEffect` operation on the `WorkMailService` service.
-    ///
     /// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
     ///
     /// - Parameter GetAccessControlEffectInput : [no documentation found]
@@ -666,8 +590,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func getAccessControlEffect(input: GetAccessControlEffectInput) async throws -> GetAccessControlEffectOutput
-    /// Performs the `GetDefaultRetentionPolicy` operation on the `WorkMailService` service.
-    ///
     /// Gets the default retention policy details for the specified organization.
     ///
     /// - Parameter GetDefaultRetentionPolicyInput : [no documentation found]
@@ -682,8 +604,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func getDefaultRetentionPolicy(input: GetDefaultRetentionPolicyInput) async throws -> GetDefaultRetentionPolicyOutput
-    /// Performs the `GetImpersonationRole` operation on the `WorkMailService` service.
-    ///
     /// Gets the impersonation role details for the given WorkMail organization.
     ///
     /// - Parameter GetImpersonationRoleInput : [no documentation found]
@@ -698,8 +618,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func getImpersonationRole(input: GetImpersonationRoleInput) async throws -> GetImpersonationRoleOutput
-    /// Performs the `GetImpersonationRoleEffect` operation on the `WorkMailService` service.
-    ///
     /// Tests whether the given impersonation role can impersonate a target user.
     ///
     /// - Parameter GetImpersonationRoleEffectInput : [no documentation found]
@@ -716,8 +634,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func getImpersonationRoleEffect(input: GetImpersonationRoleEffectInput) async throws -> GetImpersonationRoleEffectOutput
-    /// Performs the `GetMailboxDetails` operation on the `WorkMailService` service.
-    ///
     /// Requests a user's mailbox details for a specified organization and user.
     ///
     /// - Parameter GetMailboxDetailsInput : [no documentation found]
@@ -732,8 +648,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func getMailboxDetails(input: GetMailboxDetailsInput) async throws -> GetMailboxDetailsOutput
-    /// Performs the `GetMailDomain` operation on the `WorkMailService` service.
-    ///
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security.
     ///
     /// - Parameter GetMailDomainInput : [no documentation found]
@@ -748,8 +662,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func getMailDomain(input: GetMailDomainInput) async throws -> GetMailDomainOutput
-    /// Performs the `GetMobileDeviceAccessEffect` operation on the `WorkMailService` service.
-    ///
     /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes.
     ///
     /// - Parameter GetMobileDeviceAccessEffectInput : [no documentation found]
@@ -763,8 +675,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func getMobileDeviceAccessEffect(input: GetMobileDeviceAccessEffectInput) async throws -> GetMobileDeviceAccessEffectOutput
-    /// Performs the `GetMobileDeviceAccessOverride` operation on the `WorkMailService` service.
-    ///
     /// Gets the mobile device access override for the given WorkMail organization, user, and device.
     ///
     /// - Parameter GetMobileDeviceAccessOverrideInput : [no documentation found]
@@ -780,8 +690,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func getMobileDeviceAccessOverride(input: GetMobileDeviceAccessOverrideInput) async throws -> GetMobileDeviceAccessOverrideOutput
-    /// Performs the `ListAccessControlRules` operation on the `WorkMailService` service.
-    ///
     /// Lists the access control rules for the specified organization.
     ///
     /// - Parameter ListAccessControlRulesInput : [no documentation found]
@@ -794,8 +702,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listAccessControlRules(input: ListAccessControlRulesInput) async throws -> ListAccessControlRulesOutput
-    /// Performs the `ListAliases` operation on the `WorkMailService` service.
-    ///
     /// Creates a paginated call to list the aliases associated with a given entity.
     ///
     /// - Parameter ListAliasesInput : [no documentation found]
@@ -811,8 +717,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    /// Performs the `ListAvailabilityConfigurations` operation on the `WorkMailService` service.
-    ///
     /// List all the AvailabilityConfiguration's for the given WorkMail organization.
     ///
     /// - Parameter ListAvailabilityConfigurationsInput : [no documentation found]
@@ -825,8 +729,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listAvailabilityConfigurations(input: ListAvailabilityConfigurationsInput) async throws -> ListAvailabilityConfigurationsOutput
-    /// Performs the `ListGroupMembers` operation on the `WorkMailService` service.
-    ///
     /// Returns an overview of the members of a group. Users and groups can be members of a group.
     ///
     /// - Parameter ListGroupMembersInput : [no documentation found]
@@ -842,8 +744,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listGroupMembers(input: ListGroupMembersInput) async throws -> ListGroupMembersOutput
-    /// Performs the `ListGroups` operation on the `WorkMailService` service.
-    ///
     /// Returns summaries of the organization's groups.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
@@ -858,8 +758,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    /// Performs the `ListGroupsForEntity` operation on the `WorkMailService` service.
-    ///
     /// Returns all the groups to which an entity belongs.
     ///
     /// - Parameter ListGroupsForEntityInput : [no documentation found]
@@ -875,8 +773,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listGroupsForEntity(input: ListGroupsForEntityInput) async throws -> ListGroupsForEntityOutput
-    /// Performs the `ListImpersonationRoles` operation on the `WorkMailService` service.
-    ///
     /// Lists all the impersonation roles for the given WorkMail organization.
     ///
     /// - Parameter ListImpersonationRolesInput : [no documentation found]
@@ -890,8 +786,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listImpersonationRoles(input: ListImpersonationRolesInput) async throws -> ListImpersonationRolesOutput
-    /// Performs the `ListMailboxExportJobs` operation on the `WorkMailService` service.
-    ///
     /// Lists the mailbox export jobs started for the specified organization within the last seven days.
     ///
     /// - Parameter ListMailboxExportJobsInput : [no documentation found]
@@ -905,8 +799,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listMailboxExportJobs(input: ListMailboxExportJobsInput) async throws -> ListMailboxExportJobsOutput
-    /// Performs the `ListMailboxPermissions` operation on the `WorkMailService` service.
-    ///
     /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     ///
     /// - Parameter ListMailboxPermissionsInput : [no documentation found]
@@ -921,8 +813,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listMailboxPermissions(input: ListMailboxPermissionsInput) async throws -> ListMailboxPermissionsOutput
-    /// Performs the `ListMailDomains` operation on the `WorkMailService` service.
-    ///
     /// Lists the mail domains in a given WorkMail organization.
     ///
     /// - Parameter ListMailDomainsInput : [no documentation found]
@@ -936,8 +826,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listMailDomains(input: ListMailDomainsInput) async throws -> ListMailDomainsOutput
-    /// Performs the `ListMobileDeviceAccessOverrides` operation on the `WorkMailService` service.
-    ///
     /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
     ///
     /// - Parameter ListMobileDeviceAccessOverridesInput : [no documentation found]
@@ -952,8 +840,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listMobileDeviceAccessOverrides(input: ListMobileDeviceAccessOverridesInput) async throws -> ListMobileDeviceAccessOverridesOutput
-    /// Performs the `ListMobileDeviceAccessRules` operation on the `WorkMailService` service.
-    ///
     /// Lists the mobile device access rules for the specified WorkMail organization.
     ///
     /// - Parameter ListMobileDeviceAccessRulesInput : [no documentation found]
@@ -967,8 +853,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listMobileDeviceAccessRules(input: ListMobileDeviceAccessRulesInput) async throws -> ListMobileDeviceAccessRulesOutput
-    /// Performs the `ListOrganizations` operation on the `WorkMailService` service.
-    ///
     /// Returns summaries of the customer's organizations.
     ///
     /// - Parameter ListOrganizationsInput : [no documentation found]
@@ -980,8 +864,6 @@ public protocol WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     func listOrganizations(input: ListOrganizationsInput) async throws -> ListOrganizationsOutput
-    /// Performs the `ListResourceDelegates` operation on the `WorkMailService` service.
-    ///
     /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     ///
     /// - Parameter ListResourceDelegatesInput : [no documentation found]
@@ -998,8 +880,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func listResourceDelegates(input: ListResourceDelegatesInput) async throws -> ListResourceDelegatesOutput
-    /// Performs the `ListResources` operation on the `WorkMailService` service.
-    ///
     /// Returns summaries of the organization's resources.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
@@ -1014,8 +894,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-    /// Performs the `ListTagsForResource` operation on the `WorkMailService` service.
-    ///
     /// Lists the tags applied to an WorkMail organization resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1027,8 +905,6 @@ public protocol WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListUsers` operation on the `WorkMailService` service.
-    ///
     /// Returns summaries of the organization's users.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
@@ -1042,8 +918,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    /// Performs the `PutAccessControlRule` operation on the `WorkMailService` service.
-    ///
     /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
     ///
     /// - Parameter PutAccessControlRuleInput : [no documentation found]
@@ -1060,8 +934,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func putAccessControlRule(input: PutAccessControlRuleInput) async throws -> PutAccessControlRuleOutput
-    /// Performs the `PutEmailMonitoringConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Creates or updates the email monitoring configuration for a specified organization.
     ///
     /// - Parameter PutEmailMonitoringConfigurationInput : [no documentation found]
@@ -1076,8 +948,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func putEmailMonitoringConfiguration(input: PutEmailMonitoringConfigurationInput) async throws -> PutEmailMonitoringConfigurationOutput
-    /// Performs the `PutInboundDmarcSettings` operation on the `WorkMailService` service.
-    ///
     /// Enables or disables a DMARC policy for a given organization.
     ///
     /// - Parameter PutInboundDmarcSettingsInput : [no documentation found]
@@ -1090,8 +960,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func putInboundDmarcSettings(input: PutInboundDmarcSettingsInput) async throws -> PutInboundDmarcSettingsOutput
-    /// Performs the `PutMailboxPermissions` operation on the `WorkMailService` service.
-    ///
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
     ///
     /// - Parameter PutMailboxPermissionsInput : [no documentation found]
@@ -1107,8 +975,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func putMailboxPermissions(input: PutMailboxPermissionsInput) async throws -> PutMailboxPermissionsOutput
-    /// Performs the `PutMobileDeviceAccessOverride` operation on the `WorkMailService` service.
-    ///
     /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
     ///
     /// - Parameter PutMobileDeviceAccessOverrideInput : [no documentation found]
@@ -1124,8 +990,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func putMobileDeviceAccessOverride(input: PutMobileDeviceAccessOverrideInput) async throws -> PutMobileDeviceAccessOverrideOutput
-    /// Performs the `PutRetentionPolicy` operation on the `WorkMailService` service.
-    ///
     /// Puts a retention policy to the specified organization.
     ///
     /// - Parameter PutRetentionPolicyInput : [no documentation found]
@@ -1140,8 +1004,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutput
-    /// Performs the `RegisterMailDomain` operation on the `WorkMailService` service.
-    ///
     /// Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has permanent permission to use the specified domain for sending your users' emails.
     ///
     /// - Parameter RegisterMailDomainInput : [no documentation found]
@@ -1157,8 +1019,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func registerMailDomain(input: RegisterMailDomainInput) async throws -> RegisterMailDomainOutput
-    /// Performs the `RegisterToWorkMail` operation on the `WorkMailService` service.
-    ///
     /// Registers an existing and disabled user, group, or resource for WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see [Pricing](https://aws.amazon.com/workmail/pricing). The equivalent console functionality for this operation is Enable. Users can either be created by calling the [CreateUser] API operation or they can be synchronized from your directory. For more information, see [DeregisterFromWorkMail].
     ///
     /// - Parameter RegisterToWorkMailInput : [no documentation found]
@@ -1180,8 +1040,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func registerToWorkMail(input: RegisterToWorkMailInput) async throws -> RegisterToWorkMailOutput
-    /// Performs the `ResetPassword` operation on the `WorkMailService` service.
-    ///
     /// Allows the administrator to reset the password for a user.
     ///
     /// - Parameter ResetPasswordInput : [no documentation found]
@@ -1201,8 +1059,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func resetPassword(input: ResetPasswordInput) async throws -> ResetPasswordOutput
-    /// Performs the `StartMailboxExportJob` operation on the `WorkMailService` service.
-    ///
     /// Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see [Exporting mailbox content](https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html) in the WorkMail Administrator Guide.
     ///
     /// - Parameter StartMailboxExportJobInput : [no documentation found]
@@ -1218,8 +1074,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func startMailboxExportJob(input: StartMailboxExportJobInput) async throws -> StartMailboxExportJobOutput
-    /// Performs the `TagResource` operation on the `WorkMailService` service.
-    ///
     /// Applies the specified tags to the specified WorkMailorganization resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1234,8 +1088,6 @@ public protocol WorkMailClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `TooManyTagsException` : The resource can have up to 50 user-applied tags.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `TestAvailabilityConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header. The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
     ///
     /// - Parameter TestAvailabilityConfigurationInput : [no documentation found]
@@ -1250,8 +1102,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func testAvailabilityConfiguration(input: TestAvailabilityConfigurationInput) async throws -> TestAvailabilityConfigurationOutput
-    /// Performs the `UntagResource` operation on the `WorkMailService` service.
-    ///
     /// Untags the specified tags from the specified WorkMail organization resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1263,8 +1113,6 @@ public protocol WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateAvailabilityConfiguration` operation on the `WorkMailService` service.
-    ///
     /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
     /// - Parameter UpdateAvailabilityConfigurationInput : [no documentation found]
@@ -1279,8 +1127,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func updateAvailabilityConfiguration(input: UpdateAvailabilityConfigurationInput) async throws -> UpdateAvailabilityConfigurationOutput
-    /// Performs the `UpdateDefaultMailDomain` operation on the `WorkMailService` service.
-    ///
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
     ///
     /// - Parameter UpdateDefaultMailDomainInput : [no documentation found]
@@ -1296,8 +1142,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func updateDefaultMailDomain(input: UpdateDefaultMailDomainInput) async throws -> UpdateDefaultMailDomainOutput
-    /// Performs the `UpdateGroup` operation on the `WorkMailService` service.
-    ///
     /// Updates attibutes in a group.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
@@ -1314,8 +1158,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    /// Performs the `UpdateImpersonationRole` operation on the `WorkMailService` service.
-    ///
     /// Updates an impersonation role for the given WorkMail organization.
     ///
     /// - Parameter UpdateImpersonationRoleInput : [no documentation found]
@@ -1333,8 +1175,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     func updateImpersonationRole(input: UpdateImpersonationRoleInput) async throws -> UpdateImpersonationRoleOutput
-    /// Performs the `UpdateMailboxQuota` operation on the `WorkMailService` service.
-    ///
     /// Updates a user's current mailbox quota for a specified organization and user.
     ///
     /// - Parameter UpdateMailboxQuotaInput : [no documentation found]
@@ -1350,8 +1190,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func updateMailboxQuota(input: UpdateMailboxQuotaInput) async throws -> UpdateMailboxQuotaOutput
-    /// Performs the `UpdateMobileDeviceAccessRule` operation on the `WorkMailService` service.
-    ///
     /// Updates a mobile device access rule for the specified WorkMail organization.
     ///
     /// - Parameter UpdateMobileDeviceAccessRuleInput : [no documentation found]
@@ -1366,8 +1204,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     func updateMobileDeviceAccessRule(input: UpdateMobileDeviceAccessRuleInput) async throws -> UpdateMobileDeviceAccessRuleOutput
-    /// Performs the `UpdatePrimaryEmailAddress` operation on the `WorkMailService` service.
-    ///
     /// Updates the primary email for a user, group, or resource. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email), and the email provided in the input is promoted as the primary.
     ///
     /// - Parameter UpdatePrimaryEmailAddressInput : [no documentation found]
@@ -1389,8 +1225,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func updatePrimaryEmailAddress(input: UpdatePrimaryEmailAddressInput) async throws -> UpdatePrimaryEmailAddressOutput
-    /// Performs the `UpdateResource` operation on the `WorkMailService` service.
-    ///
     /// Updates data for the resource. To have the latest information, it must be preceded by a [DescribeResource] call. The dataset in the request should be the one expected when performing another DescribeResource call.
     ///
     /// - Parameter UpdateResourceInput : [no documentation found]
@@ -1413,8 +1247,6 @@ public protocol WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
-    /// Performs the `UpdateUser` operation on the `WorkMailService` service.
-    ///
     /// Updates data for the user. To have the latest information, it must be preceded by a [DescribeUser] call. The dataset in the request should be the one expected when performing another DescribeUser call.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]

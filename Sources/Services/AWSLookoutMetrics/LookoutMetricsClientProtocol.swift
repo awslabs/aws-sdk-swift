@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// This is the Amazon Lookout for Metrics API Reference. For an introduction to the service with tutorials for getting started, visit [Amazon Lookout for Metrics Developer Guide](https://docs.aws.amazon.com/lookoutmetrics/latest/dev).
 public protocol LookoutMetricsClientProtocol {
-    /// Performs the `ActivateAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Activates an anomaly detector.
     ///
     /// - Parameter ActivateAnomalyDetectorInput : [no documentation found]
@@ -22,8 +20,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func activateAnomalyDetector(input: ActivateAnomalyDetectorInput) async throws -> ActivateAnomalyDetectorOutput
-    /// Performs the `BackTestAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Runs a backtest for anomaly detection for the specified resource.
     ///
     /// - Parameter BackTestAnomalyDetectorInput : [no documentation found]
@@ -39,8 +35,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func backTestAnomalyDetector(input: BackTestAnomalyDetectorInput) async throws -> BackTestAnomalyDetectorOutput
-    /// Performs the `CreateAlert` operation on the `LookoutMetrics` service.
-    ///
     /// Creates an alert for an anomaly detector.
     ///
     /// - Parameter CreateAlertInput : [no documentation found]
@@ -58,8 +52,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func createAlert(input: CreateAlertInput) async throws -> CreateAlertOutput
-    /// Performs the `CreateAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Creates an anomaly detector.
     ///
     /// - Parameter CreateAnomalyDetectorInput : [no documentation found]
@@ -76,8 +68,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func createAnomalyDetector(input: CreateAnomalyDetectorInput) async throws -> CreateAnomalyDetectorOutput
-    /// Performs the `CreateMetricSet` operation on the `LookoutMetrics` service.
-    ///
     /// Creates a dataset.
     ///
     /// - Parameter CreateMetricSetInput : [no documentation found]
@@ -95,8 +85,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func createMetricSet(input: CreateMetricSetInput) async throws -> CreateMetricSetOutput
-    /// Performs the `DeactivateAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Deactivates an anomaly detector.
     ///
     /// - Parameter DeactivateAnomalyDetectorInput : [no documentation found]
@@ -113,8 +101,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func deactivateAnomalyDetector(input: DeactivateAnomalyDetectorInput) async throws -> DeactivateAnomalyDetectorOutput
-    /// Performs the `DeleteAlert` operation on the `LookoutMetrics` service.
-    ///
     /// Deletes an alert.
     ///
     /// - Parameter DeleteAlertInput : [no documentation found]
@@ -130,8 +116,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func deleteAlert(input: DeleteAlertInput) async throws -> DeleteAlertOutput
-    /// Performs the `DeleteAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
     ///
     /// - Parameter DeleteAnomalyDetectorInput : [no documentation found]
@@ -148,8 +132,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput
-    /// Performs the `DescribeAlert` operation on the `LookoutMetrics` service.
-    ///
     /// Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// - Parameter DescribeAlertInput : [no documentation found]
@@ -165,8 +147,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func describeAlert(input: DescribeAlertInput) async throws -> DescribeAlertOutput
-    /// Performs the `DescribeAnomalyDetectionExecutions` operation on the `LookoutMetrics` service.
-    ///
     /// Returns information about the status of the specified anomaly detection jobs.
     ///
     /// - Parameter DescribeAnomalyDetectionExecutionsInput : [no documentation found]
@@ -182,8 +162,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionExecutionsInput) async throws -> DescribeAnomalyDetectionExecutionsOutput
-    /// Performs the `DescribeAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// - Parameter DescribeAnomalyDetectorInput : [no documentation found]
@@ -199,8 +177,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func describeAnomalyDetector(input: DescribeAnomalyDetectorInput) async throws -> DescribeAnomalyDetectorOutput
-    /// Performs the `DescribeMetricSet` operation on the `LookoutMetrics` service.
-    ///
     /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// - Parameter DescribeMetricSetInput : [no documentation found]
@@ -216,8 +192,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func describeMetricSet(input: DescribeMetricSetInput) async throws -> DescribeMetricSetOutput
-    /// Performs the `DetectMetricSetConfig` operation on the `LookoutMetrics` service.
-    ///
     /// Detects an Amazon S3 dataset's file format, interval, and offset.
     ///
     /// - Parameter DetectMetricSetConfigInput : [no documentation found]
@@ -233,8 +207,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func detectMetricSetConfig(input: DetectMetricSetConfigInput) async throws -> DetectMetricSetConfigOutput
-    /// Performs the `GetAnomalyGroup` operation on the `LookoutMetrics` service.
-    ///
     /// Returns details about a group of anomalous metrics.
     ///
     /// - Parameter GetAnomalyGroupInput : [no documentation found]
@@ -250,8 +222,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func getAnomalyGroup(input: GetAnomalyGroupInput) async throws -> GetAnomalyGroupOutput
-    /// Performs the `GetDataQualityMetrics` operation on the `LookoutMetrics` service.
-    ///
     /// Returns details about the requested data quality metrics.
     ///
     /// - Parameter GetDataQualityMetricsInput : [no documentation found]
@@ -267,8 +237,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func getDataQualityMetrics(input: GetDataQualityMetricsInput) async throws -> GetDataQualityMetricsOutput
-    /// Performs the `GetFeedback` operation on the `LookoutMetrics` service.
-    ///
     /// Get feedback for an anomaly group.
     ///
     /// - Parameter GetFeedbackInput : [no documentation found]
@@ -284,8 +252,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func getFeedback(input: GetFeedbackInput) async throws -> GetFeedbackOutput
-    /// Performs the `GetSampleData` operation on the `LookoutMetrics` service.
-    ///
     /// Returns a selection of sample records from an Amazon S3 datasource.
     ///
     /// - Parameter GetSampleDataInput : [no documentation found]
@@ -301,8 +267,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func getSampleData(input: GetSampleDataInput) async throws -> GetSampleDataOutput
-    /// Performs the `ListAlerts` operation on the `LookoutMetrics` service.
-    ///
     /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// - Parameter ListAlertsInput : [no documentation found]
@@ -318,8 +282,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput
-    /// Performs the `ListAnomalyDetectors` operation on the `LookoutMetrics` service.
-    ///
     /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// - Parameter ListAnomalyDetectorsInput : [no documentation found]
@@ -335,8 +297,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listAnomalyDetectors(input: ListAnomalyDetectorsInput) async throws -> ListAnomalyDetectorsOutput
-    /// Performs the `ListAnomalyGroupRelatedMetrics` operation on the `LookoutMetrics` service.
-    ///
     /// Returns a list of measures that are potential causes or effects of an anomaly group.
     ///
     /// - Parameter ListAnomalyGroupRelatedMetricsInput : [no documentation found]
@@ -352,8 +312,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listAnomalyGroupRelatedMetrics(input: ListAnomalyGroupRelatedMetricsInput) async throws -> ListAnomalyGroupRelatedMetricsOutput
-    /// Performs the `ListAnomalyGroupSummaries` operation on the `LookoutMetrics` service.
-    ///
     /// Returns a list of anomaly groups.
     ///
     /// - Parameter ListAnomalyGroupSummariesInput : [no documentation found]
@@ -369,8 +327,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listAnomalyGroupSummaries(input: ListAnomalyGroupSummariesInput) async throws -> ListAnomalyGroupSummariesOutput
-    /// Performs the `ListAnomalyGroupTimeSeries` operation on the `LookoutMetrics` service.
-    ///
     /// Gets a list of anomalous metrics for a measure in an anomaly group.
     ///
     /// - Parameter ListAnomalyGroupTimeSeriesInput : [no documentation found]
@@ -386,8 +342,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput) async throws -> ListAnomalyGroupTimeSeriesOutput
-    /// Performs the `ListMetricSets` operation on the `LookoutMetrics` service.
-    ///
     /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// - Parameter ListMetricSetsInput : [no documentation found]
@@ -403,8 +357,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listMetricSets(input: ListMetricSetsInput) async throws -> ListMetricSetsOutput
-    /// Performs the `ListTagsForResource` operation on the `LookoutMetrics` service.
-    ///
     /// Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) for a detector, dataset, or alert.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -418,8 +370,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PutFeedback` operation on the `LookoutMetrics` service.
-    ///
     /// Add feedback for an anomalous metric.
     ///
     /// - Parameter PutFeedbackInput : [no documentation found]
@@ -435,8 +385,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
-    /// Performs the `TagResource` operation on the `LookoutMetrics` service.
-    ///
     /// Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a detector, dataset, or alert.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -450,8 +398,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `LookoutMetrics` service.
-    ///
     /// Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) from a detector, dataset, or alert.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -465,8 +411,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateAlert` operation on the `LookoutMetrics` service.
-    ///
     /// Make changes to an existing alert.
     ///
     /// - Parameter UpdateAlertInput : [no documentation found]
@@ -482,8 +426,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func updateAlert(input: UpdateAlertInput) async throws -> UpdateAlertOutput
-    /// Performs the `UpdateAnomalyDetector` operation on the `LookoutMetrics` service.
-    ///
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
     ///
     /// - Parameter UpdateAnomalyDetectorInput : [no documentation found]
@@ -499,8 +441,6 @@ public protocol LookoutMetricsClientProtocol {
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     func updateAnomalyDetector(input: UpdateAnomalyDetectorInput) async throws -> UpdateAnomalyDetectorOutput
-    /// Performs the `UpdateMetricSet` operation on the `LookoutMetrics` service.
-    ///
     /// Updates a dataset.
     ///
     /// - Parameter UpdateMetricSetInput : [no documentation found]

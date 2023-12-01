@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Managed Blockchain (AMB) Query provides you with convenient access to multi-blockchain network data, which makes it easier for you to extract contextual data related to blockchain activity. You can use AMB Query to read data from public blockchain networks, such as Bitcoin Mainnet and Ethereum Mainnet. You can also get information such as the current and historical balances of addresses, or you can get a list of blockchain transactions for a given time period. Additionally, you can get details of a given transaction, such as transaction events, which you can further analyze or use in business logic for your applications.
 public protocol ManagedBlockchainQueryClientProtocol {
-    /// Performs the `BatchGetTokenBalance` operation on the `TietonChainQueryService` service.
-    ///
     /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
     /// - Parameter BatchGetTokenBalanceInput : [no documentation found]
@@ -22,8 +20,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func batchGetTokenBalance(input: BatchGetTokenBalanceInput) async throws -> BatchGetTokenBalanceOutput
-    /// Performs the `GetAssetContract` operation on the `TietonChainQueryService` service.
-    ///
     /// Gets the information about a specific contract deployed on the blockchain.
     ///
     /// * The Bitcoin blockchain networks do not support this operation.
@@ -44,8 +40,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func getAssetContract(input: GetAssetContractInput) async throws -> GetAssetContractOutput
-    /// Performs the `GetTokenBalance` operation on the `TietonChainQueryService` service.
-    ///
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
     /// - Parameter GetTokenBalanceInput : [no documentation found]
@@ -62,8 +56,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func getTokenBalance(input: GetTokenBalanceInput) async throws -> GetTokenBalanceOutput
-    /// Performs the `GetTransaction` operation on the `TietonChainQueryService` service.
-    ///
     /// Get the details of a transaction.
     ///
     /// - Parameter GetTransactionInput : [no documentation found]
@@ -80,8 +72,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func getTransaction(input: GetTransactionInput) async throws -> GetTransactionOutput
-    /// Performs the `ListAssetContracts` operation on the `TietonChainQueryService` service.
-    ///
     /// Lists all the contracts for a given contract type deployed by an address (either a contract address or a wallet address). The Bitcoin blockchain networks do not support this operation.
     ///
     /// - Parameter ListAssetContractsInput : [no documentation found]
@@ -97,8 +87,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func listAssetContracts(input: ListAssetContractsInput) async throws -> ListAssetContractsOutput
-    /// Performs the `ListTokenBalances` operation on the `TietonChainQueryService` service.
-    ///
     /// This action returns the following for a given blockchain network:
     ///
     /// * Lists all token balances owned by an address (either a contract address or a wallet address).
@@ -123,8 +111,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func listTokenBalances(input: ListTokenBalancesInput) async throws -> ListTokenBalancesOutput
-    /// Performs the `ListTransactionEvents` operation on the `TietonChainQueryService` service.
-    ///
     /// An array of TransactionEvent objects. Each object contains details about the transaction event.
     ///
     /// - Parameter ListTransactionEventsInput : [no documentation found]
@@ -140,8 +126,6 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
     func listTransactionEvents(input: ListTransactionEventsInput) async throws -> ListTransactionEventsOutput
-    /// Performs the `ListTransactions` operation on the `TietonChainQueryService` service.
-    ///
     /// Lists all of the transactions on a given wallet address or to a specific contract.
     ///
     /// - Parameter ListTransactionsInput : [no documentation found]

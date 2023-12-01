@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// AWS IoT Jobs is a service that allows you to define a set of jobs — remote operations that are sent to and executed on one or more devices connected to AWS IoT. For example, you can define a job that instructs a set of devices to download and install application or firmware updates, reboot, rotate certificates, or perform remote troubleshooting operations. To create a job, you make a job document which is a description of the remote operations to be performed, and you specify a list of targets that should perform the operations. The targets can be individual things, thing groups or both. AWS IoT Jobs sends a message to inform the targets that a job is available. The target starts the execution of the job by downloading the job document, performing the operations it specifies, and reporting its progress to AWS IoT. The Jobs service provides commands to track the progress of a job on a specific target and for all the targets of the job
 public protocol IoTJobsDataPlaneClientProtocol {
-    /// Performs the `DescribeJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
-    ///
     /// Gets details of a job execution.
     ///
     /// - Parameter DescribeJobExecutionInput : [no documentation found]
@@ -22,8 +20,6 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `TerminalStateException` : The job is in a terminal state.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput
-    /// Performs the `GetPendingJobExecutions` operation on the `IotLaserThingJobManagerExternalService` service.
-    ///
     /// Gets the list of all jobs for a thing that are not in a terminal status.
     ///
     /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
@@ -39,8 +35,6 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutput
-    /// Performs the `StartNextPendingJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
-    ///
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
     ///
     /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
@@ -56,8 +50,6 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutput
-    /// Performs the `UpdateJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
-    ///
     /// Updates the status of a job execution.
     ///
     /// - Parameter UpdateJobExecutionInput : [no documentation found]

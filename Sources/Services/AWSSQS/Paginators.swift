@@ -12,7 +12,7 @@ extension SQSClient {
     ///     - input: A `[ListDeadLetterSourceQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeadLetterSourceQueuesOutput`
     public func listDeadLetterSourceQueuesPaginated(input: ListDeadLetterSourceQueuesInput) -> ClientRuntime.PaginatorSequence<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeadLetterSourceQueues(input:))
+        return ClientRuntime.PaginatorSequence<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(input: input, inputKey: \ListDeadLetterSourceQueuesInput.nextToken, outputKey: \ListDeadLetterSourceQueuesOutput.nextToken, paginationFunction: self.listDeadLetterSourceQueues(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListDeadLetterSourceQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListDeadLetterSourceQueuesInput, OperationStackOutput == ListDeadLetterSourceQueuesOutput {
+extension PaginatorSequence where Input == ListDeadLetterSourceQueuesInput, Output == ListDeadLetterSourceQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeadLetterSourceQueuesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -43,7 +43,7 @@ extension SQSClient {
     ///     - input: A `[ListQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueuesOutput`
     public func listQueuesPaginated(input: ListQueuesInput) -> ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput> {
-        return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueues(input:))
+        return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \ListQueuesInput.nextToken, outputKey: \ListQueuesOutput.nextToken, paginationFunction: self.listQueues(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListQueuesInput, OperationStackOutput == ListQueuesOutput {
+extension PaginatorSequence where Input == ListQueuesInput, Output == ListQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listQueuesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

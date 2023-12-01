@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon EC2 Instance Connect enables system administrators to publish one-time use SSH public keys to EC2, providing users a simple and secure way to connect to their instances.
 public protocol EC2InstanceConnectClientProtocol {
-    /// Performs the `SendSerialConsoleSSHPublicKey` operation on the `AWSEC2InstanceConnectService` service.
-    ///
     /// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see [EC2 Serial Console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter SendSerialConsoleSSHPublicKeyInput : [no documentation found]
@@ -27,8 +25,6 @@ public protocol EC2InstanceConnectClientProtocol {
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
     func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutput
-    /// Performs the `SendSSHPublicKey` operation on the `AWSEC2InstanceConnectService` service.
-    ///
     /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see [Connect to your Linux instance using EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter SendSSHPublicKeyInput : [no documentation found]

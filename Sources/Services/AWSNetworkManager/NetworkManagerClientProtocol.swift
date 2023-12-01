@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Web Services enables you to centrally manage your Amazon Web Services Cloud WAN core network and your Transit Gateway network across Amazon Web Services accounts, Regions, and on-premises locations.
 public protocol NetworkManagerClientProtocol {
-    /// Performs the `AcceptAttachment` operation on the `NetworkManager` service.
-    ///
     /// Accepts a core network attachment request. Once the attachment request is accepted by a core network owner, the attachment is created and connected to a core network.
     ///
     /// - Parameter AcceptAttachmentInput : [no documentation found]
@@ -22,8 +20,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func acceptAttachment(input: AcceptAttachmentInput) async throws -> AcceptAttachmentOutput
-    /// Performs the `AssociateConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network.
     ///
     /// - Parameter AssociateConnectPeerInput : [no documentation found]
@@ -41,8 +37,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func associateConnectPeer(input: AssociateConnectPeerInput) async throws -> AssociateConnectPeerOutput
-    /// Performs the `AssociateCustomerGateway` operation on the `NetworkManager` service.
-    ///
     /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the [DescribeVpnConnections](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html) EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
     ///
     /// - Parameter AssociateCustomerGatewayInput : [no documentation found]
@@ -60,8 +54,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func associateCustomerGateway(input: AssociateCustomerGatewayInput) async throws -> AssociateCustomerGatewayOutput
-    /// Performs the `AssociateLink` operation on the `NetworkManager` service.
-    ///
     /// Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
     ///
     /// - Parameter AssociateLinkInput : [no documentation found]
@@ -79,8 +71,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func associateLink(input: AssociateLinkInput) async throws -> AssociateLinkOutput
-    /// Performs the `AssociateTransitGatewayConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link.
     ///
     /// - Parameter AssociateTransitGatewayConnectPeerInput : [no documentation found]
@@ -98,8 +88,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func associateTransitGatewayConnectPeer(input: AssociateTransitGatewayConnectPeerInput) async throws -> AssociateTransitGatewayConnectPeerOutput
-    /// Performs the `CreateConnectAttachment` operation on the `NetworkManager` service.
-    ///
     /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism.
     ///
     /// - Parameter CreateConnectAttachmentInput : [no documentation found]
@@ -116,8 +104,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createConnectAttachment(input: CreateConnectAttachmentInput) async throws -> CreateConnectAttachmentOutput
-    /// Performs the `CreateConnection` operation on the `NetworkManager` service.
-    ///
     /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
@@ -134,8 +120,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    /// Performs the `CreateConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
     ///
     /// - Parameter CreateConnectPeerInput : [no documentation found]
@@ -152,8 +136,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createConnectPeer(input: CreateConnectPeerInput) async throws -> CreateConnectPeerOutput
-    /// Performs the `CreateCoreNetwork` operation on the `NetworkManager` service.
-    ///
     /// Creates a core network as part of your global network, and optionally, with a core network policy.
     ///
     /// - Parameter CreateCoreNetworkInput : [no documentation found]
@@ -171,8 +153,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createCoreNetwork(input: CreateCoreNetworkInput) async throws -> CreateCoreNetworkOutput
-    /// Performs the `CreateDevice` operation on the `NetworkManager` service.
-    ///
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
     ///
     /// - Parameter CreateDeviceInput : [no documentation found]
@@ -190,8 +170,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createDevice(input: CreateDeviceInput) async throws -> CreateDeviceOutput
-    /// Performs the `CreateGlobalNetwork` operation on the `NetworkManager` service.
-    ///
     /// Creates a new, empty global network.
     ///
     /// - Parameter CreateGlobalNetworkInput : [no documentation found]
@@ -208,8 +186,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createGlobalNetwork(input: CreateGlobalNetworkInput) async throws -> CreateGlobalNetworkOutput
-    /// Performs the `CreateLink` operation on the `NetworkManager` service.
-    ///
     /// Creates a new link for a specified site.
     ///
     /// - Parameter CreateLinkInput : [no documentation found]
@@ -227,8 +203,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createLink(input: CreateLinkInput) async throws -> CreateLinkOutput
-    /// Performs the `CreateSite` operation on the `NetworkManager` service.
-    ///
     /// Creates a new site in a global network.
     ///
     /// - Parameter CreateSiteInput : [no documentation found]
@@ -246,8 +220,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
-    /// Performs the `CreateSiteToSiteVpnAttachment` operation on the `NetworkManager` service.
-    ///
     /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
     ///
     /// - Parameter CreateSiteToSiteVpnAttachmentInput : [no documentation found]
@@ -264,8 +236,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createSiteToSiteVpnAttachment(input: CreateSiteToSiteVpnAttachmentInput) async throws -> CreateSiteToSiteVpnAttachmentOutput
-    /// Performs the `CreateTransitGatewayPeering` operation on the `NetworkManager` service.
-    ///
     /// Creates a transit gateway peering connection.
     ///
     /// - Parameter CreateTransitGatewayPeeringInput : [no documentation found]
@@ -282,8 +252,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createTransitGatewayPeering(input: CreateTransitGatewayPeeringInput) async throws -> CreateTransitGatewayPeeringOutput
-    /// Performs the `CreateTransitGatewayRouteTableAttachment` operation on the `NetworkManager` service.
-    ///
     /// Creates a transit gateway route table attachment.
     ///
     /// - Parameter CreateTransitGatewayRouteTableAttachmentInput : [no documentation found]
@@ -300,8 +268,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createTransitGatewayRouteTableAttachment(input: CreateTransitGatewayRouteTableAttachmentInput) async throws -> CreateTransitGatewayRouteTableAttachmentOutput
-    /// Performs the `CreateVpcAttachment` operation on the `NetworkManager` service.
-    ///
     /// Creates a VPC attachment on an edge location of a core network.
     ///
     /// - Parameter CreateVpcAttachmentInput : [no documentation found]
@@ -318,8 +284,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func createVpcAttachment(input: CreateVpcAttachmentInput) async throws -> CreateVpcAttachmentOutput
-    /// Performs the `DeleteAttachment` operation on the `NetworkManager` service.
-    ///
     /// Deletes an attachment. Supports all attachment types.
     ///
     /// - Parameter DeleteAttachmentInput : [no documentation found]
@@ -336,8 +300,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteAttachment(input: DeleteAttachmentInput) async throws -> DeleteAttachmentOutput
-    /// Performs the `DeleteConnection` operation on the `NetworkManager` service.
-    ///
     /// Deletes the specified connection in your global network.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
@@ -354,8 +316,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    /// Performs the `DeleteConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Deletes a Connect peer.
     ///
     /// - Parameter DeleteConnectPeerInput : [no documentation found]
@@ -372,8 +332,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteConnectPeer(input: DeleteConnectPeerInput) async throws -> DeleteConnectPeerOutput
-    /// Performs the `DeleteCoreNetwork` operation on the `NetworkManager` service.
-    ///
     /// Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
     ///
     /// - Parameter DeleteCoreNetworkInput : [no documentation found]
@@ -390,8 +348,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteCoreNetwork(input: DeleteCoreNetworkInput) async throws -> DeleteCoreNetworkOutput
-    /// Performs the `DeleteCoreNetworkPolicyVersion` operation on the `NetworkManager` service.
-    ///
     /// Deletes a policy version from a core network. You can't delete the current LIVE policy.
     ///
     /// - Parameter DeleteCoreNetworkPolicyVersionInput : [no documentation found]
@@ -408,8 +364,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteCoreNetworkPolicyVersion(input: DeleteCoreNetworkPolicyVersionInput) async throws -> DeleteCoreNetworkPolicyVersionOutput
-    /// Performs the `DeleteDevice` operation on the `NetworkManager` service.
-    ///
     /// Deletes an existing device. You must first disassociate the device from any links and customer gateways.
     ///
     /// - Parameter DeleteDeviceInput : [no documentation found]
@@ -426,8 +380,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
-    /// Performs the `DeleteGlobalNetwork` operation on the `NetworkManager` service.
-    ///
     /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites), deregister all transit gateways, and delete any core networks.
     ///
     /// - Parameter DeleteGlobalNetworkInput : [no documentation found]
@@ -444,8 +396,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteGlobalNetwork(input: DeleteGlobalNetworkInput) async throws -> DeleteGlobalNetworkOutput
-    /// Performs the `DeleteLink` operation on the `NetworkManager` service.
-    ///
     /// Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
     ///
     /// - Parameter DeleteLinkInput : [no documentation found]
@@ -462,8 +412,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutput
-    /// Performs the `DeletePeering` operation on the `NetworkManager` service.
-    ///
     /// Deletes an existing peering connection.
     ///
     /// - Parameter DeletePeeringInput : [no documentation found]
@@ -480,8 +428,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deletePeering(input: DeletePeeringInput) async throws -> DeletePeeringOutput
-    /// Performs the `DeleteResourcePolicy` operation on the `NetworkManager` service.
-    ///
     /// Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -497,8 +443,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    /// Performs the `DeleteSite` operation on the `NetworkManager` service.
-    ///
     /// Deletes an existing site. The site cannot be associated with any device or link.
     ///
     /// - Parameter DeleteSiteInput : [no documentation found]
@@ -515,8 +459,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
-    /// Performs the `DeregisterTransitGateway` operation on the `NetworkManager` service.
-    ///
     /// Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
     ///
     /// - Parameter DeregisterTransitGatewayInput : [no documentation found]
@@ -533,8 +475,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func deregisterTransitGateway(input: DeregisterTransitGatewayInput) async throws -> DeregisterTransitGatewayOutput
-    /// Performs the `DescribeGlobalNetworks` operation on the `NetworkManager` service.
-    ///
     /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use [GetTransitGatewayRegistrations].
     ///
     /// - Parameter DescribeGlobalNetworksInput : [no documentation found]
@@ -550,8 +490,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func describeGlobalNetworks(input: DescribeGlobalNetworksInput) async throws -> DescribeGlobalNetworksOutput
-    /// Performs the `DisassociateConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Disassociates a core network Connect peer from a device and a link.
     ///
     /// - Parameter DisassociateConnectPeerInput : [no documentation found]
@@ -568,8 +506,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func disassociateConnectPeer(input: DisassociateConnectPeerInput) async throws -> DisassociateConnectPeerOutput
-    /// Performs the `DisassociateCustomerGateway` operation on the `NetworkManager` service.
-    ///
     /// Disassociates a customer gateway from a device and a link.
     ///
     /// - Parameter DisassociateCustomerGatewayInput : [no documentation found]
@@ -586,8 +522,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func disassociateCustomerGateway(input: DisassociateCustomerGatewayInput) async throws -> DisassociateCustomerGatewayOutput
-    /// Performs the `DisassociateLink` operation on the `NetworkManager` service.
-    ///
     /// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link.
     ///
     /// - Parameter DisassociateLinkInput : [no documentation found]
@@ -604,8 +538,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func disassociateLink(input: DisassociateLinkInput) async throws -> DisassociateLinkOutput
-    /// Performs the `DisassociateTransitGatewayConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Disassociates a transit gateway Connect peer from a device and link.
     ///
     /// - Parameter DisassociateTransitGatewayConnectPeerInput : [no documentation found]
@@ -622,8 +554,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func disassociateTransitGatewayConnectPeer(input: DisassociateTransitGatewayConnectPeerInput) async throws -> DisassociateTransitGatewayConnectPeerOutput
-    /// Performs the `ExecuteCoreNetworkChangeSet` operation on the `NetworkManager` service.
-    ///
     /// Executes a change set on your core network. Deploys changes globally based on the policy submitted..
     ///
     /// - Parameter ExecuteCoreNetworkChangeSetInput : [no documentation found]
@@ -640,8 +570,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func executeCoreNetworkChangeSet(input: ExecuteCoreNetworkChangeSetInput) async throws -> ExecuteCoreNetworkChangeSetOutput
-    /// Performs the `GetConnectAttachment` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a core network Connect attachment.
     ///
     /// - Parameter GetConnectAttachmentInput : [no documentation found]
@@ -657,8 +585,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getConnectAttachment(input: GetConnectAttachmentInput) async throws -> GetConnectAttachmentOutput
-    /// Performs the `GetConnections` operation on the `NetworkManager` service.
-    ///
     /// Gets information about one or more of your connections in a global network.
     ///
     /// - Parameter GetConnectionsInput : [no documentation found]
@@ -674,8 +600,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput
-    /// Performs the `GetConnectPeer` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a core network Connect peer.
     ///
     /// - Parameter GetConnectPeerInput : [no documentation found]
@@ -691,8 +615,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getConnectPeer(input: GetConnectPeerInput) async throws -> GetConnectPeerOutput
-    /// Performs the `GetConnectPeerAssociations` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a core network Connect peer associations.
     ///
     /// - Parameter GetConnectPeerAssociationsInput : [no documentation found]
@@ -709,8 +631,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getConnectPeerAssociations(input: GetConnectPeerAssociationsInput) async throws -> GetConnectPeerAssociationsOutput
-    /// Performs the `GetCoreNetwork` operation on the `NetworkManager` service.
-    ///
     /// Returns information about the LIVE policy for a core network.
     ///
     /// - Parameter GetCoreNetworkInput : [no documentation found]
@@ -726,8 +646,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getCoreNetwork(input: GetCoreNetworkInput) async throws -> GetCoreNetworkOutput
-    /// Performs the `GetCoreNetworkChangeEvents` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a core network change event.
     ///
     /// - Parameter GetCoreNetworkChangeEventsInput : [no documentation found]
@@ -743,8 +661,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getCoreNetworkChangeEvents(input: GetCoreNetworkChangeEventsInput) async throws -> GetCoreNetworkChangeEventsOutput
-    /// Performs the `GetCoreNetworkChangeSet` operation on the `NetworkManager` service.
-    ///
     /// Returns a change set between the LIVE core network policy and a submitted policy.
     ///
     /// - Parameter GetCoreNetworkChangeSetInput : [no documentation found]
@@ -760,8 +676,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getCoreNetworkChangeSet(input: GetCoreNetworkChangeSetInput) async throws -> GetCoreNetworkChangeSetOutput
-    /// Performs the `GetCoreNetworkPolicy` operation on the `NetworkManager` service.
-    ///
     /// Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
     ///
     /// - Parameter GetCoreNetworkPolicyInput : [no documentation found]
@@ -777,8 +691,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getCoreNetworkPolicy(input: GetCoreNetworkPolicyInput) async throws -> GetCoreNetworkPolicyOutput
-    /// Performs the `GetCustomerGatewayAssociations` operation on the `NetworkManager` service.
-    ///
     /// Gets the association information for customer gateways that are associated with devices and links in your global network.
     ///
     /// - Parameter GetCustomerGatewayAssociationsInput : [no documentation found]
@@ -795,8 +707,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getCustomerGatewayAssociations(input: GetCustomerGatewayAssociationsInput) async throws -> GetCustomerGatewayAssociationsOutput
-    /// Performs the `GetDevices` operation on the `NetworkManager` service.
-    ///
     /// Gets information about one or more of your devices in a global network.
     ///
     /// - Parameter GetDevicesInput : [no documentation found]
@@ -812,8 +722,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getDevices(input: GetDevicesInput) async throws -> GetDevicesOutput
-    /// Performs the `GetLinkAssociations` operation on the `NetworkManager` service.
-    ///
     /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
     ///
     /// - Parameter GetLinkAssociationsInput : [no documentation found]
@@ -829,8 +737,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getLinkAssociations(input: GetLinkAssociationsInput) async throws -> GetLinkAssociationsOutput
-    /// Performs the `GetLinks` operation on the `NetworkManager` service.
-    ///
     /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
     ///
     /// - Parameter GetLinksInput : [no documentation found]
@@ -846,8 +752,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getLinks(input: GetLinksInput) async throws -> GetLinksOutput
-    /// Performs the `GetNetworkResourceCounts` operation on the `NetworkManager` service.
-    ///
     /// Gets the count of network resources, by resource type, for the specified global network.
     ///
     /// - Parameter GetNetworkResourceCountsInput : [no documentation found]
@@ -862,8 +766,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getNetworkResourceCounts(input: GetNetworkResourceCountsInput) async throws -> GetNetworkResourceCountsOutput
-    /// Performs the `GetNetworkResourceRelationships` operation on the `NetworkManager` service.
-    ///
     /// Gets the network resource relationships for the specified global network.
     ///
     /// - Parameter GetNetworkResourceRelationshipsInput : [no documentation found]
@@ -879,8 +781,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getNetworkResourceRelationships(input: GetNetworkResourceRelationshipsInput) async throws -> GetNetworkResourceRelationshipsOutput
-    /// Performs the `GetNetworkResources` operation on the `NetworkManager` service.
-    ///
     /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
     ///
     /// - Parameter GetNetworkResourcesInput : [no documentation found]
@@ -896,8 +796,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getNetworkResources(input: GetNetworkResourcesInput) async throws -> GetNetworkResourcesOutput
-    /// Performs the `GetNetworkRoutes` operation on the `NetworkManager` service.
-    ///
     /// Gets the network routes of the specified global network.
     ///
     /// - Parameter GetNetworkRoutesInput : [no documentation found]
@@ -913,8 +811,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getNetworkRoutes(input: GetNetworkRoutesInput) async throws -> GetNetworkRoutesOutput
-    /// Performs the `GetNetworkTelemetry` operation on the `NetworkManager` service.
-    ///
     /// Gets the network telemetry of the specified global network.
     ///
     /// - Parameter GetNetworkTelemetryInput : [no documentation found]
@@ -930,8 +826,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getNetworkTelemetry(input: GetNetworkTelemetryInput) async throws -> GetNetworkTelemetryOutput
-    /// Performs the `GetResourcePolicy` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a resource policy.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
@@ -946,8 +840,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    /// Performs the `GetRouteAnalysis` operation on the `NetworkManager` service.
-    ///
     /// Gets information about the specified route analysis.
     ///
     /// - Parameter GetRouteAnalysisInput : [no documentation found]
@@ -963,8 +855,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getRouteAnalysis(input: GetRouteAnalysisInput) async throws -> GetRouteAnalysisOutput
-    /// Performs the `GetSites` operation on the `NetworkManager` service.
-    ///
     /// Gets information about one or more of your sites in a global network.
     ///
     /// - Parameter GetSitesInput : [no documentation found]
@@ -980,8 +870,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getSites(input: GetSitesInput) async throws -> GetSitesOutput
-    /// Performs the `GetSiteToSiteVpnAttachment` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a site-to-site VPN attachment.
     ///
     /// - Parameter GetSiteToSiteVpnAttachmentInput : [no documentation found]
@@ -997,8 +885,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getSiteToSiteVpnAttachment(input: GetSiteToSiteVpnAttachmentInput) async throws -> GetSiteToSiteVpnAttachmentOutput
-    /// Performs the `GetTransitGatewayConnectPeerAssociations` operation on the `NetworkManager` service.
-    ///
     /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
     ///
     /// - Parameter GetTransitGatewayConnectPeerAssociationsInput : [no documentation found]
@@ -1015,8 +901,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getTransitGatewayConnectPeerAssociations(input: GetTransitGatewayConnectPeerAssociationsInput) async throws -> GetTransitGatewayConnectPeerAssociationsOutput
-    /// Performs the `GetTransitGatewayPeering` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a transit gateway peer.
     ///
     /// - Parameter GetTransitGatewayPeeringInput : [no documentation found]
@@ -1032,8 +916,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getTransitGatewayPeering(input: GetTransitGatewayPeeringInput) async throws -> GetTransitGatewayPeeringOutput
-    /// Performs the `GetTransitGatewayRegistrations` operation on the `NetworkManager` service.
-    ///
     /// Gets information about the transit gateway registrations in a specified global network.
     ///
     /// - Parameter GetTransitGatewayRegistrationsInput : [no documentation found]
@@ -1049,8 +931,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getTransitGatewayRegistrations(input: GetTransitGatewayRegistrationsInput) async throws -> GetTransitGatewayRegistrationsOutput
-    /// Performs the `GetTransitGatewayRouteTableAttachment` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a transit gateway route table attachment.
     ///
     /// - Parameter GetTransitGatewayRouteTableAttachmentInput : [no documentation found]
@@ -1066,8 +946,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getTransitGatewayRouteTableAttachment(input: GetTransitGatewayRouteTableAttachmentInput) async throws -> GetTransitGatewayRouteTableAttachmentOutput
-    /// Performs the `GetVpcAttachment` operation on the `NetworkManager` service.
-    ///
     /// Returns information about a VPC attachment.
     ///
     /// - Parameter GetVpcAttachmentInput : [no documentation found]
@@ -1083,8 +961,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func getVpcAttachment(input: GetVpcAttachmentInput) async throws -> GetVpcAttachmentOutput
-    /// Performs the `ListAttachments` operation on the `NetworkManager` service.
-    ///
     /// Returns a list of core network attachments.
     ///
     /// - Parameter ListAttachmentsInput : [no documentation found]
@@ -1099,8 +975,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func listAttachments(input: ListAttachmentsInput) async throws -> ListAttachmentsOutput
-    /// Performs the `ListConnectPeers` operation on the `NetworkManager` service.
-    ///
     /// Returns a list of core network Connect peers.
     ///
     /// - Parameter ListConnectPeersInput : [no documentation found]
@@ -1115,8 +989,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func listConnectPeers(input: ListConnectPeersInput) async throws -> ListConnectPeersOutput
-    /// Performs the `ListCoreNetworkPolicyVersions` operation on the `NetworkManager` service.
-    ///
     /// Returns a list of core network policy versions.
     ///
     /// - Parameter ListCoreNetworkPolicyVersionsInput : [no documentation found]
@@ -1132,8 +1004,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func listCoreNetworkPolicyVersions(input: ListCoreNetworkPolicyVersionsInput) async throws -> ListCoreNetworkPolicyVersionsOutput
-    /// Performs the `ListCoreNetworks` operation on the `NetworkManager` service.
-    ///
     /// Returns a list of owned and shared core networks.
     ///
     /// - Parameter ListCoreNetworksInput : [no documentation found]
@@ -1148,16 +1018,12 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func listCoreNetworks(input: ListCoreNetworksInput) async throws -> ListCoreNetworksOutput
-    /// Performs the `ListOrganizationServiceAccessStatus` operation on the `NetworkManager` service.
-    ///
     /// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
     ///
     /// - Parameter ListOrganizationServiceAccessStatusInput : [no documentation found]
     ///
     /// - Returns: `ListOrganizationServiceAccessStatusOutput` : [no documentation found]
     func listOrganizationServiceAccessStatus(input: ListOrganizationServiceAccessStatusInput) async throws -> ListOrganizationServiceAccessStatusOutput
-    /// Performs the `ListPeerings` operation on the `NetworkManager` service.
-    ///
     /// Lists the peerings for a core network.
     ///
     /// - Parameter ListPeeringsInput : [no documentation found]
@@ -1172,8 +1038,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func listPeerings(input: ListPeeringsInput) async throws -> ListPeeringsOutput
-    /// Performs the `ListTagsForResource` operation on the `NetworkManager` service.
-    ///
     /// Lists the tags for a specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1189,8 +1053,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PutCoreNetworkPolicy` operation on the `NetworkManager` service.
-    ///
     /// Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
     ///
     /// - Parameter PutCoreNetworkPolicyInput : [no documentation found]
@@ -1208,8 +1070,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func putCoreNetworkPolicy(input: PutCoreNetworkPolicyInput) async throws -> PutCoreNetworkPolicyOutput
-    /// Performs the `PutResourcePolicy` operation on the `NetworkManager` service.
-    ///
     /// Creates or updates a resource policy.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -1226,8 +1086,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    /// Performs the `RegisterTransitGateway` operation on the `NetworkManager` service.
-    ///
     /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see [Region Availability](https://docs.aws.amazon.com/network-manager/latest/tgwnm/what-are-global-networks.html#nm-available-regions) in the Amazon Web Services Transit Gateways for Global Networks User Guide. The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network.
     ///
     /// - Parameter RegisterTransitGatewayInput : [no documentation found]
@@ -1244,8 +1102,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func registerTransitGateway(input: RegisterTransitGatewayInput) async throws -> RegisterTransitGatewayOutput
-    /// Performs the `RejectAttachment` operation on the `NetworkManager` service.
-    ///
     /// Rejects a core network attachment request.
     ///
     /// - Parameter RejectAttachmentInput : [no documentation found]
@@ -1262,8 +1118,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func rejectAttachment(input: RejectAttachmentInput) async throws -> RejectAttachmentOutput
-    /// Performs the `RestoreCoreNetworkPolicyVersion` operation on the `NetworkManager` service.
-    ///
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
     ///
     /// - Parameter RestoreCoreNetworkPolicyVersionInput : [no documentation found]
@@ -1280,8 +1134,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func restoreCoreNetworkPolicyVersion(input: RestoreCoreNetworkPolicyVersionInput) async throws -> RestoreCoreNetworkPolicyVersionOutput
-    /// Performs the `StartOrganizationServiceAccessUpdate` operation on the `NetworkManager` service.
-    ///
     /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
     ///
     /// - Parameter StartOrganizationServiceAccessUpdateInput : [no documentation found]
@@ -1298,8 +1150,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func startOrganizationServiceAccessUpdate(input: StartOrganizationServiceAccessUpdateInput) async throws -> StartOrganizationServiceAccessUpdateOutput
-    /// Performs the `StartRouteAnalysis` operation on the `NetworkManager` service.
-    ///
     /// Starts analyzing the routing path between the specified source and destination. For more information, see [Route Analyzer](https://docs.aws.amazon.com/vpc/latest/tgw/route-analyzer.html).
     ///
     /// - Parameter StartRouteAnalysisInput : [no documentation found]
@@ -1316,8 +1166,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func startRouteAnalysis(input: StartRouteAnalysisInput) async throws -> StartRouteAnalysisOutput
-    /// Performs the `TagResource` operation on the `NetworkManager` service.
-    ///
     /// Tags a specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1335,8 +1183,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `NetworkManager` service.
-    ///
     /// Removes tags from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1353,8 +1199,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateConnection` operation on the `NetworkManager` service.
-    ///
     /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
     ///
     /// - Parameter UpdateConnectionInput : [no documentation found]
@@ -1371,8 +1215,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
-    /// Performs the `UpdateCoreNetwork` operation on the `NetworkManager` service.
-    ///
     /// Updates the description of a core network.
     ///
     /// - Parameter UpdateCoreNetworkInput : [no documentation found]
@@ -1389,8 +1231,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateCoreNetwork(input: UpdateCoreNetworkInput) async throws -> UpdateCoreNetworkOutput
-    /// Performs the `UpdateDevice` operation on the `NetworkManager` service.
-    ///
     /// Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.
     ///
     /// - Parameter UpdateDeviceInput : [no documentation found]
@@ -1407,8 +1247,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput
-    /// Performs the `UpdateGlobalNetwork` operation on the `NetworkManager` service.
-    ///
     /// Updates an existing global network. To remove information for any of the parameters, specify an empty string.
     ///
     /// - Parameter UpdateGlobalNetworkInput : [no documentation found]
@@ -1425,8 +1263,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateGlobalNetwork(input: UpdateGlobalNetworkInput) async throws -> UpdateGlobalNetworkOutput
-    /// Performs the `UpdateLink` operation on the `NetworkManager` service.
-    ///
     /// Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
     ///
     /// - Parameter UpdateLinkInput : [no documentation found]
@@ -1444,8 +1280,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutput
-    /// Performs the `UpdateNetworkResourceMetadata` operation on the `NetworkManager` service.
-    ///
     /// Updates the resource metadata for the specified global network.
     ///
     /// - Parameter UpdateNetworkResourceMetadataInput : [no documentation found]
@@ -1462,8 +1296,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateNetworkResourceMetadata(input: UpdateNetworkResourceMetadataInput) async throws -> UpdateNetworkResourceMetadataOutput
-    /// Performs the `UpdateSite` operation on the `NetworkManager` service.
-    ///
     /// Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.
     ///
     /// - Parameter UpdateSiteInput : [no documentation found]
@@ -1480,8 +1312,6 @@ public protocol NetworkManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
     func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
-    /// Performs the `UpdateVpcAttachment` operation on the `NetworkManager` service.
-    ///
     /// Updates a VPC attachment.
     ///
     /// - Parameter UpdateVpcAttachmentInput : [no documentation found]

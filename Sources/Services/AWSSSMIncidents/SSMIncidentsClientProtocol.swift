@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their Amazon Web Services-hosted applications. An incident is any unplanned interruption or reduction in quality of services. Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
 public protocol SSMIncidentsClientProtocol {
-    /// Performs the `CreateReplicationSet` operation on the `SSMIncidents` service.
-    ///
     /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
     ///
     /// - Parameter CreateReplicationSetInput : [no documentation found]
@@ -22,8 +20,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createReplicationSet(input: CreateReplicationSetInput) async throws -> CreateReplicationSetOutput
-    /// Performs the `CreateResponsePlan` operation on the `SSMIncidents` service.
-    ///
     /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
     ///
     /// - Parameter CreateResponsePlanInput : [no documentation found]
@@ -40,8 +36,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createResponsePlan(input: CreateResponsePlanInput) async throws -> CreateResponsePlanOutput
-    /// Performs the `CreateTimelineEvent` operation on the `SSMIncidents` service.
-    ///
     /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
     ///
     /// - Parameter CreateTimelineEventInput : [no documentation found]
@@ -58,8 +52,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createTimelineEvent(input: CreateTimelineEventInput) async throws -> CreateTimelineEventOutput
-    /// Performs the `DeleteIncidentRecord` operation on the `SSMIncidents` service.
-    ///
     /// Delete an incident record from Incident Manager.
     ///
     /// - Parameter DeleteIncidentRecordInput : [no documentation found]
@@ -74,8 +66,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteIncidentRecord(input: DeleteIncidentRecordInput) async throws -> DeleteIncidentRecordOutput
-    /// Performs the `DeleteReplicationSet` operation on the `SSMIncidents` service.
-    ///
     /// Deletes all Regions in your replication set. Deleting the replication set deletes all Incident Manager data.
     ///
     /// - Parameter DeleteReplicationSetInput : [no documentation found]
@@ -91,8 +81,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteReplicationSet(input: DeleteReplicationSetInput) async throws -> DeleteReplicationSetOutput
-    /// Performs the `DeleteResourcePolicy` operation on the `SSMIncidents` service.
-    ///
     /// Deletes the resource policy that Resource Access Manager uses to share your Incident Manager resource.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -108,8 +96,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    /// Performs the `DeleteResponsePlan` operation on the `SSMIncidents` service.
-    ///
     /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan.
     ///
     /// - Parameter DeleteResponsePlanInput : [no documentation found]
@@ -124,8 +110,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteResponsePlan(input: DeleteResponsePlanInput) async throws -> DeleteResponsePlanOutput
-    /// Performs the `DeleteTimelineEvent` operation on the `SSMIncidents` service.
-    ///
     /// Deletes a timeline event from an incident.
     ///
     /// - Parameter DeleteTimelineEventInput : [no documentation found]
@@ -140,8 +124,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteTimelineEvent(input: DeleteTimelineEventInput) async throws -> DeleteTimelineEventOutput
-    /// Performs the `GetIncidentRecord` operation on the `SSMIncidents` service.
-    ///
     /// Returns the details for the specified incident record.
     ///
     /// - Parameter GetIncidentRecordInput : [no documentation found]
@@ -157,8 +139,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getIncidentRecord(input: GetIncidentRecordInput) async throws -> GetIncidentRecordOutput
-    /// Performs the `GetReplicationSet` operation on the `SSMIncidents` service.
-    ///
     /// Retrieve your Incident Manager replication set.
     ///
     /// - Parameter GetReplicationSetInput : [no documentation found]
@@ -174,8 +154,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getReplicationSet(input: GetReplicationSetInput) async throws -> GetReplicationSetOutput
-    /// Performs the `GetResourcePolicies` operation on the `SSMIncidents` service.
-    ///
     /// Retrieves the resource policies attached to the specified response plan.
     ///
     /// - Parameter GetResourcePoliciesInput : [no documentation found]
@@ -191,8 +169,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
-    /// Performs the `GetResponsePlan` operation on the `SSMIncidents` service.
-    ///
     /// Retrieves the details of the specified response plan.
     ///
     /// - Parameter GetResponsePlanInput : [no documentation found]
@@ -208,8 +184,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getResponsePlan(input: GetResponsePlanInput) async throws -> GetResponsePlanOutput
-    /// Performs the `GetTimelineEvent` operation on the `SSMIncidents` service.
-    ///
     /// Retrieves a timeline event based on its ID and incident record.
     ///
     /// - Parameter GetTimelineEventInput : [no documentation found]
@@ -225,8 +199,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getTimelineEvent(input: GetTimelineEventInput) async throws -> GetTimelineEventOutput
-    /// Performs the `ListIncidentRecords` operation on the `SSMIncidents` service.
-    ///
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     ///
     /// - Parameter ListIncidentRecordsInput : [no documentation found]
@@ -241,8 +213,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listIncidentRecords(input: ListIncidentRecordsInput) async throws -> ListIncidentRecordsOutput
-    /// Performs the `ListRelatedItems` operation on the `SSMIncidents` service.
-    ///
     /// List all related items for an incident record.
     ///
     /// - Parameter ListRelatedItemsInput : [no documentation found]
@@ -257,8 +227,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRelatedItems(input: ListRelatedItemsInput) async throws -> ListRelatedItemsOutput
-    /// Performs the `ListReplicationSets` operation on the `SSMIncidents` service.
-    ///
     /// Lists details about the replication set configured in your account.
     ///
     /// - Parameter ListReplicationSetsInput : [no documentation found]
@@ -273,8 +241,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listReplicationSets(input: ListReplicationSetsInput) async throws -> ListReplicationSetsOutput
-    /// Performs the `ListResponsePlans` operation on the `SSMIncidents` service.
-    ///
     /// Lists all response plans in your account.
     ///
     /// - Parameter ListResponsePlansInput : [no documentation found]
@@ -289,8 +255,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listResponsePlans(input: ListResponsePlansInput) async throws -> ListResponsePlansOutput
-    /// Performs the `ListTagsForResource` operation on the `SSMIncidents` service.
-    ///
     /// Lists the tags that are attached to the specified response plan.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -306,8 +270,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListTimelineEvents` operation on the `SSMIncidents` service.
-    ///
     /// Lists timeline events for the specified incident record.
     ///
     /// - Parameter ListTimelineEventsInput : [no documentation found]
@@ -322,8 +284,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTimelineEvents(input: ListTimelineEventsInput) async throws -> ListTimelineEventsOutput
-    /// Performs the `PutResourcePolicy` operation on the `SSMIncidents` service.
-    ///
     /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Cross-Region and cross-account incident management](https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-manager-cross-account-cross-region.html).
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -339,8 +299,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    /// Performs the `StartIncident` operation on the `SSMIncidents` service.
-    ///
     /// Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
     ///
     /// - Parameter StartIncidentInput : [no documentation found]
@@ -357,8 +315,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startIncident(input: StartIncidentInput) async throws -> StartIncidentOutput
-    /// Performs the `TagResource` operation on the `SSMIncidents` service.
-    ///
     /// Adds a tag to a response plan.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -376,8 +332,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `SSMIncidents` service.
-    ///
     /// Removes a tag from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -394,8 +348,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateDeletionProtection` operation on the `SSMIncidents` service.
-    ///
     /// Update deletion protection to either allow or deny deletion of the final Region in a replication set.
     ///
     /// - Parameter UpdateDeletionProtectionInput : [no documentation found]
@@ -411,8 +363,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateDeletionProtection(input: UpdateDeletionProtectionInput) async throws -> UpdateDeletionProtectionOutput
-    /// Performs the `UpdateIncidentRecord` operation on the `SSMIncidents` service.
-    ///
     /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact).
     ///
     /// - Parameter UpdateIncidentRecordInput : [no documentation found]
@@ -429,8 +379,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateIncidentRecord(input: UpdateIncidentRecordInput) async throws -> UpdateIncidentRecordOutput
-    /// Performs the `UpdateRelatedItems` operation on the `SSMIncidents` service.
-    ///
     /// Add or remove related items from the related items tab of an incident record.
     ///
     /// - Parameter UpdateRelatedItemsInput : [no documentation found]
@@ -447,8 +395,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateRelatedItems(input: UpdateRelatedItemsInput) async throws -> UpdateRelatedItemsOutput
-    /// Performs the `UpdateReplicationSet` operation on the `SSMIncidents` service.
-    ///
     /// Add or delete Regions from your replication set.
     ///
     /// - Parameter UpdateReplicationSetInput : [no documentation found]
@@ -465,8 +411,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateReplicationSet(input: UpdateReplicationSetInput) async throws -> UpdateReplicationSetOutput
-    /// Performs the `UpdateResponsePlan` operation on the `SSMIncidents` service.
-    ///
     /// Updates the specified response plan.
     ///
     /// - Parameter UpdateResponsePlanInput : [no documentation found]
@@ -483,8 +427,6 @@ public protocol SSMIncidentsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateResponsePlan(input: UpdateResponsePlanInput) async throws -> UpdateResponsePlanOutput
-    /// Performs the `UpdateTimelineEvent` operation on the `SSMIncidents` service.
-    ///
     /// Updates a timeline event. You can update events of type Custom Event.
     ///
     /// - Parameter UpdateTimelineEventInput : [no documentation found]

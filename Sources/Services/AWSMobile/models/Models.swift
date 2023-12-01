@@ -211,6 +211,32 @@ extension MobileClientTypes {
 
 }
 
+public struct CreateProjectInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateProjectInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateProjectInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateProjectOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let contents = input.operationInput.contents {
+            let contentsData = contents
+            let contentsBody = ClientRuntime.HttpBody.data(contentsData)
+            input.builder.withBody(contentsBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateProjectInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateProjectOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateProjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contents
@@ -1829,6 +1855,32 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+public struct UpdateProjectInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateProjectInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateProjectInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateProjectOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let contents = input.operationInput.contents {
+            let contentsData = contents
+            let contentsBody = ClientRuntime.HttpBody.data(contentsData)
+            input.builder.withBody(contentsBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateProjectInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateProjectOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateProjectInput: Swift.Encodable {

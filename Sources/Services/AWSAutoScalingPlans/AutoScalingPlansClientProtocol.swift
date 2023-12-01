@@ -19,8 +19,6 @@ import ClientRuntime
 ///
 /// To learn more about AWS Auto Scaling, including information about granting IAM users required permissions for AWS Auto Scaling actions, see the [AWS Auto Scaling User Guide](https://docs.aws.amazon.com/autoscaling/plans/userguide/what-is-aws-auto-scaling.html).
 public protocol AutoScalingPlansClientProtocol {
-    /// Performs the `CreateScalingPlan` operation on the `AnyScaleScalingPlannerFrontendService` service.
-    ///
     /// Creates a scaling plan.
     ///
     /// - Parameter CreateScalingPlanInput : [no documentation found]
@@ -35,8 +33,6 @@ public protocol AutoScalingPlansClientProtocol {
     /// - `LimitExceededException` : Your account exceeded a limit. This exception is thrown when a per-account resource limit is exceeded.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func createScalingPlan(input: CreateScalingPlanInput) async throws -> CreateScalingPlanOutput
-    /// Performs the `DeleteScalingPlan` operation on the `AnyScaleScalingPlannerFrontendService` service.
-    ///
     /// Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying [ScalingInstruction] for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately.
     ///
     /// - Parameter DeleteScalingPlanInput : [no documentation found]
@@ -51,8 +47,6 @@ public protocol AutoScalingPlansClientProtocol {
     /// - `ObjectNotFoundException` : The specified object could not be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func deleteScalingPlan(input: DeleteScalingPlanInput) async throws -> DeleteScalingPlanOutput
-    /// Performs the `DescribeScalingPlanResources` operation on the `AnyScaleScalingPlannerFrontendService` service.
-    ///
     /// Describes the scalable resources in the specified scaling plan.
     ///
     /// - Parameter DescribeScalingPlanResourcesInput : [no documentation found]
@@ -67,8 +61,6 @@ public protocol AutoScalingPlansClientProtocol {
     /// - `InvalidNextTokenException` : The token provided is not valid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func describeScalingPlanResources(input: DescribeScalingPlanResourcesInput) async throws -> DescribeScalingPlanResourcesOutput
-    /// Performs the `DescribeScalingPlans` operation on the `AnyScaleScalingPlannerFrontendService` service.
-    ///
     /// Describes one or more of your scaling plans.
     ///
     /// - Parameter DescribeScalingPlansInput : [no documentation found]
@@ -83,8 +75,6 @@ public protocol AutoScalingPlansClientProtocol {
     /// - `InvalidNextTokenException` : The token provided is not valid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func describeScalingPlans(input: DescribeScalingPlansInput) async throws -> DescribeScalingPlansOutput
-    /// Performs the `GetScalingPlanResourceForecastData` operation on the `AnyScaleScalingPlannerFrontendService` service.
-    ///
     /// Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days.
     ///
     /// - Parameter GetScalingPlanResourceForecastDataInput : [no documentation found]
@@ -97,8 +87,6 @@ public protocol AutoScalingPlansClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
     func getScalingPlanResourceForecastData(input: GetScalingPlanResourceForecastDataInput) async throws -> GetScalingPlanResourceForecastDataOutput
-    /// Performs the `UpdateScalingPlan` operation on the `AnyScaleScalingPlannerFrontendService` service.
-    ///
     /// Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
     ///
     /// - Parameter UpdateScalingPlanInput : [no documentation found]

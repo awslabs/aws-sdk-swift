@@ -12,7 +12,7 @@ extension ChimeClient {
     ///     - input: A `[ListAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutput`
     public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutput.nextToken, paginationFunction: self.listAccounts(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension ChimeClient {
     ///     - input: A `[ListAppInstanceAdminsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceAdminsOutput`
     public func listAppInstanceAdminsPaginated(input: ListAppInstanceAdminsInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstanceAdmins(input:))
+        return ClientRuntime.PaginatorSequence<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(input: input, inputKey: \ListAppInstanceAdminsInput.nextToken, outputKey: \ListAppInstanceAdminsOutput.nextToken, paginationFunction: self.listAppInstanceAdmins(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ChimeClient {
     ///     - input: A `[ListAppInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstancesOutput`
     public func listAppInstancesPaginated(input: ListAppInstancesInput) -> ClientRuntime.PaginatorSequence<ListAppInstancesInput, ListAppInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppInstancesInput, ListAppInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListAppInstancesInput, ListAppInstancesOutput>(input: input, inputKey: \ListAppInstancesInput.nextToken, outputKey: \ListAppInstancesOutput.nextToken, paginationFunction: self.listAppInstances(input:))
     }
 }
 
@@ -78,7 +78,7 @@ extension ChimeClient {
     ///     - input: A `[ListAppInstanceUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceUsersOutput`
     public func listAppInstanceUsersPaginated(input: ListAppInstanceUsersInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceUsersInput, ListAppInstanceUsersOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstanceUsers(input:))
+        return ClientRuntime.PaginatorSequence<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(input: input, inputKey: \ListAppInstanceUsersInput.nextToken, outputKey: \ListAppInstanceUsersOutput.nextToken, paginationFunction: self.listAppInstanceUsers(input:))
     }
 }
 
@@ -100,7 +100,7 @@ extension ChimeClient {
     ///     - input: A `[ListAttendeesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttendeesOutput`
     public func listAttendeesPaginated(input: ListAttendeesInput) -> ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttendees(input:))
+        return ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutput>(input: input, inputKey: \ListAttendeesInput.nextToken, outputKey: \ListAttendeesOutput.nextToken, paginationFunction: self.listAttendees(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension ChimeClient {
     ///     - input: A `[ListBotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotsOutput`
     public func listBotsPaginated(input: ListBotsInput) -> ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBots(input:))
+        return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput>(input: input, inputKey: \ListBotsInput.nextToken, outputKey: \ListBotsOutput.nextToken, paginationFunction: self.listBots(input:))
     }
 }
 
@@ -144,7 +144,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelBansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelBansOutput`
     public func listChannelBansPaginated(input: ListChannelBansInput) -> ClientRuntime.PaginatorSequence<ListChannelBansInput, ListChannelBansOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelBansInput, ListChannelBansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannelBans(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelBansInput, ListChannelBansOutput>(input: input, inputKey: \ListChannelBansInput.nextToken, outputKey: \ListChannelBansOutput.nextToken, paginationFunction: self.listChannelBans(input:))
     }
 }
 
@@ -167,7 +167,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelMembershipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelMembershipsOutput`
     public func listChannelMembershipsPaginated(input: ListChannelMembershipsInput) -> ClientRuntime.PaginatorSequence<ListChannelMembershipsInput, ListChannelMembershipsOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelMembershipsInput, ListChannelMembershipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannelMemberships(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelMembershipsInput, ListChannelMembershipsOutput>(input: input, inputKey: \ListChannelMembershipsInput.nextToken, outputKey: \ListChannelMembershipsOutput.nextToken, paginationFunction: self.listChannelMemberships(input:))
     }
 }
 
@@ -191,7 +191,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelMembershipsForAppInstanceUserInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelMembershipsForAppInstanceUserOutput`
     public func listChannelMembershipsForAppInstanceUserPaginated(input: ListChannelMembershipsForAppInstanceUserInput) -> ClientRuntime.PaginatorSequence<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannelMembershipsForAppInstanceUser(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>(input: input, inputKey: \ListChannelMembershipsForAppInstanceUserInput.nextToken, outputKey: \ListChannelMembershipsForAppInstanceUserOutput.nextToken, paginationFunction: self.listChannelMembershipsForAppInstanceUser(input:))
     }
 }
 
@@ -214,7 +214,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelMessagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelMessagesOutput`
     public func listChannelMessagesPaginated(input: ListChannelMessagesInput) -> ClientRuntime.PaginatorSequence<ListChannelMessagesInput, ListChannelMessagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelMessagesInput, ListChannelMessagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannelMessages(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelMessagesInput, ListChannelMessagesOutput>(input: input, inputKey: \ListChannelMessagesInput.nextToken, outputKey: \ListChannelMessagesOutput.nextToken, paginationFunction: self.listChannelMessages(input:))
     }
 }
 
@@ -240,7 +240,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelModeratorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelModeratorsOutput`
     public func listChannelModeratorsPaginated(input: ListChannelModeratorsInput) -> ClientRuntime.PaginatorSequence<ListChannelModeratorsInput, ListChannelModeratorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelModeratorsInput, ListChannelModeratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannelModerators(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelModeratorsInput, ListChannelModeratorsOutput>(input: input, inputKey: \ListChannelModeratorsInput.nextToken, outputKey: \ListChannelModeratorsOutput.nextToken, paginationFunction: self.listChannelModerators(input:))
     }
 }
 
@@ -263,7 +263,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
     }
 }
 
@@ -287,7 +287,7 @@ extension ChimeClient {
     ///     - input: A `[ListChannelsModeratedByAppInstanceUserInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsModeratedByAppInstanceUserOutput`
     public func listChannelsModeratedByAppInstanceUserPaginated(input: ListChannelsModeratedByAppInstanceUserInput) -> ClientRuntime.PaginatorSequence<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannelsModeratedByAppInstanceUser(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>(input: input, inputKey: \ListChannelsModeratedByAppInstanceUserInput.nextToken, outputKey: \ListChannelsModeratedByAppInstanceUserOutput.nextToken, paginationFunction: self.listChannelsModeratedByAppInstanceUser(input:))
     }
 }
 
@@ -310,7 +310,7 @@ extension ChimeClient {
     ///     - input: A `[ListMediaCapturePipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMediaCapturePipelinesOutput`
     public func listMediaCapturePipelinesPaginated(input: ListMediaCapturePipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput> {
-        return ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMediaCapturePipelines(input:))
+        return ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>(input: input, inputKey: \ListMediaCapturePipelinesInput.nextToken, outputKey: \ListMediaCapturePipelinesOutput.nextToken, paginationFunction: self.listMediaCapturePipelines(input:))
     }
 }
 
@@ -331,7 +331,7 @@ extension ChimeClient {
     ///     - input: A `[ListMeetingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMeetingsOutput`
     public func listMeetingsPaginated(input: ListMeetingsInput) -> ClientRuntime.PaginatorSequence<ListMeetingsInput, ListMeetingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMeetingsInput, ListMeetingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMeetings(input:))
+        return ClientRuntime.PaginatorSequence<ListMeetingsInput, ListMeetingsOutput>(input: input, inputKey: \ListMeetingsInput.nextToken, outputKey: \ListMeetingsOutput.nextToken, paginationFunction: self.listMeetings(input:))
     }
 }
 
@@ -352,7 +352,7 @@ extension ChimeClient {
     ///     - input: A `[ListPhoneNumberOrdersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumberOrdersOutput`
     public func listPhoneNumberOrdersPaginated(input: ListPhoneNumberOrdersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumberOrders(input:))
+        return ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(input: input, inputKey: \ListPhoneNumberOrdersInput.nextToken, outputKey: \ListPhoneNumberOrdersOutput.nextToken, paginationFunction: self.listPhoneNumberOrders(input:))
     }
 }
 
@@ -373,7 +373,7 @@ extension ChimeClient {
     ///     - input: A `[ListPhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersOutput`
     public func listPhoneNumbersPaginated(input: ListPhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumbers(input:))
+        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \ListPhoneNumbersInput.nextToken, outputKey: \ListPhoneNumbersOutput.nextToken, paginationFunction: self.listPhoneNumbers(input:))
     }
 }
 
@@ -398,7 +398,7 @@ extension ChimeClient {
     ///     - input: A `[ListProxySessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProxySessionsOutput`
     public func listProxySessionsPaginated(input: ListProxySessionsInput) -> ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxySessions(input:))
+        return ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput>(input: input, inputKey: \ListProxySessionsInput.nextToken, outputKey: \ListProxySessionsOutput.nextToken, paginationFunction: self.listProxySessions(input:))
     }
 }
 
@@ -421,7 +421,7 @@ extension ChimeClient {
     ///     - input: A `[ListRoomMembershipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoomMembershipsOutput`
     public func listRoomMembershipsPaginated(input: ListRoomMembershipsInput) -> ClientRuntime.PaginatorSequence<ListRoomMembershipsInput, ListRoomMembershipsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoomMembershipsInput, ListRoomMembershipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoomMemberships(input:))
+        return ClientRuntime.PaginatorSequence<ListRoomMembershipsInput, ListRoomMembershipsOutput>(input: input, inputKey: \ListRoomMembershipsInput.nextToken, outputKey: \ListRoomMembershipsOutput.nextToken, paginationFunction: self.listRoomMemberships(input:))
     }
 }
 
@@ -444,7 +444,7 @@ extension ChimeClient {
     ///     - input: A `[ListRoomsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoomsOutput`
     public func listRoomsPaginated(input: ListRoomsInput) -> ClientRuntime.PaginatorSequence<ListRoomsInput, ListRoomsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoomsInput, ListRoomsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRooms(input:))
+        return ClientRuntime.PaginatorSequence<ListRoomsInput, ListRoomsOutput>(input: input, inputKey: \ListRoomsInput.nextToken, outputKey: \ListRoomsOutput.nextToken, paginationFunction: self.listRooms(input:))
     }
 }
 
@@ -467,7 +467,7 @@ extension ChimeClient {
     ///     - input: A `[ListSipMediaApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSipMediaApplicationsOutput`
     public func listSipMediaApplicationsPaginated(input: ListSipMediaApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSipMediaApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(input: input, inputKey: \ListSipMediaApplicationsInput.nextToken, outputKey: \ListSipMediaApplicationsOutput.nextToken, paginationFunction: self.listSipMediaApplications(input:))
     }
 }
 
@@ -488,7 +488,7 @@ extension ChimeClient {
     ///     - input: A `[ListSipRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSipRulesOutput`
     public func listSipRulesPaginated(input: ListSipRulesInput) -> ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSipRules(input:))
+        return ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput>(input: input, inputKey: \ListSipRulesInput.nextToken, outputKey: \ListSipRulesOutput.nextToken, paginationFunction: self.listSipRules(input:))
     }
 }
 
@@ -510,7 +510,7 @@ extension ChimeClient {
     ///     - input: A `[ListUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUsers(input:))
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
     }
 }
 
@@ -534,7 +534,7 @@ extension ChimeClient {
     ///     - input: A `[ListVoiceConnectorGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorGroupsOutput`
     public func listVoiceConnectorGroupsPaginated(input: ListVoiceConnectorGroupsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVoiceConnectorGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(input: input, inputKey: \ListVoiceConnectorGroupsInput.nextToken, outputKey: \ListVoiceConnectorGroupsOutput.nextToken, paginationFunction: self.listVoiceConnectorGroups(input:))
     }
 }
 
@@ -555,7 +555,7 @@ extension ChimeClient {
     ///     - input: A `[ListVoiceConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorsOutput`
     public func listVoiceConnectorsPaginated(input: ListVoiceConnectorsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVoiceConnectors(input:))
+        return ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(input: input, inputKey: \ListVoiceConnectorsInput.nextToken, outputKey: \ListVoiceConnectorsOutput.nextToken, paginationFunction: self.listVoiceConnectors(input:))
     }
 }
 
@@ -576,7 +576,7 @@ extension ChimeClient {
     ///     - input: A `[SearchAvailablePhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchAvailablePhoneNumbersOutput`
     public func searchAvailablePhoneNumbersPaginated(input: SearchAvailablePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
+        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \SearchAvailablePhoneNumbersInput.nextToken, outputKey: \SearchAvailablePhoneNumbersOutput.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
     }
 }
 

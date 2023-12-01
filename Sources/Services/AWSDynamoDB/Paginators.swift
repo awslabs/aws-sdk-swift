@@ -12,7 +12,7 @@ extension DynamoDBClient {
     ///     - input: A `[ListContributorInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContributorInsightsOutput`
     public func listContributorInsightsPaginated(input: ListContributorInsightsInput) -> ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutput> {
-        return ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContributorInsights(input:))
+        return ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutput>(input: input, inputKey: \ListContributorInsightsInput.nextToken, outputKey: \ListContributorInsightsOutput.nextToken, paginationFunction: self.listContributorInsights(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension DynamoDBClient {
     ///     - input: A `[ListExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutput`
     public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExports(input:))
+        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutput.nextToken, paginationFunction: self.listExports(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension DynamoDBClient {
     ///     - input: A `[ListImportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutput`
     public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImports(input:))
+        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutput.nextToken, paginationFunction: self.listImports(input:))
     }
 }
 
@@ -78,7 +78,7 @@ extension DynamoDBClient {
     ///     - input: A `[ListTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
     public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \.exclusiveStartTableName, outputKey: \.lastEvaluatedTableName, paginationFunction: self.listTables(input:))
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.exclusiveStartTableName, outputKey: \ListTablesOutput.lastEvaluatedTableName, paginationFunction: self.listTables(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTablesInput, OperationStackOutput == ListTablesOutput {
+extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -108,7 +108,7 @@ extension DynamoDBClient {
     ///     - input: A `[QueryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `QueryOutput`
     public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutput> {
-        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutput>(input: input, inputKey: \.exclusiveStartKey, outputKey: \.lastEvaluatedKey, paginationFunction: self.query(input:))
+        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutput>(input: input, inputKey: \QueryInput.exclusiveStartKey, outputKey: \QueryOutput.lastEvaluatedKey, paginationFunction: self.query(input:))
     }
 }
 
@@ -135,7 +135,7 @@ extension QueryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == QueryInput, OperationStackOutput == QueryOutput {
+extension PaginatorSequence where Input == QueryInput, Output == QueryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `queryPaginated`
     /// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
     /// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
@@ -153,7 +153,7 @@ extension DynamoDBClient {
     ///     - input: A `[ScanInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ScanOutput`
     public func scanPaginated(input: ScanInput) -> ClientRuntime.PaginatorSequence<ScanInput, ScanOutput> {
-        return ClientRuntime.PaginatorSequence<ScanInput, ScanOutput>(input: input, inputKey: \.exclusiveStartKey, outputKey: \.lastEvaluatedKey, paginationFunction: self.scan(input:))
+        return ClientRuntime.PaginatorSequence<ScanInput, ScanOutput>(input: input, inputKey: \ScanInput.exclusiveStartKey, outputKey: \ScanOutput.lastEvaluatedKey, paginationFunction: self.scan(input:))
     }
 }
 
@@ -179,7 +179,7 @@ extension ScanInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ScanInput, OperationStackOutput == ScanOutput {
+extension PaginatorSequence where Input == ScanInput, Output == ScanOutput {
     /// This paginator transforms the `AsyncSequence` returned by `scanPaginated`
     /// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
     /// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`

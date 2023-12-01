@@ -12,7 +12,7 @@ extension MediaTailorClient {
     ///     - input: A `[ListAlertsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAlertsOutput`
     public func listAlertsPaginated(input: ListAlertsInput) -> ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAlerts(input:))
+        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput>(input: input, inputKey: \ListAlertsInput.nextToken, outputKey: \ListAlertsOutput.nextToken, paginationFunction: self.listAlerts(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAlertsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAlertsInput, OperationStackOutput == ListAlertsOutput {
+extension PaginatorSequence where Input == ListAlertsInput, Output == ListAlertsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAlertsPaginated`
     /// to access the nested member `[MediaTailorClientTypes.Alert]`
     /// - Returns: `[MediaTailorClientTypes.Alert]`

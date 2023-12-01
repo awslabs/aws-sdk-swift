@@ -12,7 +12,7 @@ extension IVSRealTimeClient {
     ///     - input: A `[ListParticipantEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListParticipantEventsOutput`
     public func listParticipantEventsPaginated(input: ListParticipantEventsInput) -> ClientRuntime.PaginatorSequence<ListParticipantEventsInput, ListParticipantEventsOutput> {
-        return ClientRuntime.PaginatorSequence<ListParticipantEventsInput, ListParticipantEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listParticipantEvents(input:))
+        return ClientRuntime.PaginatorSequence<ListParticipantEventsInput, ListParticipantEventsOutput>(input: input, inputKey: \ListParticipantEventsInput.nextToken, outputKey: \ListParticipantEventsOutput.nextToken, paginationFunction: self.listParticipantEvents(input:))
     }
 }
 
@@ -36,7 +36,7 @@ extension IVSRealTimeClient {
     ///     - input: A `[ListParticipantsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListParticipantsOutput`
     public func listParticipantsPaginated(input: ListParticipantsInput) -> ClientRuntime.PaginatorSequence<ListParticipantsInput, ListParticipantsOutput> {
-        return ClientRuntime.PaginatorSequence<ListParticipantsInput, ListParticipantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listParticipants(input:))
+        return ClientRuntime.PaginatorSequence<ListParticipantsInput, ListParticipantsOutput>(input: input, inputKey: \ListParticipantsInput.nextToken, outputKey: \ListParticipantsOutput.nextToken, paginationFunction: self.listParticipants(input:))
     }
 }
 
@@ -62,7 +62,7 @@ extension IVSRealTimeClient {
     ///     - input: A `[ListStagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStagesOutput`
     public func listStagesPaginated(input: ListStagesInput) -> ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStages(input:))
+        return ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutput>(input: input, inputKey: \ListStagesInput.nextToken, outputKey: \ListStagesOutput.nextToken, paginationFunction: self.listStages(input:))
     }
 }
 
@@ -83,7 +83,7 @@ extension IVSRealTimeClient {
     ///     - input: A `[ListStageSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStageSessionsOutput`
     public func listStageSessionsPaginated(input: ListStageSessionsInput) -> ClientRuntime.PaginatorSequence<ListStageSessionsInput, ListStageSessionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStageSessionsInput, ListStageSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStageSessions(input:))
+        return ClientRuntime.PaginatorSequence<ListStageSessionsInput, ListStageSessionsOutput>(input: input, inputKey: \ListStageSessionsInput.nextToken, outputKey: \ListStageSessionsOutput.nextToken, paginationFunction: self.listStageSessions(input:))
     }
 }
 

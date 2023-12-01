@@ -12,7 +12,7 @@ extension MigrationHubConfigClient {
     ///     - input: A `[DescribeHomeRegionControlsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeHomeRegionControlsOutput`
     public func describeHomeRegionControlsPaginated(input: DescribeHomeRegionControlsInput) -> ClientRuntime.PaginatorSequence<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeHomeRegionControls(input:))
+        return ClientRuntime.PaginatorSequence<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(input: input, inputKey: \DescribeHomeRegionControlsInput.nextToken, outputKey: \DescribeHomeRegionControlsOutput.nextToken, paginationFunction: self.describeHomeRegionControls(input:))
     }
 }
 

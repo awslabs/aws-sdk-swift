@@ -12,7 +12,7 @@ extension RedshiftServerlessClient {
     ///     - input: A `[ListCustomDomainAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDomainAssociationsOutput`
     public func listCustomDomainAssociationsPaginated(input: ListCustomDomainAssociationsInput) -> ClientRuntime.PaginatorSequence<ListCustomDomainAssociationsInput, ListCustomDomainAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomDomainAssociationsInput, ListCustomDomainAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomDomainAssociations(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomDomainAssociationsInput, ListCustomDomainAssociationsOutput>(input: input, inputKey: \ListCustomDomainAssociationsInput.nextToken, outputKey: \ListCustomDomainAssociationsOutput.nextToken, paginationFunction: self.listCustomDomainAssociations(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListCustomDomainAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCustomDomainAssociationsInput, OperationStackOutput == ListCustomDomainAssociationsOutput {
+extension PaginatorSequence where Input == ListCustomDomainAssociationsInput, Output == ListCustomDomainAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomDomainAssociationsPaginated`
     /// to access the nested member `[RedshiftServerlessClientTypes.Association]`
     /// - Returns: `[RedshiftServerlessClientTypes.Association]`

@@ -12,7 +12,7 @@ extension RbinClient {
     ///     - input: A `[ListRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutput`
     public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRules(input:))
+        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutput.nextToken, paginationFunction: self.listRules(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension ListRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRulesInput, OperationStackOutput == ListRulesOutput {
+extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
     /// to access the nested member `[RbinClientTypes.RuleSummary]`
     /// - Returns: `[RbinClientTypes.RuleSummary]`

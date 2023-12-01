@@ -20,8 +20,6 @@ import ClientRuntime
 ///
 /// The InitialConfigurationToken and NextPollConfigurationToken should only be used once. To support long poll use cases, the tokens are valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException. For more information and to view example CLI commands that show how to retrieve a configuration using the AppConfig Data StartConfigurationSession and GetLatestConfiguration API actions, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide.
 public protocol AppConfigDataClientProtocol {
-    /// Performs the `GetLatestConfiguration` operation on the `AppConfigData` service.
-    ///
     /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the [StartConfigurationSession] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide. Note the following important information.
     ///
     /// * Each configuration token is only valid for one call to GetLatestConfiguration. The GetLatestConfiguration response includes a NextPollConfigurationToken that should always replace the token used for the just-completed call in preparation for the next one.
@@ -40,8 +38,6 @@ public protocol AppConfigDataClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getLatestConfiguration(input: GetLatestConfigurationInput) async throws -> GetLatestConfigurationOutput
-    /// Performs the `StartConfigurationSession` operation on the `AppConfigData` service.
-    ///
     /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the [GetLatestConfiguration] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide.
     ///
     /// - Parameter StartConfigurationSessionInput : [no documentation found]

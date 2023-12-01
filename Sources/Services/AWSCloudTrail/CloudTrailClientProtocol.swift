@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// CloudTrail This is the CloudTrail API Reference. It provides descriptions of actions, data types, common parameters, and common errors for CloudTrail. CloudTrail is a web service that records Amazon Web Services API calls for your Amazon Web Services account and delivers log files to an Amazon S3 bucket. The recorded information includes the identity of the user, the start time of the Amazon Web Services API call, the source IP address, the request parameters, and the response elements returned by the service. As an alternative to the API, you can use one of the Amazon Web Services SDKs, which consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.). The SDKs provide programmatic access to CloudTrail. For example, the SDKs handle cryptographically signing requests, managing errors, and retrying requests automatically. For more information about the Amazon Web Services SDKs, including how to download and install them, see [Tools to Build on Amazon Web Services](http://aws.amazon.com/tools/). See the [CloudTrail User Guide](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html) for information about the data that is included with each Amazon Web Services API call listed in the log files.
 public protocol CloudTrailClientProtocol {
-    /// Performs the `AddTags` operation on the `CloudTrail_20131101` service.
-    ///
     /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     ///
     /// - Parameter AddTagsInput : Specifies the tags to add to a trail, event data store, or channel.
@@ -42,8 +40,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    /// Performs the `CancelQuery` operation on the `CloudTrail_20131101` service.
-    ///
     /// Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED, TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you want to cancel is also required. When you run CancelQuery, the query status might show as CANCELLED even if the operation is not yet finished.
     ///
     /// - Parameter CancelQueryInput : [no documentation found]
@@ -64,8 +60,6 @@ public protocol CloudTrailClientProtocol {
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput
-    /// Performs the `CreateChannel` operation on the `CloudTrail_20131101` service.
-    ///
     /// Creates a channel for CloudTrail to ingest events from a partner or external source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify.
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
@@ -88,8 +82,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    /// Performs the `CreateEventDataStore` operation on the `CloudTrail_20131101` service.
-    ///
     /// Creates a new event data store.
     ///
     /// - Parameter CreateEventDataStoreInput : [no documentation found]
@@ -126,8 +118,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func createEventDataStore(input: CreateEventDataStoreInput) async throws -> CreateEventDataStoreOutput
-    /// Performs the `CreateTrail` operation on the `CloudTrail_20131101` service.
-    ///
     /// Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
     ///
     /// - Parameter CreateTrailInput : Specifies the settings for each trail.
@@ -180,8 +170,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func createTrail(input: CreateTrailInput) async throws -> CreateTrailOutput
-    /// Performs the `DeleteChannel` operation on the `CloudTrail_20131101` service.
-    ///
     /// Deletes a channel.
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
@@ -196,8 +184,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    /// Performs the `DeleteEventDataStore` operation on the `CloudTrail_20131101` service.
-    ///
     /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store; this operation cannot work if TerminationProtectionEnabled is True. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
     ///
     /// - Parameter DeleteEventDataStoreInput : [no documentation found]
@@ -220,8 +206,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func deleteEventDataStore(input: DeleteEventDataStoreInput) async throws -> DeleteEventDataStoreOutput
-    /// Performs the `DeleteResourcePolicy` operation on the `CloudTrail_20131101` service.
-    ///
     /// Deletes the resource-based policy attached to the CloudTrail channel.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -238,8 +222,6 @@ public protocol CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    /// Performs the `DeleteTrail` operation on the `CloudTrail_20131101` service.
-    ///
     /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     ///
     /// - Parameter DeleteTrailInput : The request that specifies the name of a trail to delete.
@@ -271,8 +253,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutput
-    /// Performs the `DeregisterOrganizationDelegatedAdmin` operation on the `CloudTrail_20131101` service.
-    ///
     /// Removes CloudTrail delegated administrator permissions from a member account in an organization.
     ///
     /// - Parameter DeregisterOrganizationDelegatedAdminInput : Removes CloudTrail delegated administrator permissions from a specified member account in an organization that is currently designated as a delegated administrator.
@@ -294,8 +274,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func deregisterOrganizationDelegatedAdmin(input: DeregisterOrganizationDelegatedAdminInput) async throws -> DeregisterOrganizationDelegatedAdminOutput
-    /// Performs the `DescribeQuery` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3 URI and the delivery status. You must specify either a QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias.
     ///
     /// - Parameter DescribeQueryInput : [no documentation found]
@@ -314,8 +292,6 @@ public protocol CloudTrailClientProtocol {
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func describeQuery(input: DescribeQueryInput) async throws -> DescribeQueryOutput
-    /// Performs the `DescribeTrails` operation on the `CloudTrail_20131101` service.
-    ///
     /// Retrieves settings for one or more trails associated with the current Region for your account.
     ///
     /// - Parameter DescribeTrailsInput : Returns information about the trail.
@@ -340,8 +316,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func describeTrails(input: DescribeTrailsInput) async throws -> DescribeTrailsOutput
-    /// Performs the `GetChannel` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns information about a specific channel.
     ///
     /// - Parameter GetChannelInput : [no documentation found]
@@ -356,8 +330,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
-    /// Performs the `GetEventDataStore` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     ///
     /// - Parameter GetEventDataStoreInput : [no documentation found]
@@ -374,8 +346,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getEventDataStore(input: GetEventDataStoreInput) async throws -> GetEventDataStoreOutput
-    /// Performs the `GetEventSelectors` operation on the `CloudTrail_20131101` service.
-    ///
     /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:
     ///
     /// * If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.
@@ -415,8 +385,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getEventSelectors(input: GetEventSelectorsInput) async throws -> GetEventSelectorsOutput
-    /// Performs the `GetImport` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns information about a specific import.
     ///
     /// - Parameter GetImportInput : [no documentation found]
@@ -431,8 +399,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getImport(input: GetImportInput) async throws -> GetImportOutput
-    /// Performs the `GetInsightSelectors` operation on the `CloudTrail_20131101` service.
-    ///
     /// Describes the settings for the Insights event selectors that you configured for your trail. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail, and if it is, which insight types are enabled. If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException For more information, see [Logging CloudTrail Insights Events for Trails ](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
     ///
     /// - Parameter GetInsightSelectorsInput : [no documentation found]
@@ -461,8 +427,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutput
-    /// Performs the `GetQueryResults` operation on the `CloudTrail_20131101` service.
-    ///
     /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     ///
     /// - Parameter GetQueryResultsInput : [no documentation found]
@@ -484,8 +448,6 @@ public protocol CloudTrailClientProtocol {
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
-    /// Performs the `GetResourcePolicy` operation on the `CloudTrail_20131101` service.
-    ///
     /// Retrieves the JSON text of the resource-based policy document attached to the CloudTrail channel.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
@@ -502,8 +464,6 @@ public protocol CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    /// Performs the `GetTrail` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns settings information for a specified trail.
     ///
     /// - Parameter GetTrailInput : [no documentation found]
@@ -529,8 +489,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getTrail(input: GetTrailInput) async throws -> GetTrailOutput
-    /// Performs the `GetTrailStatus` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single Region. To return trail status from all Regions, you must call the operation on each Region.
     ///
     /// - Parameter GetTrailStatusInput : The name of a trail about which you want the current status.
@@ -556,8 +514,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getTrailStatus(input: GetTrailStatusInput) async throws -> GetTrailStatusOutput
-    /// Performs the `ListChannels` operation on the `CloudTrail_20131101` service.
-    ///
     /// Lists the channels in the current account, and their source names.
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
@@ -571,8 +527,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    /// Performs the `ListEventDataStores` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns information about all event data stores in the account, in the current Region.
     ///
     /// - Parameter ListEventDataStoresInput : [no documentation found]
@@ -588,8 +542,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listEventDataStores(input: ListEventDataStoresInput) async throws -> ListEventDataStoresOutput
-    /// Performs the `ListImportFailures` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns a list of failures for the specified import.
     ///
     /// - Parameter ListImportFailuresInput : [no documentation found]
@@ -603,8 +555,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listImportFailures(input: ListImportFailuresInput) async throws -> ListImportFailuresOutput
-    /// Performs the `ListImports` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns information on all imports, or a select set of imports by ImportStatus or Destination.
     ///
     /// - Parameter ListImportsInput : [no documentation found]
@@ -620,8 +570,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutput
-    /// Performs the `ListPublicKeys` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key. CloudTrail uses different private and public key pairs per Region. Each digest file is signed with a private key unique to its Region. When you validate a digest file from a specific Region, you must look in the same Region for its corresponding public key.
     ///
     /// - Parameter ListPublicKeysInput : Requests the public keys for a specified time range.
@@ -636,8 +584,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput
-    /// Performs the `ListQueries` operation on the `CloudTrail_20131101` service.
-    ///
     /// Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     ///
     /// - Parameter ListQueriesInput : [no documentation found]
@@ -659,8 +605,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listQueries(input: ListQueriesInput) async throws -> ListQueriesOutput
-    /// Performs the `ListTags` operation on the `CloudTrail_20131101` service.
-    ///
     /// Lists the tags for the specified trails, event data stores, or channels in the current Region.
     ///
     /// - Parameter ListTagsInput : Specifies a list of tags to return.
@@ -693,8 +637,6 @@ public protocol CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    /// Performs the `ListTrails` operation on the `CloudTrail_20131101` service.
-    ///
     /// Lists trails that are in the current account.
     ///
     /// - Parameter ListTrailsInput : [no documentation found]
@@ -707,8 +649,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func listTrails(input: ListTrailsInput) async throws -> ListTrailsOutput
-    /// Performs the `LookupEvents` operation on the `CloudTrail_20131101` service.
-    ///
     /// Looks up [management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-management-events) or [CloudTrail Insights events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-insights-events) that are captured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. Lookup supports the following attributes for management events:
     ///
     /// * Amazon Web Services access key
@@ -754,8 +694,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func lookupEvents(input: LookupEventsInput) async throws -> LookupEventsOutput
-    /// Performs the `PutEventSelectors` operation on the `CloudTrail_20131101` service.
-    ///
     /// Configures an event selector or advanced event selectors for your trail. Use event selectors or advanced event selectors to specify management and data event settings for your trail. If you want your trail to log Insights events, be sure the event selector enables logging of the Insights event types you want configured for your trail. For more information about logging Insights events, see [Logging Insights events for trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide. By default, trails created without specific event selectors are configured to log all read and write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selectors or advanced event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. Example
     ///
     /// * You create an event selector for a trail and specify that you want write-only events.
@@ -809,8 +747,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutput
-    /// Performs the `PutInsightSelectors` operation on the `CloudTrail_20131101` service.
-    ///
     /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of insight types. The valid Insights event types in this release are ApiErrorRateInsight and ApiCallRateInsight. To log CloudTrail Insights events on API call volume, the trail must log write management events. To log CloudTrail Insights events on API error rate, the trail must log read or write management events. You can call GetEventSelectors on a trail to check whether the trail logs management events.
     ///
     /// - Parameter PutInsightSelectorsInput : [no documentation found]
@@ -845,8 +781,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutput
-    /// Performs the `PutResourcePolicy` operation on the `CloudTrail_20131101` service.
-    ///
     /// Attaches a resource-based permission policy to a CloudTrail channel that is used for an integration with an event source outside of Amazon Web Services. For more information about resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html) in the CloudTrail User Guide.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -869,8 +803,6 @@ public protocol CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    /// Performs the `RegisterOrganizationDelegatedAdmin` operation on the `CloudTrail_20131101` service.
-    ///
     /// Registers an organization’s member account as the CloudTrail delegated administrator.
     ///
     /// - Parameter RegisterOrganizationDelegatedAdminInput : Specifies an organization member account ID as a CloudTrail delegated administrator.
@@ -894,8 +826,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func registerOrganizationDelegatedAdmin(input: RegisterOrganizationDelegatedAdminInput) async throws -> RegisterOrganizationDelegatedAdminOutput
-    /// Performs the `RemoveTags` operation on the `CloudTrail_20131101` service.
-    ///
     /// Removes the specified tags from a trail, event data store, or channel.
     ///
     /// - Parameter RemoveTagsInput : Specifies the tags to remove from a trail, event data store, or channel.
@@ -930,8 +860,6 @@ public protocol CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    /// Performs the `RestoreEventDataStore` operation on the `CloudTrail_20131101` service.
-    ///
     /// Restores a deleted event data store specified by EventDataStore, which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an event data store can take several minutes, depending on the size of the event data store.
     ///
     /// - Parameter RestoreEventDataStoreInput : [no documentation found]
@@ -955,8 +883,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func restoreEventDataStore(input: RestoreEventDataStoreInput) async throws -> RestoreEventDataStoreOutput
-    /// Performs the `StartEventDataStoreIngestion` operation on the `CloudTrail_20131101` service.
-    ///
     /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must be Management, Data, or ConfigurationItem.
     ///
     /// - Parameter StartEventDataStoreIngestionInput : [no documentation found]
@@ -977,8 +903,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func startEventDataStoreIngestion(input: StartEventDataStoreIngestionInput) async throws -> StartEventDataStoreIngestionOutput
-    /// Performs the `StartImport` operation on the `CloudTrail_20131101` service.
-    ///
     /// Starts an import of logged trail events from a source S3 bucket to a destination event data store. By default, CloudTrail only imports events contained in the S3 bucket's CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check prefixes for other Amazon Web Services services. If you want to import CloudTrail events contained in another prefix, you must include the prefix in the S3LocationUri. For more considerations about importing trail events, see [Considerations](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-copy-trail-to-lake.html#cloudtrail-trail-copy-considerations). When you start a new import, the Destinations and ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html). When you retry an import, the ImportID parameter is required. If the destination event data store is for an organization, you must use the management account to import trail events. You cannot use the delegated administrator account for the organization.
     ///
     /// - Parameter StartImportInput : [no documentation found]
@@ -1001,8 +925,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func startImport(input: StartImportInput) async throws -> StartImportOutput
-    /// Performs the `StartLogging` operation on the `CloudTrail_20131101` service.
-    ///
     /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     ///
     /// - Parameter StartLoggingInput : The request to CloudTrail to start logging Amazon Web Services API calls for an account.
@@ -1034,8 +956,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutput
-    /// Performs the `StartQuery` operation on the `CloudTrail_20131101` service.
-    ///
     /// Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket. StartQuery requires you specify either the QueryStatement parameter, or a QueryAlias and any QueryParameters. In the current release, the QueryAlias and QueryParameters parameters are used only for the queries that populate the CloudTrail Lake dashboards.
     ///
     /// - Parameter StartQueryInput : [no documentation found]
@@ -1060,8 +980,6 @@ public protocol CloudTrailClientProtocol {
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func startQuery(input: StartQueryInput) async throws -> StartQueryOutput
-    /// Performs the `StopEventDataStoreIngestion` operation on the `CloudTrail_20131101` service.
-    ///
     /// Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED and the eventCategory must be Management, Data, or ConfigurationItem.
     ///
     /// - Parameter StopEventDataStoreIngestionInput : [no documentation found]
@@ -1082,8 +1000,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func stopEventDataStoreIngestion(input: StopEventDataStoreIngestionInput) async throws -> StopEventDataStoreIngestionOutput
-    /// Performs the `StopImport` operation on the `CloudTrail_20131101` service.
-    ///
     /// Stops a specified import.
     ///
     /// - Parameter StopImportInput : [no documentation found]
@@ -1098,8 +1014,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func stopImport(input: StopImportInput) async throws -> StopImportOutput
-    /// Performs the `StopLogging` operation on the `CloudTrail_20131101` service.
-    ///
     /// Suspends the recording of Amazon Web Services API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all Regions, this operation must be called from the Region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail enabled in all Regions.
     ///
     /// - Parameter StopLoggingInput : Passes the request to CloudTrail to stop logging Amazon Web Services API calls for the specified account.
@@ -1131,8 +1045,6 @@ public protocol CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutput
-    /// Performs the `UpdateChannel` operation on the `CloudTrail_20131101` service.
-    ///
     /// Updates a channel specified by a required channel ARN or UUID.
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]
@@ -1153,8 +1065,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    /// Performs the `UpdateEventDataStore` operation on the `CloudTrail_20131101` service.
-    ///
     /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 90 and 2557. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and data events in your event data store. For more information about AdvancedEventSelectors, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html). For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     ///
     /// - Parameter UpdateEventDataStoreInput : [no documentation found]
@@ -1192,8 +1102,6 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func updateEventDataStore(input: UpdateEventDataStoreInput) async throws -> UpdateEventDataStoreOutput
-    /// Performs the `UpdateTrail` operation on the `CloudTrail_20131101` service.
-    ///
     /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
     ///
     /// - Parameter UpdateTrailInput : Specifies settings to update for the trail.

@@ -12,7 +12,7 @@ extension RDSClient {
     ///     - input: A `[DescribeBlueGreenDeploymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBlueGreenDeploymentsOutput`
     public func describeBlueGreenDeploymentsPaginated(input: DescribeBlueGreenDeploymentsInput) -> ClientRuntime.PaginatorSequence<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeBlueGreenDeployments(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutput>(input: input, inputKey: \DescribeBlueGreenDeploymentsInput.marker, outputKey: \DescribeBlueGreenDeploymentsOutput.marker, paginationFunction: self.describeBlueGreenDeployments(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeBlueGreenDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeBlueGreenDeploymentsInput, OperationStackOutput == DescribeBlueGreenDeploymentsOutput {
+extension PaginatorSequence where Input == DescribeBlueGreenDeploymentsInput, Output == DescribeBlueGreenDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBlueGreenDeploymentsPaginated`
     /// to access the nested member `[RDSClientTypes.BlueGreenDeployment]`
     /// - Returns: `[RDSClientTypes.BlueGreenDeployment]`
@@ -44,7 +44,7 @@ extension RDSClient {
     ///     - input: A `[DescribeCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCertificatesOutput`
     public func describeCertificatesPaginated(input: DescribeCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCertificates(input:))
+        return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput>(input: input, inputKey: \DescribeCertificatesInput.marker, outputKey: \DescribeCertificatesOutput.marker, paginationFunction: self.describeCertificates(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension DescribeCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeCertificatesInput, OperationStackOutput == DescribeCertificatesOutput {
+extension PaginatorSequence where Input == DescribeCertificatesInput, Output == DescribeCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCertificatesPaginated`
     /// to access the nested member `[RDSClientTypes.Certificate]`
     /// - Returns: `[RDSClientTypes.Certificate]`
@@ -76,7 +76,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClusterAutomatedBackupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterAutomatedBackupsOutput`
     public func describeDBClusterAutomatedBackupsPaginated(input: DescribeDBClusterAutomatedBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterAutomatedBackups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutput>(input: input, inputKey: \DescribeDBClusterAutomatedBackupsInput.marker, outputKey: \DescribeDBClusterAutomatedBackupsOutput.marker, paginationFunction: self.describeDBClusterAutomatedBackups(input:))
     }
 }
 
@@ -91,7 +91,7 @@ extension DescribeDBClusterAutomatedBackupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterAutomatedBackupsInput, OperationStackOutput == DescribeDBClusterAutomatedBackupsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterAutomatedBackupsInput, Output == DescribeDBClusterAutomatedBackupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterAutomatedBackupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBClusterAutomatedBackup]`
     /// - Returns: `[RDSClientTypes.DBClusterAutomatedBackup]`
@@ -109,7 +109,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClusterBacktracksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterBacktracksOutput`
     public func describeDBClusterBacktracksPaginated(input: DescribeDBClusterBacktracksInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterBacktracks(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutput>(input: input, inputKey: \DescribeDBClusterBacktracksInput.marker, outputKey: \DescribeDBClusterBacktracksOutput.marker, paginationFunction: self.describeDBClusterBacktracks(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension DescribeDBClusterBacktracksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterBacktracksInput, OperationStackOutput == DescribeDBClusterBacktracksOutput {
+extension PaginatorSequence where Input == DescribeDBClusterBacktracksInput, Output == DescribeDBClusterBacktracksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterBacktracksPaginated`
     /// to access the nested member `[RDSClientTypes.DBClusterBacktrack]`
     /// - Returns: `[RDSClientTypes.DBClusterBacktrack]`
@@ -142,7 +142,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClusterEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterEndpointsOutput`
     public func describeDBClusterEndpointsPaginated(input: DescribeDBClusterEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(input: input, inputKey: \DescribeDBClusterEndpointsInput.marker, outputKey: \DescribeDBClusterEndpointsOutput.marker, paginationFunction: self.describeDBClusterEndpoints(input:))
     }
 }
 
@@ -157,7 +157,7 @@ extension DescribeDBClusterEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterEndpointsInput, OperationStackOutput == DescribeDBClusterEndpointsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterEndpointsInput, Output == DescribeDBClusterEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterEndpointsPaginated`
     /// to access the nested member `[RDSClientTypes.DBClusterEndpoint]`
     /// - Returns: `[RDSClientTypes.DBClusterEndpoint]`
@@ -175,7 +175,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClusterParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutput`
     public func describeDBClusterParameterGroupsPaginated(input: DescribeDBClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \DescribeDBClusterParameterGroupsInput.marker, outputKey: \DescribeDBClusterParameterGroupsOutput.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
     }
 }
 
@@ -189,7 +189,7 @@ extension DescribeDBClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterParameterGroupsInput, OperationStackOutput == DescribeDBClusterParameterGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput, Output == DescribeDBClusterParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParameterGroupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBClusterParameterGroup]`
     /// - Returns: `[RDSClientTypes.DBClusterParameterGroup]`
@@ -207,7 +207,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClusterParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutput`
     public func describeDBClusterParametersPaginated(input: DescribeDBClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \DescribeDBClusterParametersInput.marker, outputKey: \DescribeDBClusterParametersOutput.marker, paginationFunction: self.describeDBClusterParameters(input:))
     }
 }
 
@@ -222,7 +222,7 @@ extension DescribeDBClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterParametersInput, OperationStackOutput == DescribeDBClusterParametersOutput {
+extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Output == DescribeDBClusterParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParametersPaginated`
     /// to access the nested member `[RDSClientTypes.Parameter]`
     /// - Returns: `[RDSClientTypes.Parameter]`
@@ -240,7 +240,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutput`
     public func describeDBClustersPaginated(input: DescribeDBClustersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \DescribeDBClustersInput.marker, outputKey: \DescribeDBClustersOutput.marker, paginationFunction: self.describeDBClusters(input:))
     }
 }
 
@@ -255,7 +255,7 @@ extension DescribeDBClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClustersInput, OperationStackOutput == DescribeDBClustersOutput {
+extension PaginatorSequence where Input == DescribeDBClustersInput, Output == DescribeDBClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClustersPaginated`
     /// to access the nested member `[RDSClientTypes.DBCluster]`
     /// - Returns: `[RDSClientTypes.DBCluster]`
@@ -273,7 +273,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBClusterSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutput`
     public func describeDBClusterSnapshotsPaginated(input: DescribeDBClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \DescribeDBClusterSnapshotsInput.marker, outputKey: \DescribeDBClusterSnapshotsOutput.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
     }
 }
 
@@ -292,7 +292,7 @@ extension DescribeDBClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterSnapshotsInput, OperationStackOutput == DescribeDBClusterSnapshotsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Output == DescribeDBClusterSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterSnapshotsPaginated`
     /// to access the nested member `[RDSClientTypes.DBClusterSnapshot]`
     /// - Returns: `[RDSClientTypes.DBClusterSnapshot]`
@@ -310,7 +310,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutput`
     public func describeDBEngineVersionsPaginated(input: DescribeDBEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBEngineVersions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \DescribeDBEngineVersionsInput.marker, outputKey: \DescribeDBEngineVersionsOutput.marker, paginationFunction: self.describeDBEngineVersions(input:))
     }
 }
 
@@ -330,7 +330,7 @@ extension DescribeDBEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBEngineVersionsInput, OperationStackOutput == DescribeDBEngineVersionsOutput {
+extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output == DescribeDBEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBEngineVersionsPaginated`
     /// to access the nested member `[RDSClientTypes.DBEngineVersion]`
     /// - Returns: `[RDSClientTypes.DBEngineVersion]`
@@ -348,7 +348,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBInstanceAutomatedBackupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstanceAutomatedBackupsOutput`
     public func describeDBInstanceAutomatedBackupsPaginated(input: DescribeDBInstanceAutomatedBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBInstanceAutomatedBackups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutput>(input: input, inputKey: \DescribeDBInstanceAutomatedBackupsInput.marker, outputKey: \DescribeDBInstanceAutomatedBackupsOutput.marker, paginationFunction: self.describeDBInstanceAutomatedBackups(input:))
     }
 }
 
@@ -364,7 +364,7 @@ extension DescribeDBInstanceAutomatedBackupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBInstanceAutomatedBackupsInput, OperationStackOutput == DescribeDBInstanceAutomatedBackupsOutput {
+extension PaginatorSequence where Input == DescribeDBInstanceAutomatedBackupsInput, Output == DescribeDBInstanceAutomatedBackupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBInstanceAutomatedBackupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBInstanceAutomatedBackup]`
     /// - Returns: `[RDSClientTypes.DBInstanceAutomatedBackup]`
@@ -382,7 +382,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutput`
     public func describeDBInstancesPaginated(input: DescribeDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBInstances(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \DescribeDBInstancesInput.marker, outputKey: \DescribeDBInstancesOutput.marker, paginationFunction: self.describeDBInstances(input:))
     }
 }
 
@@ -396,7 +396,7 @@ extension DescribeDBInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBInstancesInput, OperationStackOutput == DescribeDBInstancesOutput {
+extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == DescribeDBInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBInstancesPaginated`
     /// to access the nested member `[RDSClientTypes.DBInstance]`
     /// - Returns: `[RDSClientTypes.DBInstance]`
@@ -414,7 +414,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBLogFilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBLogFilesOutput`
     public func describeDBLogFilesPaginated(input: DescribeDBLogFilesInput) -> ClientRuntime.PaginatorSequence<DescribeDBLogFilesInput, DescribeDBLogFilesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBLogFilesInput, DescribeDBLogFilesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBLogFiles(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBLogFilesInput, DescribeDBLogFilesOutput>(input: input, inputKey: \DescribeDBLogFilesInput.marker, outputKey: \DescribeDBLogFilesOutput.marker, paginationFunction: self.describeDBLogFiles(input:))
     }
 }
 
@@ -431,7 +431,7 @@ extension DescribeDBLogFilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBLogFilesInput, OperationStackOutput == DescribeDBLogFilesOutput {
+extension PaginatorSequence where Input == DescribeDBLogFilesInput, Output == DescribeDBLogFilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBLogFilesPaginated`
     /// to access the nested member `[RDSClientTypes.DescribeDBLogFilesDetails]`
     /// - Returns: `[RDSClientTypes.DescribeDBLogFilesDetails]`
@@ -449,7 +449,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParameterGroupsOutput`
     public func describeDBParameterGroupsPaginated(input: DescribeDBParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBParameterGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(input: input, inputKey: \DescribeDBParameterGroupsInput.marker, outputKey: \DescribeDBParameterGroupsOutput.marker, paginationFunction: self.describeDBParameterGroups(input:))
     }
 }
 
@@ -463,7 +463,7 @@ extension DescribeDBParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBParameterGroupsInput, OperationStackOutput == DescribeDBParameterGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBParameterGroupsInput, Output == DescribeDBParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBParameterGroupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBParameterGroup]`
     /// - Returns: `[RDSClientTypes.DBParameterGroup]`
@@ -481,7 +481,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParametersOutput`
     public func describeDBParametersPaginated(input: DescribeDBParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput>(input: input, inputKey: \DescribeDBParametersInput.marker, outputKey: \DescribeDBParametersOutput.marker, paginationFunction: self.describeDBParameters(input:))
     }
 }
 
@@ -496,7 +496,7 @@ extension DescribeDBParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBParametersInput, OperationStackOutput == DescribeDBParametersOutput {
+extension PaginatorSequence where Input == DescribeDBParametersInput, Output == DescribeDBParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBParametersPaginated`
     /// to access the nested member `[RDSClientTypes.Parameter]`
     /// - Returns: `[RDSClientTypes.Parameter]`
@@ -514,7 +514,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBProxiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBProxiesOutput`
     public func describeDBProxiesPaginated(input: DescribeDBProxiesInput) -> ClientRuntime.PaginatorSequence<DescribeDBProxiesInput, DescribeDBProxiesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBProxiesInput, DescribeDBProxiesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBProxies(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBProxiesInput, DescribeDBProxiesOutput>(input: input, inputKey: \DescribeDBProxiesInput.marker, outputKey: \DescribeDBProxiesOutput.marker, paginationFunction: self.describeDBProxies(input:))
     }
 }
 
@@ -528,7 +528,7 @@ extension DescribeDBProxiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBProxiesInput, OperationStackOutput == DescribeDBProxiesOutput {
+extension PaginatorSequence where Input == DescribeDBProxiesInput, Output == DescribeDBProxiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBProxiesPaginated`
     /// to access the nested member `[RDSClientTypes.DBProxy]`
     /// - Returns: `[RDSClientTypes.DBProxy]`
@@ -546,7 +546,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBProxyEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBProxyEndpointsOutput`
     public func describeDBProxyEndpointsPaginated(input: DescribeDBProxyEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBProxyEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutput>(input: input, inputKey: \DescribeDBProxyEndpointsInput.marker, outputKey: \DescribeDBProxyEndpointsOutput.marker, paginationFunction: self.describeDBProxyEndpoints(input:))
     }
 }
 
@@ -561,7 +561,7 @@ extension DescribeDBProxyEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBProxyEndpointsInput, OperationStackOutput == DescribeDBProxyEndpointsOutput {
+extension PaginatorSequence where Input == DescribeDBProxyEndpointsInput, Output == DescribeDBProxyEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBProxyEndpointsPaginated`
     /// to access the nested member `[RDSClientTypes.DBProxyEndpoint]`
     /// - Returns: `[RDSClientTypes.DBProxyEndpoint]`
@@ -579,7 +579,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBProxyTargetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBProxyTargetGroupsOutput`
     public func describeDBProxyTargetGroupsPaginated(input: DescribeDBProxyTargetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBProxyTargetGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutput>(input: input, inputKey: \DescribeDBProxyTargetGroupsInput.marker, outputKey: \DescribeDBProxyTargetGroupsOutput.marker, paginationFunction: self.describeDBProxyTargetGroups(input:))
     }
 }
 
@@ -594,7 +594,7 @@ extension DescribeDBProxyTargetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBProxyTargetGroupsInput, OperationStackOutput == DescribeDBProxyTargetGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBProxyTargetGroupsInput, Output == DescribeDBProxyTargetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBProxyTargetGroupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBProxyTargetGroup]`
     /// - Returns: `[RDSClientTypes.DBProxyTargetGroup]`
@@ -612,7 +612,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBProxyTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBProxyTargetsOutput`
     public func describeDBProxyTargetsPaginated(input: DescribeDBProxyTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBProxyTargets(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutput>(input: input, inputKey: \DescribeDBProxyTargetsInput.marker, outputKey: \DescribeDBProxyTargetsOutput.marker, paginationFunction: self.describeDBProxyTargets(input:))
     }
 }
 
@@ -627,7 +627,7 @@ extension DescribeDBProxyTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBProxyTargetsInput, OperationStackOutput == DescribeDBProxyTargetsOutput {
+extension PaginatorSequence where Input == DescribeDBProxyTargetsInput, Output == DescribeDBProxyTargetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBProxyTargetsPaginated`
     /// to access the nested member `[RDSClientTypes.DBProxyTarget]`
     /// - Returns: `[RDSClientTypes.DBProxyTarget]`
@@ -645,7 +645,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBSecurityGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSecurityGroupsOutput`
     public func describeDBSecurityGroupsPaginated(input: DescribeDBSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBSecurityGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutput>(input: input, inputKey: \DescribeDBSecurityGroupsInput.marker, outputKey: \DescribeDBSecurityGroupsOutput.marker, paginationFunction: self.describeDBSecurityGroups(input:))
     }
 }
 
@@ -659,7 +659,7 @@ extension DescribeDBSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBSecurityGroupsInput, OperationStackOutput == DescribeDBSecurityGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBSecurityGroupsInput, Output == DescribeDBSecurityGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBSecurityGroupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBSecurityGroup]`
     /// - Returns: `[RDSClientTypes.DBSecurityGroup]`
@@ -677,7 +677,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSnapshotsOutput`
     public func describeDBSnapshotsPaginated(input: DescribeDBSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(input: input, inputKey: \DescribeDBSnapshotsInput.marker, outputKey: \DescribeDBSnapshotsOutput.marker, paginationFunction: self.describeDBSnapshots(input:))
     }
 }
 
@@ -696,7 +696,7 @@ extension DescribeDBSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBSnapshotsInput, OperationStackOutput == DescribeDBSnapshotsOutput {
+extension PaginatorSequence where Input == DescribeDBSnapshotsInput, Output == DescribeDBSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBSnapshotsPaginated`
     /// to access the nested member `[RDSClientTypes.DBSnapshot]`
     /// - Returns: `[RDSClientTypes.DBSnapshot]`
@@ -714,7 +714,7 @@ extension RDSClient {
     ///     - input: A `[DescribeDBSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutput`
     public func describeDBSubnetGroupsPaginated(input: DescribeDBSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBSubnetGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \DescribeDBSubnetGroupsInput.marker, outputKey: \DescribeDBSubnetGroupsOutput.marker, paginationFunction: self.describeDBSubnetGroups(input:))
     }
 }
 
@@ -728,7 +728,7 @@ extension DescribeDBSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBSubnetGroupsInput, OperationStackOutput == DescribeDBSubnetGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output == DescribeDBSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBSubnetGroupsPaginated`
     /// to access the nested member `[RDSClientTypes.DBSubnetGroup]`
     /// - Returns: `[RDSClientTypes.DBSubnetGroup]`
@@ -746,7 +746,7 @@ extension RDSClient {
     ///     - input: A `[DescribeEngineDefaultParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutput`
     public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \.marker, outputKey: \.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutput.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
     }
 }
 
@@ -760,7 +760,7 @@ extension DescribeEngineDefaultParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEngineDefaultParametersInput, OperationStackOutput == DescribeEngineDefaultParametersOutput {
+extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineDefaultParametersPaginated`
     /// to access the nested member `[RDSClientTypes.Parameter]`
     /// - Returns: `[RDSClientTypes.Parameter]`
@@ -778,7 +778,7 @@ extension RDSClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEvents(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -797,7 +797,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[RDSClientTypes.Event]`
     /// - Returns: `[RDSClientTypes.Event]`
@@ -815,7 +815,7 @@ extension RDSClient {
     ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutput`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEventSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutput.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
 }
 
@@ -829,7 +829,7 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEventSubscriptionsInput, OperationStackOutput == DescribeEventSubscriptionsOutput {
+extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
     /// to access the nested member `[RDSClientTypes.EventSubscription]`
     /// - Returns: `[RDSClientTypes.EventSubscription]`
@@ -847,7 +847,7 @@ extension RDSClient {
     ///     - input: A `[DescribeExportTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeExportTasksOutput`
     public func describeExportTasksPaginated(input: DescribeExportTasksInput) -> ClientRuntime.PaginatorSequence<DescribeExportTasksInput, DescribeExportTasksOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeExportTasksInput, DescribeExportTasksOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeExportTasks(input:))
+        return ClientRuntime.PaginatorSequence<DescribeExportTasksInput, DescribeExportTasksOutput>(input: input, inputKey: \DescribeExportTasksInput.marker, outputKey: \DescribeExportTasksOutput.marker, paginationFunction: self.describeExportTasks(input:))
     }
 }
 
@@ -863,7 +863,7 @@ extension DescribeExportTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeExportTasksInput, OperationStackOutput == DescribeExportTasksOutput {
+extension PaginatorSequence where Input == DescribeExportTasksInput, Output == DescribeExportTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeExportTasksPaginated`
     /// to access the nested member `[RDSClientTypes.ExportTask]`
     /// - Returns: `[RDSClientTypes.ExportTask]`
@@ -881,7 +881,7 @@ extension RDSClient {
     ///     - input: A `[DescribeGlobalClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutput`
     public func describeGlobalClustersPaginated(input: DescribeGlobalClustersInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeGlobalClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \DescribeGlobalClustersInput.marker, outputKey: \DescribeGlobalClustersOutput.marker, paginationFunction: self.describeGlobalClusters(input:))
     }
 }
 
@@ -895,7 +895,7 @@ extension DescribeGlobalClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeGlobalClustersInput, OperationStackOutput == DescribeGlobalClustersOutput {
+extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output == DescribeGlobalClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalClustersPaginated`
     /// to access the nested member `[RDSClientTypes.GlobalCluster]`
     /// - Returns: `[RDSClientTypes.GlobalCluster]`
@@ -913,7 +913,7 @@ extension RDSClient {
     ///     - input: A `[DescribeIntegrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIntegrationsOutput`
     public func describeIntegrationsPaginated(input: DescribeIntegrationsInput) -> ClientRuntime.PaginatorSequence<DescribeIntegrationsInput, DescribeIntegrationsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeIntegrationsInput, DescribeIntegrationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeIntegrations(input:))
+        return ClientRuntime.PaginatorSequence<DescribeIntegrationsInput, DescribeIntegrationsOutput>(input: input, inputKey: \DescribeIntegrationsInput.marker, outputKey: \DescribeIntegrationsOutput.marker, paginationFunction: self.describeIntegrations(input:))
     }
 }
 
@@ -927,7 +927,7 @@ extension DescribeIntegrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeIntegrationsInput, OperationStackOutput == DescribeIntegrationsOutput {
+extension PaginatorSequence where Input == DescribeIntegrationsInput, Output == DescribeIntegrationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeIntegrationsPaginated`
     /// to access the nested member `[RDSClientTypes.Integration]`
     /// - Returns: `[RDSClientTypes.Integration]`
@@ -945,7 +945,7 @@ extension RDSClient {
     ///     - input: A `[DescribeOptionGroupOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOptionGroupOptionsOutput`
     public func describeOptionGroupOptionsPaginated(input: DescribeOptionGroupOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOptionGroupOptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutput>(input: input, inputKey: \DescribeOptionGroupOptionsInput.marker, outputKey: \DescribeOptionGroupOptionsOutput.marker, paginationFunction: self.describeOptionGroupOptions(input:))
     }
 }
 
@@ -960,7 +960,7 @@ extension DescribeOptionGroupOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeOptionGroupOptionsInput, OperationStackOutput == DescribeOptionGroupOptionsOutput {
+extension PaginatorSequence where Input == DescribeOptionGroupOptionsInput, Output == DescribeOptionGroupOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOptionGroupOptionsPaginated`
     /// to access the nested member `[RDSClientTypes.OptionGroupOption]`
     /// - Returns: `[RDSClientTypes.OptionGroupOption]`
@@ -978,7 +978,7 @@ extension RDSClient {
     ///     - input: A `[DescribeOptionGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOptionGroupsOutput`
     public func describeOptionGroupsPaginated(input: DescribeOptionGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeOptionGroupsInput, DescribeOptionGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOptionGroupsInput, DescribeOptionGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOptionGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOptionGroupsInput, DescribeOptionGroupsOutput>(input: input, inputKey: \DescribeOptionGroupsInput.marker, outputKey: \DescribeOptionGroupsOutput.marker, paginationFunction: self.describeOptionGroups(input:))
     }
 }
 
@@ -994,7 +994,7 @@ extension DescribeOptionGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeOptionGroupsInput, OperationStackOutput == DescribeOptionGroupsOutput {
+extension PaginatorSequence where Input == DescribeOptionGroupsInput, Output == DescribeOptionGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOptionGroupsPaginated`
     /// to access the nested member `[RDSClientTypes.OptionGroup]`
     /// - Returns: `[RDSClientTypes.OptionGroup]`
@@ -1012,7 +1012,7 @@ extension RDSClient {
     ///     - input: A `[DescribeOrderableDBInstanceOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutput`
     public func describeOrderableDBInstanceOptionsPaginated(input: DescribeOrderableDBInstanceOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \DescribeOrderableDBInstanceOptionsInput.marker, outputKey: \DescribeOrderableDBInstanceOptionsOutput.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
     }
 }
 
@@ -1031,7 +1031,7 @@ extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeOrderableDBInstanceOptionsInput, OperationStackOutput == DescribeOrderableDBInstanceOptionsOutput {
+extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInput, Output == DescribeOrderableDBInstanceOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOrderableDBInstanceOptionsPaginated`
     /// to access the nested member `[RDSClientTypes.OrderableDBInstanceOption]`
     /// - Returns: `[RDSClientTypes.OrderableDBInstanceOption]`
@@ -1049,7 +1049,7 @@ extension RDSClient {
     ///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutput`
     public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
+        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutput.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
     }
 }
 
@@ -1063,7 +1063,7 @@ extension DescribePendingMaintenanceActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribePendingMaintenanceActionsInput, OperationStackOutput == DescribePendingMaintenanceActionsOutput {
+extension PaginatorSequence where Input == DescribePendingMaintenanceActionsInput, Output == DescribePendingMaintenanceActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePendingMaintenanceActionsPaginated`
     /// to access the nested member `[RDSClientTypes.ResourcePendingMaintenanceActions]`
     /// - Returns: `[RDSClientTypes.ResourcePendingMaintenanceActions]`
@@ -1081,7 +1081,7 @@ extension RDSClient {
     ///     - input: A `[DescribeReservedDBInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedDBInstancesOutput`
     public func describeReservedDBInstancesPaginated(input: DescribeReservedDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedDBInstances(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutput>(input: input, inputKey: \DescribeReservedDBInstancesInput.marker, outputKey: \DescribeReservedDBInstancesOutput.marker, paginationFunction: self.describeReservedDBInstances(input:))
     }
 }
 
@@ -1102,7 +1102,7 @@ extension DescribeReservedDBInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeReservedDBInstancesInput, OperationStackOutput == DescribeReservedDBInstancesOutput {
+extension PaginatorSequence where Input == DescribeReservedDBInstancesInput, Output == DescribeReservedDBInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedDBInstancesPaginated`
     /// to access the nested member `[RDSClientTypes.ReservedDBInstance]`
     /// - Returns: `[RDSClientTypes.ReservedDBInstance]`
@@ -1120,7 +1120,7 @@ extension RDSClient {
     ///     - input: A `[DescribeReservedDBInstancesOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedDBInstancesOfferingsOutput`
     public func describeReservedDBInstancesOfferingsPaginated(input: DescribeReservedDBInstancesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedDBInstancesOfferings(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutput>(input: input, inputKey: \DescribeReservedDBInstancesOfferingsInput.marker, outputKey: \DescribeReservedDBInstancesOfferingsOutput.marker, paginationFunction: self.describeReservedDBInstancesOfferings(input:))
     }
 }
 
@@ -1139,7 +1139,7 @@ extension DescribeReservedDBInstancesOfferingsInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeReservedDBInstancesOfferingsInput, OperationStackOutput == DescribeReservedDBInstancesOfferingsOutput {
+extension PaginatorSequence where Input == DescribeReservedDBInstancesOfferingsInput, Output == DescribeReservedDBInstancesOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedDBInstancesOfferingsPaginated`
     /// to access the nested member `[RDSClientTypes.ReservedDBInstancesOffering]`
     /// - Returns: `[RDSClientTypes.ReservedDBInstancesOffering]`
@@ -1157,7 +1157,7 @@ extension RDSClient {
     ///     - input: A `[DescribeSourceRegionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSourceRegionsOutput`
     public func describeSourceRegionsPaginated(input: DescribeSourceRegionsInput) -> ClientRuntime.PaginatorSequence<DescribeSourceRegionsInput, DescribeSourceRegionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSourceRegionsInput, DescribeSourceRegionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeSourceRegions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSourceRegionsInput, DescribeSourceRegionsOutput>(input: input, inputKey: \DescribeSourceRegionsInput.marker, outputKey: \DescribeSourceRegionsOutput.marker, paginationFunction: self.describeSourceRegions(input:))
     }
 }
 
@@ -1171,7 +1171,7 @@ extension DescribeSourceRegionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeSourceRegionsInput, OperationStackOutput == DescribeSourceRegionsOutput {
+extension PaginatorSequence where Input == DescribeSourceRegionsInput, Output == DescribeSourceRegionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSourceRegionsPaginated`
     /// to access the nested member `[RDSClientTypes.SourceRegion]`
     /// - Returns: `[RDSClientTypes.SourceRegion]`
@@ -1189,7 +1189,7 @@ extension RDSClient {
     ///     - input: A `[DownloadDBLogFilePortionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DownloadDBLogFilePortionOutput`
     public func downloadDBLogFilePortionPaginated(input: DownloadDBLogFilePortionInput) -> ClientRuntime.PaginatorSequence<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutput> {
-        return ClientRuntime.PaginatorSequence<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.downloadDBLogFilePortion(input:))
+        return ClientRuntime.PaginatorSequence<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutput>(input: input, inputKey: \DownloadDBLogFilePortionInput.marker, outputKey: \DownloadDBLogFilePortionOutput.marker, paginationFunction: self.downloadDBLogFilePortion(input:))
     }
 }
 

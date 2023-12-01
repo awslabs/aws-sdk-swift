@@ -12,7 +12,7 @@ extension OpenSearchClient {
     ///     - input: A `[DescribeDomainAutoTunesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainAutoTunesOutput`
     public func describeDomainAutoTunesPaginated(input: DescribeDomainAutoTunesInput) -> ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(input: input, inputKey: \DescribeDomainAutoTunesInput.nextToken, outputKey: \DescribeDomainAutoTunesOutput.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension OpenSearchClient {
     ///     - input: A `[DescribeInboundConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundConnectionsOutput`
     public func describeInboundConnectionsPaginated(input: DescribeInboundConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInboundConnections(input:))
+        return ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput>(input: input, inputKey: \DescribeInboundConnectionsInput.nextToken, outputKey: \DescribeInboundConnectionsOutput.nextToken, paginationFunction: self.describeInboundConnections(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension OpenSearchClient {
     ///     - input: A `[DescribeOutboundConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOutboundConnectionsOutput`
     public func describeOutboundConnectionsPaginated(input: DescribeOutboundConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOutboundConnections(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput>(input: input, inputKey: \DescribeOutboundConnectionsInput.nextToken, outputKey: \DescribeOutboundConnectionsOutput.nextToken, paginationFunction: self.describeOutboundConnections(input:))
     }
 }
 
@@ -78,7 +78,7 @@ extension OpenSearchClient {
     ///     - input: A `[DescribePackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePackagesOutput`
     public func describePackagesPaginated(input: DescribePackagesInput) -> ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePackages(input:))
+        return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput>(input: input, inputKey: \DescribePackagesInput.nextToken, outputKey: \DescribePackagesOutput.nextToken, paginationFunction: self.describePackages(input:))
     }
 }
 
@@ -100,7 +100,7 @@ extension OpenSearchClient {
     ///     - input: A `[DescribeReservedInstanceOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstanceOfferingsOutput`
     public func describeReservedInstanceOfferingsPaginated(input: DescribeReservedInstanceOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedInstanceOfferings(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput>(input: input, inputKey: \DescribeReservedInstanceOfferingsInput.nextToken, outputKey: \DescribeReservedInstanceOfferingsOutput.nextToken, paginationFunction: self.describeReservedInstanceOfferings(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension OpenSearchClient {
     ///     - input: A `[DescribeReservedInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstancesOutput`
     public func describeReservedInstancesPaginated(input: DescribeReservedInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedInstances(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutput>(input: input, inputKey: \DescribeReservedInstancesInput.nextToken, outputKey: \DescribeReservedInstancesOutput.nextToken, paginationFunction: self.describeReservedInstances(input:))
     }
 }
 
@@ -144,7 +144,7 @@ extension OpenSearchClient {
     ///     - input: A `[GetPackageVersionHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPackageVersionHistoryOutput`
     public func getPackageVersionHistoryPaginated(input: GetPackageVersionHistoryInput) -> ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput> {
-        return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
+        return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(input: input, inputKey: \GetPackageVersionHistoryInput.nextToken, outputKey: \GetPackageVersionHistoryOutput.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
     }
 }
 
@@ -166,7 +166,7 @@ extension OpenSearchClient {
     ///     - input: A `[GetUpgradeHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUpgradeHistoryOutput`
     public func getUpgradeHistoryPaginated(input: GetUpgradeHistoryInput) -> ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput> {
-        return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getUpgradeHistory(input:))
+        return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(input: input, inputKey: \GetUpgradeHistoryInput.nextToken, outputKey: \GetUpgradeHistoryOutput.nextToken, paginationFunction: self.getUpgradeHistory(input:))
     }
 }
 
@@ -188,7 +188,7 @@ extension OpenSearchClient {
     ///     - input: A `[ListDomainMaintenancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainMaintenancesOutput`
     public func listDomainMaintenancesPaginated(input: ListDomainMaintenancesInput) -> ClientRuntime.PaginatorSequence<ListDomainMaintenancesInput, ListDomainMaintenancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDomainMaintenancesInput, ListDomainMaintenancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainMaintenances(input:))
+        return ClientRuntime.PaginatorSequence<ListDomainMaintenancesInput, ListDomainMaintenancesOutput>(input: input, inputKey: \ListDomainMaintenancesInput.nextToken, outputKey: \ListDomainMaintenancesOutput.nextToken, paginationFunction: self.listDomainMaintenances(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension OpenSearchClient {
     ///     - input: A `[ListDomainsForPackageInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsForPackageOutput`
     public func listDomainsForPackagePaginated(input: ListDomainsForPackageInput) -> ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput> {
-        return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainsForPackage(input:))
+        return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput>(input: input, inputKey: \ListDomainsForPackageInput.nextToken, outputKey: \ListDomainsForPackageOutput.nextToken, paginationFunction: self.listDomainsForPackage(input:))
     }
 }
 
@@ -234,7 +234,7 @@ extension OpenSearchClient {
     ///     - input: A `[ListInstanceTypeDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceTypeDetailsOutput`
     public func listInstanceTypeDetailsPaginated(input: ListInstanceTypeDetailsInput) -> ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstanceTypeDetails(input:))
+        return ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput>(input: input, inputKey: \ListInstanceTypeDetailsInput.nextToken, outputKey: \ListInstanceTypeDetailsOutput.nextToken, paginationFunction: self.listInstanceTypeDetails(input:))
     }
 }
 
@@ -259,7 +259,7 @@ extension OpenSearchClient {
     ///     - input: A `[ListPackagesForDomainInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesForDomainOutput`
     public func listPackagesForDomainPaginated(input: ListPackagesForDomainInput) -> ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput> {
-        return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackagesForDomain(input:))
+        return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput>(input: input, inputKey: \ListPackagesForDomainInput.nextToken, outputKey: \ListPackagesForDomainOutput.nextToken, paginationFunction: self.listPackagesForDomain(input:))
     }
 }
 
@@ -281,7 +281,7 @@ extension OpenSearchClient {
     ///     - input: A `[ListScheduledActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledActionsOutput`
     public func listScheduledActionsPaginated(input: ListScheduledActionsInput) -> ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScheduledActions(input:))
+        return ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutput>(input: input, inputKey: \ListScheduledActionsInput.nextToken, outputKey: \ListScheduledActionsOutput.nextToken, paginationFunction: self.listScheduledActions(input:))
     }
 }
 
@@ -303,7 +303,7 @@ extension OpenSearchClient {
     ///     - input: A `[ListVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutput`
     public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \ListVersionsInput.nextToken, outputKey: \ListVersionsOutput.nextToken, paginationFunction: self.listVersions(input:))
     }
 }
 

@@ -12,7 +12,7 @@ extension Cloud9Client {
     ///     - input: A `[DescribeEnvironmentMembershipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEnvironmentMembershipsOutput`
     public func describeEnvironmentMembershipsPaginated(input: DescribeEnvironmentMembershipsInput) -> ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEnvironmentMemberships(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>(input: input, inputKey: \DescribeEnvironmentMembershipsInput.nextToken, outputKey: \DescribeEnvironmentMembershipsOutput.nextToken, paginationFunction: self.describeEnvironmentMemberships(input:))
     }
 }
 
@@ -36,7 +36,7 @@ extension Cloud9Client {
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
     public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironments(input:))
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 

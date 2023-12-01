@@ -12,7 +12,7 @@ extension CloudFrontClient {
     ///     - input: A `[ListCloudFrontOriginAccessIdentitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCloudFrontOriginAccessIdentitiesOutput`
     public func listCloudFrontOriginAccessIdentitiesPaginated(input: ListCloudFrontOriginAccessIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(input: input, inputKey: \.marker, outputKey: \.cloudFrontOriginAccessIdentityList?.nextMarker, paginationFunction: self.listCloudFrontOriginAccessIdentities(input:))
+        return ClientRuntime.PaginatorSequence<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(input: input, inputKey: \ListCloudFrontOriginAccessIdentitiesInput.marker, outputKey: \ListCloudFrontOriginAccessIdentitiesOutput.cloudFrontOriginAccessIdentityList?.nextMarker, paginationFunction: self.listCloudFrontOriginAccessIdentities(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListCloudFrontOriginAccessIdentitiesInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCloudFrontOriginAccessIdentitiesInput, OperationStackOutput == ListCloudFrontOriginAccessIdentitiesOutput {
+extension PaginatorSequence where Input == ListCloudFrontOriginAccessIdentitiesInput, Output == ListCloudFrontOriginAccessIdentitiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCloudFrontOriginAccessIdentitiesPaginated`
     /// to access the nested member `[CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary]`
     /// - Returns: `[CloudFrontClientTypes.CloudFrontOriginAccessIdentitySummary]`
@@ -42,7 +42,7 @@ extension CloudFrontClient {
     ///     - input: A `[ListDistributionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDistributionsOutput`
     public func listDistributionsPaginated(input: ListDistributionsInput) -> ClientRuntime.PaginatorSequence<ListDistributionsInput, ListDistributionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDistributionsInput, ListDistributionsOutput>(input: input, inputKey: \.marker, outputKey: \.distributionList?.nextMarker, paginationFunction: self.listDistributions(input:))
+        return ClientRuntime.PaginatorSequence<ListDistributionsInput, ListDistributionsOutput>(input: input, inputKey: \ListDistributionsInput.marker, outputKey: \ListDistributionsOutput.distributionList?.nextMarker, paginationFunction: self.listDistributions(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension ListDistributionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListDistributionsInput, OperationStackOutput == ListDistributionsOutput {
+extension PaginatorSequence where Input == ListDistributionsInput, Output == ListDistributionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDistributionsPaginated`
     /// to access the nested member `[CloudFrontClientTypes.DistributionSummary]`
     /// - Returns: `[CloudFrontClientTypes.DistributionSummary]`
@@ -72,7 +72,7 @@ extension CloudFrontClient {
     ///     - input: A `[ListInvalidationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvalidationsOutput`
     public func listInvalidationsPaginated(input: ListInvalidationsInput) -> ClientRuntime.PaginatorSequence<ListInvalidationsInput, ListInvalidationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInvalidationsInput, ListInvalidationsOutput>(input: input, inputKey: \.marker, outputKey: \.invalidationList?.nextMarker, paginationFunction: self.listInvalidations(input:))
+        return ClientRuntime.PaginatorSequence<ListInvalidationsInput, ListInvalidationsOutput>(input: input, inputKey: \ListInvalidationsInput.marker, outputKey: \ListInvalidationsOutput.invalidationList?.nextMarker, paginationFunction: self.listInvalidations(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListInvalidationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListInvalidationsInput, OperationStackOutput == ListInvalidationsOutput {
+extension PaginatorSequence where Input == ListInvalidationsInput, Output == ListInvalidationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInvalidationsPaginated`
     /// to access the nested member `[CloudFrontClientTypes.InvalidationSummary]`
     /// - Returns: `[CloudFrontClientTypes.InvalidationSummary]`
@@ -103,7 +103,7 @@ extension CloudFrontClient {
     ///     - input: A `[ListStreamingDistributionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamingDistributionsOutput`
     public func listStreamingDistributionsPaginated(input: ListStreamingDistributionsInput) -> ClientRuntime.PaginatorSequence<ListStreamingDistributionsInput, ListStreamingDistributionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(input: input, inputKey: \.marker, outputKey: \.streamingDistributionList?.nextMarker, paginationFunction: self.listStreamingDistributions(input:))
+        return ClientRuntime.PaginatorSequence<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(input: input, inputKey: \ListStreamingDistributionsInput.marker, outputKey: \ListStreamingDistributionsOutput.streamingDistributionList?.nextMarker, paginationFunction: self.listStreamingDistributions(input:))
     }
 }
 
@@ -115,7 +115,7 @@ extension ListStreamingDistributionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListStreamingDistributionsInput, OperationStackOutput == ListStreamingDistributionsOutput {
+extension PaginatorSequence where Input == ListStreamingDistributionsInput, Output == ListStreamingDistributionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStreamingDistributionsPaginated`
     /// to access the nested member `[CloudFrontClientTypes.StreamingDistributionSummary]`
     /// - Returns: `[CloudFrontClientTypes.StreamingDistributionSummary]`

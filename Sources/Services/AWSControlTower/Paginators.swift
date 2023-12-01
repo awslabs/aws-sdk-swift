@@ -12,7 +12,7 @@ extension ControlTowerClient {
     ///     - input: A `[ListEnabledControlsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnabledControlsOutput`
     public func listEnabledControlsPaginated(input: ListEnabledControlsInput) -> ClientRuntime.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnabledControls(input:))
+        return ClientRuntime.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutput>(input: input, inputKey: \ListEnabledControlsInput.nextToken, outputKey: \ListEnabledControlsOutput.nextToken, paginationFunction: self.listEnabledControls(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListEnabledControlsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListEnabledControlsInput, OperationStackOutput == ListEnabledControlsOutput {
+extension PaginatorSequence where Input == ListEnabledControlsInput, Output == ListEnabledControlsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnabledControlsPaginated`
     /// to access the nested member `[ControlTowerClientTypes.EnabledControlSummary]`
     /// - Returns: `[ControlTowerClientTypes.EnabledControlSummary]`

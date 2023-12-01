@@ -1213,7 +1213,7 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot: Swift.Codable {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let subSlotToElicit = self.subSlotToElicit {
-            try encodeContainer.encode(subSlotToElicit, forKey: .subSlotToElicit)
+            try encodeContainer.encode(subSlotToElicit.value, forKey: .subSlotToElicit)
         }
     }
 
@@ -1221,7 +1221,7 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let subSlotToElicitDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.ElicitSubSlot.self, forKey: .subSlotToElicit)
+        let subSlotToElicitDecoded = try containerValues.decodeIfPresent(Box<LexRuntimeV2ClientTypes.ElicitSubSlot>.self, forKey: .subSlotToElicit)
         subSlotToElicit = subSlotToElicitDecoded
     }
 }
@@ -1233,11 +1233,11 @@ extension LexRuntimeV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// The field is not supported.
-        @Indirect public var subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot?
+        public var subSlotToElicit: Box<LexRuntimeV2ClientTypes.ElicitSubSlot>?
 
         public init(
             name: Swift.String? = nil,
-            subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot? = nil
+            subSlotToElicit: Box<LexRuntimeV2ClientTypes.ElicitSubSlot>? = nil
         )
         {
             self.name = name
@@ -2662,6 +2662,31 @@ enum RecognizeTextOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct RecognizeUtteranceInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "RecognizeUtteranceInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<RecognizeUtteranceInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<RecognizeUtteranceOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let inputStream = input.operationInput.inputStream {
+            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
+            input.builder.withBody(inputStreamBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<RecognizeUtteranceInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<RecognizeUtteranceOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension RecognizeUtteranceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "RecognizeUtteranceInput(botAliasId: \(Swift.String(describing: botAliasId)), botId: \(Swift.String(describing: botId)), inputStream: \(Swift.String(describing: inputStream)), localeId: \(Swift.String(describing: localeId)), requestContentType: \(Swift.String(describing: requestContentType)), responseContentType: \(Swift.String(describing: responseContentType)), sessionId: \(Swift.String(describing: sessionId)), requestAttributes: \"CONTENT_REDACTED\", sessionState: \"CONTENT_REDACTED\")"}
@@ -3626,6 +3651,49 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
+public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "StartConversationInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<StartConversationInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartConversationOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let requestEventStream = input.operationInput.requestEventStream {
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: requestEventStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let requestEventStreamData = "{}".data(using: .utf8)!
+                    let requestEventStreamBody = ClientRuntime.HttpBody.data(requestEventStreamData)
+                    input.builder.withBody(requestEventStreamBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<StartConversationInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartConversationOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension StartConversationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -3737,27 +3805,27 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRun
         case .configurationevent(let value):
             headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .audioinputevent(let value):
             headers.append(.init(name: ":event-type", value: .string("AudioInputEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .dtmfinputevent(let value):
             headers.append(.init(name: ":event-type", value: .string("DTMFInputEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .textinputevent(let value):
             headers.append(.init(name: ":event-type", value: .string("TextInputEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .playbackcompletionevent(let value):
             headers.append(.init(name: ":event-type", value: .string("PlaybackCompletionEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .disconnectionevent(let value):
             headers.append(.init(name: ":event-type", value: .string("DisconnectionEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .sdkUnknown(_):
             throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
         }
@@ -3767,7 +3835,7 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRun
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a stream of events between your application and Amazon Lex V2.
-    public indirect enum StartConversationRequestEventStream: Swift.Equatable {
+    public enum StartConversationRequestEventStream: Swift.Equatable {
         /// Configuration information sent from your client application to Amazon Lex V2
         case configurationevent(LexRuntimeV2ClientTypes.ConfigurationEvent)
         /// Speech audio sent from your client application to Amazon Lex V2. Audio starts accumulating when Amazon Lex V2 identifies a voice and continues until a natural pause in the speech is found before processing.
@@ -3848,7 +3916,7 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream: ClientRu
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a stream of events between Amazon Lex V2 and your application.
-    public indirect enum StartConversationResponseEventStream: Swift.Equatable {
+    public enum StartConversationResponseEventStream: Swift.Equatable {
         /// Event sent from Amazon Lex V2 to indicate to the client application should stop playback of audio. For example, if the client is playing a prompt that asks for the user's telephone number, the user might start to say the phone number before the prompt is complete. Amazon Lex V2 sends this event to the client application to indicate that the user is responding and that Amazon Lex V2 is processing their input.
         case playbackinterruptionevent(LexRuntimeV2ClientTypes.PlaybackInterruptionEvent)
         /// Event sent from Amazon Lex V2 to your client application that contains a transcript of voice audio.

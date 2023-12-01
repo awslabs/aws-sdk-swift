@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Managed Grafana is a fully managed and secure data visualization service that you can use to instantly query, correlate, and visualize operational metrics, logs, and traces from multiple sources. Amazon Managed Grafana makes it easy to deploy, operate, and scale Grafana, a widely deployed data visualization tool that is popular for its extensible data support. With Amazon Managed Grafana, you create logically isolated Grafana servers called workspaces. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces without having to build, package, or deploy any hardware to run Grafana servers.
 public protocol GrafanaClientProtocol {
-    /// Performs the `AssociateLicense` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs additional fees. For more information, see [Upgrade a workspace to Grafana Enterprise](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html).
     ///
     /// - Parameter AssociateLicenseInput : [no documentation found]
@@ -21,8 +19,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func associateLicense(input: AssociateLicenseInput) async throws -> AssociateLicenseOutput
-    /// Performs the `CreateWorkspace` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Creates a workspace. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any hardware to run the Grafana server. Don't use CreateWorkspace to modify an existing workspace. Instead, use [UpdateWorkspace](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspace.html).
     ///
     /// - Parameter CreateWorkspaceInput : [no documentation found]
@@ -39,8 +35,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput
-    /// Performs the `CreateWorkspaceApiKey` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See [https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) for available APIs and example requests.
     ///
     /// - Parameter CreateWorkspaceApiKeyInput : [no documentation found]
@@ -58,8 +52,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func createWorkspaceApiKey(input: CreateWorkspaceApiKeyInput) async throws -> CreateWorkspaceApiKeyOutput
-    /// Performs the `DeleteWorkspace` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Deletes an Amazon Managed Grafana workspace.
     ///
     /// - Parameter DeleteWorkspaceInput : [no documentation found]
@@ -76,8 +68,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput
-    /// Performs the `DeleteWorkspaceApiKey` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Deletes a Grafana API key for the workspace.
     ///
     /// - Parameter DeleteWorkspaceApiKeyInput : [no documentation found]
@@ -94,8 +84,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func deleteWorkspaceApiKey(input: DeleteWorkspaceApiKeyInput) async throws -> DeleteWorkspaceApiKeyOutput
-    /// Performs the `DescribeWorkspace` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Displays information about one Amazon Managed Grafana workspace.
     ///
     /// - Parameter DescribeWorkspaceInput : [no documentation found]
@@ -111,8 +99,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutput
-    /// Performs the `DescribeWorkspaceAuthentication` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
     ///
     /// - Parameter DescribeWorkspaceAuthenticationInput : [no documentation found]
@@ -128,8 +114,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func describeWorkspaceAuthentication(input: DescribeWorkspaceAuthenticationInput) async throws -> DescribeWorkspaceAuthenticationOutput
-    /// Performs the `DescribeWorkspaceConfiguration` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Gets the current configuration string for the given workspace.
     ///
     /// - Parameter DescribeWorkspaceConfigurationInput : [no documentation found]
@@ -144,8 +128,6 @@ public protocol GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     func describeWorkspaceConfiguration(input: DescribeWorkspaceConfigurationInput) async throws -> DescribeWorkspaceConfigurationOutput
-    /// Performs the `DisassociateLicense` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Removes the Grafana Enterprise license from a workspace.
     ///
     /// - Parameter DisassociateLicenseInput : [no documentation found]
@@ -161,8 +143,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func disassociateLicense(input: DisassociateLicenseInput) async throws -> DisassociateLicenseOutput
-    /// Performs the `ListPermissions` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Lists the users and groups who have the Grafana Admin and Editor roles in this workspace. If you use this operation without specifying userId or groupId, the operation returns the roles of all users and groups. If you specify a userId or a groupId, only the roles for that user or group are returned. If you do this, you can specify only one userId or one groupId.
     ///
     /// - Parameter ListPermissionsInput : [no documentation found]
@@ -178,8 +158,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
-    /// Performs the `ListTagsForResource` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// The ListTagsForResource operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the resourceArn. Currently, the only resource that can be tagged is a workspace.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -195,8 +173,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListVersions` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Lists available versions of Grafana. These are available when calling CreateWorkspace. Optionally, include a workspace to list the versions to which it can be upgraded.
     ///
     /// - Parameter ListVersionsInput : [no documentation found]
@@ -212,8 +188,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutput
-    /// Performs the `ListWorkspaces` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/AAMG/latest/APIReference/API_DescribeWorkspace.html).
     ///
     /// - Parameter ListWorkspacesInput : [no documentation found]
@@ -227,8 +201,6 @@ public protocol GrafanaClientProtocol {
     /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput
-    /// Performs the `TagResource` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// The TagResource operation associates tags with an Amazon Managed Grafana resource. Currently, the only resource that can be tagged is workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -244,8 +216,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// The UntagResource operation removes the association of the tag with the Amazon Managed Grafana resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -261,8 +231,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdatePermissions` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Updates which users in a workspace have the Grafana Admin or Editor roles.
     ///
     /// - Parameter UpdatePermissionsInput : [no documentation found]
@@ -278,8 +246,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func updatePermissions(input: UpdatePermissionsInput) async throws -> UpdatePermissionsOutput
-    /// Performs the `UpdateWorkspace` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any optional parameters, the existing values of those parameters are not changed. To modify the user authentication methods that the workspace uses, such as SAML or IAM Identity Center, use [UpdateWorkspaceAuthentication](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspaceAuthentication.html). To modify which users in the workspace have the Admin and Editor Grafana roles, use [UpdatePermissions](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html).
     ///
     /// - Parameter UpdateWorkspaceInput : [no documentation found]
@@ -296,8 +262,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutput
-    /// Performs the `UpdateWorkspaceAuthentication` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace. Changes to the authentication method for a workspace may take a few minutes to take effect.
     ///
     /// - Parameter UpdateWorkspaceAuthenticationInput : [no documentation found]
@@ -314,8 +278,6 @@ public protocol GrafanaClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func updateWorkspaceAuthentication(input: UpdateWorkspaceAuthenticationInput) async throws -> UpdateWorkspaceAuthenticationOutput
-    /// Performs the `UpdateWorkspaceConfiguration` operation on the `AWSGrafanaControlPlane` service.
-    ///
     /// Updates the configuration string for the given workspace
     ///
     /// - Parameter UpdateWorkspaceConfigurationInput : [no documentation found]

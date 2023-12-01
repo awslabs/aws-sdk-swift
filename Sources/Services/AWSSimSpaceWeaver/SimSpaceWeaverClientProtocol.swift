@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// SimSpace Weaver (SimSpace Weaver) is a service that you can use to build and run large-scale spatial simulations in the Amazon Web Services Cloud. For example, you can create crowd simulations, large real-world environments, and immersive and interactive experiences. For more information about SimSpace Weaver, see the [SimSpace Weaver User Guide](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/) . This API reference describes the API operations and data types that you can use to communicate directly with SimSpace Weaver. SimSpace Weaver also provides the SimSpace Weaver app SDK, which you use for app development. The SimSpace Weaver app SDK API reference is included in the SimSpace Weaver app SDK documentation. This documentation is part of the SimSpace Weaver app SDK distributable package.
 public protocol SimSpaceWeaverClientProtocol {
-    /// Performs the `CreateSnapshot` operation on the `SimSpaceWeaver` service.
-    ///
     /// Creates a snapshot of the specified simulation. A snapshot is a file that contains simulation state data at a specific time. The state data saved in a snapshot includes entity data from the State Fabric, the simulation configuration specified in the schema, and the clock tick number. You can use the snapshot to initialize a new simulation. For more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html) in the SimSpace Weaver User Guide. You specify a Destination when you create a snapshot. The Destination is the name of an Amazon S3 bucket and an optional ObjectKeyPrefix. The ObjectKeyPrefix is usually the name of a folder in the bucket. SimSpace Weaver creates a snapshot folder inside the Destination and places the snapshot file there. The snapshot file is an Amazon S3 object. It has an object key with the form:  object-key-prefix/snapshot/simulation-name-YYMMdd-HHmm-ss.zip, where:
     ///
     /// * YY  is the 2-digit year
@@ -33,8 +31,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    /// Performs the `DeleteApp` operation on the `SimSpaceWeaver` service.
-    ///
     /// Deletes the instance of the given custom app.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
@@ -50,8 +46,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    /// Performs the `DeleteSimulation` operation on the `SimSpaceWeaver` service.
-    ///
     /// Deletes all SimSpace Weaver resources assigned to the given simulation. Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete resources in other Amazon Web Services.
     ///
     /// - Parameter DeleteSimulationInput : [no documentation found]
@@ -67,8 +61,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteSimulation(input: DeleteSimulationInput) async throws -> DeleteSimulationOutput
-    /// Performs the `DescribeApp` operation on the `SimSpaceWeaver` service.
-    ///
     /// Returns the state of the given custom app.
     ///
     /// - Parameter DescribeAppInput : [no documentation found]
@@ -83,8 +75,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
-    /// Performs the `DescribeSimulation` operation on the `SimSpaceWeaver` service.
-    ///
     /// Returns the current state of the given simulation.
     ///
     /// - Parameter DescribeSimulationInput : [no documentation found]
@@ -99,8 +89,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func describeSimulation(input: DescribeSimulationInput) async throws -> DescribeSimulationOutput
-    /// Performs the `ListApps` operation on the `SimSpaceWeaver` service.
-    ///
     /// Lists all custom apps or service apps for the given simulation and domain.
     ///
     /// - Parameter ListAppsInput : [no documentation found]
@@ -115,8 +103,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listApps(input: ListAppsInput) async throws -> ListAppsOutput
-    /// Performs the `ListSimulations` operation on the `SimSpaceWeaver` service.
-    ///
     /// Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
     ///
     /// - Parameter ListSimulationsInput : [no documentation found]
@@ -130,8 +116,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ValidationException` :
     func listSimulations(input: ListSimulationsInput) async throws -> ListSimulationsOutput
-    /// Performs the `ListTagsForResource` operation on the `SimSpaceWeaver` service.
-    ///
     /// Lists all tags on a SimSpace Weaver resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -144,8 +128,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `StartApp` operation on the `SimSpaceWeaver` service.
-    ///
     /// Starts a custom app with the configuration specified in the simulation schema.
     ///
     /// - Parameter StartAppInput : [no documentation found]
@@ -161,8 +143,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func startApp(input: StartAppInput) async throws -> StartAppOutput
-    /// Performs the `StartClock` operation on the `SimSpaceWeaver` service.
-    ///
     /// Starts the simulation clock.
     ///
     /// - Parameter StartClockInput : [no documentation found]
@@ -178,8 +158,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func startClock(input: StartClockInput) async throws -> StartClockOutput
-    /// Performs the `StartSimulation` operation on the `SimSpaceWeaver` service.
-    ///
     /// Starts a simulation with the given name. You must choose to start your simulation from a schema or from a snapshot. For more information about the schema, see the [schema reference](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/schema-reference.html) in the SimSpace Weaver User Guide. For more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html) in the SimSpace Weaver User Guide.
     ///
     /// - Parameter StartSimulationInput : [no documentation found]
@@ -195,8 +173,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func startSimulation(input: StartSimulationInput) async throws -> StartSimulationOutput
-    /// Performs the `StopApp` operation on the `SimSpaceWeaver` service.
-    ///
     /// Stops the given custom app and shuts down all of its allocated compute resources.
     ///
     /// - Parameter StopAppInput : [no documentation found]
@@ -212,8 +188,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func stopApp(input: StopAppInput) async throws -> StopAppOutput
-    /// Performs the `StopClock` operation on the `SimSpaceWeaver` service.
-    ///
     /// Stops the simulation clock.
     ///
     /// - Parameter StopClockInput : [no documentation found]
@@ -229,8 +203,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func stopClock(input: StopClockInput) async throws -> StopClockOutput
-    /// Performs the `StopSimulation` operation on the `SimSpaceWeaver` service.
-    ///
     /// Stops the given simulation. You can't restart a simulation after you stop it. If you want to restart a simulation, then you must stop it, delete it, and start a new instance of it.
     ///
     /// - Parameter StopSimulationInput : [no documentation found]
@@ -246,8 +218,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func stopSimulation(input: StopSimulationInput) async throws -> StopSimulationOutput
-    /// Performs the `TagResource` operation on the `SimSpaceWeaver` service.
-    ///
     /// Adds tags to a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -261,8 +231,6 @@ public protocol SimSpaceWeaverClientProtocol {
     /// - `TooManyTagsException` :
     /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `SimSpaceWeaver` service.
-    ///
     /// Removes tags from a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

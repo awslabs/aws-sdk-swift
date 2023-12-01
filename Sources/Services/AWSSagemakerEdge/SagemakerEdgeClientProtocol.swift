@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// SageMaker Edge Manager dataplane service for communicating with active agents.
 public protocol SagemakerEdgeClientProtocol {
-    /// Performs the `GetDeployments` operation on the `AmazonSageMakerEdge` service.
-    ///
     /// Use to get the active deployments from a device.
     ///
     /// - Parameter GetDeploymentsInput : [no documentation found]
@@ -17,8 +15,6 @@ public protocol SagemakerEdgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-    /// Performs the `GetDeviceRegistration` operation on the `AmazonSageMakerEdge` service.
-    ///
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
     /// - Parameter GetDeviceRegistrationInput : [no documentation found]
@@ -30,8 +26,6 @@ public protocol SagemakerEdgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutput
-    /// Performs the `SendHeartbeat` operation on the `AmazonSageMakerEdge` service.
-    ///
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///
     /// - Parameter SendHeartbeatInput : [no documentation found]

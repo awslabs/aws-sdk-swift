@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon API Gateway V2
 public protocol ApiGatewayV2ClientProtocol {
-    /// Performs the `CreateApi` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates an Api resource.
     ///
     /// - Parameter CreateApiInput : Creates a new Api resource to represent an API.
@@ -20,8 +18,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createApi(input: CreateApiInput) async throws -> CreateApiOutput
-    /// Performs the `CreateApiMapping` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates an API mapping.
     ///
     /// - Parameter CreateApiMappingInput : Creates a new ApiMapping resource to represent an API mapping.
@@ -36,8 +32,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createApiMapping(input: CreateApiMappingInput) async throws -> CreateApiMappingOutput
-    /// Performs the `CreateAuthorizer` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates an Authorizer for an API.
     ///
     /// - Parameter CreateAuthorizerInput : Creates a new Authorizer resource to represent an authorizer.
@@ -52,8 +46,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
-    /// Performs the `CreateDeployment` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a Deployment for an API.
     ///
     /// - Parameter CreateDeploymentInput : Creates a new Deployment resource to represent a deployment.
@@ -68,8 +60,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    /// Performs the `CreateDomainName` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a domain name.
     ///
     /// - Parameter CreateDomainNameInput : Creates a new DomainName resource to represent a domain name.
@@ -85,8 +75,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
-    /// Performs the `CreateIntegration` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates an Integration.
     ///
     /// - Parameter CreateIntegrationInput : Creates a new Integration resource to represent an integration.
@@ -101,8 +89,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput
-    /// Performs the `CreateIntegrationResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates an IntegrationResponses.
     ///
     /// - Parameter CreateIntegrationResponseInput : Creates a new IntegrationResponse resource to represent an integration response.
@@ -117,8 +103,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createIntegrationResponse(input: CreateIntegrationResponseInput) async throws -> CreateIntegrationResponseOutput
-    /// Performs the `CreateModel` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a Model for an API.
     ///
     /// - Parameter CreateModelInput : Creates a new Model.
@@ -133,8 +117,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    /// Performs the `CreateRoute` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a Route for an API.
     ///
     /// - Parameter CreateRouteInput : Creates a new Route resource to represent a route.
@@ -149,8 +131,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
-    /// Performs the `CreateRouteResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a RouteResponse for a Route.
     ///
     /// - Parameter CreateRouteResponseInput : Creates a new RouteResponse resource to represent a route response.
@@ -165,8 +145,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createRouteResponse(input: CreateRouteResponseInput) async throws -> CreateRouteResponseOutput
-    /// Performs the `CreateStage` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a Stage for an API.
     ///
     /// - Parameter CreateStageInput : Creates a new Stage resource to represent a stage.
@@ -181,8 +159,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createStage(input: CreateStageInput) async throws -> CreateStageOutput
-    /// Performs the `CreateVpcLink` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a VPC link.
     ///
     /// - Parameter CreateVpcLinkInput : Creates a VPC link
@@ -195,8 +171,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput
-    /// Performs the `DeleteAccessLogSettings` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
     ///
     /// - Parameter DeleteAccessLogSettingsInput : [no documentation found]
@@ -209,8 +183,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteAccessLogSettings(input: DeleteAccessLogSettingsInput) async throws -> DeleteAccessLogSettingsOutput
-    /// Performs the `DeleteApi` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes an Api resource.
     ///
     /// - Parameter DeleteApiInput : [no documentation found]
@@ -223,8 +195,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteApi(input: DeleteApiInput) async throws -> DeleteApiOutput
-    /// Performs the `DeleteApiMapping` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes an API mapping.
     ///
     /// - Parameter DeleteApiMappingInput : [no documentation found]
@@ -238,8 +208,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteApiMapping(input: DeleteApiMappingInput) async throws -> DeleteApiMappingOutput
-    /// Performs the `DeleteAuthorizer` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes an Authorizer.
     ///
     /// - Parameter DeleteAuthorizerInput : [no documentation found]
@@ -252,8 +220,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
-    /// Performs the `DeleteCorsConfiguration` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a CORS configuration.
     ///
     /// - Parameter DeleteCorsConfigurationInput : [no documentation found]
@@ -266,8 +232,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteCorsConfiguration(input: DeleteCorsConfigurationInput) async throws -> DeleteCorsConfigurationOutput
-    /// Performs the `DeleteDeployment` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a Deployment.
     ///
     /// - Parameter DeleteDeploymentInput : [no documentation found]
@@ -280,8 +244,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-    /// Performs the `DeleteDomainName` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a domain name.
     ///
     /// - Parameter DeleteDomainNameInput : [no documentation found]
@@ -294,8 +256,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
-    /// Performs the `DeleteIntegration` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes an Integration.
     ///
     /// - Parameter DeleteIntegrationInput : [no documentation found]
@@ -308,8 +268,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
-    /// Performs the `DeleteIntegrationResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes an IntegrationResponses.
     ///
     /// - Parameter DeleteIntegrationResponseInput : [no documentation found]
@@ -322,8 +280,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput
-    /// Performs the `DeleteModel` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a Model.
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
@@ -336,8 +292,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    /// Performs the `DeleteRoute` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a Route.
     ///
     /// - Parameter DeleteRouteInput : [no documentation found]
@@ -350,8 +304,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
-    /// Performs the `DeleteRouteRequestParameter` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a route request parameter. Supported only for WebSocket APIs.
     ///
     /// - Parameter DeleteRouteRequestParameterInput : [no documentation found]
@@ -364,8 +316,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutput
-    /// Performs the `DeleteRouteResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a RouteResponse.
     ///
     /// - Parameter DeleteRouteResponseInput : [no documentation found]
@@ -378,8 +328,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteRouteResponse(input: DeleteRouteResponseInput) async throws -> DeleteRouteResponseOutput
-    /// Performs the `DeleteRouteSettings` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes the RouteSettings for a stage.
     ///
     /// - Parameter DeleteRouteSettingsInput : [no documentation found]
@@ -392,8 +340,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteRouteSettings(input: DeleteRouteSettingsInput) async throws -> DeleteRouteSettingsOutput
-    /// Performs the `DeleteStage` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a Stage.
     ///
     /// - Parameter DeleteStageInput : [no documentation found]
@@ -406,8 +352,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
-    /// Performs the `DeleteVpcLink` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a VPC link.
     ///
     /// - Parameter DeleteVpcLinkInput : [no documentation found]
@@ -420,8 +364,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput
-    /// Performs the `ExportApi` operation on the `ApiGatewayV2` service.
-    ///
     ///
     /// - Parameter ExportApiInput : [no documentation found]
     ///
@@ -434,8 +376,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func exportApi(input: ExportApiInput) async throws -> ExportApiOutput
-    /// Performs the `GetApi` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets an Api resource.
     ///
     /// - Parameter GetApiInput : [no documentation found]
@@ -448,8 +388,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getApi(input: GetApiInput) async throws -> GetApiOutput
-    /// Performs the `GetApiMapping` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets an API mapping.
     ///
     /// - Parameter GetApiMappingInput : [no documentation found]
@@ -463,8 +401,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getApiMapping(input: GetApiMappingInput) async throws -> GetApiMappingOutput
-    /// Performs the `GetApiMappings` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets API mappings.
     ///
     /// - Parameter GetApiMappingsInput : [no documentation found]
@@ -478,8 +414,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getApiMappings(input: GetApiMappingsInput) async throws -> GetApiMappingsOutput
-    /// Performs the `GetApis` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a collection of Api resources.
     ///
     /// - Parameter GetApisInput : [no documentation found]
@@ -493,8 +427,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getApis(input: GetApisInput) async throws -> GetApisOutput
-    /// Performs the `GetAuthorizer` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets an Authorizer.
     ///
     /// - Parameter GetAuthorizerInput : [no documentation found]
@@ -507,8 +439,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput
-    /// Performs the `GetAuthorizers` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the Authorizers for an API.
     ///
     /// - Parameter GetAuthorizersInput : [no documentation found]
@@ -522,8 +452,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput
-    /// Performs the `GetDeployment` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a Deployment.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
@@ -536,8 +464,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    /// Performs the `GetDeployments` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the Deployments for an API.
     ///
     /// - Parameter GetDeploymentsInput : [no documentation found]
@@ -551,8 +477,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-    /// Performs the `GetDomainName` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a domain name.
     ///
     /// - Parameter GetDomainNameInput : [no documentation found]
@@ -565,8 +489,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
-    /// Performs the `GetDomainNames` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the domain names for an AWS account.
     ///
     /// - Parameter GetDomainNamesInput : [no documentation found]
@@ -580,8 +502,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput
-    /// Performs the `GetIntegration` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets an Integration.
     ///
     /// - Parameter GetIntegrationInput : [no documentation found]
@@ -594,8 +514,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
-    /// Performs the `GetIntegrationResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets an IntegrationResponses.
     ///
     /// - Parameter GetIntegrationResponseInput : [no documentation found]
@@ -608,8 +526,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput
-    /// Performs the `GetIntegrationResponses` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the IntegrationResponses for an Integration.
     ///
     /// - Parameter GetIntegrationResponsesInput : [no documentation found]
@@ -623,8 +539,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getIntegrationResponses(input: GetIntegrationResponsesInput) async throws -> GetIntegrationResponsesOutput
-    /// Performs the `GetIntegrations` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the Integrations for an API.
     ///
     /// - Parameter GetIntegrationsInput : [no documentation found]
@@ -638,8 +552,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getIntegrations(input: GetIntegrationsInput) async throws -> GetIntegrationsOutput
-    /// Performs the `GetModel` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a Model.
     ///
     /// - Parameter GetModelInput : [no documentation found]
@@ -652,8 +564,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getModel(input: GetModelInput) async throws -> GetModelOutput
-    /// Performs the `GetModels` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the Models for an API.
     ///
     /// - Parameter GetModelsInput : [no documentation found]
@@ -667,8 +577,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getModels(input: GetModelsInput) async throws -> GetModelsOutput
-    /// Performs the `GetModelTemplate` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a model template.
     ///
     /// - Parameter GetModelTemplateInput : [no documentation found]
@@ -681,8 +589,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput
-    /// Performs the `GetRoute` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a Route.
     ///
     /// - Parameter GetRouteInput : [no documentation found]
@@ -695,8 +601,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getRoute(input: GetRouteInput) async throws -> GetRouteOutput
-    /// Performs the `GetRouteResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a RouteResponse.
     ///
     /// - Parameter GetRouteResponseInput : [no documentation found]
@@ -709,8 +613,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getRouteResponse(input: GetRouteResponseInput) async throws -> GetRouteResponseOutput
-    /// Performs the `GetRouteResponses` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the RouteResponses for a Route.
     ///
     /// - Parameter GetRouteResponsesInput : [no documentation found]
@@ -724,8 +626,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getRouteResponses(input: GetRouteResponsesInput) async throws -> GetRouteResponsesOutput
-    /// Performs the `GetRoutes` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the Routes for an API.
     ///
     /// - Parameter GetRoutesInput : [no documentation found]
@@ -739,8 +639,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getRoutes(input: GetRoutesInput) async throws -> GetRoutesOutput
-    /// Performs the `GetStage` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a Stage.
     ///
     /// - Parameter GetStageInput : [no documentation found]
@@ -753,8 +651,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getStage(input: GetStageInput) async throws -> GetStageOutput
-    /// Performs the `GetStages` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets the Stages for an API.
     ///
     /// - Parameter GetStagesInput : [no documentation found]
@@ -768,8 +664,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getStages(input: GetStagesInput) async throws -> GetStagesOutput
-    /// Performs the `GetTags` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a collection of Tag resources.
     ///
     /// - Parameter GetTagsInput : [no documentation found]
@@ -784,8 +678,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-    /// Performs the `GetVpcLink` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a VPC link.
     ///
     /// - Parameter GetVpcLinkInput : [no documentation found]
@@ -798,8 +690,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput
-    /// Performs the `GetVpcLinks` operation on the `ApiGatewayV2` service.
-    ///
     /// Gets a collection of VPC links.
     ///
     /// - Parameter GetVpcLinksInput : [no documentation found]
@@ -812,8 +702,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput
-    /// Performs the `ImportApi` operation on the `ApiGatewayV2` service.
-    ///
     /// Imports an API.
     ///
     /// - Parameter ImportApiInput :
@@ -828,8 +716,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func importApi(input: ImportApiInput) async throws -> ImportApiOutput
-    /// Performs the `ReimportApi` operation on the `ApiGatewayV2` service.
-    ///
     /// Puts an Api resource.
     ///
     /// - Parameter ReimportApiInput :
@@ -844,8 +730,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func reimportApi(input: ReimportApiInput) async throws -> ReimportApiOutput
-    /// Performs the `ResetAuthorizersCache` operation on the `ApiGatewayV2` service.
-    ///
     /// Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
     ///
     /// - Parameter ResetAuthorizersCacheInput : [no documentation found]
@@ -858,8 +742,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func resetAuthorizersCache(input: ResetAuthorizersCacheInput) async throws -> ResetAuthorizersCacheOutput
-    /// Performs the `TagResource` operation on the `ApiGatewayV2` service.
-    ///
     /// Creates a new Tag resource to represent a tag.
     ///
     /// - Parameter TagResourceInput : Creates a new Tag resource to represent a tag.
@@ -874,8 +756,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `ApiGatewayV2` service.
-    ///
     /// Deletes a Tag.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -890,8 +770,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateApi` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates an Api resource.
     ///
     /// - Parameter UpdateApiInput : Updates an Api.
@@ -906,8 +784,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateApi(input: UpdateApiInput) async throws -> UpdateApiOutput
-    /// Performs the `UpdateApiMapping` operation on the `ApiGatewayV2` service.
-    ///
     /// The API mapping.
     ///
     /// - Parameter UpdateApiMappingInput : Updates an ApiMapping.
@@ -922,8 +798,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateApiMapping(input: UpdateApiMappingInput) async throws -> UpdateApiMappingOutput
-    /// Performs the `UpdateAuthorizer` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates an Authorizer.
     ///
     /// - Parameter UpdateAuthorizerInput : Updates an Authorizer.
@@ -938,8 +812,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
-    /// Performs the `UpdateDeployment` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a Deployment.
     ///
     /// - Parameter UpdateDeploymentInput : Updates a Deployment.
@@ -954,8 +826,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput
-    /// Performs the `UpdateDomainName` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a domain name.
     ///
     /// - Parameter UpdateDomainNameInput : Updates a DomainName.
@@ -970,8 +840,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
-    /// Performs the `UpdateIntegration` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates an Integration.
     ///
     /// - Parameter UpdateIntegrationInput : Updates an Integration.
@@ -986,8 +854,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput
-    /// Performs the `UpdateIntegrationResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates an IntegrationResponses.
     ///
     /// - Parameter UpdateIntegrationResponseInput : Updates an IntegrationResponses.
@@ -1002,8 +868,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput
-    /// Performs the `UpdateModel` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a Model.
     ///
     /// - Parameter UpdateModelInput : Updates a Model.
@@ -1018,8 +882,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
-    /// Performs the `UpdateRoute` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a Route.
     ///
     /// - Parameter UpdateRouteInput : Updates a Route.
@@ -1034,8 +896,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
-    /// Performs the `UpdateRouteResponse` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a RouteResponse.
     ///
     /// - Parameter UpdateRouteResponseInput : Updates a RouteResponse.
@@ -1050,8 +910,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateRouteResponse(input: UpdateRouteResponseInput) async throws -> UpdateRouteResponseOutput
-    /// Performs the `UpdateStage` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a Stage.
     ///
     /// - Parameter UpdateStageInput : Updates a Stage.
@@ -1066,8 +924,6 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
     func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
-    /// Performs the `UpdateVpcLink` operation on the `ApiGatewayV2` service.
-    ///
     /// Updates a VPC link.
     ///
     /// - Parameter UpdateVpcLinkInput : Updates a VPC link.

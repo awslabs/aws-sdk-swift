@@ -12,7 +12,7 @@ extension KMSClient {
     ///     - input: A `[DescribeCustomKeyStoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomKeyStoresOutput`
     public func describeCustomKeyStoresPaginated(input: DescribeCustomKeyStoresInput) -> ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeCustomKeyStores(input:))
+        return ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(input: input, inputKey: \DescribeCustomKeyStoresInput.marker, outputKey: \DescribeCustomKeyStoresOutput.nextMarker, paginationFunction: self.describeCustomKeyStores(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeCustomKeyStoresInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeCustomKeyStoresInput, OperationStackOutput == DescribeCustomKeyStoresOutput {
+extension PaginatorSequence where Input == DescribeCustomKeyStoresInput, Output == DescribeCustomKeyStoresOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCustomKeyStoresPaginated`
     /// to access the nested member `[KMSClientTypes.CustomKeyStoresListEntry]`
     /// - Returns: `[KMSClientTypes.CustomKeyStoresListEntry]`
@@ -44,7 +44,7 @@ extension KMSClient {
     ///     - input: A `[ListAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listAliases(input:))
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.marker, outputKey: \ListAliasesOutput.nextMarker, paginationFunction: self.listAliases(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAliasesInput, OperationStackOutput == ListAliasesOutput {
+extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[KMSClientTypes.AliasListEntry]`
     /// - Returns: `[KMSClientTypes.AliasListEntry]`
@@ -75,7 +75,7 @@ extension KMSClient {
     ///     - input: A `[ListGrantsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGrantsOutput`
     public func listGrantsPaginated(input: ListGrantsInput) -> ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutput> {
-        return ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listGrants(input:))
+        return ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutput>(input: input, inputKey: \ListGrantsInput.marker, outputKey: \ListGrantsOutput.nextMarker, paginationFunction: self.listGrants(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListGrantsInput, OperationStackOutput == ListGrantsOutput {
+extension PaginatorSequence where Input == ListGrantsInput, Output == ListGrantsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGrantsPaginated`
     /// to access the nested member `[KMSClientTypes.GrantListEntry]`
     /// - Returns: `[KMSClientTypes.GrantListEntry]`
@@ -108,7 +108,7 @@ extension KMSClient {
     ///     - input: A `[ListKeyPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKeyPoliciesOutput`
     public func listKeyPoliciesPaginated(input: ListKeyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listKeyPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutput>(input: input, inputKey: \ListKeyPoliciesInput.marker, outputKey: \ListKeyPoliciesOutput.nextMarker, paginationFunction: self.listKeyPolicies(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension ListKeyPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListKeyPoliciesInput, OperationStackOutput == ListKeyPoliciesOutput {
+extension PaginatorSequence where Input == ListKeyPoliciesInput, Output == ListKeyPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKeyPoliciesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -139,7 +139,7 @@ extension KMSClient {
     ///     - input: A `[ListKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKeysOutput`
     public func listKeysPaginated(input: ListKeysInput) -> ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput> {
-        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listKeys(input:))
+        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput>(input: input, inputKey: \ListKeysInput.marker, outputKey: \ListKeysOutput.nextMarker, paginationFunction: self.listKeys(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListKeysInput, OperationStackOutput == ListKeysOutput {
+extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKeysPaginated`
     /// to access the nested member `[KMSClientTypes.KeyListEntry]`
     /// - Returns: `[KMSClientTypes.KeyListEntry]`
@@ -169,7 +169,7 @@ extension KMSClient {
     ///     - input: A `[ListResourceTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTagsOutput`
     public func listResourceTagsPaginated(input: ListResourceTagsInput) -> ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutput> {
-        return ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listResourceTags(input:))
+        return ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutput>(input: input, inputKey: \ListResourceTagsInput.marker, outputKey: \ListResourceTagsOutput.nextMarker, paginationFunction: self.listResourceTags(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListResourceTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListResourceTagsInput, OperationStackOutput == ListResourceTagsOutput {
+extension PaginatorSequence where Input == ListResourceTagsInput, Output == ListResourceTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourceTagsPaginated`
     /// to access the nested member `[KMSClientTypes.Tag]`
     /// - Returns: `[KMSClientTypes.Tag]`
@@ -200,7 +200,7 @@ extension KMSClient {
     ///     - input: A `[ListRetirableGrantsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRetirableGrantsOutput`
     public func listRetirableGrantsPaginated(input: ListRetirableGrantsInput) -> ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listRetirableGrants(input:))
+        return ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutput>(input: input, inputKey: \ListRetirableGrantsInput.marker, outputKey: \ListRetirableGrantsOutput.nextMarker, paginationFunction: self.listRetirableGrants(input:))
     }
 }
 
@@ -213,7 +213,7 @@ extension ListRetirableGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRetirableGrantsInput, OperationStackOutput == ListRetirableGrantsOutput {
+extension PaginatorSequence where Input == ListRetirableGrantsInput, Output == ListRetirableGrantsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRetirableGrantsPaginated`
     /// to access the nested member `[KMSClientTypes.GrantListEntry]`
     /// - Returns: `[KMSClientTypes.GrantListEntry]`

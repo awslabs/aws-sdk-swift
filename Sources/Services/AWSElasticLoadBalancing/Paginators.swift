@@ -12,7 +12,7 @@ extension ElasticLoadBalancingClient {
     ///     - input: A `[DescribeLoadBalancersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutput`
     public func describeLoadBalancersPaginated(input: DescribeLoadBalancersInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeLoadBalancers(input:))
+        return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(input: input, inputKey: \DescribeLoadBalancersInput.marker, outputKey: \DescribeLoadBalancersOutput.nextMarker, paginationFunction: self.describeLoadBalancers(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeLoadBalancersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeLoadBalancersInput, OperationStackOutput == DescribeLoadBalancersOutput {
+extension PaginatorSequence where Input == DescribeLoadBalancersInput, Output == DescribeLoadBalancersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeLoadBalancersPaginated`
     /// to access the nested member `[ElasticLoadBalancingClientTypes.LoadBalancerDescription]`
     /// - Returns: `[ElasticLoadBalancingClientTypes.LoadBalancerDescription]`

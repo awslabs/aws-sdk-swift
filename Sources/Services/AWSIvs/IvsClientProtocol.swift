@@ -113,24 +113,18 @@ import ClientRuntime
 ///
 /// * [ListTagsForResource] — Gets information about Amazon Web Services tags for the specified ARN.
 public protocol IvsClientProtocol {
-    /// Performs the `BatchGetChannel` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Performs [GetChannel] on multiple ARNs simultaneously.
     ///
     /// - Parameter BatchGetChannelInput : [no documentation found]
     ///
     /// - Returns: `BatchGetChannelOutput` : [no documentation found]
     func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutput
-    /// Performs the `BatchGetStreamKey` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Performs [GetStreamKey] on multiple ARNs simultaneously.
     ///
     /// - Parameter BatchGetStreamKeyInput : [no documentation found]
     ///
     /// - Returns: `BatchGetStreamKeyOutput` : [no documentation found]
     func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutput
-    /// Performs the `BatchStartViewerSessionRevocation` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
     ///
     /// - Parameter BatchStartViewerSessionRevocationInput : [no documentation found]
@@ -145,8 +139,6 @@ public protocol IvsClientProtocol {
     /// - `ThrottlingException` :
     /// - `ValidationException` :
     func batchStartViewerSessionRevocation(input: BatchStartViewerSessionRevocationInput) async throws -> BatchStartViewerSessionRevocationOutput
-    /// Performs the `CreateChannel` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Creates a new channel and an associated stream key to start streaming.
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
@@ -162,8 +154,6 @@ public protocol IvsClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    /// Performs the `CreateRecordingConfiguration` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
     ///
     /// - Parameter CreateRecordingConfigurationInput : [no documentation found]
@@ -180,8 +170,6 @@ public protocol IvsClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createRecordingConfiguration(input: CreateRecordingConfigurationInput) async throws -> CreateRecordingConfigurationOutput
-    /// Performs the `CreateStreamKey` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that [CreateChannel] creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use [DeleteStreamKey] and then CreateStreamKey.
     ///
     /// - Parameter CreateStreamKeyInput : [no documentation found]
@@ -197,8 +185,6 @@ public protocol IvsClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createStreamKey(input: CreateStreamKeyInput) async throws -> CreateStreamKeyOutput
-    /// Performs the `DeleteChannel` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call [StopStream], wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
@@ -214,8 +200,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    /// Performs the `DeletePlaybackKeyPair` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter DeletePlaybackKeyPairInput : [no documentation found]
@@ -230,8 +214,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deletePlaybackKeyPair(input: DeletePlaybackKeyPairInput) async throws -> DeletePlaybackKeyPairOutput
-    /// Performs the `DeleteRecordingConfiguration` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Deletes the recording configuration for the specified ARN. If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use [UpdateChannel] to set the recordingConfigurationArn field to an empty string, then use DeleteRecordingConfiguration.
     ///
     /// - Parameter DeleteRecordingConfigurationInput : [no documentation found]
@@ -247,8 +229,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteRecordingConfiguration(input: DeleteRecordingConfigurationInput) async throws -> DeleteRecordingConfigurationOutput
-    /// Performs the `DeleteStreamKey` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Deletes the stream key for the specified ARN, so it can no longer be used to stream.
     ///
     /// - Parameter DeleteStreamKeyInput : [no documentation found]
@@ -263,8 +243,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteStreamKey(input: DeleteStreamKeyInput) async throws -> DeleteStreamKeyOutput
-    /// Performs the `GetChannel` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets the channel configuration for the specified channel ARN. See also [BatchGetChannel].
     ///
     /// - Parameter GetChannelInput : [no documentation found]
@@ -278,8 +256,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
-    /// Performs the `GetPlaybackKeyPair` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter GetPlaybackKeyPairInput : [no documentation found]
@@ -293,8 +269,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getPlaybackKeyPair(input: GetPlaybackKeyPairInput) async throws -> GetPlaybackKeyPairOutput
-    /// Performs the `GetRecordingConfiguration` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets the recording configuration for the specified ARN.
     ///
     /// - Parameter GetRecordingConfigurationInput : [no documentation found]
@@ -309,8 +283,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getRecordingConfiguration(input: GetRecordingConfigurationInput) async throws -> GetRecordingConfigurationOutput
-    /// Performs the `GetStream` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets information about the active (live) stream on a specified channel.
     ///
     /// - Parameter GetStreamInput : [no documentation found]
@@ -325,8 +297,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStream(input: GetStreamInput) async throws -> GetStreamOutput
-    /// Performs the `GetStreamKey` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets stream-key information for a specified ARN.
     ///
     /// - Parameter GetStreamKeyInput : [no documentation found]
@@ -340,8 +310,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStreamKey(input: GetStreamKeyInput) async throws -> GetStreamKeyOutput
-    /// Performs the `GetStreamSession` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets metadata on a specified stream.
     ///
     /// - Parameter GetStreamSessionInput : [no documentation found]
@@ -355,8 +323,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStreamSession(input: GetStreamSessionInput) async throws -> GetStreamSessionOutput
-    /// Performs the `ImportPlaybackKeyPair` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter ImportPlaybackKeyPairInput : [no documentation found]
@@ -372,8 +338,6 @@ public protocol IvsClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func importPlaybackKeyPair(input: ImportPlaybackKeyPairInput) async throws -> ImportPlaybackKeyPairOutput
-    /// Performs the `ListChannels` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
@@ -387,8 +351,6 @@ public protocol IvsClientProtocol {
     /// - `ConflictException` :
     /// - `ValidationException` :
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    /// Performs the `ListPlaybackKeyPairs` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets summary information about playback key pairs. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter ListPlaybackKeyPairsInput : [no documentation found]
@@ -401,8 +363,6 @@ public protocol IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listPlaybackKeyPairs(input: ListPlaybackKeyPairsInput) async throws -> ListPlaybackKeyPairsOutput
-    /// Performs the `ListRecordingConfigurations` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     ///
     /// - Parameter ListRecordingConfigurationsInput : [no documentation found]
@@ -416,8 +376,6 @@ public protocol IvsClientProtocol {
     /// - `InternalServerException` :
     /// - `ValidationException` :
     func listRecordingConfigurations(input: ListRecordingConfigurationsInput) async throws -> ListRecordingConfigurationsOutput
-    /// Performs the `ListStreamKeys` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets summary information about stream keys for the specified channel.
     ///
     /// - Parameter ListStreamKeysInput : [no documentation found]
@@ -431,8 +389,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listStreamKeys(input: ListStreamKeysInput) async throws -> ListStreamKeysOutput
-    /// Performs the `ListStreams` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     ///
     /// - Parameter ListStreamsInput : [no documentation found]
@@ -445,8 +401,6 @@ public protocol IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
-    /// Performs the `ListStreamSessions` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
     ///
     /// - Parameter ListStreamSessionsInput : [no documentation found]
@@ -460,8 +414,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listStreamSessions(input: ListStreamSessionsInput) async throws -> ListStreamSessionsOutput
-    /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Gets information about Amazon Web Services tags for the specified ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -475,8 +427,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PutMetadata` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see [Embedding Metadata within a Video Stream](https://docs.aws.amazon.com/ivs/latest/userguide/metadata.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter PutMetadataInput : [no documentation found]
@@ -492,8 +442,6 @@ public protocol IvsClientProtocol {
     /// - `ThrottlingException` :
     /// - `ValidationException` :
     func putMetadata(input: PutMetadataInput) async throws -> PutMetadataOutput
-    /// Performs the `StartViewerSessionRevocation` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
     ///
     /// - Parameter StartViewerSessionRevocationInput : [no documentation found]
@@ -510,8 +458,6 @@ public protocol IvsClientProtocol {
     /// - `ThrottlingException` :
     /// - `ValidationException` :
     func startViewerSessionRevocation(input: StartViewerSessionRevocationInput) async throws -> StartViewerSessionRevocationOutput
-    /// Performs the `StopStream` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with [DeleteStreamKey] to prevent further streaming to a channel. Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.
     ///
     /// - Parameter StopStreamInput : [no documentation found]
@@ -527,8 +473,6 @@ public protocol IvsClientProtocol {
     /// - `StreamUnavailable` :
     /// - `ValidationException` :
     func stopStream(input: StopStreamInput) async throws -> StopStreamOutput
-    /// Performs the `TagResource` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -542,8 +486,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Removes tags from the resource with the specified ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -557,8 +499,6 @@ public protocol IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateChannel` operation on the `AmazonInteractiveVideoService` service.
-    ///
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]

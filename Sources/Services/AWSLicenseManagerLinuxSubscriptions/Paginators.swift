@@ -12,7 +12,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///     - input: A `[ListLinuxSubscriptionInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLinuxSubscriptionInstancesOutput`
     public func listLinuxSubscriptionInstancesPaginated(input: ListLinuxSubscriptionInstancesInput) -> ClientRuntime.PaginatorSequence<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLinuxSubscriptionInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>(input: input, inputKey: \ListLinuxSubscriptionInstancesInput.nextToken, outputKey: \ListLinuxSubscriptionInstancesOutput.nextToken, paginationFunction: self.listLinuxSubscriptionInstances(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListLinuxSubscriptionInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListLinuxSubscriptionInstancesInput, OperationStackOutput == ListLinuxSubscriptionInstancesOutput {
+extension PaginatorSequence where Input == ListLinuxSubscriptionInstancesInput, Output == ListLinuxSubscriptionInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLinuxSubscriptionInstancesPaginated`
     /// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.Instance]`
     /// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.Instance]`
@@ -43,7 +43,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///     - input: A `[ListLinuxSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLinuxSubscriptionsOutput`
     public func listLinuxSubscriptionsPaginated(input: ListLinuxSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLinuxSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>(input: input, inputKey: \ListLinuxSubscriptionsInput.nextToken, outputKey: \ListLinuxSubscriptionsOutput.nextToken, paginationFunction: self.listLinuxSubscriptions(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListLinuxSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListLinuxSubscriptionsInput, OperationStackOutput == ListLinuxSubscriptionsOutput {
+extension PaginatorSequence where Input == ListLinuxSubscriptionsInput, Output == ListLinuxSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLinuxSubscriptionsPaginated`
     /// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.Subscription]`
     /// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.Subscription]`

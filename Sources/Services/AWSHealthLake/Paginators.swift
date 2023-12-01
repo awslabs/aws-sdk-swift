@@ -12,7 +12,7 @@ extension HealthLakeClient {
     ///     - input: A `[ListFHIRDatastoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFHIRDatastoresOutput`
     public func listFHIRDatastoresPaginated(input: ListFHIRDatastoresInput) -> ClientRuntime.PaginatorSequence<ListFHIRDatastoresInput, ListFHIRDatastoresOutput> {
-        return ClientRuntime.PaginatorSequence<ListFHIRDatastoresInput, ListFHIRDatastoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFHIRDatastores(input:))
+        return ClientRuntime.PaginatorSequence<ListFHIRDatastoresInput, ListFHIRDatastoresOutput>(input: input, inputKey: \ListFHIRDatastoresInput.nextToken, outputKey: \ListFHIRDatastoresOutput.nextToken, paginationFunction: self.listFHIRDatastores(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension HealthLakeClient {
     ///     - input: A `[ListFHIRExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFHIRExportJobsOutput`
     public func listFHIRExportJobsPaginated(input: ListFHIRExportJobsInput) -> ClientRuntime.PaginatorSequence<ListFHIRExportJobsInput, ListFHIRExportJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFHIRExportJobsInput, ListFHIRExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFHIRExportJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListFHIRExportJobsInput, ListFHIRExportJobsOutput>(input: input, inputKey: \ListFHIRExportJobsInput.nextToken, outputKey: \ListFHIRExportJobsOutput.nextToken, paginationFunction: self.listFHIRExportJobs(input:))
     }
 }
 
@@ -60,7 +60,7 @@ extension HealthLakeClient {
     ///     - input: A `[ListFHIRImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFHIRImportJobsOutput`
     public func listFHIRImportJobsPaginated(input: ListFHIRImportJobsInput) -> ClientRuntime.PaginatorSequence<ListFHIRImportJobsInput, ListFHIRImportJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFHIRImportJobsInput, ListFHIRImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFHIRImportJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListFHIRImportJobsInput, ListFHIRImportJobsOutput>(input: input, inputKey: \ListFHIRImportJobsInput.nextToken, outputKey: \ListFHIRImportJobsOutput.nextToken, paginationFunction: self.listFHIRImportJobs(input:))
     }
 }
 

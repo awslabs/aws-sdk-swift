@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// The operations for managing an Amazon MSK cluster.
 public protocol KafkaClientProtocol {
-    /// Performs the `BatchAssociateScramSecret` operation on the `Kafka` service.
-    ///
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
     ///
     /// - Parameter BatchAssociateScramSecretInput : Associates sasl scram secrets to cluster.
@@ -23,8 +21,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func batchAssociateScramSecret(input: BatchAssociateScramSecretInput) async throws -> BatchAssociateScramSecretOutput
-    /// Performs the `BatchDisassociateScramSecret` operation on the `Kafka` service.
-    ///
     /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
     ///
     /// - Parameter BatchDisassociateScramSecretInput : Disassociates sasl scram secrets to cluster.
@@ -42,8 +38,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func batchDisassociateScramSecret(input: BatchDisassociateScramSecretInput) async throws -> BatchDisassociateScramSecretOutput
-    /// Performs the `CreateCluster` operation on the `Kafka` service.
-    ///
     /// Creates a new MSK cluster.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
@@ -61,8 +55,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    /// Performs the `CreateClusterV2` operation on the `Kafka` service.
-    ///
     /// Creates a new MSK cluster.
     ///
     /// - Parameter CreateClusterV2Input : [no documentation found]
@@ -80,8 +72,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createClusterV2(input: CreateClusterV2Input) async throws -> CreateClusterV2Output
-    /// Performs the `CreateConfiguration` operation on the `Kafka` service.
-    ///
     /// Creates a new MSK configuration.
     ///
     /// - Parameter CreateConfigurationInput : [no documentation found]
@@ -99,8 +89,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput
-    /// Performs the `CreateReplicator` operation on the `Kafka` service.
-    ///
     /// Creates the replicator.
     ///
     /// - Parameter CreateReplicatorInput : Creates a replicator using the specified configuration.
@@ -119,8 +107,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createReplicator(input: CreateReplicatorInput) async throws -> CreateReplicatorOutput
-    /// Performs the `CreateVpcConnection` operation on the `Kafka` service.
-    ///
     /// Creates a new MSK VPC connection.
     ///
     /// - Parameter CreateVpcConnectionInput : [no documentation found]
@@ -137,8 +123,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createVpcConnection(input: CreateVpcConnectionInput) async throws -> CreateVpcConnectionOutput
-    /// Performs the `DeleteCluster` operation on the `Kafka` service.
-    ///
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
@@ -153,8 +137,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    /// Performs the `DeleteClusterPolicy` operation on the `Kafka` service.
-    ///
     /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     ///
     /// - Parameter DeleteClusterPolicyInput : [no documentation found]
@@ -169,8 +151,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteClusterPolicy(input: DeleteClusterPolicyInput) async throws -> DeleteClusterPolicyOutput
-    /// Performs the `DeleteConfiguration` operation on the `Kafka` service.
-    ///
     /// Deletes an MSK Configuration.
     ///
     /// - Parameter DeleteConfigurationInput : [no documentation found]
@@ -185,8 +165,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutput
-    /// Performs the `DeleteReplicator` operation on the `Kafka` service.
-    ///
     /// Deletes a replicator.
     ///
     /// - Parameter DeleteReplicatorInput : [no documentation found]
@@ -204,8 +182,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func deleteReplicator(input: DeleteReplicatorInput) async throws -> DeleteReplicatorOutput
-    /// Performs the `DeleteVpcConnection` operation on the `Kafka` service.
-    ///
     /// Deletes a MSK VPC connection.
     ///
     /// - Parameter DeleteVpcConnectionInput : [no documentation found]
@@ -220,8 +196,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteVpcConnection(input: DeleteVpcConnectionInput) async throws -> DeleteVpcConnectionOutput
-    /// Performs the `DescribeCluster` operation on the `Kafka` service.
-    ///
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///
     /// - Parameter DescribeClusterInput : [no documentation found]
@@ -237,8 +211,6 @@ public protocol KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    /// Performs the `DescribeClusterOperation` operation on the `Kafka` service.
-    ///
     /// Returns a description of the cluster operation specified by the ARN.
     ///
     /// - Parameter DescribeClusterOperationInput : [no documentation found]
@@ -254,8 +226,6 @@ public protocol KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeClusterOperation(input: DescribeClusterOperationInput) async throws -> DescribeClusterOperationOutput
-    /// Performs the `DescribeClusterOperationV2` operation on the `Kafka` service.
-    ///
     /// Returns a description of the cluster operation specified by the ARN.
     ///
     /// - Parameter DescribeClusterOperationV2Input : [no documentation found]
@@ -273,8 +243,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeClusterOperationV2(input: DescribeClusterOperationV2Input) async throws -> DescribeClusterOperationV2Output
-    /// Performs the `DescribeClusterV2` operation on the `Kafka` service.
-    ///
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///
     /// - Parameter DescribeClusterV2Input : [no documentation found]
@@ -290,8 +258,6 @@ public protocol KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeClusterV2(input: DescribeClusterV2Input) async throws -> DescribeClusterV2Output
-    /// Performs the `DescribeConfiguration` operation on the `Kafka` service.
-    ///
     /// Returns a description of this MSK configuration.
     ///
     /// - Parameter DescribeConfigurationInput : [no documentation found]
@@ -308,8 +274,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutput
-    /// Performs the `DescribeConfigurationRevision` operation on the `Kafka` service.
-    ///
     /// Returns a description of this revision of the configuration.
     ///
     /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
@@ -326,8 +290,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput
-    /// Performs the `DescribeReplicator` operation on the `Kafka` service.
-    ///
     /// Describes a replicator.
     ///
     /// - Parameter DescribeReplicatorInput : [no documentation found]
@@ -345,8 +307,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeReplicator(input: DescribeReplicatorInput) async throws -> DescribeReplicatorOutput
-    /// Performs the `DescribeVpcConnection` operation on the `Kafka` service.
-    ///
     /// Returns a description of this MSK VPC connection.
     ///
     /// - Parameter DescribeVpcConnectionInput : [no documentation found]
@@ -363,8 +323,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeVpcConnection(input: DescribeVpcConnectionInput) async throws -> DescribeVpcConnectionOutput
-    /// Performs the `GetBootstrapBrokers` operation on the `Kafka` service.
-    ///
     /// A list of brokers that a client application can use to bootstrap.
     ///
     /// - Parameter GetBootstrapBrokersInput : [no documentation found]
@@ -380,8 +338,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func getBootstrapBrokers(input: GetBootstrapBrokersInput) async throws -> GetBootstrapBrokersOutput
-    /// Performs the `GetClusterPolicy` operation on the `Kafka` service.
-    ///
     /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     ///
     /// - Parameter GetClusterPolicyInput : [no documentation found]
@@ -396,8 +352,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func getClusterPolicy(input: GetClusterPolicyInput) async throws -> GetClusterPolicyOutput
-    /// Performs the `GetCompatibleKafkaVersions` operation on the `Kafka` service.
-    ///
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     ///
     /// - Parameter GetCompatibleKafkaVersionsInput : [no documentation found]
@@ -415,8 +369,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func getCompatibleKafkaVersions(input: GetCompatibleKafkaVersionsInput) async throws -> GetCompatibleKafkaVersionsOutput
-    /// Performs the `ListClientVpcConnections` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the VPC connections in this Region.
     ///
     /// - Parameter ListClientVpcConnectionsInput : [no documentation found]
@@ -432,8 +384,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listClientVpcConnections(input: ListClientVpcConnectionsInput) async throws -> ListClientVpcConnectionsOutput
-    /// Performs the `ListClusterOperations` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
     /// - Parameter ListClusterOperationsInput : [no documentation found]
@@ -448,8 +398,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listClusterOperations(input: ListClusterOperationsInput) async throws -> ListClusterOperationsOutput
-    /// Performs the `ListClusterOperationsV2` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
     /// - Parameter ListClusterOperationsV2Input : [no documentation found]
@@ -467,8 +415,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listClusterOperationsV2(input: ListClusterOperationsV2Input) async throws -> ListClusterOperationsV2Output
-    /// Performs the `ListClusters` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the MSK clusters in the current Region.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
@@ -483,8 +429,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    /// Performs the `ListClustersV2` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the MSK clusters in the current Region.
     ///
     /// - Parameter ListClustersV2Input : [no documentation found]
@@ -499,8 +443,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listClustersV2(input: ListClustersV2Input) async throws -> ListClustersV2Output
-    /// Performs the `ListConfigurationRevisions` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the MSK configurations in this Region.
     ///
     /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
@@ -517,8 +459,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutput
-    /// Performs the `ListConfigurations` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the MSK configurations in this Region.
     ///
     /// - Parameter ListConfigurationsInput : [no documentation found]
@@ -534,8 +474,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput
-    /// Performs the `ListKafkaVersions` operation on the `Kafka` service.
-    ///
     /// Returns a list of Apache Kafka versions.
     ///
     /// - Parameter ListKafkaVersionsInput : [no documentation found]
@@ -550,8 +488,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listKafkaVersions(input: ListKafkaVersionsInput) async throws -> ListKafkaVersionsOutput
-    /// Performs the `ListNodes` operation on the `Kafka` service.
-    ///
     /// Returns a list of the broker nodes in the cluster.
     ///
     /// - Parameter ListNodesInput : [no documentation found]
@@ -566,8 +502,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
-    /// Performs the `ListReplicators` operation on the `Kafka` service.
-    ///
     /// Lists the replicators.
     ///
     /// - Parameter ListReplicatorsInput : [no documentation found]
@@ -585,8 +519,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listReplicators(input: ListReplicatorsInput) async throws -> ListReplicatorsOutput
-    /// Performs the `ListScramSecrets` operation on the `Kafka` service.
-    ///
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     ///
     /// - Parameter ListScramSecretsInput : [no documentation found]
@@ -604,8 +536,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listScramSecrets(input: ListScramSecretsInput) async throws -> ListScramSecretsOutput
-    /// Performs the `ListTagsForResource` operation on the `Kafka` service.
-    ///
     /// Returns a list of the tags associated with the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -619,8 +549,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListVpcConnections` operation on the `Kafka` service.
-    ///
     /// Returns a list of all the VPC connections in this Region.
     ///
     /// - Parameter ListVpcConnectionsInput : [no documentation found]
@@ -636,8 +564,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func listVpcConnections(input: ListVpcConnectionsInput) async throws -> ListVpcConnectionsOutput
-    /// Performs the `PutClusterPolicy` operation on the `Kafka` service.
-    ///
     /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
     ///
     /// - Parameter PutClusterPolicyInput : [no documentation found]
@@ -651,8 +577,6 @@ public protocol KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     func putClusterPolicy(input: PutClusterPolicyInput) async throws -> PutClusterPolicyOutput
-    /// Performs the `RebootBroker` operation on the `Kafka` service.
-    ///
     /// Reboots brokers.
     ///
     /// - Parameter RebootBrokerInput : Reboots a node.
@@ -670,8 +594,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutput
-    /// Performs the `RejectClientVpcConnection` operation on the `Kafka` service.
-    ///
     /// Returns empty response.
     ///
     /// - Parameter RejectClientVpcConnectionInput : [no documentation found]
@@ -687,8 +609,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func rejectClientVpcConnection(input: RejectClientVpcConnectionInput) async throws -> RejectClientVpcConnectionOutput
-    /// Performs the `TagResource` operation on the `Kafka` service.
-    ///
     /// Adds tags to the specified MSK resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -702,8 +622,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `Kafka` service.
-    ///
     /// Removes the tags associated with the keys that are provided in the query.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -717,8 +635,6 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateBrokerCount` operation on the `Kafka` service.
-    ///
     /// Updates the number of broker nodes in the cluster.
     ///
     /// - Parameter UpdateBrokerCountInput : [no documentation found]
@@ -734,8 +650,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateBrokerCount(input: UpdateBrokerCountInput) async throws -> UpdateBrokerCountOutput
-    /// Performs the `UpdateBrokerStorage` operation on the `Kafka` service.
-    ///
     /// Updates the EBS storage associated with MSK brokers.
     ///
     /// - Parameter UpdateBrokerStorageInput : [no documentation found]
@@ -751,8 +665,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateBrokerStorage(input: UpdateBrokerStorageInput) async throws -> UpdateBrokerStorageOutput
-    /// Performs the `UpdateBrokerType` operation on the `Kafka` service.
-    ///
     /// Updates EC2 instance type.
     ///
     /// - Parameter UpdateBrokerTypeInput : [no documentation found]
@@ -770,8 +682,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateBrokerType(input: UpdateBrokerTypeInput) async throws -> UpdateBrokerTypeOutput
-    /// Performs the `UpdateClusterConfiguration` operation on the `Kafka` service.
-    ///
     /// Updates the cluster with the configuration that is specified in the request body.
     ///
     /// - Parameter UpdateClusterConfigurationInput : [no documentation found]
@@ -788,8 +698,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateClusterConfiguration(input: UpdateClusterConfigurationInput) async throws -> UpdateClusterConfigurationOutput
-    /// Performs the `UpdateClusterKafkaVersion` operation on the `Kafka` service.
-    ///
     /// Updates the Apache Kafka version for the cluster.
     ///
     /// - Parameter UpdateClusterKafkaVersionInput : [no documentation found]
@@ -807,8 +715,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateClusterKafkaVersion(input: UpdateClusterKafkaVersionInput) async throws -> UpdateClusterKafkaVersionOutput
-    /// Performs the `UpdateConfiguration` operation on the `Kafka` service.
-    ///
     /// Updates an MSK configuration.
     ///
     /// - Parameter UpdateConfigurationInput : [no documentation found]
@@ -825,8 +731,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
-    /// Performs the `UpdateConnectivity` operation on the `Kafka` service.
-    ///
     /// Updates the cluster's connectivity configuration.
     ///
     /// - Parameter UpdateConnectivityInput : Request body for UpdateConnectivity.
@@ -843,8 +747,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateConnectivity(input: UpdateConnectivityInput) async throws -> UpdateConnectivityOutput
-    /// Performs the `UpdateMonitoring` operation on the `Kafka` service.
-    ///
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
     ///
     /// - Parameter UpdateMonitoringInput : Request body for UpdateMonitoring.
@@ -860,8 +762,6 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateMonitoring(input: UpdateMonitoringInput) async throws -> UpdateMonitoringOutput
-    /// Performs the `UpdateReplicationInfo` operation on the `Kafka` service.
-    ///
     /// Updates replication info of a replicator.
     ///
     /// - Parameter UpdateReplicationInfoInput : Update information relating to replication between a given source and target Kafka cluster.
@@ -879,8 +779,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateReplicationInfo(input: UpdateReplicationInfoInput) async throws -> UpdateReplicationInfoOutput
-    /// Performs the `UpdateSecurity` operation on the `Kafka` service.
-    ///
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
     ///
     /// - Parameter UpdateSecurityInput : [no documentation found]
@@ -898,8 +796,6 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateSecurity(input: UpdateSecurityInput) async throws -> UpdateSecurityOutput
-    /// Performs the `UpdateStorage` operation on the `Kafka` service.
-    ///
     /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
     ///
     /// - Parameter UpdateStorageInput : Request object for UpdateStorage api. Its used to update the storage attributes for the cluster.

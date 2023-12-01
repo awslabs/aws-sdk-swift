@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// AWS Elemental MediaPackage VOD
 public protocol MediaPackageVodClientProtocol {
-    /// Performs the `ConfigureLogs` operation on the `MediaPackageVod` service.
-    ///
     /// Changes the packaging group's properities to configure log subscription
     ///
     /// - Parameter ConfigureLogsInput : The option to configure log subscription.
@@ -22,8 +20,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutput
-    /// Performs the `CreateAsset` operation on the `MediaPackageVod` service.
-    ///
     /// Creates a new MediaPackage VOD Asset resource.
     ///
     /// - Parameter CreateAssetInput : A new MediaPackage VOD Asset configuration.
@@ -40,8 +36,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput
-    /// Performs the `CreatePackagingConfiguration` operation on the `MediaPackageVod` service.
-    ///
     /// Creates a new MediaPackage VOD PackagingConfiguration resource.
     ///
     /// - Parameter CreatePackagingConfigurationInput : A new MediaPackage VOD PackagingConfiguration resource configuration.
@@ -58,8 +52,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func createPackagingConfiguration(input: CreatePackagingConfigurationInput) async throws -> CreatePackagingConfigurationOutput
-    /// Performs the `CreatePackagingGroup` operation on the `MediaPackageVod` service.
-    ///
     /// Creates a new MediaPackage VOD PackagingGroup resource.
     ///
     /// - Parameter CreatePackagingGroupInput : A new MediaPackage VOD PackagingGroup resource configuration.
@@ -76,8 +68,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func createPackagingGroup(input: CreatePackagingGroupInput) async throws -> CreatePackagingGroupOutput
-    /// Performs the `DeleteAsset` operation on the `MediaPackageVod` service.
-    ///
     /// Deletes an existing MediaPackage VOD Asset resource.
     ///
     /// - Parameter DeleteAssetInput : [no documentation found]
@@ -94,8 +84,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
-    /// Performs the `DeletePackagingConfiguration` operation on the `MediaPackageVod` service.
-    ///
     /// Deletes a MediaPackage VOD PackagingConfiguration resource.
     ///
     /// - Parameter DeletePackagingConfigurationInput : [no documentation found]
@@ -112,8 +100,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func deletePackagingConfiguration(input: DeletePackagingConfigurationInput) async throws -> DeletePackagingConfigurationOutput
-    /// Performs the `DeletePackagingGroup` operation on the `MediaPackageVod` service.
-    ///
     /// Deletes a MediaPackage VOD PackagingGroup resource.
     ///
     /// - Parameter DeletePackagingGroupInput : [no documentation found]
@@ -130,8 +116,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func deletePackagingGroup(input: DeletePackagingGroupInput) async throws -> DeletePackagingGroupOutput
-    /// Performs the `DescribeAsset` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a description of a MediaPackage VOD Asset resource.
     ///
     /// - Parameter DescribeAssetInput : [no documentation found]
@@ -148,8 +132,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func describeAsset(input: DescribeAssetInput) async throws -> DescribeAssetOutput
-    /// Performs the `DescribePackagingConfiguration` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a description of a MediaPackage VOD PackagingConfiguration resource.
     ///
     /// - Parameter DescribePackagingConfigurationInput : [no documentation found]
@@ -166,8 +148,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func describePackagingConfiguration(input: DescribePackagingConfigurationInput) async throws -> DescribePackagingConfigurationOutput
-    /// Performs the `DescribePackagingGroup` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a description of a MediaPackage VOD PackagingGroup resource.
     ///
     /// - Parameter DescribePackagingGroupInput : [no documentation found]
@@ -184,8 +164,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func describePackagingGroup(input: DescribePackagingGroupInput) async throws -> DescribePackagingGroupOutput
-    /// Performs the `ListAssets` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a collection of MediaPackage VOD Asset resources.
     ///
     /// - Parameter ListAssetsInput : [no documentation found]
@@ -202,8 +180,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutput
-    /// Performs the `ListPackagingConfigurations` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a collection of MediaPackage VOD PackagingConfiguration resources.
     ///
     /// - Parameter ListPackagingConfigurationsInput : [no documentation found]
@@ -220,8 +196,6 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func listPackagingConfigurations(input: ListPackagingConfigurationsInput) async throws -> ListPackagingConfigurationsOutput
-    /// Performs the `ListPackagingGroups` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a collection of MediaPackage VOD PackagingGroup resources.
     ///
     /// - Parameter ListPackagingGroupsInput : [no documentation found]
@@ -238,32 +212,24 @@ public protocol MediaPackageVodClientProtocol {
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
     func listPackagingGroups(input: ListPackagingGroupsInput) async throws -> ListPackagingGroupsOutput
-    /// Performs the `ListTagsForResource` operation on the `MediaPackageVod` service.
-    ///
     /// Returns a list of the tags assigned to the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `TagResource` operation on the `MediaPackageVod` service.
-    ///
     /// Adds tags to the specified resource. You can specify one or more tags to add.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `MediaPackageVod` service.
-    ///
     /// Removes tags from the specified resource. You can specify one or more tags to remove.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdatePackagingGroup` operation on the `MediaPackageVod` service.
-    ///
     /// Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
     ///
     /// - Parameter UpdatePackagingGroupInput : A MediaPackage VOD PackagingGroup resource configuration.

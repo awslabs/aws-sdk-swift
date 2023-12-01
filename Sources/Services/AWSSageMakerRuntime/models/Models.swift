@@ -350,6 +350,32 @@ enum InvokeEndpointAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeEndpointInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeEndpointInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let body = input.operationInput.body {
+            let bodyData = body
+            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+            input.builder.withBody(bodyBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension InvokeEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeEndpointInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), enableExplanations: \(Swift.String(describing: enableExplanations)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetModel: \(Swift.String(describing: targetModel)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
@@ -562,6 +588,32 @@ enum InvokeEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeEndpointWithResponseStreamInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let body = input.operationInput.body {
+            let bodyData = body
+            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+            input.builder.withBody(bodyBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension InvokeEndpointWithResponseStreamInput: Swift.CustomDebugStringConvertible {

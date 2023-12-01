@@ -12,7 +12,7 @@ extension MqClient {
     ///     - input: A `[ListBrokersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBrokersOutput`
     public func listBrokersPaginated(input: ListBrokersInput) -> ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutput> {
-        return ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBrokers(input:))
+        return ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutput>(input: input, inputKey: \ListBrokersInput.nextToken, outputKey: \ListBrokersOutput.nextToken, paginationFunction: self.listBrokers(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListBrokersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListBrokersInput, OperationStackOutput == ListBrokersOutput {
+extension PaginatorSequence where Input == ListBrokersInput, Output == ListBrokersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBrokersPaginated`
     /// to access the nested member `[MqClientTypes.BrokerSummary]`
     /// - Returns: `[MqClientTypes.BrokerSummary]`

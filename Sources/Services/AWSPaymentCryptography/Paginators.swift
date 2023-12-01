@@ -12,7 +12,7 @@ extension PaymentCryptographyClient {
     ///     - input: A `[ListAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAliases(input:))
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutput.nextToken, paginationFunction: self.listAliases(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAliasesInput, OperationStackOutput == ListAliasesOutput {
+extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[PaymentCryptographyClientTypes.Alias]`
     /// - Returns: `[PaymentCryptographyClientTypes.Alias]`
@@ -42,7 +42,7 @@ extension PaymentCryptographyClient {
     ///     - input: A `[ListKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKeysOutput`
     public func listKeysPaginated(input: ListKeysInput) -> ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput> {
-        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKeys(input:))
+        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput>(input: input, inputKey: \ListKeysInput.nextToken, outputKey: \ListKeysOutput.nextToken, paginationFunction: self.listKeys(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListKeysInput, OperationStackOutput == ListKeysOutput {
+extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKeysPaginated`
     /// to access the nested member `[PaymentCryptographyClientTypes.KeySummary]`
     /// - Returns: `[PaymentCryptographyClientTypes.KeySummary]`
@@ -73,7 +73,7 @@ extension PaymentCryptographyClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[PaymentCryptographyClientTypes.Tag]`
     /// - Returns: `[PaymentCryptographyClientTypes.Tag]`

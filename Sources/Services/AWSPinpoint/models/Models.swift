@@ -5231,6 +5231,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateAppInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateAppInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateAppOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let createApplicationRequest = input.operationInput.createApplicationRequest {
+                let createApplicationRequestData = try encoder.encode(createApplicationRequest)
+                let createApplicationRequestBody = ClientRuntime.HttpBody.data(createApplicationRequestData)
+                input.builder.withBody(createApplicationRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createApplicationRequestData = "{}".data(using: .utf8)!
+                    let createApplicationRequestBody = ClientRuntime.HttpBody.data(createApplicationRequestData)
+                    input.builder.withBody(createApplicationRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateAppInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateAppOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateAppInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createApplicationRequest = "CreateApplicationRequest"
@@ -5394,6 +5432,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateCampaignInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateCampaignInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCampaignOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeCampaignRequest = input.operationInput.writeCampaignRequest {
+                let writeCampaignRequestData = try encoder.encode(writeCampaignRequest)
+                let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                input.builder.withBody(writeCampaignRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeCampaignRequestData = "{}".data(using: .utf8)!
+                    let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                    input.builder.withBody(writeCampaignRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateCampaignInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateCampaignOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateCampaignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeCampaignRequest = "WriteCampaignRequest"
@@ -5507,6 +5583,44 @@ enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateEmailTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateEmailTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateEmailTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let emailTemplateRequest = input.operationInput.emailTemplateRequest {
+                let emailTemplateRequestData = try encoder.encode(emailTemplateRequest)
+                let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                input.builder.withBody(emailTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let emailTemplateRequestData = "{}".data(using: .utf8)!
+                    let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                    input.builder.withBody(emailTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateEmailTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateEmailTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateEmailTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailTemplateRequest = "EmailTemplateRequest"
@@ -5616,6 +5730,44 @@ enum CreateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateExportJobInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateExportJobInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateExportJobOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let exportJobRequest = input.operationInput.exportJobRequest {
+                let exportJobRequestData = try encoder.encode(exportJobRequest)
+                let exportJobRequestBody = ClientRuntime.HttpBody.data(exportJobRequestData)
+                input.builder.withBody(exportJobRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let exportJobRequestData = "{}".data(using: .utf8)!
+                    let exportJobRequestBody = ClientRuntime.HttpBody.data(exportJobRequestData)
+                    input.builder.withBody(exportJobRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateExportJobInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateExportJobOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateExportJobInput: Swift.Encodable {
@@ -5731,6 +5883,44 @@ enum CreateExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateImportJobInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateImportJobInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateImportJobOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let importJobRequest = input.operationInput.importJobRequest {
+                let importJobRequestData = try encoder.encode(importJobRequest)
+                let importJobRequestBody = ClientRuntime.HttpBody.data(importJobRequestData)
+                input.builder.withBody(importJobRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let importJobRequestData = "{}".data(using: .utf8)!
+                    let importJobRequestBody = ClientRuntime.HttpBody.data(importJobRequestData)
+                    input.builder.withBody(importJobRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateImportJobInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateImportJobOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importJobRequest = "ImportJobRequest"
@@ -5844,6 +6034,44 @@ enum CreateImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateInAppTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateInAppTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateInAppTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let inAppTemplateRequest = input.operationInput.inAppTemplateRequest {
+                let inAppTemplateRequestData = try encoder.encode(inAppTemplateRequest)
+                let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                input.builder.withBody(inAppTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let inAppTemplateRequestData = "{}".data(using: .utf8)!
+                    let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                    input.builder.withBody(inAppTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateInAppTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateInAppTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateInAppTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inAppTemplateRequest = "InAppTemplateRequest"
@@ -5953,6 +6181,44 @@ enum CreateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateJourneyInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateJourneyInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateJourneyOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeJourneyRequest = input.operationInput.writeJourneyRequest {
+                let writeJourneyRequestData = try encoder.encode(writeJourneyRequest)
+                let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                input.builder.withBody(writeJourneyRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeJourneyRequestData = "{}".data(using: .utf8)!
+                    let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                    input.builder.withBody(writeJourneyRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateJourneyInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateJourneyOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateJourneyInput: Swift.Encodable {
@@ -6068,6 +6334,44 @@ enum CreateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreatePushTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreatePushTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreatePushTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let pushNotificationTemplateRequest = input.operationInput.pushNotificationTemplateRequest {
+                let pushNotificationTemplateRequestData = try encoder.encode(pushNotificationTemplateRequest)
+                let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                input.builder.withBody(pushNotificationTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let pushNotificationTemplateRequestData = "{}".data(using: .utf8)!
+                    let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                    input.builder.withBody(pushNotificationTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreatePushTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreatePushTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreatePushTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
@@ -6177,6 +6481,44 @@ enum CreatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateRecommenderConfigurationInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateRecommenderConfigurationInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateRecommenderConfigurationOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let createRecommenderConfiguration = input.operationInput.createRecommenderConfiguration {
+                let createRecommenderConfigurationData = try encoder.encode(createRecommenderConfiguration)
+                let createRecommenderConfigurationBody = ClientRuntime.HttpBody.data(createRecommenderConfigurationData)
+                input.builder.withBody(createRecommenderConfigurationBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createRecommenderConfigurationData = "{}".data(using: .utf8)!
+                    let createRecommenderConfigurationBody = ClientRuntime.HttpBody.data(createRecommenderConfigurationData)
+                    input.builder.withBody(createRecommenderConfigurationBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateRecommenderConfigurationInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateRecommenderConfigurationOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateRecommenderConfigurationInput: Swift.Encodable {
@@ -6424,6 +6766,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateSegmentInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateSegmentInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateSegmentOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeSegmentRequest = input.operationInput.writeSegmentRequest {
+                let writeSegmentRequestData = try encoder.encode(writeSegmentRequest)
+                let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                input.builder.withBody(writeSegmentRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeSegmentRequestData = "{}".data(using: .utf8)!
+                    let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                    input.builder.withBody(writeSegmentRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateSegmentInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateSegmentOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension CreateSegmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeSegmentRequest = "WriteSegmentRequest"
@@ -6535,6 +6915,44 @@ enum CreateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateSmsTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateSmsTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateSmsTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let smsTemplateRequest = input.operationInput.smsTemplateRequest {
+                let smsTemplateRequestData = try encoder.encode(smsTemplateRequest)
+                let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                input.builder.withBody(smsTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let smsTemplateRequestData = "{}".data(using: .utf8)!
+                    let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                    input.builder.withBody(smsTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateSmsTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateSmsTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateSmsTemplateInput: Swift.Encodable {
@@ -6701,6 +7119,44 @@ extension PinpointClientTypes {
         }
     }
 
+}
+
+public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateVoiceTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateVoiceTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateVoiceTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let voiceTemplateRequest = input.operationInput.voiceTemplateRequest {
+                let voiceTemplateRequestData = try encoder.encode(voiceTemplateRequest)
+                let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                input.builder.withBody(voiceTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let voiceTemplateRequestData = "{}".data(using: .utf8)!
+                    let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                    input.builder.withBody(voiceTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateVoiceTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateVoiceTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateVoiceTemplateInput: Swift.Encodable {
@@ -23758,6 +24214,44 @@ extension PayloadTooLargeExceptionBody: Swift.Decodable {
     }
 }
 
+public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PhoneNumberValidateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PhoneNumberValidateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PhoneNumberValidateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let numberValidateRequest = input.operationInput.numberValidateRequest {
+                let numberValidateRequestData = try encoder.encode(numberValidateRequest)
+                let numberValidateRequestBody = ClientRuntime.HttpBody.data(numberValidateRequestData)
+                input.builder.withBody(numberValidateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let numberValidateRequestData = "{}".data(using: .utf8)!
+                    let numberValidateRequestBody = ClientRuntime.HttpBody.data(numberValidateRequestData)
+                    input.builder.withBody(numberValidateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PhoneNumberValidateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PhoneNumberValidateOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension PhoneNumberValidateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case numberValidateRequest = "NumberValidateRequest"
@@ -24415,6 +24909,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PutEventStreamInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PutEventStreamInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutEventStreamOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeEventStream = input.operationInput.writeEventStream {
+                let writeEventStreamData = try encoder.encode(writeEventStream)
+                let writeEventStreamBody = ClientRuntime.HttpBody.data(writeEventStreamData)
+                input.builder.withBody(writeEventStreamBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeEventStreamData = "{}".data(using: .utf8)!
+                    let writeEventStreamBody = ClientRuntime.HttpBody.data(writeEventStreamData)
+                    input.builder.withBody(writeEventStreamBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PutEventStreamInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutEventStreamOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension PutEventStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeEventStream = "WriteEventStream"
@@ -24526,6 +25058,44 @@ enum PutEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PutEventsInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PutEventsInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutEventsOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let eventsRequest = input.operationInput.eventsRequest {
+                let eventsRequestData = try encoder.encode(eventsRequest)
+                let eventsRequestBody = ClientRuntime.HttpBody.data(eventsRequestData)
+                input.builder.withBody(eventsRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let eventsRequestData = "{}".data(using: .utf8)!
+                    let eventsRequestBody = ClientRuntime.HttpBody.data(eventsRequestData)
+                    input.builder.withBody(eventsRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PutEventsInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutEventsOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension PutEventsInput: Swift.Encodable {
@@ -25056,6 +25626,44 @@ extension PinpointClientTypes {
         }
     }
 
+}
+
+public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "RemoveAttributesInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<RemoveAttributesInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<RemoveAttributesOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let updateAttributesRequest = input.operationInput.updateAttributesRequest {
+                let updateAttributesRequestData = try encoder.encode(updateAttributesRequest)
+                let updateAttributesRequestBody = ClientRuntime.HttpBody.data(updateAttributesRequestData)
+                input.builder.withBody(updateAttributesRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updateAttributesRequestData = "{}".data(using: .utf8)!
+                    let updateAttributesRequestBody = ClientRuntime.HttpBody.data(updateAttributesRequestData)
+                    input.builder.withBody(updateAttributesRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<RemoveAttributesInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<RemoveAttributesOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension RemoveAttributesInput: Swift.Encodable {
@@ -26952,6 +27560,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "SendMessagesInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<SendMessagesInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<SendMessagesOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let messageRequest = input.operationInput.messageRequest {
+                let messageRequestData = try encoder.encode(messageRequest)
+                let messageRequestBody = ClientRuntime.HttpBody.data(messageRequestData)
+                input.builder.withBody(messageRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let messageRequestData = "{}".data(using: .utf8)!
+                    let messageRequestBody = ClientRuntime.HttpBody.data(messageRequestData)
+                    input.builder.withBody(messageRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<SendMessagesInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<SendMessagesOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension SendMessagesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageRequest = "MessageRequest"
@@ -27063,6 +27709,44 @@ enum SendMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "SendOTPMessageInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<SendOTPMessageInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<SendOTPMessageOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let sendOTPMessageRequestParameters = input.operationInput.sendOTPMessageRequestParameters {
+                let sendOTPMessageRequestParametersData = try encoder.encode(sendOTPMessageRequestParameters)
+                let sendOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersData)
+                input.builder.withBody(sendOTPMessageRequestParametersBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let sendOTPMessageRequestParametersData = "{}".data(using: .utf8)!
+                    let sendOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(sendOTPMessageRequestParametersData)
+                    input.builder.withBody(sendOTPMessageRequestParametersBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<SendOTPMessageInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<SendOTPMessageOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension SendOTPMessageInput: Swift.Encodable {
@@ -27495,6 +28179,44 @@ extension PinpointClientTypes {
         }
     }
 
+}
+
+public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "SendUsersMessagesInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<SendUsersMessagesInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<SendUsersMessagesOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let sendUsersMessageRequest = input.operationInput.sendUsersMessageRequest {
+                let sendUsersMessageRequestData = try encoder.encode(sendUsersMessageRequest)
+                let sendUsersMessageRequestBody = ClientRuntime.HttpBody.data(sendUsersMessageRequestData)
+                input.builder.withBody(sendUsersMessageRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let sendUsersMessageRequestData = "{}".data(using: .utf8)!
+                    let sendUsersMessageRequestBody = ClientRuntime.HttpBody.data(sendUsersMessageRequestData)
+                    input.builder.withBody(sendUsersMessageRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<SendUsersMessagesInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<SendUsersMessagesOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension SendUsersMessagesInput: Swift.Encodable {
@@ -28022,6 +28744,44 @@ extension PinpointClientTypes {
             self = State(rawValue: rawValue) ?? State.sdkUnknown(rawValue)
         }
     }
+}
+
+public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "TagResourceInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<TagResourceInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<TagResourceOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let tagsModel = input.operationInput.tagsModel {
+                let tagsModelData = try encoder.encode(tagsModel)
+                let tagsModelBody = ClientRuntime.HttpBody.data(tagsModelData)
+                input.builder.withBody(tagsModelBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let tagsModelData = "{}".data(using: .utf8)!
+                    let tagsModelBody = ClientRuntime.HttpBody.data(tagsModelData)
+                    input.builder.withBody(tagsModelBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<TagResourceInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<TagResourceOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -29056,6 +29816,44 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateAdmChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateAdmChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateAdmChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let admChannelRequest = input.operationInput.admChannelRequest {
+                let admChannelRequestData = try encoder.encode(admChannelRequest)
+                let admChannelRequestBody = ClientRuntime.HttpBody.data(admChannelRequestData)
+                input.builder.withBody(admChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let admChannelRequestData = "{}".data(using: .utf8)!
+                    let admChannelRequestBody = ClientRuntime.HttpBody.data(admChannelRequestData)
+                    input.builder.withBody(admChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateAdmChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateAdmChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateAdmChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case admChannelRequest = "ADMChannelRequest"
@@ -29167,6 +29965,44 @@ enum UpdateAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateApnsChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateApnsChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let apnsChannelRequest = input.operationInput.apnsChannelRequest {
+                let apnsChannelRequestData = try encoder.encode(apnsChannelRequest)
+                let apnsChannelRequestBody = ClientRuntime.HttpBody.data(apnsChannelRequestData)
+                input.builder.withBody(apnsChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsChannelRequestBody = ClientRuntime.HttpBody.data(apnsChannelRequestData)
+                    input.builder.withBody(apnsChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateApnsChannelInput: Swift.Encodable {
@@ -29282,6 +30118,44 @@ enum UpdateApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateApnsSandboxChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateApnsSandboxChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsSandboxChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let apnsSandboxChannelRequest = input.operationInput.apnsSandboxChannelRequest {
+                let apnsSandboxChannelRequestData = try encoder.encode(apnsSandboxChannelRequest)
+                let apnsSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestData)
+                input.builder.withBody(apnsSandboxChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsSandboxChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsSandboxChannelRequestData)
+                    input.builder.withBody(apnsSandboxChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsSandboxChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsSandboxChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateApnsSandboxChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apnsSandboxChannelRequest = "APNSSandboxChannelRequest"
@@ -29393,6 +30267,44 @@ enum UpdateApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateApnsVoipChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateApnsVoipChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsVoipChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let apnsVoipChannelRequest = input.operationInput.apnsVoipChannelRequest {
+                let apnsVoipChannelRequestData = try encoder.encode(apnsVoipChannelRequest)
+                let apnsVoipChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestData)
+                input.builder.withBody(apnsVoipChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsVoipChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsVoipChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipChannelRequestData)
+                    input.builder.withBody(apnsVoipChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsVoipChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsVoipChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateApnsVoipChannelInput: Swift.Encodable {
@@ -29508,6 +30420,44 @@ enum UpdateApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateApnsVoipSandboxChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateApnsVoipSandboxChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsVoipSandboxChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let apnsVoipSandboxChannelRequest = input.operationInput.apnsVoipSandboxChannelRequest {
+                let apnsVoipSandboxChannelRequestData = try encoder.encode(apnsVoipSandboxChannelRequest)
+                let apnsVoipSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestData)
+                input.builder.withBody(apnsVoipSandboxChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let apnsVoipSandboxChannelRequestData = "{}".data(using: .utf8)!
+                    let apnsVoipSandboxChannelRequestBody = ClientRuntime.HttpBody.data(apnsVoipSandboxChannelRequestData)
+                    input.builder.withBody(apnsVoipSandboxChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsVoipSandboxChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsVoipSandboxChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateApnsVoipSandboxChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apnsVoipSandboxChannelRequest = "APNSVoipSandboxChannelRequest"
@@ -29619,6 +30569,44 @@ enum UpdateApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateApplicationSettingsInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateApplicationSettingsInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApplicationSettingsOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeApplicationSettingsRequest = input.operationInput.writeApplicationSettingsRequest {
+                let writeApplicationSettingsRequestData = try encoder.encode(writeApplicationSettingsRequest)
+                let writeApplicationSettingsRequestBody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestData)
+                input.builder.withBody(writeApplicationSettingsRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeApplicationSettingsRequestData = "{}".data(using: .utf8)!
+                    let writeApplicationSettingsRequestBody = ClientRuntime.HttpBody.data(writeApplicationSettingsRequestData)
+                    input.builder.withBody(writeApplicationSettingsRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApplicationSettingsInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApplicationSettingsOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateApplicationSettingsInput: Swift.Encodable {
@@ -29781,6 +30769,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateBaiduChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateBaiduChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateBaiduChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let baiduChannelRequest = input.operationInput.baiduChannelRequest {
+                let baiduChannelRequestData = try encoder.encode(baiduChannelRequest)
+                let baiduChannelRequestBody = ClientRuntime.HttpBody.data(baiduChannelRequestData)
+                input.builder.withBody(baiduChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let baiduChannelRequestData = "{}".data(using: .utf8)!
+                    let baiduChannelRequestBody = ClientRuntime.HttpBody.data(baiduChannelRequestData)
+                    input.builder.withBody(baiduChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateBaiduChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateBaiduChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateBaiduChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baiduChannelRequest = "BaiduChannelRequest"
@@ -29892,6 +30918,44 @@ enum UpdateBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateCampaignInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateCampaignInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCampaignOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeCampaignRequest = input.operationInput.writeCampaignRequest {
+                let writeCampaignRequestData = try encoder.encode(writeCampaignRequest)
+                let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                input.builder.withBody(writeCampaignRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeCampaignRequestData = "{}".data(using: .utf8)!
+                    let writeCampaignRequestBody = ClientRuntime.HttpBody.data(writeCampaignRequestData)
+                    input.builder.withBody(writeCampaignRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateCampaignInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCampaignOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateCampaignInput: Swift.Encodable {
@@ -30015,6 +31079,44 @@ enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateEmailChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateEmailChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEmailChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let emailChannelRequest = input.operationInput.emailChannelRequest {
+                let emailChannelRequestData = try encoder.encode(emailChannelRequest)
+                let emailChannelRequestBody = ClientRuntime.HttpBody.data(emailChannelRequestData)
+                input.builder.withBody(emailChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let emailChannelRequestData = "{}".data(using: .utf8)!
+                    let emailChannelRequestBody = ClientRuntime.HttpBody.data(emailChannelRequestData)
+                    input.builder.withBody(emailChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEmailChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEmailChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateEmailChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailChannelRequest = "EmailChannelRequest"
@@ -30126,6 +31228,44 @@ enum UpdateEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateEmailTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateEmailTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEmailTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let emailTemplateRequest = input.operationInput.emailTemplateRequest {
+                let emailTemplateRequestData = try encoder.encode(emailTemplateRequest)
+                let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                input.builder.withBody(emailTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let emailTemplateRequestData = "{}".data(using: .utf8)!
+                    let emailTemplateRequestBody = ClientRuntime.HttpBody.data(emailTemplateRequestData)
+                    input.builder.withBody(emailTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEmailTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEmailTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateEmailTemplateInput: Swift.Encodable {
@@ -30272,6 +31412,44 @@ enum UpdateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateEndpointInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateEndpointInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEndpointOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let endpointRequest = input.operationInput.endpointRequest {
+                let endpointRequestData = try encoder.encode(endpointRequest)
+                let endpointRequestBody = ClientRuntime.HttpBody.data(endpointRequestData)
+                input.builder.withBody(endpointRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let endpointRequestData = "{}".data(using: .utf8)!
+                    let endpointRequestBody = ClientRuntime.HttpBody.data(endpointRequestData)
+                    input.builder.withBody(endpointRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEndpointInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEndpointOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointRequest = "EndpointRequest"
@@ -30393,6 +31571,44 @@ enum UpdateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateEndpointsBatchInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateEndpointsBatchInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEndpointsBatchOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let endpointBatchRequest = input.operationInput.endpointBatchRequest {
+                let endpointBatchRequestData = try encoder.encode(endpointBatchRequest)
+                let endpointBatchRequestBody = ClientRuntime.HttpBody.data(endpointBatchRequestData)
+                input.builder.withBody(endpointBatchRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let endpointBatchRequestData = "{}".data(using: .utf8)!
+                    let endpointBatchRequestBody = ClientRuntime.HttpBody.data(endpointBatchRequestData)
+                    input.builder.withBody(endpointBatchRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEndpointsBatchInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEndpointsBatchOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateEndpointsBatchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointBatchRequest = "EndpointBatchRequest"
@@ -30506,6 +31722,44 @@ enum UpdateEndpointsBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateGcmChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateGcmChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateGcmChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let gcmChannelRequest = input.operationInput.gcmChannelRequest {
+                let gcmChannelRequestData = try encoder.encode(gcmChannelRequest)
+                let gcmChannelRequestBody = ClientRuntime.HttpBody.data(gcmChannelRequestData)
+                input.builder.withBody(gcmChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let gcmChannelRequestData = "{}".data(using: .utf8)!
+                    let gcmChannelRequestBody = ClientRuntime.HttpBody.data(gcmChannelRequestData)
+                    input.builder.withBody(gcmChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateGcmChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateGcmChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateGcmChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gcmChannelRequest = "GCMChannelRequest"
@@ -30617,6 +31871,44 @@ enum UpdateGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateInAppTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateInAppTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateInAppTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let inAppTemplateRequest = input.operationInput.inAppTemplateRequest {
+                let inAppTemplateRequestData = try encoder.encode(inAppTemplateRequest)
+                let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                input.builder.withBody(inAppTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let inAppTemplateRequestData = "{}".data(using: .utf8)!
+                    let inAppTemplateRequestBody = ClientRuntime.HttpBody.data(inAppTemplateRequestData)
+                    input.builder.withBody(inAppTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateInAppTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateInAppTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateInAppTemplateInput: Swift.Encodable {
@@ -30763,6 +32055,44 @@ enum UpdateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateJourneyInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateJourneyInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateJourneyOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeJourneyRequest = input.operationInput.writeJourneyRequest {
+                let writeJourneyRequestData = try encoder.encode(writeJourneyRequest)
+                let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                input.builder.withBody(writeJourneyRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeJourneyRequestData = "{}".data(using: .utf8)!
+                    let writeJourneyRequestBody = ClientRuntime.HttpBody.data(writeJourneyRequestData)
+                    input.builder.withBody(writeJourneyRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateJourneyInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateJourneyOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateJourneyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeJourneyRequest = "WriteJourneyRequest"
@@ -30885,6 +32215,44 @@ enum UpdateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateJourneyStateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateJourneyStateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateJourneyStateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let journeyStateRequest = input.operationInput.journeyStateRequest {
+                let journeyStateRequestData = try encoder.encode(journeyStateRequest)
+                let journeyStateRequestBody = ClientRuntime.HttpBody.data(journeyStateRequestData)
+                input.builder.withBody(journeyStateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let journeyStateRequestData = "{}".data(using: .utf8)!
+                    let journeyStateRequestBody = ClientRuntime.HttpBody.data(journeyStateRequestData)
+                    input.builder.withBody(journeyStateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateJourneyStateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateJourneyStateOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateJourneyStateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case journeyStateRequest = "JourneyStateRequest"
@@ -31004,6 +32372,44 @@ enum UpdateJourneyStateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdatePushTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdatePushTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdatePushTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let pushNotificationTemplateRequest = input.operationInput.pushNotificationTemplateRequest {
+                let pushNotificationTemplateRequestData = try encoder.encode(pushNotificationTemplateRequest)
+                let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                input.builder.withBody(pushNotificationTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let pushNotificationTemplateRequestData = "{}".data(using: .utf8)!
+                    let pushNotificationTemplateRequestBody = ClientRuntime.HttpBody.data(pushNotificationTemplateRequestData)
+                    input.builder.withBody(pushNotificationTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdatePushTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdatePushTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdatePushTemplateInput: Swift.Encodable {
@@ -31148,6 +32554,44 @@ enum UpdatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateRecommenderConfigurationInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateRecommenderConfigurationInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateRecommenderConfigurationOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let updateRecommenderConfiguration = input.operationInput.updateRecommenderConfiguration {
+                let updateRecommenderConfigurationData = try encoder.encode(updateRecommenderConfiguration)
+                let updateRecommenderConfigurationBody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationData)
+                input.builder.withBody(updateRecommenderConfigurationBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let updateRecommenderConfigurationData = "{}".data(using: .utf8)!
+                    let updateRecommenderConfigurationBody = ClientRuntime.HttpBody.data(updateRecommenderConfigurationData)
+                    input.builder.withBody(updateRecommenderConfigurationBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateRecommenderConfigurationInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateRecommenderConfigurationOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateRecommenderConfigurationInput: Swift.Encodable {
@@ -31403,6 +32847,44 @@ extension PinpointClientTypes {
 
 }
 
+public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateSegmentInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateSegmentInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSegmentOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let writeSegmentRequest = input.operationInput.writeSegmentRequest {
+                let writeSegmentRequestData = try encoder.encode(writeSegmentRequest)
+                let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                input.builder.withBody(writeSegmentRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let writeSegmentRequestData = "{}".data(using: .utf8)!
+                    let writeSegmentRequestBody = ClientRuntime.HttpBody.data(writeSegmentRequestData)
+                    input.builder.withBody(writeSegmentRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateSegmentInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSegmentOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateSegmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeSegmentRequest = "WriteSegmentRequest"
@@ -31524,6 +33006,44 @@ enum UpdateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateSmsChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateSmsChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSmsChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let smsChannelRequest = input.operationInput.smsChannelRequest {
+                let smsChannelRequestData = try encoder.encode(smsChannelRequest)
+                let smsChannelRequestBody = ClientRuntime.HttpBody.data(smsChannelRequestData)
+                input.builder.withBody(smsChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let smsChannelRequestData = "{}".data(using: .utf8)!
+                    let smsChannelRequestBody = ClientRuntime.HttpBody.data(smsChannelRequestData)
+                    input.builder.withBody(smsChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateSmsChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSmsChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateSmsChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case smsChannelRequest = "SMSChannelRequest"
@@ -31635,6 +33155,44 @@ enum UpdateSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateSmsTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateSmsTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSmsTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let smsTemplateRequest = input.operationInput.smsTemplateRequest {
+                let smsTemplateRequestData = try encoder.encode(smsTemplateRequest)
+                let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                input.builder.withBody(smsTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let smsTemplateRequestData = "{}".data(using: .utf8)!
+                    let smsTemplateRequestBody = ClientRuntime.HttpBody.data(smsTemplateRequestData)
+                    input.builder.withBody(smsTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateSmsTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSmsTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateSmsTemplateInput: Swift.Encodable {
@@ -31781,6 +33339,44 @@ enum UpdateSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateTemplateActiveVersionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateTemplateActiveVersionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateTemplateActiveVersionOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let templateActiveVersionRequest = input.operationInput.templateActiveVersionRequest {
+                let templateActiveVersionRequestData = try encoder.encode(templateActiveVersionRequest)
+                let templateActiveVersionRequestBody = ClientRuntime.HttpBody.data(templateActiveVersionRequestData)
+                input.builder.withBody(templateActiveVersionRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let templateActiveVersionRequestData = "{}".data(using: .utf8)!
+                    let templateActiveVersionRequestBody = ClientRuntime.HttpBody.data(templateActiveVersionRequestData)
+                    input.builder.withBody(templateActiveVersionRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateTemplateActiveVersionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateTemplateActiveVersionOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateTemplateActiveVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateActiveVersionRequest = "TemplateActiveVersionRequest"
@@ -31902,6 +33498,44 @@ enum UpdateTemplateActiveVersionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateVoiceChannelInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateVoiceChannelInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateVoiceChannelOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let voiceChannelRequest = input.operationInput.voiceChannelRequest {
+                let voiceChannelRequestData = try encoder.encode(voiceChannelRequest)
+                let voiceChannelRequestBody = ClientRuntime.HttpBody.data(voiceChannelRequestData)
+                input.builder.withBody(voiceChannelRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let voiceChannelRequestData = "{}".data(using: .utf8)!
+                    let voiceChannelRequestBody = ClientRuntime.HttpBody.data(voiceChannelRequestData)
+                    input.builder.withBody(voiceChannelRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateVoiceChannelInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateVoiceChannelOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateVoiceChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case voiceChannelRequest = "VoiceChannelRequest"
@@ -32013,6 +33647,44 @@ enum UpdateVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateVoiceTemplateInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateVoiceTemplateInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateVoiceTemplateOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let voiceTemplateRequest = input.operationInput.voiceTemplateRequest {
+                let voiceTemplateRequestData = try encoder.encode(voiceTemplateRequest)
+                let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                input.builder.withBody(voiceTemplateRequestBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let voiceTemplateRequestData = "{}".data(using: .utf8)!
+                    let voiceTemplateRequestBody = ClientRuntime.HttpBody.data(voiceTemplateRequestData)
+                    input.builder.withBody(voiceTemplateRequestBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateVoiceTemplateInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateVoiceTemplateOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateVoiceTemplateInput: Swift.Encodable {
@@ -32192,6 +33864,44 @@ extension PinpointClientTypes {
         }
     }
 
+}
+
+public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "VerifyOTPMessageInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<VerifyOTPMessageInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<VerifyOTPMessageOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let verifyOTPMessageRequestParameters = input.operationInput.verifyOTPMessageRequestParameters {
+                let verifyOTPMessageRequestParametersData = try encoder.encode(verifyOTPMessageRequestParameters)
+                let verifyOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersData)
+                input.builder.withBody(verifyOTPMessageRequestParametersBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let verifyOTPMessageRequestParametersData = "{}".data(using: .utf8)!
+                    let verifyOTPMessageRequestParametersBody = ClientRuntime.HttpBody.data(verifyOTPMessageRequestParametersData)
+                    input.builder.withBody(verifyOTPMessageRequestParametersBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<VerifyOTPMessageInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<VerifyOTPMessageOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension VerifyOTPMessageInput: Swift.Encodable {

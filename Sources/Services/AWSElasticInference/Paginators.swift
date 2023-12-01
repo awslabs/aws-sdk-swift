@@ -12,7 +12,7 @@ extension ElasticInferenceClient {
     ///     - input: A `[DescribeAcceleratorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAcceleratorsOutput`
     public func describeAcceleratorsPaginated(input: DescribeAcceleratorsInput) -> ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccelerators(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutput>(input: input, inputKey: \DescribeAcceleratorsInput.nextToken, outputKey: \DescribeAcceleratorsOutput.nextToken, paginationFunction: self.describeAccelerators(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeAcceleratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeAcceleratorsInput, OperationStackOutput == DescribeAcceleratorsOutput {
+extension PaginatorSequence where Input == DescribeAcceleratorsInput, Output == DescribeAcceleratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAcceleratorsPaginated`
     /// to access the nested member `[ElasticInferenceClientTypes.ElasticInferenceAccelerator]`
     /// - Returns: `[ElasticInferenceClientTypes.ElasticInferenceAccelerator]`

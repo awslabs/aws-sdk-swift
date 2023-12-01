@@ -20118,6 +20118,32 @@ enum UpdateResourceEventConfigurationOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
+public struct UpdateResourcePositionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UpdateResourcePositionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UpdateResourcePositionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateResourcePositionOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let geoJsonPayload = input.operationInput.geoJsonPayload {
+            let geoJsonPayloadData = geoJsonPayload
+            let geoJsonPayloadBody = ClientRuntime.HttpBody.data(geoJsonPayloadData)
+            input.builder.withBody(geoJsonPayloadBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateResourcePositionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateResourcePositionOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UpdateResourcePositionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case geoJsonPayload = "GeoJsonPayload"

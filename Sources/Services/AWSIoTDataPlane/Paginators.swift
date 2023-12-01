@@ -12,7 +12,7 @@ extension IoTDataPlaneClient {
     ///     - input: A `[ListRetainedMessagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRetainedMessagesOutput`
     public func listRetainedMessagesPaginated(input: ListRetainedMessagesInput) -> ClientRuntime.PaginatorSequence<ListRetainedMessagesInput, ListRetainedMessagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRetainedMessagesInput, ListRetainedMessagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRetainedMessages(input:))
+        return ClientRuntime.PaginatorSequence<ListRetainedMessagesInput, ListRetainedMessagesOutput>(input: input, inputKey: \ListRetainedMessagesInput.nextToken, outputKey: \ListRetainedMessagesOutput.nextToken, paginationFunction: self.listRetainedMessages(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListRetainedMessagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRetainedMessagesInput, OperationStackOutput == ListRetainedMessagesOutput {
+extension PaginatorSequence where Input == ListRetainedMessagesInput, Output == ListRetainedMessagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRetainedMessagesPaginated`
     /// to access the nested member `[IoTDataPlaneClientTypes.RetainedMessageSummary]`
     /// - Returns: `[IoTDataPlaneClientTypes.RetainedMessageSummary]`

@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Welcome to the Amazon Nimble Studio API reference. This API reference provides methods, schema, resources, parameters, and more to help you get the most out of Nimble Studio. Nimble Studio is a virtual studio that empowers visual effects, animation, and interactive content teams to create content securely within a scalable, private cloud service.
 public protocol NimbleClientProtocol {
-    /// Performs the `AcceptEulas` operation on the `nimble` service.
-    ///
     /// Accept EULAs.
     ///
     /// - Parameter AcceptEulasInput : [no documentation found]
@@ -23,8 +21,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func acceptEulas(input: AcceptEulasInput) async throws -> AcceptEulasOutput
-    /// Performs the `CreateLaunchProfile` operation on the `nimble` service.
-    ///
     /// Create a launch profile.
     ///
     /// - Parameter CreateLaunchProfileInput : [no documentation found]
@@ -42,8 +38,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func createLaunchProfile(input: CreateLaunchProfileInput) async throws -> CreateLaunchProfileOutput
-    /// Performs the `CreateStreamingImage` operation on the `nimble` service.
-    ///
     /// Creates a streaming image resource in a studio.
     ///
     /// - Parameter CreateStreamingImageInput : [no documentation found]
@@ -61,8 +55,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func createStreamingImage(input: CreateStreamingImageInput) async throws -> CreateStreamingImageOutput
-    /// Performs the `CreateStreamingSession` operation on the `nimble` service.
-    ///
     /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in the READY state.
     ///
     /// - Parameter CreateStreamingSessionInput : [no documentation found]
@@ -80,8 +72,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func createStreamingSession(input: CreateStreamingSessionInput) async throws -> CreateStreamingSessionOutput
-    /// Performs the `CreateStreamingSessionStream` operation on the `nimble` service.
-    ///
     /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in the READY state.
     ///
     /// - Parameter CreateStreamingSessionStreamInput : [no documentation found]
@@ -99,8 +89,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func createStreamingSessionStream(input: CreateStreamingSessionStreamInput) async throws -> CreateStreamingSessionStreamOutput
-    /// Performs the `CreateStudio` operation on the `nimble` service.
-    ///
     /// Create a new studio. When creating a studio, two IAM roles must be provided: the admin role and the user role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The admin role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
     ///
     /// - Parameter CreateStudioInput : [no documentation found]
@@ -118,8 +106,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutput
-    /// Performs the `CreateStudioComponent` operation on the `nimble` service.
-    ///
     /// Creates a studio component resource.
     ///
     /// - Parameter CreateStudioComponentInput : [no documentation found]
@@ -137,8 +123,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func createStudioComponent(input: CreateStudioComponentInput) async throws -> CreateStudioComponentOutput
-    /// Performs the `DeleteLaunchProfile` operation on the `nimble` service.
-    ///
     /// Permanently delete a launch profile.
     ///
     /// - Parameter DeleteLaunchProfileInput : [no documentation found]
@@ -156,8 +140,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteLaunchProfile(input: DeleteLaunchProfileInput) async throws -> DeleteLaunchProfileOutput
-    /// Performs the `DeleteLaunchProfileMember` operation on the `nimble` service.
-    ///
     /// Delete a user from launch profile membership.
     ///
     /// - Parameter DeleteLaunchProfileMemberInput : [no documentation found]
@@ -175,8 +157,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteLaunchProfileMember(input: DeleteLaunchProfileMemberInput) async throws -> DeleteLaunchProfileMemberOutput
-    /// Performs the `DeleteStreamingImage` operation on the `nimble` service.
-    ///
     /// Delete streaming image.
     ///
     /// - Parameter DeleteStreamingImageInput : [no documentation found]
@@ -194,8 +174,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteStreamingImage(input: DeleteStreamingImageInput) async throws -> DeleteStreamingImageOutput
-    /// Performs the `DeleteStreamingSession` operation on the `nimble` service.
-    ///
     /// Deletes streaming session resource. After invoking this operation, use GetStreamingSession to poll the resource until it transitions to a DELETED state. A streaming session will count against your streaming session quota until it is marked DELETED.
     ///
     /// - Parameter DeleteStreamingSessionInput : [no documentation found]
@@ -213,8 +191,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteStreamingSession(input: DeleteStreamingSessionInput) async throws -> DeleteStreamingSessionOutput
-    /// Performs the `DeleteStudio` operation on the `nimble` service.
-    ///
     /// Delete a studio resource.
     ///
     /// - Parameter DeleteStudioInput : [no documentation found]
@@ -232,8 +208,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutput
-    /// Performs the `DeleteStudioComponent` operation on the `nimble` service.
-    ///
     /// Deletes a studio component resource.
     ///
     /// - Parameter DeleteStudioComponentInput : [no documentation found]
@@ -251,8 +225,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteStudioComponent(input: DeleteStudioComponentInput) async throws -> DeleteStudioComponentOutput
-    /// Performs the `DeleteStudioMember` operation on the `nimble` service.
-    ///
     /// Delete a user from studio membership.
     ///
     /// - Parameter DeleteStudioMemberInput : [no documentation found]
@@ -270,8 +242,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func deleteStudioMember(input: DeleteStudioMemberInput) async throws -> DeleteStudioMemberOutput
-    /// Performs the `GetEula` operation on the `nimble` service.
-    ///
     /// Get EULA.
     ///
     /// - Parameter GetEulaInput : [no documentation found]
@@ -289,8 +259,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getEula(input: GetEulaInput) async throws -> GetEulaOutput
-    /// Performs the `GetLaunchProfile` operation on the `nimble` service.
-    ///
     /// Get a launch profile.
     ///
     /// - Parameter GetLaunchProfileInput : [no documentation found]
@@ -308,8 +276,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getLaunchProfile(input: GetLaunchProfileInput) async throws -> GetLaunchProfileOutput
-    /// Performs the `GetLaunchProfileDetails` operation on the `nimble` service.
-    ///
     /// Launch profile details include the launch profile resource and summary information of resources that are used by, or available to, the launch profile. This includes the name and description of all studio components used by the launch profiles, and the name and description of streaming images that can be used with this launch profile.
     ///
     /// - Parameter GetLaunchProfileDetailsInput : [no documentation found]
@@ -327,8 +293,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getLaunchProfileDetails(input: GetLaunchProfileDetailsInput) async throws -> GetLaunchProfileDetailsOutput
-    /// Performs the `GetLaunchProfileInitialization` operation on the `nimble` service.
-    ///
     /// Get a launch profile initialization.
     ///
     /// - Parameter GetLaunchProfileInitializationInput : [no documentation found]
@@ -346,8 +310,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getLaunchProfileInitialization(input: GetLaunchProfileInitializationInput) async throws -> GetLaunchProfileInitializationOutput
-    /// Performs the `GetLaunchProfileMember` operation on the `nimble` service.
-    ///
     /// Get a user persona in launch profile membership.
     ///
     /// - Parameter GetLaunchProfileMemberInput : [no documentation found]
@@ -365,8 +327,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getLaunchProfileMember(input: GetLaunchProfileMemberInput) async throws -> GetLaunchProfileMemberOutput
-    /// Performs the `GetStreamingImage` operation on the `nimble` service.
-    ///
     /// Get streaming image.
     ///
     /// - Parameter GetStreamingImageInput : [no documentation found]
@@ -384,8 +344,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStreamingImage(input: GetStreamingImageInput) async throws -> GetStreamingImageOutput
-    /// Performs the `GetStreamingSession` operation on the `nimble` service.
-    ///
     /// Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
     ///
     /// - Parameter GetStreamingSessionInput : [no documentation found]
@@ -403,8 +361,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStreamingSession(input: GetStreamingSessionInput) async throws -> GetStreamingSessionOutput
-    /// Performs the `GetStreamingSessionBackup` operation on the `nimble` service.
-    ///
     /// Gets StreamingSessionBackup resource. Invoke this operation to poll for a streaming session backup while stopping a streaming session.
     ///
     /// - Parameter GetStreamingSessionBackupInput : [no documentation found]
@@ -421,8 +377,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStreamingSessionBackup(input: GetStreamingSessionBackupInput) async throws -> GetStreamingSessionBackupOutput
-    /// Performs the `GetStreamingSessionStream` operation on the `nimble` service.
-    ///
     /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the READY state, the url property will contain a stream to be used with the DCV streaming client.
     ///
     /// - Parameter GetStreamingSessionStreamInput : [no documentation found]
@@ -440,8 +394,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStreamingSessionStream(input: GetStreamingSessionStreamInput) async throws -> GetStreamingSessionStreamOutput
-    /// Performs the `GetStudio` operation on the `nimble` service.
-    ///
     /// Get a studio resource.
     ///
     /// - Parameter GetStudioInput : [no documentation found]
@@ -459,8 +411,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStudio(input: GetStudioInput) async throws -> GetStudioOutput
-    /// Performs the `GetStudioComponent` operation on the `nimble` service.
-    ///
     /// Gets a studio component resource.
     ///
     /// - Parameter GetStudioComponentInput : [no documentation found]
@@ -478,8 +428,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStudioComponent(input: GetStudioComponentInput) async throws -> GetStudioComponentOutput
-    /// Performs the `GetStudioMember` operation on the `nimble` service.
-    ///
     /// Get a user's membership in a studio.
     ///
     /// - Parameter GetStudioMemberInput : [no documentation found]
@@ -497,8 +445,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func getStudioMember(input: GetStudioMemberInput) async throws -> GetStudioMemberOutput
-    /// Performs the `ListEulaAcceptances` operation on the `nimble` service.
-    ///
     /// List EULA acceptances.
     ///
     /// - Parameter ListEulaAcceptancesInput : [no documentation found]
@@ -516,8 +462,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listEulaAcceptances(input: ListEulaAcceptancesInput) async throws -> ListEulaAcceptancesOutput
-    /// Performs the `ListEulas` operation on the `nimble` service.
-    ///
     /// List EULAs.
     ///
     /// - Parameter ListEulasInput : [no documentation found]
@@ -535,8 +479,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listEulas(input: ListEulasInput) async throws -> ListEulasOutput
-    /// Performs the `ListLaunchProfileMembers` operation on the `nimble` service.
-    ///
     /// Get all users in a given launch profile membership.
     ///
     /// - Parameter ListLaunchProfileMembersInput : [no documentation found]
@@ -554,8 +496,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listLaunchProfileMembers(input: ListLaunchProfileMembersInput) async throws -> ListLaunchProfileMembersOutput
-    /// Performs the `ListLaunchProfiles` operation on the `nimble` service.
-    ///
     /// List all the launch profiles a studio.
     ///
     /// - Parameter ListLaunchProfilesInput : [no documentation found]
@@ -573,8 +513,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listLaunchProfiles(input: ListLaunchProfilesInput) async throws -> ListLaunchProfilesOutput
-    /// Performs the `ListStreamingImages` operation on the `nimble` service.
-    ///
     /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
     ///
     /// - Parameter ListStreamingImagesInput : [no documentation found]
@@ -592,8 +530,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listStreamingImages(input: ListStreamingImagesInput) async throws -> ListStreamingImagesOutput
-    /// Performs the `ListStreamingSessionBackups` operation on the `nimble` service.
-    ///
     /// Lists the backups of a streaming session in a studio.
     ///
     /// - Parameter ListStreamingSessionBackupsInput : [no documentation found]
@@ -610,8 +546,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listStreamingSessionBackups(input: ListStreamingSessionBackupsInput) async throws -> ListStreamingSessionBackupsOutput
-    /// Performs the `ListStreamingSessions` operation on the `nimble` service.
-    ///
     /// Lists the streaming sessions in a studio.
     ///
     /// - Parameter ListStreamingSessionsInput : [no documentation found]
@@ -629,8 +563,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listStreamingSessions(input: ListStreamingSessionsInput) async throws -> ListStreamingSessionsOutput
-    /// Performs the `ListStudioComponents` operation on the `nimble` service.
-    ///
     /// Lists the StudioComponents in a studio.
     ///
     /// - Parameter ListStudioComponentsInput : [no documentation found]
@@ -648,8 +580,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listStudioComponents(input: ListStudioComponentsInput) async throws -> ListStudioComponentsOutput
-    /// Performs the `ListStudioMembers` operation on the `nimble` service.
-    ///
     /// Get all users in a given studio membership. ListStudioMembers only returns admin members.
     ///
     /// - Parameter ListStudioMembersInput : [no documentation found]
@@ -667,8 +597,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listStudioMembers(input: ListStudioMembersInput) async throws -> ListStudioMembersOutput
-    /// Performs the `ListStudios` operation on the `nimble` service.
-    ///
     /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
     ///
     /// - Parameter ListStudiosInput : [no documentation found]
@@ -686,8 +614,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutput
-    /// Performs the `ListTagsForResource` operation on the `nimble` service.
-    ///
     /// Gets the tags for a resource, given its Amazon Resource Names (ARN). This operation supports ARNs for all resource types in Nimble Studio that support tags, including studio, studio component, launch profile, streaming image, and streaming session. All resources that can be tagged will contain an ARN property, so you do not have to create this ARN yourself.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -705,8 +631,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PutLaunchProfileMembers` operation on the `nimble` service.
-    ///
     /// Add/update users with given persona to launch profile membership.
     ///
     /// - Parameter PutLaunchProfileMembersInput : [no documentation found]
@@ -724,8 +648,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func putLaunchProfileMembers(input: PutLaunchProfileMembersInput) async throws -> PutLaunchProfileMembersOutput
-    /// Performs the `PutStudioMembers` operation on the `nimble` service.
-    ///
     /// Add/update users with given persona to studio membership.
     ///
     /// - Parameter PutStudioMembersInput : [no documentation found]
@@ -743,8 +665,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func putStudioMembers(input: PutStudioMembersInput) async throws -> PutStudioMembersOutput
-    /// Performs the `StartStreamingSession` operation on the `nimble` service.
-    ///
     /// Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS state is the intermediate state between the STOPPED and READY states.
     ///
     /// - Parameter StartStreamingSessionInput : [no documentation found]
@@ -762,8 +682,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func startStreamingSession(input: StartStreamingSessionInput) async throws -> StartStreamingSessionOutput
-    /// Performs the `StartStudioSSOConfigurationRepair` operation on the `nimble` service.
-    ///
     /// Repairs the IAM Identity Center configuration for a given studio. If the studio has a valid IAM Identity Center configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid IAM Identity Center configuration currently associated with it, then a new IAM Identity Center application is created for the studio and the studio is changed to the READY state. After the IAM Identity Center application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
     ///
     /// - Parameter StartStudioSSOConfigurationRepairInput : [no documentation found]
@@ -781,8 +699,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func startStudioSSOConfigurationRepair(input: StartStudioSSOConfigurationRepairInput) async throws -> StartStudioSSOConfigurationRepairOutput
-    /// Performs the `StopStreamingSession` operation on the `nimble` service.
-    ///
     /// Transitions sessions from the READY state into the STOPPED state. The STOP_IN_PROGRESS state is the intermediate state between the READY and STOPPED states.
     ///
     /// - Parameter StopStreamingSessionInput : [no documentation found]
@@ -800,8 +716,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func stopStreamingSession(input: StopStreamingSessionInput) async throws -> StopStreamingSessionOutput
-    /// Performs the `TagResource` operation on the `nimble` service.
-    ///
     /// Creates tags for a resource, given its ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -819,8 +733,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `nimble` service.
-    ///
     /// Deletes the tags for a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -838,8 +750,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateLaunchProfile` operation on the `nimble` service.
-    ///
     /// Update a launch profile.
     ///
     /// - Parameter UpdateLaunchProfileInput : [no documentation found]
@@ -857,8 +767,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func updateLaunchProfile(input: UpdateLaunchProfileInput) async throws -> UpdateLaunchProfileOutput
-    /// Performs the `UpdateLaunchProfileMember` operation on the `nimble` service.
-    ///
     /// Update a user persona in launch profile membership.
     ///
     /// - Parameter UpdateLaunchProfileMemberInput : [no documentation found]
@@ -876,8 +784,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func updateLaunchProfileMember(input: UpdateLaunchProfileMemberInput) async throws -> UpdateLaunchProfileMemberOutput
-    /// Performs the `UpdateStreamingImage` operation on the `nimble` service.
-    ///
     /// Update streaming image.
     ///
     /// - Parameter UpdateStreamingImageInput : [no documentation found]
@@ -895,8 +801,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func updateStreamingImage(input: UpdateStreamingImageInput) async throws -> UpdateStreamingImageOutput
-    /// Performs the `UpdateStudio` operation on the `nimble` service.
-    ///
     /// Update a Studio resource. Currently, this operation only supports updating the displayName of your studio.
     ///
     /// - Parameter UpdateStudioInput : [no documentation found]
@@ -914,8 +818,6 @@ public protocol NimbleClientProtocol {
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
     func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutput
-    /// Performs the `UpdateStudioComponent` operation on the `nimble` service.
-    ///
     /// Updates a studio component resource.
     ///
     /// - Parameter UpdateStudioComponentInput : [no documentation found]

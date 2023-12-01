@@ -12,7 +12,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterDbRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterDbRevisionsOutput`
     public func describeClusterDbRevisionsPaginated(input: DescribeClusterDbRevisionsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterDbRevisions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutput>(input: input, inputKey: \DescribeClusterDbRevisionsInput.marker, outputKey: \DescribeClusterDbRevisionsOutput.marker, paginationFunction: self.describeClusterDbRevisions(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeClusterDbRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterDbRevisionsInput, OperationStackOutput == DescribeClusterDbRevisionsOutput {
+extension PaginatorSequence where Input == DescribeClusterDbRevisionsInput, Output == DescribeClusterDbRevisionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterDbRevisionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ClusterDbRevision]`
     /// - Returns: `[RedshiftClientTypes.ClusterDbRevision]`
@@ -43,7 +43,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterParameterGroupsOutput`
     public func describeClusterParameterGroupsPaginated(input: DescribeClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterParameterGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutput>(input: input, inputKey: \DescribeClusterParameterGroupsInput.marker, outputKey: \DescribeClusterParameterGroupsOutput.marker, paginationFunction: self.describeClusterParameterGroups(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension DescribeClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterParameterGroupsInput, OperationStackOutput == DescribeClusterParameterGroupsOutput {
+extension PaginatorSequence where Input == DescribeClusterParameterGroupsInput, Output == DescribeClusterParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterParameterGroupsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ClusterParameterGroup]`
     /// - Returns: `[RedshiftClientTypes.ClusterParameterGroup]`
@@ -76,7 +76,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterParametersOutput`
     public func describeClusterParametersPaginated(input: DescribeClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeClusterParametersInput, DescribeClusterParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterParametersInput, DescribeClusterParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterParametersInput, DescribeClusterParametersOutput>(input: input, inputKey: \DescribeClusterParametersInput.marker, outputKey: \DescribeClusterParametersOutput.marker, paginationFunction: self.describeClusterParameters(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension DescribeClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterParametersInput, OperationStackOutput == DescribeClusterParametersOutput {
+extension PaginatorSequence where Input == DescribeClusterParametersInput, Output == DescribeClusterParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterParametersPaginated`
     /// to access the nested member `[RedshiftClientTypes.Parameter]`
     /// - Returns: `[RedshiftClientTypes.Parameter]`
@@ -108,7 +108,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutput`
     public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \DescribeClustersInput.marker, outputKey: \DescribeClustersOutput.marker, paginationFunction: self.describeClusters(input:))
     }
 }
 
@@ -123,7 +123,7 @@ extension DescribeClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClustersInput, OperationStackOutput == DescribeClustersOutput {
+extension PaginatorSequence where Input == DescribeClustersInput, Output == DescribeClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClustersPaginated`
     /// to access the nested member `[RedshiftClientTypes.Cluster]`
     /// - Returns: `[RedshiftClientTypes.Cluster]`
@@ -141,7 +141,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterSecurityGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSecurityGroupsOutput`
     public func describeClusterSecurityGroupsPaginated(input: DescribeClusterSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterSecurityGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutput>(input: input, inputKey: \DescribeClusterSecurityGroupsInput.marker, outputKey: \DescribeClusterSecurityGroupsOutput.marker, paginationFunction: self.describeClusterSecurityGroups(input:))
     }
 }
 
@@ -156,7 +156,7 @@ extension DescribeClusterSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterSecurityGroupsInput, OperationStackOutput == DescribeClusterSecurityGroupsOutput {
+extension PaginatorSequence where Input == DescribeClusterSecurityGroupsInput, Output == DescribeClusterSecurityGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterSecurityGroupsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ClusterSecurityGroup]`
     /// - Returns: `[RedshiftClientTypes.ClusterSecurityGroup]`
@@ -174,7 +174,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSnapshotsOutput`
     public func describeClusterSnapshotsPaginated(input: DescribeClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput>(input: input, inputKey: \DescribeClusterSnapshotsInput.marker, outputKey: \DescribeClusterSnapshotsOutput.marker, paginationFunction: self.describeClusterSnapshots(input:))
     }
 }
 
@@ -197,7 +197,7 @@ extension DescribeClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterSnapshotsInput, OperationStackOutput == DescribeClusterSnapshotsOutput {
+extension PaginatorSequence where Input == DescribeClusterSnapshotsInput, Output == DescribeClusterSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterSnapshotsPaginated`
     /// to access the nested member `[RedshiftClientTypes.Snapshot]`
     /// - Returns: `[RedshiftClientTypes.Snapshot]`
@@ -215,7 +215,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSubnetGroupsOutput`
     public func describeClusterSubnetGroupsPaginated(input: DescribeClusterSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterSubnetGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutput>(input: input, inputKey: \DescribeClusterSubnetGroupsInput.marker, outputKey: \DescribeClusterSubnetGroupsOutput.marker, paginationFunction: self.describeClusterSubnetGroups(input:))
     }
 }
 
@@ -230,7 +230,7 @@ extension DescribeClusterSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterSubnetGroupsInput, OperationStackOutput == DescribeClusterSubnetGroupsOutput {
+extension PaginatorSequence where Input == DescribeClusterSubnetGroupsInput, Output == DescribeClusterSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterSubnetGroupsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ClusterSubnetGroup]`
     /// - Returns: `[RedshiftClientTypes.ClusterSubnetGroup]`
@@ -248,7 +248,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterTracksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterTracksOutput`
     public func describeClusterTracksPaginated(input: DescribeClusterTracksInput) -> ClientRuntime.PaginatorSequence<DescribeClusterTracksInput, DescribeClusterTracksOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterTracksInput, DescribeClusterTracksOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterTracks(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterTracksInput, DescribeClusterTracksOutput>(input: input, inputKey: \DescribeClusterTracksInput.marker, outputKey: \DescribeClusterTracksOutput.marker, paginationFunction: self.describeClusterTracks(input:))
     }
 }
 
@@ -261,7 +261,7 @@ extension DescribeClusterTracksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterTracksInput, OperationStackOutput == DescribeClusterTracksOutput {
+extension PaginatorSequence where Input == DescribeClusterTracksInput, Output == DescribeClusterTracksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterTracksPaginated`
     /// to access the nested member `[RedshiftClientTypes.MaintenanceTrack]`
     /// - Returns: `[RedshiftClientTypes.MaintenanceTrack]`
@@ -279,7 +279,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeClusterVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterVersionsOutput`
     public func describeClusterVersionsPaginated(input: DescribeClusterVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeClusterVersions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>(input: input, inputKey: \DescribeClusterVersionsInput.marker, outputKey: \DescribeClusterVersionsOutput.marker, paginationFunction: self.describeClusterVersions(input:))
     }
 }
 
@@ -293,7 +293,7 @@ extension DescribeClusterVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeClusterVersionsInput, OperationStackOutput == DescribeClusterVersionsOutput {
+extension PaginatorSequence where Input == DescribeClusterVersionsInput, Output == DescribeClusterVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClusterVersionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ClusterVersion]`
     /// - Returns: `[RedshiftClientTypes.ClusterVersion]`
@@ -311,7 +311,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeCustomDomainAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomDomainAssociationsOutput`
     public func describeCustomDomainAssociationsPaginated(input: DescribeCustomDomainAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCustomDomainAssociations(input:))
+        return ClientRuntime.PaginatorSequence<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutput>(input: input, inputKey: \DescribeCustomDomainAssociationsInput.marker, outputKey: \DescribeCustomDomainAssociationsOutput.marker, paginationFunction: self.describeCustomDomainAssociations(input:))
     }
 }
 
@@ -325,7 +325,7 @@ extension DescribeCustomDomainAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeCustomDomainAssociationsInput, OperationStackOutput == DescribeCustomDomainAssociationsOutput {
+extension PaginatorSequence where Input == DescribeCustomDomainAssociationsInput, Output == DescribeCustomDomainAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCustomDomainAssociationsPaginated`
     /// to access the nested member `[RedshiftClientTypes.Association]`
     /// - Returns: `[RedshiftClientTypes.Association]`
@@ -343,7 +343,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeDataSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesOutput`
     public func describeDataSharesPaginated(input: DescribeDataSharesInput) -> ClientRuntime.PaginatorSequence<DescribeDataSharesInput, DescribeDataSharesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDataSharesInput, DescribeDataSharesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDataShares(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDataSharesInput, DescribeDataSharesOutput>(input: input, inputKey: \DescribeDataSharesInput.marker, outputKey: \DescribeDataSharesOutput.marker, paginationFunction: self.describeDataShares(input:))
     }
 }
 
@@ -356,7 +356,7 @@ extension DescribeDataSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDataSharesInput, OperationStackOutput == DescribeDataSharesOutput {
+extension PaginatorSequence where Input == DescribeDataSharesInput, Output == DescribeDataSharesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDataSharesPaginated`
     /// to access the nested member `[RedshiftClientTypes.DataShare]`
     /// - Returns: `[RedshiftClientTypes.DataShare]`
@@ -374,7 +374,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeDataSharesForConsumerInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesForConsumerOutput`
     public func describeDataSharesForConsumerPaginated(input: DescribeDataSharesForConsumerInput) -> ClientRuntime.PaginatorSequence<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDataSharesForConsumer(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutput>(input: input, inputKey: \DescribeDataSharesForConsumerInput.marker, outputKey: \DescribeDataSharesForConsumerOutput.marker, paginationFunction: self.describeDataSharesForConsumer(input:))
     }
 }
 
@@ -388,7 +388,7 @@ extension DescribeDataSharesForConsumerInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDataSharesForConsumerInput, OperationStackOutput == DescribeDataSharesForConsumerOutput {
+extension PaginatorSequence where Input == DescribeDataSharesForConsumerInput, Output == DescribeDataSharesForConsumerOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDataSharesForConsumerPaginated`
     /// to access the nested member `[RedshiftClientTypes.DataShare]`
     /// - Returns: `[RedshiftClientTypes.DataShare]`
@@ -406,7 +406,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeDataSharesForProducerInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesForProducerOutput`
     public func describeDataSharesForProducerPaginated(input: DescribeDataSharesForProducerInput) -> ClientRuntime.PaginatorSequence<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDataSharesForProducer(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutput>(input: input, inputKey: \DescribeDataSharesForProducerInput.marker, outputKey: \DescribeDataSharesForProducerOutput.marker, paginationFunction: self.describeDataSharesForProducer(input:))
     }
 }
 
@@ -420,7 +420,7 @@ extension DescribeDataSharesForProducerInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDataSharesForProducerInput, OperationStackOutput == DescribeDataSharesForProducerOutput {
+extension PaginatorSequence where Input == DescribeDataSharesForProducerInput, Output == DescribeDataSharesForProducerOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDataSharesForProducerPaginated`
     /// to access the nested member `[RedshiftClientTypes.DataShare]`
     /// - Returns: `[RedshiftClientTypes.DataShare]`
@@ -438,7 +438,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeDefaultClusterParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDefaultClusterParametersOutput`
     public func describeDefaultClusterParametersPaginated(input: DescribeDefaultClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutput>(input: input, inputKey: \.marker, outputKey: \.defaultClusterParameters?.marker, paginationFunction: self.describeDefaultClusterParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutput>(input: input, inputKey: \DescribeDefaultClusterParametersInput.marker, outputKey: \DescribeDefaultClusterParametersOutput.defaultClusterParameters?.marker, paginationFunction: self.describeDefaultClusterParameters(input:))
     }
 }
 
@@ -451,7 +451,7 @@ extension DescribeDefaultClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDefaultClusterParametersInput, OperationStackOutput == DescribeDefaultClusterParametersOutput {
+extension PaginatorSequence where Input == DescribeDefaultClusterParametersInput, Output == DescribeDefaultClusterParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDefaultClusterParametersPaginated`
     /// to access the nested member `[RedshiftClientTypes.Parameter]`
     /// - Returns: `[RedshiftClientTypes.Parameter]`
@@ -469,7 +469,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeEndpointAccessInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointAccessOutput`
     public func describeEndpointAccessPaginated(input: DescribeEndpointAccessInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointAccessInput, DescribeEndpointAccessOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEndpointAccessInput, DescribeEndpointAccessOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEndpointAccess(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEndpointAccessInput, DescribeEndpointAccessOutput>(input: input, inputKey: \DescribeEndpointAccessInput.marker, outputKey: \DescribeEndpointAccessOutput.marker, paginationFunction: self.describeEndpointAccess(input:))
     }
 }
 
@@ -485,7 +485,7 @@ extension DescribeEndpointAccessInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEndpointAccessInput, OperationStackOutput == DescribeEndpointAccessOutput {
+extension PaginatorSequence where Input == DescribeEndpointAccessInput, Output == DescribeEndpointAccessOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEndpointAccessPaginated`
     /// to access the nested member `[RedshiftClientTypes.EndpointAccess]`
     /// - Returns: `[RedshiftClientTypes.EndpointAccess]`
@@ -503,7 +503,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeEndpointAuthorizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointAuthorizationOutput`
     public func describeEndpointAuthorizationPaginated(input: DescribeEndpointAuthorizationInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEndpointAuthorization(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutput>(input: input, inputKey: \DescribeEndpointAuthorizationInput.marker, outputKey: \DescribeEndpointAuthorizationOutput.marker, paginationFunction: self.describeEndpointAuthorization(input:))
     }
 }
 
@@ -518,7 +518,7 @@ extension DescribeEndpointAuthorizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEndpointAuthorizationInput, OperationStackOutput == DescribeEndpointAuthorizationOutput {
+extension PaginatorSequence where Input == DescribeEndpointAuthorizationInput, Output == DescribeEndpointAuthorizationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEndpointAuthorizationPaginated`
     /// to access the nested member `[RedshiftClientTypes.EndpointAuthorization]`
     /// - Returns: `[RedshiftClientTypes.EndpointAuthorization]`
@@ -536,7 +536,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEvents(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -553,7 +553,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[RedshiftClientTypes.Event]`
     /// - Returns: `[RedshiftClientTypes.Event]`
@@ -571,7 +571,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutput`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEventSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutput.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
 }
 
@@ -586,7 +586,7 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEventSubscriptionsInput, OperationStackOutput == DescribeEventSubscriptionsOutput {
+extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.EventSubscription]`
     /// - Returns: `[RedshiftClientTypes.EventSubscription]`
@@ -604,7 +604,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeHsmClientCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeHsmClientCertificatesOutput`
     public func describeHsmClientCertificatesPaginated(input: DescribeHsmClientCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeHsmClientCertificates(input:))
+        return ClientRuntime.PaginatorSequence<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutput>(input: input, inputKey: \DescribeHsmClientCertificatesInput.marker, outputKey: \DescribeHsmClientCertificatesOutput.marker, paginationFunction: self.describeHsmClientCertificates(input:))
     }
 }
 
@@ -619,7 +619,7 @@ extension DescribeHsmClientCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeHsmClientCertificatesInput, OperationStackOutput == DescribeHsmClientCertificatesOutput {
+extension PaginatorSequence where Input == DescribeHsmClientCertificatesInput, Output == DescribeHsmClientCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeHsmClientCertificatesPaginated`
     /// to access the nested member `[RedshiftClientTypes.HsmClientCertificate]`
     /// - Returns: `[RedshiftClientTypes.HsmClientCertificate]`
@@ -637,7 +637,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeHsmConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeHsmConfigurationsOutput`
     public func describeHsmConfigurationsPaginated(input: DescribeHsmConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeHsmConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutput>(input: input, inputKey: \DescribeHsmConfigurationsInput.marker, outputKey: \DescribeHsmConfigurationsOutput.marker, paginationFunction: self.describeHsmConfigurations(input:))
     }
 }
 
@@ -652,7 +652,7 @@ extension DescribeHsmConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeHsmConfigurationsInput, OperationStackOutput == DescribeHsmConfigurationsOutput {
+extension PaginatorSequence where Input == DescribeHsmConfigurationsInput, Output == DescribeHsmConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeHsmConfigurationsPaginated`
     /// to access the nested member `[RedshiftClientTypes.HsmConfiguration]`
     /// - Returns: `[RedshiftClientTypes.HsmConfiguration]`
@@ -670,7 +670,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeInboundIntegrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundIntegrationsOutput`
     public func describeInboundIntegrationsPaginated(input: DescribeInboundIntegrationsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeInboundIntegrations(input:))
+        return ClientRuntime.PaginatorSequence<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(input: input, inputKey: \DescribeInboundIntegrationsInput.marker, outputKey: \DescribeInboundIntegrationsOutput.marker, paginationFunction: self.describeInboundIntegrations(input:))
     }
 }
 
@@ -684,7 +684,7 @@ extension DescribeInboundIntegrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeInboundIntegrationsInput, OperationStackOutput == DescribeInboundIntegrationsOutput {
+extension PaginatorSequence where Input == DescribeInboundIntegrationsInput, Output == DescribeInboundIntegrationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeInboundIntegrationsPaginated`
     /// to access the nested member `[RedshiftClientTypes.InboundIntegration]`
     /// - Returns: `[RedshiftClientTypes.InboundIntegration]`
@@ -702,7 +702,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeNodeConfigurationOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNodeConfigurationOptionsOutput`
     public func describeNodeConfigurationOptionsPaginated(input: DescribeNodeConfigurationOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeNodeConfigurationOptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutput>(input: input, inputKey: \DescribeNodeConfigurationOptionsInput.marker, outputKey: \DescribeNodeConfigurationOptionsOutput.marker, paginationFunction: self.describeNodeConfigurationOptions(input:))
     }
 }
 
@@ -720,7 +720,7 @@ extension DescribeNodeConfigurationOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeNodeConfigurationOptionsInput, OperationStackOutput == DescribeNodeConfigurationOptionsOutput {
+extension PaginatorSequence where Input == DescribeNodeConfigurationOptionsInput, Output == DescribeNodeConfigurationOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeNodeConfigurationOptionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.NodeConfigurationOption]`
     /// - Returns: `[RedshiftClientTypes.NodeConfigurationOption]`
@@ -738,7 +738,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeOrderableClusterOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableClusterOptionsOutput`
     public func describeOrderableClusterOptionsPaginated(input: DescribeOrderableClusterOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOrderableClusterOptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutput>(input: input, inputKey: \DescribeOrderableClusterOptionsInput.marker, outputKey: \DescribeOrderableClusterOptionsOutput.marker, paginationFunction: self.describeOrderableClusterOptions(input:))
     }
 }
 
@@ -752,7 +752,7 @@ extension DescribeOrderableClusterOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeOrderableClusterOptionsInput, OperationStackOutput == DescribeOrderableClusterOptionsOutput {
+extension PaginatorSequence where Input == DescribeOrderableClusterOptionsInput, Output == DescribeOrderableClusterOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOrderableClusterOptionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.OrderableClusterOption]`
     /// - Returns: `[RedshiftClientTypes.OrderableClusterOption]`
@@ -770,7 +770,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeReservedNodeExchangeStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodeExchangeStatusOutput`
     public func describeReservedNodeExchangeStatusPaginated(input: DescribeReservedNodeExchangeStatusInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedNodeExchangeStatus(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutput>(input: input, inputKey: \DescribeReservedNodeExchangeStatusInput.marker, outputKey: \DescribeReservedNodeExchangeStatusOutput.marker, paginationFunction: self.describeReservedNodeExchangeStatus(input:))
     }
 }
 
@@ -784,7 +784,7 @@ extension DescribeReservedNodeExchangeStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeReservedNodeExchangeStatusInput, OperationStackOutput == DescribeReservedNodeExchangeStatusOutput {
+extension PaginatorSequence where Input == DescribeReservedNodeExchangeStatusInput, Output == DescribeReservedNodeExchangeStatusOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodeExchangeStatusPaginated`
     /// to access the nested member `[RedshiftClientTypes.ReservedNodeExchangeStatus]`
     /// - Returns: `[RedshiftClientTypes.ReservedNodeExchangeStatus]`
@@ -802,7 +802,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeReservedNodeOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodeOfferingsOutput`
     public func describeReservedNodeOfferingsPaginated(input: DescribeReservedNodeOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedNodeOfferings(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutput>(input: input, inputKey: \DescribeReservedNodeOfferingsInput.marker, outputKey: \DescribeReservedNodeOfferingsOutput.marker, paginationFunction: self.describeReservedNodeOfferings(input:))
     }
 }
 
@@ -815,7 +815,7 @@ extension DescribeReservedNodeOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeReservedNodeOfferingsInput, OperationStackOutput == DescribeReservedNodeOfferingsOutput {
+extension PaginatorSequence where Input == DescribeReservedNodeOfferingsInput, Output == DescribeReservedNodeOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodeOfferingsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ReservedNodeOffering]`
     /// - Returns: `[RedshiftClientTypes.ReservedNodeOffering]`
@@ -833,7 +833,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeReservedNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOutput`
     public func describeReservedNodesPaginated(input: DescribeReservedNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedNodes(input:))
+        return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput>(input: input, inputKey: \DescribeReservedNodesInput.marker, outputKey: \DescribeReservedNodesOutput.marker, paginationFunction: self.describeReservedNodes(input:))
     }
 }
 
@@ -846,7 +846,7 @@ extension DescribeReservedNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeReservedNodesInput, OperationStackOutput == DescribeReservedNodesOutput {
+extension PaginatorSequence where Input == DescribeReservedNodesInput, Output == DescribeReservedNodesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesPaginated`
     /// to access the nested member `[RedshiftClientTypes.ReservedNode]`
     /// - Returns: `[RedshiftClientTypes.ReservedNode]`
@@ -864,7 +864,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeScheduledActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutput`
     public func describeScheduledActionsPaginated(input: DescribeScheduledActionsInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeScheduledActions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(input: input, inputKey: \DescribeScheduledActionsInput.marker, outputKey: \DescribeScheduledActionsOutput.marker, paginationFunction: self.describeScheduledActions(input:))
     }
 }
 
@@ -882,7 +882,7 @@ extension DescribeScheduledActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeScheduledActionsInput, OperationStackOutput == DescribeScheduledActionsOutput {
+extension PaginatorSequence where Input == DescribeScheduledActionsInput, Output == DescribeScheduledActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ScheduledAction]`
     /// - Returns: `[RedshiftClientTypes.ScheduledAction]`
@@ -900,7 +900,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeSnapshotCopyGrantsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotCopyGrantsOutput`
     public func describeSnapshotCopyGrantsPaginated(input: DescribeSnapshotCopyGrantsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeSnapshotCopyGrants(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutput>(input: input, inputKey: \DescribeSnapshotCopyGrantsInput.marker, outputKey: \DescribeSnapshotCopyGrantsOutput.marker, paginationFunction: self.describeSnapshotCopyGrants(input:))
     }
 }
 
@@ -915,7 +915,7 @@ extension DescribeSnapshotCopyGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeSnapshotCopyGrantsInput, OperationStackOutput == DescribeSnapshotCopyGrantsOutput {
+extension PaginatorSequence where Input == DescribeSnapshotCopyGrantsInput, Output == DescribeSnapshotCopyGrantsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotCopyGrantsPaginated`
     /// to access the nested member `[RedshiftClientTypes.SnapshotCopyGrant]`
     /// - Returns: `[RedshiftClientTypes.SnapshotCopyGrant]`
@@ -933,7 +933,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeSnapshotSchedulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotSchedulesOutput`
     public func describeSnapshotSchedulesPaginated(input: DescribeSnapshotSchedulesInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeSnapshotSchedules(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutput>(input: input, inputKey: \DescribeSnapshotSchedulesInput.marker, outputKey: \DescribeSnapshotSchedulesOutput.marker, paginationFunction: self.describeSnapshotSchedules(input:))
     }
 }
 
@@ -949,7 +949,7 @@ extension DescribeSnapshotSchedulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeSnapshotSchedulesInput, OperationStackOutput == DescribeSnapshotSchedulesOutput {
+extension PaginatorSequence where Input == DescribeSnapshotSchedulesInput, Output == DescribeSnapshotSchedulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotSchedulesPaginated`
     /// to access the nested member `[RedshiftClientTypes.SnapshotSchedule]`
     /// - Returns: `[RedshiftClientTypes.SnapshotSchedule]`
@@ -967,7 +967,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeTableRestoreStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTableRestoreStatusOutput`
     public func describeTableRestoreStatusPaginated(input: DescribeTableRestoreStatusInput) -> ClientRuntime.PaginatorSequence<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeTableRestoreStatus(input:))
+        return ClientRuntime.PaginatorSequence<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutput>(input: input, inputKey: \DescribeTableRestoreStatusInput.marker, outputKey: \DescribeTableRestoreStatusOutput.marker, paginationFunction: self.describeTableRestoreStatus(input:))
     }
 }
 
@@ -981,7 +981,7 @@ extension DescribeTableRestoreStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeTableRestoreStatusInput, OperationStackOutput == DescribeTableRestoreStatusOutput {
+extension PaginatorSequence where Input == DescribeTableRestoreStatusInput, Output == DescribeTableRestoreStatusOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTableRestoreStatusPaginated`
     /// to access the nested member `[RedshiftClientTypes.TableRestoreStatus]`
     /// - Returns: `[RedshiftClientTypes.TableRestoreStatus]`
@@ -999,7 +999,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeTags(input:))
+        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.marker, outputKey: \DescribeTagsOutput.marker, paginationFunction: self.describeTags(input:))
     }
 }
 
@@ -1015,7 +1015,7 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeTagsInput, OperationStackOutput == DescribeTagsOutput {
+extension PaginatorSequence where Input == DescribeTagsInput, Output == DescribeTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
     /// to access the nested member `[RedshiftClientTypes.TaggedResource]`
     /// - Returns: `[RedshiftClientTypes.TaggedResource]`
@@ -1033,7 +1033,7 @@ extension RedshiftClient {
     ///     - input: A `[DescribeUsageLimitsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsageLimitsOutput`
     public func describeUsageLimitsPaginated(input: DescribeUsageLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeUsageLimitsInput, DescribeUsageLimitsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeUsageLimitsInput, DescribeUsageLimitsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeUsageLimits(input:))
+        return ClientRuntime.PaginatorSequence<DescribeUsageLimitsInput, DescribeUsageLimitsOutput>(input: input, inputKey: \DescribeUsageLimitsInput.marker, outputKey: \DescribeUsageLimitsOutput.marker, paginationFunction: self.describeUsageLimits(input:))
     }
 }
 
@@ -1050,7 +1050,7 @@ extension DescribeUsageLimitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeUsageLimitsInput, OperationStackOutput == DescribeUsageLimitsOutput {
+extension PaginatorSequence where Input == DescribeUsageLimitsInput, Output == DescribeUsageLimitsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUsageLimitsPaginated`
     /// to access the nested member `[RedshiftClientTypes.UsageLimit]`
     /// - Returns: `[RedshiftClientTypes.UsageLimit]`
@@ -1068,7 +1068,7 @@ extension RedshiftClient {
     ///     - input: A `[GetReservedNodeExchangeConfigurationOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetReservedNodeExchangeConfigurationOptionsOutput`
     public func getReservedNodeExchangeConfigurationOptionsPaginated(input: GetReservedNodeExchangeConfigurationOptionsInput) -> ClientRuntime.PaginatorSequence<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.getReservedNodeExchangeConfigurationOptions(input:))
+        return ClientRuntime.PaginatorSequence<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutput>(input: input, inputKey: \GetReservedNodeExchangeConfigurationOptionsInput.marker, outputKey: \GetReservedNodeExchangeConfigurationOptionsOutput.marker, paginationFunction: self.getReservedNodeExchangeConfigurationOptions(input:))
     }
 }
 
@@ -1083,7 +1083,7 @@ extension GetReservedNodeExchangeConfigurationOptionsInput: ClientRuntime.Pagina
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetReservedNodeExchangeConfigurationOptionsInput, OperationStackOutput == GetReservedNodeExchangeConfigurationOptionsOutput {
+extension PaginatorSequence where Input == GetReservedNodeExchangeConfigurationOptionsInput, Output == GetReservedNodeExchangeConfigurationOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getReservedNodeExchangeConfigurationOptionsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ReservedNodeConfigurationOption]`
     /// - Returns: `[RedshiftClientTypes.ReservedNodeConfigurationOption]`
@@ -1101,7 +1101,7 @@ extension RedshiftClient {
     ///     - input: A `[GetReservedNodeExchangeOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetReservedNodeExchangeOfferingsOutput`
     public func getReservedNodeExchangeOfferingsPaginated(input: GetReservedNodeExchangeOfferingsInput) -> ClientRuntime.PaginatorSequence<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutput> {
-        return ClientRuntime.PaginatorSequence<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.getReservedNodeExchangeOfferings(input:))
+        return ClientRuntime.PaginatorSequence<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutput>(input: input, inputKey: \GetReservedNodeExchangeOfferingsInput.marker, outputKey: \GetReservedNodeExchangeOfferingsOutput.marker, paginationFunction: self.getReservedNodeExchangeOfferings(input:))
     }
 }
 
@@ -1114,7 +1114,7 @@ extension GetReservedNodeExchangeOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetReservedNodeExchangeOfferingsInput, OperationStackOutput == GetReservedNodeExchangeOfferingsOutput {
+extension PaginatorSequence where Input == GetReservedNodeExchangeOfferingsInput, Output == GetReservedNodeExchangeOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getReservedNodeExchangeOfferingsPaginated`
     /// to access the nested member `[RedshiftClientTypes.ReservedNodeOffering]`
     /// - Returns: `[RedshiftClientTypes.ReservedNodeOffering]`

@@ -4,8 +4,6 @@ import ClientRuntime
 
 ///
 public protocol PersonalizeRuntimeClientProtocol {
-    /// Performs the `GetPersonalizedRanking` operation on the `AmazonPersonalizeRuntime` service.
-    ///
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING.
     ///
     /// - Parameter GetPersonalizedRankingInput : [no documentation found]
@@ -18,8 +16,6 @@ public protocol PersonalizeRuntimeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     func getPersonalizedRanking(input: GetPersonalizedRankingInput) async throws -> GetPersonalizedRankingOutput
-    /// Performs the `GetRecommendations` operation on the `AmazonPersonalizeRuntime` service.
-    ///
     /// Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to create the solution backing the campaign as follows:
     ///
     /// * USER_PERSONALIZATION - userId required, itemId not used

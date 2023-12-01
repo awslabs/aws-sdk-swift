@@ -12,7 +12,7 @@ extension CostExplorerClient {
     ///     - input: A `[GetSavingsPlansCoverageInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSavingsPlansCoverageOutput`
     public func getSavingsPlansCoveragePaginated(input: GetSavingsPlansCoverageInput) -> ClientRuntime.PaginatorSequence<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput> {
-        return ClientRuntime.PaginatorSequence<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSavingsPlansCoverage(input:))
+        return ClientRuntime.PaginatorSequence<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(input: input, inputKey: \GetSavingsPlansCoverageInput.nextToken, outputKey: \GetSavingsPlansCoverageOutput.nextToken, paginationFunction: self.getSavingsPlansCoverage(input:))
     }
 }
 
@@ -39,7 +39,7 @@ extension CostExplorerClient {
     ///     - input: A `[GetSavingsPlansUtilizationDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSavingsPlansUtilizationDetailsOutput`
     public func getSavingsPlansUtilizationDetailsPaginated(input: GetSavingsPlansUtilizationDetailsInput) -> ClientRuntime.PaginatorSequence<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput> {
-        return ClientRuntime.PaginatorSequence<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSavingsPlansUtilizationDetails(input:))
+        return ClientRuntime.PaginatorSequence<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(input: input, inputKey: \GetSavingsPlansUtilizationDetailsInput.nextToken, outputKey: \GetSavingsPlansUtilizationDetailsOutput.nextToken, paginationFunction: self.getSavingsPlansUtilizationDetails(input:))
     }
 }
 
@@ -64,7 +64,7 @@ extension CostExplorerClient {
     ///     - input: A `[ListCostAllocationTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCostAllocationTagsOutput`
     public func listCostAllocationTagsPaginated(input: ListCostAllocationTagsInput) -> ClientRuntime.PaginatorSequence<ListCostAllocationTagsInput, ListCostAllocationTagsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCostAllocationTags(input:))
+        return ClientRuntime.PaginatorSequence<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(input: input, inputKey: \ListCostAllocationTagsInput.nextToken, outputKey: \ListCostAllocationTagsOutput.nextToken, paginationFunction: self.listCostAllocationTags(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension CostExplorerClient {
     ///     - input: A `[ListCostCategoryDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCostCategoryDefinitionsOutput`
     public func listCostCategoryDefinitionsPaginated(input: ListCostCategoryDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCostCategoryDefinitions(input:))
+        return ClientRuntime.PaginatorSequence<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(input: input, inputKey: \ListCostCategoryDefinitionsInput.nextToken, outputKey: \ListCostCategoryDefinitionsOutput.nextToken, paginationFunction: self.listCostCategoryDefinitions(input:))
     }
 }
 

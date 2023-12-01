@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// With Amazon Connect Cases, your agents can track and manage customer issues that require multiple interactions, follow-up tasks, and teams in your contact center. A case represents a customer issue. It records the issue, the steps and interactions taken to resolve the issue, and the outcome. For more information, see [Amazon Connect Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) in the Amazon Connect Administrator Guide.
 public protocol ConnectCasesClientProtocol {
-    /// Performs the `BatchGetField` operation on the `AmazonConnectCases` service.
-    ///
     /// Returns the description for the list of fields in the request parameters.
     ///
     /// - Parameter BatchGetFieldInput : [no documentation found]
@@ -21,8 +19,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func batchGetField(input: BatchGetFieldInput) async throws -> BatchGetFieldOutput
-    /// Performs the `BatchPutFieldOptions` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates and updates a set of field options for a single select field in a Cases domain.
     ///
     /// - Parameter BatchPutFieldOptionsInput : [no documentation found]
@@ -39,8 +35,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func batchPutFieldOptions(input: BatchPutFieldOptionsInput) async throws -> BatchPutFieldOptionsOutput
-    /// Performs the `CreateCase` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:
     ///
     /// * customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID
@@ -61,8 +55,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput
-    /// Performs the `CreateDomain` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
@@ -79,8 +71,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    /// Performs the `CreateField` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     ///
     /// - Parameter CreateFieldInput : [no documentation found]
@@ -98,8 +88,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func createField(input: CreateFieldInput) async throws -> CreateFieldOutput
-    /// Performs the `CreateLayout` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates a layout in the Cases domain. Layouts define the following configuration in the top section and More Info tab of the Cases user interface:
     ///
     /// * Fields to display to the users
@@ -124,8 +112,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func createLayout(input: CreateLayoutInput) async throws -> CreateLayoutOutput
-    /// Performs the `CreateRelatedItem` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates a related item (comments, tasks, and contacts) and associates it with a case. A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
     ///
     /// - Parameter CreateRelatedItemInput : [no documentation found]
@@ -142,8 +128,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutput
-    /// Performs the `CreateTemplate` operation on the `AmazonConnectCases` service.
-    ///
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     ///
     /// - Parameter CreateTemplateInput : [no documentation found]
@@ -161,8 +145,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
-    /// Performs the `DeleteDomain` operation on the `AmazonConnectCases` service.
-    ///
     /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
@@ -179,8 +161,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    /// Performs the `GetCase` operation on the `AmazonConnectCases` service.
-    ///
     /// Returns information about a specific case if it exists.
     ///
     /// - Parameter GetCaseInput : [no documentation found]
@@ -196,8 +176,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func getCase(input: GetCaseInput) async throws -> GetCaseOutput
-    /// Performs the `GetCaseEventConfiguration` operation on the `AmazonConnectCases` service.
-    ///
     /// Returns the case event publishing configuration.
     ///
     /// - Parameter GetCaseEventConfigurationInput : [no documentation found]
@@ -213,8 +191,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func getCaseEventConfiguration(input: GetCaseEventConfigurationInput) async throws -> GetCaseEventConfigurationOutput
-    /// Performs the `GetDomain` operation on the `AmazonConnectCases` service.
-    ///
     /// Returns information about a specific domain if it exists.
     ///
     /// - Parameter GetDomainInput : [no documentation found]
@@ -230,8 +206,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
-    /// Performs the `GetLayout` operation on the `AmazonConnectCases` service.
-    ///
     /// Returns the details for the requested layout.
     ///
     /// - Parameter GetLayoutInput : [no documentation found]
@@ -247,8 +221,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func getLayout(input: GetLayoutInput) async throws -> GetLayoutOutput
-    /// Performs the `GetTemplate` operation on the `AmazonConnectCases` service.
-    ///
     /// Returns the details for the requested template.
     ///
     /// - Parameter GetTemplateInput : [no documentation found]
@@ -264,8 +236,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
-    /// Performs the `ListCasesForContact` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists cases for a given contact.
     ///
     /// - Parameter ListCasesForContactInput : [no documentation found]
@@ -281,8 +251,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listCasesForContact(input: ListCasesForContactInput) async throws -> ListCasesForContactOutput
-    /// Performs the `ListDomains` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
@@ -297,8 +265,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    /// Performs the `ListFieldOptions` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists all of the field options for a field identifier in the domain.
     ///
     /// - Parameter ListFieldOptionsInput : [no documentation found]
@@ -314,8 +280,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listFieldOptions(input: ListFieldOptionsInput) async throws -> ListFieldOptionsOutput
-    /// Performs the `ListFields` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists all fields in a Cases domain.
     ///
     /// - Parameter ListFieldsInput : [no documentation found]
@@ -331,8 +295,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listFields(input: ListFieldsInput) async throws -> ListFieldsOutput
-    /// Performs the `ListLayouts` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
     ///
     /// - Parameter ListLayoutsInput : [no documentation found]
@@ -348,8 +310,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listLayouts(input: ListLayoutsInput) async throws -> ListLayoutsOutput
-    /// Performs the `ListTagsForResource` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -365,8 +325,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListTemplates` operation on the `AmazonConnectCases` service.
-    ///
     /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
     ///
     /// - Parameter ListTemplatesInput : [no documentation found]
@@ -382,8 +340,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    /// Performs the `PutCaseEventConfiguration` operation on the `AmazonConnectCases` service.
-    ///
     /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Amazon Connect Administrator Guide
     ///
     /// - Parameter PutCaseEventConfigurationInput : [no documentation found]
@@ -399,8 +355,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func putCaseEventConfiguration(input: PutCaseEventConfigurationInput) async throws -> PutCaseEventConfigurationOutput
-    /// Performs the `SearchCases` operation on the `AmazonConnectCases` service.
-    ///
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     ///
     /// - Parameter SearchCasesInput : [no documentation found]
@@ -416,8 +370,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func searchCases(input: SearchCasesInput) async throws -> SearchCasesOutput
-    /// Performs the `SearchRelatedItems` operation on the `AmazonConnectCases` service.
-    ///
     /// Searches for related items that are associated with a case. If no filters are provided, this returns all related items associated with a case.
     ///
     /// - Parameter SearchRelatedItemsInput : [no documentation found]
@@ -433,8 +385,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func searchRelatedItems(input: SearchRelatedItemsInput) async throws -> SearchRelatedItemsOutput
-    /// Performs the `TagResource` operation on the `AmazonConnectCases` service.
-    ///
     /// Adds tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -450,8 +400,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `AmazonConnectCases` service.
-    ///
     /// Untags a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -467,8 +415,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateCase` operation on the `AmazonConnectCases` service.
-    ///
     /// Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter UpdateCaseInput : [no documentation found]
@@ -484,8 +430,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func updateCase(input: UpdateCaseInput) async throws -> UpdateCaseOutput
-    /// Performs the `UpdateField` operation on the `AmazonConnectCases` service.
-    ///
     /// Updates the properties of an existing field.
     ///
     /// - Parameter UpdateFieldInput : [no documentation found]
@@ -502,8 +446,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func updateField(input: UpdateFieldInput) async throws -> UpdateFieldOutput
-    /// Performs the `UpdateLayout` operation on the `AmazonConnectCases` service.
-    ///
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. Title and Status fields cannot be part of layouts because they are not configurable.
     ///
     /// - Parameter UpdateLayoutInput : [no documentation found]
@@ -521,8 +463,6 @@ public protocol ConnectCasesClientProtocol {
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func updateLayout(input: UpdateLayoutInput) async throws -> UpdateLayoutOutput
-    /// Performs the `UpdateTemplate` operation on the `AmazonConnectCases` service.
-    ///
     /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layoutConfiguration, requiredFields, and status. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
     ///
     /// - Parameter UpdateTemplateInput : [no documentation found]

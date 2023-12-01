@@ -12,7 +12,7 @@ extension ChimeSDKMeetingsClient {
     ///     - input: A `[ListAttendeesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttendeesOutput`
     public func listAttendeesPaginated(input: ListAttendeesInput) -> ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttendees(input:))
+        return ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutput>(input: input, inputKey: \ListAttendeesInput.nextToken, outputKey: \ListAttendeesOutput.nextToken, paginationFunction: self.listAttendees(input:))
     }
 }
 

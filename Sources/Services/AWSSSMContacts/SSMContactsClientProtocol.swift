@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their Amazon Web Services-hosted applications. An incident is any unplanned interruption or reduction in quality of services. Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
 public protocol SSMContactsClientProtocol {
-    /// Performs the `AcceptPage` operation on the `SSMContacts` service.
-    ///
     /// Used to acknowledge an engagement to a contact channel during an incident.
     ///
     /// - Parameter AcceptPageInput : [no documentation found]
@@ -21,8 +19,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func acceptPage(input: AcceptPageInput) async throws -> AcceptPageOutput
-    /// Performs the `ActivateContactChannel` operation on the `SSMContacts` service.
-    ///
     /// Activates a contact's contact channel. Incident Manager can't engage a contact until the contact channel has been activated.
     ///
     /// - Parameter ActivateContactChannelInput : [no documentation found]
@@ -38,8 +34,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func activateContactChannel(input: ActivateContactChannelInput) async throws -> ActivateContactChannelOutput
-    /// Performs the `CreateContact` operation on the `SSMContacts` service.
-    ///
     /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to engage contacts in phases during an incident.
     ///
     /// - Parameter CreateContactInput : [no documentation found]
@@ -57,8 +51,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createContact(input: CreateContactInput) async throws -> CreateContactOutput
-    /// Performs the `CreateContactChannel` operation on the `SSMContacts` service.
-    ///
     /// A contact channel is the method that Incident Manager uses to engage your contact.
     ///
     /// - Parameter CreateContactChannelInput : [no documentation found]
@@ -75,8 +67,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createContactChannel(input: CreateContactChannelInput) async throws -> CreateContactChannelOutput
-    /// Performs the `CreateRotation` operation on the `SSMContacts` service.
-    ///
     /// Creates a rotation in an on-call schedule.
     ///
     /// - Parameter CreateRotationInput : [no documentation found]
@@ -93,8 +83,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createRotation(input: CreateRotationInput) async throws -> CreateRotationOutput
-    /// Performs the `CreateRotationOverride` operation on the `SSMContacts` service.
-    ///
     /// Creates an override for a rotation in an on-call schedule.
     ///
     /// - Parameter CreateRotationOverrideInput : [no documentation found]
@@ -111,8 +99,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createRotationOverride(input: CreateRotationOverrideInput) async throws -> CreateRotationOverrideOutput
-    /// Performs the `DeactivateContactChannel` operation on the `SSMContacts` service.
-    ///
     /// To no longer receive Incident Manager engagements to a contact channel, you can deactivate the channel.
     ///
     /// - Parameter DeactivateContactChannelInput : [no documentation found]
@@ -128,8 +114,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deactivateContactChannel(input: DeactivateContactChannelInput) async throws -> DeactivateContactChannelOutput
-    /// Performs the `DeleteContact` operation on the `SSMContacts` service.
-    ///
     /// To remove a contact from Incident Manager, you can delete the contact. Deleting a contact removes them from all escalation plans and related response plans. Deleting an escalation plan removes it from all related response plans. You will have to recreate the contact and its contact channels before you can use it again.
     ///
     /// - Parameter DeleteContactInput : [no documentation found]
@@ -146,8 +130,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
-    /// Performs the `DeleteContactChannel` operation on the `SSMContacts` service.
-    ///
     /// To no longer receive engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel removes it from the contact's engagement plan. If you delete the only contact channel for a contact, you won't be able to engage that contact during an incident.
     ///
     /// - Parameter DeleteContactChannelInput : [no documentation found]
@@ -163,8 +145,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteContactChannel(input: DeleteContactChannelInput) async throws -> DeleteContactChannelOutput
-    /// Performs the `DeleteRotation` operation on the `SSMContacts` service.
-    ///
     /// Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule, this operation deletes it from all of them.
     ///
     /// - Parameter DeleteRotationInput : [no documentation found]
@@ -181,8 +161,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteRotation(input: DeleteRotationInput) async throws -> DeleteRotationOutput
-    /// Performs the `DeleteRotationOverride` operation on the `SSMContacts` service.
-    ///
     /// Deletes an existing override for an on-call rotation.
     ///
     /// - Parameter DeleteRotationOverrideInput : [no documentation found]
@@ -198,8 +176,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteRotationOverride(input: DeleteRotationOverrideInput) async throws -> DeleteRotationOverrideOutput
-    /// Performs the `DescribeEngagement` operation on the `SSMContacts` service.
-    ///
     /// Incident Manager uses engagements to engage contacts and escalation plans during an incident. Use this command to describe the engagement that occurred during an incident.
     ///
     /// - Parameter DescribeEngagementInput : [no documentation found]
@@ -216,8 +192,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func describeEngagement(input: DescribeEngagementInput) async throws -> DescribeEngagementOutput
-    /// Performs the `DescribePage` operation on the `SSMContacts` service.
-    ///
     /// Lists details of the engagement to a contact channel.
     ///
     /// - Parameter DescribePageInput : [no documentation found]
@@ -234,8 +208,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func describePage(input: DescribePageInput) async throws -> DescribePageOutput
-    /// Performs the `GetContact` operation on the `SSMContacts` service.
-    ///
     /// Retrieves information about the specified contact or escalation plan.
     ///
     /// - Parameter GetContactInput : [no documentation found]
@@ -252,8 +224,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getContact(input: GetContactInput) async throws -> GetContactOutput
-    /// Performs the `GetContactChannel` operation on the `SSMContacts` service.
-    ///
     /// List details about a specific contact channel.
     ///
     /// - Parameter GetContactChannelInput : [no documentation found]
@@ -270,8 +240,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getContactChannel(input: GetContactChannelInput) async throws -> GetContactChannelOutput
-    /// Performs the `GetContactPolicy` operation on the `SSMContacts` service.
-    ///
     /// Retrieves the resource policies attached to the specified contact or escalation plan.
     ///
     /// - Parameter GetContactPolicyInput : [no documentation found]
@@ -287,8 +255,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getContactPolicy(input: GetContactPolicyInput) async throws -> GetContactPolicyOutput
-    /// Performs the `GetRotation` operation on the `SSMContacts` service.
-    ///
     /// Retrieves information about an on-call rotation.
     ///
     /// - Parameter GetRotationInput : [no documentation found]
@@ -304,8 +270,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getRotation(input: GetRotationInput) async throws -> GetRotationOutput
-    /// Performs the `GetRotationOverride` operation on the `SSMContacts` service.
-    ///
     /// Retrieves information about an override to an on-call rotation.
     ///
     /// - Parameter GetRotationOverrideInput : [no documentation found]
@@ -321,8 +285,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getRotationOverride(input: GetRotationOverrideInput) async throws -> GetRotationOverrideOutput
-    /// Performs the `ListContactChannels` operation on the `SSMContacts` service.
-    ///
     /// Lists all contact channels for the specified contact.
     ///
     /// - Parameter ListContactChannelsInput : [no documentation found]
@@ -339,8 +301,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listContactChannels(input: ListContactChannelsInput) async throws -> ListContactChannelsOutput
-    /// Performs the `ListContacts` operation on the `SSMContacts` service.
-    ///
     /// Lists all contacts and escalation plans in Incident Manager.
     ///
     /// - Parameter ListContactsInput : [no documentation found]
@@ -355,8 +315,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listContacts(input: ListContactsInput) async throws -> ListContactsOutput
-    /// Performs the `ListEngagements` operation on the `SSMContacts` service.
-    ///
     /// Lists all engagements that have happened in an incident.
     ///
     /// - Parameter ListEngagementsInput : [no documentation found]
@@ -371,8 +329,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listEngagements(input: ListEngagementsInput) async throws -> ListEngagementsOutput
-    /// Performs the `ListPageReceipts` operation on the `SSMContacts` service.
-    ///
     /// Lists all of the engagements to contact channels that have been acknowledged.
     ///
     /// - Parameter ListPageReceiptsInput : [no documentation found]
@@ -388,8 +344,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listPageReceipts(input: ListPageReceiptsInput) async throws -> ListPageReceiptsOutput
-    /// Performs the `ListPageResolutions` operation on the `SSMContacts` service.
-    ///
     /// Returns the resolution path of an engagement. For example, the escalation plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan > on-call schedule > contact.
     ///
     /// - Parameter ListPageResolutionsInput : [no documentation found]
@@ -405,8 +359,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listPageResolutions(input: ListPageResolutionsInput) async throws -> ListPageResolutionsOutput
-    /// Performs the `ListPagesByContact` operation on the `SSMContacts` service.
-    ///
     /// Lists the engagements to a contact's contact channels.
     ///
     /// - Parameter ListPagesByContactInput : [no documentation found]
@@ -422,8 +374,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listPagesByContact(input: ListPagesByContactInput) async throws -> ListPagesByContactOutput
-    /// Performs the `ListPagesByEngagement` operation on the `SSMContacts` service.
-    ///
     /// Lists the engagements to contact channels that occurred by engaging a contact.
     ///
     /// - Parameter ListPagesByEngagementInput : [no documentation found]
@@ -439,8 +389,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listPagesByEngagement(input: ListPagesByEngagementInput) async throws -> ListPagesByEngagementOutput
-    /// Performs the `ListPreviewRotationShifts` operation on the `SSMContacts` service.
-    ///
     /// Returns a list of shifts based on rotation configuration parameters. The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users.
     ///
     /// - Parameter ListPreviewRotationShiftsInput : [no documentation found]
@@ -455,8 +403,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listPreviewRotationShifts(input: ListPreviewRotationShiftsInput) async throws -> ListPreviewRotationShiftsOutput
-    /// Performs the `ListRotationOverrides` operation on the `SSMContacts` service.
-    ///
     /// Retrieves a list of overrides currently specified for an on-call rotation.
     ///
     /// - Parameter ListRotationOverridesInput : [no documentation found]
@@ -472,8 +418,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRotationOverrides(input: ListRotationOverridesInput) async throws -> ListRotationOverridesOutput
-    /// Performs the `ListRotations` operation on the `SSMContacts` service.
-    ///
     /// Retrieves a list of on-call rotations.
     ///
     /// - Parameter ListRotationsInput : [no documentation found]
@@ -489,8 +433,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRotations(input: ListRotationsInput) async throws -> ListRotationsOutput
-    /// Performs the `ListRotationShifts` operation on the `SSMContacts` service.
-    ///
     /// Returns a list of shifts generated by an existing rotation in the system.
     ///
     /// - Parameter ListRotationShiftsInput : [no documentation found]
@@ -507,8 +449,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRotationShifts(input: ListRotationShiftsInput) async throws -> ListRotationShiftsOutput
-    /// Performs the `ListTagsForResource` operation on the `SSMContacts` service.
-    ///
     /// Lists the tags of an escalation plan or contact.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -524,8 +464,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PutContactPolicy` operation on the `SSMContacts` service.
-    ///
     /// Adds a resource policy to the specified contact or escalation plan. The resource policy is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Setting up cross-account functionality](https://docs.aws.amazon.com/incident-manager/latest/userguide/xa.html).
     ///
     /// - Parameter PutContactPolicyInput : [no documentation found]
@@ -542,8 +480,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func putContactPolicy(input: PutContactPolicyInput) async throws -> PutContactPolicyOutput
-    /// Performs the `SendActivationCode` operation on the `SSMContacts` service.
-    ///
     /// Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the ActivateChannel operation. Incident Manager can't engage a contact channel until it has been activated.
     ///
     /// - Parameter SendActivationCodeInput : [no documentation found]
@@ -561,8 +497,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func sendActivationCode(input: SendActivationCodeInput) async throws -> SendActivationCodeOutput
-    /// Performs the `StartEngagement` operation on the `SSMContacts` service.
-    ///
     /// Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident.
     ///
     /// - Parameter StartEngagementInput : [no documentation found]
@@ -579,8 +513,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startEngagement(input: StartEngagementInput) async throws -> StartEngagementOutput
-    /// Performs the `StopEngagement` operation on the `SSMContacts` service.
-    ///
     /// Stops an engagement before it finishes the final stage of the escalation plan or engagement plan. Further contacts aren't engaged.
     ///
     /// - Parameter StopEngagementInput : [no documentation found]
@@ -596,8 +528,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopEngagement(input: StopEngagementInput) async throws -> StopEngagementOutput
-    /// Performs the `TagResource` operation on the `SSMContacts` service.
-    ///
     /// Tags a contact or escalation plan. You can tag only contacts and escalation plans in the first region of your replication set.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -614,8 +544,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `SSMContacts` service.
-    ///
     /// Removes tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -631,8 +559,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateContact` operation on the `SSMContacts` service.
-    ///
     /// Updates the contact or escalation plan specified.
     ///
     /// - Parameter UpdateContactInput : [no documentation found]
@@ -650,8 +576,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
-    /// Performs the `UpdateContactChannel` operation on the `SSMContacts` service.
-    ///
     /// Updates a contact's contact channel.
     ///
     /// - Parameter UpdateContactChannelInput : [no documentation found]
@@ -669,8 +593,6 @@ public protocol SSMContactsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateContactChannel(input: UpdateContactChannelInput) async throws -> UpdateContactChannelOutput
-    /// Performs the `UpdateRotation` operation on the `SSMContacts` service.
-    ///
     /// Updates the information specified for an on-call rotation.
     ///
     /// - Parameter UpdateRotationInput : [no documentation found]

@@ -51,8 +51,6 @@ import ClientRuntime
 ///
 /// * [UntagResource] — Removes tags from the resource with the specified ARN.
 public protocol IVSRealTimeClientProtocol {
-    /// Performs the `CreateParticipantToken` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     ///
     /// - Parameter CreateParticipantTokenInput : [no documentation found]
@@ -68,8 +66,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutput
-    /// Performs the `CreateStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Creates a new stage (and optionally participant tokens).
     ///
     /// - Parameter CreateStageInput : [no documentation found]
@@ -84,8 +80,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createStage(input: CreateStageInput) async throws -> CreateStageOutput
-    /// Performs the `DeleteStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Shuts down and deletes the specified stage (disconnecting all participants).
     ///
     /// - Parameter DeleteStageInput : [no documentation found]
@@ -101,8 +95,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
-    /// Performs the `DisconnectParticipant` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
     ///
     /// - Parameter DisconnectParticipantInput : [no documentation found]
@@ -117,8 +109,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput
-    /// Performs the `GetParticipant` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Gets information about the specified participant token.
     ///
     /// - Parameter GetParticipantInput : [no documentation found]
@@ -132,8 +122,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutput
-    /// Performs the `GetStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Gets information for the specified stage.
     ///
     /// - Parameter GetStageInput : [no documentation found]
@@ -147,8 +135,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStage(input: GetStageInput) async throws -> GetStageOutput
-    /// Performs the `GetStageSession` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Gets information for the specified stage session.
     ///
     /// - Parameter GetStageSessionInput : [no documentation found]
@@ -162,8 +148,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutput
-    /// Performs the `ListParticipantEvents` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Lists events for a specified participant that occurred during a specified stage session.
     ///
     /// - Parameter ListParticipantEventsInput : [no documentation found]
@@ -176,8 +160,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutput
-    /// Performs the `ListParticipants` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Lists all participants in a specified stage session.
     ///
     /// - Parameter ListParticipantsInput : [no documentation found]
@@ -190,8 +172,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutput
-    /// Performs the `ListStages` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
     /// - Parameter ListStagesInput : [no documentation found]
@@ -205,8 +185,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ConflictException` :
     /// - `ValidationException` :
     func listStages(input: ListStagesInput) async throws -> ListStagesOutput
-    /// Performs the `ListStageSessions` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Gets all sessions for a specified stage.
     ///
     /// - Parameter ListStageSessionsInput : [no documentation found]
@@ -219,8 +197,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutput
-    /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Gets information about AWS tags for the specified ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -234,8 +210,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `TagResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -249,8 +223,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Removes tags from the resource with the specified ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -264,8 +236,6 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
-    ///
     /// Updates a stage’s configuration.
     ///
     /// - Parameter UpdateStageInput : [no documentation found]

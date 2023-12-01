@@ -12,7 +12,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListAggregatedUtterancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAggregatedUtterancesOutput`
     public func listAggregatedUtterancesPaginated(input: ListAggregatedUtterancesInput) -> ClientRuntime.PaginatorSequence<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAggregatedUtterances(input:))
+        return ClientRuntime.PaginatorSequence<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutput>(input: input, inputKey: \ListAggregatedUtterancesInput.nextToken, outputKey: \ListAggregatedUtterancesOutput.nextToken, paginationFunction: self.listAggregatedUtterances(input:))
     }
 }
 
@@ -40,7 +40,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBotAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotAliasesOutput`
     public func listBotAliasesPaginated(input: ListBotAliasesInput) -> ClientRuntime.PaginatorSequence<ListBotAliasesInput, ListBotAliasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotAliasesInput, ListBotAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotAliases(input:))
+        return ClientRuntime.PaginatorSequence<ListBotAliasesInput, ListBotAliasesOutput>(input: input, inputKey: \ListBotAliasesInput.nextToken, outputKey: \ListBotAliasesOutput.nextToken, paginationFunction: self.listBotAliases(input:))
     }
 }
 
@@ -62,7 +62,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBotLocalesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotLocalesOutput`
     public func listBotLocalesPaginated(input: ListBotLocalesInput) -> ClientRuntime.PaginatorSequence<ListBotLocalesInput, ListBotLocalesOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotLocalesInput, ListBotLocalesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotLocales(input:))
+        return ClientRuntime.PaginatorSequence<ListBotLocalesInput, ListBotLocalesOutput>(input: input, inputKey: \ListBotLocalesInput.nextToken, outputKey: \ListBotLocalesOutput.nextToken, paginationFunction: self.listBotLocales(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBotRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotRecommendationsOutput`
     public func listBotRecommendationsPaginated(input: ListBotRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListBotRecommendationsInput, ListBotRecommendationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotRecommendationsInput, ListBotRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotRecommendations(input:))
+        return ClientRuntime.PaginatorSequence<ListBotRecommendationsInput, ListBotRecommendationsOutput>(input: input, inputKey: \ListBotRecommendationsInput.nextToken, outputKey: \ListBotRecommendationsOutput.nextToken, paginationFunction: self.listBotRecommendations(input:))
     }
 }
 
@@ -111,7 +111,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotsOutput`
     public func listBotsPaginated(input: ListBotsInput) -> ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBots(input:))
+        return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput>(input: input, inputKey: \ListBotsInput.nextToken, outputKey: \ListBotsOutput.nextToken, paginationFunction: self.listBots(input:))
     }
 }
 
@@ -134,7 +134,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBotVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotVersionsOutput`
     public func listBotVersionsPaginated(input: ListBotVersionsInput) -> ClientRuntime.PaginatorSequence<ListBotVersionsInput, ListBotVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotVersionsInput, ListBotVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListBotVersionsInput, ListBotVersionsOutput>(input: input, inputKey: \ListBotVersionsInput.nextToken, outputKey: \ListBotVersionsOutput.nextToken, paginationFunction: self.listBotVersions(input:))
     }
 }
 
@@ -157,7 +157,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBuiltInIntentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuiltInIntentsOutput`
     public func listBuiltInIntentsPaginated(input: ListBuiltInIntentsInput) -> ClientRuntime.PaginatorSequence<ListBuiltInIntentsInput, ListBuiltInIntentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBuiltInIntentsInput, ListBuiltInIntentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuiltInIntents(input:))
+        return ClientRuntime.PaginatorSequence<ListBuiltInIntentsInput, ListBuiltInIntentsOutput>(input: input, inputKey: \ListBuiltInIntentsInput.nextToken, outputKey: \ListBuiltInIntentsOutput.nextToken, paginationFunction: self.listBuiltInIntents(input:))
     }
 }
 
@@ -180,7 +180,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListBuiltInSlotTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuiltInSlotTypesOutput`
     public func listBuiltInSlotTypesPaginated(input: ListBuiltInSlotTypesInput) -> ClientRuntime.PaginatorSequence<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuiltInSlotTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutput>(input: input, inputKey: \ListBuiltInSlotTypesInput.nextToken, outputKey: \ListBuiltInSlotTypesOutput.nextToken, paginationFunction: self.listBuiltInSlotTypes(input:))
     }
 }
 
@@ -203,7 +203,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListCustomVocabularyItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomVocabularyItemsOutput`
     public func listCustomVocabularyItemsPaginated(input: ListCustomVocabularyItemsInput) -> ClientRuntime.PaginatorSequence<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomVocabularyItems(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutput>(input: input, inputKey: \ListCustomVocabularyItemsInput.nextToken, outputKey: \ListCustomVocabularyItemsOutput.nextToken, paginationFunction: self.listCustomVocabularyItems(input:))
     }
 }
 
@@ -227,7 +227,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutput`
     public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExports(input:))
+        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutput.nextToken, paginationFunction: self.listExports(input:))
     }
 }
 
@@ -253,7 +253,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListImportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutput`
     public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImports(input:))
+        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutput.nextToken, paginationFunction: self.listImports(input:))
     }
 }
 
@@ -279,7 +279,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListIntentMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIntentMetricsOutput`
     public func listIntentMetricsPaginated(input: ListIntentMetricsInput) -> ClientRuntime.PaginatorSequence<ListIntentMetricsInput, ListIntentMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListIntentMetricsInput, ListIntentMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIntentMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListIntentMetricsInput, ListIntentMetricsOutput>(input: input, inputKey: \ListIntentMetricsInput.nextToken, outputKey: \ListIntentMetricsOutput.nextToken, paginationFunction: self.listIntentMetrics(input:))
     }
 }
 
@@ -307,7 +307,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListIntentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIntentsOutput`
     public func listIntentsPaginated(input: ListIntentsInput) -> ClientRuntime.PaginatorSequence<ListIntentsInput, ListIntentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListIntentsInput, ListIntentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIntents(input:))
+        return ClientRuntime.PaginatorSequence<ListIntentsInput, ListIntentsOutput>(input: input, inputKey: \ListIntentsInput.nextToken, outputKey: \ListIntentsOutput.nextToken, paginationFunction: self.listIntents(input:))
     }
 }
 
@@ -333,7 +333,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListIntentStageMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIntentStageMetricsOutput`
     public func listIntentStageMetricsPaginated(input: ListIntentStageMetricsInput) -> ClientRuntime.PaginatorSequence<ListIntentStageMetricsInput, ListIntentStageMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListIntentStageMetricsInput, ListIntentStageMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIntentStageMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListIntentStageMetricsInput, ListIntentStageMetricsOutput>(input: input, inputKey: \ListIntentStageMetricsInput.nextToken, outputKey: \ListIntentStageMetricsOutput.nextToken, paginationFunction: self.listIntentStageMetrics(input:))
     }
 }
 
@@ -361,7 +361,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListRecommendedIntentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendedIntentsOutput`
     public func listRecommendedIntentsPaginated(input: ListRecommendedIntentsInput) -> ClientRuntime.PaginatorSequence<ListRecommendedIntentsInput, ListRecommendedIntentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecommendedIntentsInput, ListRecommendedIntentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendedIntents(input:))
+        return ClientRuntime.PaginatorSequence<ListRecommendedIntentsInput, ListRecommendedIntentsOutput>(input: input, inputKey: \ListRecommendedIntentsInput.nextToken, outputKey: \ListRecommendedIntentsOutput.nextToken, paginationFunction: self.listRecommendedIntents(input:))
     }
 }
 
@@ -386,7 +386,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListSessionAnalyticsDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSessionAnalyticsDataOutput`
     public func listSessionAnalyticsDataPaginated(input: ListSessionAnalyticsDataInput) -> ClientRuntime.PaginatorSequence<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutput> {
-        return ClientRuntime.PaginatorSequence<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSessionAnalyticsData(input:))
+        return ClientRuntime.PaginatorSequence<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutput>(input: input, inputKey: \ListSessionAnalyticsDataInput.nextToken, outputKey: \ListSessionAnalyticsDataOutput.nextToken, paginationFunction: self.listSessionAnalyticsData(input:))
     }
 }
 
@@ -412,7 +412,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListSessionMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSessionMetricsOutput`
     public func listSessionMetricsPaginated(input: ListSessionMetricsInput) -> ClientRuntime.PaginatorSequence<ListSessionMetricsInput, ListSessionMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSessionMetricsInput, ListSessionMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSessionMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListSessionMetricsInput, ListSessionMetricsOutput>(input: input, inputKey: \ListSessionMetricsInput.nextToken, outputKey: \ListSessionMetricsOutput.nextToken, paginationFunction: self.listSessionMetrics(input:))
     }
 }
 
@@ -440,7 +440,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListSlotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSlotsOutput`
     public func listSlotsPaginated(input: ListSlotsInput) -> ClientRuntime.PaginatorSequence<ListSlotsInput, ListSlotsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSlotsInput, ListSlotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSlots(input:))
+        return ClientRuntime.PaginatorSequence<ListSlotsInput, ListSlotsOutput>(input: input, inputKey: \ListSlotsInput.nextToken, outputKey: \ListSlotsOutput.nextToken, paginationFunction: self.listSlots(input:))
     }
 }
 
@@ -467,7 +467,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListSlotTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSlotTypesOutput`
     public func listSlotTypesPaginated(input: ListSlotTypesInput) -> ClientRuntime.PaginatorSequence<ListSlotTypesInput, ListSlotTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSlotTypesInput, ListSlotTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSlotTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListSlotTypesInput, ListSlotTypesOutput>(input: input, inputKey: \ListSlotTypesInput.nextToken, outputKey: \ListSlotTypesOutput.nextToken, paginationFunction: self.listSlotTypes(input:))
     }
 }
 
@@ -493,7 +493,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListTestExecutionResultItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestExecutionResultItemsOutput`
     public func listTestExecutionResultItemsPaginated(input: ListTestExecutionResultItemsInput) -> ClientRuntime.PaginatorSequence<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestExecutionResultItems(input:))
+        return ClientRuntime.PaginatorSequence<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutput>(input: input, inputKey: \ListTestExecutionResultItemsInput.nextToken, outputKey: \ListTestExecutionResultItemsOutput.nextToken, paginationFunction: self.listTestExecutionResultItems(input:))
     }
 }
 
@@ -516,7 +516,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListTestExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestExecutionsOutput`
     public func listTestExecutionsPaginated(input: ListTestExecutionsInput) -> ClientRuntime.PaginatorSequence<ListTestExecutionsInput, ListTestExecutionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestExecutionsInput, ListTestExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestExecutions(input:))
+        return ClientRuntime.PaginatorSequence<ListTestExecutionsInput, ListTestExecutionsOutput>(input: input, inputKey: \ListTestExecutionsInput.nextToken, outputKey: \ListTestExecutionsOutput.nextToken, paginationFunction: self.listTestExecutions(input:))
     }
 }
 
@@ -538,7 +538,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListTestSetRecordsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestSetRecordsOutput`
     public func listTestSetRecordsPaginated(input: ListTestSetRecordsInput) -> ClientRuntime.PaginatorSequence<ListTestSetRecordsInput, ListTestSetRecordsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestSetRecordsInput, ListTestSetRecordsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestSetRecords(input:))
+        return ClientRuntime.PaginatorSequence<ListTestSetRecordsInput, ListTestSetRecordsOutput>(input: input, inputKey: \ListTestSetRecordsInput.nextToken, outputKey: \ListTestSetRecordsOutput.nextToken, paginationFunction: self.listTestSetRecords(input:))
     }
 }
 
@@ -560,7 +560,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListTestSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestSetsOutput`
     public func listTestSetsPaginated(input: ListTestSetsInput) -> ClientRuntime.PaginatorSequence<ListTestSetsInput, ListTestSetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestSetsInput, ListTestSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestSets(input:))
+        return ClientRuntime.PaginatorSequence<ListTestSetsInput, ListTestSetsOutput>(input: input, inputKey: \ListTestSetsInput.nextToken, outputKey: \ListTestSetsOutput.nextToken, paginationFunction: self.listTestSets(input:))
     }
 }
 
@@ -582,7 +582,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListUtteranceAnalyticsDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUtteranceAnalyticsDataOutput`
     public func listUtteranceAnalyticsDataPaginated(input: ListUtteranceAnalyticsDataInput) -> ClientRuntime.PaginatorSequence<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutput> {
-        return ClientRuntime.PaginatorSequence<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUtteranceAnalyticsData(input:))
+        return ClientRuntime.PaginatorSequence<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutput>(input: input, inputKey: \ListUtteranceAnalyticsDataInput.nextToken, outputKey: \ListUtteranceAnalyticsDataOutput.nextToken, paginationFunction: self.listUtteranceAnalyticsData(input:))
     }
 }
 
@@ -608,7 +608,7 @@ extension LexModelsV2Client {
     ///     - input: A `[ListUtteranceMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUtteranceMetricsOutput`
     public func listUtteranceMetricsPaginated(input: ListUtteranceMetricsInput) -> ClientRuntime.PaginatorSequence<ListUtteranceMetricsInput, ListUtteranceMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListUtteranceMetricsInput, ListUtteranceMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUtteranceMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListUtteranceMetricsInput, ListUtteranceMetricsOutput>(input: input, inputKey: \ListUtteranceMetricsInput.nextToken, outputKey: \ListUtteranceMetricsOutput.nextToken, paginationFunction: self.listUtteranceMetrics(input:))
     }
 }
 

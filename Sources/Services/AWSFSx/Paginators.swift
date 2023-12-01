@@ -12,7 +12,7 @@ extension FSxClient {
     ///     - input: A `[DescribeBackupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutput`
     public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBackups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutput.nextToken, paginationFunction: self.describeBackups(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension FSxClient {
     ///     - input: A `[DescribeDataRepositoryAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataRepositoryAssociationsOutput`
     public func describeDataRepositoryAssociationsPaginated(input: DescribeDataRepositoryAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDataRepositoryAssociations(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>(input: input, inputKey: \DescribeDataRepositoryAssociationsInput.nextToken, outputKey: \DescribeDataRepositoryAssociationsOutput.nextToken, paginationFunction: self.describeDataRepositoryAssociations(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension FSxClient {
     ///     - input: A `[DescribeDataRepositoryTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataRepositoryTasksOutput`
     public func describeDataRepositoryTasksPaginated(input: DescribeDataRepositoryTasksInput) -> ClientRuntime.PaginatorSequence<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDataRepositoryTasks(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>(input: input, inputKey: \DescribeDataRepositoryTasksInput.nextToken, outputKey: \DescribeDataRepositoryTasksOutput.nextToken, paginationFunction: self.describeDataRepositoryTasks(input:))
     }
 }
 
@@ -81,7 +81,7 @@ extension FSxClient {
     ///     - input: A `[DescribeFileCachesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileCachesOutput`
     public func describeFileCachesPaginated(input: DescribeFileCachesInput) -> ClientRuntime.PaginatorSequence<DescribeFileCachesInput, DescribeFileCachesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeFileCachesInput, DescribeFileCachesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFileCaches(input:))
+        return ClientRuntime.PaginatorSequence<DescribeFileCachesInput, DescribeFileCachesOutput>(input: input, inputKey: \DescribeFileCachesInput.nextToken, outputKey: \DescribeFileCachesOutput.nextToken, paginationFunction: self.describeFileCaches(input:))
     }
 }
 
@@ -103,7 +103,7 @@ extension FSxClient {
     ///     - input: A `[DescribeFileSystemAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemAliasesOutput`
     public func describeFileSystemAliasesPaginated(input: DescribeFileSystemAliasesInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFileSystemAliases(input:))
+        return ClientRuntime.PaginatorSequence<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(input: input, inputKey: \DescribeFileSystemAliasesInput.nextToken, outputKey: \DescribeFileSystemAliasesOutput.nextToken, paginationFunction: self.describeFileSystemAliases(input:))
     }
 }
 
@@ -126,7 +126,7 @@ extension FSxClient {
     ///     - input: A `[DescribeFileSystemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemsOutput`
     public func describeFileSystemsPaginated(input: DescribeFileSystemsInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFileSystems(input:))
+        return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \DescribeFileSystemsInput.nextToken, outputKey: \DescribeFileSystemsOutput.nextToken, paginationFunction: self.describeFileSystems(input:))
     }
 }
 
@@ -148,7 +148,7 @@ extension FSxClient {
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
     public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutput.nextToken, paginationFunction: self.describeSnapshots(input:))
     }
 }
 
@@ -171,7 +171,7 @@ extension FSxClient {
     ///     - input: A `[DescribeStorageVirtualMachinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageVirtualMachinesOutput`
     public func describeStorageVirtualMachinesPaginated(input: DescribeStorageVirtualMachinesInput) -> ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStorageVirtualMachines(input:))
+        return ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>(input: input, inputKey: \DescribeStorageVirtualMachinesInput.nextToken, outputKey: \DescribeStorageVirtualMachinesOutput.nextToken, paginationFunction: self.describeStorageVirtualMachines(input:))
     }
 }
 
@@ -185,7 +185,7 @@ extension DescribeStorageVirtualMachinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeStorageVirtualMachinesInput, OperationStackOutput == DescribeStorageVirtualMachinesOutput {
+extension PaginatorSequence where Input == DescribeStorageVirtualMachinesInput, Output == DescribeStorageVirtualMachinesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeStorageVirtualMachinesPaginated`
     /// to access the nested member `[FSxClientTypes.StorageVirtualMachine]`
     /// - Returns: `[FSxClientTypes.StorageVirtualMachine]`
@@ -203,7 +203,7 @@ extension FSxClient {
     ///     - input: A `[DescribeVolumesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVolumesOutput`
     public func describeVolumesPaginated(input: DescribeVolumesInput) -> ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVolumes(input:))
+        return ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutput>(input: input, inputKey: \DescribeVolumesInput.nextToken, outputKey: \DescribeVolumesOutput.nextToken, paginationFunction: self.describeVolumes(input:))
     }
 }
 
@@ -217,7 +217,7 @@ extension DescribeVolumesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeVolumesInput, OperationStackOutput == DescribeVolumesOutput {
+extension PaginatorSequence where Input == DescribeVolumesInput, Output == DescribeVolumesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeVolumesPaginated`
     /// to access the nested member `[FSxClientTypes.Volume]`
     /// - Returns: `[FSxClientTypes.Volume]`
@@ -235,7 +235,7 @@ extension FSxClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 

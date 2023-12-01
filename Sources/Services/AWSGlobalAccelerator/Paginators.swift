@@ -12,7 +12,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListAcceleratorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAcceleratorsOutput`
     public func listAcceleratorsPaginated(input: ListAcceleratorsInput) -> ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccelerators(input:))
+        return ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutput>(input: input, inputKey: \ListAcceleratorsInput.nextToken, outputKey: \ListAcceleratorsOutput.nextToken, paginationFunction: self.listAccelerators(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListAcceleratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAcceleratorsInput, OperationStackOutput == ListAcceleratorsOutput {
+extension PaginatorSequence where Input == ListAcceleratorsInput, Output == ListAcceleratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAcceleratorsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.Accelerator]`
     /// - Returns: `[GlobalAcceleratorClientTypes.Accelerator]`
@@ -42,7 +42,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListByoipCidrsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListByoipCidrsOutput`
     public func listByoipCidrsPaginated(input: ListByoipCidrsInput) -> ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutput> {
-        return ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listByoipCidrs(input:))
+        return ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutput>(input: input, inputKey: \ListByoipCidrsInput.nextToken, outputKey: \ListByoipCidrsOutput.nextToken, paginationFunction: self.listByoipCidrs(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension ListByoipCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListByoipCidrsInput, OperationStackOutput == ListByoipCidrsOutput {
+extension PaginatorSequence where Input == ListByoipCidrsInput, Output == ListByoipCidrsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listByoipCidrsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.ByoipCidr]`
     /// - Returns: `[GlobalAcceleratorClientTypes.ByoipCidr]`
@@ -72,7 +72,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCrossAccountAttachmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountAttachmentsOutput`
     public func listCrossAccountAttachmentsPaginated(input: ListCrossAccountAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCrossAccountAttachments(input:))
+        return ClientRuntime.PaginatorSequence<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(input: input, inputKey: \ListCrossAccountAttachmentsInput.nextToken, outputKey: \ListCrossAccountAttachmentsOutput.nextToken, paginationFunction: self.listCrossAccountAttachments(input:))
     }
 }
 
@@ -84,7 +84,7 @@ extension ListCrossAccountAttachmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCrossAccountAttachmentsInput, OperationStackOutput == ListCrossAccountAttachmentsOutput {
+extension PaginatorSequence where Input == ListCrossAccountAttachmentsInput, Output == ListCrossAccountAttachmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCrossAccountAttachmentsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.Attachment]`
     /// - Returns: `[GlobalAcceleratorClientTypes.Attachment]`
@@ -102,7 +102,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCrossAccountResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountResourcesOutput`
     public func listCrossAccountResourcesPaginated(input: ListCrossAccountResourcesInput) -> ClientRuntime.PaginatorSequence<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCrossAccountResources(input:))
+        return ClientRuntime.PaginatorSequence<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(input: input, inputKey: \ListCrossAccountResourcesInput.nextToken, outputKey: \ListCrossAccountResourcesOutput.nextToken, paginationFunction: self.listCrossAccountResources(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListCrossAccountResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCrossAccountResourcesInput, OperationStackOutput == ListCrossAccountResourcesOutput {
+extension PaginatorSequence where Input == ListCrossAccountResourcesInput, Output == ListCrossAccountResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCrossAccountResourcesPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.CrossAccountResource]`
     /// - Returns: `[GlobalAcceleratorClientTypes.CrossAccountResource]`
@@ -134,7 +134,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCustomRoutingAcceleratorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingAcceleratorsOutput`
     public func listCustomRoutingAcceleratorsPaginated(input: ListCustomRoutingAcceleratorsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomRoutingAccelerators(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(input: input, inputKey: \ListCustomRoutingAcceleratorsInput.nextToken, outputKey: \ListCustomRoutingAcceleratorsOutput.nextToken, paginationFunction: self.listCustomRoutingAccelerators(input:))
     }
 }
 
@@ -146,7 +146,7 @@ extension ListCustomRoutingAcceleratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCustomRoutingAcceleratorsInput, OperationStackOutput == ListCustomRoutingAcceleratorsOutput {
+extension PaginatorSequence where Input == ListCustomRoutingAcceleratorsInput, Output == ListCustomRoutingAcceleratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingAcceleratorsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.CustomRoutingAccelerator]`
     /// - Returns: `[GlobalAcceleratorClientTypes.CustomRoutingAccelerator]`
@@ -164,7 +164,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCustomRoutingEndpointGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingEndpointGroupsOutput`
     public func listCustomRoutingEndpointGroupsPaginated(input: ListCustomRoutingEndpointGroupsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomRoutingEndpointGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(input: input, inputKey: \ListCustomRoutingEndpointGroupsInput.nextToken, outputKey: \ListCustomRoutingEndpointGroupsOutput.nextToken, paginationFunction: self.listCustomRoutingEndpointGroups(input:))
     }
 }
 
@@ -177,7 +177,7 @@ extension ListCustomRoutingEndpointGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCustomRoutingEndpointGroupsInput, OperationStackOutput == ListCustomRoutingEndpointGroupsOutput {
+extension PaginatorSequence where Input == ListCustomRoutingEndpointGroupsInput, Output == ListCustomRoutingEndpointGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingEndpointGroupsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]`
     /// - Returns: `[GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]`
@@ -195,7 +195,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCustomRoutingListenersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingListenersOutput`
     public func listCustomRoutingListenersPaginated(input: ListCustomRoutingListenersInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomRoutingListeners(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(input: input, inputKey: \ListCustomRoutingListenersInput.nextToken, outputKey: \ListCustomRoutingListenersOutput.nextToken, paginationFunction: self.listCustomRoutingListeners(input:))
     }
 }
 
@@ -208,7 +208,7 @@ extension ListCustomRoutingListenersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCustomRoutingListenersInput, OperationStackOutput == ListCustomRoutingListenersOutput {
+extension PaginatorSequence where Input == ListCustomRoutingListenersInput, Output == ListCustomRoutingListenersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingListenersPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.CustomRoutingListener]`
     /// - Returns: `[GlobalAcceleratorClientTypes.CustomRoutingListener]`
@@ -226,7 +226,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCustomRoutingPortMappingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingPortMappingsOutput`
     public func listCustomRoutingPortMappingsPaginated(input: ListCustomRoutingPortMappingsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomRoutingPortMappings(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(input: input, inputKey: \ListCustomRoutingPortMappingsInput.nextToken, outputKey: \ListCustomRoutingPortMappingsOutput.nextToken, paginationFunction: self.listCustomRoutingPortMappings(input:))
     }
 }
 
@@ -240,7 +240,7 @@ extension ListCustomRoutingPortMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCustomRoutingPortMappingsInput, OperationStackOutput == ListCustomRoutingPortMappingsOutput {
+extension PaginatorSequence where Input == ListCustomRoutingPortMappingsInput, Output == ListCustomRoutingPortMappingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingPortMappingsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.PortMapping]`
     /// - Returns: `[GlobalAcceleratorClientTypes.PortMapping]`
@@ -258,7 +258,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListCustomRoutingPortMappingsByDestinationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingPortMappingsByDestinationOutput`
     public func listCustomRoutingPortMappingsByDestinationPaginated(input: ListCustomRoutingPortMappingsByDestinationInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomRoutingPortMappingsByDestination(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(input: input, inputKey: \ListCustomRoutingPortMappingsByDestinationInput.nextToken, outputKey: \ListCustomRoutingPortMappingsByDestinationOutput.nextToken, paginationFunction: self.listCustomRoutingPortMappingsByDestination(input:))
     }
 }
 
@@ -272,7 +272,7 @@ extension ListCustomRoutingPortMappingsByDestinationInput: ClientRuntime.Paginat
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCustomRoutingPortMappingsByDestinationInput, OperationStackOutput == ListCustomRoutingPortMappingsByDestinationOutput {
+extension PaginatorSequence where Input == ListCustomRoutingPortMappingsByDestinationInput, Output == ListCustomRoutingPortMappingsByDestinationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingPortMappingsByDestinationPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.DestinationPortMapping]`
     /// - Returns: `[GlobalAcceleratorClientTypes.DestinationPortMapping]`
@@ -290,7 +290,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListEndpointGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointGroupsOutput`
     public func listEndpointGroupsPaginated(input: ListEndpointGroupsInput) -> ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEndpointGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutput>(input: input, inputKey: \ListEndpointGroupsInput.nextToken, outputKey: \ListEndpointGroupsOutput.nextToken, paginationFunction: self.listEndpointGroups(input:))
     }
 }
 
@@ -303,7 +303,7 @@ extension ListEndpointGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListEndpointGroupsInput, OperationStackOutput == ListEndpointGroupsOutput {
+extension PaginatorSequence where Input == ListEndpointGroupsInput, Output == ListEndpointGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointGroupsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.EndpointGroup]`
     /// - Returns: `[GlobalAcceleratorClientTypes.EndpointGroup]`
@@ -321,7 +321,7 @@ extension GlobalAcceleratorClient {
     ///     - input: A `[ListListenersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListListenersOutput`
     public func listListenersPaginated(input: ListListenersInput) -> ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutput> {
-        return ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listListeners(input:))
+        return ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutput>(input: input, inputKey: \ListListenersInput.nextToken, outputKey: \ListListenersOutput.nextToken, paginationFunction: self.listListeners(input:))
     }
 }
 
@@ -334,7 +334,7 @@ extension ListListenersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListListenersInput, OperationStackOutput == ListListenersOutput {
+extension PaginatorSequence where Input == ListListenersInput, Output == ListListenersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listListenersPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.Listener]`
     /// - Returns: `[GlobalAcceleratorClientTypes.Listener]`

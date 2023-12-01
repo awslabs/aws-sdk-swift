@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Connect Wisdom delivers agents the information they need to solve customer issues as they're actively speaking with customers. Agents can search across connected repositories from within their agent desktop to find answers quickly. Use Amazon Connect Wisdom to create an assistant and a knowledge base, for example, or manage content by uploading custom files.
 public protocol WisdomClientProtocol {
-    /// Performs the `CreateAssistant` operation on the `WisdomService` service.
-    ///
     /// Creates an Amazon Connect Wisdom assistant.
     ///
     /// - Parameter CreateAssistantInput : [no documentation found]
@@ -20,8 +18,6 @@ public protocol WisdomClientProtocol {
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func createAssistant(input: CreateAssistantInput) async throws -> CreateAssistantOutput
-    /// Performs the `CreateAssistantAssociation` operation on the `WisdomService` service.
-    ///
     /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
     /// - Parameter CreateAssistantAssociationInput : [no documentation found]
@@ -37,8 +33,6 @@ public protocol WisdomClientProtocol {
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func createAssistantAssociation(input: CreateAssistantAssociationInput) async throws -> CreateAssistantAssociationOutput
-    /// Performs the `CreateContent` operation on the `WisdomService` service.
-    ///
     /// Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
     /// - Parameter CreateContentInput : [no documentation found]
@@ -54,8 +48,6 @@ public protocol WisdomClientProtocol {
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func createContent(input: CreateContentInput) async throws -> CreateContentOutput
-    /// Performs the `CreateKnowledgeBase` operation on the `WisdomService` service.
-    ///
     /// Creates a knowledge base. When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following:
     ///
     /// * Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.html).
@@ -78,8 +70,6 @@ public protocol WisdomClientProtocol {
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput
-    /// Performs the `CreateSession` operation on the `WisdomService` service.
-    ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
     ///
     /// - Parameter CreateSessionInput : [no documentation found]
@@ -93,8 +83,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
-    /// Performs the `DeleteAssistant` operation on the `WisdomService` service.
-    ///
     /// Deletes an assistant.
     ///
     /// - Parameter DeleteAssistantInput : [no documentation found]
@@ -108,8 +96,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func deleteAssistant(input: DeleteAssistantInput) async throws -> DeleteAssistantOutput
-    /// Performs the `DeleteAssistantAssociation` operation on the `WisdomService` service.
-    ///
     /// Deletes an assistant association.
     ///
     /// - Parameter DeleteAssistantAssociationInput : [no documentation found]
@@ -123,8 +109,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func deleteAssistantAssociation(input: DeleteAssistantAssociationInput) async throws -> DeleteAssistantAssociationOutput
-    /// Performs the `DeleteContent` operation on the `WisdomService` service.
-    ///
     /// Deletes the content.
     ///
     /// - Parameter DeleteContentInput : [no documentation found]
@@ -138,8 +122,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func deleteContent(input: DeleteContentInput) async throws -> DeleteContentOutput
-    /// Performs the `DeleteKnowledgeBase` operation on the `WisdomService` service.
-    ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
     /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
@@ -154,8 +136,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput
-    /// Performs the `GetAssistant` operation on the `WisdomService` service.
-    ///
     /// Retrieves information about an assistant.
     ///
     /// - Parameter GetAssistantInput : [no documentation found]
@@ -169,8 +149,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getAssistant(input: GetAssistantInput) async throws -> GetAssistantOutput
-    /// Performs the `GetAssistantAssociation` operation on the `WisdomService` service.
-    ///
     /// Retrieves information about an assistant association.
     ///
     /// - Parameter GetAssistantAssociationInput : [no documentation found]
@@ -184,8 +162,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getAssistantAssociation(input: GetAssistantAssociationInput) async throws -> GetAssistantAssociationOutput
-    /// Performs the `GetContent` operation on the `WisdomService` service.
-    ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
     /// - Parameter GetContentInput : [no documentation found]
@@ -199,8 +175,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getContent(input: GetContentInput) async throws -> GetContentOutput
-    /// Performs the `GetContentSummary` operation on the `WisdomService` service.
-    ///
     /// Retrieves summary information about the content.
     ///
     /// - Parameter GetContentSummaryInput : [no documentation found]
@@ -214,8 +188,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getContentSummary(input: GetContentSummaryInput) async throws -> GetContentSummaryOutput
-    /// Performs the `GetKnowledgeBase` operation on the `WisdomService` service.
-    ///
     /// Retrieves information about the knowledge base.
     ///
     /// - Parameter GetKnowledgeBaseInput : [no documentation found]
@@ -229,8 +201,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput
-    /// Performs the `GetRecommendations` operation on the `WisdomService` service.
-    ///
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
     ///
     /// - Parameter GetRecommendationsInput : [no documentation found]
@@ -244,8 +214,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput
-    /// Performs the `GetSession` operation on the `WisdomService` service.
-    ///
     /// Retrieves information for a specified session.
     ///
     /// - Parameter GetSessionInput : [no documentation found]
@@ -259,8 +227,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func getSession(input: GetSessionInput) async throws -> GetSessionOutput
-    /// Performs the `ListAssistantAssociations` operation on the `WisdomService` service.
-    ///
     /// Lists information about assistant associations.
     ///
     /// - Parameter ListAssistantAssociationsInput : [no documentation found]
@@ -274,8 +240,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func listAssistantAssociations(input: ListAssistantAssociationsInput) async throws -> ListAssistantAssociationsOutput
-    /// Performs the `ListAssistants` operation on the `WisdomService` service.
-    ///
     /// Lists information about assistants.
     ///
     /// - Parameter ListAssistantsInput : [no documentation found]
@@ -288,8 +252,6 @@ public protocol WisdomClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func listAssistants(input: ListAssistantsInput) async throws -> ListAssistantsOutput
-    /// Performs the `ListContents` operation on the `WisdomService` service.
-    ///
     /// Lists the content.
     ///
     /// - Parameter ListContentsInput : [no documentation found]
@@ -303,8 +265,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func listContents(input: ListContentsInput) async throws -> ListContentsOutput
-    /// Performs the `ListKnowledgeBases` operation on the `WisdomService` service.
-    ///
     /// Lists the knowledge bases.
     ///
     /// - Parameter ListKnowledgeBasesInput : [no documentation found]
@@ -317,8 +277,6 @@ public protocol WisdomClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutput
-    /// Performs the `ListTagsForResource` operation on the `WisdomService` service.
-    ///
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -330,8 +288,6 @@ public protocol WisdomClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `NotifyRecommendationsReceived` operation on the `WisdomService` service.
-    ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
     /// - Parameter NotifyRecommendationsReceivedInput : [no documentation found]
@@ -345,8 +301,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func notifyRecommendationsReceived(input: NotifyRecommendationsReceivedInput) async throws -> NotifyRecommendationsReceivedOutput
-    /// Performs the `QueryAssistant` operation on the `WisdomService` service.
-    ///
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
     ///
     /// - Parameter QueryAssistantInput : [no documentation found]
@@ -360,8 +314,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func queryAssistant(input: QueryAssistantInput) async throws -> QueryAssistantOutput
-    /// Performs the `RemoveKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
-    ///
     /// Removes a URI template from a knowledge base.
     ///
     /// - Parameter RemoveKnowledgeBaseTemplateUriInput : [no documentation found]
@@ -375,8 +327,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func removeKnowledgeBaseTemplateUri(input: RemoveKnowledgeBaseTemplateUriInput) async throws -> RemoveKnowledgeBaseTemplateUriOutput
-    /// Performs the `SearchContent` operation on the `WisdomService` service.
-    ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
     /// - Parameter SearchContentInput : [no documentation found]
@@ -390,8 +340,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func searchContent(input: SearchContentInput) async throws -> SearchContentOutput
-    /// Performs the `SearchSessions` operation on the `WisdomService` service.
-    ///
     /// Searches for sessions.
     ///
     /// - Parameter SearchSessionsInput : [no documentation found]
@@ -405,8 +353,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func searchSessions(input: SearchSessionsInput) async throws -> SearchSessionsOutput
-    /// Performs the `StartContentUpload` operation on the `WisdomService` service.
-    ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
     /// - Parameter StartContentUploadInput : [no documentation found]
@@ -420,8 +366,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func startContentUpload(input: StartContentUploadInput) async throws -> StartContentUploadOutput
-    /// Performs the `TagResource` operation on the `WisdomService` service.
-    ///
     /// Adds the specified tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -434,8 +378,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `TooManyTagsException` : Amazon Connect Wisdom throws this exception if you have too many tags in your tag set.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `WisdomService` service.
-    ///
     /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -447,8 +389,6 @@ public protocol WisdomClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateContent` operation on the `WisdomService` service.
-    ///
     /// Updates information about the content.
     ///
     /// - Parameter UpdateContentInput : [no documentation found]
@@ -463,8 +403,6 @@ public protocol WisdomClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     func updateContent(input: UpdateContentInput) async throws -> UpdateContentOutput
-    /// Performs the `UpdateKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
-    ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
     /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]

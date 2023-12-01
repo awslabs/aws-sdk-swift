@@ -128,7 +128,7 @@ extension TranscribeStreamingClientTypes.AudioStream: ClientRuntime.MessageMarsh
         case .configurationevent(let value):
             headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+            payload = try encoder.encode(value)
         case .sdkUnknown(_):
             throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
         }
@@ -2429,6 +2429,49 @@ extension TranscribeStreamingClientTypes {
     }
 }
 
+public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "StartCallAnalyticsStreamTranscriptionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let audioStream = input.operationInput.audioStream {
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let audioStreamData = "{}".data(using: .utf8)!
+                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                    input.builder.withBody(audioStreamBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -2723,6 +2766,49 @@ enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpRespons
     }
 }
 
+public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "StartMedicalStreamTranscriptionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let audioStream = input.operationInput.audioStream {
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let audioStreamData = "{}".data(using: .utf8)!
+                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                    input.builder.withBody(audioStreamBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension StartMedicalStreamTranscriptionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -2985,6 +3071,49 @@ enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "StartStreamTranscriptionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartStreamTranscriptionOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let audioStream = input.operationInput.audioStream {
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let audioStreamData = "{}".data(using: .utf8)!
+                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
+                    input.builder.withBody(audioStreamBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartStreamTranscriptionOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {

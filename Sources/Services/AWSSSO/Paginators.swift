@@ -12,7 +12,7 @@ extension SSOClient {
     ///     - input: A `[ListAccountRolesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountRolesOutput`
     public func listAccountRolesPaginated(input: ListAccountRolesInput) -> ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountRoles(input:))
+        return ClientRuntime.PaginatorSequence<ListAccountRolesInput, ListAccountRolesOutput>(input: input, inputKey: \ListAccountRolesInput.nextToken, outputKey: \ListAccountRolesOutput.nextToken, paginationFunction: self.listAccountRoles(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListAccountRolesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAccountRolesInput, OperationStackOutput == ListAccountRolesOutput {
+extension PaginatorSequence where Input == ListAccountRolesInput, Output == ListAccountRolesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccountRolesPaginated`
     /// to access the nested member `[SSOClientTypes.RoleInfo]`
     /// - Returns: `[SSOClientTypes.RoleInfo]`
@@ -44,7 +44,7 @@ extension SSOClient {
     ///     - input: A `[ListAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutput`
     public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutput.nextToken, paginationFunction: self.listAccounts(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAccountsInput, OperationStackOutput == ListAccountsOutput {
+extension PaginatorSequence where Input == ListAccountsInput, Output == ListAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccountsPaginated`
     /// to access the nested member `[SSOClientTypes.AccountInfo]`
     /// - Returns: `[SSOClientTypes.AccountInfo]`

@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// API for AWS Elemental MediaLive
 public protocol MediaLiveClientProtocol {
-    /// Performs the `AcceptInputDeviceTransfer` operation on the `MediaLive` service.
-    ///
     /// Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
     ///
     /// - Parameter AcceptInputDeviceTransferInput : Placeholder documentation for AcceptInputDeviceTransferRequest
@@ -25,8 +23,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutput
-    /// Performs the `BatchDelete` operation on the `MediaLive` service.
-    ///
     /// Starts delete of resources.
     ///
     /// - Parameter BatchDeleteInput : A request to delete resources
@@ -45,8 +41,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutput
-    /// Performs the `BatchStart` operation on the `MediaLive` service.
-    ///
     /// Starts existing resources
     ///
     /// - Parameter BatchStartInput : A request to start resources
@@ -65,8 +59,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func batchStart(input: BatchStartInput) async throws -> BatchStartOutput
-    /// Performs the `BatchStop` operation on the `MediaLive` service.
-    ///
     /// Stops running resources
     ///
     /// - Parameter BatchStopInput : A request to stop resources
@@ -85,8 +77,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func batchStop(input: BatchStopInput) async throws -> BatchStopOutput
-    /// Performs the `BatchUpdateSchedule` operation on the `MediaLive` service.
-    ///
     /// Update a channel schedule
     ///
     /// - Parameter BatchUpdateScheduleInput : List of actions to create and list of actions to delete.
@@ -105,8 +95,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutput
-    /// Performs the `CancelInputDeviceTransfer` operation on the `MediaLive` service.
-    ///
     /// Cancel an input device transfer that you have requested.
     ///
     /// - Parameter CancelInputDeviceTransferInput : Placeholder documentation for CancelInputDeviceTransferRequest
@@ -126,8 +114,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutput
-    /// Performs the `ClaimDevice` operation on the `MediaLive` service.
-    ///
     /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
     ///
     /// - Parameter ClaimDeviceInput : A request to claim an AWS Elemental device that you have purchased from a third-party vendor.
@@ -146,8 +132,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutput
-    /// Performs the `CreateChannel` operation on the `MediaLive` service.
-    ///
     /// Creates a new channel
     ///
     /// - Parameter CreateChannelInput : A request to create a channel
@@ -166,8 +150,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    /// Performs the `CreateInput` operation on the `MediaLive` service.
-    ///
     /// Create an input
     ///
     /// - Parameter CreateInputInput : The name of the input
@@ -184,8 +166,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func createInput(input: CreateInputInput) async throws -> CreateInputOutput
-    /// Performs the `CreateInputSecurityGroup` operation on the `MediaLive` service.
-    ///
     /// Creates a Input Security Group
     ///
     /// - Parameter CreateInputSecurityGroupInput : The IPv4 CIDRs to whitelist for this Input Security Group
@@ -202,8 +182,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutput
-    /// Performs the `CreateMultiplex` operation on the `MediaLive` service.
-    ///
     /// Create a new multiplex.
     ///
     /// - Parameter CreateMultiplexInput : A request to create a multiplex.
@@ -222,8 +200,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutput
-    /// Performs the `CreateMultiplexProgram` operation on the `MediaLive` service.
-    ///
     /// Create a new program in the multiplex.
     ///
     /// - Parameter CreateMultiplexProgramInput : A request to create a program in a multiplex.
@@ -242,8 +218,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutput
-    /// Performs the `CreatePartnerInput` operation on the `MediaLive` service.
-    ///
     /// Create a partner input
     ///
     /// - Parameter CreatePartnerInputInput : A request to create a partner input
@@ -260,8 +234,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutput
-    /// Performs the `CreateTags` operation on the `MediaLive` service.
-    ///
     /// Create tags for a resource
     ///
     /// - Parameter CreateTagsInput : Placeholder documentation for CreateTagsRequest
@@ -276,8 +248,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    /// Performs the `DeleteChannel` operation on the `MediaLive` service.
-    ///
     /// Starts deletion of channel. The associated outputs are also deleted.
     ///
     /// - Parameter DeleteChannelInput : Placeholder documentation for DeleteChannelRequest
@@ -296,8 +266,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    /// Performs the `DeleteInput` operation on the `MediaLive` service.
-    ///
     /// Deletes the input end point
     ///
     /// - Parameter DeleteInputInput : Placeholder documentation for DeleteInputRequest
@@ -316,8 +284,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput
-    /// Performs the `DeleteInputSecurityGroup` operation on the `MediaLive` service.
-    ///
     /// Deletes an Input Security Group
     ///
     /// - Parameter DeleteInputSecurityGroupInput : Placeholder documentation for DeleteInputSecurityGroupRequest
@@ -335,8 +301,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutput
-    /// Performs the `DeleteMultiplex` operation on the `MediaLive` service.
-    ///
     /// Delete a multiplex. The multiplex must be idle.
     ///
     /// - Parameter DeleteMultiplexInput : Placeholder documentation for DeleteMultiplexRequest
@@ -355,8 +319,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutput
-    /// Performs the `DeleteMultiplexProgram` operation on the `MediaLive` service.
-    ///
     /// Delete a program from a multiplex.
     ///
     /// - Parameter DeleteMultiplexProgramInput : Placeholder documentation for DeleteMultiplexProgramRequest
@@ -375,8 +337,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutput
-    /// Performs the `DeleteReservation` operation on the `MediaLive` service.
-    ///
     /// Delete an expired reservation.
     ///
     /// - Parameter DeleteReservationInput : Placeholder documentation for DeleteReservationRequest
@@ -395,8 +355,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutput
-    /// Performs the `DeleteSchedule` operation on the `MediaLive` service.
-    ///
     /// Delete all schedule actions on a channel.
     ///
     /// - Parameter DeleteScheduleInput : Placeholder documentation for DeleteScheduleRequest
@@ -414,8 +372,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
-    /// Performs the `DeleteTags` operation on the `MediaLive` service.
-    ///
     /// Removes tags for a resource
     ///
     /// - Parameter DeleteTagsInput : Placeholder documentation for DeleteTagsRequest
@@ -430,8 +386,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    /// Performs the `DescribeAccountConfiguration` operation on the `MediaLive` service.
-    ///
     /// Get account configuration
     ///
     /// - Parameter DescribeAccountConfigurationInput : Placeholder documentation for DescribeAccountConfigurationRequest
@@ -448,8 +402,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutput
-    /// Performs the `DescribeChannel` operation on the `MediaLive` service.
-    ///
     /// Gets details about a channel
     ///
     /// - Parameter DescribeChannelInput : Placeholder documentation for DescribeChannelRequest
@@ -467,8 +419,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
-    /// Performs the `DescribeInput` operation on the `MediaLive` service.
-    ///
     /// Produces details about an input
     ///
     /// - Parameter DescribeInputInput : Placeholder documentation for DescribeInputRequest
@@ -486,8 +436,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput
-    /// Performs the `DescribeInputDevice` operation on the `MediaLive` service.
-    ///
     /// Gets the details for the input device
     ///
     /// - Parameter DescribeInputDeviceInput : Placeholder documentation for DescribeInputDeviceRequest
@@ -505,8 +453,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutput
-    /// Performs the `DescribeInputDeviceThumbnail` operation on the `MediaLive` service.
-    ///
     /// Get the latest thumbnail data for the input device.
     ///
     /// - Parameter DescribeInputDeviceThumbnailInput : Placeholder documentation for DescribeInputDeviceThumbnailRequest
@@ -524,8 +470,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutput
-    /// Performs the `DescribeInputSecurityGroup` operation on the `MediaLive` service.
-    ///
     /// Produces a summary of an Input Security Group
     ///
     /// - Parameter DescribeInputSecurityGroupInput : Placeholder documentation for DescribeInputSecurityGroupRequest
@@ -543,8 +487,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutput
-    /// Performs the `DescribeMultiplex` operation on the `MediaLive` service.
-    ///
     /// Gets details about a multiplex.
     ///
     /// - Parameter DescribeMultiplexInput : Placeholder documentation for DescribeMultiplexRequest
@@ -562,8 +504,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutput
-    /// Performs the `DescribeMultiplexProgram` operation on the `MediaLive` service.
-    ///
     /// Get the details for a program in a multiplex.
     ///
     /// - Parameter DescribeMultiplexProgramInput : Placeholder documentation for DescribeMultiplexProgramRequest
@@ -581,8 +521,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutput
-    /// Performs the `DescribeOffering` operation on the `MediaLive` service.
-    ///
     /// Get details for an offering.
     ///
     /// - Parameter DescribeOfferingInput : Placeholder documentation for DescribeOfferingRequest
@@ -600,8 +538,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput
-    /// Performs the `DescribeReservation` operation on the `MediaLive` service.
-    ///
     /// Get details for a reservation.
     ///
     /// - Parameter DescribeReservationInput : Placeholder documentation for DescribeReservationRequest
@@ -619,8 +555,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput
-    /// Performs the `DescribeSchedule` operation on the `MediaLive` service.
-    ///
     /// Get a channel schedule
     ///
     /// - Parameter DescribeScheduleInput : Placeholder documentation for DescribeScheduleRequest
@@ -638,8 +572,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput
-    /// Performs the `DescribeThumbnails` operation on the `MediaLive` service.
-    ///
     /// Describe the latest thumbnails data.
     ///
     /// - Parameter DescribeThumbnailsInput : Placeholder documentation for DescribeThumbnailsRequest
@@ -658,8 +590,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutput
-    /// Performs the `ListChannels` operation on the `MediaLive` service.
-    ///
     /// Produces list of channels that have been created
     ///
     /// - Parameter ListChannelsInput : Placeholder documentation for ListChannelsRequest
@@ -676,8 +606,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    /// Performs the `ListInputDevices` operation on the `MediaLive` service.
-    ///
     /// List input devices
     ///
     /// - Parameter ListInputDevicesInput : Placeholder documentation for ListInputDevicesRequest
@@ -694,8 +622,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutput
-    /// Performs the `ListInputDeviceTransfers` operation on the `MediaLive` service.
-    ///
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
     ///
     /// - Parameter ListInputDeviceTransfersInput : Placeholder documentation for ListInputDeviceTransfersRequest
@@ -713,8 +639,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutput
-    /// Performs the `ListInputs` operation on the `MediaLive` service.
-    ///
     /// Produces list of inputs that have been created
     ///
     /// - Parameter ListInputsInput : Placeholder documentation for ListInputsRequest
@@ -731,8 +655,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listInputs(input: ListInputsInput) async throws -> ListInputsOutput
-    /// Performs the `ListInputSecurityGroups` operation on the `MediaLive` service.
-    ///
     /// Produces a list of Input Security Groups for an account
     ///
     /// - Parameter ListInputSecurityGroupsInput : Placeholder documentation for ListInputSecurityGroupsRequest
@@ -749,8 +671,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutput
-    /// Performs the `ListMultiplexes` operation on the `MediaLive` service.
-    ///
     /// Retrieve a list of the existing multiplexes.
     ///
     /// - Parameter ListMultiplexesInput : Placeholder documentation for ListMultiplexesRequest
@@ -767,8 +687,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutput
-    /// Performs the `ListMultiplexPrograms` operation on the `MediaLive` service.
-    ///
     /// List the programs that currently exist for a specific multiplex.
     ///
     /// - Parameter ListMultiplexProgramsInput : Placeholder documentation for ListMultiplexProgramsRequest
@@ -786,8 +704,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutput
-    /// Performs the `ListOfferings` operation on the `MediaLive` service.
-    ///
     /// List offerings available for purchase.
     ///
     /// - Parameter ListOfferingsInput : Placeholder documentation for ListOfferingsRequest
@@ -804,8 +720,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
-    /// Performs the `ListReservations` operation on the `MediaLive` service.
-    ///
     /// List purchased reservations.
     ///
     /// - Parameter ListReservationsInput : Placeholder documentation for ListReservationsRequest
@@ -822,8 +736,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput
-    /// Performs the `ListTagsForResource` operation on the `MediaLive` service.
-    ///
     /// Produces list of tags that have been created for a resource
     ///
     /// - Parameter ListTagsForResourceInput : Placeholder documentation for ListTagsForResourceRequest
@@ -838,8 +750,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PurchaseOffering` operation on the `MediaLive` service.
-    ///
     /// Purchase an offering and create a reservation.
     ///
     /// - Parameter PurchaseOfferingInput : Placeholder documentation for PurchaseOfferingRequest
@@ -858,8 +768,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
-    /// Performs the `RebootInputDevice` operation on the `MediaLive` service.
-    ///
     /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
     ///
     /// - Parameter RebootInputDeviceInput : A request to reboot an AWS Elemental device.
@@ -878,8 +786,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutput
-    /// Performs the `RejectInputDeviceTransfer` operation on the `MediaLive` service.
-    ///
     /// Reject the transfer of the specified input device to your AWS account.
     ///
     /// - Parameter RejectInputDeviceTransferInput : Placeholder documentation for RejectInputDeviceTransferRequest
@@ -899,8 +805,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutput
-    /// Performs the `StartChannel` operation on the `MediaLive` service.
-    ///
     /// Starts an existing channel
     ///
     /// - Parameter StartChannelInput : Placeholder documentation for StartChannelRequest
@@ -919,8 +823,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func startChannel(input: StartChannelInput) async throws -> StartChannelOutput
-    /// Performs the `StartInputDevice` operation on the `MediaLive` service.
-    ///
     /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
     ///
     /// - Parameter StartInputDeviceInput : Placeholder documentation for StartInputDeviceRequest
@@ -939,8 +841,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutput
-    /// Performs the `StartInputDeviceMaintenanceWindow` operation on the `MediaLive` service.
-    ///
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     ///
     /// - Parameter StartInputDeviceMaintenanceWindowInput : Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
@@ -959,8 +859,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutput
-    /// Performs the `StartMultiplex` operation on the `MediaLive` service.
-    ///
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
     ///
     /// - Parameter StartMultiplexInput : Placeholder documentation for StartMultiplexRequest
@@ -979,8 +877,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutput
-    /// Performs the `StopChannel` operation on the `MediaLive` service.
-    ///
     /// Stops a running channel
     ///
     /// - Parameter StopChannelInput : Placeholder documentation for StopChannelRequest
@@ -999,8 +895,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput
-    /// Performs the `StopInputDevice` operation on the `MediaLive` service.
-    ///
     /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
     ///
     /// - Parameter StopInputDeviceInput : Placeholder documentation for StopInputDeviceRequest
@@ -1019,8 +913,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutput
-    /// Performs the `StopMultiplex` operation on the `MediaLive` service.
-    ///
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     ///
     /// - Parameter StopMultiplexInput : Placeholder documentation for StopMultiplexRequest
@@ -1039,8 +931,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutput
-    /// Performs the `TransferInputDevice` operation on the `MediaLive` service.
-    ///
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
     ///
     /// - Parameter TransferInputDeviceInput : A request to transfer an input device.
@@ -1060,8 +950,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutput
-    /// Performs the `UpdateAccountConfiguration` operation on the `MediaLive` service.
-    ///
     /// Update account configuration
     ///
     /// - Parameter UpdateAccountConfigurationInput : List of account configuration parameters to update.
@@ -1079,8 +967,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput
-    /// Performs the `UpdateChannel` operation on the `MediaLive` service.
-    ///
     /// Updates a channel.
     ///
     /// - Parameter UpdateChannelInput : A request to update a channel.
@@ -1098,8 +984,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    /// Performs the `UpdateChannelClass` operation on the `MediaLive` service.
-    ///
     /// Changes the class of the channel.
     ///
     /// - Parameter UpdateChannelClassInput : Channel class that the channel should be updated to.
@@ -1119,8 +1003,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutput
-    /// Performs the `UpdateInput` operation on the `MediaLive` service.
-    ///
     /// Updates an input.
     ///
     /// - Parameter UpdateInputInput : A request to update an input.
@@ -1138,8 +1020,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput
-    /// Performs the `UpdateInputDevice` operation on the `MediaLive` service.
-    ///
     /// Updates the parameters for the input device.
     ///
     /// - Parameter UpdateInputDeviceInput : A request to update an input device.
@@ -1158,8 +1038,6 @@ public protocol MediaLiveClientProtocol {
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutput
-    /// Performs the `UpdateInputSecurityGroup` operation on the `MediaLive` service.
-    ///
     /// Update an Input Security Group's Whilelists.
     ///
     /// - Parameter UpdateInputSecurityGroupInput : The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow.
@@ -1177,8 +1055,6 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutput
-    /// Performs the `UpdateMultiplex` operation on the `MediaLive` service.
-    ///
     /// Updates a multiplex.
     ///
     /// - Parameter UpdateMultiplexInput : A request to update a multiplex.
@@ -1197,8 +1073,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutput
-    /// Performs the `UpdateMultiplexProgram` operation on the `MediaLive` service.
-    ///
     /// Update a program in a multiplex.
     ///
     /// - Parameter UpdateMultiplexProgramInput : A request to update a program in a multiplex.
@@ -1217,8 +1091,6 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
     func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutput
-    /// Performs the `UpdateReservation` operation on the `MediaLive` service.
-    ///
     /// Update reservation.
     ///
     /// - Parameter UpdateReservationInput : Request to update a reservation

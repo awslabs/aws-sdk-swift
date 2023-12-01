@@ -12,7 +12,7 @@ extension CodeGuruReviewerClient {
     ///     - input: A `[ListCodeReviewsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCodeReviewsOutput`
     public func listCodeReviewsPaginated(input: ListCodeReviewsInput) -> ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCodeReviews(input:))
+        return ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput>(input: input, inputKey: \ListCodeReviewsInput.nextToken, outputKey: \ListCodeReviewsOutput.nextToken, paginationFunction: self.listCodeReviews(input:))
     }
 }
 
@@ -37,7 +37,7 @@ extension CodeGuruReviewerClient {
     ///     - input: A `[ListRecommendationFeedbackInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationFeedbackOutput`
     public func listRecommendationFeedbackPaginated(input: ListRecommendationFeedbackInput) -> ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendationFeedback(input:))
+        return ClientRuntime.PaginatorSequence<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutput>(input: input, inputKey: \ListRecommendationFeedbackInput.nextToken, outputKey: \ListRecommendationFeedbackOutput.nextToken, paginationFunction: self.listRecommendationFeedback(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension CodeGuruReviewerClient {
     ///     - input: A `[ListRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutput`
     public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendations(input:))
+        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutput.nextToken, paginationFunction: self.listRecommendations(input:))
     }
 }
 
@@ -83,7 +83,7 @@ extension CodeGuruReviewerClient {
     ///     - input: A `[ListRepositoryAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoryAssociationsOutput`
     public func listRepositoryAssociationsPaginated(input: ListRepositoryAssociationsInput) -> ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRepositoryAssociations(input:))
+        return ClientRuntime.PaginatorSequence<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutput>(input: input, inputKey: \ListRepositoryAssociationsInput.nextToken, outputKey: \ListRepositoryAssociationsOutput.nextToken, paginationFunction: self.listRepositoryAssociations(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension ListRepositoryAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRepositoryAssociationsInput, OperationStackOutput == ListRepositoryAssociationsOutput {
+extension PaginatorSequence where Input == ListRepositoryAssociationsInput, Output == ListRepositoryAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRepositoryAssociationsPaginated`
     /// to access the nested member `[CodeGuruReviewerClientTypes.RepositoryAssociationSummary]`
     /// - Returns: `[CodeGuruReviewerClientTypes.RepositoryAssociationSummary]`

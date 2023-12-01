@@ -12,7 +12,7 @@ extension GlueClient {
     ///     - input: A `[GetBlueprintRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBlueprintRunsOutput`
     public func getBlueprintRunsPaginated(input: GetBlueprintRunsInput) -> ClientRuntime.PaginatorSequence<GetBlueprintRunsInput, GetBlueprintRunsOutput> {
-        return ClientRuntime.PaginatorSequence<GetBlueprintRunsInput, GetBlueprintRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBlueprintRuns(input:))
+        return ClientRuntime.PaginatorSequence<GetBlueprintRunsInput, GetBlueprintRunsOutput>(input: input, inputKey: \GetBlueprintRunsInput.nextToken, outputKey: \GetBlueprintRunsOutput.nextToken, paginationFunction: self.getBlueprintRuns(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension GlueClient {
     ///     - input: A `[GetClassifiersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetClassifiersOutput`
     public func getClassifiersPaginated(input: GetClassifiersInput) -> ClientRuntime.PaginatorSequence<GetClassifiersInput, GetClassifiersOutput> {
-        return ClientRuntime.PaginatorSequence<GetClassifiersInput, GetClassifiersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getClassifiers(input:))
+        return ClientRuntime.PaginatorSequence<GetClassifiersInput, GetClassifiersOutput>(input: input, inputKey: \GetClassifiersInput.nextToken, outputKey: \GetClassifiersOutput.nextToken, paginationFunction: self.getClassifiers(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension GlueClient {
     ///     - input: A `[GetConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConnectionsOutput`
     public func getConnectionsPaginated(input: GetConnectionsInput) -> ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutput> {
-        return ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConnections(input:))
+        return ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutput>(input: input, inputKey: \GetConnectionsInput.nextToken, outputKey: \GetConnectionsOutput.nextToken, paginationFunction: self.getConnections(input:))
     }
 }
 
@@ -79,7 +79,7 @@ extension GlueClient {
     ///     - input: A `[GetCrawlerMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCrawlerMetricsOutput`
     public func getCrawlerMetricsPaginated(input: GetCrawlerMetricsInput) -> ClientRuntime.PaginatorSequence<GetCrawlerMetricsInput, GetCrawlerMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCrawlerMetrics(input:))
+        return ClientRuntime.PaginatorSequence<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(input: input, inputKey: \GetCrawlerMetricsInput.nextToken, outputKey: \GetCrawlerMetricsOutput.nextToken, paginationFunction: self.getCrawlerMetrics(input:))
     }
 }
 
@@ -101,7 +101,7 @@ extension GlueClient {
     ///     - input: A `[GetCrawlersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCrawlersOutput`
     public func getCrawlersPaginated(input: GetCrawlersInput) -> ClientRuntime.PaginatorSequence<GetCrawlersInput, GetCrawlersOutput> {
-        return ClientRuntime.PaginatorSequence<GetCrawlersInput, GetCrawlersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCrawlers(input:))
+        return ClientRuntime.PaginatorSequence<GetCrawlersInput, GetCrawlersOutput>(input: input, inputKey: \GetCrawlersInput.nextToken, outputKey: \GetCrawlersOutput.nextToken, paginationFunction: self.getCrawlers(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension GlueClient {
     ///     - input: A `[GetDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDatabasesOutput`
     public func getDatabasesPaginated(input: GetDatabasesInput) -> ClientRuntime.PaginatorSequence<GetDatabasesInput, GetDatabasesOutput> {
-        return ClientRuntime.PaginatorSequence<GetDatabasesInput, GetDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDatabases(input:))
+        return ClientRuntime.PaginatorSequence<GetDatabasesInput, GetDatabasesOutput>(input: input, inputKey: \GetDatabasesInput.nextToken, outputKey: \GetDatabasesOutput.nextToken, paginationFunction: self.getDatabases(input:))
     }
 }
 
@@ -145,7 +145,7 @@ extension GlueClient {
     ///     - input: A `[GetDevEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDevEndpointsOutput`
     public func getDevEndpointsPaginated(input: GetDevEndpointsInput) -> ClientRuntime.PaginatorSequence<GetDevEndpointsInput, GetDevEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<GetDevEndpointsInput, GetDevEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDevEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<GetDevEndpointsInput, GetDevEndpointsOutput>(input: input, inputKey: \GetDevEndpointsInput.nextToken, outputKey: \GetDevEndpointsOutput.nextToken, paginationFunction: self.getDevEndpoints(input:))
     }
 }
 
@@ -166,7 +166,7 @@ extension GlueClient {
     ///     - input: A `[GetJobRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetJobRunsOutput`
     public func getJobRunsPaginated(input: GetJobRunsInput) -> ClientRuntime.PaginatorSequence<GetJobRunsInput, GetJobRunsOutput> {
-        return ClientRuntime.PaginatorSequence<GetJobRunsInput, GetJobRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getJobRuns(input:))
+        return ClientRuntime.PaginatorSequence<GetJobRunsInput, GetJobRunsOutput>(input: input, inputKey: \GetJobRunsInput.nextToken, outputKey: \GetJobRunsOutput.nextToken, paginationFunction: self.getJobRuns(input:))
     }
 }
 
@@ -188,7 +188,7 @@ extension GlueClient {
     ///     - input: A `[GetJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetJobsOutput`
     public func getJobsPaginated(input: GetJobsInput) -> ClientRuntime.PaginatorSequence<GetJobsInput, GetJobsOutput> {
-        return ClientRuntime.PaginatorSequence<GetJobsInput, GetJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getJobs(input:))
+        return ClientRuntime.PaginatorSequence<GetJobsInput, GetJobsOutput>(input: input, inputKey: \GetJobsInput.nextToken, outputKey: \GetJobsOutput.nextToken, paginationFunction: self.getJobs(input:))
     }
 }
 
@@ -209,7 +209,7 @@ extension GlueClient {
     ///     - input: A `[GetMLTaskRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMLTaskRunsOutput`
     public func getMLTaskRunsPaginated(input: GetMLTaskRunsInput) -> ClientRuntime.PaginatorSequence<GetMLTaskRunsInput, GetMLTaskRunsOutput> {
-        return ClientRuntime.PaginatorSequence<GetMLTaskRunsInput, GetMLTaskRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMLTaskRuns(input:))
+        return ClientRuntime.PaginatorSequence<GetMLTaskRunsInput, GetMLTaskRunsOutput>(input: input, inputKey: \GetMLTaskRunsInput.nextToken, outputKey: \GetMLTaskRunsOutput.nextToken, paginationFunction: self.getMLTaskRuns(input:))
     }
 }
 
@@ -233,7 +233,7 @@ extension GlueClient {
     ///     - input: A `[GetMLTransformsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMLTransformsOutput`
     public func getMLTransformsPaginated(input: GetMLTransformsInput) -> ClientRuntime.PaginatorSequence<GetMLTransformsInput, GetMLTransformsOutput> {
-        return ClientRuntime.PaginatorSequence<GetMLTransformsInput, GetMLTransformsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMLTransforms(input:))
+        return ClientRuntime.PaginatorSequence<GetMLTransformsInput, GetMLTransformsOutput>(input: input, inputKey: \GetMLTransformsInput.nextToken, outputKey: \GetMLTransformsOutput.nextToken, paginationFunction: self.getMLTransforms(input:))
     }
 }
 
@@ -256,7 +256,7 @@ extension GlueClient {
     ///     - input: A `[GetPartitionIndexesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPartitionIndexesOutput`
     public func getPartitionIndexesPaginated(input: GetPartitionIndexesInput) -> ClientRuntime.PaginatorSequence<GetPartitionIndexesInput, GetPartitionIndexesOutput> {
-        return ClientRuntime.PaginatorSequence<GetPartitionIndexesInput, GetPartitionIndexesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPartitionIndexes(input:))
+        return ClientRuntime.PaginatorSequence<GetPartitionIndexesInput, GetPartitionIndexesOutput>(input: input, inputKey: \GetPartitionIndexesInput.nextToken, outputKey: \GetPartitionIndexesOutput.nextToken, paginationFunction: self.getPartitionIndexes(input:))
     }
 }
 
@@ -270,7 +270,7 @@ extension GetPartitionIndexesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetPartitionIndexesInput, OperationStackOutput == GetPartitionIndexesOutput {
+extension PaginatorSequence where Input == GetPartitionIndexesInput, Output == GetPartitionIndexesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getPartitionIndexesPaginated`
     /// to access the nested member `[GlueClientTypes.PartitionIndexDescriptor]`
     /// - Returns: `[GlueClientTypes.PartitionIndexDescriptor]`
@@ -288,7 +288,7 @@ extension GlueClient {
     ///     - input: A `[GetPartitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPartitionsOutput`
     public func getPartitionsPaginated(input: GetPartitionsInput) -> ClientRuntime.PaginatorSequence<GetPartitionsInput, GetPartitionsOutput> {
-        return ClientRuntime.PaginatorSequence<GetPartitionsInput, GetPartitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPartitions(input:))
+        return ClientRuntime.PaginatorSequence<GetPartitionsInput, GetPartitionsOutput>(input: input, inputKey: \GetPartitionsInput.nextToken, outputKey: \GetPartitionsOutput.nextToken, paginationFunction: self.getPartitions(input:))
     }
 }
 
@@ -317,7 +317,7 @@ extension GlueClient {
     ///     - input: A `[GetResourcePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutput`
     public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourcePolicies(input:))
+        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutput.nextToken, paginationFunction: self.getResourcePolicies(input:))
     }
 }
 
@@ -329,7 +329,7 @@ extension GetResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetResourcePoliciesInput, OperationStackOutput == GetResourcePoliciesOutput {
+extension PaginatorSequence where Input == GetResourcePoliciesInput, Output == GetResourcePoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
     /// to access the nested member `[GlueClientTypes.GluePolicy]`
     /// - Returns: `[GlueClientTypes.GluePolicy]`
@@ -347,7 +347,7 @@ extension GlueClient {
     ///     - input: A `[GetSecurityConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSecurityConfigurationsOutput`
     public func getSecurityConfigurationsPaginated(input: GetSecurityConfigurationsInput) -> ClientRuntime.PaginatorSequence<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSecurityConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(input: input, inputKey: \GetSecurityConfigurationsInput.nextToken, outputKey: \GetSecurityConfigurationsOutput.nextToken, paginationFunction: self.getSecurityConfigurations(input:))
     }
 }
 
@@ -359,7 +359,7 @@ extension GetSecurityConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetSecurityConfigurationsInput, OperationStackOutput == GetSecurityConfigurationsOutput {
+extension PaginatorSequence where Input == GetSecurityConfigurationsInput, Output == GetSecurityConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getSecurityConfigurationsPaginated`
     /// to access the nested member `[GlueClientTypes.SecurityConfiguration]`
     /// - Returns: `[GlueClientTypes.SecurityConfiguration]`
@@ -377,7 +377,7 @@ extension GlueClient {
     ///     - input: A `[GetTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTablesOutput`
     public func getTablesPaginated(input: GetTablesInput) -> ClientRuntime.PaginatorSequence<GetTablesInput, GetTablesOutput> {
-        return ClientRuntime.PaginatorSequence<GetTablesInput, GetTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTables(input:))
+        return ClientRuntime.PaginatorSequence<GetTablesInput, GetTablesOutput>(input: input, inputKey: \GetTablesInput.nextToken, outputKey: \GetTablesOutput.nextToken, paginationFunction: self.getTables(input:))
     }
 }
 
@@ -403,7 +403,7 @@ extension GlueClient {
     ///     - input: A `[GetTableVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTableVersionsOutput`
     public func getTableVersionsPaginated(input: GetTableVersionsInput) -> ClientRuntime.PaginatorSequence<GetTableVersionsInput, GetTableVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<GetTableVersionsInput, GetTableVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTableVersions(input:))
+        return ClientRuntime.PaginatorSequence<GetTableVersionsInput, GetTableVersionsOutput>(input: input, inputKey: \GetTableVersionsInput.nextToken, outputKey: \GetTableVersionsOutput.nextToken, paginationFunction: self.getTableVersions(input:))
     }
 }
 
@@ -427,7 +427,7 @@ extension GlueClient {
     ///     - input: A `[GetTriggersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTriggersOutput`
     public func getTriggersPaginated(input: GetTriggersInput) -> ClientRuntime.PaginatorSequence<GetTriggersInput, GetTriggersOutput> {
-        return ClientRuntime.PaginatorSequence<GetTriggersInput, GetTriggersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTriggers(input:))
+        return ClientRuntime.PaginatorSequence<GetTriggersInput, GetTriggersOutput>(input: input, inputKey: \GetTriggersInput.nextToken, outputKey: \GetTriggersOutput.nextToken, paginationFunction: self.getTriggers(input:))
     }
 }
 
@@ -449,7 +449,7 @@ extension GlueClient {
     ///     - input: A `[GetUnfilteredPartitionsMetadataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUnfilteredPartitionsMetadataOutput`
     public func getUnfilteredPartitionsMetadataPaginated(input: GetUnfilteredPartitionsMetadataInput) -> ClientRuntime.PaginatorSequence<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput> {
-        return ClientRuntime.PaginatorSequence<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getUnfilteredPartitionsMetadata(input:))
+        return ClientRuntime.PaginatorSequence<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(input: input, inputKey: \GetUnfilteredPartitionsMetadataInput.nextToken, outputKey: \GetUnfilteredPartitionsMetadataOutput.nextToken, paginationFunction: self.getUnfilteredPartitionsMetadata(input:))
     }
 }
 
@@ -477,7 +477,7 @@ extension GlueClient {
     ///     - input: A `[GetUserDefinedFunctionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUserDefinedFunctionsOutput`
     public func getUserDefinedFunctionsPaginated(input: GetUserDefinedFunctionsInput) -> ClientRuntime.PaginatorSequence<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput> {
-        return ClientRuntime.PaginatorSequence<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getUserDefinedFunctions(input:))
+        return ClientRuntime.PaginatorSequence<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(input: input, inputKey: \GetUserDefinedFunctionsInput.nextToken, outputKey: \GetUserDefinedFunctionsOutput.nextToken, paginationFunction: self.getUserDefinedFunctions(input:))
     }
 }
 
@@ -501,7 +501,7 @@ extension GlueClient {
     ///     - input: A `[GetWorkflowRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetWorkflowRunsOutput`
     public func getWorkflowRunsPaginated(input: GetWorkflowRunsInput) -> ClientRuntime.PaginatorSequence<GetWorkflowRunsInput, GetWorkflowRunsOutput> {
-        return ClientRuntime.PaginatorSequence<GetWorkflowRunsInput, GetWorkflowRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getWorkflowRuns(input:))
+        return ClientRuntime.PaginatorSequence<GetWorkflowRunsInput, GetWorkflowRunsOutput>(input: input, inputKey: \GetWorkflowRunsInput.nextToken, outputKey: \GetWorkflowRunsOutput.nextToken, paginationFunction: self.getWorkflowRuns(input:))
     }
 }
 
@@ -524,7 +524,7 @@ extension GlueClient {
     ///     - input: A `[ListBlueprintsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBlueprintsOutput`
     public func listBlueprintsPaginated(input: ListBlueprintsInput) -> ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBlueprints(input:))
+        return ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutput>(input: input, inputKey: \ListBlueprintsInput.nextToken, outputKey: \ListBlueprintsOutput.nextToken, paginationFunction: self.listBlueprints(input:))
     }
 }
 
@@ -546,7 +546,7 @@ extension GlueClient {
     ///     - input: A `[ListCrawlersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCrawlersOutput`
     public func listCrawlersPaginated(input: ListCrawlersInput) -> ClientRuntime.PaginatorSequence<ListCrawlersInput, ListCrawlersOutput> {
-        return ClientRuntime.PaginatorSequence<ListCrawlersInput, ListCrawlersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCrawlers(input:))
+        return ClientRuntime.PaginatorSequence<ListCrawlersInput, ListCrawlersOutput>(input: input, inputKey: \ListCrawlersInput.nextToken, outputKey: \ListCrawlersOutput.nextToken, paginationFunction: self.listCrawlers(input:))
     }
 }
 
@@ -568,7 +568,7 @@ extension GlueClient {
     ///     - input: A `[ListCustomEntityTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomEntityTypesOutput`
     public func listCustomEntityTypesPaginated(input: ListCustomEntityTypesInput) -> ClientRuntime.PaginatorSequence<ListCustomEntityTypesInput, ListCustomEntityTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomEntityTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(input: input, inputKey: \ListCustomEntityTypesInput.nextToken, outputKey: \ListCustomEntityTypesOutput.nextToken, paginationFunction: self.listCustomEntityTypes(input:))
     }
 }
 
@@ -590,7 +590,7 @@ extension GlueClient {
     ///     - input: A `[ListDataQualityResultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityResultsOutput`
     public func listDataQualityResultsPaginated(input: ListDataQualityResultsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataQualityResults(input:))
+        return ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutput>(input: input, inputKey: \ListDataQualityResultsInput.nextToken, outputKey: \ListDataQualityResultsOutput.nextToken, paginationFunction: self.listDataQualityResults(input:))
     }
 }
 
@@ -612,7 +612,7 @@ extension GlueClient {
     ///     - input: A `[ListDataQualityRuleRecommendationRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRuleRecommendationRunsOutput`
     public func listDataQualityRuleRecommendationRunsPaginated(input: ListDataQualityRuleRecommendationRunsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataQualityRuleRecommendationRuns(input:))
+        return ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(input: input, inputKey: \ListDataQualityRuleRecommendationRunsInput.nextToken, outputKey: \ListDataQualityRuleRecommendationRunsOutput.nextToken, paginationFunction: self.listDataQualityRuleRecommendationRuns(input:))
     }
 }
 
@@ -634,7 +634,7 @@ extension GlueClient {
     ///     - input: A `[ListDataQualityRulesetEvaluationRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetEvaluationRunsOutput`
     public func listDataQualityRulesetEvaluationRunsPaginated(input: ListDataQualityRulesetEvaluationRunsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataQualityRulesetEvaluationRuns(input:))
+        return ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(input: input, inputKey: \ListDataQualityRulesetEvaluationRunsInput.nextToken, outputKey: \ListDataQualityRulesetEvaluationRunsOutput.nextToken, paginationFunction: self.listDataQualityRulesetEvaluationRuns(input:))
     }
 }
 
@@ -656,7 +656,7 @@ extension GlueClient {
     ///     - input: A `[ListDataQualityRulesetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetsOutput`
     public func listDataQualityRulesetsPaginated(input: ListDataQualityRulesetsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataQualityRulesets(input:))
+        return ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(input: input, inputKey: \ListDataQualityRulesetsInput.nextToken, outputKey: \ListDataQualityRulesetsOutput.nextToken, paginationFunction: self.listDataQualityRulesets(input:))
     }
 }
 
@@ -679,7 +679,7 @@ extension GlueClient {
     ///     - input: A `[ListDevEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevEndpointsOutput`
     public func listDevEndpointsPaginated(input: ListDevEndpointsInput) -> ClientRuntime.PaginatorSequence<ListDevEndpointsInput, ListDevEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDevEndpointsInput, ListDevEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<ListDevEndpointsInput, ListDevEndpointsOutput>(input: input, inputKey: \ListDevEndpointsInput.nextToken, outputKey: \ListDevEndpointsOutput.nextToken, paginationFunction: self.listDevEndpoints(input:))
     }
 }
 
@@ -701,7 +701,7 @@ extension GlueClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -723,7 +723,7 @@ extension GlueClient {
     ///     - input: A `[ListMLTransformsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMLTransformsOutput`
     public func listMLTransformsPaginated(input: ListMLTransformsInput) -> ClientRuntime.PaginatorSequence<ListMLTransformsInput, ListMLTransformsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMLTransformsInput, ListMLTransformsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMLTransforms(input:))
+        return ClientRuntime.PaginatorSequence<ListMLTransformsInput, ListMLTransformsOutput>(input: input, inputKey: \ListMLTransformsInput.nextToken, outputKey: \ListMLTransformsOutput.nextToken, paginationFunction: self.listMLTransforms(input:))
     }
 }
 
@@ -747,7 +747,7 @@ extension GlueClient {
     ///     - input: A `[ListRegistriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutput`
     public func listRegistriesPaginated(input: ListRegistriesInput) -> ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRegistries(input:))
+        return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput>(input: input, inputKey: \ListRegistriesInput.nextToken, outputKey: \ListRegistriesOutput.nextToken, paginationFunction: self.listRegistries(input:))
     }
 }
 
@@ -759,7 +759,7 @@ extension ListRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRegistriesInput, OperationStackOutput == ListRegistriesOutput {
+extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRegistriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
     /// to access the nested member `[GlueClientTypes.RegistryListItem]`
     /// - Returns: `[GlueClientTypes.RegistryListItem]`
@@ -777,7 +777,7 @@ extension GlueClient {
     ///     - input: A `[ListSchemasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutput`
     public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput> {
-        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemas(input:))
+        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutput.nextToken, paginationFunction: self.listSchemas(input:))
     }
 }
 
@@ -790,7 +790,7 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListSchemasInput, OperationStackOutput == ListSchemasOutput {
+extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
     /// to access the nested member `[GlueClientTypes.SchemaListItem]`
     /// - Returns: `[GlueClientTypes.SchemaListItem]`
@@ -808,7 +808,7 @@ extension GlueClient {
     ///     - input: A `[ListSchemaVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutput`
     public func listSchemaVersionsPaginated(input: ListSchemaVersionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemaVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput>(input: input, inputKey: \ListSchemaVersionsInput.nextToken, outputKey: \ListSchemaVersionsOutput.nextToken, paginationFunction: self.listSchemaVersions(input:))
     }
 }
 
@@ -821,7 +821,7 @@ extension ListSchemaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListSchemaVersionsInput, OperationStackOutput == ListSchemaVersionsOutput {
+extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == ListSchemaVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
     /// to access the nested member `[GlueClientTypes.SchemaVersionListItem]`
     /// - Returns: `[GlueClientTypes.SchemaVersionListItem]`
@@ -839,7 +839,7 @@ extension GlueClient {
     ///     - input: A `[ListSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutput`
     public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSessions(input:))
+        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput>(input: input, inputKey: \ListSessionsInput.nextToken, outputKey: \ListSessionsOutput.nextToken, paginationFunction: self.listSessions(input:))
     }
 }
 
@@ -862,7 +862,7 @@ extension GlueClient {
     ///     - input: A `[ListTriggersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTriggersOutput`
     public func listTriggersPaginated(input: ListTriggersInput) -> ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutput> {
-        return ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTriggers(input:))
+        return ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutput>(input: input, inputKey: \ListTriggersInput.nextToken, outputKey: \ListTriggersOutput.nextToken, paginationFunction: self.listTriggers(input:))
     }
 }
 
@@ -885,7 +885,7 @@ extension GlueClient {
     ///     - input: A `[ListWorkflowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowsOutput`
     public func listWorkflowsPaginated(input: ListWorkflowsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkflows(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutput>(input: input, inputKey: \ListWorkflowsInput.nextToken, outputKey: \ListWorkflowsOutput.nextToken, paginationFunction: self.listWorkflows(input:))
     }
 }
 
@@ -906,7 +906,7 @@ extension GlueClient {
     ///     - input: A `[SearchTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchTablesOutput`
     public func searchTablesPaginated(input: SearchTablesInput) -> ClientRuntime.PaginatorSequence<SearchTablesInput, SearchTablesOutput> {
-        return ClientRuntime.PaginatorSequence<SearchTablesInput, SearchTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTables(input:))
+        return ClientRuntime.PaginatorSequence<SearchTablesInput, SearchTablesOutput>(input: input, inputKey: \SearchTablesInput.nextToken, outputKey: \SearchTablesOutput.nextToken, paginationFunction: self.searchTables(input:))
     }
 }
 

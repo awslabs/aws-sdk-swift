@@ -12,7 +12,7 @@ extension Route53RecoveryClusterClient {
     ///     - input: A `[ListRoutingControlsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoutingControlsOutput`
     public func listRoutingControlsPaginated(input: ListRoutingControlsInput) -> ClientRuntime.PaginatorSequence<ListRoutingControlsInput, ListRoutingControlsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoutingControlsInput, ListRoutingControlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoutingControls(input:))
+        return ClientRuntime.PaginatorSequence<ListRoutingControlsInput, ListRoutingControlsOutput>(input: input, inputKey: \ListRoutingControlsInput.nextToken, outputKey: \ListRoutingControlsOutput.nextToken, paginationFunction: self.listRoutingControls(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListRoutingControlsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRoutingControlsInput, OperationStackOutput == ListRoutingControlsOutput {
+extension PaginatorSequence where Input == ListRoutingControlsInput, Output == ListRoutingControlsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRoutingControlsPaginated`
     /// to access the nested member `[Route53RecoveryClusterClientTypes.RoutingControl]`
     /// - Returns: `[Route53RecoveryClusterClientTypes.RoutingControl]`

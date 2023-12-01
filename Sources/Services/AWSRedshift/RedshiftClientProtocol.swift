@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Redshift Overview This is an interface reference for Amazon Redshift. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift clusters. Note that Amazon Redshift is asynchronous, which means that some interfaces may require techniques, such as polling or asynchronous callback handlers, to determine when a command has been applied. In this reference, the parameter descriptions indicate whether a change is applied immediately, on the next instance reboot, or during the next maintenance window. For a summary of the Amazon Redshift cluster management interfaces, go to [Using the Amazon Redshift Management Interfaces](https://docs.aws.amazon.com/redshift/latest/mgmt/using-aws-sdk.html). Amazon Redshift manages all the work of setting up, operating, and scaling a data warehouse: provisioning capacity, monitoring and backing up the cluster, and applying patches and upgrades to the Amazon Redshift engine. You can focus on using your data to acquire new insights for your business and customers. If you are a first-time user of Amazon Redshift, we recommend that you begin by reading the [Amazon Redshift Getting Started Guide](https://docs.aws.amazon.com/redshift/latest/gsg/getting-started.html). If you are a database developer, the [Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/welcome.html) explains how to design, build, query, and maintain the databases that make up your data warehouse.
 public protocol RedshiftClientProtocol {
-    /// Performs the `AcceptReservedNodeExchange` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs.
     ///
     /// - Parameter AcceptReservedNodeExchangeInput : [no documentation found]
@@ -23,8 +21,6 @@ public protocol RedshiftClientProtocol {
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func acceptReservedNodeExchange(input: AcceptReservedNodeExchangeInput) async throws -> AcceptReservedNodeExchangeOutput
-    /// Performs the `AddPartner` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner website.
     ///
     /// - Parameter AddPartnerInput : [no documentation found]
@@ -39,8 +35,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func addPartner(input: AddPartnerInput) async throws -> AddPartnerOutput
-    /// Performs the `AssociateDataShareConsumer` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// From a datashare consumer account, associates a datashare with the account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer can consume the datashare.
     ///
     /// - Parameter AssociateDataShareConsumerInput : [no documentation found]
@@ -53,8 +47,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
     func associateDataShareConsumer(input: AssociateDataShareConsumerInput) async throws -> AssociateDataShareConsumerOutput
-    /// Performs the `AuthorizeClusterSecurityGroupIngress` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC2SecurityGroupOwnerId. The Amazon EC2 security group and Amazon Redshift cluster must be in the same Amazon Web Services Region. If you authorize access to a CIDR/IP address range, specify CIDRIP. For an overview of CIDR blocks, see the Wikipedia article on [Classless Inter-Domain Routing](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). You must also associate the security group with a cluster so that clients running on these IP addresses or the EC2 instance are authorized to connect to the cluster. For information about managing security groups, go to [Working with Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter AuthorizeClusterSecurityGroupIngressInput :
@@ -69,8 +61,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
     func authorizeClusterSecurityGroupIngress(input: AuthorizeClusterSecurityGroupIngressInput) async throws -> AuthorizeClusterSecurityGroupIngressOutput
-    /// Performs the `AuthorizeDataShare` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the correct access permissions.
     ///
     /// - Parameter AuthorizeDataShareInput : [no documentation found]
@@ -82,8 +72,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     func authorizeDataShare(input: AuthorizeDataShareInput) async throws -> AuthorizeDataShareOutput
-    /// Performs the `AuthorizeEndpointAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Grants access to a cluster.
     ///
     /// - Parameter AuthorizeEndpointAccessInput : [no documentation found]
@@ -100,8 +88,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func authorizeEndpointAccess(input: AuthorizeEndpointAccessInput) async throws -> AuthorizeEndpointAccessOutput
-    /// Performs the `AuthorizeSnapshotAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter AuthorizeSnapshotAccessInput :
@@ -119,8 +105,6 @@ public protocol RedshiftClientProtocol {
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func authorizeSnapshotAccess(input: AuthorizeSnapshotAccessInput) async throws -> AuthorizeSnapshotAccessOutput
-    /// Performs the `BatchDeleteClusterSnapshots` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a set of cluster snapshots.
     ///
     /// - Parameter BatchDeleteClusterSnapshotsInput : [no documentation found]
@@ -132,8 +116,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `BatchDeleteRequestSizeExceededFault` : The maximum number for a batch delete of snapshots has been reached. The limit is 100.
     func batchDeleteClusterSnapshots(input: BatchDeleteClusterSnapshotsInput) async throws -> BatchDeleteClusterSnapshotsOutput
-    /// Performs the `BatchModifyClusterSnapshots` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the settings for a set of cluster snapshots.
     ///
     /// - Parameter BatchModifyClusterSnapshotsInput : [no documentation found]
@@ -146,8 +128,6 @@ public protocol RedshiftClientProtocol {
     /// - `BatchModifyClusterSnapshotsLimitExceededFault` : The maximum number for snapshot identifiers has been reached. The limit is 100.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
     func batchModifyClusterSnapshots(input: BatchModifyClusterSnapshotsInput) async throws -> BatchModifyClusterSnapshotsOutput
-    /// Performs the `CancelResize` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Cancels a resize operation for a cluster.
     ///
     /// - Parameter CancelResizeInput : [no documentation found]
@@ -162,8 +142,6 @@ public protocol RedshiftClientProtocol {
     /// - `ResizeNotFoundFault` : A resize operation for the specified cluster is not found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func cancelResize(input: CancelResizeInput) async throws -> CancelResizeOutput
-    /// Performs the `CopyClusterSnapshot` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you delete them. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CopyClusterSnapshotInput :
@@ -180,8 +158,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
     func copyClusterSnapshot(input: CopyClusterSnapshotInput) async throws -> CopyClusterSnapshotOutput
-    /// Performs the `CreateAuthenticationProfile` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates an authentication profile with the specified parameters.
     ///
     /// - Parameter CreateAuthenticationProfileInput : [no documentation found]
@@ -195,8 +171,6 @@ public protocol RedshiftClientProtocol {
     /// - `AuthenticationProfileQuotaExceededFault` : The size or number of authentication profiles has exceeded the quota. The maximum length of the JSON string and maximum number of authentication profiles is determined by a quota for your account.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
     func createAuthenticationProfile(input: CreateAuthenticationProfileInput) async throws -> CreateAuthenticationProfileOutput
-    /// Performs the `CreateCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateClusterInput :
@@ -231,8 +205,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    /// Performs the `CreateClusterParameterGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates an Amazon Redshift parameter group. Creating parameter groups is independent of creating clusters. You can associate a cluster with a parameter group when you create the cluster. You can also associate an existing cluster with a parameter group after the cluster is created by using [ModifyCluster]. Parameters in the parameter group define specific behavior that applies to the databases you create on the cluster. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateClusterParameterGroupInput :
@@ -247,8 +219,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createClusterParameterGroup(input: CreateClusterParameterGroupInput) async throws -> CreateClusterParameterGroupOutput
-    /// Performs the `CreateClusterSecurityGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a new Amazon Redshift security group. You use security groups to control access to non-VPC clusters. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateClusterSecurityGroupInput :
@@ -263,8 +233,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createClusterSecurityGroup(input: CreateClusterSecurityGroupInput) async throws -> CreateClusterSecurityGroupOutput
-    /// Performs the `CreateClusterSnapshot` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateClusterSnapshotInput :
@@ -282,8 +250,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
-    /// Performs the `CreateClusterSubnetGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to [Amazon Redshift Cluster Subnet Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateClusterSubnetGroupInput :
@@ -302,8 +268,6 @@ public protocol RedshiftClientProtocol {
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func createClusterSubnetGroup(input: CreateClusterSubnetGroupInput) async throws -> CreateClusterSubnetGroupOutput
-    /// Performs the `CreateCustomDomainAssociation` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
     ///
     /// - Parameter CreateCustomDomainAssociationInput : [no documentation found]
@@ -317,8 +281,6 @@ public protocol RedshiftClientProtocol {
     /// - `CustomCnameAssociationFault` : An error occurred when an attempt was made to change the custom domain association.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput
-    /// Performs the `CreateEndpointAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a Redshift-managed VPC endpoint.
     ///
     /// - Parameter CreateEndpointAccessInput : [no documentation found]
@@ -339,8 +301,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput
-    /// Performs the `CreateEventSubscription` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates an Amazon Redshift event notification subscription. This action requires an ARN (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the source type, and lists of Amazon Redshift source IDs, event categories, and event severities. Notifications will be sent for all events you want that match those criteria. For example, you can specify source type = cluster, source ID = my-cluster-1 and mycluster2, event categories = Availability, Backup, and severity = ERROR. The subscription will only send notifications for those ERROR events in the Availability and Backup categories for the specified clusters. If you specify both the source type and source IDs, such as source type = cluster and source identifier = my-cluster-1, notifications will be sent for all the cluster events for my-cluster-1. If you specify a source type but do not specify a source identifier, you will receive notice of the events for the objects of that type in your Amazon Web Services account. If you do not specify either the SourceType nor the SourceIdentifier, you will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
     ///
     /// - Parameter CreateEventSubscriptionInput :
@@ -362,8 +322,6 @@ public protocol RedshiftClientProtocol {
     /// - `SubscriptionSeverityNotFoundFault` : The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
-    /// Performs the `CreateHsmClientCertificate` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to [Hardware Security Modules](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html#working-with-HSM) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateHsmClientCertificateInput :
@@ -378,8 +336,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createHsmClientCertificate(input: CreateHsmClientCertificateInput) async throws -> CreateHsmClientCertificateOutput
-    /// Performs the `CreateHsmConfiguration` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM. In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to [Hardware Security Modules](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateHsmConfigurationInput :
@@ -394,8 +350,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createHsmConfiguration(input: CreateHsmConfigurationInput) async throws -> CreateHsmConfigurationOutput
-    /// Performs the `CreateScheduledAction` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the ResizeCluster API operation.
     ///
     /// - Parameter CreateScheduledActionInput : [no documentation found]
@@ -414,8 +368,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput
-    /// Performs the `CreateSnapshotCopyGrant` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key from Key Management Service (KMS) to encrypt copied snapshots in a destination region. For more information about managing snapshot copy grants, go to [Amazon Redshift Database Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter CreateSnapshotCopyGrantInput : The result of the CreateSnapshotCopyGrant action.
@@ -432,8 +384,6 @@ public protocol RedshiftClientProtocol {
     /// - `SnapshotCopyGrantQuotaExceededFault` : The Amazon Web Services account has exceeded the maximum number of snapshot copy grants in this region.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createSnapshotCopyGrant(input: CreateSnapshotCopyGrantInput) async throws -> CreateSnapshotCopyGrantOutput
-    /// Performs the `CreateSnapshotSchedule` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
     ///
     /// - Parameter CreateSnapshotScheduleInput : [no documentation found]
@@ -450,8 +400,6 @@ public protocol RedshiftClientProtocol {
     /// - `SnapshotScheduleQuotaExceededFault` : You have exceeded the quota of snapshot schedules.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createSnapshotSchedule(input: CreateSnapshotScheduleInput) async throws -> CreateSnapshotScheduleOutput
-    /// Performs the `CreateTags` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Adds tags to a cluster. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
     ///
     /// - Parameter CreateTagsInput : Contains the output from the CreateTags action.
@@ -466,8 +414,6 @@ public protocol RedshiftClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    /// Performs the `CreateUsageLimit` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a usage limit for a specified Amazon Redshift feature on a cluster. The usage limit is identified by the returned usage limit identifier.
     ///
     /// - Parameter CreateUsageLimitInput : [no documentation found]
@@ -485,8 +431,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UsageLimitAlreadyExistsFault` : The usage limit already exists.
     func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput
-    /// Performs the `DeauthorizeDataShare` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// From a datashare producer account, removes authorization from the specified datashare.
     ///
     /// - Parameter DeauthorizeDataShareInput : [no documentation found]
@@ -498,8 +442,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     func deauthorizeDataShare(input: DeauthorizeDataShareInput) async throws -> DeauthorizeDataShareOutput
-    /// Performs the `DeleteAuthenticationProfile` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes an authentication profile.
     ///
     /// - Parameter DeleteAuthenticationProfileInput : [no documentation found]
@@ -512,8 +454,6 @@ public protocol RedshiftClientProtocol {
     /// - `AuthenticationProfileNotFoundFault` : The authentication profile can't be found.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
     func deleteAuthenticationProfile(input: DeleteAuthenticationProfileInput) async throws -> DeleteAuthenticationProfileOutput
-    /// Performs the `DeleteCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use [DescribeClusters] to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide. If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier. You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DeleteClusterInput :
@@ -529,8 +469,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
     func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    /// Performs the `DeleteClusterParameterGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a specified Amazon Redshift parameter group. You cannot delete a parameter group if it is associated with a cluster.
     ///
     /// - Parameter DeleteClusterParameterGroupInput :
@@ -543,8 +481,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidClusterParameterGroupStateFault` : The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
     func deleteClusterParameterGroup(input: DeleteClusterParameterGroupInput) async throws -> DeleteClusterParameterGroupOutput
-    /// Performs the `DeleteClusterSecurityGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes an Amazon Redshift security group. You cannot delete a security group that is associated with any clusters. You cannot delete the default security group. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DeleteClusterSecurityGroupInput :
@@ -557,8 +493,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
     func deleteClusterSecurityGroup(input: DeleteClusterSecurityGroupInput) async throws -> DeleteClusterSecurityGroupOutput
-    /// Performs the `DeleteClusterSnapshot` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot. Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snapshot.
     ///
     /// - Parameter DeleteClusterSnapshotInput :
@@ -571,8 +505,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
-    /// Performs the `DeleteClusterSubnetGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes the specified cluster subnet group.
     ///
     /// - Parameter DeleteClusterSubnetGroupInput :
@@ -586,8 +518,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterSubnetGroupStateFault` : The cluster subnet group cannot be deleted because it is in use.
     /// - `InvalidClusterSubnetStateFault` : The state of the subnet is invalid.
     func deleteClusterSubnetGroup(input: DeleteClusterSubnetGroupInput) async throws -> DeleteClusterSubnetGroupOutput
-    /// Performs the `DeleteCustomDomainAssociation` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Contains information about deleting a custom domain association for a cluster.
     ///
     /// - Parameter DeleteCustomDomainAssociationInput : [no documentation found]
@@ -601,8 +531,6 @@ public protocol RedshiftClientProtocol {
     /// - `CustomCnameAssociationFault` : An error occurred when an attempt was made to change the custom domain association.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput
-    /// Performs the `DeleteEndpointAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a Redshift-managed VPC endpoint.
     ///
     /// - Parameter DeleteEndpointAccessInput : [no documentation found]
@@ -618,8 +546,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidEndpointStateFault` : The status of the endpoint is not valid.
     func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput
-    /// Performs the `DeleteEventSubscription` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes an Amazon Redshift event notification subscription.
     ///
     /// - Parameter DeleteEventSubscriptionInput :
@@ -632,8 +558,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidSubscriptionStateFault` : The subscription request is invalid because it is a duplicate request. This subscription request is already in progress.
     /// - `SubscriptionNotFoundFault` : An Amazon Redshift event notification subscription with the specified name does not exist.
     func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
-    /// Performs the `DeleteHsmClientCertificate` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes the specified HSM client certificate.
     ///
     /// - Parameter DeleteHsmClientCertificateInput :
@@ -646,8 +570,6 @@ public protocol RedshiftClientProtocol {
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
     /// - `InvalidHsmClientCertificateStateFault` : The specified HSM client certificate is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
     func deleteHsmClientCertificate(input: DeleteHsmClientCertificateInput) async throws -> DeleteHsmClientCertificateOutput
-    /// Performs the `DeleteHsmConfiguration` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes the specified Amazon Redshift HSM configuration.
     ///
     /// - Parameter DeleteHsmConfigurationInput :
@@ -660,8 +582,6 @@ public protocol RedshiftClientProtocol {
     /// - `HsmConfigurationNotFoundFault` : There is no Amazon Redshift HSM configuration with the specified identifier.
     /// - `InvalidHsmConfigurationStateFault` : The specified HSM configuration is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
     func deleteHsmConfiguration(input: DeleteHsmConfigurationInput) async throws -> DeleteHsmConfigurationOutput
-    /// Performs the `DeletePartner` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
     ///
     /// - Parameter DeletePartnerInput : [no documentation found]
@@ -676,8 +596,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func deletePartner(input: DeletePartnerInput) async throws -> DeletePartnerOutput
-    /// Performs the `DeleteResourcePolicy` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes the resource policy for a specified resource.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -690,8 +608,6 @@ public protocol RedshiftClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    /// Performs the `DeleteScheduledAction` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a scheduled action.
     ///
     /// - Parameter DeleteScheduledActionInput : [no documentation found]
@@ -704,8 +620,6 @@ public protocol RedshiftClientProtocol {
     /// - `ScheduledActionNotFoundFault` : The scheduled action cannot be found.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput
-    /// Performs the `DeleteSnapshotCopyGrant` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes the specified snapshot copy grant.
     ///
     /// - Parameter DeleteSnapshotCopyGrantInput : The result of the DeleteSnapshotCopyGrant action.
@@ -718,8 +632,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidSnapshotCopyGrantStateFault` : The snapshot copy grant can't be deleted because it is used by one or more clusters.
     /// - `SnapshotCopyGrantNotFoundFault` : The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
     func deleteSnapshotCopyGrant(input: DeleteSnapshotCopyGrantInput) async throws -> DeleteSnapshotCopyGrantOutput
-    /// Performs the `DeleteSnapshotSchedule` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a snapshot schedule.
     ///
     /// - Parameter DeleteSnapshotScheduleInput : [no documentation found]
@@ -732,8 +644,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterSnapshotScheduleStateFault` : The cluster snapshot schedule state is not valid.
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
     func deleteSnapshotSchedule(input: DeleteSnapshotScheduleInput) async throws -> DeleteSnapshotScheduleOutput
-    /// Performs the `DeleteTags` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
     ///
     /// - Parameter DeleteTagsInput : Contains the output from the DeleteTags action.
@@ -746,8 +656,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    /// Performs the `DeleteUsageLimit` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Deletes a usage limit from a cluster.
     ///
     /// - Parameter DeleteUsageLimitInput : [no documentation found]
@@ -760,16 +668,12 @@ public protocol RedshiftClientProtocol {
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UsageLimitNotFoundFault` : The usage limit identifier can't be found.
     func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput
-    /// Performs the `DescribeAccountAttributes` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of attributes attached to an account
     ///
     /// - Parameter DescribeAccountAttributesInput : [no documentation found]
     ///
     /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
     func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    /// Performs the `DescribeAuthenticationProfiles` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Describes an authentication profile.
     ///
     /// - Parameter DescribeAuthenticationProfilesInput : [no documentation found]
@@ -782,8 +686,6 @@ public protocol RedshiftClientProtocol {
     /// - `AuthenticationProfileNotFoundFault` : The authentication profile can't be found.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
     func describeAuthenticationProfiles(input: DescribeAuthenticationProfilesInput) async throws -> DescribeAuthenticationProfilesOutput
-    /// Performs the `DescribeClusterDbRevisions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns an array of ClusterDbRevision objects.
     ///
     /// - Parameter DescribeClusterDbRevisionsInput : [no documentation found]
@@ -796,8 +698,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     func describeClusterDbRevisions(input: DescribeClusterDbRevisionsInput) async throws -> DescribeClusterDbRevisionsOutput
-    /// Performs the `DescribeClusterParameterGroups` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to retrieve the description of a specific parameter group. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all parameter groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all parameter groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, parameter groups are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeClusterParameterGroupsInput :
@@ -810,8 +710,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidTagFault` : The tag is invalid.
     func describeClusterParameterGroups(input: DescribeClusterParameterGroupsInput) async throws -> DescribeClusterParameterGroupsOutput
-    /// Performs the `DescribeClusterParameters` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a detailed list of parameters contained within the specified Amazon Redshift parameter group. For each parameter the response includes information such as parameter name, description, data type, value, whether the parameter value is modifiable, and so on. You can specify source filter to retrieve parameters of only specific type. For example, to retrieve parameters that were modified by a user action such as from [ModifyClusterParameterGroup], you can specify source equal to user. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DescribeClusterParametersInput :
@@ -823,8 +721,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     func describeClusterParameters(input: DescribeClusterParametersInput) async throws -> DescribeClusterParametersOutput
-    /// Performs the `DescribeClusters` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup properties, and security and access properties. This operation supports pagination. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all clusters that have any combination of those values are returned. If both tag keys and values are omitted from the request, clusters are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeClustersInput :
@@ -837,8 +733,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidTagFault` : The tag is invalid.
     func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
-    /// Performs the `DescribeClusterSecurityGroups` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns information about Amazon Redshift security groups. If the name of a security group is specified, the response will contain only information about only that security group. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all security groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all security groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, security groups are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeClusterSecurityGroupsInput :
@@ -851,8 +745,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidTagFault` : The tag is invalid.
     func describeClusterSecurityGroups(input: DescribeClusterSecurityGroupsInput) async throws -> DescribeClusterSecurityGroupsOutput
-    /// Performs the `DescribeClusterSnapshots` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by your Amazon Web Services account. No information is returned for snapshots owned by inactive Amazon Web Services accounts. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all snapshots that have any combination of those values are returned. Only snapshots that you own are returned in the response; shared snapshots are not returned with the tag key and tag value request parameters. If both tag keys and values are omitted from the request, snapshots are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeClusterSnapshotsInput :
@@ -867,8 +759,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeClusterSnapshots(input: DescribeClusterSnapshotsInput) async throws -> DescribeClusterSnapshotsOutput
-    /// Performs the `DescribeClusterSubnetGroups` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns one or more cluster subnet group objects, which contain metadata about your cluster subnet groups. By default, this operation returns information about all cluster subnet groups that are defined in your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subnet groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, subnet groups are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeClusterSubnetGroupsInput :
@@ -881,8 +771,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
     /// - `InvalidTagFault` : The tag is invalid.
     func describeClusterSubnetGroups(input: DescribeClusterSubnetGroupsInput) async throws -> DescribeClusterSubnetGroupsOutput
-    /// Performs the `DescribeClusterTracks` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of all the available maintenance tracks.
     ///
     /// - Parameter DescribeClusterTracksInput : [no documentation found]
@@ -895,16 +783,12 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterTrackFault` : The provided cluster track name is not valid.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func describeClusterTracks(input: DescribeClusterTracksInput) async throws -> DescribeClusterTracksOutput
-    /// Performs the `DescribeClusterVersions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DescribeClusterVersionsInput :
     ///
     /// - Returns: `DescribeClusterVersionsOutput` : Contains the output from the [DescribeClusterVersions] action.
     func describeClusterVersions(input: DescribeClusterVersionsInput) async throws -> DescribeClusterVersionsOutput
-    /// Performs the `DescribeCustomDomainAssociations` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Contains information about custom domain associations for a cluster.
     ///
     /// - Parameter DescribeCustomDomainAssociationsInput : [no documentation found]
@@ -917,8 +801,6 @@ public protocol RedshiftClientProtocol {
     /// - `CustomDomainAssociationNotFoundFault` : An error occurred. The custom domain name couldn't be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeCustomDomainAssociations(input: DescribeCustomDomainAssociationsInput) async throws -> DescribeCustomDomainAssociationsOutput
-    /// Performs the `DescribeDataShares` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Shows the status of any inbound or outbound datashares available in the specified account.
     ///
     /// - Parameter DescribeDataSharesInput : [no documentation found]
@@ -930,8 +812,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     func describeDataShares(input: DescribeDataSharesInput) async throws -> DescribeDataSharesOutput
-    /// Performs the `DescribeDataSharesForConsumer` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of datashares where the account identifier being called is a consumer account identifier.
     ///
     /// - Parameter DescribeDataSharesForConsumerInput : [no documentation found]
@@ -943,8 +823,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
     func describeDataSharesForConsumer(input: DescribeDataSharesForConsumerInput) async throws -> DescribeDataSharesForConsumerOutput
-    /// Performs the `DescribeDataSharesForProducer` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of datashares when the account identifier being called is a producer account identifier.
     ///
     /// - Parameter DescribeDataSharesForProducerInput : [no documentation found]
@@ -956,16 +834,12 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
     func describeDataSharesForProducer(input: DescribeDataSharesForProducerInput) async throws -> DescribeDataSharesForProducerOutput
-    /// Performs the `DescribeDefaultClusterParameters` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of parameter settings for the specified parameter group family. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DescribeDefaultClusterParametersInput :
     ///
     /// - Returns: `DescribeDefaultClusterParametersOutput` : [no documentation found]
     func describeDefaultClusterParameters(input: DescribeDefaultClusterParametersInput) async throws -> DescribeDefaultClusterParametersOutput
-    /// Performs the `DescribeEndpointAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Describes a Redshift-managed VPC endpoint.
     ///
     /// - Parameter DescribeEndpointAccessInput : [no documentation found]
@@ -979,8 +853,6 @@ public protocol RedshiftClientProtocol {
     /// - `EndpointNotFoundFault` : The endpoint name doesn't refer to an existing endpoint.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     func describeEndpointAccess(input: DescribeEndpointAccessInput) async throws -> DescribeEndpointAccessOutput
-    /// Performs the `DescribeEndpointAuthorization` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Describes an endpoint authorization.
     ///
     /// - Parameter DescribeEndpointAuthorizationInput : [no documentation found]
@@ -993,24 +865,18 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeEndpointAuthorization(input: DescribeEndpointAuthorizationInput) async throws -> DescribeEndpointAuthorizationOutput
-    /// Performs the `DescribeEventCategories` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Displays a list of event categories for all event source types, or for a specified source type. For a list of the event categories and source types, go to [Amazon Redshift Event Notifications](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html).
     ///
     /// - Parameter DescribeEventCategoriesInput :
     ///
     /// - Returns: `DescribeEventCategoriesOutput` :
     func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
-    /// Performs the `DescribeEvents` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns events related to clusters, security groups, snapshots, and parameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     ///
     /// - Parameter DescribeEventsInput :
     ///
     /// - Returns: `DescribeEventsOutput` :
     func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    /// Performs the `DescribeEventSubscriptions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Lists descriptions of all the Amazon Redshift event notification subscriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any combination of those values are returned. If both tag keys and values are omitted from the request, subscriptions are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeEventSubscriptionsInput :
@@ -1023,8 +889,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `SubscriptionNotFoundFault` : An Amazon Redshift event notification subscription with the specified name does not exist.
     func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
-    /// Performs the `DescribeHsmClientCertificates` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeHsmClientCertificatesInput :
@@ -1037,8 +901,6 @@ public protocol RedshiftClientProtocol {
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
     /// - `InvalidTagFault` : The tag is invalid.
     func describeHsmClientCertificates(input: DescribeHsmClientCertificatesInput) async throws -> DescribeHsmClientCertificatesOutput
-    /// Performs the `DescribeHsmConfigurations` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns information about the specified Amazon Redshift HSM configuration. If no configuration ID is specified, returns information about all the HSM configurations owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM connections that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM connections that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM connections are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// - Parameter DescribeHsmConfigurationsInput :
@@ -1051,8 +913,6 @@ public protocol RedshiftClientProtocol {
     /// - `HsmConfigurationNotFoundFault` : There is no Amazon Redshift HSM configuration with the specified identifier.
     /// - `InvalidTagFault` : The tag is invalid.
     func describeHsmConfigurations(input: DescribeHsmConfigurationsInput) async throws -> DescribeHsmConfigurationsOutput
-    /// Performs the `DescribeInboundIntegrations` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of inbound integrations.
     ///
     /// - Parameter DescribeInboundIntegrationsInput : [no documentation found]
@@ -1066,8 +926,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeInboundIntegrations(input: DescribeInboundIntegrationsInput) async throws -> DescribeInboundIntegrationsOutput
-    /// Performs the `DescribeLoggingStatus` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
     ///
     /// - Parameter DescribeLoggingStatusInput :
@@ -1080,8 +938,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeLoggingStatus(input: DescribeLoggingStatusInput) async throws -> DescribeLoggingStatusOutput
-    /// Performs the `DescribeNodeConfigurationOptions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type.
     ///
     /// - Parameter DescribeNodeConfigurationOptionsInput : [no documentation found]
@@ -1097,16 +953,12 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeNodeConfigurationOptions(input: DescribeNodeConfigurationOptionsInput) async throws -> DescribeNodeConfigurationOptionsOutput
-    /// Performs the `DescribeOrderableClusterOptions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific Amazon Web Services Region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DescribeOrderableClusterOptionsInput :
     ///
     /// - Returns: `DescribeOrderableClusterOptionsOutput` : Contains the output from the [DescribeOrderableClusterOptions] action.
     func describeOrderableClusterOptions(input: DescribeOrderableClusterOptionsInput) async throws -> DescribeOrderableClusterOptionsOutput
-    /// Performs the `DescribePartners` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns information about the partner integrations defined for a cluster.
     ///
     /// - Parameter DescribePartnersInput : [no documentation found]
@@ -1120,8 +972,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describePartners(input: DescribePartnersInput) async throws -> DescribePartnersOutput
-    /// Performs the `DescribeReservedNodeExchangeStatus` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns exchange status details and associated metadata for a reserved-node exchange. Statuses include such values as in progress and requested.
     ///
     /// - Parameter DescribeReservedNodeExchangeStatusInput : [no documentation found]
@@ -1135,8 +985,6 @@ public protocol RedshiftClientProtocol {
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeReservedNodeExchangeStatus(input: DescribeReservedNodeExchangeStatusInput) async throws -> DescribeReservedNodeExchangeStatusOutput
-    /// Performs the `DescribeReservedNodeOfferings` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to [PurchaseReservedNodeOffering] to reserve one or more nodes for your Amazon Redshift cluster. For more information about reserved node offerings, go to [Purchasing Reserved Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DescribeReservedNodeOfferingsInput :
@@ -1150,8 +998,6 @@ public protocol RedshiftClientProtocol {
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeReservedNodeOfferings(input: DescribeReservedNodeOfferingsInput) async throws -> DescribeReservedNodeOfferingsOutput
-    /// Performs the `DescribeReservedNodes` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns the descriptions of the reserved nodes.
     ///
     /// - Parameter DescribeReservedNodesInput :
@@ -1164,8 +1010,6 @@ public protocol RedshiftClientProtocol {
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
     func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput
-    /// Performs the `DescribeResize` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using [ModifyCluster] and specifying a different number or type of nodes for the cluster.
     ///
     /// - Parameter DescribeResizeInput :
@@ -1179,8 +1023,6 @@ public protocol RedshiftClientProtocol {
     /// - `ResizeNotFoundFault` : A resize operation for the specified cluster is not found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeResize(input: DescribeResizeInput) async throws -> DescribeResizeOutput
-    /// Performs the `DescribeScheduledActions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Describes properties of scheduled actions.
     ///
     /// - Parameter DescribeScheduledActionsInput : [no documentation found]
@@ -1193,8 +1035,6 @@ public protocol RedshiftClientProtocol {
     /// - `ScheduledActionNotFoundFault` : The scheduled action cannot be found.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput
-    /// Performs the `DescribeSnapshotCopyGrants` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination region. For more information about managing snapshot copy grants, go to [Amazon Redshift Database Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter DescribeSnapshotCopyGrantsInput : The result of the DescribeSnapshotCopyGrants action.
@@ -1207,24 +1047,18 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `SnapshotCopyGrantNotFoundFault` : The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
     func describeSnapshotCopyGrants(input: DescribeSnapshotCopyGrantsInput) async throws -> DescribeSnapshotCopyGrantsOutput
-    /// Performs the `DescribeSnapshotSchedules` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of snapshot schedules.
     ///
     /// - Parameter DescribeSnapshotSchedulesInput : [no documentation found]
     ///
     /// - Returns: `DescribeSnapshotSchedulesOutput` : [no documentation found]
     func describeSnapshotSchedules(input: DescribeSnapshotSchedulesInput) async throws -> DescribeSnapshotSchedulesOutput
-    /// Performs the `DescribeStorage` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns account level backups storage size and provisional storage.
     ///
     /// - Parameter DescribeStorageInput : [no documentation found]
     ///
     /// - Returns: `DescribeStorageOutput` : [no documentation found]
     func describeStorage(input: DescribeStorageInput) async throws -> DescribeStorageOutput
-    /// Performs the `DescribeTableRestoreStatus` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Lists the status of one or more table restore requests made using the [RestoreTableFromClusterSnapshot] API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRestoreStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise DescribeTableRestoreStatus returns the status of the table specified by TableRestoreRequestId.
     ///
     /// - Parameter DescribeTableRestoreStatusInput :
@@ -1237,8 +1071,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `TableRestoreNotFoundFault` : The specified TableRestoreRequestId value was not found.
     func describeTableRestoreStatus(input: DescribeTableRestoreStatusInput) async throws -> DescribeTableRestoreStatusOutput
-    /// Performs the `DescribeTags` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a list of tags. You can return tags from a specific resource by specifying an ARN, or you can return all tags for a given type of resource, such as clusters, snapshots, and so on. The following are limitations for DescribeTags:
     ///
     /// * You cannot specify an ARN and a resource-type value together in the same request.
@@ -1260,8 +1092,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    /// Performs the `DescribeUsageLimits` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Shows usage limits on a cluster. Results are filtered based on the combination of input usage limit identifier, cluster identifier, and feature type parameters:
     ///
     /// * If usage limit identifier, cluster identifier, and feature type are not provided, then all usage limit objects for the current account in the current region are returned.
@@ -1282,8 +1112,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func describeUsageLimits(input: DescribeUsageLimitsInput) async throws -> DescribeUsageLimitsOutput
-    /// Performs the `DisableLogging` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Stops logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
     ///
     /// - Parameter DisableLoggingInput :
@@ -1297,8 +1125,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func disableLogging(input: DisableLoggingInput) async throws -> DisableLoggingOutput
-    /// Performs the `DisableSnapshotCopy` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Disables the automatic copying of snapshots from one region to another region for a specified cluster. If your cluster and its snapshots are encrypted using an encrypted symmetric key from Key Management Service, use [DeleteSnapshotCopyGrant] to delete the grant that grants Amazon Redshift permission to the key in the destination region.
     ///
     /// - Parameter DisableSnapshotCopyInput :
@@ -1314,8 +1140,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func disableSnapshotCopy(input: DisableSnapshotCopyInput) async throws -> DisableSnapshotCopyOutput
-    /// Performs the `DisassociateDataShareConsumer` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// From a datashare consumer account, remove association for the specified datashare.
     ///
     /// - Parameter DisassociateDataShareConsumerInput : [no documentation found]
@@ -1328,8 +1152,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
     func disassociateDataShareConsumer(input: DisassociateDataShareConsumerInput) async throws -> DisassociateDataShareConsumerOutput
-    /// Performs the `EnableLogging` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
     ///
     /// - Parameter EnableLoggingInput :
@@ -1347,8 +1169,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidS3KeyPrefixFault` : The string specified for the logging S3 key prefix does not comply with the documented constraints.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func enableLogging(input: EnableLoggingInput) async throws -> EnableLoggingOutput
-    /// Performs the `EnableSnapshotCopy` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Enables the automatic copy of snapshots from one region to another region for a specified cluster.
     ///
     /// - Parameter EnableSnapshotCopyInput :
@@ -1370,8 +1190,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnknownSnapshotCopyRegionFault` : The specified region is incorrect or does not exist.
     func enableSnapshotCopy(input: EnableSnapshotCopyInput) async throws -> EnableSnapshotCopyOutput
-    /// Performs the `FailoverPrimaryCompute` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
     ///
     /// - Parameter FailoverPrimaryComputeInput : [no documentation found]
@@ -1386,8 +1204,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func failoverPrimaryCompute(input: FailoverPrimaryComputeInput) async throws -> FailoverPrimaryComputeOutput
-    /// Performs the `GetClusterCredentials` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True. You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see [Using IAM Authentication to Generate Database User Credentials](https://docs.aws.amazon.com/redshift/latest/mgmt/generating-user-credentials.html) in the Amazon Redshift Cluster Management Guide. The Identity and Access Management (IAM) user or role that runs GetClusterCredentials must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see [Resource Policies for GetClusterCredentials](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html#redshift-policy-resources.getclustercredentials-resources) in the Amazon Redshift Cluster Management Guide. If the DbGroups parameter is specified, the IAM policy must allow the redshift:JoinGroup action with access to the listed dbgroups. In addition, if the AutoCreate parameter is set to True, then the policy must include the redshift:CreateClusterUser permission. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
     ///
     /// - Parameter GetClusterCredentialsInput : The request parameters to get cluster credentials.
@@ -1400,8 +1216,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func getClusterCredentials(input: GetClusterCredentialsInput) async throws -> GetClusterCredentialsOutput
-    /// Performs the `GetClusterCredentialsWithIAM` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) identity. For more information about IAM identities, see [IAM Identities (users, user groups, and roles)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this operation must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see [Using identity-based policies (IAM policies)](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter GetClusterCredentialsWithIAMInput : [no documentation found]
@@ -1414,8 +1228,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func getClusterCredentialsWithIAM(input: GetClusterCredentialsWithIAMInput) async throws -> GetClusterCredentialsWithIAMOutput
-    /// Performs the `GetReservedNodeExchangeConfigurationOptions` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.
     ///
     /// - Parameter GetReservedNodeExchangeConfigurationOptionsInput : [no documentation found]
@@ -1434,8 +1246,6 @@ public protocol RedshiftClientProtocol {
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func getReservedNodeExchangeConfigurationOptions(input: GetReservedNodeExchangeConfigurationOptionsInput) async throws -> GetReservedNodeExchangeConfigurationOptionsOutput
-    /// Performs the `GetReservedNodeExchangeOfferings` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.
     ///
     /// - Parameter GetReservedNodeExchangeOfferingsInput :
@@ -1452,8 +1262,6 @@ public protocol RedshiftClientProtocol {
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func getReservedNodeExchangeOfferings(input: GetReservedNodeExchangeOfferingsInput) async throws -> GetReservedNodeExchangeOfferingsOutput
-    /// Performs the `GetResourcePolicy` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Get the resource policy for a specified resource.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
@@ -1467,8 +1275,6 @@ public protocol RedshiftClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    /// Performs the `ModifyAquaConfiguration` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     ///
     /// - Parameter ModifyAquaConfigurationInput : [no documentation found]
@@ -1482,8 +1288,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func modifyAquaConfiguration(input: ModifyAquaConfigurationInput) async throws -> ModifyAquaConfigurationOutput
-    /// Performs the `ModifyAuthenticationProfile` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies an authentication profile.
     ///
     /// - Parameter ModifyAuthenticationProfileInput : [no documentation found]
@@ -1497,8 +1301,6 @@ public protocol RedshiftClientProtocol {
     /// - `AuthenticationProfileQuotaExceededFault` : The size or number of authentication profiles has exceeded the quota. The maximum length of the JSON string and maximum number of authentication profiles is determined by a quota for your account.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
     func modifyAuthenticationProfile(input: ModifyAuthenticationProfileInput) async throws -> ModifyAuthenticationProfileOutput
-    /// Performs the `ModifyCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter ModifyClusterInput :
@@ -1531,8 +1333,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UnsupportedOptionFault` : A request option was specified that is not supported.
     func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput
-    /// Performs the `ModifyClusterDbRevision` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the database revision of a cluster. The database revision is a unique revision of the database running in a cluster.
     ///
     /// - Parameter ModifyClusterDbRevisionInput : [no documentation found]
@@ -1547,8 +1347,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func modifyClusterDbRevision(input: ModifyClusterDbRevisionInput) async throws -> ModifyClusterDbRevisionOutput
-    /// Performs the `ModifyClusterIamRoles` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to [Quotas and limits](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter ModifyClusterIamRolesInput :
@@ -1561,8 +1359,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     func modifyClusterIamRoles(input: ModifyClusterIamRolesInput) async throws -> ModifyClusterIamRolesOutput
-    /// Performs the `ModifyClusterMaintenance` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the maintenance settings of a cluster.
     ///
     /// - Parameter ModifyClusterMaintenanceInput : [no documentation found]
@@ -1575,8 +1371,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     func modifyClusterMaintenance(input: ModifyClusterMaintenanceInput) async throws -> ModifyClusterMaintenanceOutput
-    /// Performs the `ModifyClusterParameterGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the parameters of a parameter group. For the parameters parameter, it can't contain ASCII characters. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter ModifyClusterParameterGroupInput : Describes a modify cluster parameter group operation.
@@ -1589,8 +1383,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidClusterParameterGroupStateFault` : The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
     func modifyClusterParameterGroup(input: ModifyClusterParameterGroupInput) async throws -> ModifyClusterParameterGroupOutput
-    /// Performs the `ModifyClusterSnapshot` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a cluster snapshot.
     ///
     /// - Parameter ModifyClusterSnapshotInput : [no documentation found]
@@ -1604,8 +1396,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
     func modifyClusterSnapshot(input: ModifyClusterSnapshotInput) async throws -> ModifyClusterSnapshotOutput
-    /// Performs the `ModifyClusterSnapshotSchedule` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies a snapshot schedule for a cluster.
     ///
     /// - Parameter ModifyClusterSnapshotScheduleInput : [no documentation found]
@@ -1619,8 +1409,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterSnapshotScheduleStateFault` : The cluster snapshot schedule state is not valid.
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
     func modifyClusterSnapshotSchedule(input: ModifyClusterSnapshotScheduleInput) async throws -> ModifyClusterSnapshotScheduleOutput
-    /// Performs the `ModifyClusterSubnetGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.
     ///
     /// - Parameter ModifyClusterSubnetGroupInput :
@@ -1637,8 +1425,6 @@ public protocol RedshiftClientProtocol {
     /// - `SubnetAlreadyInUse` : A specified subnet is already in use by another cluster.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func modifyClusterSubnetGroup(input: ModifyClusterSubnetGroupInput) async throws -> ModifyClusterSubnetGroupOutput
-    /// Performs the `ModifyCustomDomainAssociation` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Contains information for changing a custom domain association.
     ///
     /// - Parameter ModifyCustomDomainAssociationInput : [no documentation found]
@@ -1652,8 +1438,6 @@ public protocol RedshiftClientProtocol {
     /// - `CustomCnameAssociationFault` : An error occurred when an attempt was made to change the custom domain association.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func modifyCustomDomainAssociation(input: ModifyCustomDomainAssociationInput) async throws -> ModifyCustomDomainAssociationOutput
-    /// Performs the `ModifyEndpointAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies a Redshift-managed VPC endpoint.
     ///
     /// - Parameter ModifyEndpointAccessInput : [no documentation found]
@@ -1670,8 +1454,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidEndpointStateFault` : The status of the endpoint is not valid.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func modifyEndpointAccess(input: ModifyEndpointAccessInput) async throws -> ModifyEndpointAccessOutput
-    /// Performs the `ModifyEventSubscription` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies an existing Amazon Redshift event notification subscription.
     ///
     /// - Parameter ModifyEventSubscriptionInput :
@@ -1691,8 +1473,6 @@ public protocol RedshiftClientProtocol {
     /// - `SubscriptionNotFoundFault` : An Amazon Redshift event notification subscription with the specified name does not exist.
     /// - `SubscriptionSeverityNotFoundFault` : The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.
     func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
-    /// Performs the `ModifyScheduledAction` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies a scheduled action.
     ///
     /// - Parameter ModifyScheduledActionInput : [no documentation found]
@@ -1710,8 +1490,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func modifyScheduledAction(input: ModifyScheduledActionInput) async throws -> ModifyScheduledActionOutput
-    /// Performs the `ModifySnapshotCopyRetentionPeriod` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies the number of days to retain snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this operation only changes the retention period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only newly copied manual snapshots have the new retention period.
     ///
     /// - Parameter ModifySnapshotCopyRetentionPeriodInput :
@@ -1727,8 +1505,6 @@ public protocol RedshiftClientProtocol {
     /// - `SnapshotCopyDisabledFault` : Cross-region snapshot copy was temporarily disabled. Try your request again.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     func modifySnapshotCopyRetentionPeriod(input: ModifySnapshotCopyRetentionPeriodInput) async throws -> ModifySnapshotCopyRetentionPeriodOutput
-    /// Performs the `ModifySnapshotSchedule` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies a snapshot schedule. Any schedule associated with a cluster is modified asynchronously.
     ///
     /// - Parameter ModifySnapshotScheduleInput : [no documentation found]
@@ -1742,8 +1518,6 @@ public protocol RedshiftClientProtocol {
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
     /// - `SnapshotScheduleUpdateInProgressFault` : The specified snapshot schedule is already being updated.
     func modifySnapshotSchedule(input: ModifySnapshotScheduleInput) async throws -> ModifySnapshotScheduleOutput
-    /// Performs the `ModifyUsageLimit` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Modifies a usage limit in a cluster. You can't modify the feature type or period of a usage limit.
     ///
     /// - Parameter ModifyUsageLimitInput : [no documentation found]
@@ -1757,8 +1531,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UsageLimitNotFoundFault` : The usage limit identifier can't be found.
     func modifyUsageLimit(input: ModifyUsageLimitInput) async throws -> ModifyUsageLimitOutput
-    /// Performs the `PauseCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Pauses a cluster.
     ///
     /// - Parameter PauseClusterInput : Describes a pause cluster operation. For example, a scheduled action to run the PauseCluster API operation.
@@ -1772,8 +1544,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func pauseCluster(input: PauseClusterInput) async throws -> PauseClusterOutput
-    /// Performs the `PurchaseReservedNodeOffering` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the [DescribeReservedNodeOfferings] API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to [Purchasing Reserved Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter PurchaseReservedNodeOfferingInput :
@@ -1788,8 +1558,6 @@ public protocol RedshiftClientProtocol {
     /// - `ReservedNodeQuotaExceededFault` : Request would exceed the user's compute node quota. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func purchaseReservedNodeOffering(input: PurchaseReservedNodeOfferingInput) async throws -> PurchaseReservedNodeOfferingOutput
-    /// Performs the `PutResourcePolicy` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Updates the resource policy for a specified resource.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -1804,8 +1572,6 @@ public protocol RedshiftClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    /// Performs the `RebootCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting. A cluster event is created when the reboot is completed. Any pending cluster modifications (see [ModifyCluster]) are applied at this reboot. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter RebootClusterInput :
@@ -1818,8 +1584,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     func rebootCluster(input: RebootClusterInput) async throws -> RebootClusterOutput
-    /// Performs the `RejectDataShare` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// From a datashare consumer account, rejects the specified datashare.
     ///
     /// - Parameter RejectDataShareInput : [no documentation found]
@@ -1831,8 +1595,6 @@ public protocol RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     func rejectDataShare(input: RejectDataShareInput) async throws -> RejectDataShareOutput
-    /// Performs the `ResetClusterParameterGroup` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "engine-default". To reset the entire parameter group specify the ResetAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters.
     ///
     /// - Parameter ResetClusterParameterGroupInput :
@@ -1845,8 +1607,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidClusterParameterGroupStateFault` : The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
     func resetClusterParameterGroup(input: ResetClusterParameterGroupInput) async throws -> ResetClusterParameterGroupOutput
-    /// Performs the `ResizeCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions:
     ///
     /// * You can only resize clusters of the following types:
@@ -1897,8 +1657,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UnsupportedOptionFault` : A request option was specified that is not supported.
     func resizeCluster(input: ResizeClusterInput) async throws -> ResizeClusterOutput
-    /// Performs the `RestoreFromClusterSnapshot` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the [ModifyCluster] API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also choose to change to another DS node type of the same size during restore. If you restore a cluster into a VPC, you must provide a cluster subnet group where you want the cluster restored. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter RestoreFromClusterSnapshotInput :
@@ -1942,8 +1700,6 @@ public protocol RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func restoreFromClusterSnapshot(input: RestoreFromClusterSnapshotInput) async throws -> RestoreFromClusterSnapshotOutput
-    /// Performs the `RestoreTableFromClusterSnapshot` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original table before you call RestoreTableFromClusterSnapshot. When you have renamed your original table, then you can pass the original name of the table as the NewTableName parameter value in the call to RestoreTableFromClusterSnapshot. This way, you can replace the original table with the table created from the snapshot. You can't use this operation to restore tables with [interleaved sort keys](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html#t_Sorting_data-interleaved).
     ///
     /// - Parameter RestoreTableFromClusterSnapshotInput :
@@ -1961,8 +1717,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidTableRestoreArgumentFault` : The value specified for the sourceDatabaseName, sourceSchemaName, or sourceTableName parameter, or a combination of these, doesn't exist in the snapshot.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func restoreTableFromClusterSnapshot(input: RestoreTableFromClusterSnapshotInput) async throws -> RestoreTableFromClusterSnapshotOutput
-    /// Performs the `ResumeCluster` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Resumes a paused cluster.
     ///
     /// - Parameter ResumeClusterInput : Describes a resume cluster operation. For example, a scheduled action to run the ResumeCluster API operation.
@@ -1977,8 +1731,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func resumeCluster(input: ResumeClusterInput) async throws -> ResumeClusterOutput
-    /// Performs the `RevokeClusterSecurityGroupIngress` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see [AuthorizeClusterSecurityGroupIngress]. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter RevokeClusterSecurityGroupIngressInput :
@@ -1992,8 +1744,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
     func revokeClusterSecurityGroupIngress(input: RevokeClusterSecurityGroupIngressInput) async throws -> RevokeClusterSecurityGroupIngressOutput
-    /// Performs the `RevokeEndpointAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Revokes access to a cluster.
     ///
     /// - Parameter RevokeEndpointAccessInput : [no documentation found]
@@ -2011,8 +1761,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidEndpointStateFault` : The status of the endpoint is not valid.
     func revokeEndpointAccess(input: RevokeEndpointAccessInput) async throws -> RevokeEndpointAccessOutput
-    /// Performs the `RevokeSnapshotAccess` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Removes the ability of the specified Amazon Web Services account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
     /// - Parameter RevokeSnapshotAccessInput :
@@ -2027,8 +1775,6 @@ public protocol RedshiftClientProtocol {
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func revokeSnapshotAccess(input: RevokeSnapshotAccessInput) async throws -> RevokeSnapshotAccessOutput
-    /// Performs the `RotateEncryptionKey` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Rotates the encryption keys for a cluster.
     ///
     /// - Parameter RotateEncryptionKeyInput :
@@ -2043,8 +1789,6 @@ public protocol RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     func rotateEncryptionKey(input: RotateEncryptionKeyInput) async throws -> RotateEncryptionKeyOutput
-    /// Performs the `UpdatePartnerStatus` operation on the `RedshiftServiceVersion20121201` service.
-    ///
     /// Updates the status of a partner integration.
     ///
     /// - Parameter UpdatePartnerStatusInput : [no documentation found]

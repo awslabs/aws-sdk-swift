@@ -12,7 +12,7 @@ extension OutpostsClient {
     ///     - input: A `[GetOutpostInstanceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetOutpostInstanceTypesOutput`
     public func getOutpostInstanceTypesPaginated(input: GetOutpostInstanceTypesInput) -> ClientRuntime.PaginatorSequence<GetOutpostInstanceTypesInput, GetOutpostInstanceTypesOutput> {
-        return ClientRuntime.PaginatorSequence<GetOutpostInstanceTypesInput, GetOutpostInstanceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOutpostInstanceTypes(input:))
+        return ClientRuntime.PaginatorSequence<GetOutpostInstanceTypesInput, GetOutpostInstanceTypesOutput>(input: input, inputKey: \GetOutpostInstanceTypesInput.nextToken, outputKey: \GetOutpostInstanceTypesOutput.nextToken, paginationFunction: self.getOutpostInstanceTypes(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension GetOutpostInstanceTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetOutpostInstanceTypesInput, OperationStackOutput == GetOutpostInstanceTypesOutput {
+extension PaginatorSequence where Input == GetOutpostInstanceTypesInput, Output == GetOutpostInstanceTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getOutpostInstanceTypesPaginated`
     /// to access the nested member `[OutpostsClientTypes.InstanceTypeItem]`
     /// - Returns: `[OutpostsClientTypes.InstanceTypeItem]`
@@ -43,7 +43,7 @@ extension OutpostsClient {
     ///     - input: A `[ListAssetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutput`
     public func listAssetsPaginated(input: ListAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssets(input:))
+        return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput>(input: input, inputKey: \ListAssetsInput.nextToken, outputKey: \ListAssetsOutput.nextToken, paginationFunction: self.listAssets(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAssetsInput, OperationStackOutput == ListAssetsOutput {
+extension PaginatorSequence where Input == ListAssetsInput, Output == ListAssetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
     /// to access the nested member `[OutpostsClientTypes.AssetInfo]`
     /// - Returns: `[OutpostsClientTypes.AssetInfo]`
@@ -76,7 +76,7 @@ extension OutpostsClient {
     ///     - input: A `[ListCatalogItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCatalogItemsOutput`
     public func listCatalogItemsPaginated(input: ListCatalogItemsInput) -> ClientRuntime.PaginatorSequence<ListCatalogItemsInput, ListCatalogItemsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCatalogItemsInput, ListCatalogItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCatalogItems(input:))
+        return ClientRuntime.PaginatorSequence<ListCatalogItemsInput, ListCatalogItemsOutput>(input: input, inputKey: \ListCatalogItemsInput.nextToken, outputKey: \ListCatalogItemsOutput.nextToken, paginationFunction: self.listCatalogItems(input:))
     }
 }
 
@@ -91,7 +91,7 @@ extension ListCatalogItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCatalogItemsInput, OperationStackOutput == ListCatalogItemsOutput {
+extension PaginatorSequence where Input == ListCatalogItemsInput, Output == ListCatalogItemsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCatalogItemsPaginated`
     /// to access the nested member `[OutpostsClientTypes.CatalogItem]`
     /// - Returns: `[OutpostsClientTypes.CatalogItem]`
@@ -109,7 +109,7 @@ extension OutpostsClient {
     ///     - input: A `[ListOrdersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrdersOutput`
     public func listOrdersPaginated(input: ListOrdersInput) -> ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput> {
-        return ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrders(input:))
+        return ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput>(input: input, inputKey: \ListOrdersInput.nextToken, outputKey: \ListOrdersOutput.nextToken, paginationFunction: self.listOrders(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension ListOrdersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListOrdersInput, OperationStackOutput == ListOrdersOutput {
+extension PaginatorSequence where Input == ListOrdersInput, Output == ListOrdersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOrdersPaginated`
     /// to access the nested member `[OutpostsClientTypes.OrderSummary]`
     /// - Returns: `[OutpostsClientTypes.OrderSummary]`
@@ -140,7 +140,7 @@ extension OutpostsClient {
     ///     - input: A `[ListOutpostsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOutpostsOutput`
     public func listOutpostsPaginated(input: ListOutpostsInput) -> ClientRuntime.PaginatorSequence<ListOutpostsInput, ListOutpostsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOutpostsInput, ListOutpostsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOutposts(input:))
+        return ClientRuntime.PaginatorSequence<ListOutpostsInput, ListOutpostsOutput>(input: input, inputKey: \ListOutpostsInput.nextToken, outputKey: \ListOutpostsOutput.nextToken, paginationFunction: self.listOutposts(input:))
     }
 }
 
@@ -155,7 +155,7 @@ extension ListOutpostsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListOutpostsInput, OperationStackOutput == ListOutpostsOutput {
+extension PaginatorSequence where Input == ListOutpostsInput, Output == ListOutpostsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOutpostsPaginated`
     /// to access the nested member `[OutpostsClientTypes.Outpost]`
     /// - Returns: `[OutpostsClientTypes.Outpost]`
@@ -173,7 +173,7 @@ extension OutpostsClient {
     ///     - input: A `[ListSitesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSitesOutput`
     public func listSitesPaginated(input: ListSitesInput) -> ClientRuntime.PaginatorSequence<ListSitesInput, ListSitesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSitesInput, ListSitesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSites(input:))
+        return ClientRuntime.PaginatorSequence<ListSitesInput, ListSitesOutput>(input: input, inputKey: \ListSitesInput.nextToken, outputKey: \ListSitesOutput.nextToken, paginationFunction: self.listSites(input:))
     }
 }
 
@@ -188,7 +188,7 @@ extension ListSitesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListSitesInput, OperationStackOutput == ListSitesOutput {
+extension PaginatorSequence where Input == ListSitesInput, Output == ListSitesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSitesPaginated`
     /// to access the nested member `[OutpostsClientTypes.Site]`
     /// - Returns: `[OutpostsClientTypes.Site]`

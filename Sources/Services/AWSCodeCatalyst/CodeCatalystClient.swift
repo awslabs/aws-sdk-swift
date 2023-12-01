@@ -67,8 +67,6 @@ public struct CodeCatalystClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 }
 
 extension CodeCatalystClient: CodeCatalystClientProtocol {
-    /// Performs the `CreateAccessToken` operation on the `CodeCatalyst` service.
-    ///
     /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
     ///
     /// - Parameter CreateAccessTokenInput : [no documentation found]
@@ -98,24 +96,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccessTokenInput, CreateAccessTokenOutput>(id: "createAccessToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>())
+        var operation = ClientRuntime.OperationStack<CreateAccessTokenInput, CreateAccessTokenOutput, CreateAccessTokenOutputError>(id: "createAccessToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput, CreateAccessTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessTokenOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessTokenOutput, CreateAccessTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>(xmlName: "CreateAccessTokenRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessTokenOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessTokenOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccessTokenOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessTokenOutput, CreateAccessTokenOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessTokenOutput, CreateAccessTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessTokenOutput, CreateAccessTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreateDevEnvironment` operation on the `CodeCatalyst` service.
-    ///
     /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     ///
     /// - Parameter CreateDevEnvironmentInput : [no documentation found]
@@ -145,24 +141,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>(id: "createDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>())
+        var operation = ClientRuntime.OperationStack<CreateDevEnvironmentInput, CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(id: "createDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDevEnvironmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>(xmlName: "CreateDevEnvironmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDevEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevEnvironmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateDevEnvironmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDevEnvironmentOutput, CreateDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreateProject` operation on the `CodeCatalyst` service.
-    ///
     /// Creates a project in a specified space.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
@@ -192,24 +186,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutput>(id: "createProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput>())
+        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>(id: "createProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutput, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProjectInput, CreateProjectOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutput>(xmlName: "CreateProjectRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateProjectOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutput, CreateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutput, CreateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutput, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreateSourceRepository` operation on the `CodeCatalyst` service.
-    ///
     /// Creates an empty Git-based source repository in a specified project. The repository is created with an initial empty commit with a default branch named main.
     ///
     /// - Parameter CreateSourceRepositoryInput : [no documentation found]
@@ -239,24 +231,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>(id: "createSourceRepository")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>())
+        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryInput, CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(id: "createSourceRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>(xmlName: "CreateSourceRepositoryRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSourceRepositoryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryOutput, CreateSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreateSourceRepositoryBranch` operation on the `CodeCatalyst` service.
-    ///
     /// Creates a branch in a specified source repository in Amazon CodeCatalyst. This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
     ///
     /// - Parameter CreateSourceRepositoryBranchInput : [no documentation found]
@@ -286,24 +276,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>(id: "createSourceRepositoryBranch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>())
+        var operation = ClientRuntime.OperationStack<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(id: "createSourceRepositoryBranch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryBranchOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>(xmlName: "CreateSourceRepositoryBranchRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryBranchOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryBranchOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSourceRepositoryBranchOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryBranchOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSourceRepositoryBranchOutput, CreateSourceRepositoryBranchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteAccessToken` operation on the `CodeCatalyst` service.
-    ///
     /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
     ///
     /// - Parameter DeleteAccessTokenInput : [no documentation found]
@@ -333,21 +321,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccessTokenInput, DeleteAccessTokenOutput>(id: "deleteAccessToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteAccessTokenInput, DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(id: "deleteAccessToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput, DeleteAccessTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessTokenOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessTokenOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessTokenOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccessTokenOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessTokenOutput, DeleteAccessTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessTokenOutput, DeleteAccessTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteDevEnvironment` operation on the `CodeCatalyst` service.
-    ///
     /// Deletes a Dev Environment.
     ///
     /// - Parameter DeleteDevEnvironmentInput : [no documentation found]
@@ -377,21 +363,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput>(id: "deleteDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(id: "deleteDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDevEnvironmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDevEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevEnvironmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteDevEnvironmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDevEnvironmentOutput, DeleteDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteProject` operation on the `CodeCatalyst` service.
-    ///
     /// Deletes a project in a space.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
@@ -421,21 +405,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutput>(id: "deleteProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>(id: "deleteProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteProjectOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutput, DeleteProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteSourceRepository` operation on the `CodeCatalyst` service.
-    ///
     /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
     ///
     /// - Parameter DeleteSourceRepositoryInput : [no documentation found]
@@ -465,21 +447,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput>(id: "deleteSourceRepository")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(id: "deleteSourceRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSourceRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSourceRepositoryOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSourceRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSourceRepositoryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSourceRepositoryOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSourceRepositoryOutput, DeleteSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteSpace` operation on the `CodeCatalyst` service.
-    ///
     /// Deletes a space. Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
     ///
     /// - Parameter DeleteSpaceInput : [no documentation found]
@@ -509,21 +489,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSpaceInput, DeleteSpaceOutput>(id: "deleteSpace")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteSpaceInput, DeleteSpaceOutput, DeleteSpaceOutputError>(id: "deleteSpace")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpaceInput, DeleteSpaceOutput, DeleteSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSpaceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSpaceOutput, DeleteSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSpaceOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSpaceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSpaceOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSpaceOutput, DeleteSpaceOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput, DeleteSpaceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSpaceOutput, DeleteSpaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetDevEnvironment` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
     ///
     /// - Parameter GetDevEnvironmentInput : [no documentation found]
@@ -553,21 +531,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDevEnvironmentInput, GetDevEnvironmentOutput>(id: "getDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput>())
+        var operation = ClientRuntime.OperationStack<GetDevEnvironmentInput, GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(id: "getDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput, GetDevEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevEnvironmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevEnvironmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDevEnvironmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevEnvironmentOutput, GetDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevEnvironmentOutput, GetDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetProject` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about a project.
     ///
     /// - Parameter GetProjectInput : [no documentation found]
@@ -597,21 +573,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutput>(id: "getProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutput>())
+        var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutput, GetProjectOutputError>(id: "getProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutput, GetProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProjectOutput, GetProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProjectOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetProjectOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProjectOutput, GetProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutput, GetProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutput, GetProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetSourceRepository` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about a source repository.
     ///
     /// - Parameter GetSourceRepositoryInput : [no documentation found]
@@ -641,21 +615,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSourceRepositoryInput, GetSourceRepositoryOutput>(id: "getSourceRepository")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput>())
+        var operation = ClientRuntime.OperationStack<GetSourceRepositoryInput, GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(id: "getSourceRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput, GetSourceRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSourceRepositoryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryOutput, GetSourceRepositoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryOutput, GetSourceRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetSourceRepositoryCloneUrls` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about the URLs that can be used with a Git client to clone a source repository.
     ///
     /// - Parameter GetSourceRepositoryCloneUrlsInput : [no documentation found]
@@ -685,21 +657,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput>(id: "getSourceRepositoryCloneUrls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput>())
+        var operation = ClientRuntime.OperationStack<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(id: "getSourceRepositoryCloneUrls")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryCloneUrlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryCloneUrlsOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryCloneUrlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSourceRepositoryCloneUrlsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryCloneUrlsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSourceRepositoryCloneUrlsOutput, GetSourceRepositoryCloneUrlsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetSpace` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about an space.
     ///
     /// - Parameter GetSpaceInput : [no documentation found]
@@ -729,21 +699,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSpaceInput, GetSpaceOutput>(id: "getSpace")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSpaceInput, GetSpaceOutput>())
+        var operation = ClientRuntime.OperationStack<GetSpaceInput, GetSpaceOutput, GetSpaceOutputError>(id: "getSpace")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSpaceInput, GetSpaceOutput, GetSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSpaceInput, GetSpaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSpaceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSpaceOutput, GetSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSpaceOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSpaceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpaceOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSpaceOutput, GetSpaceOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpaceOutput, GetSpaceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpaceOutput, GetSpaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetSubscription` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about the Amazon Web Services account used for billing purposes and the billing plan for the space.
     ///
     /// - Parameter GetSubscriptionInput : [no documentation found]
@@ -773,21 +741,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSubscriptionInput, GetSubscriptionOutput>(id: "getSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionInput, GetSubscriptionOutput>())
+        var operation = ClientRuntime.OperationStack<GetSubscriptionInput, GetSubscriptionOutput, GetSubscriptionOutputError>(id: "getSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionInput, GetSubscriptionOutput, GetSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionInput, GetSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionOutput, GetSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSubscriptionOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionOutput, GetSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionOutput, GetSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionOutput, GetSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetUserDetails` operation on the `CodeCatalyst` service.
-    ///
     /// Returns information about a user.
     ///
     /// - Parameter GetUserDetailsInput : [no documentation found]
@@ -817,22 +783,20 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserDetailsInput, GetUserDetailsOutput>(id: "getUserDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserDetailsInput, GetUserDetailsOutput>())
+        var operation = ClientRuntime.OperationStack<GetUserDetailsInput, GetUserDetailsOutput, GetUserDetailsOutputError>(id: "getUserDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserDetailsInput, GetUserDetailsOutput, GetUserDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserDetailsInput, GetUserDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserDetailsOutput, GetUserDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetUserDetailsInput, GetUserDetailsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserDetailsOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserDetailsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserDetailsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserDetailsOutput, GetUserDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserDetailsOutput, GetUserDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserDetailsOutput, GetUserDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListAccessTokens` operation on the `CodeCatalyst` service.
-    ///
     /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     ///
     /// - Parameter ListAccessTokensInput : [no documentation found]
@@ -862,24 +826,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccessTokensInput, ListAccessTokensOutput>(id: "listAccessTokens")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessTokensInput, ListAccessTokensOutput>())
+        var operation = ClientRuntime.OperationStack<ListAccessTokensInput, ListAccessTokensOutput, ListAccessTokensOutputError>(id: "listAccessTokens")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessTokensInput, ListAccessTokensOutput, ListAccessTokensOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessTokensInput, ListAccessTokensOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessTokensOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessTokensOutput, ListAccessTokensOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccessTokensInput, ListAccessTokensOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccessTokensInput, ListAccessTokensOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccessTokensInput, ListAccessTokensOutput>(xmlName: "ListAccessTokensRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessTokensOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessTokensOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccessTokensOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessTokensOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessTokensOutput, ListAccessTokensOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessTokensOutput, ListAccessTokensOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessTokensOutput, ListAccessTokensOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListDevEnvironmentSessions` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of active sessions for a Dev Environment in a project.
     ///
     /// - Parameter ListDevEnvironmentSessionsInput : [no documentation found]
@@ -909,24 +871,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>(id: "listDevEnvironmentSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>())
+        var operation = ClientRuntime.OperationStack<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(id: "listDevEnvironmentSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentSessionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>(xmlName: "ListDevEnvironmentSessionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentSessionsOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentSessionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDevEnvironmentSessionsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentSessionsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentSessionsOutput, ListDevEnvironmentSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListDevEnvironments` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of Dev Environments in a project.
     ///
     /// - Parameter ListDevEnvironmentsInput : [no documentation found]
@@ -956,24 +916,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>(id: "listDevEnvironments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>())
+        var operation = ClientRuntime.OperationStack<ListDevEnvironmentsInput, ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(id: "listDevEnvironments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>(xmlName: "ListDevEnvironmentsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentsOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDevEnvironmentsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevEnvironmentsOutput, ListDevEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListEventLogs` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of events that occurred during a specified time period in a space. You can use these events to audit user and system activity in a space.
     ///
     /// - Parameter ListEventLogsInput : [no documentation found]
@@ -1003,24 +961,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEventLogsInput, ListEventLogsOutput>(id: "listEventLogs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventLogsInput, ListEventLogsOutput>())
+        var operation = ClientRuntime.OperationStack<ListEventLogsInput, ListEventLogsOutput, ListEventLogsOutputError>(id: "listEventLogs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventLogsInput, ListEventLogsOutput, ListEventLogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventLogsInput, ListEventLogsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventLogsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventLogsOutput, ListEventLogsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventLogsInput, ListEventLogsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListEventLogsInput, ListEventLogsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventLogsInput, ListEventLogsOutput>(xmlName: "ListEventLogsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventLogsOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventLogsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEventLogsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventLogsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventLogsOutput, ListEventLogsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventLogsOutput, ListEventLogsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventLogsOutput, ListEventLogsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListProjects` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of projects.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
@@ -1050,24 +1006,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutput>(id: "listProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutput>())
+        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>(id: "listProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutput, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListProjectsInput, ListProjectsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutput>(xmlName: "ListProjectsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListProjectsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutput, ListProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutput, ListProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutput, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListSourceRepositories` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of source repositories in a project.
     ///
     /// - Parameter ListSourceRepositoriesInput : [no documentation found]
@@ -1097,24 +1051,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>(id: "listSourceRepositories")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>())
+        var operation = ClientRuntime.OperationStack<ListSourceRepositoriesInput, ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(id: "listSourceRepositories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>(xmlName: "ListSourceRepositoriesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoriesOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSourceRepositoriesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoriesOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoriesOutput, ListSourceRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListSourceRepositoryBranches` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of branches in a specified source repository.
     ///
     /// - Parameter ListSourceRepositoryBranchesInput : [no documentation found]
@@ -1144,24 +1096,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>(id: "listSourceRepositoryBranches")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>())
+        var operation = ClientRuntime.OperationStack<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(id: "listSourceRepositoryBranches")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoryBranchesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>(xmlName: "ListSourceRepositoryBranchesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoryBranchesOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoryBranchesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSourceRepositoryBranchesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoryBranchesOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSourceRepositoryBranchesOutput, ListSourceRepositoryBranchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListSpaces` operation on the `CodeCatalyst` service.
-    ///
     /// Retrieves a list of spaces.
     ///
     /// - Parameter ListSpacesInput : [no documentation found]
@@ -1191,24 +1141,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSpacesInput, ListSpacesOutput>(id: "listSpaces")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpacesInput, ListSpacesOutput>())
+        var operation = ClientRuntime.OperationStack<ListSpacesInput, ListSpacesOutput, ListSpacesOutputError>(id: "listSpaces")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpacesInput, ListSpacesOutput, ListSpacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpacesInput, ListSpacesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpacesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpacesOutput, ListSpacesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSpacesInput, ListSpacesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSpacesInput, ListSpacesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSpacesInput, ListSpacesOutput>(xmlName: "ListSpacesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpacesOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpacesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSpacesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSpacesOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpacesOutput, ListSpacesOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpacesOutput, ListSpacesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSpacesOutput, ListSpacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `StartDevEnvironment` operation on the `CodeCatalyst` service.
-    ///
     /// Starts a specified Dev Environment and puts it into an active state.
     ///
     /// - Parameter StartDevEnvironmentInput : [no documentation found]
@@ -1238,24 +1186,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDevEnvironmentInput, StartDevEnvironmentOutput>(id: "startDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>())
+        var operation = ClientRuntime.OperationStack<StartDevEnvironmentInput, StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(id: "startDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput, StartDevEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>(xmlName: "StartDevEnvironmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartDevEnvironmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentOutput, StartDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentOutput, StartDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `StartDevEnvironmentSession` operation on the `CodeCatalyst` service.
-    ///
     /// Starts a session for a specified Dev Environment.
     ///
     /// - Parameter StartDevEnvironmentSessionInput : [no documentation found]
@@ -1285,24 +1231,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>(id: "startDevEnvironmentSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>())
+        var operation = ClientRuntime.OperationStack<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(id: "startDevEnvironmentSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>(xmlName: "StartDevEnvironmentSessionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentSessionOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartDevEnvironmentSessionOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentSessionOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDevEnvironmentSessionOutput, StartDevEnvironmentSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `StopDevEnvironment` operation on the `CodeCatalyst` service.
-    ///
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
     ///
     /// - Parameter StopDevEnvironmentInput : [no documentation found]
@@ -1332,21 +1276,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDevEnvironmentInput, StopDevEnvironmentOutput>(id: "stopDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput>())
+        var operation = ClientRuntime.OperationStack<StopDevEnvironmentInput, StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(id: "stopDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput, StopDevEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopDevEnvironmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentOutput, StopDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentOutput, StopDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `StopDevEnvironmentSession` operation on the `CodeCatalyst` service.
-    ///
     /// Stops a session for a specified Dev Environment.
     ///
     /// - Parameter StopDevEnvironmentSessionInput : [no documentation found]
@@ -1376,21 +1318,19 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput>(id: "stopDevEnvironmentSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput>())
+        var operation = ClientRuntime.OperationStack<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(id: "stopDevEnvironmentSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentSessionOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopDevEnvironmentSessionOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentSessionOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDevEnvironmentSessionOutput, StopDevEnvironmentSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `UpdateDevEnvironment` operation on the `CodeCatalyst` service.
-    ///
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
     ///
     /// - Parameter UpdateDevEnvironmentInput : [no documentation found]
@@ -1420,24 +1360,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>(id: "updateDevEnvironment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>())
+        var operation = ClientRuntime.OperationStack<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(id: "updateDevEnvironment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDevEnvironmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>(xmlName: "UpdateDevEnvironmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDevEnvironmentOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevEnvironmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateDevEnvironmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDevEnvironmentOutput, UpdateDevEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `UpdateProject` operation on the `CodeCatalyst` service.
-    ///
     /// Changes one or more values for a project.
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
@@ -1467,24 +1405,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutput>(id: "updateProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutput>())
+        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>(id: "updateProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateProjectInput, UpdateProjectOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutput>(xmlName: "UpdateProjectRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateProjectOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutput, UpdateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `UpdateSpace` operation on the `CodeCatalyst` service.
-    ///
     /// Changes one or more values for a space.
     ///
     /// - Parameter UpdateSpaceInput : [no documentation found]
@@ -1514,24 +1450,22 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSpaceInput, UpdateSpaceOutput>(id: "updateSpace")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
+        var operation = ClientRuntime.OperationStack<UpdateSpaceInput, UpdateSpaceOutput, UpdateSpaceOutputError>(id: "updateSpace")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSpaceInput, UpdateSpaceOutput, UpdateSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSpaceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSpaceInput, UpdateSpaceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(xmlName: "UpdateSpaceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSpaceOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSpaceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSpaceOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSpaceOutput, UpdateSpaceOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `VerifySession` operation on the `CodeCatalyst` service.
-    ///
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
     ///
     /// - Parameter VerifySessionInput : [no documentation found]
@@ -1561,15 +1495,15 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<VerifySessionInput, VerifySessionOutput>(id: "verifySession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySessionInput, VerifySessionOutput>())
+        var operation = ClientRuntime.OperationStack<VerifySessionInput, VerifySessionOutput, VerifySessionOutputError>(id: "verifySession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySessionInput, VerifySessionOutput, VerifySessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySessionInput, VerifySessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySessionOutput, VerifySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifySessionOutput>(options: config.retryStrategyOptions))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(VerifySessionOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySessionOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifySessionOutput, VerifySessionOutputError>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySessionOutput, VerifySessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySessionOutput, VerifySessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -12,7 +12,7 @@ extension CognitoIdentityClient {
     ///     - input: A `[ListIdentityPoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityPoolsOutput`
     public func listIdentityPoolsPaginated(input: ListIdentityPoolsInput) -> ClientRuntime.PaginatorSequence<ListIdentityPoolsInput, ListIdentityPoolsOutput> {
-        return ClientRuntime.PaginatorSequence<ListIdentityPoolsInput, ListIdentityPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIdentityPools(input:))
+        return ClientRuntime.PaginatorSequence<ListIdentityPoolsInput, ListIdentityPoolsOutput>(input: input, inputKey: \ListIdentityPoolsInput.nextToken, outputKey: \ListIdentityPoolsOutput.nextToken, paginationFunction: self.listIdentityPools(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListIdentityPoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListIdentityPoolsInput, OperationStackOutput == ListIdentityPoolsOutput {
+extension PaginatorSequence where Input == ListIdentityPoolsInput, Output == ListIdentityPoolsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIdentityPoolsPaginated`
     /// to access the nested member `[CognitoIdentityClientTypes.IdentityPoolShortDescription]`
     /// - Returns: `[CognitoIdentityClientTypes.IdentityPoolShortDescription]`

@@ -15,8 +15,6 @@ import ClientRuntime
 ///
 /// If you're new to Audit Manager, we recommend that you review the [ Audit Manager User Guide](https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html).
 public protocol AuditManagerClientProtocol {
-    /// Performs the `AssociateAssessmentReportEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Associates an evidence folder to an assessment report in an Audit Manager assessment.
     ///
     /// - Parameter AssociateAssessmentReportEvidenceFolderInput : [no documentation found]
@@ -31,8 +29,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func associateAssessmentReportEvidenceFolder(input: AssociateAssessmentReportEvidenceFolderInput) async throws -> AssociateAssessmentReportEvidenceFolderOutput
-    /// Performs the `BatchAssociateAssessmentReportEvidence` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Associates a list of evidence to an assessment report in an Audit Manager assessment.
     ///
     /// - Parameter BatchAssociateAssessmentReportEvidenceInput : [no documentation found]
@@ -47,8 +43,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func batchAssociateAssessmentReportEvidence(input: BatchAssociateAssessmentReportEvidenceInput) async throws -> BatchAssociateAssessmentReportEvidenceOutput
-    /// Performs the `BatchCreateDelegationByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates a batch of delegations for an assessment in Audit Manager.
     ///
     /// - Parameter BatchCreateDelegationByAssessmentInput : [no documentation found]
@@ -63,8 +57,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func batchCreateDelegationByAssessment(input: BatchCreateDelegationByAssessmentInput) async throws -> BatchCreateDelegationByAssessmentOutput
-    /// Performs the `BatchDeleteDelegationByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deletes a batch of delegations for an assessment in Audit Manager.
     ///
     /// - Parameter BatchDeleteDelegationByAssessmentInput : [no documentation found]
@@ -79,8 +71,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func batchDeleteDelegationByAssessment(input: BatchDeleteDelegationByAssessmentInput) async throws -> BatchDeleteDelegationByAssessmentOutput
-    /// Performs the `BatchDisassociateAssessmentReportEvidence` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Disassociates a list of evidence from an assessment report in Audit Manager.
     ///
     /// - Parameter BatchDisassociateAssessmentReportEvidenceInput : [no documentation found]
@@ -95,8 +85,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func batchDisassociateAssessmentReportEvidence(input: BatchDisassociateAssessmentReportEvidenceInput) async throws -> BatchDisassociateAssessmentReportEvidenceOutput
-    /// Performs the `BatchImportEvidenceToAssessmentControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question. The following restrictions apply to this action:
     ///
     /// * manualEvidence can be only one of the following: evidenceFileName, s3ResourcePath, or textResponse
@@ -123,8 +111,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func batchImportEvidenceToAssessmentControl(input: BatchImportEvidenceToAssessmentControlInput) async throws -> BatchImportEvidenceToAssessmentControlOutput
-    /// Performs the `CreateAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates an assessment in Audit Manager.
     ///
     /// - Parameter CreateAssessmentInput : [no documentation found]
@@ -140,8 +126,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
     func createAssessment(input: CreateAssessmentInput) async throws -> CreateAssessmentOutput
-    /// Performs the `CreateAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates a custom framework in Audit Manager.
     ///
     /// - Parameter CreateAssessmentFrameworkInput : [no documentation found]
@@ -157,8 +141,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
     func createAssessmentFramework(input: CreateAssessmentFrameworkInput) async throws -> CreateAssessmentFrameworkOutput
-    /// Performs the `CreateAssessmentReport` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates an assessment report for the specified assessment.
     ///
     /// - Parameter CreateAssessmentReportInput : [no documentation found]
@@ -173,8 +155,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func createAssessmentReport(input: CreateAssessmentReportInput) async throws -> CreateAssessmentReportOutput
-    /// Performs the `CreateControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates a new custom control in Audit Manager.
     ///
     /// - Parameter CreateControlInput : [no documentation found]
@@ -190,8 +170,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
     func createControl(input: CreateControlInput) async throws -> CreateControlOutput
-    /// Performs the `DeleteAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deletes an assessment in Audit Manager.
     ///
     /// - Parameter DeleteAssessmentInput : [no documentation found]
@@ -206,8 +184,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessment(input: DeleteAssessmentInput) async throws -> DeleteAssessmentOutput
-    /// Performs the `DeleteAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deletes a custom framework in Audit Manager.
     ///
     /// - Parameter DeleteAssessmentFrameworkInput : [no documentation found]
@@ -222,8 +198,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessmentFramework(input: DeleteAssessmentFrameworkInput) async throws -> DeleteAssessmentFrameworkOutput
-    /// Performs the `DeleteAssessmentFrameworkShare` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deletes a share request for a custom framework in Audit Manager.
     ///
     /// - Parameter DeleteAssessmentFrameworkShareInput : [no documentation found]
@@ -238,8 +212,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessmentFrameworkShare(input: DeleteAssessmentFrameworkShareInput) async throws -> DeleteAssessmentFrameworkShareOutput
-    /// Performs the `DeleteAssessmentReport` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager attempts to delete the following data:
     ///
     /// * The specified assessment report that’s stored in your S3 bucket
@@ -261,8 +233,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteAssessmentReport(input: DeleteAssessmentReportInput) async throws -> DeleteAssessmentReportOutput
-    /// Performs the `DeleteControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deletes a custom control in Audit Manager. When you invoke this operation, the custom control is deleted from any frameworks or assessments that it’s currently part of. As a result, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control.
     ///
     /// - Parameter DeleteControlInput : [no documentation found]
@@ -277,8 +247,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deleteControl(input: DeleteControlInput) async throws -> DeleteControlOutput
-    /// Performs the `DeregisterAccount` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Deregisters an account in Audit Manager. Before you deregister, you can use the [UpdateSettings](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_UpdateSettings.html) API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html) in the Audit Manager User Guide.
     ///
     /// - Parameter DeregisterAccountInput : [no documentation found]
@@ -293,8 +261,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deregisterAccount(input: DeregisterAccountInput) async throws -> DeregisterAccountOutput
-    /// Performs the `DeregisterOrganizationAdminAccount` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward. Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually [deletes the event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-eds-disable-termination.html). This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager ignores an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it. When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager. To delete your Audit Manager resource data, see the following instructions:
     ///
     /// * [DeleteAssessment](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessment.html) (see also: [Deleting an assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-assessment.html) in the Audit Manager User Guide)
@@ -322,8 +288,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func deregisterOrganizationAdminAccount(input: DeregisterOrganizationAdminAccountInput) async throws -> DeregisterOrganizationAdminAccountOutput
-    /// Performs the `DisassociateAssessmentReportEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Disassociates an evidence folder from the specified assessment report in Audit Manager.
     ///
     /// - Parameter DisassociateAssessmentReportEvidenceFolderInput : [no documentation found]
@@ -338,8 +302,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func disassociateAssessmentReportEvidenceFolder(input: DisassociateAssessmentReportEvidenceFolderInput) async throws -> DisassociateAssessmentReportEvidenceFolderOutput
-    /// Performs the `GetAccountStatus` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the registration status of an account in Audit Manager.
     ///
     /// - Parameter GetAccountStatusInput : [no documentation found]
@@ -351,8 +313,6 @@ public protocol AuditManagerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     func getAccountStatus(input: GetAccountStatusInput) async throws -> GetAccountStatusOutput
-    /// Performs the `GetAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets information about a specified assessment.
     ///
     /// - Parameter GetAssessmentInput : [no documentation found]
@@ -367,8 +327,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput
-    /// Performs the `GetAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets information about a specified framework.
     ///
     /// - Parameter GetAssessmentFrameworkInput : [no documentation found]
@@ -383,8 +341,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getAssessmentFramework(input: GetAssessmentFrameworkInput) async throws -> GetAssessmentFrameworkOutput
-    /// Performs the `GetAssessmentReportUrl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the URL of an assessment report in Audit Manager.
     ///
     /// - Parameter GetAssessmentReportUrlInput : [no documentation found]
@@ -399,8 +355,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getAssessmentReportUrl(input: GetAssessmentReportUrlInput) async throws -> GetAssessmentReportUrlOutput
-    /// Performs the `GetChangeLogs` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets a list of changelogs from Audit Manager.
     ///
     /// - Parameter GetChangeLogsInput : [no documentation found]
@@ -415,8 +369,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getChangeLogs(input: GetChangeLogsInput) async throws -> GetChangeLogsOutput
-    /// Performs the `GetControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets information about a specified control.
     ///
     /// - Parameter GetControlInput : [no documentation found]
@@ -431,8 +383,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getControl(input: GetControlInput) async throws -> GetControlOutput
-    /// Performs the `GetDelegations` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets a list of delegations from an audit owner to a delegate.
     ///
     /// - Parameter GetDelegationsInput : [no documentation found]
@@ -446,8 +396,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getDelegations(input: GetDelegationsInput) async throws -> GetDelegationsOutput
-    /// Performs the `GetEvidence` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets information about a specified evidence item.
     ///
     /// - Parameter GetEvidenceInput : [no documentation found]
@@ -462,8 +410,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidence(input: GetEvidenceInput) async throws -> GetEvidenceOutput
-    /// Performs the `GetEvidenceByEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets all evidence from a specified evidence folder in Audit Manager.
     ///
     /// - Parameter GetEvidenceByEvidenceFolderInput : [no documentation found]
@@ -478,8 +424,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceByEvidenceFolder(input: GetEvidenceByEvidenceFolderInput) async throws -> GetEvidenceByEvidenceFolderOutput
-    /// Performs the `GetEvidenceFileUploadUrl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see [Upload a file from your browser ](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#how-to-upload-manual-evidence-files) in the Audit Manager User Guide. The following restrictions apply to this operation:
     ///
     /// * Maximum size of an individual evidence file: 100 MB
@@ -503,8 +447,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFileUploadUrl(input: GetEvidenceFileUploadUrlInput) async throws -> GetEvidenceFileUploadUrlOutput
-    /// Performs the `GetEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets an evidence folder from a specified assessment in Audit Manager.
     ///
     /// - Parameter GetEvidenceFolderInput : [no documentation found]
@@ -519,8 +461,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFolder(input: GetEvidenceFolderInput) async throws -> GetEvidenceFolderOutput
-    /// Performs the `GetEvidenceFoldersByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the evidence folders from a specified assessment in Audit Manager.
     ///
     /// - Parameter GetEvidenceFoldersByAssessmentInput : [no documentation found]
@@ -535,8 +475,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFoldersByAssessment(input: GetEvidenceFoldersByAssessmentInput) async throws -> GetEvidenceFoldersByAssessmentOutput
-    /// Performs the `GetEvidenceFoldersByAssessmentControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     ///
     /// - Parameter GetEvidenceFoldersByAssessmentControlInput : [no documentation found]
@@ -551,8 +489,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getEvidenceFoldersByAssessmentControl(input: GetEvidenceFoldersByAssessmentControlInput) async throws -> GetEvidenceFoldersByAssessmentControlOutput
-    /// Performs the `GetInsights` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the latest analytics data for all your current active assessments.
     ///
     /// - Parameter GetInsightsInput : [no documentation found]
@@ -565,8 +501,6 @@ public protocol AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput
-    /// Performs the `GetInsightsByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the latest analytics data for a specific active assessment.
     ///
     /// - Parameter GetInsightsByAssessmentInput : [no documentation found]
@@ -581,8 +515,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getInsightsByAssessment(input: GetInsightsByAssessmentInput) async throws -> GetInsightsByAssessmentOutput
-    /// Performs the `GetOrganizationAdminAccount` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
     ///
     /// - Parameter GetOrganizationAdminAccountInput : [no documentation found]
@@ -597,8 +529,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getOrganizationAdminAccount(input: GetOrganizationAdminAccountInput) async throws -> GetOrganizationAdminAccountOutput
-    /// Performs the `GetServicesInScope` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets a list of all of the Amazon Web Services that you can choose to include in your assessment. When you [create an assessment](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_CreateAssessment.html), specify which of these services you want to include to narrow the assessment's [scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Scope.html).
     ///
     /// - Parameter GetServicesInScopeInput : [no documentation found]
@@ -612,8 +542,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func getServicesInScope(input: GetServicesInScopeInput) async throws -> GetServicesInScopeOutput
-    /// Performs the `GetSettings` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Gets the settings for a specified Amazon Web Services account.
     ///
     /// - Parameter GetSettingsInput : [no documentation found]
@@ -626,8 +554,6 @@ public protocol AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     func getSettings(input: GetSettingsInput) async throws -> GetSettingsOutput
-    /// Performs the `ListAssessmentControlInsightsByControlDomain` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
     ///
     /// - Parameter ListAssessmentControlInsightsByControlDomainInput : [no documentation found]
@@ -642,8 +568,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentControlInsightsByControlDomain(input: ListAssessmentControlInsightsByControlDomainInput) async throws -> ListAssessmentControlInsightsByControlDomainOutput
-    /// Performs the `ListAssessmentFrameworks` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of the frameworks that are available in the Audit Manager framework library.
     ///
     /// - Parameter ListAssessmentFrameworksInput : [no documentation found]
@@ -657,8 +581,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentFrameworks(input: ListAssessmentFrameworksInput) async throws -> ListAssessmentFrameworksOutput
-    /// Performs the `ListAssessmentFrameworkShareRequests` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of sent or received share requests for custom frameworks in Audit Manager.
     ///
     /// - Parameter ListAssessmentFrameworkShareRequestsInput : [no documentation found]
@@ -672,8 +594,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentFrameworkShareRequests(input: ListAssessmentFrameworkShareRequestsInput) async throws -> ListAssessmentFrameworkShareRequestsOutput
-    /// Performs the `ListAssessmentReports` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of assessment reports created in Audit Manager.
     ///
     /// - Parameter ListAssessmentReportsInput : [no documentation found]
@@ -687,8 +607,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessmentReports(input: ListAssessmentReportsInput) async throws -> ListAssessmentReportsOutput
-    /// Performs the `ListAssessments` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of current and past assessments from Audit Manager.
     ///
     /// - Parameter ListAssessmentsInput : [no documentation found]
@@ -702,8 +620,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listAssessments(input: ListAssessmentsInput) async throws -> ListAssessmentsOutput
-    /// Performs the `ListControlDomainInsights` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Lists the latest analytics data for control domains across all of your active assessments. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
     ///
     /// - Parameter ListControlDomainInsightsInput : [no documentation found]
@@ -718,8 +634,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listControlDomainInsights(input: ListControlDomainInsightsInput) async throws -> ListControlDomainInsightsOutput
-    /// Performs the `ListControlDomainInsightsByAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Lists analytics data for control domains within a specified active assessment. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
     ///
     /// - Parameter ListControlDomainInsightsByAssessmentInput : [no documentation found]
@@ -734,8 +648,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listControlDomainInsightsByAssessment(input: ListControlDomainInsightsByAssessmentInput) async throws -> ListControlDomainInsightsByAssessmentOutput
-    /// Performs the `ListControlInsightsByControlDomain` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Lists the latest analytics data for controls within a specific control domain across all active assessments. Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
     ///
     /// - Parameter ListControlInsightsByControlDomainInput : [no documentation found]
@@ -750,8 +662,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listControlInsightsByControlDomain(input: ListControlInsightsByControlDomainInput) async throws -> ListControlInsightsByControlDomainOutput
-    /// Performs the `ListControls` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of controls from Audit Manager.
     ///
     /// - Parameter ListControlsInput : [no documentation found]
@@ -765,8 +675,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listControls(input: ListControlsInput) async throws -> ListControlsOutput
-    /// Performs the `ListKeywordsForDataSource` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of keywords that are pre-mapped to the specified control data source.
     ///
     /// - Parameter ListKeywordsForDataSourceInput : [no documentation found]
@@ -780,8 +688,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listKeywordsForDataSource(input: ListKeywordsForDataSourceInput) async throws -> ListKeywordsForDataSourceOutput
-    /// Performs the `ListNotifications` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of all Audit Manager notifications.
     ///
     /// - Parameter ListNotificationsInput : [no documentation found]
@@ -795,8 +701,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput
-    /// Performs the `ListTagsForResource` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Returns a list of tags for the specified resource in Audit Manager.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -810,8 +714,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `RegisterAccount` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Enables Audit Manager for the specified Amazon Web Services account.
     ///
     /// - Parameter RegisterAccountInput : [no documentation found]
@@ -827,8 +729,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutput
-    /// Performs the `RegisterOrganizationAdminAccount` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager.
     ///
     /// - Parameter RegisterOrganizationAdminAccountInput : [no documentation found]
@@ -843,8 +743,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput) async throws -> RegisterOrganizationAdminAccountOutput
-    /// Performs the `StartAssessmentFrameworkShare` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Creates a share request for a custom framework in Audit Manager. The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires. When you create a share request, Audit Manager stores a snapshot of your custom framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of the same snapshot in the US West (Oregon) Amazon Web Services Region. Audit Manager deletes the snapshot and the backup snapshot when one of the following events occurs:
     ///
     /// * The sender revokes the share request.
@@ -870,8 +768,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func startAssessmentFrameworkShare(input: StartAssessmentFrameworkShareInput) async throws -> StartAssessmentFrameworkShareOutput
-    /// Performs the `TagResource` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Tags the specified resource in Audit Manager.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -885,8 +781,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Removes a tag from a resource in Audit Manager.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -900,8 +794,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateAssessment` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Edits an Audit Manager assessment.
     ///
     /// - Parameter UpdateAssessmentInput : [no documentation found]
@@ -916,8 +808,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessment(input: UpdateAssessmentInput) async throws -> UpdateAssessmentOutput
-    /// Performs the `UpdateAssessmentControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates a control within an assessment in Audit Manager.
     ///
     /// - Parameter UpdateAssessmentControlInput : [no documentation found]
@@ -932,8 +822,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentControl(input: UpdateAssessmentControlInput) async throws -> UpdateAssessmentControlOutput
-    /// Performs the `UpdateAssessmentControlSetStatus` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates the status of a control set in an Audit Manager assessment.
     ///
     /// - Parameter UpdateAssessmentControlSetStatusInput : [no documentation found]
@@ -948,8 +836,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentControlSetStatus(input: UpdateAssessmentControlSetStatusInput) async throws -> UpdateAssessmentControlSetStatusOutput
-    /// Performs the `UpdateAssessmentFramework` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates a custom framework in Audit Manager.
     ///
     /// - Parameter UpdateAssessmentFrameworkInput : [no documentation found]
@@ -964,8 +850,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentFramework(input: UpdateAssessmentFrameworkInput) async throws -> UpdateAssessmentFrameworkOutput
-    /// Performs the `UpdateAssessmentFrameworkShare` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates a share request for a custom framework in Audit Manager.
     ///
     /// - Parameter UpdateAssessmentFrameworkShareInput : [no documentation found]
@@ -981,8 +865,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentFrameworkShare(input: UpdateAssessmentFrameworkShareInput) async throws -> UpdateAssessmentFrameworkShareOutput
-    /// Performs the `UpdateAssessmentStatus` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates the status of an assessment in Audit Manager.
     ///
     /// - Parameter UpdateAssessmentStatusInput : [no documentation found]
@@ -998,8 +880,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateAssessmentStatus(input: UpdateAssessmentStatusInput) async throws -> UpdateAssessmentStatusOutput
-    /// Performs the `UpdateControl` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates a custom control in Audit Manager.
     ///
     /// - Parameter UpdateControlInput : [no documentation found]
@@ -1014,8 +894,6 @@ public protocol AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateControl(input: UpdateControlInput) async throws -> UpdateControlOutput
-    /// Performs the `UpdateSettings` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Updates Audit Manager settings for the current account.
     ///
     /// - Parameter UpdateSettingsInput : [no documentation found]
@@ -1029,8 +907,6 @@ public protocol AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput
-    /// Performs the `ValidateAssessmentReportIntegrity` operation on the `BedrockAssessmentManagerLambda` service.
-    ///
     /// Validates the integrity of an assessment report in Audit Manager.
     ///
     /// - Parameter ValidateAssessmentReportIntegrityInput : [no documentation found]

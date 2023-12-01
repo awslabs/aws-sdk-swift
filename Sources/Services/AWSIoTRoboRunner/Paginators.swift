@@ -12,7 +12,7 @@ extension IoTRoboRunnerClient {
     ///     - input: A `[ListWorkersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkersOutput`
     public func listWorkersPaginated(input: ListWorkersInput) -> ClientRuntime.PaginatorSequence<ListWorkersInput, ListWorkersOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkersInput, ListWorkersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkers(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkersInput, ListWorkersOutput>(input: input, inputKey: \ListWorkersInput.nextToken, outputKey: \ListWorkersOutput.nextToken, paginationFunction: self.listWorkers(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListWorkersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListWorkersInput, OperationStackOutput == ListWorkersOutput {
+extension PaginatorSequence where Input == ListWorkersInput, Output == ListWorkersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listWorkersPaginated`
     /// to access the nested member `[IoTRoboRunnerClientTypes.Worker]`
     /// - Returns: `[IoTRoboRunnerClientTypes.Worker]`

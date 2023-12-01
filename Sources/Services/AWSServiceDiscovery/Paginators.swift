@@ -12,7 +12,7 @@ extension ServiceDiscoveryClient {
     ///     - input: A `[GetInstancesHealthStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInstancesHealthStatusOutput`
     public func getInstancesHealthStatusPaginated(input: GetInstancesHealthStatusInput) -> ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutput> {
-        return ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInstancesHealthStatus(input:))
+        return ClientRuntime.PaginatorSequence<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutput>(input: input, inputKey: \GetInstancesHealthStatusInput.nextToken, outputKey: \GetInstancesHealthStatusOutput.nextToken, paginationFunction: self.getInstancesHealthStatus(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension ServiceDiscoveryClient {
     ///     - input: A `[ListInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
     public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutput.nextToken, paginationFunction: self.listInstances(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ServiceDiscoveryClient {
     ///     - input: A `[ListNamespacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNamespacesOutput`
     public func listNamespacesPaginated(input: ListNamespacesInput) -> ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput> {
-        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNamespaces(input:))
+        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput>(input: input, inputKey: \ListNamespacesInput.nextToken, outputKey: \ListNamespacesOutput.nextToken, paginationFunction: self.listNamespaces(input:))
     }
 }
 
@@ -79,7 +79,7 @@ extension ServiceDiscoveryClient {
     ///     - input: A `[ListOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutput`
     public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOperations(input:))
+        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutput.nextToken, paginationFunction: self.listOperations(input:))
     }
 }
 
@@ -101,7 +101,7 @@ extension ServiceDiscoveryClient {
     ///     - input: A `[ListServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
     public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServices(input:))
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
     }
 }
 

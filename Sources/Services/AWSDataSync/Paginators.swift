@@ -12,7 +12,7 @@ extension DataSyncClient {
     ///     - input: A `[DescribeStorageSystemResourceMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageSystemResourceMetricsOutput`
     public func describeStorageSystemResourceMetricsPaginated(input: DescribeStorageSystemResourceMetricsInput) -> ClientRuntime.PaginatorSequence<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStorageSystemResourceMetrics(input:))
+        return ClientRuntime.PaginatorSequence<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(input: input, inputKey: \DescribeStorageSystemResourceMetricsInput.nextToken, outputKey: \DescribeStorageSystemResourceMetricsOutput.nextToken, paginationFunction: self.describeStorageSystemResourceMetrics(input:))
     }
 }
 
@@ -29,7 +29,7 @@ extension DescribeStorageSystemResourceMetricsInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeStorageSystemResourceMetricsInput, OperationStackOutput == DescribeStorageSystemResourceMetricsOutput {
+extension PaginatorSequence where Input == DescribeStorageSystemResourceMetricsInput, Output == DescribeStorageSystemResourceMetricsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeStorageSystemResourceMetricsPaginated`
     /// to access the nested member `[DataSyncClientTypes.ResourceMetrics]`
     /// - Returns: `[DataSyncClientTypes.ResourceMetrics]`
@@ -47,7 +47,7 @@ extension DataSyncClient {
     ///     - input: A `[DescribeStorageSystemResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageSystemResourcesOutput`
     public func describeStorageSystemResourcesPaginated(input: DescribeStorageSystemResourcesInput) -> ClientRuntime.PaginatorSequence<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStorageSystemResources(input:))
+        return ClientRuntime.PaginatorSequence<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(input: input, inputKey: \DescribeStorageSystemResourcesInput.nextToken, outputKey: \DescribeStorageSystemResourcesOutput.nextToken, paginationFunction: self.describeStorageSystemResources(input:))
     }
 }
 
@@ -72,7 +72,7 @@ extension DataSyncClient {
     ///     - input: A `[ListAgentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAgentsOutput`
     public func listAgentsPaginated(input: ListAgentsInput) -> ClientRuntime.PaginatorSequence<ListAgentsInput, ListAgentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAgentsInput, ListAgentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgents(input:))
+        return ClientRuntime.PaginatorSequence<ListAgentsInput, ListAgentsOutput>(input: input, inputKey: \ListAgentsInput.nextToken, outputKey: \ListAgentsOutput.nextToken, paginationFunction: self.listAgents(input:))
     }
 }
 
@@ -84,7 +84,7 @@ extension ListAgentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAgentsInput, OperationStackOutput == ListAgentsOutput {
+extension PaginatorSequence where Input == ListAgentsInput, Output == ListAgentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAgentsPaginated`
     /// to access the nested member `[DataSyncClientTypes.AgentListEntry]`
     /// - Returns: `[DataSyncClientTypes.AgentListEntry]`
@@ -102,7 +102,7 @@ extension DataSyncClient {
     ///     - input: A `[ListDiscoveryJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveryJobsOutput`
     public func listDiscoveryJobsPaginated(input: ListDiscoveryJobsInput) -> ClientRuntime.PaginatorSequence<ListDiscoveryJobsInput, ListDiscoveryJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDiscoveryJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(input: input, inputKey: \ListDiscoveryJobsInput.nextToken, outputKey: \ListDiscoveryJobsOutput.nextToken, paginationFunction: self.listDiscoveryJobs(input:))
     }
 }
 
@@ -115,7 +115,7 @@ extension ListDiscoveryJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListDiscoveryJobsInput, OperationStackOutput == ListDiscoveryJobsOutput {
+extension PaginatorSequence where Input == ListDiscoveryJobsInput, Output == ListDiscoveryJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDiscoveryJobsPaginated`
     /// to access the nested member `[DataSyncClientTypes.DiscoveryJobListEntry]`
     /// - Returns: `[DataSyncClientTypes.DiscoveryJobListEntry]`
@@ -133,7 +133,7 @@ extension DataSyncClient {
     ///     - input: A `[ListLocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLocationsOutput`
     public func listLocationsPaginated(input: ListLocationsInput) -> ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLocations(input:))
+        return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput>(input: input, inputKey: \ListLocationsInput.nextToken, outputKey: \ListLocationsOutput.nextToken, paginationFunction: self.listLocations(input:))
     }
 }
 
@@ -146,7 +146,7 @@ extension ListLocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListLocationsInput, OperationStackOutput == ListLocationsOutput {
+extension PaginatorSequence where Input == ListLocationsInput, Output == ListLocationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLocationsPaginated`
     /// to access the nested member `[DataSyncClientTypes.LocationListEntry]`
     /// - Returns: `[DataSyncClientTypes.LocationListEntry]`
@@ -164,7 +164,7 @@ extension DataSyncClient {
     ///     - input: A `[ListStorageSystemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStorageSystemsOutput`
     public func listStorageSystemsPaginated(input: ListStorageSystemsInput) -> ClientRuntime.PaginatorSequence<ListStorageSystemsInput, ListStorageSystemsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStorageSystemsInput, ListStorageSystemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStorageSystems(input:))
+        return ClientRuntime.PaginatorSequence<ListStorageSystemsInput, ListStorageSystemsOutput>(input: input, inputKey: \ListStorageSystemsInput.nextToken, outputKey: \ListStorageSystemsOutput.nextToken, paginationFunction: self.listStorageSystems(input:))
     }
 }
 
@@ -176,7 +176,7 @@ extension ListStorageSystemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListStorageSystemsInput, OperationStackOutput == ListStorageSystemsOutput {
+extension PaginatorSequence where Input == ListStorageSystemsInput, Output == ListStorageSystemsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStorageSystemsPaginated`
     /// to access the nested member `[DataSyncClientTypes.StorageSystemListEntry]`
     /// - Returns: `[DataSyncClientTypes.StorageSystemListEntry]`
@@ -194,7 +194,7 @@ extension DataSyncClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -207,7 +207,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[DataSyncClientTypes.TagListEntry]`
     /// - Returns: `[DataSyncClientTypes.TagListEntry]`
@@ -225,7 +225,7 @@ extension DataSyncClient {
     ///     - input: A `[ListTaskExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTaskExecutionsOutput`
     public func listTaskExecutionsPaginated(input: ListTaskExecutionsInput) -> ClientRuntime.PaginatorSequence<ListTaskExecutionsInput, ListTaskExecutionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTaskExecutionsInput, ListTaskExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTaskExecutions(input:))
+        return ClientRuntime.PaginatorSequence<ListTaskExecutionsInput, ListTaskExecutionsOutput>(input: input, inputKey: \ListTaskExecutionsInput.nextToken, outputKey: \ListTaskExecutionsOutput.nextToken, paginationFunction: self.listTaskExecutions(input:))
     }
 }
 
@@ -238,7 +238,7 @@ extension ListTaskExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTaskExecutionsInput, OperationStackOutput == ListTaskExecutionsOutput {
+extension PaginatorSequence where Input == ListTaskExecutionsInput, Output == ListTaskExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTaskExecutionsPaginated`
     /// to access the nested member `[DataSyncClientTypes.TaskExecutionListEntry]`
     /// - Returns: `[DataSyncClientTypes.TaskExecutionListEntry]`
@@ -256,7 +256,7 @@ extension DataSyncClient {
     ///     - input: A `[ListTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTasksOutput`
     public func listTasksPaginated(input: ListTasksInput) -> ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput>(input: input, inputKey: \ListTasksInput.nextToken, outputKey: \ListTasksOutput.nextToken, paginationFunction: self.listTasks(input:))
     }
 }
 
@@ -269,7 +269,7 @@ extension ListTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTasksInput, OperationStackOutput == ListTasksOutput {
+extension PaginatorSequence where Input == ListTasksInput, Output == ListTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTasksPaginated`
     /// to access the nested member `[DataSyncClientTypes.TaskListEntry]`
     /// - Returns: `[DataSyncClientTypes.TaskListEntry]`

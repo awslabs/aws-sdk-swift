@@ -15,8 +15,6 @@ import ClientRuntime
 ///
 /// For general information about IAM Identity Center, see [What is IAM Identity Center?](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html) in the IAM Identity Center User Guide.
 public protocol SSOOIDCClientProtocol {
-    /// Performs the `CreateToken` operation on the `AWSSSOOIDCService` service.
-    ///
     /// Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
     ///
     /// - Parameter CreateTokenInput : [no documentation found]
@@ -38,8 +36,6 @@ public protocol SSOOIDCClientProtocol {
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
     func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
-    /// Performs the `RegisterClient` operation on the `AWSSSOOIDCService` service.
-    ///
     /// Registers a client with IAM Identity Center. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
     ///
     /// - Parameter RegisterClientInput : [no documentation found]
@@ -54,8 +50,6 @@ public protocol SSOOIDCClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
     func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput
-    /// Performs the `StartDeviceAuthorization` operation on the `AWSSSOOIDCService` service.
-    ///
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service.
     ///
     /// - Parameter StartDeviceAuthorizationInput : [no documentation found]

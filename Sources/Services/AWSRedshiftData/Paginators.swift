@@ -12,7 +12,7 @@ extension RedshiftDataClient {
     ///     - input: A `[DescribeTableInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTableOutput`
     public func describeTablePaginated(input: DescribeTableInput) -> ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTable(input:))
+        return ClientRuntime.PaginatorSequence<DescribeTableInput, DescribeTableOutput>(input: input, inputKey: \DescribeTableInput.nextToken, outputKey: \DescribeTableOutput.nextToken, paginationFunction: self.describeTable(input:))
     }
 }
 
@@ -32,7 +32,7 @@ extension DescribeTableInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeTableInput, OperationStackOutput == DescribeTableOutput {
+extension PaginatorSequence where Input == DescribeTableInput, Output == DescribeTableOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTablePaginated`
     /// to access the nested member `[RedshiftDataClientTypes.ColumnMetadata]`
     /// - Returns: `[RedshiftDataClientTypes.ColumnMetadata]`
@@ -50,7 +50,7 @@ extension RedshiftDataClient {
     ///     - input: A `[GetStatementResultInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetStatementResultOutput`
     public func getStatementResultPaginated(input: GetStatementResultInput) -> ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutput> {
-        return ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getStatementResult(input:))
+        return ClientRuntime.PaginatorSequence<GetStatementResultInput, GetStatementResultOutput>(input: input, inputKey: \GetStatementResultInput.nextToken, outputKey: \GetStatementResultOutput.nextToken, paginationFunction: self.getStatementResult(input:))
     }
 }
 
@@ -62,7 +62,7 @@ extension GetStatementResultInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == GetStatementResultInput, OperationStackOutput == GetStatementResultOutput {
+extension PaginatorSequence where Input == GetStatementResultInput, Output == GetStatementResultOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getStatementResultPaginated`
     /// to access the nested member `[[RedshiftDataClientTypes.Field]]`
     /// - Returns: `[[RedshiftDataClientTypes.Field]]`
@@ -80,7 +80,7 @@ extension RedshiftDataClient {
     ///     - input: A `[ListDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
     public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatabases(input:))
+        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
     }
 }
 
@@ -97,7 +97,7 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListDatabasesInput, OperationStackOutput == ListDatabasesOutput {
+extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -115,7 +115,7 @@ extension RedshiftDataClient {
     ///     - input: A `[ListSchemasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutput`
     public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput> {
-        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemas(input:))
+        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutput.nextToken, paginationFunction: self.listSchemas(input:))
     }
 }
 
@@ -134,7 +134,7 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListSchemasInput, OperationStackOutput == ListSchemasOutput {
+extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -152,7 +152,7 @@ extension RedshiftDataClient {
     ///     - input: A `[ListStatementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStatementsOutput`
     public func listStatementsPaginated(input: ListStatementsInput) -> ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStatements(input:))
+        return ClientRuntime.PaginatorSequence<ListStatementsInput, ListStatementsOutput>(input: input, inputKey: \ListStatementsInput.nextToken, outputKey: \ListStatementsOutput.nextToken, paginationFunction: self.listStatements(input:))
     }
 }
 
@@ -167,7 +167,7 @@ extension ListStatementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListStatementsInput, OperationStackOutput == ListStatementsOutput {
+extension PaginatorSequence where Input == ListStatementsInput, Output == ListStatementsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStatementsPaginated`
     /// to access the nested member `[RedshiftDataClientTypes.StatementData]`
     /// - Returns: `[RedshiftDataClientTypes.StatementData]`
@@ -185,7 +185,7 @@ extension RedshiftDataClient {
     ///     - input: A `[ListTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
     public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTables(input:))
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
     }
 }
 
@@ -205,7 +205,7 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTablesInput, OperationStackOutput == ListTablesOutput {
+extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[RedshiftDataClientTypes.TableMember]`
     /// - Returns: `[RedshiftDataClientTypes.TableMember]`

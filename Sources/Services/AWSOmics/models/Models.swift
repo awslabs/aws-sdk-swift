@@ -19506,6 +19506,31 @@ enum UpdateWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public struct UploadReadSetPartInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UploadReadSetPartInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UploadReadSetPartInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UploadReadSetPartOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let payload = input.operationInput.payload {
+            let payloadBody = ClientRuntime.HttpBody(byteStream: payload)
+            input.builder.withBody(payloadBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UploadReadSetPartInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UploadReadSetPartOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UploadReadSetPartInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload

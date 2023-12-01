@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Recovery Control Configuration API Reference for Amazon Route 53 Application Recovery Controller
 public protocol Route53RecoveryControlConfigClientProtocol {
-    /// Performs the `CreateCluster` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
     ///
     /// - Parameter CreateClusterInput : Creates a cluster.
@@ -23,8 +21,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    /// Performs the `CreateControlPanel` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
     ///
     /// - Parameter CreateControlPanelInput : The details of the control panel that you're creating.
@@ -42,8 +38,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func createControlPanel(input: CreateControlPanelInput) async throws -> CreateControlPanelOutput
-    /// Performs the `CreateRoutingControl` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
     ///
     /// - Parameter CreateRoutingControlInput : The details of the routing control that you're creating.
@@ -61,8 +55,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func createRoutingControl(input: CreateRoutingControlInput) async throws -> CreateRoutingControlOutput
-    /// Performs the `CreateSafetyRule` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Creates a safety rule in a control panel. Safety rules let you add safeguards around changing routing control states, and for enabling and disabling routing controls, to help prevent unexpected outcomes. There are two types of safety rules: assertion rules and gating rules. Assertion rule: An assertion rule enforces that, when you change a routing control state, that a certain criteria is met. For example, the criteria might be that at least one routing control state is On after the transaction so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario. Gating rule: A gating rule lets you configure a gating routing control as an overall "on/off" switch for a group of routing controls. Or, you can configure more complex gating scenarios, for example by configuring multiple gating routing controls. For more information, see [Safety rules](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.safety-rules.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
     ///
     /// - Parameter CreateSafetyRuleInput : The request body that you include when you create a safety rule.
@@ -75,8 +67,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func createSafetyRule(input: CreateSafetyRuleInput) async throws -> CreateSafetyRuleOutput
-    /// Performs the `DeleteCluster` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Delete a cluster.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
@@ -93,8 +83,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    /// Performs the `DeleteControlPanel` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Deletes a control panel.
     ///
     /// - Parameter DeleteControlPanelInput : [no documentation found]
@@ -111,8 +99,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func deleteControlPanel(input: DeleteControlPanelInput) async throws -> DeleteControlPanelOutput
-    /// Performs the `DeleteRoutingControl` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Deletes a routing control.
     ///
     /// - Parameter DeleteRoutingControlInput : [no documentation found]
@@ -129,8 +115,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func deleteRoutingControl(input: DeleteRoutingControlInput) async throws -> DeleteRoutingControlOutput
-    /// Performs the `DeleteSafetyRule` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Deletes a safety rule./>
     ///
     /// - Parameter DeleteSafetyRuleInput : [no documentation found]
@@ -144,8 +128,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func deleteSafetyRule(input: DeleteSafetyRuleInput) async throws -> DeleteSafetyRuleOutput
-    /// Performs the `DescribeCluster` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
     ///
     /// - Parameter DescribeClusterInput : [no documentation found]
@@ -162,8 +144,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    /// Performs the `DescribeControlPanel` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Displays details about a control panel.
     ///
     /// - Parameter DescribeControlPanelInput : [no documentation found]
@@ -180,8 +160,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func describeControlPanel(input: DescribeControlPanelInput) async throws -> DescribeControlPanelOutput
-    /// Performs the `DescribeRoutingControl` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Displays details about a routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
     ///
     /// - Parameter DescribeRoutingControlInput : [no documentation found]
@@ -198,8 +176,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func describeRoutingControl(input: DescribeRoutingControlInput) async throws -> DescribeRoutingControlOutput
-    /// Performs the `DescribeSafetyRule` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Returns information about a safety rule.
     ///
     /// - Parameter DescribeSafetyRuleInput : [no documentation found]
@@ -212,8 +188,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func describeSafetyRule(input: DescribeSafetyRuleInput) async throws -> DescribeSafetyRuleOutput
-    /// Performs the `GetResourcePolicy` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Get information about the resource policy for a cluster.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
@@ -226,8 +200,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    /// Performs the `ListAssociatedRoute53HealthChecks` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
     ///
     /// - Parameter ListAssociatedRoute53HealthChecksInput : [no documentation found]
@@ -241,8 +213,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func listAssociatedRoute53HealthChecks(input: ListAssociatedRoute53HealthChecksInput) async throws -> ListAssociatedRoute53HealthChecksOutput
-    /// Performs the `ListClusters` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Returns an array of all the clusters in an account.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
@@ -258,8 +228,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    /// Performs the `ListControlPanels` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Returns an array of control panels in an account or in a cluster.
     ///
     /// - Parameter ListControlPanelsInput : [no documentation found]
@@ -275,8 +243,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func listControlPanels(input: ListControlPanelsInput) async throws -> ListControlPanelsOutput
-    /// Performs the `ListRoutingControls` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
     ///
     /// - Parameter ListRoutingControlsInput : [no documentation found]
@@ -292,8 +258,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func listRoutingControls(input: ListRoutingControlsInput) async throws -> ListRoutingControlsOutput
-    /// Performs the `ListSafetyRules` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
     ///
     /// - Parameter ListSafetyRulesInput : [no documentation found]
@@ -309,8 +273,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func listSafetyRules(input: ListSafetyRulesInput) async throws -> ListSafetyRulesOutput
-    /// Performs the `ListTagsForResource` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Lists the tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -324,8 +286,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `TagResource` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Adds a tag to a resource.
     ///
     /// - Parameter TagResourceInput : Request of adding tag to the resource
@@ -339,8 +299,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Removes a tag from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -354,8 +312,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateControlPanel` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
     ///
     /// - Parameter UpdateControlPanelInput : The details of the control panel that you're updating.
@@ -372,8 +328,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func updateControlPanel(input: UpdateControlPanelInput) async throws -> UpdateControlPanelOutput
-    /// Performs the `UpdateRoutingControl` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
     ///
     /// - Parameter UpdateRoutingControlInput : The details of the routing control that you're updating.
@@ -390,8 +344,6 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func updateRoutingControl(input: UpdateRoutingControlInput) async throws -> UpdateRoutingControlOutput
-    /// Performs the `UpdateSafetyRule` operation on the `Route53RecoveryControlConfig` service.
-    ///
     /// Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
     ///
     /// - Parameter UpdateSafetyRuleInput : A rule that you add to Application Recovery Controller to ensure that recovery actions don't accidentally impair your application's availability.

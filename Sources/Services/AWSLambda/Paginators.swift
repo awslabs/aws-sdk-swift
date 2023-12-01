@@ -12,7 +12,7 @@ extension LambdaClient {
     ///     - input: A `[ListAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listAliases(input:))
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.marker, outputKey: \ListAliasesOutput.nextMarker, paginationFunction: self.listAliases(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAliasesInput, OperationStackOutput == ListAliasesOutput {
+extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[LambdaClientTypes.AliasConfiguration]`
     /// - Returns: `[LambdaClientTypes.AliasConfiguration]`
@@ -44,7 +44,7 @@ extension LambdaClient {
     ///     - input: A `[ListCodeSigningConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCodeSigningConfigsOutput`
     public func listCodeSigningConfigsPaginated(input: ListCodeSigningConfigsInput) -> ClientRuntime.PaginatorSequence<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listCodeSigningConfigs(input:))
+        return ClientRuntime.PaginatorSequence<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput>(input: input, inputKey: \ListCodeSigningConfigsInput.marker, outputKey: \ListCodeSigningConfigsOutput.nextMarker, paginationFunction: self.listCodeSigningConfigs(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListCodeSigningConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCodeSigningConfigsInput, OperationStackOutput == ListCodeSigningConfigsOutput {
+extension PaginatorSequence where Input == ListCodeSigningConfigsInput, Output == ListCodeSigningConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCodeSigningConfigsPaginated`
     /// to access the nested member `[LambdaClientTypes.CodeSigningConfig]`
     /// - Returns: `[LambdaClientTypes.CodeSigningConfig]`
@@ -74,7 +74,7 @@ extension LambdaClient {
     ///     - input: A `[ListEventSourceMappingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventSourceMappingsOutput`
     public func listEventSourceMappingsPaginated(input: ListEventSourceMappingsInput) -> ClientRuntime.PaginatorSequence<ListEventSourceMappingsInput, ListEventSourceMappingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEventSourceMappingsInput, ListEventSourceMappingsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listEventSourceMappings(input:))
+        return ClientRuntime.PaginatorSequence<ListEventSourceMappingsInput, ListEventSourceMappingsOutput>(input: input, inputKey: \ListEventSourceMappingsInput.marker, outputKey: \ListEventSourceMappingsOutput.nextMarker, paginationFunction: self.listEventSourceMappings(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListEventSourceMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListEventSourceMappingsInput, OperationStackOutput == ListEventSourceMappingsOutput {
+extension PaginatorSequence where Input == ListEventSourceMappingsInput, Output == ListEventSourceMappingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEventSourceMappingsPaginated`
     /// to access the nested member `[LambdaClientTypes.EventSourceMappingConfiguration]`
     /// - Returns: `[LambdaClientTypes.EventSourceMappingConfiguration]`
@@ -106,7 +106,7 @@ extension LambdaClient {
     ///     - input: A `[ListFunctionEventInvokeConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionEventInvokeConfigsOutput`
     public func listFunctionEventInvokeConfigsPaginated(input: ListFunctionEventInvokeConfigsInput) -> ClientRuntime.PaginatorSequence<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listFunctionEventInvokeConfigs(input:))
+        return ClientRuntime.PaginatorSequence<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput>(input: input, inputKey: \ListFunctionEventInvokeConfigsInput.marker, outputKey: \ListFunctionEventInvokeConfigsOutput.nextMarker, paginationFunction: self.listFunctionEventInvokeConfigs(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListFunctionEventInvokeConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListFunctionEventInvokeConfigsInput, OperationStackOutput == ListFunctionEventInvokeConfigsOutput {
+extension PaginatorSequence where Input == ListFunctionEventInvokeConfigsInput, Output == ListFunctionEventInvokeConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFunctionEventInvokeConfigsPaginated`
     /// to access the nested member `[LambdaClientTypes.FunctionEventInvokeConfig]`
     /// - Returns: `[LambdaClientTypes.FunctionEventInvokeConfig]`
@@ -137,7 +137,7 @@ extension LambdaClient {
     ///     - input: A `[ListFunctionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionsOutput`
     public func listFunctionsPaginated(input: ListFunctionsInput) -> ClientRuntime.PaginatorSequence<ListFunctionsInput, ListFunctionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFunctionsInput, ListFunctionsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listFunctions(input:))
+        return ClientRuntime.PaginatorSequence<ListFunctionsInput, ListFunctionsOutput>(input: input, inputKey: \ListFunctionsInput.marker, outputKey: \ListFunctionsOutput.nextMarker, paginationFunction: self.listFunctions(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListFunctionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListFunctionsInput, OperationStackOutput == ListFunctionsOutput {
+extension PaginatorSequence where Input == ListFunctionsInput, Output == ListFunctionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFunctionsPaginated`
     /// to access the nested member `[LambdaClientTypes.FunctionConfiguration]`
     /// - Returns: `[LambdaClientTypes.FunctionConfiguration]`
@@ -169,7 +169,7 @@ extension LambdaClient {
     ///     - input: A `[ListFunctionsByCodeSigningConfigInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionsByCodeSigningConfigOutput`
     public func listFunctionsByCodeSigningConfigPaginated(input: ListFunctionsByCodeSigningConfigInput) -> ClientRuntime.PaginatorSequence<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput> {
-        return ClientRuntime.PaginatorSequence<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listFunctionsByCodeSigningConfig(input:))
+        return ClientRuntime.PaginatorSequence<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput>(input: input, inputKey: \ListFunctionsByCodeSigningConfigInput.marker, outputKey: \ListFunctionsByCodeSigningConfigOutput.nextMarker, paginationFunction: self.listFunctionsByCodeSigningConfig(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListFunctionsByCodeSigningConfigInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListFunctionsByCodeSigningConfigInput, OperationStackOutput == ListFunctionsByCodeSigningConfigOutput {
+extension PaginatorSequence where Input == ListFunctionsByCodeSigningConfigInput, Output == ListFunctionsByCodeSigningConfigOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFunctionsByCodeSigningConfigPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -200,7 +200,7 @@ extension LambdaClient {
     ///     - input: A `[ListFunctionUrlConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionUrlConfigsOutput`
     public func listFunctionUrlConfigsPaginated(input: ListFunctionUrlConfigsInput) -> ClientRuntime.PaginatorSequence<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listFunctionUrlConfigs(input:))
+        return ClientRuntime.PaginatorSequence<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput>(input: input, inputKey: \ListFunctionUrlConfigsInput.marker, outputKey: \ListFunctionUrlConfigsOutput.nextMarker, paginationFunction: self.listFunctionUrlConfigs(input:))
     }
 }
 
@@ -213,7 +213,7 @@ extension ListFunctionUrlConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListFunctionUrlConfigsInput, OperationStackOutput == ListFunctionUrlConfigsOutput {
+extension PaginatorSequence where Input == ListFunctionUrlConfigsInput, Output == ListFunctionUrlConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFunctionUrlConfigsPaginated`
     /// to access the nested member `[LambdaClientTypes.FunctionUrlConfig]`
     /// - Returns: `[LambdaClientTypes.FunctionUrlConfig]`
@@ -231,7 +231,7 @@ extension LambdaClient {
     ///     - input: A `[ListLayersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLayersOutput`
     public func listLayersPaginated(input: ListLayersInput) -> ClientRuntime.PaginatorSequence<ListLayersInput, ListLayersOutput> {
-        return ClientRuntime.PaginatorSequence<ListLayersInput, ListLayersOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listLayers(input:))
+        return ClientRuntime.PaginatorSequence<ListLayersInput, ListLayersOutput>(input: input, inputKey: \ListLayersInput.marker, outputKey: \ListLayersOutput.nextMarker, paginationFunction: self.listLayers(input:))
     }
 }
 
@@ -245,7 +245,7 @@ extension ListLayersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListLayersInput, OperationStackOutput == ListLayersOutput {
+extension PaginatorSequence where Input == ListLayersInput, Output == ListLayersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLayersPaginated`
     /// to access the nested member `[LambdaClientTypes.LayersListItem]`
     /// - Returns: `[LambdaClientTypes.LayersListItem]`
@@ -263,7 +263,7 @@ extension LambdaClient {
     ///     - input: A `[ListLayerVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLayerVersionsOutput`
     public func listLayerVersionsPaginated(input: ListLayerVersionsInput) -> ClientRuntime.PaginatorSequence<ListLayerVersionsInput, ListLayerVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLayerVersionsInput, ListLayerVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listLayerVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListLayerVersionsInput, ListLayerVersionsOutput>(input: input, inputKey: \ListLayerVersionsInput.marker, outputKey: \ListLayerVersionsOutput.nextMarker, paginationFunction: self.listLayerVersions(input:))
     }
 }
 
@@ -278,7 +278,7 @@ extension ListLayerVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListLayerVersionsInput, OperationStackOutput == ListLayerVersionsOutput {
+extension PaginatorSequence where Input == ListLayerVersionsInput, Output == ListLayerVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLayerVersionsPaginated`
     /// to access the nested member `[LambdaClientTypes.LayerVersionsListItem]`
     /// - Returns: `[LambdaClientTypes.LayerVersionsListItem]`
@@ -296,7 +296,7 @@ extension LambdaClient {
     ///     - input: A `[ListProvisionedConcurrencyConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProvisionedConcurrencyConfigsOutput`
     public func listProvisionedConcurrencyConfigsPaginated(input: ListProvisionedConcurrencyConfigsInput) -> ClientRuntime.PaginatorSequence<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listProvisionedConcurrencyConfigs(input:))
+        return ClientRuntime.PaginatorSequence<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput>(input: input, inputKey: \ListProvisionedConcurrencyConfigsInput.marker, outputKey: \ListProvisionedConcurrencyConfigsOutput.nextMarker, paginationFunction: self.listProvisionedConcurrencyConfigs(input:))
     }
 }
 
@@ -309,7 +309,7 @@ extension ListProvisionedConcurrencyConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListProvisionedConcurrencyConfigsInput, OperationStackOutput == ListProvisionedConcurrencyConfigsOutput {
+extension PaginatorSequence where Input == ListProvisionedConcurrencyConfigsInput, Output == ListProvisionedConcurrencyConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProvisionedConcurrencyConfigsPaginated`
     /// to access the nested member `[LambdaClientTypes.ProvisionedConcurrencyConfigListItem]`
     /// - Returns: `[LambdaClientTypes.ProvisionedConcurrencyConfigListItem]`
@@ -327,7 +327,7 @@ extension LambdaClient {
     ///     - input: A `[ListVersionsByFunctionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsByFunctionOutput`
     public func listVersionsByFunctionPaginated(input: ListVersionsByFunctionInput) -> ClientRuntime.PaginatorSequence<ListVersionsByFunctionInput, ListVersionsByFunctionOutput> {
-        return ClientRuntime.PaginatorSequence<ListVersionsByFunctionInput, ListVersionsByFunctionOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listVersionsByFunction(input:))
+        return ClientRuntime.PaginatorSequence<ListVersionsByFunctionInput, ListVersionsByFunctionOutput>(input: input, inputKey: \ListVersionsByFunctionInput.marker, outputKey: \ListVersionsByFunctionOutput.nextMarker, paginationFunction: self.listVersionsByFunction(input:))
     }
 }
 
@@ -340,7 +340,7 @@ extension ListVersionsByFunctionInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListVersionsByFunctionInput, OperationStackOutput == ListVersionsByFunctionOutput {
+extension PaginatorSequence where Input == ListVersionsByFunctionInput, Output == ListVersionsByFunctionOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listVersionsByFunctionPaginated`
     /// to access the nested member `[LambdaClientTypes.FunctionConfiguration]`
     /// - Returns: `[LambdaClientTypes.FunctionConfiguration]`

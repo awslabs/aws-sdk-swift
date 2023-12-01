@@ -12,7 +12,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBClusterEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterEndpointsOutput`
     public func describeDBClusterEndpointsPaginated(input: DescribeDBClusterEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(input: input, inputKey: \DescribeDBClusterEndpointsInput.marker, outputKey: \DescribeDBClusterEndpointsOutput.marker, paginationFunction: self.describeDBClusterEndpoints(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeDBClusterEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterEndpointsInput, OperationStackOutput == DescribeDBClusterEndpointsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterEndpointsInput, Output == DescribeDBClusterEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterEndpointsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBClusterEndpoint]`
     /// - Returns: `[NeptuneClientTypes.DBClusterEndpoint]`
@@ -45,7 +45,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBClusterParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutput`
     public func describeDBClusterParameterGroupsPaginated(input: DescribeDBClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \DescribeDBClusterParameterGroupsInput.marker, outputKey: \DescribeDBClusterParameterGroupsOutput.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension DescribeDBClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterParameterGroupsInput, OperationStackOutput == DescribeDBClusterParameterGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput, Output == DescribeDBClusterParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParameterGroupsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBClusterParameterGroup]`
     /// - Returns: `[NeptuneClientTypes.DBClusterParameterGroup]`
@@ -77,7 +77,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBClusterParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutput`
     public func describeDBClusterParametersPaginated(input: DescribeDBClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \DescribeDBClusterParametersInput.marker, outputKey: \DescribeDBClusterParametersOutput.marker, paginationFunction: self.describeDBClusterParameters(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension DescribeDBClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterParametersInput, OperationStackOutput == DescribeDBClusterParametersOutput {
+extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Output == DescribeDBClusterParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParametersPaginated`
     /// to access the nested member `[NeptuneClientTypes.Parameter]`
     /// - Returns: `[NeptuneClientTypes.Parameter]`
@@ -110,7 +110,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutput`
     public func describeDBClustersPaginated(input: DescribeDBClustersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \DescribeDBClustersInput.marker, outputKey: \DescribeDBClustersOutput.marker, paginationFunction: self.describeDBClusters(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension DescribeDBClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClustersInput, OperationStackOutput == DescribeDBClustersOutput {
+extension PaginatorSequence where Input == DescribeDBClustersInput, Output == DescribeDBClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClustersPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBCluster]`
     /// - Returns: `[NeptuneClientTypes.DBCluster]`
@@ -142,7 +142,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBClusterSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutput`
     public func describeDBClusterSnapshotsPaginated(input: DescribeDBClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \DescribeDBClusterSnapshotsInput.marker, outputKey: \DescribeDBClusterSnapshotsOutput.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
     }
 }
 
@@ -160,7 +160,7 @@ extension DescribeDBClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBClusterSnapshotsInput, OperationStackOutput == DescribeDBClusterSnapshotsOutput {
+extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Output == DescribeDBClusterSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterSnapshotsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBClusterSnapshot]`
     /// - Returns: `[NeptuneClientTypes.DBClusterSnapshot]`
@@ -178,7 +178,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutput`
     public func describeDBEngineVersionsPaginated(input: DescribeDBEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBEngineVersions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \DescribeDBEngineVersionsInput.marker, outputKey: \DescribeDBEngineVersionsOutput.marker, paginationFunction: self.describeDBEngineVersions(input:))
     }
 }
 
@@ -197,7 +197,7 @@ extension DescribeDBEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBEngineVersionsInput, OperationStackOutput == DescribeDBEngineVersionsOutput {
+extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output == DescribeDBEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBEngineVersionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBEngineVersion]`
     /// - Returns: `[NeptuneClientTypes.DBEngineVersion]`
@@ -215,7 +215,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutput`
     public func describeDBInstancesPaginated(input: DescribeDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBInstances(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \DescribeDBInstancesInput.marker, outputKey: \DescribeDBInstancesOutput.marker, paginationFunction: self.describeDBInstances(input:))
     }
 }
 
@@ -229,7 +229,7 @@ extension DescribeDBInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBInstancesInput, OperationStackOutput == DescribeDBInstancesOutput {
+extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == DescribeDBInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBInstancesPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBInstance]`
     /// - Returns: `[NeptuneClientTypes.DBInstance]`
@@ -247,7 +247,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParameterGroupsOutput`
     public func describeDBParameterGroupsPaginated(input: DescribeDBParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBParameterGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(input: input, inputKey: \DescribeDBParameterGroupsInput.marker, outputKey: \DescribeDBParameterGroupsOutput.marker, paginationFunction: self.describeDBParameterGroups(input:))
     }
 }
 
@@ -261,7 +261,7 @@ extension DescribeDBParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBParameterGroupsInput, OperationStackOutput == DescribeDBParameterGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBParameterGroupsInput, Output == DescribeDBParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBParameterGroupsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBParameterGroup]`
     /// - Returns: `[NeptuneClientTypes.DBParameterGroup]`
@@ -279,7 +279,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBParametersOutput`
     public func describeDBParametersPaginated(input: DescribeDBParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBParametersInput, DescribeDBParametersOutput>(input: input, inputKey: \DescribeDBParametersInput.marker, outputKey: \DescribeDBParametersOutput.marker, paginationFunction: self.describeDBParameters(input:))
     }
 }
 
@@ -294,7 +294,7 @@ extension DescribeDBParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBParametersInput, OperationStackOutput == DescribeDBParametersOutput {
+extension PaginatorSequence where Input == DescribeDBParametersInput, Output == DescribeDBParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBParametersPaginated`
     /// to access the nested member `[NeptuneClientTypes.Parameter]`
     /// - Returns: `[NeptuneClientTypes.Parameter]`
@@ -312,7 +312,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeDBSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutput`
     public func describeDBSubnetGroupsPaginated(input: DescribeDBSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBSubnetGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \DescribeDBSubnetGroupsInput.marker, outputKey: \DescribeDBSubnetGroupsOutput.marker, paginationFunction: self.describeDBSubnetGroups(input:))
     }
 }
 
@@ -326,7 +326,7 @@ extension DescribeDBSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeDBSubnetGroupsInput, OperationStackOutput == DescribeDBSubnetGroupsOutput {
+extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output == DescribeDBSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBSubnetGroupsPaginated`
     /// to access the nested member `[NeptuneClientTypes.DBSubnetGroup]`
     /// - Returns: `[NeptuneClientTypes.DBSubnetGroup]`
@@ -344,7 +344,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeEngineDefaultParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutput`
     public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \.marker, outputKey: \.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutput.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
     }
 }
 
@@ -358,7 +358,7 @@ extension DescribeEngineDefaultParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEngineDefaultParametersInput, OperationStackOutput == DescribeEngineDefaultParametersOutput {
+extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineDefaultParametersPaginated`
     /// to access the nested member `[NeptuneClientTypes.Parameter]`
     /// - Returns: `[NeptuneClientTypes.Parameter]`
@@ -376,7 +376,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEvents(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -395,7 +395,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[NeptuneClientTypes.Event]`
     /// - Returns: `[NeptuneClientTypes.Event]`
@@ -413,7 +413,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutput`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEventSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutput.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
 }
 
@@ -427,7 +427,7 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeEventSubscriptionsInput, OperationStackOutput == DescribeEventSubscriptionsOutput {
+extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.EventSubscription]`
     /// - Returns: `[NeptuneClientTypes.EventSubscription]`
@@ -445,7 +445,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeGlobalClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutput`
     public func describeGlobalClustersPaginated(input: DescribeGlobalClustersInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeGlobalClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \DescribeGlobalClustersInput.marker, outputKey: \DescribeGlobalClustersOutput.marker, paginationFunction: self.describeGlobalClusters(input:))
     }
 }
 
@@ -458,7 +458,7 @@ extension DescribeGlobalClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeGlobalClustersInput, OperationStackOutput == DescribeGlobalClustersOutput {
+extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output == DescribeGlobalClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalClustersPaginated`
     /// to access the nested member `[NeptuneClientTypes.GlobalCluster]`
     /// - Returns: `[NeptuneClientTypes.GlobalCluster]`
@@ -476,7 +476,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribeOrderableDBInstanceOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutput`
     public func describeOrderableDBInstanceOptionsPaginated(input: DescribeOrderableDBInstanceOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \DescribeOrderableDBInstanceOptionsInput.marker, outputKey: \DescribeOrderableDBInstanceOptionsOutput.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
     }
 }
 
@@ -494,7 +494,7 @@ extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeOrderableDBInstanceOptionsInput, OperationStackOutput == DescribeOrderableDBInstanceOptionsOutput {
+extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInput, Output == DescribeOrderableDBInstanceOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOrderableDBInstanceOptionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.OrderableDBInstanceOption]`
     /// - Returns: `[NeptuneClientTypes.OrderableDBInstanceOption]`
@@ -512,7 +512,7 @@ extension NeptuneClient {
     ///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutput`
     public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
+        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutput.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
     }
 }
 
@@ -526,7 +526,7 @@ extension DescribePendingMaintenanceActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribePendingMaintenanceActionsInput, OperationStackOutput == DescribePendingMaintenanceActionsOutput {
+extension PaginatorSequence where Input == DescribePendingMaintenanceActionsInput, Output == DescribePendingMaintenanceActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePendingMaintenanceActionsPaginated`
     /// to access the nested member `[NeptuneClientTypes.ResourcePendingMaintenanceActions]`
     /// - Returns: `[NeptuneClientTypes.ResourcePendingMaintenanceActions]`

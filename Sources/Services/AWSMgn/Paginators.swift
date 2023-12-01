@@ -12,7 +12,7 @@ extension MgnClient {
     ///     - input: A `[ListManagedAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedAccountsOutput`
     public func listManagedAccountsPaginated(input: ListManagedAccountsInput) -> ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutput>(input: input, inputKey: \ListManagedAccountsInput.nextToken, outputKey: \ListManagedAccountsOutput.nextToken, paginationFunction: self.listManagedAccounts(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListManagedAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListManagedAccountsInput, OperationStackOutput == ListManagedAccountsOutput {
+extension PaginatorSequence where Input == ListManagedAccountsInput, Output == ListManagedAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listManagedAccountsPaginated`
     /// to access the nested member `[MgnClientTypes.ManagedAccount]`
     /// - Returns: `[MgnClientTypes.ManagedAccount]`

@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Lightsail is the easiest way to get started with Amazon Web Services (Amazon Web Services) for developers who need to build websites or web applications. It includes everything you need to launch your project quickly - instances (virtual private servers), container services, storage buckets, managed databases, SSD-based block storage, static IP addresses, load balancers, content delivery network (CDN) distributions, DNS management of registered domains, and resource snapshots (backups) - for a low, predictable monthly price. You can manage your Lightsail resources using the Lightsail console, Lightsail API, Command Line Interface (CLI), or SDKs. For more information about Lightsail concepts and tasks, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-how-to-set-up-access-keys-to-use-sdk-api-cli). This API Reference provides detailed information about the actions, data types, parameters, and errors of the Lightsail service. For more information about the supported Amazon Web Services Regions, endpoints, and service quotas of the Lightsail service, see [Amazon Lightsail Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html) in the Amazon Web Services General Reference.
 public protocol LightsailClientProtocol {
-    /// Performs the `AllocateStaticIp` operation on the `Lightsail_20161128` service.
-    ///
     /// Allocates a static IP address.
     ///
     /// - Parameter AllocateStaticIpInput : [no documentation found]
@@ -23,8 +21,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func allocateStaticIp(input: AllocateStaticIpInput) async throws -> AllocateStaticIpOutput
-    /// Performs the `AttachCertificateToDistribution` operation on the `Lightsail_20161128` service.
-    ///
     /// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution. Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
     ///
     /// - Parameter AttachCertificateToDistributionInput : [no documentation found]
@@ -41,8 +37,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func attachCertificateToDistribution(input: AttachCertificateToDistributionInput) async throws -> AttachCertificateToDistributionOutput
-    /// Performs the `AttachDisk` operation on the `Lightsail_20161128` service.
-    ///
     /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter AttachDiskInput : [no documentation found]
@@ -60,8 +54,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func attachDisk(input: AttachDiskInput) async throws -> AttachDiskOutput
-    /// Performs the `AttachInstancesToLoadBalancer` operation on the `Lightsail_20161128` service.
-    ///
     /// Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter AttachInstancesToLoadBalancerInput : [no documentation found]
@@ -79,8 +71,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func attachInstancesToLoadBalancer(input: AttachInstancesToLoadBalancerInput) async throws -> AttachInstancesToLoadBalancerOutput
-    /// Performs the `AttachLoadBalancerTlsCertificate` operation on the `Lightsail_20161128` service.
-    ///
     /// Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter AttachLoadBalancerTlsCertificateInput : [no documentation found]
@@ -98,8 +88,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func attachLoadBalancerTlsCertificate(input: AttachLoadBalancerTlsCertificateInput) async throws -> AttachLoadBalancerTlsCertificateOutput
-    /// Performs the `AttachStaticIp` operation on the `Lightsail_20161128` service.
-    ///
     /// Attaches a static IP address to a specific Amazon Lightsail instance.
     ///
     /// - Parameter AttachStaticIpInput : [no documentation found]
@@ -117,8 +105,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func attachStaticIp(input: AttachStaticIpInput) async throws -> AttachStaticIpOutput
-    /// Performs the `CloseInstancePublicPorts` operation on the `Lightsail_20161128` service.
-    ///
     /// Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CloseInstancePublicPortsInput : [no documentation found]
@@ -136,8 +122,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func closeInstancePublicPorts(input: CloseInstancePublicPortsInput) async throws -> CloseInstancePublicPortsOutput
-    /// Performs the `CopySnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.
     ///
     /// - Parameter CopySnapshotInput : [no documentation found]
@@ -155,8 +139,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
-    /// Performs the `CreateBucket` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the Lightsail object storage service. Use buckets to store objects such as data and its descriptive metadata. For more information about buckets, see [Buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter CreateBucketInput : [no documentation found]
@@ -171,8 +153,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
-    /// Performs the `CreateBucketAccessKey` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of an access key ID and corresponding secret access key. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [GetBucketAccessKeys](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html) action to get a list of current access keys for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
     ///
     /// - Parameter CreateBucketAccessKeyInput : [no documentation found]
@@ -188,8 +168,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createBucketAccessKey(input: CreateBucketAccessKeyInput) async throws -> CreateBucketAccessKeyOutput
-    /// Performs the `CreateCertificate` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service. Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
     ///
     /// - Parameter CreateCertificateInput : [no documentation found]
@@ -205,8 +183,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createCertificate(input: CreateCertificateInput) async throws -> CreateCertificateOutput
-    /// Performs the `CreateCloudFormationStack` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created. Wait until after your new Amazon EC2 instance is created before running the create cloud formation stack operation again with the same export snapshot record.
     ///
     /// - Parameter CreateCloudFormationStackInput : [no documentation found]
@@ -224,8 +200,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createCloudFormationStack(input: CreateCloudFormationStackInput) async throws -> CreateCloudFormationStackOutput
-    /// Performs the `CreateContactMethod` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
     ///
     /// - Parameter CreateContactMethodInput : [no documentation found]
@@ -242,8 +216,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createContactMethod(input: CreateContactMethodInput) async throws -> CreateContactMethodOutput
-    /// Performs the `CreateContainerService` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an Amazon Lightsail container service. A Lightsail container service is a compute resource to which you can deploy containers. For more information, see [Container services in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-services) in the Lightsail Dev Guide.
     ///
     /// - Parameter CreateContainerServiceInput : [no documentation found]
@@ -259,8 +231,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createContainerService(input: CreateContainerServiceInput) async throws -> CreateContainerServiceOutput
-    /// Performs the `CreateContainerServiceDeployment` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service using container images from a public registry such as Amazon ECR Public, or from your local machine. For more information, see [Creating container images for your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-container-images) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter CreateContainerServiceDeploymentInput : [no documentation found]
@@ -276,8 +246,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createContainerServiceDeployment(input: CreateContainerServiceDeploymentInput) async throws -> CreateContainerServiceDeploymentOutput
-    /// Performs the `CreateContainerServiceRegistryLogin` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials. You can only push container images to the container service registry of your Lightsail account. You cannot pull container images or perform any other container image management actions on the container service registry. After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter CreateContainerServiceRegistryLoginInput : [no documentation found]
@@ -293,8 +261,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createContainerServiceRegistryLogin(input: CreateContainerServiceRegistryLoginInput) async throws -> CreateContainerServiceRegistryLoginOutput
-    /// Performs the `CreateDisk` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskInput : [no documentation found]
@@ -312,8 +278,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createDisk(input: CreateDiskInput) async throws -> CreateDiskOutput
-    /// Performs the `CreateDiskFromSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskFromSnapshotInput : [no documentation found]
@@ -331,8 +295,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createDiskFromSnapshot(input: CreateDiskFromSnapshotInput) async throws -> CreateDiskFromSnapshotOutput
-    /// Performs the `CreateDiskSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. You can also use this operation to create a snapshot of an instance's system volume. You might want to do this, for example, to recover data from the system volume of a botched instance or to create a backup of the system volume like you would for a block storage disk. To create a snapshot of a system volume, just define the instance name parameter when issuing the snapshot command, and a snapshot of the defined instance's system volume will be created. After the snapshot is available, you can create a block storage disk from the snapshot and attach it to a running instance to access the data on the disk. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskSnapshotInput : [no documentation found]
@@ -350,8 +312,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createDiskSnapshot(input: CreateDiskSnapshotInput) async throws -> CreateDiskSnapshotOutput
-    /// Performs the `CreateDistribution` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an Amazon Lightsail content delivery network (CDN) distribution. A distribution is a globally distributed network of caching servers that improve the performance of your website or web application hosted on a Lightsail instance. For more information, see [Content delivery networks in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-content-delivery-network-distributions).
     ///
     /// - Parameter CreateDistributionInput : [no documentation found]
@@ -368,8 +328,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput
-    /// Performs the `CreateDomain` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
@@ -387,8 +345,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    /// Performs the `CreateDomainEntry` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates one of the following domain name system (DNS) records in a domain DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDomainEntryInput : [no documentation found]
@@ -406,8 +362,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createDomainEntry(input: CreateDomainEntryInput) async throws -> CreateDomainEntryOutput
-    /// Performs the `CreateGUISessionAccessDetails` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual computer's application. The secondary URL initiates a web-based NICE DCV session to the virtual computer's operating session. Use StartGUISession to open the session.
     ///
     /// - Parameter CreateGUISessionAccessDetailsInput : [no documentation found]
@@ -423,8 +377,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createGUISessionAccessDetails(input: CreateGUISessionAccessDetailsInput) async throws -> CreateGUISessionAccessDetailsOutput
-    /// Performs the `CreateInstances` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateInstancesInput : [no documentation found]
@@ -442,8 +394,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createInstances(input: CreateInstancesInput) async throws -> CreateInstancesOutput
-    /// Performs the `CreateInstancesFromSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateInstancesFromSnapshotInput : [no documentation found]
@@ -461,8 +411,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createInstancesFromSnapshot(input: CreateInstancesFromSnapshotInput) async throws -> CreateInstancesFromSnapshotOutput
-    /// Performs the `CreateInstanceSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateInstanceSnapshotInput : [no documentation found]
@@ -480,8 +428,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createInstanceSnapshot(input: CreateInstanceSnapshotInput) async throws -> CreateInstanceSnapshotOutput
-    /// Performs the `CreateKeyPair` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a custom SSH key pair that you can use with an Amazon Lightsail instance. Use the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) action to create a Lightsail default key pair in an Amazon Web Services Region where a default key pair does not currently exist. The create key pair operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateKeyPairInput : [no documentation found]
@@ -499,8 +445,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput
-    /// Performs the `CreateLoadBalancer` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see [Configure your Lightsail instances for load balancing](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/configure-lightsail-instances-for-load-balancing). You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateLoadBalancerInput : [no documentation found]
@@ -518,8 +462,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput
-    /// Performs the `CreateLoadBalancerTlsCertificate` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateLoadBalancerTlsCertificateInput : [no documentation found]
@@ -537,8 +479,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createLoadBalancerTlsCertificate(input: CreateLoadBalancerTlsCertificateInput) async throws -> CreateLoadBalancerTlsCertificateOutput
-    /// Performs the `CreateRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateRelationalDatabaseInput : [no documentation found]
@@ -556,8 +496,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createRelationalDatabase(input: CreateRelationalDatabaseInput) async throws -> CreateRelationalDatabaseOutput
-    /// Performs the `CreateRelationalDatabaseFromSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateRelationalDatabaseFromSnapshotInput : [no documentation found]
@@ -575,8 +513,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createRelationalDatabaseFromSnapshot(input: CreateRelationalDatabaseFromSnapshotInput) async throws -> CreateRelationalDatabaseFromSnapshotOutput
-    /// Performs the `CreateRelationalDatabaseSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateRelationalDatabaseSnapshotInput : [no documentation found]
@@ -594,8 +530,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func createRelationalDatabaseSnapshot(input: CreateRelationalDatabaseSnapshotInput) async throws -> CreateRelationalDatabaseSnapshotOutput
-    /// Performs the `DeleteAlarm` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
     ///
     /// - Parameter DeleteAlarmInput : [no documentation found]
@@ -612,8 +546,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteAlarm(input: DeleteAlarmInput) async throws -> DeleteAlarmOutput
-    /// Performs the `DeleteAutoSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes an automatic snapshot of an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter DeleteAutoSnapshotInput : [no documentation found]
@@ -630,8 +562,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteAutoSnapshot(input: DeleteAutoSnapshotInput) async throws -> DeleteAutoSnapshotOutput
-    /// Performs the `DeleteBucket` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a Amazon Lightsail bucket. When you delete your bucket, the bucket name is released and can be reused for a new bucket in your account or another Amazon Web Services account.
     ///
     /// - Parameter DeleteBucketInput : [no documentation found]
@@ -647,8 +577,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
-    /// Performs the `DeleteBucketAccessKey` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you delete an access key if the secret access key is compromised. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter DeleteBucketAccessKeyInput : [no documentation found]
@@ -664,8 +592,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteBucketAccessKey(input: DeleteBucketAccessKeyInput) async throws -> DeleteBucketAccessKeyOutput
-    /// Performs the `DeleteCertificate` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN) distribution. Certificates that are currently attached to a distribution cannot be deleted. Use the DetachCertificateFromDistribution action to detach a certificate from a distribution.
     ///
     /// - Parameter DeleteCertificateInput : [no documentation found]
@@ -681,8 +607,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
-    /// Performs the `DeleteContactMethod` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
     ///
     /// - Parameter DeleteContactMethodInput : [no documentation found]
@@ -699,8 +623,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteContactMethod(input: DeleteContactMethodInput) async throws -> DeleteContactMethodOutput
-    /// Performs the `DeleteContainerImage` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a container image that is registered to your Amazon Lightsail container service.
     ///
     /// - Parameter DeleteContainerImageInput : [no documentation found]
@@ -716,8 +638,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteContainerImage(input: DeleteContainerImageInput) async throws -> DeleteContainerImageOutput
-    /// Performs the `DeleteContainerService` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes your Amazon Lightsail container service.
     ///
     /// - Parameter DeleteContainerServiceInput : [no documentation found]
@@ -733,8 +653,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteContainerService(input: DeleteContainerServiceInput) async throws -> DeleteContainerServiceOutput
-    /// Performs the `DeleteDisk` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDiskInput : [no documentation found]
@@ -752,8 +670,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteDisk(input: DeleteDiskInput) async throws -> DeleteDiskOutput
-    /// Performs the `DeleteDiskSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDiskSnapshotInput : [no documentation found]
@@ -771,8 +687,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteDiskSnapshot(input: DeleteDiskSnapshotInput) async throws -> DeleteDiskSnapshotOutput
-    /// Performs the `DeleteDistribution` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes your Amazon Lightsail content delivery network (CDN) distribution.
     ///
     /// - Parameter DeleteDistributionInput : [no documentation found]
@@ -789,8 +703,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput
-    /// Performs the `DeleteDomain` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
@@ -808,8 +720,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    /// Performs the `DeleteDomainEntry` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDomainEntryInput : [no documentation found]
@@ -827,8 +737,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteDomainEntry(input: DeleteDomainEntryInput) async throws -> DeleteDomainEntryOutput
-    /// Performs the `DeleteInstance` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteInstanceInput : [no documentation found]
@@ -846,8 +754,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput
-    /// Performs the `DeleteInstanceSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteInstanceSnapshotInput : [no documentation found]
@@ -865,8 +771,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteInstanceSnapshot(input: DeleteInstanceSnapshotInput) async throws -> DeleteInstanceSnapshotOutput
-    /// Performs the `DeleteKeyPair` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the [ImportKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_ImportKeyPair.html) and [CreateKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateKeyPair.html) actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) API. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteKeyPairInput : [no documentation found]
@@ -884,8 +788,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput
-    /// Performs the `DeleteKnownHostKeys` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch. Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
     ///
     /// - Parameter DeleteKnownHostKeysInput : [no documentation found]
@@ -903,8 +805,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteKnownHostKeys(input: DeleteKnownHostKeysInput) async throws -> DeleteKnownHostKeysOutput
-    /// Performs the `DeleteLoadBalancer` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteLoadBalancerInput : [no documentation found]
@@ -922,8 +822,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput
-    /// Performs the `DeleteLoadBalancerTlsCertificate` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteLoadBalancerTlsCertificateInput : [no documentation found]
@@ -941,8 +839,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteLoadBalancerTlsCertificate(input: DeleteLoadBalancerTlsCertificateInput) async throws -> DeleteLoadBalancerTlsCertificateOutput
-    /// Performs the `DeleteRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteRelationalDatabaseInput : [no documentation found]
@@ -960,8 +856,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteRelationalDatabase(input: DeleteRelationalDatabaseInput) async throws -> DeleteRelationalDatabaseOutput
-    /// Performs the `DeleteRelationalDatabaseSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteRelationalDatabaseSnapshotInput : [no documentation found]
@@ -979,8 +873,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func deleteRelationalDatabaseSnapshot(input: DeleteRelationalDatabaseSnapshotInput) async throws -> DeleteRelationalDatabaseSnapshotOutput
-    /// Performs the `DetachCertificateFromDistribution` operation on the `Lightsail_20161128` service.
-    ///
     /// Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is detached, your distribution stops accepting traffic for all of the domains that are associated with the certificate.
     ///
     /// - Parameter DetachCertificateFromDistributionInput : [no documentation found]
@@ -997,8 +889,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func detachCertificateFromDistribution(input: DetachCertificateFromDistributionInput) async throws -> DetachCertificateFromDistributionOutput
-    /// Performs the `DetachDisk` operation on the `Lightsail_20161128` service.
-    ///
     /// Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DetachDiskInput : [no documentation found]
@@ -1016,8 +906,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func detachDisk(input: DetachDiskInput) async throws -> DetachDiskOutput
-    /// Performs the `DetachInstancesFromLoadBalancer` operation on the `Lightsail_20161128` service.
-    ///
     /// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DetachInstancesFromLoadBalancerInput : [no documentation found]
@@ -1035,8 +923,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func detachInstancesFromLoadBalancer(input: DetachInstancesFromLoadBalancerInput) async throws -> DetachInstancesFromLoadBalancerOutput
-    /// Performs the `DetachStaticIp` operation on the `Lightsail_20161128` service.
-    ///
     /// Detaches a static IP from the Amazon Lightsail instance to which it is attached.
     ///
     /// - Parameter DetachStaticIpInput : [no documentation found]
@@ -1054,8 +940,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func detachStaticIp(input: DetachStaticIpInput) async throws -> DetachStaticIpOutput
-    /// Performs the `DisableAddOn` operation on the `Lightsail_20161128` service.
-    ///
     /// Disables an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter DisableAddOnInput : [no documentation found]
@@ -1072,8 +956,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func disableAddOn(input: DisableAddOnInput) async throws -> DisableAddOnOutput
-    /// Performs the `DownloadDefaultKeyPair` operation on the `Lightsail_20161128` service.
-    ///
     /// Downloads the regional Amazon Lightsail default key pair. This action also creates a Lightsail default key pair if a default key pair does not currently exist in the Amazon Web Services Region.
     ///
     /// - Parameter DownloadDefaultKeyPairInput : [no documentation found]
@@ -1091,8 +973,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func downloadDefaultKeyPair(input: DownloadDefaultKeyPairInput) async throws -> DownloadDefaultKeyPairOutput
-    /// Performs the `EnableAddOn` operation on the `Lightsail_20161128` service.
-    ///
     /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter EnableAddOnInput : [no documentation found]
@@ -1109,8 +989,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func enableAddOn(input: EnableAddOnInput) async throws -> EnableAddOnOutput
-    /// Performs the `ExportSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by source snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags). Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2.
     ///
     /// - Parameter ExportSnapshotInput : [no documentation found]
@@ -1128,8 +1006,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput
-    /// Performs the `GetActiveNames` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the names of all active (not deleted) resources.
     ///
     /// - Parameter GetActiveNamesInput : [no documentation found]
@@ -1147,8 +1023,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getActiveNames(input: GetActiveNamesInput) async throws -> GetActiveNamesOutput
-    /// Performs the `GetAlarms` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or specify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
     ///
     /// - Parameter GetAlarmsInput : [no documentation found]
@@ -1165,8 +1039,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getAlarms(input: GetAlarmsInput) async throws -> GetAlarmsOutput
-    /// Performs the `GetAutoSnapshots` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the available automatic snapshots for an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter GetAutoSnapshotsInput : [no documentation found]
@@ -1183,8 +1055,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getAutoSnapshots(input: GetAutoSnapshotsInput) async throws -> GetAutoSnapshotsOutput
-    /// Performs the `GetBlueprints` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the list of available instance images, or blueprints. You can use a blueprint to create a new instance already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose. Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
     ///
     /// - Parameter GetBlueprintsInput : [no documentation found]
@@ -1202,8 +1072,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getBlueprints(input: GetBlueprintsInput) async throws -> GetBlueprintsOutput
-    /// Performs the `GetBucketAccessKeys` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the existing access key IDs for the specified Amazon Lightsail bucket. This action does not return the secret access key value of an access key. You can get a secret access key only when you create it from the response of the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html) action. If you lose the secret access key, you must create a new access key.
     ///
     /// - Parameter GetBucketAccessKeysInput : [no documentation found]
@@ -1219,8 +1087,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getBucketAccessKeys(input: GetBucketAccessKeysInput) async throws -> GetBucketAccessKeysOutput
-    /// Performs the `GetBucketBundles` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the bundles that you can apply to a Amazon Lightsail bucket. The bucket bundle specifies the monthly cost, storage quota, and data transfer quota for a bucket. Use the [UpdateBucketBundle](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html) action to update the bundle for a bucket.
     ///
     /// - Parameter GetBucketBundlesInput : [no documentation found]
@@ -1235,8 +1101,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getBucketBundles(input: GetBucketBundlesInput) async throws -> GetBucketBundlesOutput
-    /// Performs the `GetBucketMetricData` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (including object versions) and the storage space used by those objects.
     ///
     /// - Parameter GetBucketMetricDataInput : [no documentation found]
@@ -1252,8 +1116,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getBucketMetricData(input: GetBucketMetricDataInput) async throws -> GetBucketMetricDataOutput
-    /// Performs the `GetBuckets` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about one or more Amazon Lightsail buckets. The information returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see [Buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter GetBucketsInput : [no documentation found]
@@ -1269,8 +1131,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getBuckets(input: GetBucketsInput) async throws -> GetBucketsOutput
-    /// Performs the `GetBundles` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the bundles that you can apply to an Amazon Lightsail instance when you create it. A bundle describes the specifications of an instance, such as the monthly cost, amount of memory, the number of vCPUs, amount of storage space, and monthly network data transfer quota. Bundles are referred to as instance plans in the Lightsail console.
     ///
     /// - Parameter GetBundlesInput : [no documentation found]
@@ -1288,8 +1148,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getBundles(input: GetBundlesInput) async throws -> GetBundlesOutput
-    /// Performs the `GetCertificates` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about one or more Amazon Lightsail SSL/TLS certificates. To get a summary of a certificate, omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
     ///
     /// - Parameter GetCertificatesInput : [no documentation found]
@@ -1305,8 +1163,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getCertificates(input: GetCertificatesInput) async throws -> GetCertificatesOutput
-    /// Performs the `GetCloudFormationStackRecords` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the CloudFormation stack record created as a result of the create cloud formation stack operation. An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail snapshot.
     ///
     /// - Parameter GetCloudFormationStackRecordsInput : [no documentation found]
@@ -1324,8 +1180,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getCloudFormationStackRecords(input: GetCloudFormationStackRecordsInput) async throws -> GetCloudFormationStackRecordsOutput
-    /// Performs the `GetContactMethods` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
     ///
     /// - Parameter GetContactMethodsInput : [no documentation found]
@@ -1342,8 +1196,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContactMethods(input: GetContactMethodsInput) async throws -> GetContactMethodsOutput
-    /// Performs the `GetContainerAPIMetadata` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about Amazon Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
     ///
     /// - Parameter GetContainerAPIMetadataInput : [no documentation found]
@@ -1357,8 +1209,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerAPIMetadata(input: GetContainerAPIMetadataInput) async throws -> GetContainerAPIMetadataOutput
-    /// Performs the `GetContainerImages` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the container images that are registered to your Amazon Lightsail container service. If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service.
     ///
     /// - Parameter GetContainerImagesInput : [no documentation found]
@@ -1374,8 +1224,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerImages(input: GetContainerImagesInput) async throws -> GetContainerImagesOutput
-    /// Performs the `GetContainerLog` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the log events of a container of your Amazon Lightsail container service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service. Container logs are retained for a certain amount of time. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html) in the Amazon Web Services General Reference.
     ///
     /// - Parameter GetContainerLogInput : [no documentation found]
@@ -1391,8 +1239,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerLog(input: GetContainerLogInput) async throws -> GetContainerLogOutput
-    /// Performs the `GetContainerServiceDeployments` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the deployments for your Amazon Lightsail container service A deployment specifies the settings, such as the ports and launch command, of containers that are deployed to your container service. The deployments are ordered by version in ascending order. The newest version is listed at the top of the response. A set number of deployments are kept before the oldest one is replaced with the newest one. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html) in the Amazon Web Services General Reference.
     ///
     /// - Parameter GetContainerServiceDeploymentsInput : [no documentation found]
@@ -1408,8 +1254,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerServiceDeployments(input: GetContainerServiceDeploymentsInput) async throws -> GetContainerServiceDeploymentsOutput
-    /// Performs the `GetContainerServiceMetricData` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the data points of a specific metric of your Amazon Lightsail container service. Metrics report the utilization of your resources. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
     /// - Parameter GetContainerServiceMetricDataInput : [no documentation found]
@@ -1425,8 +1269,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerServiceMetricData(input: GetContainerServiceMetricDataInput) async throws -> GetContainerServiceMetricDataOutput
-    /// Performs the `GetContainerServicePowers` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the list of powers that can be specified for your Amazon Lightsail container services. The power specifies the amount of memory, the number of vCPUs, and the base price of the container service.
     ///
     /// - Parameter GetContainerServicePowersInput : [no documentation found]
@@ -1442,8 +1284,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerServicePowers(input: GetContainerServicePowersInput) async throws -> GetContainerServicePowersOutput
-    /// Performs the `GetContainerServices` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about one or more of your Amazon Lightsail container services.
     ///
     /// - Parameter GetContainerServicesInput : [no documentation found]
@@ -1459,8 +1299,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getContainerServices(input: GetContainerServicesInput) async throws -> GetContainerServicesOutput
-    /// Performs the `GetCostEstimate` operation on the `Lightsail_20161128` service.
-    ///
     /// Retrieves information about the cost estimate for a specified resource. A cost estimate will not generate for a resource that has been deleted.
     ///
     /// - Parameter GetCostEstimateInput : [no documentation found]
@@ -1476,8 +1314,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getCostEstimate(input: GetCostEstimateInput) async throws -> GetCostEstimateOutput
-    /// Performs the `GetDisk` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific block storage disk.
     ///
     /// - Parameter GetDiskInput : [no documentation found]
@@ -1495,8 +1331,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDisk(input: GetDiskInput) async throws -> GetDiskOutput
-    /// Performs the `GetDisks` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all block storage disks in your AWS account and region.
     ///
     /// - Parameter GetDisksInput : [no documentation found]
@@ -1514,8 +1348,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDisks(input: GetDisksInput) async throws -> GetDisksOutput
-    /// Performs the `GetDiskSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific block storage disk snapshot.
     ///
     /// - Parameter GetDiskSnapshotInput : [no documentation found]
@@ -1533,8 +1365,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDiskSnapshot(input: GetDiskSnapshotInput) async throws -> GetDiskSnapshotOutput
-    /// Performs the `GetDiskSnapshots` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all block storage disk snapshots in your AWS account and region.
     ///
     /// - Parameter GetDiskSnapshotsInput : [no documentation found]
@@ -1552,8 +1382,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDiskSnapshots(input: GetDiskSnapshotsInput) async throws -> GetDiskSnapshotsOutput
-    /// Performs the `GetDistributionBundles` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the bundles that can be applied to your Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution.
     ///
     /// - Parameter GetDistributionBundlesInput : [no documentation found]
@@ -1570,8 +1398,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDistributionBundles(input: GetDistributionBundlesInput) async throws -> GetDistributionBundlesOutput
-    /// Performs the `GetDistributionLatestCacheReset` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail content delivery network (CDN) distribution.
     ///
     /// - Parameter GetDistributionLatestCacheResetInput : [no documentation found]
@@ -1588,8 +1414,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDistributionLatestCacheReset(input: GetDistributionLatestCacheResetInput) async throws -> GetDistributionLatestCacheResetOutput
-    /// Performs the `GetDistributionMetricData` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the data points of a specific metric for an Amazon Lightsail content delivery network (CDN) distribution. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
     /// - Parameter GetDistributionMetricDataInput : [no documentation found]
@@ -1606,8 +1430,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDistributionMetricData(input: GetDistributionMetricDataInput) async throws -> GetDistributionMetricDataOutput
-    /// Performs the `GetDistributions` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.
     ///
     /// - Parameter GetDistributionsInput : [no documentation found]
@@ -1624,8 +1446,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDistributions(input: GetDistributionsInput) async throws -> GetDistributionsOutput
-    /// Performs the `GetDomain` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific domain recordset.
     ///
     /// - Parameter GetDomainInput : [no documentation found]
@@ -1643,8 +1463,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
-    /// Performs the `GetDomains` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of all domains in the user's account.
     ///
     /// - Parameter GetDomainsInput : [no documentation found]
@@ -1662,8 +1480,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getDomains(input: GetDomainsInput) async throws -> GetDomainsOutput
-    /// Performs the `GetExportSnapshotRecords` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns all export snapshot records created as a result of the export snapshot operation. An export snapshot record can be used to create a new Amazon EC2 instance and its related resources with the [CreateCloudFormationStack](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateCloudFormationStack.html) action.
     ///
     /// - Parameter GetExportSnapshotRecordsInput : [no documentation found]
@@ -1681,8 +1497,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getExportSnapshotRecords(input: GetExportSnapshotRecordsInput) async throws -> GetExportSnapshotRecordsOutput
-    /// Performs the `GetInstance` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
     ///
     /// - Parameter GetInstanceInput : [no documentation found]
@@ -1700,8 +1514,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput
-    /// Performs the `GetInstanceAccessDetails` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter GetInstanceAccessDetailsInput : [no documentation found]
@@ -1719,8 +1531,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstanceAccessDetails(input: GetInstanceAccessDetailsInput) async throws -> GetInstanceAccessDetailsOutput
-    /// Performs the `GetInstanceMetricData` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the data points for the specified Amazon Lightsail instance metric, given an instance name. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
     /// - Parameter GetInstanceMetricDataInput : [no documentation found]
@@ -1738,8 +1548,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstanceMetricData(input: GetInstanceMetricDataInput) async throws -> GetInstanceMetricDataOutput
-    /// Performs the `GetInstancePortStates` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses allowed to connect to the instance through the ports, and the protocol.
     ///
     /// - Parameter GetInstancePortStatesInput : [no documentation found]
@@ -1757,8 +1565,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstancePortStates(input: GetInstancePortStatesInput) async throws -> GetInstancePortStatesOutput
-    /// Performs the `GetInstances` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all Amazon Lightsail virtual private servers, or instances.
     ///
     /// - Parameter GetInstancesInput : [no documentation found]
@@ -1776,8 +1582,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstances(input: GetInstancesInput) async throws -> GetInstancesOutput
-    /// Performs the `GetInstanceSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific instance snapshot.
     ///
     /// - Parameter GetInstanceSnapshotInput : [no documentation found]
@@ -1795,8 +1599,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstanceSnapshot(input: GetInstanceSnapshotInput) async throws -> GetInstanceSnapshotOutput
-    /// Performs the `GetInstanceSnapshots` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns all instance snapshots for the user's account.
     ///
     /// - Parameter GetInstanceSnapshotsInput : [no documentation found]
@@ -1814,8 +1616,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstanceSnapshots(input: GetInstanceSnapshotsInput) async throws -> GetInstanceSnapshotsOutput
-    /// Performs the `GetInstanceState` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the state of a specific instance. Works on one instance at a time.
     ///
     /// - Parameter GetInstanceStateInput : [no documentation found]
@@ -1833,8 +1633,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getInstanceState(input: GetInstanceStateInput) async throws -> GetInstanceStateOutput
-    /// Performs the `GetKeyPair` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific key pair.
     ///
     /// - Parameter GetKeyPairInput : [no documentation found]
@@ -1852,8 +1650,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getKeyPair(input: GetKeyPairInput) async throws -> GetKeyPairOutput
-    /// Performs the `GetKeyPairs` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all key pairs in the user's account.
     ///
     /// - Parameter GetKeyPairsInput : [no documentation found]
@@ -1871,8 +1667,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getKeyPairs(input: GetKeyPairsInput) async throws -> GetKeyPairsOutput
-    /// Performs the `GetLoadBalancer` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about the specified Lightsail load balancer.
     ///
     /// - Parameter GetLoadBalancerInput : [no documentation found]
@@ -1890,8 +1684,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getLoadBalancer(input: GetLoadBalancerInput) async throws -> GetLoadBalancerOutput
-    /// Performs the `GetLoadBalancerMetricData` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about health metrics for your Lightsail load balancer. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
     /// - Parameter GetLoadBalancerMetricDataInput : [no documentation found]
@@ -1909,8 +1701,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getLoadBalancerMetricData(input: GetLoadBalancerMetricDataInput) async throws -> GetLoadBalancerMetricDataOutput
-    /// Performs the `GetLoadBalancers` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all load balancers in an account.
     ///
     /// - Parameter GetLoadBalancersInput : [no documentation found]
@@ -1928,8 +1718,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getLoadBalancers(input: GetLoadBalancersInput) async throws -> GetLoadBalancersOutput
-    /// Performs the `GetLoadBalancerTlsCertificates` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
     ///
     /// - Parameter GetLoadBalancerTlsCertificatesInput : [no documentation found]
@@ -1947,8 +1735,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getLoadBalancerTlsCertificates(input: GetLoadBalancerTlsCertificatesInput) async throws -> GetLoadBalancerTlsCertificatesOutput
-    /// Performs the `GetLoadBalancerTlsPolicies` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of TLS security policies that you can apply to Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter GetLoadBalancerTlsPoliciesInput : [no documentation found]
@@ -1964,8 +1750,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getLoadBalancerTlsPolicies(input: GetLoadBalancerTlsPoliciesInput) async throws -> GetLoadBalancerTlsPoliciesOutput
-    /// Performs the `GetOperation` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, attach a static IP, and so on.
     ///
     /// - Parameter GetOperationInput : [no documentation found]
@@ -1983,8 +1767,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getOperation(input: GetOperationInput) async throws -> GetOperationOutput
-    /// Performs the `GetOperations` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all operations. Results are returned from oldest to newest, up to a maximum of 200. Results can be paged by making each subsequent call to GetOperations use the maximum (last) statusChangedAt value from the previous request.
     ///
     /// - Parameter GetOperationsInput : [no documentation found]
@@ -2002,8 +1784,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getOperations(input: GetOperationsInput) async throws -> GetOperationsOutput
-    /// Performs the `GetOperationsForResource` operation on the `Lightsail_20161128` service.
-    ///
     /// Gets operations for a specific resource (e.g., an instance or a static IP).
     ///
     /// - Parameter GetOperationsForResourceInput : [no documentation found]
@@ -2021,8 +1801,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getOperationsForResource(input: GetOperationsForResourceInput) async throws -> GetOperationsForResourceOutput
-    /// Performs the `GetRegions` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region.
     ///
     /// - Parameter GetRegionsInput : [no documentation found]
@@ -2040,8 +1818,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRegions(input: GetRegionsInput) async throws -> GetRegionsOutput
-    /// Performs the `GetRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific database in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabaseInput : [no documentation found]
@@ -2059,8 +1835,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabase(input: GetRelationalDatabaseInput) async throws -> GetRelationalDatabaseOutput
-    /// Performs the `GetRelationalDatabaseBlueprints` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes the major engine version of a database. You can use a blueprint ID to create a new database that runs a specific database engine.
     ///
     /// - Parameter GetRelationalDatabaseBlueprintsInput : [no documentation found]
@@ -2078,8 +1852,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseBlueprints(input: GetRelationalDatabaseBlueprintsInput) async throws -> GetRelationalDatabaseBlueprintsOutput
-    /// Performs the `GetRelationalDatabaseBundles` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the performance specifications for a database. You can use a bundle ID to create a new database with explicit performance specifications.
     ///
     /// - Parameter GetRelationalDatabaseBundlesInput : [no documentation found]
@@ -2097,8 +1869,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseBundles(input: GetRelationalDatabaseBundlesInput) async throws -> GetRelationalDatabaseBundlesOutput
-    /// Performs the `GetRelationalDatabaseEvents` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of events for a specific database in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabaseEventsInput : [no documentation found]
@@ -2116,8 +1886,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseEvents(input: GetRelationalDatabaseEventsInput) async throws -> GetRelationalDatabaseEventsOutput
-    /// Performs the `GetRelationalDatabaseLogEvents` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of log events for a database in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabaseLogEventsInput : [no documentation found]
@@ -2135,8 +1903,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseLogEvents(input: GetRelationalDatabaseLogEventsInput) async throws -> GetRelationalDatabaseLogEventsOutput
-    /// Performs the `GetRelationalDatabaseLogStreams` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a list of available log streams for a specific database in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabaseLogStreamsInput : [no documentation found]
@@ -2154,8 +1920,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseLogStreams(input: GetRelationalDatabaseLogStreamsInput) async throws -> GetRelationalDatabaseLogStreamsOutput
-    /// Performs the `GetRelationalDatabaseMasterUserPassword` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the current, previous, or pending versions of the master user password for a Lightsail database. The GetRelationalDatabaseMasterUserPassword operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName.
     ///
     /// - Parameter GetRelationalDatabaseMasterUserPasswordInput : [no documentation found]
@@ -2173,8 +1937,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseMasterUserPassword(input: GetRelationalDatabaseMasterUserPasswordInput) async throws -> GetRelationalDatabaseMasterUserPasswordOutput
-    /// Performs the `GetRelationalDatabaseMetricData` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns the data points of the specified metric for a database in Amazon Lightsail. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
     /// - Parameter GetRelationalDatabaseMetricDataInput : [no documentation found]
@@ -2192,8 +1954,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseMetricData(input: GetRelationalDatabaseMetricDataInput) async throws -> GetRelationalDatabaseMetricDataOutput
-    /// Performs the `GetRelationalDatabaseParameters` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns all of the runtime parameters offered by the underlying database software, or engine, for a specific database in Amazon Lightsail. In addition to the parameter names and values, this operation returns other information about each parameter. This information includes whether changes require a reboot, whether the parameter is modifiable, the allowed values, and the data types.
     ///
     /// - Parameter GetRelationalDatabaseParametersInput : [no documentation found]
@@ -2211,8 +1971,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseParameters(input: GetRelationalDatabaseParametersInput) async throws -> GetRelationalDatabaseParametersOutput
-    /// Performs the `GetRelationalDatabases` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all of your databases in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabasesInput : [no documentation found]
@@ -2230,8 +1988,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabases(input: GetRelationalDatabasesInput) async throws -> GetRelationalDatabasesOutput
-    /// Performs the `GetRelationalDatabaseSnapshot` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about a specific database snapshot in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabaseSnapshotInput : [no documentation found]
@@ -2249,8 +2005,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseSnapshot(input: GetRelationalDatabaseSnapshotInput) async throws -> GetRelationalDatabaseSnapshotOutput
-    /// Performs the `GetRelationalDatabaseSnapshots` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all of your database snapshots in Amazon Lightsail.
     ///
     /// - Parameter GetRelationalDatabaseSnapshotsInput : [no documentation found]
@@ -2268,8 +2022,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseSnapshots(input: GetRelationalDatabaseSnapshotsInput) async throws -> GetRelationalDatabaseSnapshotsOutput
-    /// Performs the `GetStaticIp` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about an Amazon Lightsail static IP.
     ///
     /// - Parameter GetStaticIpInput : [no documentation found]
@@ -2287,8 +2039,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getStaticIp(input: GetStaticIpInput) async throws -> GetStaticIpOutput
-    /// Performs the `GetStaticIps` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns information about all static IPs in the user's account.
     ///
     /// - Parameter GetStaticIpsInput : [no documentation found]
@@ -2306,8 +2056,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getStaticIps(input: GetStaticIpsInput) async throws -> GetStaticIpsOutput
-    /// Performs the `ImportKeyPair` operation on the `Lightsail_20161128` service.
-    ///
     /// Imports a public SSH key from a specific key pair.
     ///
     /// - Parameter ImportKeyPairInput : [no documentation found]
@@ -2325,8 +2073,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput
-    /// Performs the `IsVpcPeered` operation on the `Lightsail_20161128` service.
-    ///
     /// Returns a Boolean value indicating whether your Lightsail VPC is peered.
     ///
     /// - Parameter IsVpcPeeredInput : [no documentation found]
@@ -2344,8 +2090,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func isVpcPeered(input: IsVpcPeeredInput) async throws -> IsVpcPeeredOutput
-    /// Performs the `OpenInstancePublicPorts` operation on the `Lightsail_20161128` service.
-    ///
     /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter OpenInstancePublicPortsInput : [no documentation found]
@@ -2363,8 +2107,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func openInstancePublicPorts(input: OpenInstancePublicPortsInput) async throws -> OpenInstancePublicPortsOutput
-    /// Performs the `PeerVpc` operation on the `Lightsail_20161128` service.
-    ///
     /// Peers the Lightsail VPC with the user's default VPC.
     ///
     /// - Parameter PeerVpcInput : [no documentation found]
@@ -2382,8 +2124,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func peerVpc(input: PeerVpcInput) async throws -> PeerVpcOutput
-    /// Performs the `PutAlarm` operation on the `Lightsail_20161128` service.
-    ///
     /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms). When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
     ///
     /// - Parameter PutAlarmInput : [no documentation found]
@@ -2400,8 +2140,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func putAlarm(input: PutAlarmInput) async throws -> PutAlarmOutput
-    /// Performs the `PutInstancePublicPorts` operation on the `Lightsail_20161128` service.
-    ///
     /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter PutInstancePublicPortsInput : [no documentation found]
@@ -2419,8 +2157,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func putInstancePublicPorts(input: PutInstancePublicPortsInput) async throws -> PutInstancePublicPortsOutput
-    /// Performs the `RebootInstance` operation on the `Lightsail_20161128` service.
-    ///
     /// Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter RebootInstanceInput : [no documentation found]
@@ -2438,8 +2174,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput
-    /// Performs the `RebootRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter RebootRelationalDatabaseInput : [no documentation found]
@@ -2457,8 +2191,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func rebootRelationalDatabase(input: RebootRelationalDatabaseInput) async throws -> RebootRelationalDatabaseOutput
-    /// Performs the `RegisterContainerImage` operation on the `Lightsail_20161128` service.
-    ///
     /// Registers a container image to your Amazon Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter RegisterContainerImageInput : [no documentation found]
@@ -2474,8 +2206,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func registerContainerImage(input: RegisterContainerImageInput) async throws -> RegisterContainerImageOutput
-    /// Performs the `ReleaseStaticIp` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes a specific static IP from your account.
     ///
     /// - Parameter ReleaseStaticIpInput : [no documentation found]
@@ -2493,8 +2223,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func releaseStaticIp(input: ReleaseStaticIpInput) async throws -> ReleaseStaticIpOutput
-    /// Performs the `ResetDistributionCache` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes currently cached content from your Amazon Lightsail content delivery network (CDN) distribution. After resetting the cache, the next time a content request is made, your distribution pulls, serves, and caches it from the origin.
     ///
     /// - Parameter ResetDistributionCacheInput : [no documentation found]
@@ -2511,8 +2239,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func resetDistributionCache(input: ResetDistributionCacheInput) async throws -> ResetDistributionCacheOutput
-    /// Performs the `SendContactMethodVerification` operation on the `Lightsail_20161128` service.
-    ///
     /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications). A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired. Notifications are not sent to an email contact method until after it is verified, and confirmed as valid.
     ///
     /// - Parameter SendContactMethodVerificationInput : [no documentation found]
@@ -2529,8 +2255,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func sendContactMethodVerification(input: SendContactMethodVerificationInput) async throws -> SendContactMethodVerificationOutput
-    /// Performs the `SetIpAddressType` operation on the `Lightsail_20161128` service.
-    ///
     /// Sets the IP address type for an Amazon Lightsail resource. Use this action to enable dual-stack for a resource, which enables IPv4 and IPv6 for the specified resource. Alternately, you can use this action to disable dual-stack, and enable IPv4 only.
     ///
     /// - Parameter SetIpAddressTypeInput : [no documentation found]
@@ -2548,8 +2272,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput
-    /// Performs the `SetResourceAccessForBucket` operation on the `Lightsail_20161128` service.
-    ///
     /// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail instances in the same Amazon Web Services Region.
     ///
     /// - Parameter SetResourceAccessForBucketInput : [no documentation found]
@@ -2565,8 +2287,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func setResourceAccessForBucket(input: SetResourceAccessForBucketInput) async throws -> SetResourceAccessForBucketOutput
-    /// Performs the `StartGUISession` operation on the `Lightsail_20161128` service.
-    ///
     /// Initiates a graphical user interface (GUI) session that’s used to access a virtual computer’s operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires.
     ///
     /// - Parameter StartGUISessionInput : [no documentation found]
@@ -2582,8 +2302,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func startGUISession(input: StartGUISessionInput) async throws -> StartGUISessionOutput
-    /// Performs the `StartInstance` operation on the `Lightsail_20161128` service.
-    ///
     /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip). The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StartInstanceInput : [no documentation found]
@@ -2601,8 +2319,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput
-    /// Performs the `StartRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StartRelationalDatabaseInput : [no documentation found]
@@ -2620,8 +2336,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func startRelationalDatabase(input: StartRelationalDatabaseInput) async throws -> StartRelationalDatabaseOutput
-    /// Performs the `StopGUISession` operation on the `Lightsail_20161128` service.
-    ///
     /// Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
     ///
     /// - Parameter StopGUISessionInput : [no documentation found]
@@ -2637,8 +2351,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func stopGUISession(input: StopGUISessionInput) async throws -> StopGUISessionOutput
-    /// Performs the `StopInstance` operation on the `Lightsail_20161128` service.
-    ///
     /// Stops a specific Amazon Lightsail instance that is currently running. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip). The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StopInstanceInput : [no documentation found]
@@ -2656,8 +2368,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput
-    /// Performs the `StopRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Stops a specific database that is currently running in Amazon Lightsail. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StopRelationalDatabaseInput : [no documentation found]
@@ -2675,8 +2385,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func stopRelationalDatabase(input: StopRelationalDatabaseInput) async throws -> StopRelationalDatabaseOutput
-    /// Performs the `TagResource` operation on the `Lightsail_20161128` service.
-    ///
     /// Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags). The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -2694,8 +2402,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `TestAlarm` operation on the `Lightsail_20161128` service.
-    ///
     /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
     ///
     /// - Parameter TestAlarmInput : [no documentation found]
@@ -2712,8 +2418,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func testAlarm(input: TestAlarmInput) async throws -> TestAlarmOutput
-    /// Performs the `UnpeerVpc` operation on the `Lightsail_20161128` service.
-    ///
     /// Unpeers the Lightsail VPC from the user's default VPC.
     ///
     /// - Parameter UnpeerVpcInput : [no documentation found]
@@ -2731,8 +2435,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func unpeerVpc(input: UnpeerVpcInput) async throws -> UnpeerVpcOutput
-    /// Performs the `UntagResource` operation on the `Lightsail_20161128` service.
-    ///
     /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -2750,8 +2452,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateBucket` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates an existing Amazon Lightsail bucket. Use this action to update the configuration of an existing bucket, such as versioning, public accessibility, and the Amazon Web Services accounts that can access the bucket.
     ///
     /// - Parameter UpdateBucketInput : [no documentation found]
@@ -2767,8 +2467,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateBucket(input: UpdateBucketInput) async throws -> UpdateBucketOutput
-    /// Performs the `UpdateBucketBundle` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle. To determine if you can update a bucket's bundle, use the [GetBuckets](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBuckets.html) action. The ableToUpdateBundle parameter in the response will indicate whether you can currently update a bucket's bundle. Update a bucket's bundle if it's consistently going over its storage space or data transfer quota, or if a bucket's usage is consistently in the lower range of its storage space or data transfer quota. Due to the unpredictable usage fluctuations that a bucket might experience, we strongly recommend that you update a bucket's bundle only as a long-term strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle that will provide the bucket with ample storage space and data transfer for a long time to come.
     ///
     /// - Parameter UpdateBucketBundleInput : [no documentation found]
@@ -2784,8 +2482,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateBucketBundle(input: UpdateBucketBundleInput) async throws -> UpdateBucketBundleOutput
-    /// Performs the `UpdateContainerService` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates the configuration of your Amazon Lightsail container service, such as its power, scale, and public domain names.
     ///
     /// - Parameter UpdateContainerServiceInput : [no documentation found]
@@ -2801,8 +2497,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateContainerService(input: UpdateContainerServiceInput) async throws -> UpdateContainerServiceOutput
-    /// Performs the `UpdateDistribution` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates an existing Amazon Lightsail content delivery network (CDN) distribution. Use this action to update the configuration of your existing distribution.
     ///
     /// - Parameter UpdateDistributionInput : [no documentation found]
@@ -2819,8 +2513,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput
-    /// Performs the `UpdateDistributionBundle` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly Amazon Web Services billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
     ///
     /// - Parameter UpdateDistributionBundleInput : [no documentation found]
@@ -2837,8 +2529,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateDistributionBundle(input: UpdateDistributionBundleInput) async throws -> UpdateDistributionBundleOutput
-    /// Performs the `UpdateDomainEntry` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateDomainEntryInput : [no documentation found]
@@ -2856,8 +2546,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateDomainEntry(input: UpdateDomainEntryInput) async throws -> UpdateDomainEntryOutput
-    /// Performs the `UpdateInstanceMetadataOptions` operation on the `Lightsail_20161128` service.
-    ///
     /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending. After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see [Use IMDSv2 with an Amazon Lightsail instance](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-instance-metadata-service) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter UpdateInstanceMetadataOptionsInput : [no documentation found]
@@ -2875,8 +2563,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateInstanceMetadataOptions(input: UpdateInstanceMetadataOptionsInput) async throws -> UpdateInstanceMetadataOptionsOutput
-    /// Performs the `UpdateLoadBalancerAttribute` operation on the `Lightsail_20161128` service.
-    ///
     /// Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateLoadBalancerAttributeInput : [no documentation found]
@@ -2894,8 +2580,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateLoadBalancerAttribute(input: UpdateLoadBalancerAttributeInput) async throws -> UpdateLoadBalancerAttributeOutput
-    /// Performs the `UpdateRelationalDatabase` operation on the `Lightsail_20161128` service.
-    ///
     /// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateRelationalDatabaseInput : [no documentation found]
@@ -2913,8 +2597,6 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func updateRelationalDatabase(input: UpdateRelationalDatabaseInput) async throws -> UpdateRelationalDatabaseOutput
-    /// Performs the `UpdateRelationalDatabaseParameters` operation on the `Lightsail_20161128` service.
-    ///
     /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateRelationalDatabaseParametersInput : [no documentation found]

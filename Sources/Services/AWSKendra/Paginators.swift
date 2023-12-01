@@ -12,7 +12,7 @@ extension KendraClient {
     ///     - input: A `[GetSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSnapshotsOutput`
     public func getSnapshotsPaginated(input: GetSnapshotsInput) -> ClientRuntime.PaginatorSequence<GetSnapshotsInput, GetSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<GetSnapshotsInput, GetSnapshotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<GetSnapshotsInput, GetSnapshotsOutput>(input: input, inputKey: \GetSnapshotsInput.nextToken, outputKey: \GetSnapshotsOutput.nextToken, paginationFunction: self.getSnapshots(input:))
     }
 }
 
@@ -36,7 +36,7 @@ extension KendraClient {
     ///     - input: A `[ListAccessControlConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessControlConfigurationsOutput`
     public func listAccessControlConfigurationsPaginated(input: ListAccessControlConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessControlConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(input: input, inputKey: \ListAccessControlConfigurationsInput.nextToken, outputKey: \ListAccessControlConfigurationsOutput.nextToken, paginationFunction: self.listAccessControlConfigurations(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension KendraClient {
     ///     - input: A `[ListDataSourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourcesOutput`
     public func listDataSourcesPaginated(input: ListDataSourcesInput) -> ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSources(input:))
+        return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput>(input: input, inputKey: \ListDataSourcesInput.nextToken, outputKey: \ListDataSourcesOutput.nextToken, paginationFunction: self.listDataSources(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension KendraClient {
     ///     - input: A `[ListDataSourceSyncJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourceSyncJobsOutput`
     public func listDataSourceSyncJobsPaginated(input: ListDataSourceSyncJobsInput) -> ClientRuntime.PaginatorSequence<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSourceSyncJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(input: input, inputKey: \ListDataSourceSyncJobsInput.nextToken, outputKey: \ListDataSourceSyncJobsOutput.nextToken, paginationFunction: self.listDataSourceSyncJobs(input:))
     }
 }
 
@@ -105,7 +105,7 @@ extension KendraClient {
     ///     - input: A `[ListEntityPersonasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntityPersonasOutput`
     public func listEntityPersonasPaginated(input: ListEntityPersonasInput) -> ClientRuntime.PaginatorSequence<ListEntityPersonasInput, ListEntityPersonasOutput> {
-        return ClientRuntime.PaginatorSequence<ListEntityPersonasInput, ListEntityPersonasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityPersonas(input:))
+        return ClientRuntime.PaginatorSequence<ListEntityPersonasInput, ListEntityPersonasOutput>(input: input, inputKey: \ListEntityPersonasInput.nextToken, outputKey: \ListEntityPersonasOutput.nextToken, paginationFunction: self.listEntityPersonas(input:))
     }
 }
 
@@ -128,7 +128,7 @@ extension KendraClient {
     ///     - input: A `[ListExperienceEntitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExperienceEntitiesOutput`
     public func listExperienceEntitiesPaginated(input: ListExperienceEntitiesInput) -> ClientRuntime.PaginatorSequence<ListExperienceEntitiesInput, ListExperienceEntitiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperienceEntities(input:))
+        return ClientRuntime.PaginatorSequence<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(input: input, inputKey: \ListExperienceEntitiesInput.nextToken, outputKey: \ListExperienceEntitiesOutput.nextToken, paginationFunction: self.listExperienceEntities(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension KendraClient {
     ///     - input: A `[ListExperiencesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExperiencesOutput`
     public func listExperiencesPaginated(input: ListExperiencesInput) -> ClientRuntime.PaginatorSequence<ListExperiencesInput, ListExperiencesOutput> {
-        return ClientRuntime.PaginatorSequence<ListExperiencesInput, ListExperiencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperiences(input:))
+        return ClientRuntime.PaginatorSequence<ListExperiencesInput, ListExperiencesOutput>(input: input, inputKey: \ListExperiencesInput.nextToken, outputKey: \ListExperiencesOutput.nextToken, paginationFunction: self.listExperiences(input:))
     }
 }
 
@@ -172,7 +172,7 @@ extension KendraClient {
     ///     - input: A `[ListFaqsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFaqsOutput`
     public func listFaqsPaginated(input: ListFaqsInput) -> ClientRuntime.PaginatorSequence<ListFaqsInput, ListFaqsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFaqsInput, ListFaqsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFaqs(input:))
+        return ClientRuntime.PaginatorSequence<ListFaqsInput, ListFaqsOutput>(input: input, inputKey: \ListFaqsInput.nextToken, outputKey: \ListFaqsOutput.nextToken, paginationFunction: self.listFaqs(input:))
     }
 }
 
@@ -194,7 +194,7 @@ extension KendraClient {
     ///     - input: A `[ListGroupsOlderThanOrderingIdInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOlderThanOrderingIdOutput`
     public func listGroupsOlderThanOrderingIdPaginated(input: ListGroupsOlderThanOrderingIdInput) -> ClientRuntime.PaginatorSequence<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput> {
-        return ClientRuntime.PaginatorSequence<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupsOlderThanOrderingId(input:))
+        return ClientRuntime.PaginatorSequence<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(input: input, inputKey: \ListGroupsOlderThanOrderingIdInput.nextToken, outputKey: \ListGroupsOlderThanOrderingIdOutput.nextToken, paginationFunction: self.listGroupsOlderThanOrderingId(input:))
     }
 }
 
@@ -218,7 +218,7 @@ extension KendraClient {
     ///     - input: A `[ListIndicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIndicesOutput`
     public func listIndicesPaginated(input: ListIndicesInput) -> ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIndices(input:))
+        return ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutput>(input: input, inputKey: \ListIndicesInput.nextToken, outputKey: \ListIndicesOutput.nextToken, paginationFunction: self.listIndices(input:))
     }
 }
 
@@ -239,7 +239,7 @@ extension KendraClient {
     ///     - input: A `[ListQuerySuggestionsBlockListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQuerySuggestionsBlockListsOutput`
     public func listQuerySuggestionsBlockListsPaginated(input: ListQuerySuggestionsBlockListsInput) -> ClientRuntime.PaginatorSequence<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput> {
-        return ClientRuntime.PaginatorSequence<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQuerySuggestionsBlockLists(input:))
+        return ClientRuntime.PaginatorSequence<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(input: input, inputKey: \ListQuerySuggestionsBlockListsInput.nextToken, outputKey: \ListQuerySuggestionsBlockListsOutput.nextToken, paginationFunction: self.listQuerySuggestionsBlockLists(input:))
     }
 }
 
@@ -261,7 +261,7 @@ extension KendraClient {
     ///     - input: A `[ListThesauriInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThesauriOutput`
     public func listThesauriPaginated(input: ListThesauriInput) -> ClientRuntime.PaginatorSequence<ListThesauriInput, ListThesauriOutput> {
-        return ClientRuntime.PaginatorSequence<ListThesauriInput, ListThesauriOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThesauri(input:))
+        return ClientRuntime.PaginatorSequence<ListThesauriInput, ListThesauriOutput>(input: input, inputKey: \ListThesauriInput.nextToken, outputKey: \ListThesauriOutput.nextToken, paginationFunction: self.listThesauri(input:))
     }
 }
 

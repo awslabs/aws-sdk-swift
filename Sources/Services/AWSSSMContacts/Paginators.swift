@@ -12,7 +12,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListContactChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactChannelsOutput`
     public func listContactChannelsPaginated(input: ListContactChannelsInput) -> ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactChannels(input:))
+        return ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutput>(input: input, inputKey: \ListContactChannelsInput.nextToken, outputKey: \ListContactChannelsOutput.nextToken, paginationFunction: self.listContactChannels(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListContactChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListContactChannelsInput, OperationStackOutput == ListContactChannelsOutput {
+extension PaginatorSequence where Input == ListContactChannelsInput, Output == ListContactChannelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactChannelsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.ContactChannel]`
     /// - Returns: `[SSMContactsClientTypes.ContactChannel]`
@@ -43,7 +43,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListContactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactsOutput`
     public func listContactsPaginated(input: ListContactsInput) -> ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput> {
-        return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContacts(input:))
+        return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput>(input: input, inputKey: \ListContactsInput.nextToken, outputKey: \ListContactsOutput.nextToken, paginationFunction: self.listContacts(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListContactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListContactsInput, OperationStackOutput == ListContactsOutput {
+extension PaginatorSequence where Input == ListContactsInput, Output == ListContactsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Contact]`
     /// - Returns: `[SSMContactsClientTypes.Contact]`
@@ -75,7 +75,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListEngagementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEngagementsOutput`
     public func listEngagementsPaginated(input: ListEngagementsInput) -> ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEngagements(input:))
+        return ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutput>(input: input, inputKey: \ListEngagementsInput.nextToken, outputKey: \ListEngagementsOutput.nextToken, paginationFunction: self.listEngagements(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListEngagementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListEngagementsInput, OperationStackOutput == ListEngagementsOutput {
+extension PaginatorSequence where Input == ListEngagementsInput, Output == ListEngagementsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEngagementsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Engagement]`
     /// - Returns: `[SSMContactsClientTypes.Engagement]`
@@ -107,7 +107,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListPageReceiptsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPageReceiptsOutput`
     public func listPageReceiptsPaginated(input: ListPageReceiptsInput) -> ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPageReceipts(input:))
+        return ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutput>(input: input, inputKey: \ListPageReceiptsInput.nextToken, outputKey: \ListPageReceiptsOutput.nextToken, paginationFunction: self.listPageReceipts(input:))
     }
 }
 
@@ -120,7 +120,7 @@ extension ListPageReceiptsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPageReceiptsInput, OperationStackOutput == ListPageReceiptsOutput {
+extension PaginatorSequence where Input == ListPageReceiptsInput, Output == ListPageReceiptsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPageReceiptsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Receipt]`
     /// - Returns: `[SSMContactsClientTypes.Receipt]`
@@ -138,7 +138,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListPageResolutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPageResolutionsOutput`
     public func listPageResolutionsPaginated(input: ListPageResolutionsInput) -> ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPageResolutions(input:))
+        return ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutput>(input: input, inputKey: \ListPageResolutionsInput.nextToken, outputKey: \ListPageResolutionsOutput.nextToken, paginationFunction: self.listPageResolutions(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ListPageResolutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPageResolutionsInput, OperationStackOutput == ListPageResolutionsOutput {
+extension PaginatorSequence where Input == ListPageResolutionsInput, Output == ListPageResolutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPageResolutionsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.ResolutionContact]`
     /// - Returns: `[SSMContactsClientTypes.ResolutionContact]`
@@ -168,7 +168,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListPagesByContactInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPagesByContactOutput`
     public func listPagesByContactPaginated(input: ListPagesByContactInput) -> ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutput> {
-        return ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPagesByContact(input:))
+        return ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutput>(input: input, inputKey: \ListPagesByContactInput.nextToken, outputKey: \ListPagesByContactOutput.nextToken, paginationFunction: self.listPagesByContact(input:))
     }
 }
 
@@ -181,7 +181,7 @@ extension ListPagesByContactInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPagesByContactInput, OperationStackOutput == ListPagesByContactOutput {
+extension PaginatorSequence where Input == ListPagesByContactInput, Output == ListPagesByContactOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPagesByContactPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Page]`
     /// - Returns: `[SSMContactsClientTypes.Page]`
@@ -199,7 +199,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListPagesByEngagementInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPagesByEngagementOutput`
     public func listPagesByEngagementPaginated(input: ListPagesByEngagementInput) -> ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutput> {
-        return ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPagesByEngagement(input:))
+        return ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutput>(input: input, inputKey: \ListPagesByEngagementInput.nextToken, outputKey: \ListPagesByEngagementOutput.nextToken, paginationFunction: self.listPagesByEngagement(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension ListPagesByEngagementInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPagesByEngagementInput, OperationStackOutput == ListPagesByEngagementOutput {
+extension PaginatorSequence where Input == ListPagesByEngagementInput, Output == ListPagesByEngagementOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPagesByEngagementPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Page]`
     /// - Returns: `[SSMContactsClientTypes.Page]`
@@ -230,7 +230,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListPreviewRotationShiftsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPreviewRotationShiftsOutput`
     public func listPreviewRotationShiftsPaginated(input: ListPreviewRotationShiftsInput) -> ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPreviewRotationShifts(input:))
+        return ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput>(input: input, inputKey: \ListPreviewRotationShiftsInput.nextToken, outputKey: \ListPreviewRotationShiftsOutput.nextToken, paginationFunction: self.listPreviewRotationShifts(input:))
     }
 }
 
@@ -249,7 +249,7 @@ extension ListPreviewRotationShiftsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListPreviewRotationShiftsInput, OperationStackOutput == ListPreviewRotationShiftsOutput {
+extension PaginatorSequence where Input == ListPreviewRotationShiftsInput, Output == ListPreviewRotationShiftsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPreviewRotationShiftsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.RotationShift]`
     /// - Returns: `[SSMContactsClientTypes.RotationShift]`
@@ -267,7 +267,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListRotationOverridesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRotationOverridesOutput`
     public func listRotationOverridesPaginated(input: ListRotationOverridesInput) -> ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRotationOverrides(input:))
+        return ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutput>(input: input, inputKey: \ListRotationOverridesInput.nextToken, outputKey: \ListRotationOverridesOutput.nextToken, paginationFunction: self.listRotationOverrides(input:))
     }
 }
 
@@ -282,7 +282,7 @@ extension ListRotationOverridesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRotationOverridesInput, OperationStackOutput == ListRotationOverridesOutput {
+extension PaginatorSequence where Input == ListRotationOverridesInput, Output == ListRotationOverridesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRotationOverridesPaginated`
     /// to access the nested member `[SSMContactsClientTypes.RotationOverride]`
     /// - Returns: `[SSMContactsClientTypes.RotationOverride]`
@@ -300,7 +300,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListRotationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRotationsOutput`
     public func listRotationsPaginated(input: ListRotationsInput) -> ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRotations(input:))
+        return ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutput>(input: input, inputKey: \ListRotationsInput.nextToken, outputKey: \ListRotationsOutput.nextToken, paginationFunction: self.listRotations(input:))
     }
 }
 
@@ -313,7 +313,7 @@ extension ListRotationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRotationsInput, OperationStackOutput == ListRotationsOutput {
+extension PaginatorSequence where Input == ListRotationsInput, Output == ListRotationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRotationsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Rotation]`
     /// - Returns: `[SSMContactsClientTypes.Rotation]`
@@ -331,7 +331,7 @@ extension SSMContactsClient {
     ///     - input: A `[ListRotationShiftsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRotationShiftsOutput`
     public func listRotationShiftsPaginated(input: ListRotationShiftsInput) -> ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRotationShifts(input:))
+        return ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutput>(input: input, inputKey: \ListRotationShiftsInput.nextToken, outputKey: \ListRotationShiftsOutput.nextToken, paginationFunction: self.listRotationShifts(input:))
     }
 }
 
@@ -346,7 +346,7 @@ extension ListRotationShiftsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRotationShiftsInput, OperationStackOutput == ListRotationShiftsOutput {
+extension PaginatorSequence where Input == ListRotationShiftsInput, Output == ListRotationShiftsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRotationShiftsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.RotationShift]`
     /// - Returns: `[SSMContactsClientTypes.RotationShift]`

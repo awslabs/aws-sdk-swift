@@ -1245,6 +1245,31 @@ extension CloudSearchDomainClientTypes {
 
 }
 
+public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "UploadDocumentsInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<UploadDocumentsInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<UploadDocumentsOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let documents = input.operationInput.documents {
+            let documentsBody = ClientRuntime.HttpBody(byteStream: documents)
+            input.builder.withBody(documentsBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<UploadDocumentsInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<UploadDocumentsOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension UploadDocumentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case documents

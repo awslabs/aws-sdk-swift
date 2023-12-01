@@ -10148,6 +10148,31 @@ extension LambdaClientTypes {
     }
 }
 
+public struct InvokeAsyncInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeAsyncInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeAsyncInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeAsyncOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let invokeArgs = input.operationInput.invokeArgs {
+            let invokeArgsBody = ClientRuntime.HttpBody(byteStream: invokeArgs)
+            input.builder.withBody(invokeArgsBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeAsyncInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeAsyncOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
 extension InvokeAsyncInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invokeArgs = "InvokeArgs"
@@ -10263,6 +10288,32 @@ enum InvokeAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+public struct InvokeInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let payload = input.operationInput.payload {
+            let payloadData = payload
+            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
+            input.builder.withBody(payloadBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension InvokeInput: Swift.CustomDebugStringConvertible {
@@ -10632,6 +10683,32 @@ extension LambdaClientTypes {
         }
     }
 
+}
+
+public struct InvokeWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeWithResponseStreamInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeWithResponseStreamInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeWithResponseStreamOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let payload = input.operationInput.payload {
+            let payloadData = payload
+            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
+            input.builder.withBody(payloadBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeWithResponseStreamInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeWithResponseStreamOutput>
+    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension InvokeWithResponseStreamInput: Swift.CustomDebugStringConvertible {

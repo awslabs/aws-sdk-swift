@@ -12,7 +12,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListAccessorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessorsOutput`
     public func listAccessorsPaginated(input: ListAccessorsInput) -> ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessors(input:))
+        return ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput>(input: input, inputKey: \ListAccessorsInput.nextToken, outputKey: \ListAccessorsOutput.nextToken, paginationFunction: self.listAccessors(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListAccessorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListAccessorsInput, OperationStackOutput == ListAccessorsOutput {
+extension PaginatorSequence where Input == ListAccessorsInput, Output == ListAccessorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccessorsPaginated`
     /// to access the nested member `[ManagedBlockchainClientTypes.AccessorSummary]`
     /// - Returns: `[ManagedBlockchainClientTypes.AccessorSummary]`
@@ -42,7 +42,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
     public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvitations(input:))
+        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
     }
 }
 
@@ -63,7 +63,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
     public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembers(input:))
+        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListNetworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutput`
     public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput> {
-        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNetworks(input:))
+        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \ListNetworksInput.nextToken, outputKey: \ListNetworksOutput.nextToken, paginationFunction: self.listNetworks(input:))
     }
 }
 
@@ -112,7 +112,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
     public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodes(input:))
+        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
     }
 }
 
@@ -136,7 +136,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListProposalsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProposalsOutput`
     public func listProposalsPaginated(input: ListProposalsInput) -> ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProposals(input:))
+        return ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput>(input: input, inputKey: \ListProposalsInput.nextToken, outputKey: \ListProposalsOutput.nextToken, paginationFunction: self.listProposals(input:))
     }
 }
 
@@ -158,7 +158,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListProposalVotesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProposalVotesOutput`
     public func listProposalVotesPaginated(input: ListProposalVotesInput) -> ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProposalVotes(input:))
+        return ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput>(input: input, inputKey: \ListProposalVotesInput.nextToken, outputKey: \ListProposalVotesOutput.nextToken, paginationFunction: self.listProposalVotes(input:))
     }
 }
 

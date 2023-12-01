@@ -67,8 +67,6 @@ public struct SSOAdminClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 }
 
 extension SSOAdminClient: SSOAdminClientProtocol {
-    /// Performs the `AttachCustomerManagedPolicyReferenceToPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Attaches the specified customer managed policy to the specified [PermissionSet].
     ///
     /// - Parameter AttachCustomerManagedPolicyReferenceToPermissionSetInput : [no documentation found]
@@ -101,27 +99,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(id: "attachCustomerManagedPolicyReferenceToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(id: "attachCustomerManagedPolicyReferenceToPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(xAmzTarget: "SWBExternalService.AttachCustomerManagedPolicyReferenceToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(xmlName: "AttachCustomerManagedPolicyReferenceToPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachCustomerManagedPolicyReferenceToPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `AttachManagedPolicyToPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
@@ -154,27 +150,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(id: "attachManagedPolicyToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>(id: "attachManagedPolicyToPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachManagedPolicyToPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(xAmzTarget: "SWBExternalService.AttachManagedPolicyToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(xmlName: "AttachManagedPolicyToPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachManagedPolicyToPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachManagedPolicyToPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachManagedPolicyToPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachManagedPolicyToPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachManagedPolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachManagedPolicyToPermissionSetOutput, AttachManagedPolicyToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreateAccountAssignment` operation on the `SWBExternalService` service.
-    ///
     /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
     /// - Parameter CreateAccountAssignmentInput : [no documentation found]
@@ -207,27 +201,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(id: "createAccountAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
+        var operation = ClientRuntime.OperationStack<CreateAccountAssignmentInput, CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>(id: "createAccountAssignment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountAssignmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(xAmzTarget: "SWBExternalService.CreateAccountAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(xmlName: "CreateAccountAssignmentRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountAssignmentOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAssignmentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAssignmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccountAssignmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAssignmentOutput, CreateAccountAssignmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
-    ///
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     ///
     /// - Parameter CreateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -259,27 +251,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(id: "createInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
+        var operation = ClientRuntime.OperationStack<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>(id: "createInstanceAccessControlAttributeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.CreateInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(xmlName: "CreateInstanceAccessControlAttributeConfigurationRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceAccessControlAttributeConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateInstanceAccessControlAttributeConfigurationOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput, CreateInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `CreatePermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
     /// - Parameter CreatePermissionSetInput : [no documentation found]
@@ -312,27 +302,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePermissionSetInput, CreatePermissionSetOutput>(id: "createPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<CreatePermissionSetInput, CreatePermissionSetOutput, CreatePermissionSetOutputError>(id: "createPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput, CreatePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePermissionSetOutput, CreatePermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(xAmzTarget: "SWBExternalService.CreatePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(xmlName: "CreatePermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePermissionSetOutput, CreatePermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePermissionSetOutput, CreatePermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePermissionSetOutput, CreatePermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePermissionSetOutput, CreatePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteAccountAssignment` operation on the `SWBExternalService` service.
-    ///
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
     /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
@@ -364,27 +352,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(id: "deleteAccountAssignment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>(id: "deleteAccountAssignment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountAssignmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(xAmzTarget: "SWBExternalService.DeleteAccountAssignment"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(xmlName: "DeleteAccountAssignmentRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountAssignmentOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAssignmentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAssignmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountAssignmentOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAssignmentOutput, DeleteAccountAssignmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteInlinePolicyFromPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Deletes the inline policy from a specified permission set.
     ///
     /// - Parameter DeleteInlinePolicyFromPermissionSetInput : [no documentation found]
@@ -416,27 +402,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(id: "deleteInlinePolicyFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>(id: "deleteInlinePolicyFromPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInlinePolicyFromPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DeleteInlinePolicyFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(xmlName: "DeleteInlinePolicyFromPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInlinePolicyFromPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInlinePolicyFromPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInlinePolicyFromPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteInlinePolicyFromPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInlinePolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInlinePolicyFromPermissionSetOutput, DeleteInlinePolicyFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeleteInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
-    ///
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter DeleteInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -468,27 +452,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(id: "deleteInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
+        var operation = ClientRuntime.OperationStack<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>(id: "deleteInstanceAccessControlAttributeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.DeleteInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(xmlName: "DeleteInstanceAccessControlAttributeConfigurationRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteInstanceAccessControlAttributeConfigurationOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput, DeleteInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeletePermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Deletes the specified permission set.
     ///
     /// - Parameter DeletePermissionSetInput : [no documentation found]
@@ -520,27 +502,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePermissionSetInput, DeletePermissionSetOutput>(id: "deletePermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<DeletePermissionSetInput, DeletePermissionSetOutput, DeletePermissionSetOutputError>(id: "deletePermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput, DeletePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePermissionSetOutput, DeletePermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(xAmzTarget: "SWBExternalService.DeletePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(xmlName: "DeletePermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePermissionSetOutput, DeletePermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionSetOutput, DeletePermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionSetOutput, DeletePermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionSetOutput, DeletePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DeletePermissionsBoundaryFromPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Deletes the permissions boundary from a specified [PermissionSet].
     ///
     /// - Parameter DeletePermissionsBoundaryFromPermissionSetInput : [no documentation found]
@@ -571,27 +551,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(id: "deletePermissionsBoundaryFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>(id: "deletePermissionsBoundaryFromPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DeletePermissionsBoundaryFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(xmlName: "DeletePermissionsBoundaryFromPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePermissionsBoundaryFromPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionsBoundaryFromPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePermissionsBoundaryFromPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput, DeletePermissionsBoundaryFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DescribeAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
-    ///
     /// Describes the status of the assignment creation request.
     ///
     /// - Parameter DescribeAccountAssignmentCreationStatusInput : [no documentation found]
@@ -622,27 +600,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(id: "describeAccountAssignmentCreationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
+        var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>(id: "describeAccountAssignmentCreationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAssignmentCreationStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(xAmzTarget: "SWBExternalService.DescribeAccountAssignmentCreationStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(xmlName: "DescribeAccountAssignmentCreationStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAssignmentCreationStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAssignmentCreationStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentCreationStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccountAssignmentCreationStatusOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentCreationStatusOutput, DescribeAccountAssignmentCreationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DescribeAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
-    ///
     /// Describes the status of the assignment deletion request.
     ///
     /// - Parameter DescribeAccountAssignmentDeletionStatusInput : [no documentation found]
@@ -673,27 +649,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(id: "describeAccountAssignmentDeletionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
+        var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>(id: "describeAccountAssignmentDeletionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAssignmentDeletionStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(xAmzTarget: "SWBExternalService.DescribeAccountAssignmentDeletionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(xmlName: "DescribeAccountAssignmentDeletionStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAssignmentDeletionStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAssignmentDeletionStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentDeletionStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccountAssignmentDeletionStatusOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentDeletionStatusOutput, DescribeAccountAssignmentDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DescribeInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
-    ///
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter DescribeInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -724,27 +698,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(id: "describeInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
+        var operation = ClientRuntime.OperationStack<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>(id: "describeInstanceAccessControlAttributeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.DescribeInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(xmlName: "DescribeInstanceAccessControlAttributeConfigurationRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeInstanceAccessControlAttributeConfigurationOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput, DescribeInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DescribePermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Gets the details of the permission set.
     ///
     /// - Parameter DescribePermissionSetInput : [no documentation found]
@@ -775,27 +747,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePermissionSetInput, DescribePermissionSetOutput>(id: "describePermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<DescribePermissionSetInput, DescribePermissionSetOutput, DescribePermissionSetOutputError>(id: "describePermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput, DescribePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePermissionSetOutput, DescribePermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(xAmzTarget: "SWBExternalService.DescribePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(xmlName: "DescribePermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePermissionSetOutput, DescribePermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribePermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePermissionSetOutput, DescribePermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetOutput, DescribePermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetOutput, DescribePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DescribePermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
-    ///
     /// Describes the status for the given permission set provisioning request.
     ///
     /// - Parameter DescribePermissionSetProvisioningStatusInput : [no documentation found]
@@ -826,27 +796,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(id: "describePermissionSetProvisioningStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
+        var operation = ClientRuntime.OperationStack<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>(id: "describePermissionSetProvisioningStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePermissionSetProvisioningStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(xAmzTarget: "SWBExternalService.DescribePermissionSetProvisioningStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(xmlName: "DescribePermissionSetProvisioningStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePermissionSetProvisioningStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePermissionSetProvisioningStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetProvisioningStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribePermissionSetProvisioningStatusOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetProvisioningStatusOutput, DescribePermissionSetProvisioningStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DetachCustomerManagedPolicyReferenceFromPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
     ///
     /// - Parameter DetachCustomerManagedPolicyReferenceFromPermissionSetInput : [no documentation found]
@@ -878,27 +846,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(id: "detachCustomerManagedPolicyReferenceFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(id: "detachCustomerManagedPolicyReferenceFromPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DetachCustomerManagedPolicyReferenceFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(xmlName: "DetachCustomerManagedPolicyReferenceFromPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `DetachManagedPolicyFromPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
     /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
@@ -930,27 +896,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(id: "detachManagedPolicyFromPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>(id: "detachManagedPolicyFromPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachManagedPolicyFromPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(xAmzTarget: "SWBExternalService.DetachManagedPolicyFromPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(xmlName: "DetachManagedPolicyFromPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachManagedPolicyFromPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachManagedPolicyFromPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachManagedPolicyFromPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachManagedPolicyFromPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachManagedPolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachManagedPolicyFromPermissionSetOutput, DetachManagedPolicyFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetInlinePolicyForPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Obtains the inline policy assigned to the permission set.
     ///
     /// - Parameter GetInlinePolicyForPermissionSetInput : [no documentation found]
@@ -981,27 +945,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(id: "getInlinePolicyForPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>(id: "getInlinePolicyForPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInlinePolicyForPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(xAmzTarget: "SWBExternalService.GetInlinePolicyForPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(xmlName: "GetInlinePolicyForPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInlinePolicyForPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInlinePolicyForPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInlinePolicyForPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetInlinePolicyForPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInlinePolicyForPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInlinePolicyForPermissionSetOutput, GetInlinePolicyForPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `GetPermissionsBoundaryForPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Obtains the permissions boundary for a specified [PermissionSet].
     ///
     /// - Parameter GetPermissionsBoundaryForPermissionSetInput : [no documentation found]
@@ -1032,27 +994,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(id: "getPermissionsBoundaryForPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>(id: "getPermissionsBoundaryForPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPermissionsBoundaryForPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(xAmzTarget: "SWBExternalService.GetPermissionsBoundaryForPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(xmlName: "GetPermissionsBoundaryForPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPermissionsBoundaryForPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPermissionsBoundaryForPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPermissionsBoundaryForPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPermissionsBoundaryForPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPermissionsBoundaryForPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPermissionsBoundaryForPermissionSetOutput, GetPermissionsBoundaryForPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
-    ///
     /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
@@ -1083,27 +1043,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(id: "listAccountAssignmentCreationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
+        var operation = ClientRuntime.OperationStack<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>(id: "listAccountAssignmentCreationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentCreationStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentCreationStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(xmlName: "ListAccountAssignmentCreationStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentCreationStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentCreationStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentCreationStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountAssignmentCreationStatusOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentCreationStatusOutput, ListAccountAssignmentCreationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
-    ///
     /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
@@ -1134,27 +1092,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(id: "listAccountAssignmentDeletionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
+        var operation = ClientRuntime.OperationStack<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>(id: "listAccountAssignmentDeletionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentDeletionStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignmentDeletionStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(xmlName: "ListAccountAssignmentDeletionStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentDeletionStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentDeletionStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentDeletionStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountAssignmentDeletionStatusOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentDeletionStatusOutput, ListAccountAssignmentDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListAccountAssignments` operation on the `SWBExternalService` service.
-    ///
     /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
     /// - Parameter ListAccountAssignmentsInput : [no documentation found]
@@ -1185,27 +1141,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(id: "listAccountAssignments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
+        var operation = ClientRuntime.OperationStack<ListAccountAssignmentsInput, ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>(id: "listAccountAssignments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(xAmzTarget: "SWBExternalService.ListAccountAssignments"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(xmlName: "ListAccountAssignmentsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountAssignmentsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentsOutput, ListAccountAssignmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListAccountsForProvisionedPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
@@ -1236,27 +1190,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(id: "listAccountsForProvisionedPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>(id: "listAccountsForProvisionedPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsForProvisionedPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListAccountsForProvisionedPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(xmlName: "ListAccountsForProvisionedPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsForProvisionedPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsForProvisionedPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsForProvisionedPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountsForProvisionedPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsForProvisionedPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsForProvisionedPermissionSetOutput, ListAccountsForProvisionedPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListCustomerManagedPolicyReferencesInPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Lists all customer managed policies attached to a specified [PermissionSet].
     ///
     /// - Parameter ListCustomerManagedPolicyReferencesInPermissionSetInput : [no documentation found]
@@ -1287,27 +1239,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(id: "listCustomerManagedPolicyReferencesInPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(id: "listCustomerManagedPolicyReferencesInPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListCustomerManagedPolicyReferencesInPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(xmlName: "ListCustomerManagedPolicyReferencesInPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCustomerManagedPolicyReferencesInPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListInstances` operation on the `SWBExternalService` service.
-    ///
     /// Lists the IAM Identity Center instances that the caller has access to.
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
@@ -1337,27 +1287,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutput>(id: "listInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutput>())
+        var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutput, ListInstancesOutputError>(id: "listInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutput, ListInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstancesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstancesOutput, ListInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInstancesInput, ListInstancesOutput>(xAmzTarget: "SWBExternalService.ListInstances"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListInstancesInput, ListInstancesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstancesInput, ListInstancesOutput>(xmlName: "ListInstancesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstancesInput, ListInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstancesOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstancesOutput, ListInstancesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstancesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutput, ListInstancesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutput, ListInstancesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutput, ListInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListManagedPoliciesInPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
@@ -1388,27 +1336,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(id: "listManagedPoliciesInPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>(id: "listManagedPoliciesInPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListManagedPoliciesInPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(xAmzTarget: "SWBExternalService.ListManagedPoliciesInPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(xmlName: "ListManagedPoliciesInPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListManagedPoliciesInPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListManagedPoliciesInPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedPoliciesInPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListManagedPoliciesInPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListManagedPoliciesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListManagedPoliciesInPermissionSetOutput, ListManagedPoliciesInPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListPermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
-    ///
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListPermissionSetProvisioningStatusInput : [no documentation found]
@@ -1439,27 +1385,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(id: "listPermissionSetProvisioningStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
+        var operation = ClientRuntime.OperationStack<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>(id: "listPermissionSetProvisioningStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetProvisioningStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(xAmzTarget: "SWBExternalService.ListPermissionSetProvisioningStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(xmlName: "ListPermissionSetProvisioningStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetProvisioningStatusOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetProvisioningStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetProvisioningStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPermissionSetProvisioningStatusOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetProvisioningStatusOutput, ListPermissionSetProvisioningStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListPermissionSets` operation on the `SWBExternalService` service.
-    ///
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
     ///
     /// - Parameter ListPermissionSetsInput : [no documentation found]
@@ -1490,27 +1434,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPermissionSetsInput, ListPermissionSetsOutput>(id: "listPermissionSets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
+        var operation = ClientRuntime.OperationStack<ListPermissionSetsInput, ListPermissionSetsOutput, ListPermissionSetsOutputError>(id: "listPermissionSets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput, ListPermissionSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetsOutput, ListPermissionSetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(xAmzTarget: "SWBExternalService.ListPermissionSets"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(xmlName: "ListPermissionSetsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetsOutput, ListPermissionSetsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPermissionSetsOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetsOutput, ListPermissionSetsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsOutput, ListPermissionSetsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsOutput, ListPermissionSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListPermissionSetsProvisionedToAccount` operation on the `SWBExternalService` service.
-    ///
     /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
     /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
@@ -1541,27 +1483,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(id: "listPermissionSetsProvisionedToAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
+        var operation = ClientRuntime.OperationStack<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>(id: "listPermissionSetsProvisionedToAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetsProvisionedToAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(xAmzTarget: "SWBExternalService.ListPermissionSetsProvisionedToAccount"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(xmlName: "ListPermissionSetsProvisionedToAccountRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetsProvisionedToAccountOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetsProvisionedToAccountOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsProvisionedToAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPermissionSetsProvisionedToAccountOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsProvisionedToAccountOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsProvisionedToAccountOutput, ListPermissionSetsProvisionedToAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SWBExternalService` service.
-    ///
     /// Lists the tags that are attached to a specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1592,27 +1532,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "SWBExternalService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `ProvisionPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
     /// - Parameter ProvisionPermissionSetInput : [no documentation found]
@@ -1644,27 +1582,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(id: "provisionPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<ProvisionPermissionSetInput, ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>(id: "provisionPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ProvisionPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(xAmzTarget: "SWBExternalService.ProvisionPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(xmlName: "ProvisionPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ProvisionPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(ProvisionPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionPermissionSetOutput, ProvisionPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `PutInlinePolicyToPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter PutInlinePolicyToPermissionSetInput : [no documentation found]
@@ -1697,27 +1633,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(id: "putInlinePolicyToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>(id: "putInlinePolicyToPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInlinePolicyToPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(xAmzTarget: "SWBExternalService.PutInlinePolicyToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(xmlName: "PutInlinePolicyToPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInlinePolicyToPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInlinePolicyToPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInlinePolicyToPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutInlinePolicyToPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInlinePolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInlinePolicyToPermissionSetOutput, PutInlinePolicyToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `PutPermissionsBoundaryToPermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
     /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
@@ -1749,27 +1683,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(id: "putPermissionsBoundaryToPermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>(id: "putPermissionsBoundaryToPermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPermissionsBoundaryToPermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(xAmzTarget: "SWBExternalService.PutPermissionsBoundaryToPermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(xmlName: "PutPermissionsBoundaryToPermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPermissionsBoundaryToPermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPermissionsBoundaryToPermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPermissionsBoundaryToPermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutPermissionsBoundaryToPermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPermissionsBoundaryToPermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPermissionsBoundaryToPermissionSetOutput, PutPermissionsBoundaryToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `TagResource` operation on the `SWBExternalService` service.
-    ///
     /// Associates a set of tags with a specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1802,27 +1734,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "SWBExternalService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `UntagResource` operation on the `SWBExternalService` service.
-    ///
     /// Disassociates a set of tags from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1854,27 +1784,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "SWBExternalService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `UpdateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
-    ///
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter UpdateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -1906,27 +1834,25 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(id: "updateInstanceAccessControlAttributeConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
+        var operation = ClientRuntime.OperationStack<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>(id: "updateInstanceAccessControlAttributeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(xAmzTarget: "SWBExternalService.UpdateInstanceAccessControlAttributeConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(xmlName: "UpdateInstanceAccessControlAttributeConfigurationRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInstanceAccessControlAttributeConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateInstanceAccessControlAttributeConfigurationOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput, UpdateInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Performs the `UpdatePermissionSet` operation on the `SWBExternalService` service.
-    ///
     /// Updates an existing permission set.
     ///
     /// - Parameter UpdatePermissionSetInput : [no documentation found]
@@ -1958,21 +1884,21 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePermissionSetInput, UpdatePermissionSetOutput>(id: "updatePermissionSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
+        var operation = ClientRuntime.OperationStack<UpdatePermissionSetInput, UpdatePermissionSetOutput, UpdatePermissionSetOutputError>(id: "updatePermissionSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput, UpdatePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePermissionSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePermissionSetOutput, UpdatePermissionSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(xAmzTarget: "SWBExternalService.UpdatePermissionSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(xmlName: "UpdatePermissionSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePermissionSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePermissionSetOutput, UpdatePermissionSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePermissionSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePermissionSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePermissionSetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePermissionSetOutput>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePermissionSetOutput, UpdatePermissionSetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePermissionSetOutput, UpdatePermissionSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePermissionSetOutput, UpdatePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

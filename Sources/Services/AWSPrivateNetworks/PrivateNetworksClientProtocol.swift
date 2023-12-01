@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Web Services Private 5G is a managed service that makes it easy to deploy, operate, and scale your own private mobile network at your on-premises location. Private 5G provides the pre-configured hardware and software for mobile networks, helps automate setup, and scales capacity on demand to support additional devices as needed.
 public protocol PrivateNetworksClientProtocol {
-    /// Performs the `AcknowledgeOrderReceipt` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Acknowledges that the specified network order was received.
     ///
     /// - Parameter AcknowledgeOrderReceiptInput : [no documentation found]
@@ -19,8 +17,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func acknowledgeOrderReceipt(input: AcknowledgeOrderReceiptInput) async throws -> AcknowledgeOrderReceiptOutput
-    /// Performs the `ActivateDeviceIdentifier` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Activates the specified device identifier.
     ///
     /// - Parameter ActivateDeviceIdentifierInput : [no documentation found]
@@ -34,8 +30,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func activateDeviceIdentifier(input: ActivateDeviceIdentifierInput) async throws -> ActivateDeviceIdentifierOutput
-    /// Performs the `ActivateNetworkSite` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Activates the specified network site.
     ///
     /// - Parameter ActivateNetworkSiteInput : [no documentation found]
@@ -49,8 +43,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func activateNetworkSite(input: ActivateNetworkSiteInput) async throws -> ActivateNetworkSiteOutput
-    /// Performs the `ConfigureAccessPoint` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Configures the specified network resource. Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see [Radio units](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html) in the Amazon Web Services Private 5G User Guide.
     ///
     /// - Parameter ConfigureAccessPointInput : [no documentation found]
@@ -64,8 +56,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func configureAccessPoint(input: ConfigureAccessPointInput) async throws -> ConfigureAccessPointOutput
-    /// Performs the `CreateNetwork` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Creates a network.
     ///
     /// - Parameter CreateNetworkInput : [no documentation found]
@@ -79,8 +69,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `LimitExceededException` : The limit was exceeded.
     /// - `ValidationException` : The request failed validation.
     func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutput
-    /// Performs the `CreateNetworkSite` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Creates a network site.
     ///
     /// - Parameter CreateNetworkSiteInput : [no documentation found]
@@ -94,8 +82,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func createNetworkSite(input: CreateNetworkSiteInput) async throws -> CreateNetworkSiteOutput
-    /// Performs the `DeactivateDeviceIdentifier` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Deactivates the specified device identifier.
     ///
     /// - Parameter DeactivateDeviceIdentifierInput : [no documentation found]
@@ -109,8 +95,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func deactivateDeviceIdentifier(input: DeactivateDeviceIdentifierInput) async throws -> DeactivateDeviceIdentifierOutput
-    /// Performs the `DeleteNetwork` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see [DeleteNetworkSite](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_DeleteNetworkSite.html) in the API Reference for Amazon Web Services Private 5G.
     ///
     /// - Parameter DeleteNetworkInput : [no documentation found]
@@ -125,8 +109,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func deleteNetwork(input: DeleteNetworkInput) async throws -> DeleteNetworkOutput
-    /// Performs the `DeleteNetworkSite` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Deletes the specified network site. Return the hardware after you delete the network site. You are responsible for minimum charges. For more information, see [Hardware returns](https://docs.aws.amazon.com/private-networks/latest/userguide/hardware-maintenance.html) in the Amazon Web Services Private 5G User Guide.
     ///
     /// - Parameter DeleteNetworkSiteInput : [no documentation found]
@@ -141,8 +123,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func deleteNetworkSite(input: DeleteNetworkSiteInput) async throws -> DeleteNetworkSiteOutput
-    /// Performs the `GetDeviceIdentifier` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Gets the specified device identifier.
     ///
     /// - Parameter GetDeviceIdentifierInput : [no documentation found]
@@ -156,8 +136,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func getDeviceIdentifier(input: GetDeviceIdentifierInput) async throws -> GetDeviceIdentifierOutput
-    /// Performs the `GetNetwork` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Gets the specified network.
     ///
     /// - Parameter GetNetworkInput : [no documentation found]
@@ -171,8 +149,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutput
-    /// Performs the `GetNetworkResource` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Gets the specified network resource.
     ///
     /// - Parameter GetNetworkResourceInput : [no documentation found]
@@ -186,8 +162,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func getNetworkResource(input: GetNetworkResourceInput) async throws -> GetNetworkResourceOutput
-    /// Performs the `GetNetworkSite` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Gets the specified network site.
     ///
     /// - Parameter GetNetworkSiteInput : [no documentation found]
@@ -201,8 +175,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func getNetworkSite(input: GetNetworkSiteInput) async throws -> GetNetworkSiteOutput
-    /// Performs the `GetOrder` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Gets the specified order.
     ///
     /// - Parameter GetOrderInput : [no documentation found]
@@ -216,8 +188,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func getOrder(input: GetOrderInput) async throws -> GetOrderOutput
-    /// Performs the `ListDeviceIdentifiers` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Lists device identifiers. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
     ///
     /// - Parameter ListDeviceIdentifiersInput : [no documentation found]
@@ -231,8 +201,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func listDeviceIdentifiers(input: ListDeviceIdentifiersInput) async throws -> ListDeviceIdentifiersOutput
-    /// Performs the `ListNetworkResources` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Lists network resources. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
     ///
     /// - Parameter ListNetworkResourcesInput : [no documentation found]
@@ -246,8 +214,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func listNetworkResources(input: ListNetworkResourcesInput) async throws -> ListNetworkResourcesOutput
-    /// Performs the `ListNetworks` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Lists networks. Add filters to your request to return a more specific list of results. Use filters to match the status of the network.
     ///
     /// - Parameter ListNetworksInput : [no documentation found]
@@ -261,8 +227,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutput
-    /// Performs the `ListNetworkSites` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Lists network sites. Add filters to your request to return a more specific list of results. Use filters to match the status of the network site.
     ///
     /// - Parameter ListNetworkSitesInput : [no documentation found]
@@ -276,8 +240,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func listNetworkSites(input: ListNetworkSitesInput) async throws -> ListNetworkSitesOutput
-    /// Performs the `ListOrders` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Lists orders. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or the status of the order. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
     ///
     /// - Parameter ListOrdersInput : [no documentation found]
@@ -291,8 +253,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutput
-    /// Performs the `ListTagsForResource` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -308,8 +268,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `Ping` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Checks the health of the service.
     ///
     /// - Parameter PingInput : [no documentation found]
@@ -321,8 +279,6 @@ public protocol PrivateNetworksClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Information about an internal error.
     func ping(input: PingInput) async throws -> PingOutput
-    /// Performs the `StartNetworkResourceUpdate` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Use this action to do the following tasks:
     ///
     /// * Update the duration and renewal status of the commitment period for a radio unit. The update goes into effect immediately.
@@ -345,8 +301,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutput
-    /// Performs the `TagResource` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Adds tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -362,8 +316,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Removes tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -379,8 +331,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateNetworkSite` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Updates the specified network site.
     ///
     /// - Parameter UpdateNetworkSiteInput : [no documentation found]
@@ -394,8 +344,6 @@ public protocol PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
     func updateNetworkSite(input: UpdateNetworkSiteInput) async throws -> UpdateNetworkSiteOutput
-    /// Performs the `UpdateNetworkSitePlan` operation on the `E5GNetworkControllerLambda` service.
-    ///
     /// Updates the specified network site plan.
     ///
     /// - Parameter UpdateNetworkSitePlanInput : [no documentation found]

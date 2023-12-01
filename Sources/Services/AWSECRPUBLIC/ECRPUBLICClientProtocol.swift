@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Elastic Container Registry Public Amazon Elastic Container Registry Public (Amazon ECR Public) is a managed container image registry service. Amazon ECR provides both public and private registries to host your container images. You can use the Docker CLI or your preferred client to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry for your Docker or Open Container Initiative (OCI) images. Amazon ECR supports public repositories with this API. For information about the Amazon ECR API for private repositories, see [Amazon Elastic Container Registry API Reference](https://docs.aws.amazon.com/AmazonECR/latest/APIReference/Welcome.html).
 public protocol ECRPUBLICClientProtocol {
-    /// Performs the `BatchCheckLayerAvailability` operation on the `SpencerFrontendService` service.
-    ///
     /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter BatchCheckLayerAvailabilityInput : [no documentation found]
@@ -21,8 +19,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput
-    /// Performs the `BatchDeleteImage` operation on the `SpencerFrontendService` service.
-    ///
     /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request.
     ///
     /// - Parameter BatchDeleteImageInput : [no documentation found]
@@ -37,8 +33,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput
-    /// Performs the `CompleteLayerUpload` operation on the `SpencerFrontendService` service.
-    ///
     /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter CompleteLayerUploadInput : [no documentation found]
@@ -59,8 +53,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
     func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput
-    /// Performs the `CreateRepository` operation on the `SpencerFrontendService` service.
-    ///
     /// Creates a repository in a public registry. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter CreateRepositoryInput : [no documentation found]
@@ -78,8 +70,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
-    /// Performs the `DeleteRepository` operation on the `SpencerFrontendService` service.
-    ///
     /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf before deleting the repository.
     ///
     /// - Parameter DeleteRepositoryInput : [no documentation found]
@@ -95,8 +85,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
-    /// Performs the `DeleteRepositoryPolicy` operation on the `SpencerFrontendService` service.
-    ///
     /// Deletes the repository policy that's associated with the specified repository.
     ///
     /// - Parameter DeleteRepositoryPolicyInput : [no documentation found]
@@ -112,8 +100,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput
-    /// Performs the `DescribeImages` operation on the `SpencerFrontendService` service.
-    ///
     /// Returns metadata that's related to the images in a repository in a public registry. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by [DescribeImages].
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
@@ -129,8 +115,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
-    /// Performs the `DescribeImageTags` operation on the `SpencerFrontendService` service.
-    ///
     /// Returns the image tag details for a repository in a public registry.
     ///
     /// - Parameter DescribeImageTagsInput : [no documentation found]
@@ -145,8 +129,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func describeImageTags(input: DescribeImageTagsInput) async throws -> DescribeImageTagsOutput
-    /// Performs the `DescribeRegistries` operation on the `SpencerFrontendService` service.
-    ///
     /// Returns details for a public registry.
     ///
     /// - Parameter DescribeRegistriesInput : [no documentation found]
@@ -160,8 +142,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func describeRegistries(input: DescribeRegistriesInput) async throws -> DescribeRegistriesOutput
-    /// Performs the `DescribeRepositories` operation on the `SpencerFrontendService` service.
-    ///
     /// Describes repositories that are in a public registry.
     ///
     /// - Parameter DescribeRepositoriesInput : [no documentation found]
@@ -176,8 +156,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput
-    /// Performs the `GetAuthorizationToken` operation on the `SpencerFrontendService` service.
-    ///
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
     ///
     /// - Parameter GetAuthorizationTokenInput : [no documentation found]
@@ -191,8 +169,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
-    /// Performs the `GetRegistryCatalogData` operation on the `SpencerFrontendService` service.
-    ///
     /// Retrieves catalog metadata for a public registry.
     ///
     /// - Parameter GetRegistryCatalogDataInput : [no documentation found]
@@ -205,8 +181,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func getRegistryCatalogData(input: GetRegistryCatalogDataInput) async throws -> GetRegistryCatalogDataOutput
-    /// Performs the `GetRepositoryCatalogData` operation on the `SpencerFrontendService` service.
-    ///
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.
     ///
     /// - Parameter GetRepositoryCatalogDataInput : [no documentation found]
@@ -222,8 +196,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func getRepositoryCatalogData(input: GetRepositoryCatalogDataInput) async throws -> GetRepositoryCatalogDataOutput
-    /// Performs the `GetRepositoryPolicy` operation on the `SpencerFrontendService` service.
-    ///
     /// Retrieves the repository policy for the specified repository.
     ///
     /// - Parameter GetRepositoryPolicyInput : [no documentation found]
@@ -239,8 +211,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput
-    /// Performs the `InitiateLayerUpload` operation on the `SpencerFrontendService` service.
-    ///
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter InitiateLayerUploadInput : [no documentation found]
@@ -256,8 +226,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput
-    /// Performs the `ListTagsForResource` operation on the `SpencerFrontendService` service.
-    ///
     /// List the tags for an Amazon ECR Public resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -272,8 +240,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `PutImage` operation on the `SpencerFrontendService` service.
-    ///
     /// Creates or updates the image manifest and tags that are associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags that are associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter PutImageInput : [no documentation found]
@@ -295,8 +261,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func putImage(input: PutImageInput) async throws -> PutImageOutput
-    /// Performs the `PutRegistryCatalogData` operation on the `SpencerFrontendService` service.
-    ///
     /// Create or update the catalog data for a public registry.
     ///
     /// - Parameter PutRegistryCatalogDataInput : [no documentation found]
@@ -310,8 +274,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func putRegistryCatalogData(input: PutRegistryCatalogDataInput) async throws -> PutRegistryCatalogDataOutput
-    /// Performs the `PutRepositoryCatalogData` operation on the `SpencerFrontendService` service.
-    ///
     /// Creates or updates the catalog data for a repository in a public registry.
     ///
     /// - Parameter PutRepositoryCatalogDataInput : [no documentation found]
@@ -326,8 +288,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func putRepositoryCatalogData(input: PutRepositoryCatalogDataInput) async throws -> PutRepositoryCatalogDataOutput
-    /// Performs the `SetRepositoryPolicy` operation on the `SpencerFrontendService` service.
-    ///
     /// Applies a repository policy to the specified public repository to control access permissions. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter SetRepositoryPolicyInput : [no documentation found]
@@ -342,8 +302,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput
-    /// Performs the `TagResource` operation on the `SpencerFrontendService` service.
-    ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -360,8 +318,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `SpencerFrontendService` service.
-    ///
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -378,8 +334,6 @@ public protocol ECRPUBLICClientProtocol {
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UploadLayerPart` operation on the `SpencerFrontendService` service.
-    ///
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (about 20MB). The UploadLayerPart API is called once for each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter UploadLayerPartInput : [no documentation found]

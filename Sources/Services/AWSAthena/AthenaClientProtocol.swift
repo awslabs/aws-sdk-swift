@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon Athena is an interactive query service that lets you use standard SQL to analyze data directly in Amazon S3. You can point Athena at your data in Amazon S3 and run ad-hoc queries and get results in seconds. Athena is serverless, so there is no infrastructure to set up or manage. You pay only for the queries you run. Athena scales automatically—executing queries in parallel—so results are fast, even with large datasets and complex queries. For more information, see [What is Amazon Athena](http://docs.aws.amazon.com/athena/latest/ug/what-is.html) in the Amazon Athena User Guide. If you connect to Athena using the JDBC driver, use version 1.1.0 of the driver or later with the Amazon Athena API. Earlier version drivers do not support the API. For more information and to download the driver, see [Accessing Amazon Athena with JDBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html). For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](https://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
 public protocol AthenaClientProtocol {
-    /// Performs the `BatchGetNamedQuery` operation on the `AmazonAthena` service.
-    ///
     /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use [ListNamedQueriesInput] to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under [UnprocessedNamedQueryId]. Named queries differ from executed queries. Use [BatchGetQueryExecutionInput] to get details about each unique query execution, and [ListQueryExecutionsInput] to get a list of query execution IDs.
     ///
     /// - Parameter BatchGetNamedQueryInput : Contains an array of named query IDs.
@@ -18,8 +16,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func batchGetNamedQuery(input: BatchGetNamedQueryInput) async throws -> BatchGetNamedQueryOutput
-    /// Performs the `BatchGetPreparedStatement` operation on the `AmazonAthena` service.
-    ///
     /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames.
     ///
     /// - Parameter BatchGetPreparedStatementInput : [no documentation found]
@@ -32,8 +28,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func batchGetPreparedStatement(input: BatchGetPreparedStatementInput) async throws -> BatchGetPreparedStatementOutput
-    /// Performs the `BatchGetQueryExecution` operation on the `AmazonAthena` service.
-    ///
     /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use [ListQueryExecutionsInput$WorkGroup]. Query executions differ from named (saved) queries. Use [BatchGetNamedQueryInput] to get details about named queries.
     ///
     /// - Parameter BatchGetQueryExecutionInput : Contains an array of query execution IDs.
@@ -46,8 +40,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func batchGetQueryExecution(input: BatchGetQueryExecutionInput) async throws -> BatchGetQueryExecutionOutput
-    /// Performs the `CancelCapacityReservation` operation on the `AmazonAthena` service.
-    ///
     /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference.
     ///
     /// - Parameter CancelCapacityReservationInput : [no documentation found]
@@ -60,8 +52,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput
-    /// Performs the `CreateCapacityReservation` operation on the `AmazonAthena` service.
-    ///
     /// Creates a capacity reservation with the specified name and number of requested data processing units.
     ///
     /// - Parameter CreateCapacityReservationInput : [no documentation found]
@@ -74,8 +64,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput
-    /// Performs the `CreateDataCatalog` operation on the `AmazonAthena` service.
-    ///
     /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account.
     ///
     /// - Parameter CreateDataCatalogInput : [no documentation found]
@@ -88,8 +76,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func createDataCatalog(input: CreateDataCatalogInput) async throws -> CreateDataCatalogOutput
-    /// Performs the `CreateNamedQuery` operation on the `AmazonAthena` service.
-    ///
     /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
     /// - Parameter CreateNamedQueryInput : [no documentation found]
@@ -102,8 +88,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func createNamedQuery(input: CreateNamedQueryInput) async throws -> CreateNamedQueryOutput
-    /// Performs the `CreateNotebook` operation on the `AmazonAthena` service.
-    ///
     /// Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an error if a file in the workgroup with the same name already exists.
     ///
     /// - Parameter CreateNotebookInput : [no documentation found]
@@ -117,8 +101,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func createNotebook(input: CreateNotebookInput) async throws -> CreateNotebookOutput
-    /// Performs the `CreatePreparedStatement` operation on the `AmazonAthena` service.
-    ///
     /// Creates a prepared statement for use with SQL queries in Athena.
     ///
     /// - Parameter CreatePreparedStatementInput : [no documentation found]
@@ -131,8 +113,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func createPreparedStatement(input: CreatePreparedStatementInput) async throws -> CreatePreparedStatementOutput
-    /// Performs the `CreatePresignedNotebookUrl` operation on the `AmazonAthena` service.
-    ///
     /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
     ///
     /// - Parameter CreatePresignedNotebookUrlInput : [no documentation found]
@@ -146,8 +126,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func createPresignedNotebookUrl(input: CreatePresignedNotebookUrlInput) async throws -> CreatePresignedNotebookUrlOutput
-    /// Performs the `CreateWorkGroup` operation on the `AmazonAthena` service.
-    ///
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     ///
     /// - Parameter CreateWorkGroupInput : [no documentation found]
@@ -160,8 +138,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func createWorkGroup(input: CreateWorkGroupInput) async throws -> CreateWorkGroupOutput
-    /// Performs the `DeleteCapacityReservation` operation on the `AmazonAthena` service.
-    ///
     /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and deleted reservations do not appear in the output of ListCapacityReservations.
     ///
     /// - Parameter DeleteCapacityReservationInput : [no documentation found]
@@ -174,8 +150,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func deleteCapacityReservation(input: DeleteCapacityReservationInput) async throws -> DeleteCapacityReservationOutput
-    /// Performs the `DeleteDataCatalog` operation on the `AmazonAthena` service.
-    ///
     /// Deletes a data catalog.
     ///
     /// - Parameter DeleteDataCatalogInput : [no documentation found]
@@ -188,8 +162,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func deleteDataCatalog(input: DeleteDataCatalogInput) async throws -> DeleteDataCatalogOutput
-    /// Performs the `DeleteNamedQuery` operation on the `AmazonAthena` service.
-    ///
     /// Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
     /// - Parameter DeleteNamedQueryInput : [no documentation found]
@@ -202,8 +174,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func deleteNamedQuery(input: DeleteNamedQueryInput) async throws -> DeleteNamedQueryOutput
-    /// Performs the `DeleteNotebook` operation on the `AmazonAthena` service.
-    ///
     /// Deletes the specified notebook.
     ///
     /// - Parameter DeleteNotebookInput : [no documentation found]
@@ -217,8 +187,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func deleteNotebook(input: DeleteNotebookInput) async throws -> DeleteNotebookOutput
-    /// Performs the `DeletePreparedStatement` operation on the `AmazonAthena` service.
-    ///
     /// Deletes the prepared statement with the specified name from the specified workgroup.
     ///
     /// - Parameter DeletePreparedStatementInput : [no documentation found]
@@ -232,8 +200,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func deletePreparedStatement(input: DeletePreparedStatementInput) async throws -> DeletePreparedStatementOutput
-    /// Performs the `DeleteWorkGroup` operation on the `AmazonAthena` service.
-    ///
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
     ///
     /// - Parameter DeleteWorkGroupInput : [no documentation found]
@@ -246,8 +212,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func deleteWorkGroup(input: DeleteWorkGroupInput) async throws -> DeleteWorkGroupOutput
-    /// Performs the `ExportNotebook` operation on the `AmazonAthena` service.
-    ///
     /// Exports the specified notebook and its metadata.
     ///
     /// - Parameter ExportNotebookInput : [no documentation found]
@@ -261,8 +225,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func exportNotebook(input: ExportNotebookInput) async throws -> ExportNotebookOutput
-    /// Performs the `GetCalculationExecution` operation on the `AmazonAthena` service.
-    ///
     /// Describes a previously submitted calculation execution.
     ///
     /// - Parameter GetCalculationExecutionInput : [no documentation found]
@@ -276,8 +238,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func getCalculationExecution(input: GetCalculationExecutionInput) async throws -> GetCalculationExecutionOutput
-    /// Performs the `GetCalculationExecutionCode` operation on the `AmazonAthena` service.
-    ///
     /// Retrieves the unencrypted code that was executed for the calculation.
     ///
     /// - Parameter GetCalculationExecutionCodeInput : [no documentation found]
@@ -291,8 +251,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutput
-    /// Performs the `GetCalculationExecutionStatus` operation on the `AmazonAthena` service.
-    ///
     /// Gets the status of a current calculation.
     ///
     /// - Parameter GetCalculationExecutionStatusInput : [no documentation found]
@@ -306,8 +264,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutput
-    /// Performs the `GetCapacityAssignmentConfiguration` operation on the `AmazonAthena` service.
-    ///
     /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
     ///
     /// - Parameter GetCapacityAssignmentConfigurationInput : [no documentation found]
@@ -320,8 +276,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getCapacityAssignmentConfiguration(input: GetCapacityAssignmentConfigurationInput) async throws -> GetCapacityAssignmentConfigurationOutput
-    /// Performs the `GetCapacityReservation` operation on the `AmazonAthena` service.
-    ///
     /// Returns information about the capacity reservation with the specified name.
     ///
     /// - Parameter GetCapacityReservationInput : [no documentation found]
@@ -334,8 +288,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getCapacityReservation(input: GetCapacityReservationInput) async throws -> GetCapacityReservationOutput
-    /// Performs the `GetDatabase` operation on the `AmazonAthena` service.
-    ///
     /// Returns a database object for the specified database and data catalog.
     ///
     /// - Parameter GetDatabaseInput : [no documentation found]
@@ -349,8 +301,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
     func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
-    /// Performs the `GetDataCatalog` operation on the `AmazonAthena` service.
-    ///
     /// Returns the specified data catalog.
     ///
     /// - Parameter GetDataCatalogInput : [no documentation found]
@@ -363,8 +313,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getDataCatalog(input: GetDataCatalogInput) async throws -> GetDataCatalogOutput
-    /// Performs the `GetNamedQuery` operation on the `AmazonAthena` service.
-    ///
     /// Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
     ///
     /// - Parameter GetNamedQueryInput : [no documentation found]
@@ -377,8 +325,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getNamedQuery(input: GetNamedQueryInput) async throws -> GetNamedQueryOutput
-    /// Performs the `GetNotebookMetadata` operation on the `AmazonAthena` service.
-    ///
     /// Retrieves notebook metadata for the specified notebook ID.
     ///
     /// - Parameter GetNotebookMetadataInput : [no documentation found]
@@ -392,8 +338,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func getNotebookMetadata(input: GetNotebookMetadataInput) async throws -> GetNotebookMetadataOutput
-    /// Performs the `GetPreparedStatement` operation on the `AmazonAthena` service.
-    ///
     /// Retrieves the prepared statement with the specified name from the specified workgroup.
     ///
     /// - Parameter GetPreparedStatementInput : [no documentation found]
@@ -407,8 +351,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func getPreparedStatement(input: GetPreparedStatementInput) async throws -> GetPreparedStatementOutput
-    /// Performs the `GetQueryExecution` operation on the `AmazonAthena` service.
-    ///
     /// Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
     ///
     /// - Parameter GetQueryExecutionInput : [no documentation found]
@@ -421,8 +363,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getQueryExecution(input: GetQueryExecutionInput) async throws -> GetQueryExecutionOutput
-    /// Performs the `GetQueryResults` operation on the `AmazonAthena` service.
-    ///
     /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide. This request does not execute the query but returns results. Use [StartQueryExecution] to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location. IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
     ///
     /// - Parameter GetQueryResultsInput : [no documentation found]
@@ -436,8 +376,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
-    /// Performs the `GetQueryRuntimeStatistics` operation on the `AmazonAthena` service.
-    ///
     /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Query execution runtime statistics are returned only when [QueryExecutionStatus$State] is in a SUCCEEDED or FAILED state. Stage-level input and output row count and data size statistics are not shown when a query has row-level filters defined in Lake Formation.
     ///
     /// - Parameter GetQueryRuntimeStatisticsInput : [no documentation found]
@@ -450,8 +388,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getQueryRuntimeStatistics(input: GetQueryRuntimeStatisticsInput) async throws -> GetQueryRuntimeStatisticsOutput
-    /// Performs the `GetSession` operation on the `AmazonAthena` service.
-    ///
     /// Gets the full details of a previously created session, including the session status and configuration.
     ///
     /// - Parameter GetSessionInput : [no documentation found]
@@ -465,8 +401,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func getSession(input: GetSessionInput) async throws -> GetSessionOutput
-    /// Performs the `GetSessionStatus` operation on the `AmazonAthena` service.
-    ///
     /// Gets the current status of a session.
     ///
     /// - Parameter GetSessionStatusInput : [no documentation found]
@@ -480,8 +414,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func getSessionStatus(input: GetSessionStatusInput) async throws -> GetSessionStatusOutput
-    /// Performs the `GetTableMetadata` operation on the `AmazonAthena` service.
-    ///
     /// Returns table metadata for the specified catalog, database, and table.
     ///
     /// - Parameter GetTableMetadataInput : [no documentation found]
@@ -495,8 +427,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
     func getTableMetadata(input: GetTableMetadataInput) async throws -> GetTableMetadataOutput
-    /// Performs the `GetWorkGroup` operation on the `AmazonAthena` service.
-    ///
     /// Returns information about the workgroup with the specified name.
     ///
     /// - Parameter GetWorkGroupInput : [no documentation found]
@@ -509,8 +439,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func getWorkGroup(input: GetWorkGroupInput) async throws -> GetWorkGroupOutput
-    /// Performs the `ImportNotebook` operation on the `AmazonAthena` service.
-    ///
     /// Imports a single ipynb file to a Spark enabled workgroup. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
     ///
     /// - Parameter ImportNotebookInput : [no documentation found]
@@ -524,8 +452,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func importNotebook(input: ImportNotebookInput) async throws -> ImportNotebookOutput
-    /// Performs the `ListApplicationDPUSizes` operation on the `AmazonAthena` service.
-    ///
     /// Returns the supported DPU sizes for the supported application runtimes (for example, Athena notebook version 1).
     ///
     /// - Parameter ListApplicationDPUSizesInput : [no documentation found]
@@ -539,8 +465,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutput
-    /// Performs the `ListCalculationExecutions` operation on the `AmazonAthena` service.
-    ///
     /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     ///
     /// - Parameter ListCalculationExecutionsInput : [no documentation found]
@@ -554,8 +478,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutput
-    /// Performs the `ListCapacityReservations` operation on the `AmazonAthena` service.
-    ///
     /// Lists the capacity reservations for the current account.
     ///
     /// - Parameter ListCapacityReservationsInput : [no documentation found]
@@ -568,8 +490,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listCapacityReservations(input: ListCapacityReservationsInput) async throws -> ListCapacityReservationsOutput
-    /// Performs the `ListDatabases` operation on the `AmazonAthena` service.
-    ///
     /// Lists the databases in the specified data catalog.
     ///
     /// - Parameter ListDatabasesInput : [no documentation found]
@@ -583,8 +503,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
     func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
-    /// Performs the `ListDataCatalogs` operation on the `AmazonAthena` service.
-    ///
     /// Lists the data catalogs in the current Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     ///
     /// - Parameter ListDataCatalogsInput : [no documentation found]
@@ -597,8 +515,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutput
-    /// Performs the `ListEngineVersions` operation on the `AmazonAthena` service.
-    ///
     /// Returns a list of engine versions that are available to choose from, including the Auto option.
     ///
     /// - Parameter ListEngineVersionsInput : [no documentation found]
@@ -611,8 +527,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput
-    /// Performs the `ListExecutors` operation on the `AmazonAthena` service.
-    ///
     /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
     ///
     /// - Parameter ListExecutorsInput : [no documentation found]
@@ -626,8 +540,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func listExecutors(input: ListExecutorsInput) async throws -> ListExecutorsOutput
-    /// Performs the `ListNamedQueries` operation on the `AmazonAthena` service.
-    ///
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
     /// - Parameter ListNamedQueriesInput : [no documentation found]
@@ -640,8 +552,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listNamedQueries(input: ListNamedQueriesInput) async throws -> ListNamedQueriesOutput
-    /// Performs the `ListNotebookMetadata` operation on the `AmazonAthena` service.
-    ///
     /// Displays the notebook files for the specified workgroup in paginated format.
     ///
     /// - Parameter ListNotebookMetadataInput : [no documentation found]
@@ -655,8 +565,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func listNotebookMetadata(input: ListNotebookMetadataInput) async throws -> ListNotebookMetadataOutput
-    /// Performs the `ListNotebookSessions` operation on the `AmazonAthena` service.
-    ///
     /// Lists, in descending order, the sessions that have been created in a notebook that are in an active state like CREATING, CREATED, IDLE or BUSY. Newer sessions are listed first; older sessions are listed later.
     ///
     /// - Parameter ListNotebookSessionsInput : [no documentation found]
@@ -670,8 +578,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func listNotebookSessions(input: ListNotebookSessionsInput) async throws -> ListNotebookSessionsOutput
-    /// Performs the `ListPreparedStatements` operation on the `AmazonAthena` service.
-    ///
     /// Lists the prepared statements in the specified workgroup.
     ///
     /// - Parameter ListPreparedStatementsInput : [no documentation found]
@@ -684,8 +590,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listPreparedStatements(input: ListPreparedStatementsInput) async throws -> ListPreparedStatementsOutput
-    /// Performs the `ListQueryExecutions` operation on the `AmazonAthena` service.
-    ///
     /// Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
     /// - Parameter ListQueryExecutionsInput : [no documentation found]
@@ -698,8 +602,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listQueryExecutions(input: ListQueryExecutionsInput) async throws -> ListQueryExecutionsOutput
-    /// Performs the `ListSessions` operation on the `AmazonAthena` service.
-    ///
     /// Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
     ///
     /// - Parameter ListSessionsInput : [no documentation found]
@@ -713,8 +615,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput
-    /// Performs the `ListTableMetadata` operation on the `AmazonAthena` service.
-    ///
     /// Lists the metadata for the tables in the specified data catalog database.
     ///
     /// - Parameter ListTableMetadataInput : [no documentation found]
@@ -728,8 +628,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
     func listTableMetadata(input: ListTableMetadataInput) async throws -> ListTableMetadataOutput
-    /// Performs the `ListTagsForResource` operation on the `AmazonAthena` service.
-    ///
     /// Lists the tags associated with an Athena resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -743,8 +641,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListWorkGroups` operation on the `AmazonAthena` service.
-    ///
     /// Lists available workgroups for the account.
     ///
     /// - Parameter ListWorkGroupsInput : [no documentation found]
@@ -757,8 +653,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutput
-    /// Performs the `PutCapacityAssignmentConfiguration` operation on the `AmazonAthena` service.
-    ///
     /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
     ///
     /// - Parameter PutCapacityAssignmentConfigurationInput : [no documentation found]
@@ -771,8 +665,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func putCapacityAssignmentConfiguration(input: PutCapacityAssignmentConfigurationInput) async throws -> PutCapacityAssignmentConfigurationOutput
-    /// Performs the `StartCalculationExecution` operation on the `AmazonAthena` service.
-    ///
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
     ///
     /// - Parameter StartCalculationExecutionInput : [no documentation found]
@@ -786,8 +678,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutput
-    /// Performs the `StartQueryExecution` operation on the `AmazonAthena` service.
-    ///
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires [GetDataCatalog] permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
     /// - Parameter StartQueryExecutionInput : [no documentation found]
@@ -801,8 +691,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func startQueryExecution(input: StartQueryExecutionInput) async throws -> StartQueryExecutionOutput
-    /// Performs the `StartSession` operation on the `AmazonAthena` service.
-    ///
     /// Creates a session for running calculations within a workgroup. The session is ready when it reaches an IDLE state.
     ///
     /// - Parameter StartSessionInput : [no documentation found]
@@ -818,8 +706,6 @@ public protocol AthenaClientProtocol {
     /// - `SessionAlreadyExistsException` : The specified session already exists.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func startSession(input: StartSessionInput) async throws -> StartSessionOutput
-    /// Performs the `StopCalculationExecution` operation on the `AmazonAthena` service.
-    ///
     /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED, FAILED, or COMPLETED) succeeds but has no effect. Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running.
     ///
     /// - Parameter StopCalculationExecutionInput : [no documentation found]
@@ -833,8 +719,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutput
-    /// Performs the `StopQueryExecution` operation on the `AmazonAthena` service.
-    ///
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
     /// - Parameter StopQueryExecutionInput : [no documentation found]
@@ -847,8 +731,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutput
-    /// Performs the `TagResource` operation on the `AmazonAthena` service.
-    ///
     /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -862,8 +744,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `TerminateSession` operation on the `AmazonAthena` service.
-    ///
     /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
     ///
     /// - Parameter TerminateSessionInput : [no documentation found]
@@ -877,8 +757,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput
-    /// Performs the `UntagResource` operation on the `AmazonAthena` service.
-    ///
     /// Removes one or more tags from an Athena resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -892,8 +770,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateCapacityReservation` operation on the `AmazonAthena` service.
-    ///
     /// Updates the number of requested data processing units for the capacity reservation with the specified name.
     ///
     /// - Parameter UpdateCapacityReservationInput : [no documentation found]
@@ -906,8 +782,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func updateCapacityReservation(input: UpdateCapacityReservationInput) async throws -> UpdateCapacityReservationOutput
-    /// Performs the `UpdateDataCatalog` operation on the `AmazonAthena` service.
-    ///
     /// Updates the data catalog that has the specified name.
     ///
     /// - Parameter UpdateDataCatalogInput : [no documentation found]
@@ -920,8 +794,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func updateDataCatalog(input: UpdateDataCatalogInput) async throws -> UpdateDataCatalogOutput
-    /// Performs the `UpdateNamedQuery` operation on the `AmazonAthena` service.
-    ///
     /// Updates a [NamedQuery] object. The database or workgroup cannot be updated.
     ///
     /// - Parameter UpdateNamedQueryInput : [no documentation found]
@@ -934,8 +806,6 @@ public protocol AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     func updateNamedQuery(input: UpdateNamedQueryInput) async throws -> UpdateNamedQueryOutput
-    /// Performs the `UpdateNotebook` operation on the `AmazonAthena` service.
-    ///
     /// Updates the contents of a Spark notebook.
     ///
     /// - Parameter UpdateNotebookInput : [no documentation found]
@@ -949,8 +819,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func updateNotebook(input: UpdateNotebookInput) async throws -> UpdateNotebookOutput
-    /// Performs the `UpdateNotebookMetadata` operation on the `AmazonAthena` service.
-    ///
     /// Updates the metadata for a notebook.
     ///
     /// - Parameter UpdateNotebookMetadataInput : [no documentation found]
@@ -964,8 +832,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
     func updateNotebookMetadata(input: UpdateNotebookMetadataInput) async throws -> UpdateNotebookMetadataOutput
-    /// Performs the `UpdatePreparedStatement` operation on the `AmazonAthena` service.
-    ///
     /// Updates a prepared statement.
     ///
     /// - Parameter UpdatePreparedStatementInput : [no documentation found]
@@ -979,8 +845,6 @@ public protocol AthenaClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     func updatePreparedStatement(input: UpdatePreparedStatementInput) async throws -> UpdatePreparedStatementOutput
-    /// Performs the `UpdateWorkGroup` operation on the `AmazonAthena` service.
-    ///
     /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only ConfigurationUpdates can be specified.
     ///
     /// - Parameter UpdateWorkGroupInput : [no documentation found]

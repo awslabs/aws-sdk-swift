@@ -12,7 +12,7 @@ extension ProtonClient {
     ///     - input: A `[ListRepositorySyncDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRepositorySyncDefinitionsOutput`
     public func listRepositorySyncDefinitionsPaginated(input: ListRepositorySyncDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRepositorySyncDefinitions(input:))
+        return ClientRuntime.PaginatorSequence<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(input: input, inputKey: \ListRepositorySyncDefinitionsInput.nextToken, outputKey: \ListRepositorySyncDefinitionsOutput.nextToken, paginationFunction: self.listRepositorySyncDefinitions(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListRepositorySyncDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListRepositorySyncDefinitionsInput, OperationStackOutput == ListRepositorySyncDefinitionsOutput {
+extension PaginatorSequence where Input == ListRepositorySyncDefinitionsInput, Output == ListRepositorySyncDefinitionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRepositorySyncDefinitionsPaginated`
     /// to access the nested member `[ProtonClientTypes.RepositorySyncDefinition]`
     /// - Returns: `[ProtonClientTypes.RepositorySyncDefinition]`
@@ -44,7 +44,7 @@ extension ProtonClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[ProtonClientTypes.Tag]`
     /// - Returns: `[ProtonClientTypes.Tag]`

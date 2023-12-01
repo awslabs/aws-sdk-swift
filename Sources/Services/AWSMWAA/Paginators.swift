@@ -12,7 +12,7 @@ extension MWAAClient {
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
     public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironments(input:))
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, OperationStackOutput == ListEnvironmentsOutput {
+extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

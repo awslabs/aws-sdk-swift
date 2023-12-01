@@ -12,7 +12,7 @@ extension AppflowClient {
     ///     - input: A `[DescribeConnectorProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectorProfilesOutput`
     public func describeConnectorProfilesPaginated(input: DescribeConnectorProfilesInput) -> ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConnectorProfiles(input:))
+        return ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutput>(input: input, inputKey: \DescribeConnectorProfilesInput.nextToken, outputKey: \DescribeConnectorProfilesOutput.nextToken, paginationFunction: self.describeConnectorProfiles(input:))
     }
 }
 
@@ -36,7 +36,7 @@ extension AppflowClient {
     ///     - input: A `[DescribeConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectorsOutput`
     public func describeConnectorsPaginated(input: DescribeConnectorsInput) -> ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConnectors(input:))
+        return ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutput>(input: input, inputKey: \DescribeConnectorsInput.nextToken, outputKey: \DescribeConnectorsOutput.nextToken, paginationFunction: self.describeConnectors(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension AppflowClient {
     ///     - input: A `[DescribeFlowExecutionRecordsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFlowExecutionRecordsOutput`
     public func describeFlowExecutionRecordsPaginated(input: DescribeFlowExecutionRecordsInput) -> ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFlowExecutionRecords(input:))
+        return ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutput>(input: input, inputKey: \DescribeFlowExecutionRecordsInput.nextToken, outputKey: \DescribeFlowExecutionRecordsOutput.nextToken, paginationFunction: self.describeFlowExecutionRecords(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension AppflowClient {
     ///     - input: A `[ListConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutput`
     public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectors(input:))
+        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \ListConnectorsInput.nextToken, outputKey: \ListConnectorsOutput.nextToken, paginationFunction: self.listConnectors(input:))
     }
 }
 
@@ -101,7 +101,7 @@ extension AppflowClient {
     ///     - input: A `[ListFlowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFlowsOutput`
     public func listFlowsPaginated(input: ListFlowsInput) -> ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlows(input:))
+        return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput>(input: input, inputKey: \ListFlowsInput.nextToken, outputKey: \ListFlowsOutput.nextToken, paginationFunction: self.listFlows(input:))
     }
 }
 

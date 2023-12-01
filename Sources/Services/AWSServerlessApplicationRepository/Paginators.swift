@@ -12,7 +12,7 @@ extension ServerlessApplicationRepositoryClient {
     ///     - input: A `[ListApplicationDependenciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDependenciesOutput`
     public func listApplicationDependenciesPaginated(input: ListApplicationDependenciesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationDependencies(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationDependenciesInput, ListApplicationDependenciesOutput>(input: input, inputKey: \ListApplicationDependenciesInput.nextToken, outputKey: \ListApplicationDependenciesOutput.nextToken, paginationFunction: self.listApplicationDependencies(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension ServerlessApplicationRepositoryClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ServerlessApplicationRepositoryClient {
     ///     - input: A `[ListApplicationVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationVersionsOutput`
     public func listApplicationVersionsPaginated(input: ListApplicationVersionsInput) -> ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationVersionsInput, ListApplicationVersionsOutput>(input: input, inputKey: \ListApplicationVersionsInput.nextToken, outputKey: \ListApplicationVersionsOutput.nextToken, paginationFunction: self.listApplicationVersions(input:))
     }
 }
 

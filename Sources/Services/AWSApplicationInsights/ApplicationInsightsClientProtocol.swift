@@ -4,8 +4,6 @@ import ClientRuntime
 
 /// Amazon CloudWatch Application Insights Amazon CloudWatch Application Insights is a service that helps you detect common problems with your applications. It enables you to pinpoint the source of issues in your applications (built with technologies such as Microsoft IIS, .NET, and Microsoft SQL Server), by providing key insights into detected problems. After you onboard your application, CloudWatch Application Insights identifies, recommends, and sets up metrics and logs. It continuously analyzes and correlates your metrics and logs for unusual behavior to surface actionable problems with your application. For example, if your application is slow and unresponsive and leading to HTTP 500 errors in your Application Load Balancer (ALB), Application Insights informs you that a memory pressure problem with your SQL Server database is occurring. It bases this analysis on impactful metrics and log errors.
 public protocol ApplicationInsightsClientProtocol {
-    /// Performs the `AddWorkload` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///
     /// - Parameter AddWorkloadInput : [no documentation found]
@@ -20,8 +18,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func addWorkload(input: AddWorkloadInput) async throws -> AddWorkloadOutput
-    /// Performs the `CreateApplication` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Adds an application that is created from a resource group.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
@@ -38,8 +34,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `TagsAlreadyExistException` : Tags are already registered for the specified application ARN.
     /// - `ValidationException` : The parameter is not valid.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    /// Performs the `CreateComponent` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Creates a custom component by grouping similar standalone instances to monitor.
     ///
     /// - Parameter CreateComponentInput : [no documentation found]
@@ -54,8 +48,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
-    /// Performs the `CreateLogPattern` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Adds an log pattern to a LogPatternSet.
     ///
     /// - Parameter CreateLogPatternInput : [no documentation found]
@@ -70,8 +62,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func createLogPattern(input: CreateLogPatternInput) async throws -> CreateLogPatternOutput
-    /// Performs the `DeleteApplication` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Removes the specified application from monitoring. Does not delete the application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -86,8 +76,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    /// Performs the `DeleteComponent` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
     ///
     /// - Parameter DeleteComponentInput : [no documentation found]
@@ -101,8 +89,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
-    /// Performs the `DeleteLogPattern` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Removes the specified log pattern from a LogPatternSet.
     ///
     /// - Parameter DeleteLogPatternInput : [no documentation found]
@@ -117,8 +103,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func deleteLogPattern(input: DeleteLogPatternInput) async throws -> DeleteLogPatternOutput
-    /// Performs the `DescribeApplication` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes the application.
     ///
     /// - Parameter DescribeApplicationInput : [no documentation found]
@@ -132,8 +116,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutput
-    /// Performs the `DescribeComponent` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes a component and lists the resources that are grouped together in a component.
     ///
     /// - Parameter DescribeComponentInput : [no documentation found]
@@ -147,8 +129,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutput
-    /// Performs the `DescribeComponentConfiguration` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes the monitoring configuration of the component.
     ///
     /// - Parameter DescribeComponentConfigurationInput : [no documentation found]
@@ -162,8 +142,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeComponentConfiguration(input: DescribeComponentConfigurationInput) async throws -> DescribeComponentConfigurationOutput
-    /// Performs the `DescribeComponentConfigurationRecommendation` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes the recommended monitoring configuration of the component.
     ///
     /// - Parameter DescribeComponentConfigurationRecommendationInput : [no documentation found]
@@ -177,8 +155,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeComponentConfigurationRecommendation(input: DescribeComponentConfigurationRecommendationInput) async throws -> DescribeComponentConfigurationRecommendationOutput
-    /// Performs the `DescribeLogPattern` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describe a specific log pattern from a LogPatternSet.
     ///
     /// - Parameter DescribeLogPatternInput : [no documentation found]
@@ -192,8 +168,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeLogPattern(input: DescribeLogPatternInput) async throws -> DescribeLogPatternOutput
-    /// Performs the `DescribeObservation` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes an anomaly or error with the application.
     ///
     /// - Parameter DescribeObservationInput : [no documentation found]
@@ -207,8 +181,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeObservation(input: DescribeObservationInput) async throws -> DescribeObservationOutput
-    /// Performs the `DescribeProblem` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes an application problem.
     ///
     /// - Parameter DescribeProblemInput : [no documentation found]
@@ -222,8 +194,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeProblem(input: DescribeProblemInput) async throws -> DescribeProblemOutput
-    /// Performs the `DescribeProblemObservations` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes the anomalies or errors associated with the problem.
     ///
     /// - Parameter DescribeProblemObservationsInput : [no documentation found]
@@ -237,8 +207,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeProblemObservations(input: DescribeProblemObservationsInput) async throws -> DescribeProblemObservationsOutput
-    /// Performs the `DescribeWorkload` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Describes a workload and its configuration.
     ///
     /// - Parameter DescribeWorkloadInput : [no documentation found]
@@ -252,8 +220,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func describeWorkload(input: DescribeWorkloadInput) async throws -> DescribeWorkloadOutput
-    /// Performs the `ListApplications` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the IDs of the applications that you are monitoring.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
@@ -266,8 +232,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ValidationException` : The parameter is not valid.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    /// Performs the `ListComponents` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the auto-grouped, standalone, and custom components of the application.
     ///
     /// - Parameter ListComponentsInput : [no documentation found]
@@ -281,8 +245,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    /// Performs the `ListConfigurationHistory` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:
     ///
     /// * INFO: creating a new alarm or updating an alarm threshold.
@@ -302,8 +264,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listConfigurationHistory(input: ListConfigurationHistoryInput) async throws -> ListConfigurationHistoryOutput
-    /// Performs the `ListLogPatterns` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the log patterns in the specific log LogPatternSet.
     ///
     /// - Parameter ListLogPatternsInput : [no documentation found]
@@ -317,8 +277,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listLogPatterns(input: ListLogPatternsInput) async throws -> ListLogPatternsOutput
-    /// Performs the `ListLogPatternSets` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the log pattern sets in the specific application.
     ///
     /// - Parameter ListLogPatternSetsInput : [no documentation found]
@@ -332,8 +290,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listLogPatternSets(input: ListLogPatternSetsInput) async throws -> ListLogPatternSetsOutput
-    /// Performs the `ListProblems` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the problems with your application.
     ///
     /// - Parameter ListProblemsInput : [no documentation found]
@@ -347,8 +303,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listProblems(input: ListProblemsInput) async throws -> ListProblemsOutput
-    /// Performs the `ListTagsForResource` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -361,8 +315,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Performs the `ListWorkloads` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Lists the workloads that are configured on a given component.
     ///
     /// - Parameter ListWorkloadsInput : [no documentation found]
@@ -376,8 +328,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput
-    /// Performs the `RemoveWorkload` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Remove workload from a component.
     ///
     /// - Parameter RemoveWorkloadInput : [no documentation found]
@@ -391,8 +341,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func removeWorkload(input: RemoveWorkloadInput) async throws -> RemoveWorkloadOutput
-    /// Performs the `TagResource` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -406,8 +354,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `TooManyTagsException` : The number of the provided tags is beyond the limit, or the number of total tags you are trying to attach to the specified resource exceeds the limit.
     /// - `ValidationException` : The parameter is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Performs the `UntagResource` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Remove one or more tags (keys and values) from a specified application.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -420,8 +366,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Performs the `UpdateApplication` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Updates the application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
@@ -435,8 +379,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    /// Performs the `UpdateComponent` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Updates the custom component name and/or the list of resources that make up the component.
     ///
     /// - Parameter UpdateComponentInput : [no documentation found]
@@ -451,8 +393,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
-    /// Performs the `UpdateComponentConfiguration` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
     ///
     /// - Parameter UpdateComponentConfigurationInput : [no documentation found]
@@ -467,8 +407,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func updateComponentConfiguration(input: UpdateComponentConfigurationInput) async throws -> UpdateComponentConfigurationOutput
-    /// Performs the `UpdateLogPattern` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Adds a log pattern to a LogPatternSet.
     ///
     /// - Parameter UpdateLogPatternInput : [no documentation found]
@@ -483,8 +421,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func updateLogPattern(input: UpdateLogPatternInput) async throws -> UpdateLogPatternOutput
-    /// Performs the `UpdateProblem` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Updates the visibility of the problem or specifies the problem as RESOLVED.
     ///
     /// - Parameter UpdateProblemInput : [no documentation found]
@@ -498,8 +434,6 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func updateProblem(input: UpdateProblemInput) async throws -> UpdateProblemOutput
-    /// Performs the `UpdateWorkload` operation on the `EC2WindowsBarleyService` service.
-    ///
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///
     /// - Parameter UpdateWorkloadInput : [no documentation found]

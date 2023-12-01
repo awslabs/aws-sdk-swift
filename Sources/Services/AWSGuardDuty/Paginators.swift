@@ -12,7 +12,7 @@ extension GuardDutyClient {
     ///     - input: A `[DescribeMalwareScansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMalwareScansOutput`
     public func describeMalwareScansPaginated(input: DescribeMalwareScansInput) -> ClientRuntime.PaginatorSequence<DescribeMalwareScansInput, DescribeMalwareScansOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeMalwareScansInput, DescribeMalwareScansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMalwareScans(input:))
+        return ClientRuntime.PaginatorSequence<DescribeMalwareScansInput, DescribeMalwareScansOutput>(input: input, inputKey: \DescribeMalwareScansInput.nextToken, outputKey: \DescribeMalwareScansOutput.nextToken, paginationFunction: self.describeMalwareScans(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension DescribeMalwareScansInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == DescribeMalwareScansInput, OperationStackOutput == DescribeMalwareScansOutput {
+extension PaginatorSequence where Input == DescribeMalwareScansInput, Output == DescribeMalwareScansOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeMalwareScansPaginated`
     /// to access the nested member `[GuardDutyClientTypes.Scan]`
     /// - Returns: `[GuardDutyClientTypes.Scan]`
@@ -45,7 +45,7 @@ extension GuardDutyClient {
     ///     - input: A `[DescribeOrganizationConfigurationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigurationOutput`
     public func describeOrganizationConfigurationPaginated(input: DescribeOrganizationConfigurationInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOrganizationConfiguration(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(input: input, inputKey: \DescribeOrganizationConfigurationInput.nextToken, outputKey: \DescribeOrganizationConfigurationOutput.nextToken, paginationFunction: self.describeOrganizationConfiguration(input:))
     }
 }
 
@@ -67,7 +67,7 @@ extension GuardDutyClient {
     ///     - input: A `[GetUsageStatisticsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUsageStatisticsOutput`
     public func getUsageStatisticsPaginated(input: GetUsageStatisticsInput) -> ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput> {
-        return ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getUsageStatistics(input:))
+        return ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput>(input: input, inputKey: \GetUsageStatisticsInput.nextToken, outputKey: \GetUsageStatisticsOutput.nextToken, paginationFunction: self.getUsageStatistics(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListCoverageInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCoverageOutput`
     public func listCoveragePaginated(input: ListCoverageInput) -> ClientRuntime.PaginatorSequence<ListCoverageInput, ListCoverageOutput> {
-        return ClientRuntime.PaginatorSequence<ListCoverageInput, ListCoverageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCoverage(input:))
+        return ClientRuntime.PaginatorSequence<ListCoverageInput, ListCoverageOutput>(input: input, inputKey: \ListCoverageInput.nextToken, outputKey: \ListCoverageOutput.nextToken, paginationFunction: self.listCoverage(input:))
     }
 }
 
@@ -107,7 +107,7 @@ extension ListCoverageInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListCoverageInput, OperationStackOutput == ListCoverageOutput {
+extension PaginatorSequence where Input == ListCoverageInput, Output == ListCoverageOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCoveragePaginated`
     /// to access the nested member `[GuardDutyClientTypes.CoverageResource]`
     /// - Returns: `[GuardDutyClientTypes.CoverageResource]`
@@ -125,7 +125,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListDetectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDetectorsOutput`
     public func listDetectorsPaginated(input: ListDetectorsInput) -> ClientRuntime.PaginatorSequence<ListDetectorsInput, ListDetectorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDetectorsInput, ListDetectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDetectors(input:))
+        return ClientRuntime.PaginatorSequence<ListDetectorsInput, ListDetectorsOutput>(input: input, inputKey: \ListDetectorsInput.nextToken, outputKey: \ListDetectorsOutput.nextToken, paginationFunction: self.listDetectors(input:))
     }
 }
 
@@ -137,7 +137,7 @@ extension ListDetectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListDetectorsInput, OperationStackOutput == ListDetectorsOutput {
+extension PaginatorSequence where Input == ListDetectorsInput, Output == ListDetectorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDetectorsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -155,7 +155,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListFiltersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFiltersOutput`
     public func listFiltersPaginated(input: ListFiltersInput) -> ClientRuntime.PaginatorSequence<ListFiltersInput, ListFiltersOutput> {
-        return ClientRuntime.PaginatorSequence<ListFiltersInput, ListFiltersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFilters(input:))
+        return ClientRuntime.PaginatorSequence<ListFiltersInput, ListFiltersOutput>(input: input, inputKey: \ListFiltersInput.nextToken, outputKey: \ListFiltersOutput.nextToken, paginationFunction: self.listFilters(input:))
     }
 }
 
@@ -168,7 +168,7 @@ extension ListFiltersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListFiltersInput, OperationStackOutput == ListFiltersOutput {
+extension PaginatorSequence where Input == ListFiltersInput, Output == ListFiltersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFiltersPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -186,7 +186,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsOutput`
     public func listFindingsPaginated(input: ListFindingsInput) -> ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindings(input:))
+        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \ListFindingsInput.nextToken, outputKey: \ListFindingsOutput.nextToken, paginationFunction: self.listFindings(input:))
     }
 }
 
@@ -201,7 +201,7 @@ extension ListFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListFindingsInput, OperationStackOutput == ListFindingsOutput {
+extension PaginatorSequence where Input == ListFindingsInput, Output == ListFindingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -219,7 +219,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
     public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvitations(input:))
+        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
     }
 }
 
@@ -231,7 +231,7 @@ extension ListInvitationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListInvitationsInput, OperationStackOutput == ListInvitationsOutput {
+extension PaginatorSequence where Input == ListInvitationsInput, Output == ListInvitationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInvitationsPaginated`
     /// to access the nested member `[GuardDutyClientTypes.Invitation]`
     /// - Returns: `[GuardDutyClientTypes.Invitation]`
@@ -249,7 +249,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListIPSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIPSetsOutput`
     public func listIPSetsPaginated(input: ListIPSetsInput) -> ClientRuntime.PaginatorSequence<ListIPSetsInput, ListIPSetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListIPSetsInput, ListIPSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIPSets(input:))
+        return ClientRuntime.PaginatorSequence<ListIPSetsInput, ListIPSetsOutput>(input: input, inputKey: \ListIPSetsInput.nextToken, outputKey: \ListIPSetsOutput.nextToken, paginationFunction: self.listIPSets(input:))
     }
 }
 
@@ -262,7 +262,7 @@ extension ListIPSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListIPSetsInput, OperationStackOutput == ListIPSetsOutput {
+extension PaginatorSequence where Input == ListIPSetsInput, Output == ListIPSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIPSetsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -280,7 +280,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
     public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembers(input:))
+        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
     }
 }
 
@@ -294,7 +294,7 @@ extension ListMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListMembersInput, OperationStackOutput == ListMembersOutput {
+extension PaginatorSequence where Input == ListMembersInput, Output == ListMembersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMembersPaginated`
     /// to access the nested member `[GuardDutyClientTypes.Member]`
     /// - Returns: `[GuardDutyClientTypes.Member]`
@@ -312,7 +312,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListOrganizationAdminAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationAdminAccountsOutput`
     public func listOrganizationAdminAccountsPaginated(input: ListOrganizationAdminAccountsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \ListOrganizationAdminAccountsInput.nextToken, outputKey: \ListOrganizationAdminAccountsOutput.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
     }
 }
 
@@ -324,7 +324,7 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListOrganizationAdminAccountsInput, OperationStackOutput == ListOrganizationAdminAccountsOutput {
+extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, Output == ListOrganizationAdminAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOrganizationAdminAccountsPaginated`
     /// to access the nested member `[GuardDutyClientTypes.AdminAccount]`
     /// - Returns: `[GuardDutyClientTypes.AdminAccount]`
@@ -342,7 +342,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListPublishingDestinationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPublishingDestinationsOutput`
     public func listPublishingDestinationsPaginated(input: ListPublishingDestinationsInput) -> ClientRuntime.PaginatorSequence<ListPublishingDestinationsInput, ListPublishingDestinationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPublishingDestinations(input:))
+        return ClientRuntime.PaginatorSequence<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(input: input, inputKey: \ListPublishingDestinationsInput.nextToken, outputKey: \ListPublishingDestinationsOutput.nextToken, paginationFunction: self.listPublishingDestinations(input:))
     }
 }
 
@@ -364,7 +364,7 @@ extension GuardDutyClient {
     ///     - input: A `[ListThreatIntelSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThreatIntelSetsOutput`
     public func listThreatIntelSetsPaginated(input: ListThreatIntelSetsInput) -> ClientRuntime.PaginatorSequence<ListThreatIntelSetsInput, ListThreatIntelSetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThreatIntelSets(input:))
+        return ClientRuntime.PaginatorSequence<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(input: input, inputKey: \ListThreatIntelSetsInput.nextToken, outputKey: \ListThreatIntelSetsOutput.nextToken, paginationFunction: self.listThreatIntelSets(input:))
     }
 }
 
@@ -377,7 +377,7 @@ extension ListThreatIntelSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListThreatIntelSetsInput, OperationStackOutput == ListThreatIntelSetsOutput {
+extension PaginatorSequence where Input == ListThreatIntelSetsInput, Output == ListThreatIntelSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThreatIntelSetsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

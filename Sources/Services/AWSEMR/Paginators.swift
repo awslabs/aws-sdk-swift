@@ -12,7 +12,7 @@ extension EMRClient {
     ///     - input: A `[ListBootstrapActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBootstrapActionsOutput`
     public func listBootstrapActionsPaginated(input: ListBootstrapActionsInput) -> ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listBootstrapActions(input:))
+        return ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutput>(input: input, inputKey: \ListBootstrapActionsInput.marker, outputKey: \ListBootstrapActionsOutput.marker, paginationFunction: self.listBootstrapActions(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListBootstrapActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListBootstrapActionsInput, OperationStackOutput == ListBootstrapActionsOutput {
+extension PaginatorSequence where Input == ListBootstrapActionsInput, Output == ListBootstrapActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBootstrapActionsPaginated`
     /// to access the nested member `[EMRClientTypes.Command]`
     /// - Returns: `[EMRClientTypes.Command]`
@@ -42,7 +42,7 @@ extension EMRClient {
     ///     - input: A `[ListClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
     public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listClusters(input:))
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.marker, outputKey: \ListClustersOutput.marker, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListClustersInput, OperationStackOutput == ListClustersOutput {
+extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[EMRClientTypes.ClusterSummary]`
     /// - Returns: `[EMRClientTypes.ClusterSummary]`
@@ -74,7 +74,7 @@ extension EMRClient {
     ///     - input: A `[ListInstanceFleetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceFleetsOutput`
     public func listInstanceFleetsPaginated(input: ListInstanceFleetsInput) -> ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listInstanceFleets(input:))
+        return ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutput>(input: input, inputKey: \ListInstanceFleetsInput.marker, outputKey: \ListInstanceFleetsOutput.marker, paginationFunction: self.listInstanceFleets(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListInstanceFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListInstanceFleetsInput, OperationStackOutput == ListInstanceFleetsOutput {
+extension PaginatorSequence where Input == ListInstanceFleetsInput, Output == ListInstanceFleetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceFleetsPaginated`
     /// to access the nested member `[EMRClientTypes.InstanceFleet]`
     /// - Returns: `[EMRClientTypes.InstanceFleet]`
@@ -104,7 +104,7 @@ extension EMRClient {
     ///     - input: A `[ListInstanceGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceGroupsOutput`
     public func listInstanceGroupsPaginated(input: ListInstanceGroupsInput) -> ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listInstanceGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutput>(input: input, inputKey: \ListInstanceGroupsInput.marker, outputKey: \ListInstanceGroupsOutput.marker, paginationFunction: self.listInstanceGroups(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListInstanceGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListInstanceGroupsInput, OperationStackOutput == ListInstanceGroupsOutput {
+extension PaginatorSequence where Input == ListInstanceGroupsInput, Output == ListInstanceGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceGroupsPaginated`
     /// to access the nested member `[EMRClientTypes.InstanceGroup]`
     /// - Returns: `[EMRClientTypes.InstanceGroup]`
@@ -134,7 +134,7 @@ extension EMRClient {
     ///     - input: A `[ListInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
     public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.marker, outputKey: \ListInstancesOutput.marker, paginationFunction: self.listInstances(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListInstancesInput, OperationStackOutput == ListInstancesOutput {
+extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstancesPaginated`
     /// to access the nested member `[EMRClientTypes.Instance]`
     /// - Returns: `[EMRClientTypes.Instance]`
@@ -169,7 +169,7 @@ extension EMRClient {
     ///     - input: A `[ListNotebookExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotebookExecutionsOutput`
     public func listNotebookExecutionsPaginated(input: ListNotebookExecutionsInput) -> ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listNotebookExecutions(input:))
+        return ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(input: input, inputKey: \ListNotebookExecutionsInput.marker, outputKey: \ListNotebookExecutionsOutput.marker, paginationFunction: self.listNotebookExecutions(input:))
     }
 }
 
@@ -185,7 +185,7 @@ extension ListNotebookExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListNotebookExecutionsInput, OperationStackOutput == ListNotebookExecutionsOutput {
+extension PaginatorSequence where Input == ListNotebookExecutionsInput, Output == ListNotebookExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNotebookExecutionsPaginated`
     /// to access the nested member `[EMRClientTypes.NotebookExecutionSummary]`
     /// - Returns: `[EMRClientTypes.NotebookExecutionSummary]`
@@ -203,7 +203,7 @@ extension EMRClient {
     ///     - input: A `[ListReleaseLabelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReleaseLabelsOutput`
     public func listReleaseLabelsPaginated(input: ListReleaseLabelsInput) -> ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReleaseLabels(input:))
+        return ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutput>(input: input, inputKey: \ListReleaseLabelsInput.nextToken, outputKey: \ListReleaseLabelsOutput.nextToken, paginationFunction: self.listReleaseLabels(input:))
     }
 }
 
@@ -225,7 +225,7 @@ extension EMRClient {
     ///     - input: A `[ListSecurityConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityConfigurationsOutput`
     public func listSecurityConfigurationsPaginated(input: ListSecurityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listSecurityConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(input: input, inputKey: \ListSecurityConfigurationsInput.marker, outputKey: \ListSecurityConfigurationsOutput.marker, paginationFunction: self.listSecurityConfigurations(input:))
     }
 }
 
@@ -236,7 +236,7 @@ extension ListSecurityConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListSecurityConfigurationsInput, OperationStackOutput == ListSecurityConfigurationsOutput {
+extension PaginatorSequence where Input == ListSecurityConfigurationsInput, Output == ListSecurityConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityConfigurationsPaginated`
     /// to access the nested member `[EMRClientTypes.SecurityConfigurationSummary]`
     /// - Returns: `[EMRClientTypes.SecurityConfigurationSummary]`
@@ -254,7 +254,7 @@ extension EMRClient {
     ///     - input: A `[ListStepsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStepsOutput`
     public func listStepsPaginated(input: ListStepsInput) -> ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listSteps(input:))
+        return ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutput>(input: input, inputKey: \ListStepsInput.marker, outputKey: \ListStepsOutput.marker, paginationFunction: self.listSteps(input:))
     }
 }
 
@@ -268,7 +268,7 @@ extension ListStepsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListStepsInput, OperationStackOutput == ListStepsOutput {
+extension PaginatorSequence where Input == ListStepsInput, Output == ListStepsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStepsPaginated`
     /// to access the nested member `[EMRClientTypes.StepSummary]`
     /// - Returns: `[EMRClientTypes.StepSummary]`
@@ -286,7 +286,7 @@ extension EMRClient {
     ///     - input: A `[ListStudiosInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStudiosOutput`
     public func listStudiosPaginated(input: ListStudiosInput) -> ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutput> {
-        return ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listStudios(input:))
+        return ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutput>(input: input, inputKey: \ListStudiosInput.marker, outputKey: \ListStudiosOutput.marker, paginationFunction: self.listStudios(input:))
     }
 }
 
@@ -297,7 +297,7 @@ extension ListStudiosInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListStudiosInput, OperationStackOutput == ListStudiosOutput {
+extension PaginatorSequence where Input == ListStudiosInput, Output == ListStudiosOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStudiosPaginated`
     /// to access the nested member `[EMRClientTypes.StudioSummary]`
     /// - Returns: `[EMRClientTypes.StudioSummary]`
@@ -315,7 +315,7 @@ extension EMRClient {
     ///     - input: A `[ListStudioSessionMappingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStudioSessionMappingsOutput`
     public func listStudioSessionMappingsPaginated(input: ListStudioSessionMappingsInput) -> ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listStudioSessionMappings(input:))
+        return ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(input: input, inputKey: \ListStudioSessionMappingsInput.marker, outputKey: \ListStudioSessionMappingsOutput.marker, paginationFunction: self.listStudioSessionMappings(input:))
     }
 }
 
@@ -328,7 +328,7 @@ extension ListStudioSessionMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListStudioSessionMappingsInput, OperationStackOutput == ListStudioSessionMappingsOutput {
+extension PaginatorSequence where Input == ListStudioSessionMappingsInput, Output == ListStudioSessionMappingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStudioSessionMappingsPaginated`
     /// to access the nested member `[EMRClientTypes.SessionMappingSummary]`
     /// - Returns: `[EMRClientTypes.SessionMappingSummary]`
@@ -346,7 +346,7 @@ extension EMRClient {
     ///     - input: A `[ListSupportedInstanceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSupportedInstanceTypesOutput`
     public func listSupportedInstanceTypesPaginated(input: ListSupportedInstanceTypesInput) -> ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listSupportedInstanceTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(input: input, inputKey: \ListSupportedInstanceTypesInput.marker, outputKey: \ListSupportedInstanceTypesOutput.marker, paginationFunction: self.listSupportedInstanceTypes(input:))
     }
 }
 

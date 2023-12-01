@@ -12,7 +12,7 @@ extension QLDBClient {
     ///     - input: A `[ListJournalKinesisStreamsForLedgerInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJournalKinesisStreamsForLedgerOutput`
     public func listJournalKinesisStreamsForLedgerPaginated(input: ListJournalKinesisStreamsForLedgerInput) -> ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput> {
-        return ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJournalKinesisStreamsForLedger(input:))
+        return ClientRuntime.PaginatorSequence<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput>(input: input, inputKey: \ListJournalKinesisStreamsForLedgerInput.nextToken, outputKey: \ListJournalKinesisStreamsForLedgerOutput.nextToken, paginationFunction: self.listJournalKinesisStreamsForLedger(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension QLDBClient {
     ///     - input: A `[ListJournalS3ExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJournalS3ExportsOutput`
     public func listJournalS3ExportsPaginated(input: ListJournalS3ExportsInput) -> ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJournalS3Exports(input:))
+        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsInput, ListJournalS3ExportsOutput>(input: input, inputKey: \ListJournalS3ExportsInput.nextToken, outputKey: \ListJournalS3ExportsOutput.nextToken, paginationFunction: self.listJournalS3Exports(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension QLDBClient {
     ///     - input: A `[ListJournalS3ExportsForLedgerInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJournalS3ExportsForLedgerOutput`
     public func listJournalS3ExportsForLedgerPaginated(input: ListJournalS3ExportsForLedgerInput) -> ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput> {
-        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJournalS3ExportsForLedger(input:))
+        return ClientRuntime.PaginatorSequence<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput>(input: input, inputKey: \ListJournalS3ExportsForLedgerInput.nextToken, outputKey: \ListJournalS3ExportsForLedgerOutput.nextToken, paginationFunction: self.listJournalS3ExportsForLedger(input:))
     }
 }
 
@@ -77,7 +77,7 @@ extension QLDBClient {
     ///     - input: A `[ListLedgersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLedgersOutput`
     public func listLedgersPaginated(input: ListLedgersInput) -> ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutput> {
-        return ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLedgers(input:))
+        return ClientRuntime.PaginatorSequence<ListLedgersInput, ListLedgersOutput>(input: input, inputKey: \ListLedgersInput.nextToken, outputKey: \ListLedgersOutput.nextToken, paginationFunction: self.listLedgers(input:))
     }
 }
 

@@ -4133,7 +4133,7 @@ extension CostExplorerClientTypes.Expression: Swift.Codable {
             try encodeContainer.encode(dimensions, forKey: .dimensions)
         }
         if let not = self.not {
-            try encodeContainer.encode(not, forKey: .not)
+            try encodeContainer.encode(not.value, forKey: .not)
         }
         if let or = or {
             var orContainer = encodeContainer.nestedUnkeyedContainer(forKey: .or)
@@ -4170,7 +4170,7 @@ extension CostExplorerClientTypes.Expression: Swift.Codable {
             }
         }
         and = andDecoded0
-        let notDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.Expression.self, forKey: .not)
+        let notDecoded = try containerValues.decodeIfPresent(Box<CostExplorerClientTypes.Expression>.self, forKey: .not)
         not = notDecoded
         let dimensionsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DimensionValues.self, forKey: .dimensions)
         dimensions = dimensionsDecoded
@@ -4241,7 +4241,7 @@ extension CostExplorerClientTypes {
         /// The specific Dimension to use for Expression.
         public var dimensions: CostExplorerClientTypes.DimensionValues?
         /// Return results that don't match a Dimension object.
-        @Indirect public var not: CostExplorerClientTypes.Expression?
+        public var not: Box<CostExplorerClientTypes.Expression>?
         /// Return results that match either Dimension object.
         public var or: [CostExplorerClientTypes.Expression]?
         /// The specific Tag to use for Expression.
@@ -4251,7 +4251,7 @@ extension CostExplorerClientTypes {
             and: [CostExplorerClientTypes.Expression]? = nil,
             costCategories: CostExplorerClientTypes.CostCategoryValues? = nil,
             dimensions: CostExplorerClientTypes.DimensionValues? = nil,
-            not: CostExplorerClientTypes.Expression? = nil,
+            not: Box<CostExplorerClientTypes.Expression>? = nil,
             or: [CostExplorerClientTypes.Expression]? = nil,
             tags: CostExplorerClientTypes.TagValues? = nil
         )
