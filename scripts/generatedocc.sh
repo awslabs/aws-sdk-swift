@@ -12,15 +12,14 @@ usage() {
     echo " ./scripts/generatedocc 0.7.0 0 16 AWSBatch,AWSIoTAnalytics"
 }
 
+# Generates docs for one Swift package and uploads them to S3.
+# Takes the package name and version as parameters.
 generateDocs() {
     package=$1
     VERSION=$2
 
-    # lowercase package name
+    # Change the package name to lowercase
     package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
-
-    # create output-path
-    # mkdir -p $OUTPUT_DIR/$package_lowercase/$VERSION
 
     # generate docs for version
     echo "Generating docs for $package $VERSION"
@@ -31,7 +30,7 @@ generateDocs() {
             --disable-indexing \
             --transform-for-static-hosting \
             --output-path $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
-            --hosting-base-path swift/apidocs/$package_lowercase/$VERSION
+            --hosting-base-path swift/api/$package_lowercase/$VERSION
 
     # break if swift package generate-documentation fails
     if [ $? -ne 0 ]; then
@@ -41,17 +40,17 @@ generateDocs() {
         echo "Generating docs complete"
     fi
 
-    # Delete any old version of this doccarchive
+    # Delete any old version of this doccarchive before upload
     aws s3 rm --recursive --only-show-errors \
       s3://$DOCS_BUCKET/$package-lowercase-$VERSION.doccarchive
 
-    # copy to AWSS3, adding the new version
+    # copy the new docs to AWS S3
     echo "Copying doccarchive to S3 for $package_lowercase-$VERSION"
     aws s3 cp --recursive --only-show-errors \
       $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
       s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
 
-    # break if sync fails
+    # break if S3 copy fails
     if [ $? -ne 0 ]; then
         echo "Failed to copy $package_lowercase-$VERSION"
         exit 1
@@ -59,10 +58,11 @@ generateDocs() {
         echo "$package_lowercase-$VERSION copied successfully"
     fi
 
-    # delete temp files
+    # delete docs from temp files
     rm -rf $OUTPUT_DIR/*
 }
 
+# Break if all params aren't supplied
 if [ $# -ne 4 ]; then
     usage
     exit 1
@@ -72,7 +72,7 @@ VERSION="$1"
 CURRENT_JOB="$2"
 TOTAL_JOBS="$3"
 
-# convert comma separated list to array
+# convert comma separated ignore list to array
 IGNORE=($(echo $4 | tr ',' '\n'))
 
 echo "Dumping packages"
