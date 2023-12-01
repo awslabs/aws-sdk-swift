@@ -77,7 +77,7 @@ jobs:
           unzip awscliv2.zip && sudo ./aws/install --update
       - name: Update Cloudfront key value store
         run: |
-          KVS_ETAG=`aws cloudfront-keyvaluestore describe-key-value-store --output json --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }} | jq ".ETag"` \
+          KVS_ETAG=`aws cloudfront-keyvaluestore describe-key-value-store --query 'ETag' --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }}` \
           aws cloudfront-keyvaluestore put-key \
             --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }} \
             --if-match $KVS_ETAG
