@@ -65,6 +65,11 @@ jobs:
     needs: generate-docs
     runs-on: ubuntu-latest
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
+          aws-region: us-east-1
       - name: Install AWS CLI
         run: |
           DEBIAN_FRONTEND="noninteractive" sudo apt-get update
@@ -74,5 +79,5 @@ jobs:
       - name: Update Cloudfront key value store
         run: |
           aws cloudfront-keyvaluestore put-key \
-            --kvs-arn ${{ secrets.CF_CLOUDFRONT_KVS_ARN }} \
+            --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }} \
             --key latest --value "$VERSION"
