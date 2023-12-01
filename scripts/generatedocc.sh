@@ -107,5 +107,5 @@ done
 
 # Generate an index with the literal version "latest"
 if [ $CURRENT_JOB -eq 0 ]; then
-  generateDocs "awssdkforswift" "latest"
+  generateDocs "AWSSDKForSwift" "latest"
 fi
