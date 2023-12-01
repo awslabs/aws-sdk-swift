@@ -31,8 +31,7 @@ let package = Package(
         .iOS(.v13)
     ],
     products: [
-        .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
-        .library(name: "AWSSDKForSwift", targets: ["AWSSDKForSwift"])
+        .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
     ],
     targets: [
         .target(
