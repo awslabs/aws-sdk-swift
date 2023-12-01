@@ -12,7 +12,7 @@ extension MacieClient {
     ///     - input: A `[ListMemberAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutput`
     public func listMemberAccountsPaginated(input: ListMemberAccountsInput) -> ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput>(input: input, inputKey: \ListMemberAccountsInput.nextToken, outputKey: \ListMemberAccountsOutput.nextToken, paginationFunction: self.listMemberAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMemberAccounts(input:))
     }
 }
 
@@ -33,7 +33,7 @@ extension MacieClient {
     ///     - input: A `[ListS3ResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListS3ResourcesOutput`
     public func listS3ResourcesPaginated(input: ListS3ResourcesInput) -> ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutput>(input: input, inputKey: \ListS3ResourcesInput.nextToken, outputKey: \ListS3ResourcesOutput.nextToken, paginationFunction: self.listS3Resources(input:))
+        return ClientRuntime.PaginatorSequence<ListS3ResourcesInput, ListS3ResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listS3Resources(input:))
     }
 }
 

@@ -12,7 +12,7 @@ extension EFSClient {
     ///     - input: A `[DescribeAccessPointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccessPointsOutput`
     public func describeAccessPointsPaginated(input: DescribeAccessPointsInput) -> ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput>(input: input, inputKey: \DescribeAccessPointsInput.nextToken, outputKey: \DescribeAccessPointsOutput.nextToken, paginationFunction: self.describeAccessPoints(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccessPoints(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension EFSClient {
     ///     - input: A `[DescribeFileSystemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemsOutput`
     public func describeFileSystemsPaginated(input: DescribeFileSystemsInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \DescribeFileSystemsInput.marker, outputKey: \DescribeFileSystemsOutput.nextMarker, paginationFunction: self.describeFileSystems(input:))
+        return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeFileSystems(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension EFSClient {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.marker, outputKey: \DescribeTagsOutput.nextMarker, paginationFunction: self.describeTags(input:))
+        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeTags(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension EFSClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 

@@ -902,7 +902,7 @@ extension KendraClientTypes.AttributeFilter: Swift.Codable {
             try encodeContainer.encode(lessThanOrEquals, forKey: .lessThanOrEquals)
         }
         if let notFilter = self.notFilter {
-            try encodeContainer.encode(notFilter.value, forKey: .notFilter)
+            try encodeContainer.encode(notFilter, forKey: .notFilter)
         }
         if let orAllFilters = orAllFilters {
             var orAllFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orAllFilters)
@@ -936,7 +936,7 @@ extension KendraClientTypes.AttributeFilter: Swift.Codable {
             }
         }
         orAllFilters = orAllFiltersDecoded0
-        let notFilterDecoded = try containerValues.decodeIfPresent(Box<KendraClientTypes.AttributeFilter>.self, forKey: .notFilter)
+        let notFilterDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeFilter.self, forKey: .notFilter)
         notFilter = notFilterDecoded
         let equalsToDecoded = try containerValues.decodeIfPresent(KendraClientTypes.DocumentAttribute.self, forKey: .equalsTo)
         equalsTo = equalsToDecoded
@@ -987,7 +987,7 @@ extension KendraClientTypes {
         /// Performs a less than or equals operation on document attributes/fields and their values. Use with the [document attribute type](https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html)Date or Long.
         public var lessThanOrEquals: KendraClientTypes.DocumentAttribute?
         /// Performs a logical NOT operation on all filters that you specify.
-        public var notFilter: Box<KendraClientTypes.AttributeFilter>?
+        @Indirect public var notFilter: KendraClientTypes.AttributeFilter?
         /// Performs a logical OR operation on all filters that you specify.
         public var orAllFilters: [KendraClientTypes.AttributeFilter]?
 
@@ -1000,7 +1000,7 @@ extension KendraClientTypes {
             greaterThanOrEquals: KendraClientTypes.DocumentAttribute? = nil,
             lessThan: KendraClientTypes.DocumentAttribute? = nil,
             lessThanOrEquals: KendraClientTypes.DocumentAttribute? = nil,
-            notFilter: Box<KendraClientTypes.AttributeFilter>? = nil,
+            notFilter: KendraClientTypes.AttributeFilter? = nil,
             orAllFilters: [KendraClientTypes.AttributeFilter]? = nil
         )
         {

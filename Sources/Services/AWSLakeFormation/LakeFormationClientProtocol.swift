@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Lake Formation Defines the public endpoint for the Lake Formation service.
 public protocol LakeFormationClientProtocol {
+    /// Performs the `AddLFTagsToResource` operation on the `AWSLakeFormation` service.
+    ///
     /// Attaches one or more LF-tags to an existing resource.
     ///
     /// - Parameter AddLFTagsToResourceInput : [no documentation found]
@@ -20,6 +22,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func addLFTagsToResource(input: AddLFTagsToResourceInput) async throws -> AddLFTagsToResourceOutput
+    /// Performs the `AssumeDecoratedRoleWithSAML` operation on the `AWSLakeFormation` service.
+    ///
     /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session. This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would look as follows:
     ///
     /// - Parameter AssumeDecoratedRoleWithSAMLInput : [no documentation found]
@@ -35,6 +39,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func assumeDecoratedRoleWithSAML(input: AssumeDecoratedRoleWithSAMLInput) async throws -> AssumeDecoratedRoleWithSAMLOutput
+    /// Performs the `BatchGrantPermissions` operation on the `AWSLakeFormation` service.
+    ///
     /// Batch operation to grant permissions to the principal.
     ///
     /// - Parameter BatchGrantPermissionsInput : [no documentation found]
@@ -47,6 +53,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGrantPermissions(input: BatchGrantPermissionsInput) async throws -> BatchGrantPermissionsOutput
+    /// Performs the `BatchRevokePermissions` operation on the `AWSLakeFormation` service.
+    ///
     /// Batch operation to revoke permissions from the principal.
     ///
     /// - Parameter BatchRevokePermissionsInput : [no documentation found]
@@ -59,6 +67,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchRevokePermissions(input: BatchRevokePermissionsInput) async throws -> BatchRevokePermissionsOutput
+    /// Performs the `CancelTransaction` operation on the `AWSLakeFormation` service.
+    ///
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
     ///
     /// - Parameter CancelTransactionInput : [no documentation found]
@@ -76,6 +86,8 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
     func cancelTransaction(input: CancelTransactionInput) async throws -> CancelTransactionOutput
+    /// Performs the `CommitTransaction` operation on the `AWSLakeFormation` service.
+    ///
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
     ///
     /// - Parameter CommitTransactionInput : [no documentation found]
@@ -92,6 +104,8 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
+    /// Performs the `CreateDataCellsFilter` operation on the `AWSLakeFormation` service.
+    ///
     /// Creates a data cell filter to allow one to grant access to certain columns on certain rows.
     ///
     /// - Parameter CreateDataCellsFilterInput : [no documentation found]
@@ -109,6 +123,8 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createDataCellsFilter(input: CreateDataCellsFilterInput) async throws -> CreateDataCellsFilterOutput
+    /// Performs the `CreateLakeFormationOptIn` operation on the `AWSLakeFormation` service.
+    ///
     /// Enforce Lake Formation permissions for the given databases, tables, and principals.
     ///
     /// - Parameter CreateLakeFormationOptInInput : [no documentation found]
@@ -125,6 +141,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutput
+    /// Performs the `CreateLFTag` operation on the `AWSLakeFormation` service.
+    ///
     /// Creates an LF-tag with the specified name and values.
     ///
     /// - Parameter CreateLFTagInput : [no documentation found]
@@ -141,6 +159,8 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createLFTag(input: CreateLFTagInput) async throws -> CreateLFTagOutput
+    /// Performs the `DeleteDataCellsFilter` operation on the `AWSLakeFormation` service.
+    ///
     /// Deletes a data cell filter.
     ///
     /// - Parameter DeleteDataCellsFilterInput : [no documentation found]
@@ -156,6 +176,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteDataCellsFilter(input: DeleteDataCellsFilterInput) async throws -> DeleteDataCellsFilterOutput
+    /// Performs the `DeleteLakeFormationOptIn` operation on the `AWSLakeFormation` service.
+    ///
     /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
     ///
     /// - Parameter DeleteLakeFormationOptInInput : [no documentation found]
@@ -172,6 +194,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutput
+    /// Performs the `DeleteLFTag` operation on the `AWSLakeFormation` service.
+    ///
     /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
     ///
     /// - Parameter DeleteLFTagInput : [no documentation found]
@@ -187,6 +211,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteLFTag(input: DeleteLFTagInput) async throws -> DeleteLFTagOutput
+    /// Performs the `DeleteObjectsOnCancel` operation on the `AWSLakeFormation` service.
+    ///
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
     ///
     /// - Parameter DeleteObjectsOnCancelInput : [no documentation found]
@@ -205,6 +231,8 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
     func deleteObjectsOnCancel(input: DeleteObjectsOnCancelInput) async throws -> DeleteObjectsOnCancelOutput
+    /// Performs the `DeregisterResource` operation on the `AWSLakeFormation` service.
+    ///
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     ///
     /// - Parameter DeregisterResourceInput : [no documentation found]
@@ -219,6 +247,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deregisterResource(input: DeregisterResourceInput) async throws -> DeregisterResourceOutput
+    /// Performs the `DescribeResource` operation on the `AWSLakeFormation` service.
+    ///
     /// Retrieves the current data access role for the given resource registered in Lake Formation.
     ///
     /// - Parameter DescribeResourceInput : [no documentation found]
@@ -233,6 +263,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput
+    /// Performs the `DescribeTransaction` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the details of a single transaction.
     ///
     /// - Parameter DescribeTransactionInput : [no documentation found]
@@ -247,6 +279,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func describeTransaction(input: DescribeTransactionInput) async throws -> DescribeTransactionOutput
+    /// Performs the `ExtendTransaction` operation on the `AWSLakeFormation` service.
+    ///
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
     ///
     /// - Parameter ExtendTransactionInput : [no documentation found]
@@ -264,6 +298,8 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
     func extendTransaction(input: ExtendTransactionInput) async throws -> ExtendTransactionOutput
+    /// Performs the `GetDataCellsFilter` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns a data cells filter.
     ///
     /// - Parameter GetDataCellsFilterInput : [no documentation found]
@@ -279,6 +315,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataCellsFilter(input: GetDataCellsFilterInput) async throws -> GetDataCellsFilterOutput
+    /// Performs the `GetDataLakeSettings` operation on the `AWSLakeFormation` service.
+    ///
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
     ///
     /// - Parameter GetDataLakeSettingsInput : [no documentation found]
@@ -292,6 +330,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getDataLakeSettings(input: GetDataLakeSettingsInput) async throws -> GetDataLakeSettingsOutput
+    /// Performs the `GetEffectivePermissionsForPath` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
     ///
     /// - Parameter GetEffectivePermissionsForPathInput : [no documentation found]
@@ -306,6 +346,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput) async throws -> GetEffectivePermissionsForPathOutput
+    /// Performs the `GetLFTag` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns an LF-tag definition.
     ///
     /// - Parameter GetLFTagInput : [no documentation found]
@@ -321,6 +363,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getLFTag(input: GetLFTagInput) async throws -> GetLFTagOutput
+    /// Performs the `GetQueryState` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning.
     ///
     /// - Parameter GetQueryStateInput : [no documentation found]
@@ -334,6 +378,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getQueryState(input: GetQueryStateInput) async throws -> GetQueryStateOutput
+    /// Performs the `GetQueryStatistics` operation on the `AWSLakeFormation` service.
+    ///
     /// Retrieves statistics on the planning and execution of a query.
     ///
     /// - Parameter GetQueryStatisticsInput : [no documentation found]
@@ -350,6 +396,8 @@ public protocol LakeFormationClientProtocol {
     /// - `StatisticsNotReadyYetException` : Contains details about an error related to statistics not being ready.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
     func getQueryStatistics(input: GetQueryStatisticsInput) async throws -> GetQueryStatisticsOutput
+    /// Performs the `GetResourceLFTags` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the LF-tags applied to a resource.
     ///
     /// - Parameter GetResourceLFTagsInput : [no documentation found]
@@ -366,6 +414,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getResourceLFTags(input: GetResourceLFTagsInput) async throws -> GetResourceLFTagsOutput
+    /// Performs the `GetTableObjects` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
     ///
     /// - Parameter GetTableObjectsInput : [no documentation found]
@@ -383,6 +433,8 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
     func getTableObjects(input: GetTableObjectsInput) async throws -> GetTableObjectsOutput
+    /// Performs the `GetTemporaryGluePartitionCredentials` operation on the `AWSLakeFormation` service.
+    ///
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
     ///
     /// - Parameter GetTemporaryGluePartitionCredentialsInput : [no documentation found]
@@ -399,6 +451,8 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
     func getTemporaryGluePartitionCredentials(input: GetTemporaryGluePartitionCredentialsInput) async throws -> GetTemporaryGluePartitionCredentialsOutput
+    /// Performs the `GetTemporaryGlueTableCredentials` operation on the `AWSLakeFormation` service.
+    ///
     /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
     ///
     /// - Parameter GetTemporaryGlueTableCredentialsInput : [no documentation found]
@@ -415,6 +469,8 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
     func getTemporaryGlueTableCredentials(input: GetTemporaryGlueTableCredentialsInput) async throws -> GetTemporaryGlueTableCredentialsOutput
+    /// Performs the `GetWorkUnitResults` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
     ///
     /// - Parameter GetWorkUnitResultsInput : [no documentation found]
@@ -430,6 +486,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
     func getWorkUnitResults(input: GetWorkUnitResultsInput) async throws -> GetWorkUnitResultsOutput
+    /// Performs the `GetWorkUnits` operation on the `AWSLakeFormation` service.
+    ///
     /// Retrieves the work units generated by the StartQueryPlanning operation.
     ///
     /// - Parameter GetWorkUnitsInput : [no documentation found]
@@ -445,6 +503,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `WorkUnitsNotReadyYetException` : Contains details about an error related to work units not being ready.
     func getWorkUnits(input: GetWorkUnitsInput) async throws -> GetWorkUnitsOutput
+    /// Performs the `GrantPermissions` operation on the `AWSLakeFormation` service.
+    ///
     /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
     /// - Parameter GrantPermissionsInput : [no documentation found]
@@ -458,6 +518,8 @@ public protocol LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InvalidInputException` : The input provided was not valid.
     func grantPermissions(input: GrantPermissionsInput) async throws -> GrantPermissionsOutput
+    /// Performs the `ListDataCellsFilter` operation on the `AWSLakeFormation` service.
+    ///
     /// Lists all the data cell filters on a table.
     ///
     /// - Parameter ListDataCellsFilterInput : [no documentation found]
@@ -472,6 +534,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDataCellsFilter(input: ListDataCellsFilterInput) async throws -> ListDataCellsFilterOutput
+    /// Performs the `ListLakeFormationOptIns` operation on the `AWSLakeFormation` service.
+    ///
     /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
     ///
     /// - Parameter ListLakeFormationOptInsInput : [no documentation found]
@@ -486,6 +550,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutput
+    /// Performs the `ListLFTags` operation on the `AWSLakeFormation` service.
+    ///
     /// Lists LF-tags that the requester has permission to view.
     ///
     /// - Parameter ListLFTagsInput : [no documentation found]
@@ -501,6 +567,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listLFTags(input: ListLFTagsInput) async throws -> ListLFTagsOutput
+    /// Performs the `ListPermissions` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
     /// - Parameter ListPermissionsInput : [no documentation found]
@@ -514,6 +582,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
+    /// Performs the `ListResources` operation on the `AWSLakeFormation` service.
+    ///
     /// Lists the resources registered to be managed by the Data Catalog.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
@@ -527,6 +597,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
+    /// Performs the `ListTableStorageOptimizers` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns the configuration of all storage optimizers associated with a specified table.
     ///
     /// - Parameter ListTableStorageOptimizersInput : [no documentation found]
@@ -541,6 +613,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func listTableStorageOptimizers(input: ListTableStorageOptimizersInput) async throws -> ListTableStorageOptimizersOutput
+    /// Performs the `ListTransactions` operation on the `AWSLakeFormation` service.
+    ///
     /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     ///
     /// - Parameter ListTransactionsInput : [no documentation found]
@@ -554,6 +628,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput
+    /// Performs the `PutDataLakeSettings` operation on the `AWSLakeFormation` service.
+    ///
     /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
     ///
     /// - Parameter PutDataLakeSettingsInput : [no documentation found]
@@ -566,6 +642,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func putDataLakeSettings(input: PutDataLakeSettingsInput) async throws -> PutDataLakeSettingsOutput
+    /// Performs the `RegisterResource` operation on the `AWSLakeFormation` service.
+    ///
     /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
     ///
     /// - Parameter RegisterResourceInput : [no documentation found]
@@ -583,6 +661,8 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func registerResource(input: RegisterResourceInput) async throws -> RegisterResourceOutput
+    /// Performs the `RemoveLFTagsFromResource` operation on the `AWSLakeFormation` service.
+    ///
     /// Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
     ///
     /// - Parameter RemoveLFTagsFromResourceInput : [no documentation found]
@@ -600,6 +680,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func removeLFTagsFromResource(input: RemoveLFTagsFromResourceInput) async throws -> RemoveLFTagsFromResourceOutput
+    /// Performs the `RevokePermissions` operation on the `AWSLakeFormation` service.
+    ///
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
     ///
     /// - Parameter RevokePermissionsInput : [no documentation found]
@@ -613,6 +695,8 @@ public protocol LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InvalidInputException` : The input provided was not valid.
     func revokePermissions(input: RevokePermissionsInput) async throws -> RevokePermissionsOutput
+    /// Performs the `SearchDatabasesByLFTags` operation on the `AWSLakeFormation` service.
+    ///
     /// This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
     ///
     /// - Parameter SearchDatabasesByLFTagsInput : [no documentation found]
@@ -629,6 +713,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func searchDatabasesByLFTags(input: SearchDatabasesByLFTagsInput) async throws -> SearchDatabasesByLFTagsOutput
+    /// Performs the `SearchTablesByLFTags` operation on the `AWSLakeFormation` service.
+    ///
     /// This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
     ///
     /// - Parameter SearchTablesByLFTagsInput : [no documentation found]
@@ -645,6 +731,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func searchTablesByLFTags(input: SearchTablesByLFTagsInput) async throws -> SearchTablesByLFTagsOutput
+    /// Performs the `StartQueryPlanning` operation on the `AWSLakeFormation` service.
+    ///
     /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
     ///
     /// - Parameter StartQueryPlanningInput : [no documentation found]
@@ -659,6 +747,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
     func startQueryPlanning(input: StartQueryPlanningInput) async throws -> StartQueryPlanningOutput
+    /// Performs the `StartTransaction` operation on the `AWSLakeFormation` service.
+    ///
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
     ///
     /// - Parameter StartTransactionInput : [no documentation found]
@@ -671,6 +761,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
     func startTransaction(input: StartTransactionInput) async throws -> StartTransactionOutput
+    /// Performs the `UpdateDataCellsFilter` operation on the `AWSLakeFormation` service.
+    ///
     /// Updates a data cell filter.
     ///
     /// - Parameter UpdateDataCellsFilterInput : [no documentation found]
@@ -687,6 +779,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateDataCellsFilter(input: UpdateDataCellsFilterInput) async throws -> UpdateDataCellsFilterOutput
+    /// Performs the `UpdateLFTag` operation on the `AWSLakeFormation` service.
+    ///
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
     ///
     /// - Parameter UpdateLFTagInput : [no documentation found]
@@ -703,6 +797,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateLFTag(input: UpdateLFTagInput) async throws -> UpdateLFTagOutput
+    /// Performs the `UpdateResource` operation on the `AWSLakeFormation` service.
+    ///
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     ///
     /// - Parameter UpdateResourceInput : [no documentation found]
@@ -717,6 +813,8 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
+    /// Performs the `UpdateTableObjects` operation on the `AWSLakeFormation` service.
+    ///
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table.
     ///
     /// - Parameter UpdateTableObjectsInput : [no documentation found]
@@ -736,6 +834,8 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
     func updateTableObjects(input: UpdateTableObjectsInput) async throws -> UpdateTableObjectsOutput
+    /// Performs the `UpdateTableStorageOptimizer` operation on the `AWSLakeFormation` service.
+    ///
     /// Updates the configuration of the storage optimizers for a table.
     ///
     /// - Parameter UpdateTableStorageOptimizerInput : [no documentation found]

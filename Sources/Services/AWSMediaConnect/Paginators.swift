@@ -12,7 +12,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListBridgesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBridgesOutput`
     public func listBridgesPaginated(input: ListBridgesInput) -> ClientRuntime.PaginatorSequence<ListBridgesInput, ListBridgesOutput> {
-        return ClientRuntime.PaginatorSequence<ListBridgesInput, ListBridgesOutput>(input: input, inputKey: \ListBridgesInput.nextToken, outputKey: \ListBridgesOutput.nextToken, paginationFunction: self.listBridges(input:))
+        return ClientRuntime.PaginatorSequence<ListBridgesInput, ListBridgesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBridges(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListBridgesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBridgesInput, Output == ListBridgesOutput {
+extension PaginatorSequence where OperationStackInput == ListBridgesInput, OperationStackOutput == ListBridgesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBridgesPaginated`
     /// to access the nested member `[MediaConnectClientTypes.ListedBridge]`
     /// - Returns: `[MediaConnectClientTypes.ListedBridge]`
@@ -43,7 +43,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListEntitlementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntitlementsOutput`
     public func listEntitlementsPaginated(input: ListEntitlementsInput) -> ClientRuntime.PaginatorSequence<ListEntitlementsInput, ListEntitlementsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEntitlementsInput, ListEntitlementsOutput>(input: input, inputKey: \ListEntitlementsInput.nextToken, outputKey: \ListEntitlementsOutput.nextToken, paginationFunction: self.listEntitlements(input:))
+        return ClientRuntime.PaginatorSequence<ListEntitlementsInput, ListEntitlementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntitlements(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListEntitlementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEntitlementsInput, Output == ListEntitlementsOutput {
+extension PaginatorSequence where OperationStackInput == ListEntitlementsInput, OperationStackOutput == ListEntitlementsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEntitlementsPaginated`
     /// to access the nested member `[MediaConnectClientTypes.ListedEntitlement]`
     /// - Returns: `[MediaConnectClientTypes.ListedEntitlement]`
@@ -73,7 +73,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListFlowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFlowsOutput`
     public func listFlowsPaginated(input: ListFlowsInput) -> ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput>(input: input, inputKey: \ListFlowsInput.nextToken, outputKey: \ListFlowsOutput.nextToken, paginationFunction: self.listFlows(input:))
+        return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlows(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListFlowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFlowsInput, Output == ListFlowsOutput {
+extension PaginatorSequence where OperationStackInput == ListFlowsInput, OperationStackOutput == ListFlowsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFlowsPaginated`
     /// to access the nested member `[MediaConnectClientTypes.ListedFlow]`
     /// - Returns: `[MediaConnectClientTypes.ListedFlow]`
@@ -103,7 +103,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListGatewayInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGatewayInstancesOutput`
     public func listGatewayInstancesPaginated(input: ListGatewayInstancesInput) -> ClientRuntime.PaginatorSequence<ListGatewayInstancesInput, ListGatewayInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListGatewayInstancesInput, ListGatewayInstancesOutput>(input: input, inputKey: \ListGatewayInstancesInput.nextToken, outputKey: \ListGatewayInstancesOutput.nextToken, paginationFunction: self.listGatewayInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListGatewayInstancesInput, ListGatewayInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGatewayInstances(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListGatewayInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGatewayInstancesInput, Output == ListGatewayInstancesOutput {
+extension PaginatorSequence where OperationStackInput == ListGatewayInstancesInput, OperationStackOutput == ListGatewayInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGatewayInstancesPaginated`
     /// to access the nested member `[MediaConnectClientTypes.ListedGatewayInstance]`
     /// - Returns: `[MediaConnectClientTypes.ListedGatewayInstance]`
@@ -134,7 +134,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutput`
     public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput> {
-        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \ListGatewaysInput.nextToken, outputKey: \ListGatewaysOutput.nextToken, paginationFunction: self.listGateways(input:))
+        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGateways(input:))
     }
 }
 
@@ -146,7 +146,7 @@ extension ListGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGatewaysOutput {
+extension PaginatorSequence where OperationStackInput == ListGatewaysInput, OperationStackOutput == ListGatewaysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGatewaysPaginated`
     /// to access the nested member `[MediaConnectClientTypes.ListedGateway]`
     /// - Returns: `[MediaConnectClientTypes.ListedGateway]`
@@ -164,7 +164,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutput`
     public func listOfferingsPaginated(input: ListOfferingsInput) -> ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \ListOfferingsInput.nextToken, outputKey: \ListOfferingsOutput.nextToken, paginationFunction: self.listOfferings(input:))
+        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOfferings(input:))
     }
 }
 
@@ -176,7 +176,7 @@ extension ListOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOfferingsOutput {
+extension PaginatorSequence where OperationStackInput == ListOfferingsInput, OperationStackOutput == ListOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOfferingsPaginated`
     /// to access the nested member `[MediaConnectClientTypes.Offering]`
     /// - Returns: `[MediaConnectClientTypes.Offering]`
@@ -194,7 +194,7 @@ extension MediaConnectClient {
     ///     - input: A `[ListReservationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReservationsOutput`
     public func listReservationsPaginated(input: ListReservationsInput) -> ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput>(input: input, inputKey: \ListReservationsInput.nextToken, outputKey: \ListReservationsOutput.nextToken, paginationFunction: self.listReservations(input:))
+        return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReservations(input:))
     }
 }
 
@@ -206,7 +206,7 @@ extension ListReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListReservationsInput, Output == ListReservationsOutput {
+extension PaginatorSequence where OperationStackInput == ListReservationsInput, OperationStackOutput == ListReservationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listReservationsPaginated`
     /// to access the nested member `[MediaConnectClientTypes.Reservation]`
     /// - Returns: `[MediaConnectClientTypes.Reservation]`

@@ -28,6 +28,8 @@ import ClientRuntime
 ///
 /// * For more information about the Amazon Web Services Support App endpoints, see the [Amazon Web Services Support App in Slack endpoints](https://docs.aws.amazon.com/general/latest/gr/awssupport.html#awssupport_app_region) in the Amazon Web Services General Reference.
 public protocol SupportAppClientProtocol {
+    /// Performs the `CreateSlackChannelConfiguration` operation on the `SupportApp` service.
+    ///
     /// Creates a Slack channel configuration for your Amazon Web Services account.
     ///
     /// * You can add up to 5 Slack workspaces for your account.
@@ -62,6 +64,8 @@ public protocol SupportAppClientProtocol {
     /// - `ServiceQuotaExceededException` : Your Service Quotas request exceeds the quota for the service. For example, your Service Quotas request to Amazon Web Services Support App might exceed the maximum number of workspaces or channels per account, or the maximum number of accounts per Slack channel.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     func createSlackChannelConfiguration(input: CreateSlackChannelConfigurationInput) async throws -> CreateSlackChannelConfigurationOutput
+    /// Performs the `DeleteAccountAlias` operation on the `SupportApp` service.
+    ///
     /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
     /// - Parameter DeleteAccountAliasInput : [no documentation found]
@@ -75,6 +79,8 @@ public protocol SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutput
+    /// Performs the `DeleteSlackChannelConfiguration` operation on the `SupportApp` service.
+    ///
     /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel.
     ///
     /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
@@ -102,6 +108,8 @@ public protocol SupportAppClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     func deleteSlackChannelConfiguration(input: DeleteSlackChannelConfigurationInput) async throws -> DeleteSlackChannelConfigurationOutput
+    /// Performs the `DeleteSlackWorkspaceConfiguration` operation on the `SupportApp` service.
+    ///
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace.
     ///
     /// - Parameter DeleteSlackWorkspaceConfigurationInput : [no documentation found]
@@ -129,6 +137,8 @@ public protocol SupportAppClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     func deleteSlackWorkspaceConfiguration(input: DeleteSlackWorkspaceConfigurationInput) async throws -> DeleteSlackWorkspaceConfigurationOutput
+    /// Performs the `GetAccountAlias` operation on the `SupportApp` service.
+    ///
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
     /// - Parameter GetAccountAliasInput : [no documentation found]
@@ -140,6 +150,8 @@ public protocol SupportAppClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     func getAccountAlias(input: GetAccountAliasInput) async throws -> GetAccountAliasOutput
+    /// Performs the `ListSlackChannelConfigurations` operation on the `SupportApp` service.
+    ///
     /// Lists the Slack channel configurations for an Amazon Web Services account.
     ///
     /// - Parameter ListSlackChannelConfigurationsInput : [no documentation found]
@@ -152,6 +164,8 @@ public protocol SupportAppClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     func listSlackChannelConfigurations(input: ListSlackChannelConfigurationsInput) async throws -> ListSlackChannelConfigurationsOutput
+    /// Performs the `ListSlackWorkspaceConfigurations` operation on the `SupportApp` service.
+    ///
     /// Lists the Slack workspace configurations for an Amazon Web Services account.
     ///
     /// - Parameter ListSlackWorkspaceConfigurationsInput : [no documentation found]
@@ -164,6 +178,8 @@ public protocol SupportAppClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     func listSlackWorkspaceConfigurations(input: ListSlackWorkspaceConfigurationsInput) async throws -> ListSlackWorkspaceConfigurationsOutput
+    /// Performs the `PutAccountAlias` operation on the `SupportApp` service.
+    ///
     /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
     /// - Parameter PutAccountAliasInput : [no documentation found]
@@ -177,6 +193,8 @@ public protocol SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     func putAccountAlias(input: PutAccountAliasInput) async throws -> PutAccountAliasOutput
+    /// Performs the `RegisterSlackWorkspaceForOrganization` operation on the `SupportApp` service.
+    ///
     /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organizations. If you're the management account and you want to register Slack workspaces for your organization, you must complete the following tasks:
     ///
     /// * Sign in to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/app) and authorize the Slack workspaces where you want your organization to have access to. See [Authorize a Slack workspace](https://docs.aws.amazon.com/awssupport/latest/user/authorize-slack-workspace.html) in the Amazon Web Services Support User Guide.
@@ -215,6 +233,8 @@ public protocol SupportAppClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     func registerSlackWorkspaceForOrganization(input: RegisterSlackWorkspaceForOrganizationInput) async throws -> RegisterSlackWorkspaceForOrganizationOutput
+    /// Performs the `UpdateSlackChannelConfiguration` operation on the `SupportApp` service.
+    ///
     /// Updates the configuration for a Slack channel, such as case update notifications.
     ///
     /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]

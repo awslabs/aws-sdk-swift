@@ -44,6 +44,8 @@ import ClientRuntime
 ///
 /// * UpdateUserProfile, which updates the profile for a user.
 public protocol CodeStarClientProtocol {
+    /// Performs the `AssociateTeamMember` operation on the `CodeStar_20170419` service.
+    ///
     /// Adds an IAM user to the team for an AWS CodeStar project.
     ///
     /// - Parameter AssociateTeamMemberInput : [no documentation found]
@@ -61,6 +63,8 @@ public protocol CodeStarClientProtocol {
     /// - `TeamMemberAlreadyAssociatedException` : The team member is already associated with a role in this project.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func associateTeamMember(input: AssociateTeamMemberInput) async throws -> AssociateTeamMemberOutput
+    /// Performs the `CreateProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Creates a project, including project resources. This action creates a project based on a submitted project request. A set of source code files and a toolchain template file can be included with the project request. If these are not provided, an empty project is created.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
@@ -78,6 +82,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectCreationFailedException` : The project creation request was valid, but a nonspecific exception or error occurred during project creation. The project could not be created in AWS CodeStar.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
+    /// Performs the `CreateUserProfile` operation on the `CodeStar_20170419` service.
+    ///
     /// Creates a profile for a user that includes user preferences, such as the display name and email address assocciated with the user, in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
     ///
     /// - Parameter CreateUserProfileInput : [no documentation found]
@@ -90,6 +96,8 @@ public protocol CodeStarClientProtocol {
     /// - `UserProfileAlreadyExistsException` : A user profile with that name already exists in this region for the AWS account. AWS CodeStar user profile names must be unique within a region for the AWS account.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
+    /// Performs the `DeleteProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Deletes a project, including project resources. Does not delete users associated with the project, but does delete the IAM roles that allowed access to the project.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
@@ -103,6 +111,8 @@ public protocol CodeStarClientProtocol {
     /// - `InvalidServiceRoleException` : The service role is not valid.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
+    /// Performs the `DeleteUserProfile` operation on the `CodeStar_20170419` service.
+    ///
     /// Deletes a user profile in AWS CodeStar, including all personal preference data associated with that profile, such as display name and email address. It does not delete the history of that user, for example the history of commits made by that user.
     ///
     /// - Parameter DeleteUserProfileInput : [no documentation found]
@@ -114,6 +124,8 @@ public protocol CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput
+    /// Performs the `DescribeProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Describes a project and its resources.
     ///
     /// - Parameter DescribeProjectInput : [no documentation found]
@@ -129,6 +141,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
+    /// Performs the `DescribeUserProfile` operation on the `CodeStar_20170419` service.
+    ///
     /// Describes a user in AWS CodeStar and the user attributes across all projects.
     ///
     /// - Parameter DescribeUserProfileInput : [no documentation found]
@@ -141,6 +155,8 @@ public protocol CodeStarClientProtocol {
     /// - `UserProfileNotFoundException` : The user profile was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput
+    /// Performs the `DisassociateTeamMember` operation on the `CodeStar_20170419` service.
+    ///
     /// Removes a user from a project. Removing a user from a project also removes the IAM policies from that user that allowed access to the project and its resources. Disassociating a team member does not remove that user's profile from AWS CodeStar. It does not remove the user from IAM.
     ///
     /// - Parameter DisassociateTeamMemberInput : [no documentation found]
@@ -155,6 +171,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func disassociateTeamMember(input: DisassociateTeamMemberInput) async throws -> DisassociateTeamMemberOutput
+    /// Performs the `ListProjects` operation on the `CodeStar_20170419` service.
+    ///
     /// Lists all projects in AWS CodeStar associated with your AWS account.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
@@ -167,6 +185,8 @@ public protocol CodeStarClientProtocol {
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
+    /// Performs the `ListResources` operation on the `CodeStar_20170419` service.
+    ///
     /// Lists resources associated with a project in AWS CodeStar.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
@@ -180,6 +200,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
+    /// Performs the `ListTagsForProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Gets the tags for a project.
     ///
     /// - Parameter ListTagsForProjectInput : [no documentation found]
@@ -193,6 +215,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listTagsForProject(input: ListTagsForProjectInput) async throws -> ListTagsForProjectOutput
+    /// Performs the `ListTeamMembers` operation on the `CodeStar_20170419` service.
+    ///
     /// Lists all team members associated with a project.
     ///
     /// - Parameter ListTeamMembersInput : [no documentation found]
@@ -206,6 +230,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listTeamMembers(input: ListTeamMembersInput) async throws -> ListTeamMembersOutput
+    /// Performs the `ListUserProfiles` operation on the `CodeStar_20170419` service.
+    ///
     /// Lists all the user profiles configured for your AWS account in AWS CodeStar.
     ///
     /// - Parameter ListUserProfilesInput : [no documentation found]
@@ -218,6 +244,8 @@ public protocol CodeStarClientProtocol {
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput
+    /// Performs the `TagProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Adds tags to a project.
     ///
     /// - Parameter TagProjectInput : [no documentation found]
@@ -232,6 +260,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func tagProject(input: TagProjectInput) async throws -> TagProjectOutput
+    /// Performs the `UntagProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Removes tags from a project.
     ///
     /// - Parameter UntagProjectInput : [no documentation found]
@@ -246,6 +276,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func untagProject(input: UntagProjectInput) async throws -> UntagProjectOutput
+    /// Performs the `UpdateProject` operation on the `CodeStar_20170419` service.
+    ///
     /// Updates a project in AWS CodeStar.
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
@@ -258,6 +290,8 @@ public protocol CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
+    /// Performs the `UpdateTeamMember` operation on the `CodeStar_20170419` service.
+    ///
     /// Updates a team member's attributes in an AWS CodeStar project. For example, you can change a team member's role in the project, or change whether they have remote access to project resources.
     ///
     /// - Parameter UpdateTeamMemberInput : [no documentation found]
@@ -275,6 +309,8 @@ public protocol CodeStarClientProtocol {
     /// - `TeamMemberNotFoundException` : The specified team member was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func updateTeamMember(input: UpdateTeamMemberInput) async throws -> UpdateTeamMemberOutput
+    /// Performs the `UpdateUserProfile` operation on the `CodeStar_20170419` service.
+    ///
     /// Updates a user's profile in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
     ///
     /// - Parameter UpdateUserProfileInput : [no documentation found]

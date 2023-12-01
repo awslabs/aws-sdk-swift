@@ -203,7 +203,7 @@ extension VerifiedPermissionsClientTypes.AttributeValue: Swift.Codable {
 
 extension VerifiedPermissionsClientTypes {
     /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public enum AttributeValue: Swift.Equatable {
+    public indirect enum AttributeValue: Swift.Equatable {
         /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
         case boolean(Swift.Bool)
         /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: "entityIdentifier": { "entityId": "<id>", "entityType": "<entity type>"}
@@ -433,7 +433,7 @@ extension VerifiedPermissionsClientTypes.ContextDefinition: Swift.Codable {
 
 extension VerifiedPermissionsClientTypes {
     /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "context":{"Context":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
-    public enum ContextDefinition: Swift.Equatable {
+    public indirect enum ContextDefinition: Swift.Equatable {
         /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "Context":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
         case contextmap([Swift.String:VerifiedPermissionsClientTypes.AttributeValue])
         case sdkUnknown(Swift.String)
@@ -1574,7 +1574,7 @@ extension VerifiedPermissionsClientTypes.EntitiesDefinition: Swift.Codable {
 
 extension VerifiedPermissionsClientTypes {
     /// Contains the list of entities to be considered during an authorization request. This includes all principals, resources, and actions required to successfully evaluate the request. This data type is used as a field in the response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public enum EntitiesDefinition: Swift.Equatable {
+    public indirect enum EntitiesDefinition: Swift.Equatable {
         /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.
         case entitylist([VerifiedPermissionsClientTypes.EntityItem])
         case sdkUnknown(Swift.String)

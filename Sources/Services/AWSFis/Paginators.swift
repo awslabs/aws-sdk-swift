@@ -12,7 +12,7 @@ extension FisClient {
     ///     - input: A `[ListActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActionsOutput`
     public func listActionsPaginated(input: ListActionsInput) -> ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput>(input: input, inputKey: \ListActionsInput.nextToken, outputKey: \ListActionsOutput.nextToken, paginationFunction: self.listActions(input:))
+        return ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActions(input:))
     }
 }
 
@@ -33,7 +33,7 @@ extension FisClient {
     ///     - input: A `[ListExperimentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExperimentsOutput`
     public func listExperimentsPaginated(input: ListExperimentsInput) -> ClientRuntime.PaginatorSequence<ListExperimentsInput, ListExperimentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListExperimentsInput, ListExperimentsOutput>(input: input, inputKey: \ListExperimentsInput.nextToken, outputKey: \ListExperimentsOutput.nextToken, paginationFunction: self.listExperiments(input:))
+        return ClientRuntime.PaginatorSequence<ListExperimentsInput, ListExperimentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperiments(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension FisClient {
     ///     - input: A `[ListExperimentTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExperimentTemplatesOutput`
     public func listExperimentTemplatesPaginated(input: ListExperimentTemplatesInput) -> ClientRuntime.PaginatorSequence<ListExperimentTemplatesInput, ListExperimentTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListExperimentTemplatesInput, ListExperimentTemplatesOutput>(input: input, inputKey: \ListExperimentTemplatesInput.nextToken, outputKey: \ListExperimentTemplatesOutput.nextToken, paginationFunction: self.listExperimentTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListExperimentTemplatesInput, ListExperimentTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperimentTemplates(input:))
     }
 }
 
@@ -75,7 +75,7 @@ extension FisClient {
     ///     - input: A `[ListTargetResourceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTargetResourceTypesOutput`
     public func listTargetResourceTypesPaginated(input: ListTargetResourceTypesInput) -> ClientRuntime.PaginatorSequence<ListTargetResourceTypesInput, ListTargetResourceTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTargetResourceTypesInput, ListTargetResourceTypesOutput>(input: input, inputKey: \ListTargetResourceTypesInput.nextToken, outputKey: \ListTargetResourceTypesOutput.nextToken, paginationFunction: self.listTargetResourceTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListTargetResourceTypesInput, ListTargetResourceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTargetResourceTypes(input:))
     }
 }
 

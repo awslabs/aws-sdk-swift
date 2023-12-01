@@ -12,7 +12,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListAppliedSchemaArnsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppliedSchemaArnsOutput`
     public func listAppliedSchemaArnsPaginated(input: ListAppliedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput>(input: input, inputKey: \ListAppliedSchemaArnsInput.nextToken, outputKey: \ListAppliedSchemaArnsOutput.nextToken, paginationFunction: self.listAppliedSchemaArns(input:))
+        return ClientRuntime.PaginatorSequence<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppliedSchemaArns(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListAttachedIndicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedIndicesOutput`
     public func listAttachedIndicesPaginated(input: ListAttachedIndicesInput) -> ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutput>(input: input, inputKey: \ListAttachedIndicesInput.nextToken, outputKey: \ListAttachedIndicesOutput.nextToken, paginationFunction: self.listAttachedIndices(input:))
+        return ClientRuntime.PaginatorSequence<ListAttachedIndicesInput, ListAttachedIndicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachedIndices(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListDevelopmentSchemaArnsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevelopmentSchemaArnsOutput`
     public func listDevelopmentSchemaArnsPaginated(input: ListDevelopmentSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput>(input: input, inputKey: \ListDevelopmentSchemaArnsInput.nextToken, outputKey: \ListDevelopmentSchemaArnsOutput.nextToken, paginationFunction: self.listDevelopmentSchemaArns(input:))
+        return ClientRuntime.PaginatorSequence<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevelopmentSchemaArns(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListDirectoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDirectoriesOutput`
     public func listDirectoriesPaginated(input: ListDirectoriesInput) -> ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutput>(input: input, inputKey: \ListDirectoriesInput.nextToken, outputKey: \ListDirectoriesOutput.nextToken, paginationFunction: self.listDirectories(input:))
+        return ClientRuntime.PaginatorSequence<ListDirectoriesInput, ListDirectoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDirectories(input:))
     }
 }
 
@@ -102,7 +102,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListFacetAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFacetAttributesOutput`
     public func listFacetAttributesPaginated(input: ListFacetAttributesInput) -> ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutput> {
-        return ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutput>(input: input, inputKey: \ListFacetAttributesInput.nextToken, outputKey: \ListFacetAttributesOutput.nextToken, paginationFunction: self.listFacetAttributes(input:))
+        return ClientRuntime.PaginatorSequence<ListFacetAttributesInput, ListFacetAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFacetAttributes(input:))
     }
 }
 
@@ -125,7 +125,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListFacetNamesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFacetNamesOutput`
     public func listFacetNamesPaginated(input: ListFacetNamesInput) -> ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutput> {
-        return ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutput>(input: input, inputKey: \ListFacetNamesInput.nextToken, outputKey: \ListFacetNamesOutput.nextToken, paginationFunction: self.listFacetNames(input:))
+        return ClientRuntime.PaginatorSequence<ListFacetNamesInput, ListFacetNamesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFacetNames(input:))
     }
 }
 
@@ -147,7 +147,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListIndexInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIndexOutput`
     public func listIndexPaginated(input: ListIndexInput) -> ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutput> {
-        return ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutput>(input: input, inputKey: \ListIndexInput.nextToken, outputKey: \ListIndexOutput.nextToken, paginationFunction: self.listIndex(input:))
+        return ClientRuntime.PaginatorSequence<ListIndexInput, ListIndexOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIndex(input:))
     }
 }
 
@@ -172,7 +172,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListManagedSchemaArnsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedSchemaArnsOutput`
     public func listManagedSchemaArnsPaginated(input: ListManagedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput> {
-        return ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput>(input: input, inputKey: \ListManagedSchemaArnsInput.nextToken, outputKey: \ListManagedSchemaArnsOutput.nextToken, paginationFunction: self.listManagedSchemaArns(input:))
+        return ClientRuntime.PaginatorSequence<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedSchemaArns(input:))
     }
 }
 
@@ -194,7 +194,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListObjectAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectAttributesOutput`
     public func listObjectAttributesPaginated(input: ListObjectAttributesInput) -> ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutput> {
-        return ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutput>(input: input, inputKey: \ListObjectAttributesInput.nextToken, outputKey: \ListObjectAttributesOutput.nextToken, paginationFunction: self.listObjectAttributes(input:))
+        return ClientRuntime.PaginatorSequence<ListObjectAttributesInput, ListObjectAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObjectAttributes(input:))
     }
 }
 
@@ -219,7 +219,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListObjectChildrenInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectChildrenOutput`
     public func listObjectChildrenPaginated(input: ListObjectChildrenInput) -> ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutput> {
-        return ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutput>(input: input, inputKey: \ListObjectChildrenInput.nextToken, outputKey: \ListObjectChildrenOutput.nextToken, paginationFunction: self.listObjectChildren(input:))
+        return ClientRuntime.PaginatorSequence<ListObjectChildrenInput, ListObjectChildrenOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObjectChildren(input:))
     }
 }
 
@@ -243,7 +243,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListObjectParentPathsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectParentPathsOutput`
     public func listObjectParentPathsPaginated(input: ListObjectParentPathsInput) -> ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutput> {
-        return ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutput>(input: input, inputKey: \ListObjectParentPathsInput.nextToken, outputKey: \ListObjectParentPathsOutput.nextToken, paginationFunction: self.listObjectParentPaths(input:))
+        return ClientRuntime.PaginatorSequence<ListObjectParentPathsInput, ListObjectParentPathsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObjectParentPaths(input:))
     }
 }
 
@@ -266,7 +266,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListObjectParentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectParentsOutput`
     public func listObjectParentsPaginated(input: ListObjectParentsInput) -> ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutput>(input: input, inputKey: \ListObjectParentsInput.nextToken, outputKey: \ListObjectParentsOutput.nextToken, paginationFunction: self.listObjectParents(input:))
+        return ClientRuntime.PaginatorSequence<ListObjectParentsInput, ListObjectParentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObjectParents(input:))
     }
 }
 
@@ -291,7 +291,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListObjectPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectPoliciesOutput`
     public func listObjectPoliciesPaginated(input: ListObjectPoliciesInput) -> ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutput>(input: input, inputKey: \ListObjectPoliciesInput.nextToken, outputKey: \ListObjectPoliciesOutput.nextToken, paginationFunction: self.listObjectPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListObjectPoliciesInput, ListObjectPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObjectPolicies(input:))
     }
 }
 
@@ -315,7 +315,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListPolicyAttachmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyAttachmentsOutput`
     public func listPolicyAttachmentsPaginated(input: ListPolicyAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput>(input: input, inputKey: \ListPolicyAttachmentsInput.nextToken, outputKey: \ListPolicyAttachmentsOutput.nextToken, paginationFunction: self.listPolicyAttachments(input:))
+        return ClientRuntime.PaginatorSequence<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicyAttachments(input:))
     }
 }
 
@@ -339,7 +339,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListPublishedSchemaArnsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPublishedSchemaArnsOutput`
     public func listPublishedSchemaArnsPaginated(input: ListPublishedSchemaArnsInput) -> ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput>(input: input, inputKey: \ListPublishedSchemaArnsInput.nextToken, outputKey: \ListPublishedSchemaArnsOutput.nextToken, paginationFunction: self.listPublishedSchemaArns(input:))
+        return ClientRuntime.PaginatorSequence<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPublishedSchemaArns(input:))
     }
 }
 
@@ -361,7 +361,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -383,7 +383,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListTypedLinkFacetAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTypedLinkFacetAttributesOutput`
     public func listTypedLinkFacetAttributesPaginated(input: ListTypedLinkFacetAttributesInput) -> ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput>(input: input, inputKey: \ListTypedLinkFacetAttributesInput.nextToken, outputKey: \ListTypedLinkFacetAttributesOutput.nextToken, paginationFunction: self.listTypedLinkFacetAttributes(input:))
+        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTypedLinkFacetAttributes(input:))
     }
 }
 
@@ -406,7 +406,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[ListTypedLinkFacetNamesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTypedLinkFacetNamesOutput`
     public func listTypedLinkFacetNamesPaginated(input: ListTypedLinkFacetNamesInput) -> ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput>(input: input, inputKey: \ListTypedLinkFacetNamesInput.nextToken, outputKey: \ListTypedLinkFacetNamesOutput.nextToken, paginationFunction: self.listTypedLinkFacetNames(input:))
+        return ClientRuntime.PaginatorSequence<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTypedLinkFacetNames(input:))
     }
 }
 
@@ -428,7 +428,7 @@ extension CloudDirectoryClient {
     ///     - input: A `[LookupPolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `LookupPolicyOutput`
     public func lookupPolicyPaginated(input: LookupPolicyInput) -> ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutput> {
-        return ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutput>(input: input, inputKey: \LookupPolicyInput.nextToken, outputKey: \LookupPolicyOutput.nextToken, paginationFunction: self.lookupPolicy(input:))
+        return ClientRuntime.PaginatorSequence<LookupPolicyInput, LookupPolicyOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.lookupPolicy(input:))
     }
 }
 

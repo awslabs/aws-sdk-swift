@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Glue Defines the public endpoint for the Glue service.
 public protocol GlueClientProtocol {
+    /// Performs the `BatchCreatePartition` operation on the `AWSGlue` service.
+    ///
     /// Creates one or more partitions in a batch operation.
     ///
     /// - Parameter BatchCreatePartitionInput : [no documentation found]
@@ -21,6 +23,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func batchCreatePartition(input: BatchCreatePartitionInput) async throws -> BatchCreatePartitionOutput
+    /// Performs the `BatchDeleteConnection` operation on the `AWSGlue` service.
+    ///
     /// Deletes a list of connection definitions from the Data Catalog.
     ///
     /// - Parameter BatchDeleteConnectionInput : [no documentation found]
@@ -33,6 +37,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchDeleteConnection(input: BatchDeleteConnectionInput) async throws -> BatchDeleteConnectionOutput
+    /// Performs the `BatchDeletePartition` operation on the `AWSGlue` service.
+    ///
     /// Deletes one or more partitions in a batch operation.
     ///
     /// - Parameter BatchDeletePartitionInput : [no documentation found]
@@ -47,6 +53,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchDeletePartition(input: BatchDeletePartitionInput) async throws -> BatchDeletePartitionOutput
+    /// Performs the `BatchDeleteTable` operation on the `AWSGlue` service.
+    ///
     /// Deletes multiple tables at once. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     ///
     /// - Parameter BatchDeleteTableInput : [no documentation found]
@@ -63,6 +71,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     func batchDeleteTable(input: BatchDeleteTableInput) async throws -> BatchDeleteTableOutput
+    /// Performs the `BatchDeleteTableVersion` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified batch of versions of a table.
     ///
     /// - Parameter BatchDeleteTableVersionInput : [no documentation found]
@@ -77,6 +87,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchDeleteTableVersion(input: BatchDeleteTableVersionInput) async throws -> BatchDeleteTableVersionOutput
+    /// Performs the `BatchGetBlueprints` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about a list of blueprints.
     ///
     /// - Parameter BatchGetBlueprintsInput : [no documentation found]
@@ -90,6 +102,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetBlueprints(input: BatchGetBlueprintsInput) async throws -> BatchGetBlueprintsOutput
+    /// Performs the `BatchGetCrawlers` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
     /// - Parameter BatchGetCrawlersInput : [no documentation found]
@@ -102,6 +116,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutput
+    /// Performs the `BatchGetCustomEntityTypes` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details for the custom patterns specified by a list of names.
     ///
     /// - Parameter BatchGetCustomEntityTypesInput : [no documentation found]
@@ -115,6 +131,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutput
+    /// Performs the `BatchGetDataQualityResult` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of data quality results for the specified result IDs.
     ///
     /// - Parameter BatchGetDataQualityResultInput : [no documentation found]
@@ -128,6 +146,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutput
+    /// Performs the `BatchGetDevEndpoints` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
     /// - Parameter BatchGetDevEndpointsInput : [no documentation found]
@@ -142,6 +162,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutput
+    /// Performs the `BatchGetJobs` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
     /// - Parameter BatchGetJobsInput : [no documentation found]
@@ -155,6 +177,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetJobs(input: BatchGetJobsInput) async throws -> BatchGetJobsOutput
+    /// Performs the `BatchGetPartition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partitions in a batch request.
     ///
     /// - Parameter BatchGetPartitionInput : [no documentation found]
@@ -173,6 +197,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetPartition(input: BatchGetPartitionInput) async throws -> BatchGetPartitionOutput
+    /// Performs the `BatchGetTriggers` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
     /// - Parameter BatchGetTriggersInput : [no documentation found]
@@ -186,6 +212,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetTriggers(input: BatchGetTriggersInput) async throws -> BatchGetTriggersOutput
+    /// Performs the `BatchGetWorkflows` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
     /// - Parameter BatchGetWorkflowsInput : [no documentation found]
@@ -199,6 +227,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchGetWorkflows(input: BatchGetWorkflowsInput) async throws -> BatchGetWorkflowsOutput
+    /// Performs the `BatchStopJobRun` operation on the `AWSGlue` service.
+    ///
     /// Stops one or more job runs for a specified job definition.
     ///
     /// - Parameter BatchStopJobRunInput : [no documentation found]
@@ -212,6 +242,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutput
+    /// Performs the `BatchUpdatePartition` operation on the `AWSGlue` service.
+    ///
     /// Updates one or more partitions in a batch operation.
     ///
     /// - Parameter BatchUpdatePartitionInput : [no documentation found]
@@ -227,6 +259,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutput
+    /// Performs the `CancelDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    ///
     /// Cancels the specified recommendation run that was being used to generate rules.
     ///
     /// - Parameter CancelDataQualityRuleRecommendationRunInput : [no documentation found]
@@ -241,6 +275,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutput
+    /// Performs the `CancelDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    ///
     /// Cancels a run where a ruleset is being evaluated against a data source.
     ///
     /// - Parameter CancelDataQualityRulesetEvaluationRunInput : [no documentation found]
@@ -255,6 +291,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutput
+    /// Performs the `CancelMLTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
     ///
     /// - Parameter CancelMLTaskRunInput : [no documentation found]
@@ -269,6 +307,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutput
+    /// Performs the `CancelStatement` operation on the `AWSGlue` service.
+    ///
     /// Cancels the statement.
     ///
     /// - Parameter CancelStatementInput : [no documentation found]
@@ -285,6 +325,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput
+    /// Performs the `CheckSchemaVersionValidity` operation on the `AWSGlue` service.
+    ///
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
     ///
     /// - Parameter CheckSchemaVersionValidityInput : [no documentation found]
@@ -298,6 +340,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func checkSchemaVersionValidity(input: CheckSchemaVersionValidityInput) async throws -> CheckSchemaVersionValidityOutput
+    /// Performs the `CreateBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Registers a blueprint with Glue.
     ///
     /// - Parameter CreateBlueprintInput : [no documentation found]
@@ -313,6 +357,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createBlueprint(input: CreateBlueprintInput) async throws -> CreateBlueprintOutput
+    /// Performs the `CreateClassifier` operation on the `AWSGlue` service.
+    ///
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     ///
     /// - Parameter CreateClassifierInput : [no documentation found]
@@ -326,6 +372,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func createClassifier(input: CreateClassifierInput) async throws -> CreateClassifierOutput
+    /// Performs the `CreateConnection` operation on the `AWSGlue` service.
+    ///
     /// Creates a connection definition in the Data Catalog.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
@@ -341,6 +389,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
+    /// Performs the `CreateCrawler` operation on the `AWSGlue` service.
+    ///
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     ///
     /// - Parameter CreateCrawlerInput : [no documentation found]
@@ -355,6 +405,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createCrawler(input: CreateCrawlerInput) async throws -> CreateCrawlerOutput
+    /// Performs the `CreateCustomEntityType` operation on the `AWSGlue` service.
+    ///
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
     ///
     /// - Parameter CreateCustomEntityTypeInput : [no documentation found]
@@ -372,6 +424,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutput
+    /// Performs the `CreateDatabase` operation on the `AWSGlue` service.
+    ///
     /// Creates a new database in a Data Catalog.
     ///
     /// - Parameter CreateDatabaseInput : [no documentation found]
@@ -390,6 +444,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutput
+    /// Performs the `CreateDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
     ///
     /// - Parameter CreateDataQualityRulesetInput : [no documentation found]
@@ -405,6 +461,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutput
+    /// Performs the `CreateDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Creates a new development endpoint.
     ///
     /// - Parameter CreateDevEndpointInput : [no documentation found]
@@ -423,6 +481,8 @@ public protocol GlueClientProtocol {
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
     func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutput
+    /// Performs the `CreateJob` operation on the `AWSGlue` service.
+    ///
     /// Creates a new job definition.
     ///
     /// - Parameter CreateJobInput : [no documentation found]
@@ -440,6 +500,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+    /// Performs the `CreateMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see [Jobs](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html).
     ///
     /// - Parameter CreateMLTransformInput : [no documentation found]
@@ -457,6 +519,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createMLTransform(input: CreateMLTransformInput) async throws -> CreateMLTransformOutput
+    /// Performs the `CreatePartition` operation on the `AWSGlue` service.
+    ///
     /// Creates a new partition.
     ///
     /// - Parameter CreatePartitionInput : [no documentation found]
@@ -474,6 +538,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createPartition(input: CreatePartitionInput) async throws -> CreatePartitionOutput
+    /// Performs the `CreatePartitionIndex` operation on the `AWSGlue` service.
+    ///
     /// Creates a specified partition index in an existing table.
     ///
     /// - Parameter CreatePartitionIndexInput : [no documentation found]
@@ -491,6 +557,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createPartitionIndex(input: CreatePartitionIndexInput) async throws -> CreatePartitionIndexOutput
+    /// Performs the `CreateRegistry` operation on the `AWSGlue` service.
+    ///
     /// Creates a new registry which may be used to hold a collection of schemas.
     ///
     /// - Parameter CreateRegistryInput : [no documentation found]
@@ -507,6 +575,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput
+    /// Performs the `CreateSchema` operation on the `AWSGlue` service.
+    ///
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
     ///
     /// - Parameter CreateSchemaInput : [no documentation found]
@@ -524,6 +594,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
+    /// Performs the `CreateScript` operation on the `AWSGlue` service.
+    ///
     /// Transforms a directed acyclic graph (DAG) into code.
     ///
     /// - Parameter CreateScriptInput : [no documentation found]
@@ -537,6 +609,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput
+    /// Performs the `CreateSecurityConfiguration` operation on the `AWSGlue` service.
+    ///
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see [Encrypting Data Written by Crawlers, Jobs, and Development Endpoints](https://docs.aws.amazon.com/glue/latest/dg/encryption-security-configuration.html).
     ///
     /// - Parameter CreateSecurityConfigurationInput : [no documentation found]
@@ -552,6 +626,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutput
+    /// Performs the `CreateSession` operation on the `AWSGlue` service.
+    ///
     /// Creates a new session.
     ///
     /// - Parameter CreateSessionInput : Request to create a new session.
@@ -570,6 +646,8 @@ public protocol GlueClientProtocol {
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
     func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
+    /// Performs the `CreateTable` operation on the `AWSGlue` service.
+    ///
     /// Creates a new table definition in the Data Catalog.
     ///
     /// - Parameter CreateTableInput : [no documentation found]
@@ -589,6 +667,8 @@ public protocol GlueClientProtocol {
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createTable(input: CreateTableInput) async throws -> CreateTableOutput
+    /// Performs the `CreateTrigger` operation on the `AWSGlue` service.
+    ///
     /// Creates a new trigger.
     ///
     /// - Parameter CreateTriggerInput : [no documentation found]
@@ -607,6 +687,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createTrigger(input: CreateTriggerInput) async throws -> CreateTriggerOutput
+    /// Performs the `CreateUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Creates a new function definition in the Data Catalog.
     ///
     /// - Parameter CreateUserDefinedFunctionInput : [no documentation found]
@@ -624,6 +706,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createUserDefinedFunction(input: CreateUserDefinedFunctionInput) async throws -> CreateUserDefinedFunctionOutput
+    /// Performs the `CreateWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Creates a new workflow.
     ///
     /// - Parameter CreateWorkflowInput : [no documentation found]
@@ -640,6 +724,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
+    /// Performs the `DeleteBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Deletes an existing blueprint.
     ///
     /// - Parameter DeleteBlueprintInput : [no documentation found]
@@ -653,6 +739,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteBlueprint(input: DeleteBlueprintInput) async throws -> DeleteBlueprintOutput
+    /// Performs the `DeleteClassifier` operation on the `AWSGlue` service.
+    ///
     /// Removes a classifier from the Data Catalog.
     ///
     /// - Parameter DeleteClassifierInput : [no documentation found]
@@ -665,6 +753,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteClassifier(input: DeleteClassifierInput) async throws -> DeleteClassifierOutput
+    /// Performs the `DeleteColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    ///
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition.
     ///
     /// - Parameter DeleteColumnStatisticsForPartitionInput : [no documentation found]
@@ -680,6 +770,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteColumnStatisticsForPartition(input: DeleteColumnStatisticsForPartitionInput) async throws -> DeleteColumnStatisticsForPartitionOutput
+    /// Performs the `DeleteColumnStatisticsForTable` operation on the `AWSGlue` service.
+    ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable.
     ///
     /// - Parameter DeleteColumnStatisticsForTableInput : [no documentation found]
@@ -695,6 +787,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteColumnStatisticsForTable(input: DeleteColumnStatisticsForTableInput) async throws -> DeleteColumnStatisticsForTableOutput
+    /// Performs the `DeleteConnection` operation on the `AWSGlue` service.
+    ///
     /// Deletes a connection from the Data Catalog.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
@@ -707,6 +801,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
+    /// Performs the `DeleteCrawler` operation on the `AWSGlue` service.
+    ///
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
     ///
     /// - Parameter DeleteCrawlerInput : [no documentation found]
@@ -721,6 +817,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     func deleteCrawler(input: DeleteCrawlerInput) async throws -> DeleteCrawlerOutput
+    /// Performs the `DeleteCustomEntityType` operation on the `AWSGlue` service.
+    ///
     /// Deletes a custom pattern by specifying its name.
     ///
     /// - Parameter DeleteCustomEntityTypeInput : [no documentation found]
@@ -736,6 +834,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutput
+    /// Performs the `DeleteDatabase` operation on the `AWSGlue` service.
+    ///
     /// Removes a specified database from a Data Catalog. After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
     ///
     /// - Parameter DeleteDatabaseInput : [no documentation found]
@@ -751,6 +851,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutput
+    /// Performs the `DeleteDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Deletes a data quality ruleset.
     ///
     /// - Parameter DeleteDataQualityRulesetInput : [no documentation found]
@@ -765,6 +867,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutput
+    /// Performs the `DeleteDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified development endpoint.
     ///
     /// - Parameter DeleteDevEndpointInput : [no documentation found]
@@ -779,6 +883,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutput
+    /// Performs the `DeleteJob` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
     ///
     /// - Parameter DeleteJobInput : [no documentation found]
@@ -792,6 +898,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
+    /// Performs the `DeleteMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any Glue jobs that still reference the deleted transform will no longer succeed.
     ///
     /// - Parameter DeleteMLTransformInput : [no documentation found]
@@ -806,6 +914,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteMLTransform(input: DeleteMLTransformInput) async throws -> DeleteMLTransformOutput
+    /// Performs the `DeletePartition` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified partition.
     ///
     /// - Parameter DeletePartitionInput : [no documentation found]
@@ -820,6 +930,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deletePartition(input: DeletePartitionInput) async throws -> DeletePartitionOutput
+    /// Performs the `DeletePartitionIndex` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified partition index from an existing table.
     ///
     /// - Parameter DeletePartitionIndexInput : [no documentation found]
@@ -836,6 +948,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deletePartitionIndex(input: DeletePartitionIndexInput) async throws -> DeletePartitionIndexOutput
+    /// Performs the `DeleteRegistry` operation on the `AWSGlue` service.
+    ///
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
     ///
     /// - Parameter DeleteRegistryInput : [no documentation found]
@@ -850,6 +964,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput
+    /// Performs the `DeleteResourcePolicy` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified policy.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -865,6 +981,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+    /// Performs the `DeleteSchema` operation on the `AWSGlue` service.
+    ///
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
     ///
     /// - Parameter DeleteSchemaInput : [no documentation found]
@@ -879,6 +997,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
+    /// Performs the `DeleteSchemaVersions` operation on the `AWSGlue` service.
+    ///
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
     ///
     /// - Parameter DeleteSchemaVersionsInput : [no documentation found]
@@ -893,6 +1013,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     func deleteSchemaVersions(input: DeleteSchemaVersionsInput) async throws -> DeleteSchemaVersionsOutput
+    /// Performs the `DeleteSecurityConfiguration` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified security configuration.
     ///
     /// - Parameter DeleteSecurityConfigurationInput : [no documentation found]
@@ -907,6 +1029,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutput
+    /// Performs the `DeleteSession` operation on the `AWSGlue` service.
+    ///
     /// Deletes the session.
     ///
     /// - Parameter DeleteSessionInput : [no documentation found]
@@ -923,6 +1047,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput
+    /// Performs the `DeleteTable` operation on the `AWSGlue` service.
+    ///
     /// Removes a table definition from the Data Catalog. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     ///
     /// - Parameter DeleteTableInput : [no documentation found]
@@ -939,6 +1065,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput
+    /// Performs the `DeleteTableVersion` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified version of a table.
     ///
     /// - Parameter DeleteTableVersionInput : [no documentation found]
@@ -953,6 +1081,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteTableVersion(input: DeleteTableVersionInput) async throws -> DeleteTableVersionOutput
+    /// Performs the `DeleteTrigger` operation on the `AWSGlue` service.
+    ///
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown.
     ///
     /// - Parameter DeleteTriggerInput : [no documentation found]
@@ -967,6 +1097,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteTrigger(input: DeleteTriggerInput) async throws -> DeleteTriggerOutput
+    /// Performs the `DeleteUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Deletes an existing function definition from the Data Catalog.
     ///
     /// - Parameter DeleteUserDefinedFunctionInput : [no documentation found]
@@ -981,6 +1113,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteUserDefinedFunction(input: DeleteUserDefinedFunctionInput) async throws -> DeleteUserDefinedFunctionOutput
+    /// Performs the `DeleteWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Deletes a workflow.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
@@ -995,6 +1129,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
+    /// Performs the `GetBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of a blueprint.
     ///
     /// - Parameter GetBlueprintInput : [no documentation found]
@@ -1009,6 +1145,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getBlueprint(input: GetBlueprintInput) async throws -> GetBlueprintOutput
+    /// Performs the `GetBlueprintRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of a blueprint run.
     ///
     /// - Parameter GetBlueprintRunInput : [no documentation found]
@@ -1022,6 +1160,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
     func getBlueprintRun(input: GetBlueprintRunInput) async throws -> GetBlueprintRunOutput
+    /// Performs the `GetBlueprintRuns` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of blueprint runs for a specified blueprint.
     ///
     /// - Parameter GetBlueprintRunsInput : [no documentation found]
@@ -1036,6 +1176,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getBlueprintRuns(input: GetBlueprintRunsInput) async throws -> GetBlueprintRunsOutput
+    /// Performs the `GetCatalogImportStatus` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the status of a migration operation.
     ///
     /// - Parameter GetCatalogImportStatusInput : [no documentation found]
@@ -1048,6 +1190,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
     func getCatalogImportStatus(input: GetCatalogImportStatusInput) async throws -> GetCatalogImportStatusOutput
+    /// Performs the `GetClassifier` operation on the `AWSGlue` service.
+    ///
     /// Retrieve a classifier by name.
     ///
     /// - Parameter GetClassifierInput : [no documentation found]
@@ -1060,6 +1204,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     func getClassifier(input: GetClassifierInput) async throws -> GetClassifierOutput
+    /// Performs the `GetClassifiers` operation on the `AWSGlue` service.
+    ///
     /// Lists all classifier objects in the Data Catalog.
     ///
     /// - Parameter GetClassifiersInput : [no documentation found]
@@ -1071,6 +1217,8 @@ public protocol GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
     func getClassifiers(input: GetClassifiersInput) async throws -> GetClassifiersOutput
+    /// Performs the `GetColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition.
     ///
     /// - Parameter GetColumnStatisticsForPartitionInput : [no documentation found]
@@ -1086,6 +1234,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getColumnStatisticsForPartition(input: GetColumnStatisticsForPartitionInput) async throws -> GetColumnStatisticsForPartitionOutput
+    /// Performs the `GetColumnStatisticsForTable` operation on the `AWSGlue` service.
+    ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable.
     ///
     /// - Parameter GetColumnStatisticsForTableInput : [no documentation found]
@@ -1101,6 +1251,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getColumnStatisticsForTable(input: GetColumnStatisticsForTableInput) async throws -> GetColumnStatisticsForTableOutput
+    /// Performs the `GetConnection` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a connection definition from the Data Catalog.
     ///
     /// - Parameter GetConnectionInput : [no documentation found]
@@ -1115,6 +1267,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
+    /// Performs the `GetConnections` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of connection definitions from the Data Catalog.
     ///
     /// - Parameter GetConnectionsInput : [no documentation found]
@@ -1129,6 +1283,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput
+    /// Performs the `GetCrawler` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for a specified crawler.
     ///
     /// - Parameter GetCrawlerInput : [no documentation found]
@@ -1141,6 +1297,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     func getCrawler(input: GetCrawlerInput) async throws -> GetCrawlerOutput
+    /// Performs the `GetCrawlerMetrics` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metrics about specified crawlers.
     ///
     /// - Parameter GetCrawlerMetricsInput : [no documentation found]
@@ -1152,6 +1310,8 @@ public protocol GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
     func getCrawlerMetrics(input: GetCrawlerMetricsInput) async throws -> GetCrawlerMetricsOutput
+    /// Performs the `GetCrawlers` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for all crawlers defined in the customer account.
     ///
     /// - Parameter GetCrawlersInput : [no documentation found]
@@ -1163,6 +1323,8 @@ public protocol GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
     func getCrawlers(input: GetCrawlersInput) async throws -> GetCrawlersOutput
+    /// Performs the `GetCustomEntityType` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the details of a custom pattern by specifying its name.
     ///
     /// - Parameter GetCustomEntityTypeInput : [no documentation found]
@@ -1178,6 +1340,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getCustomEntityType(input: GetCustomEntityTypeInput) async throws -> GetCustomEntityTypeOutput
+    /// Performs the `GetDatabase` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the definition of a specified database.
     ///
     /// - Parameter GetDatabaseInput : [no documentation found]
@@ -1194,6 +1358,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
+    /// Performs the `GetDatabases` operation on the `AWSGlue` service.
+    ///
     /// Retrieves all databases defined in a given Data Catalog.
     ///
     /// - Parameter GetDatabasesInput : [no documentation found]
@@ -1208,6 +1374,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDatabases(input: GetDatabasesInput) async throws -> GetDatabasesOutput
+    /// Performs the `GetDataCatalogEncryptionSettings` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the security configuration for a specified catalog.
     ///
     /// - Parameter GetDataCatalogEncryptionSettingsInput : [no documentation found]
@@ -1221,6 +1389,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutput
+    /// Performs the `GetDataflowGraph` operation on the `AWSGlue` service.
+    ///
     /// Transforms a Python script into a directed acyclic graph (DAG).
     ///
     /// - Parameter GetDataflowGraphInput : [no documentation found]
@@ -1234,6 +1404,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutput
+    /// Performs the `GetDataQualityResult` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the result of a data quality rule evaluation.
     ///
     /// - Parameter GetDataQualityResultInput : [no documentation found]
@@ -1248,6 +1420,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutput
+    /// Performs the `GetDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    ///
     /// Gets the specified recommendation run that was used to generate rules.
     ///
     /// - Parameter GetDataQualityRuleRecommendationRunInput : [no documentation found]
@@ -1262,6 +1436,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutput
+    /// Performs the `GetDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Returns an existing ruleset by identifier or name.
     ///
     /// - Parameter GetDataQualityRulesetInput : [no documentation found]
@@ -1276,6 +1452,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutput
+    /// Performs the `GetDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specific run where a ruleset is evaluated against a data source.
     ///
     /// - Parameter GetDataQualityRulesetEvaluationRunInput : [no documentation found]
@@ -1290,6 +1468,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutput
+    /// Performs the `GetDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about a specified development endpoint. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     ///
     /// - Parameter GetDevEndpointInput : [no documentation found]
@@ -1304,6 +1484,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutput
+    /// Performs the `GetDevEndpoints` operation on the `AWSGlue` service.
+    ///
     /// Retrieves all the development endpoints in this Amazon Web Services account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     ///
     /// - Parameter GetDevEndpointsInput : [no documentation found]
@@ -1318,6 +1500,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutput
+    /// Performs the `GetJob` operation on the `AWSGlue` service.
+    ///
     /// Retrieves an existing job definition.
     ///
     /// - Parameter GetJobInput : [no documentation found]
@@ -1332,6 +1516,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getJob(input: GetJobInput) async throws -> GetJobOutput
+    /// Performs the `GetJobBookmark` operation on the `AWSGlue` service.
+    ///
     /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see:
     ///
     /// * [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html)
@@ -1353,6 +1539,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
     func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutput
+    /// Performs the `GetJobRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the metadata for a given job run.
     ///
     /// - Parameter GetJobRunInput : [no documentation found]
@@ -1367,6 +1555,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput
+    /// Performs the `GetJobRuns` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for all runs of a given job definition.
     ///
     /// - Parameter GetJobRunsInput : [no documentation found]
@@ -1381,6 +1571,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getJobRuns(input: GetJobRunsInput) async throws -> GetJobRunsOutput
+    /// Performs the `GetJobs` operation on the `AWSGlue` service.
+    ///
     /// Retrieves all current job definitions.
     ///
     /// - Parameter GetJobsInput : [no documentation found]
@@ -1395,6 +1587,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getJobs(input: GetJobsInput) async throws -> GetJobsOutput
+    /// Performs the `GetMapping` operation on the `AWSGlue` service.
+    ///
     /// Creates mappings.
     ///
     /// - Parameter GetMappingInput : [no documentation found]
@@ -1409,6 +1603,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getMapping(input: GetMappingInput) async throws -> GetMappingOutput
+    /// Performs the `GetMLTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
     ///
     /// - Parameter GetMLTaskRunInput : [no documentation found]
@@ -1423,6 +1619,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getMLTaskRun(input: GetMLTaskRunInput) async throws -> GetMLTaskRunOutput
+    /// Performs the `GetMLTaskRuns` operation on the `AWSGlue` service.
+    ///
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
     ///
     /// - Parameter GetMLTaskRunsInput : [no documentation found]
@@ -1437,6 +1635,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getMLTaskRuns(input: GetMLTaskRunsInput) async throws -> GetMLTaskRunsOutput
+    /// Performs the `GetMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform.
     ///
     /// - Parameter GetMLTransformInput : [no documentation found]
@@ -1451,6 +1651,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getMLTransform(input: GetMLTransformInput) async throws -> GetMLTransformOutput
+    /// Performs the `GetMLTransforms` operation on the `AWSGlue` service.
+    ///
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
     ///
     /// - Parameter GetMLTransformsInput : [no documentation found]
@@ -1465,6 +1667,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getMLTransforms(input: GetMLTransformsInput) async throws -> GetMLTransformsOutput
+    /// Performs the `GetPartition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about a specified partition.
     ///
     /// - Parameter GetPartitionInput : [no documentation found]
@@ -1482,6 +1686,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getPartition(input: GetPartitionInput) async throws -> GetPartitionOutput
+    /// Performs the `GetPartitionIndexes` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the partition indexes associated with a table.
     ///
     /// - Parameter GetPartitionIndexesInput : [no documentation found]
@@ -1497,6 +1703,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getPartitionIndexes(input: GetPartitionIndexesInput) async throws -> GetPartitionIndexesOutput
+    /// Performs the `GetPartitions` operation on the `AWSGlue` service.
+    ///
     /// Retrieves information about the partitions in a table.
     ///
     /// - Parameter GetPartitionsInput : [no documentation found]
@@ -1516,6 +1724,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     func getPartitions(input: GetPartitionsInput) async throws -> GetPartitionsOutput
+    /// Performs the `GetPlan` operation on the `AWSGlue` service.
+    ///
     /// Gets code to perform a specified mapping.
     ///
     /// - Parameter GetPlanInput : [no documentation found]
@@ -1529,6 +1739,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getPlan(input: GetPlanInput) async throws -> GetPlanOutput
+    /// Performs the `GetRegistry` operation on the `AWSGlue` service.
+    ///
     /// Describes the specified registry in detail.
     ///
     /// - Parameter GetRegistryInput : [no documentation found]
@@ -1543,6 +1755,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getRegistry(input: GetRegistryInput) async throws -> GetRegistryOutput
+    /// Performs the `GetResourcePolicies` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
     ///
     /// - Parameter GetResourcePoliciesInput : [no documentation found]
@@ -1557,6 +1771,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
+    /// Performs the `GetResourcePolicy` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified resource policy.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
@@ -1571,6 +1787,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
+    /// Performs the `GetSchema` operation on the `AWSGlue` service.
+    ///
     /// Describes the specified schema in detail.
     ///
     /// - Parameter GetSchemaInput : [no documentation found]
@@ -1585,6 +1803,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput
+    /// Performs the `GetSchemaByDefinition` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
     ///
     /// - Parameter GetSchemaByDefinitionInput : [no documentation found]
@@ -1599,6 +1819,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getSchemaByDefinition(input: GetSchemaByDefinitionInput) async throws -> GetSchemaByDefinitionOutput
+    /// Performs the `GetSchemaVersion` operation on the `AWSGlue` service.
+    ///
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
     ///
     /// - Parameter GetSchemaVersionInput : [no documentation found]
@@ -1613,6 +1835,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getSchemaVersion(input: GetSchemaVersionInput) async throws -> GetSchemaVersionOutput
+    /// Performs the `GetSchemaVersionsDiff` operation on the `AWSGlue` service.
+    ///
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
     ///
     /// - Parameter GetSchemaVersionsDiffInput : [no documentation found]
@@ -1627,6 +1851,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func getSchemaVersionsDiff(input: GetSchemaVersionsDiffInput) async throws -> GetSchemaVersionsDiffOutput
+    /// Performs the `GetSecurityConfiguration` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified security configuration.
     ///
     /// - Parameter GetSecurityConfigurationInput : [no documentation found]
@@ -1641,6 +1867,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getSecurityConfiguration(input: GetSecurityConfigurationInput) async throws -> GetSecurityConfigurationOutput
+    /// Performs the `GetSecurityConfigurations` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of all security configurations.
     ///
     /// - Parameter GetSecurityConfigurationsInput : [no documentation found]
@@ -1655,6 +1883,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getSecurityConfigurations(input: GetSecurityConfigurationsInput) async throws -> GetSecurityConfigurationsOutput
+    /// Performs the `GetSession` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the session.
     ///
     /// - Parameter GetSessionInput : [no documentation found]
@@ -1670,6 +1900,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getSession(input: GetSessionInput) async throws -> GetSessionOutput
+    /// Performs the `GetStatement` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the statement.
     ///
     /// - Parameter GetStatementInput : [no documentation found]
@@ -1686,6 +1918,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getStatement(input: GetStatementInput) async throws -> GetStatementOutput
+    /// Performs the `GetTable` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     ///
     /// - Parameter GetTableInput : [no documentation found]
@@ -1704,6 +1938,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     func getTable(input: GetTableInput) async throws -> GetTableOutput
+    /// Performs the `GetTables` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the definitions of some or all of the tables in a given Database.
     ///
     /// - Parameter GetTablesInput : [no documentation found]
@@ -1721,6 +1957,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getTables(input: GetTablesInput) async throws -> GetTablesOutput
+    /// Performs the `GetTableVersion` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified version of a table.
     ///
     /// - Parameter GetTableVersionInput : [no documentation found]
@@ -1736,6 +1974,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getTableVersion(input: GetTableVersionInput) async throws -> GetTableVersionOutput
+    /// Performs the `GetTableVersions` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of strings that identify available versions of a specified table.
     ///
     /// - Parameter GetTableVersionsInput : [no documentation found]
@@ -1751,6 +1991,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getTableVersions(input: GetTableVersionsInput) async throws -> GetTableVersionsOutput
+    /// Performs the `GetTags` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a list of tags associated with a resource.
     ///
     /// - Parameter GetTagsInput : [no documentation found]
@@ -1765,6 +2007,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getTags(input: GetTagsInput) async throws -> GetTagsOutput
+    /// Performs the `GetTrigger` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the definition of a trigger.
     ///
     /// - Parameter GetTriggerInput : [no documentation found]
@@ -1779,6 +2023,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutput
+    /// Performs the `GetTriggers` operation on the `AWSGlue` service.
+    ///
     /// Gets all the triggers associated with a job.
     ///
     /// - Parameter GetTriggersInput : [no documentation found]
@@ -1793,6 +2039,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutput
+    /// Performs the `GetUnfilteredPartitionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     ///
     /// - Parameter GetUnfilteredPartitionMetadataInput : [no documentation found]
@@ -1811,6 +2059,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The operation timed out.
     func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutput
+    /// Performs the `GetUnfilteredPartitionsMetadata` operation on the `AWSGlue` service.
+    ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     ///
     /// - Parameter GetUnfilteredPartitionsMetadataInput : [no documentation found]
@@ -1829,6 +2079,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The operation timed out.
     func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutput
+    /// Performs the `GetUnfilteredTableMetadata` operation on the `AWSGlue` service.
+    ///
     /// Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     ///
     /// - Parameter GetUnfilteredTableMetadataInput : [no documentation found]
@@ -1847,6 +2099,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The operation timed out.
     func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutput
+    /// Performs the `GetUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a specified function definition from the Data Catalog.
     ///
     /// - Parameter GetUserDefinedFunctionInput : [no documentation found]
@@ -1862,6 +2116,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutput
+    /// Performs the `GetUserDefinedFunctions` operation on the `AWSGlue` service.
+    ///
     /// Retrieves multiple function definitions from the Data Catalog.
     ///
     /// - Parameter GetUserDefinedFunctionsInput : [no documentation found]
@@ -1877,6 +2133,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getUserDefinedFunctions(input: GetUserDefinedFunctionsInput) async throws -> GetUserDefinedFunctionsOutput
+    /// Performs the `GetWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Retrieves resource metadata for a workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
@@ -1891,6 +2149,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
+    /// Performs the `GetWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the metadata for a given workflow run.
     ///
     /// - Parameter GetWorkflowRunInput : [no documentation found]
@@ -1905,6 +2165,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutput
+    /// Performs the `GetWorkflowRunProperties` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the workflow run properties which were set during the run.
     ///
     /// - Parameter GetWorkflowRunPropertiesInput : [no documentation found]
@@ -1919,6 +2181,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getWorkflowRunProperties(input: GetWorkflowRunPropertiesInput) async throws -> GetWorkflowRunPropertiesOutput
+    /// Performs the `GetWorkflowRuns` operation on the `AWSGlue` service.
+    ///
     /// Retrieves metadata for all runs of a given workflow.
     ///
     /// - Parameter GetWorkflowRunsInput : [no documentation found]
@@ -1933,6 +2197,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func getWorkflowRuns(input: GetWorkflowRunsInput) async throws -> GetWorkflowRunsOutput
+    /// Performs the `ImportCatalogToGlue` operation on the `AWSGlue` service.
+    ///
     /// Imports an existing Amazon Athena Data Catalog to Glue.
     ///
     /// - Parameter ImportCatalogToGlueInput : [no documentation found]
@@ -1945,6 +2211,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
     func importCatalogToGlue(input: ImportCatalogToGlueInput) async throws -> ImportCatalogToGlueOutput
+    /// Performs the `ListBlueprints` operation on the `AWSGlue` service.
+    ///
     /// Lists all the blueprint names in an account.
     ///
     /// - Parameter ListBlueprintsInput : [no documentation found]
@@ -1958,6 +2226,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listBlueprints(input: ListBlueprintsInput) async throws -> ListBlueprintsOutput
+    /// Performs the `ListCrawlers` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
     /// - Parameter ListCrawlersInput : [no documentation found]
@@ -1969,6 +2239,8 @@ public protocol GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
     func listCrawlers(input: ListCrawlersInput) async throws -> ListCrawlersOutput
+    /// Performs the `ListCrawls` operation on the `AWSGlue` service.
+    ///
     /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to:
     ///
     /// * Retrive all the crawls of a specified crawler.
@@ -1990,6 +2262,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutput
+    /// Performs the `ListCustomEntityTypes` operation on the `AWSGlue` service.
+    ///
     /// Lists all the custom patterns that have been created.
     ///
     /// - Parameter ListCustomEntityTypesInput : [no documentation found]
@@ -2003,6 +2277,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutput
+    /// Performs the `ListDataQualityResults` operation on the `AWSGlue` service.
+    ///
     /// Returns all data quality execution results for your account.
     ///
     /// - Parameter ListDataQualityResultsInput : [no documentation found]
@@ -2016,6 +2292,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutput
+    /// Performs the `ListDataQualityRuleRecommendationRuns` operation on the `AWSGlue` service.
+    ///
     /// Lists the recommendation runs meeting the filter criteria.
     ///
     /// - Parameter ListDataQualityRuleRecommendationRunsInput : [no documentation found]
@@ -2029,6 +2307,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutput
+    /// Performs the `ListDataQualityRulesetEvaluationRuns` operation on the `AWSGlue` service.
+    ///
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
     ///
     /// - Parameter ListDataQualityRulesetEvaluationRunsInput : [no documentation found]
@@ -2042,6 +2322,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutput
+    /// Performs the `ListDataQualityRulesets` operation on the `AWSGlue` service.
+    ///
     /// Returns a paginated list of rulesets for the specified list of Glue tables.
     ///
     /// - Parameter ListDataQualityRulesetsInput : [no documentation found]
@@ -2056,6 +2338,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutput
+    /// Performs the `ListDevEndpoints` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
     /// - Parameter ListDevEndpointsInput : [no documentation found]
@@ -2070,6 +2354,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutput
+    /// Performs the `ListJobs` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
@@ -2084,6 +2370,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+    /// Performs the `ListMLTransforms` operation on the `AWSGlue` service.
+    ///
     /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
     ///
     /// - Parameter ListMLTransformsInput : [no documentation found]
@@ -2098,6 +2386,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listMLTransforms(input: ListMLTransformsInput) async throws -> ListMLTransformsOutput
+    /// Performs the `ListRegistries` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
     ///
     /// - Parameter ListRegistriesInput : [no documentation found]
@@ -2111,6 +2401,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput
+    /// Performs the `ListSchemas` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
     ///
     /// - Parameter ListSchemasInput : [no documentation found]
@@ -2125,6 +2417,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
+    /// Performs the `ListSchemaVersions` operation on the `AWSGlue` service.
+    ///
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
     ///
     /// - Parameter ListSchemaVersionsInput : [no documentation found]
@@ -2139,6 +2433,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput
+    /// Performs the `ListSessions` operation on the `AWSGlue` service.
+    ///
     /// Retrieve a list of sessions.
     ///
     /// - Parameter ListSessionsInput : [no documentation found]
@@ -2153,6 +2449,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput
+    /// Performs the `ListStatements` operation on the `AWSGlue` service.
+    ///
     /// Lists statements for the session.
     ///
     /// - Parameter ListStatementsInput : [no documentation found]
@@ -2169,6 +2467,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput
+    /// Performs the `ListTriggers` operation on the `AWSGlue` service.
+    ///
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
     /// - Parameter ListTriggersInput : [no documentation found]
@@ -2183,6 +2483,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listTriggers(input: ListTriggersInput) async throws -> ListTriggersOutput
+    /// Performs the `ListWorkflows` operation on the `AWSGlue` service.
+    ///
     /// Lists names of workflows created in the account.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
@@ -2196,6 +2498,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
+    /// Performs the `PutDataCatalogEncryptionSettings` operation on the `AWSGlue` service.
+    ///
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
     ///
     /// - Parameter PutDataCatalogEncryptionSettingsInput : [no documentation found]
@@ -2209,6 +2513,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func putDataCatalogEncryptionSettings(input: PutDataCatalogEncryptionSettingsInput) async throws -> PutDataCatalogEncryptionSettingsOutput
+    /// Performs the `PutResourcePolicy` operation on the `AWSGlue` service.
+    ///
     /// Sets the Data Catalog resource policy for access control.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -2224,6 +2530,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
+    /// Performs the `PutSchemaVersionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
     ///
     /// - Parameter PutSchemaVersionMetadataInput : [no documentation found]
@@ -2239,6 +2547,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func putSchemaVersionMetadata(input: PutSchemaVersionMetadataInput) async throws -> PutSchemaVersionMetadataOutput
+    /// Performs the `PutWorkflowRunProperties` operation on the `AWSGlue` service.
+    ///
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
     ///
     /// - Parameter PutWorkflowRunPropertiesInput : [no documentation found]
@@ -2256,6 +2566,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func putWorkflowRunProperties(input: PutWorkflowRunPropertiesInput) async throws -> PutWorkflowRunPropertiesOutput
+    /// Performs the `QuerySchemaVersionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Queries for the schema version metadata information.
     ///
     /// - Parameter QuerySchemaVersionMetadataInput : [no documentation found]
@@ -2269,6 +2581,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     func querySchemaVersionMetadata(input: QuerySchemaVersionMetadataInput) async throws -> QuerySchemaVersionMetadataOutput
+    /// Performs the `RegisterSchemaVersion` operation on the `AWSGlue` service.
+    ///
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
     ///
     /// - Parameter RegisterSchemaVersionInput : [no documentation found]
@@ -2285,6 +2599,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutput
+    /// Performs the `RemoveSchemaVersionMetadata` operation on the `AWSGlue` service.
+    ///
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
     ///
     /// - Parameter RemoveSchemaVersionMetadataInput : [no documentation found]
@@ -2298,6 +2614,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutput
+    /// Performs the `ResetJobBookmark` operation on the `AWSGlue` service.
+    ///
     /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see:
     ///
     /// * [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html)
@@ -2318,6 +2636,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutput
+    /// Performs the `ResumeWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
     ///
     /// - Parameter ResumeWorkflowRunInput : [no documentation found]
@@ -2334,6 +2654,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutput
+    /// Performs the `RunStatement` operation on the `AWSGlue` service.
+    ///
     /// Executes the statement.
     ///
     /// - Parameter RunStatementInput : [no documentation found]
@@ -2352,6 +2674,8 @@ public protocol GlueClientProtocol {
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
     func runStatement(input: RunStatementInput) async throws -> RunStatementOutput
+    /// Performs the `SearchTables` operation on the `AWSGlue` service.
+    ///
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
     ///
     /// - Parameter SearchTablesInput : [no documentation found]
@@ -2365,6 +2689,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func searchTables(input: SearchTablesInput) async throws -> SearchTablesOutput
+    /// Performs the `StartBlueprintRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a new run of the specified blueprint.
     ///
     /// - Parameter StartBlueprintRunInput : [no documentation found]
@@ -2381,6 +2707,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func startBlueprintRun(input: StartBlueprintRunInput) async throws -> StartBlueprintRunOutput
+    /// Performs the `StartCrawler` operation on the `AWSGlue` service.
+    ///
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a [CrawlerRunningException](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException).
     ///
     /// - Parameter StartCrawlerInput : [no documentation found]
@@ -2394,6 +2722,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutput
+    /// Performs the `StartCrawlerSchedule` operation on the `AWSGlue` service.
+    ///
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
     ///
     /// - Parameter StartCrawlerScheduleInput : [no documentation found]
@@ -2409,6 +2739,8 @@ public protocol GlueClientProtocol {
     /// - `SchedulerRunningException` : The specified scheduler is already running.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutput
+    /// Performs the `StartDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
     ///
     /// - Parameter StartDataQualityRuleRecommendationRunInput : [no documentation found]
@@ -2423,6 +2755,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutput
+    /// Performs the `StartDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    ///
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
     ///
     /// - Parameter StartDataQualityRulesetEvaluationRunInput : [no documentation found]
@@ -2438,6 +2772,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutput
+    /// Performs the `StartExportLabelsTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
     ///
     /// - Parameter StartExportLabelsTaskRunInput : [no documentation found]
@@ -2452,6 +2788,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutput
+    /// Performs the `StartImportLabelsTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
     ///
     /// - Parameter StartImportLabelsTaskRunInput : [no documentation found]
@@ -2467,6 +2805,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func startImportLabelsTaskRun(input: StartImportLabelsTaskRunInput) async throws -> StartImportLabelsTaskRunOutput
+    /// Performs the `StartJobRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a job run using a job definition.
     ///
     /// - Parameter StartJobRunInput : [no documentation found]
@@ -2483,6 +2823,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
+    /// Performs the `StartMLEvaluationTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a task to estimate the quality of the transform. When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
     ///
     /// - Parameter StartMLEvaluationTaskRunInput : [no documentation found]
@@ -2499,6 +2841,8 @@ public protocol GlueClientProtocol {
     /// - `MLTransformNotReadyException` : The machine learning transform is not ready to run.
     /// - `OperationTimeoutException` : The operation timed out.
     func startMLEvaluationTaskRun(input: StartMLEvaluationTaskRunInput) async throws -> StartMLEvaluationTaskRunOutput
+    /// Performs the `StartMLLabelingSetGenerationTaskRun` operation on the `AWSGlue` service.
+    ///
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
     ///
     /// - Parameter StartMLLabelingSetGenerationTaskRunInput : [no documentation found]
@@ -2514,6 +2858,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func startMLLabelingSetGenerationTaskRun(input: StartMLLabelingSetGenerationTaskRunInput) async throws -> StartMLLabelingSetGenerationTaskRunOutput
+    /// Performs the `StartTrigger` operation on the `AWSGlue` service.
+    ///
     /// Starts an existing trigger. See [Triggering Jobs](https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html) for information about how different types of trigger are started.
     ///
     /// - Parameter StartTriggerInput : [no documentation found]
@@ -2530,6 +2876,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func startTrigger(input: StartTriggerInput) async throws -> StartTriggerOutput
+    /// Performs the `StartWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Starts a new run of the specified workflow.
     ///
     /// - Parameter StartWorkflowRunInput : [no documentation found]
@@ -2546,6 +2894,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutput
+    /// Performs the `StopCrawler` operation on the `AWSGlue` service.
+    ///
     /// If the specified crawler is running, stops the crawl.
     ///
     /// - Parameter StopCrawlerInput : [no documentation found]
@@ -2560,6 +2910,8 @@ public protocol GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     func stopCrawler(input: StopCrawlerInput) async throws -> StopCrawlerOutput
+    /// Performs the `StopCrawlerSchedule` operation on the `AWSGlue` service.
+    ///
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
     ///
     /// - Parameter StopCrawlerScheduleInput : [no documentation found]
@@ -2574,6 +2926,8 @@ public protocol GlueClientProtocol {
     /// - `SchedulerNotRunningException` : The specified scheduler is not running.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     func stopCrawlerSchedule(input: StopCrawlerScheduleInput) async throws -> StopCrawlerScheduleOutput
+    /// Performs the `StopSession` operation on the `AWSGlue` service.
+    ///
     /// Stops the session.
     ///
     /// - Parameter StopSessionInput : [no documentation found]
@@ -2590,6 +2944,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func stopSession(input: StopSessionInput) async throws -> StopSessionOutput
+    /// Performs the `StopTrigger` operation on the `AWSGlue` service.
+    ///
     /// Stops a specified trigger.
     ///
     /// - Parameter StopTriggerInput : [no documentation found]
@@ -2605,6 +2961,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func stopTrigger(input: StopTriggerInput) async throws -> StopTriggerOutput
+    /// Performs the `StopWorkflowRun` operation on the `AWSGlue` service.
+    ///
     /// Stops the execution of the specified workflow run.
     ///
     /// - Parameter StopWorkflowRunInput : [no documentation found]
@@ -2620,6 +2978,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func stopWorkflowRun(input: StopWorkflowRunInput) async throws -> StopWorkflowRunOutput
+    /// Performs the `TagResource` operation on the `AWSGlue` service.
+    ///
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -2634,6 +2994,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSGlue` service.
+    ///
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -2648,6 +3010,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateBlueprint` operation on the `AWSGlue` service.
+    ///
     /// Updates a registered blueprint.
     ///
     /// - Parameter UpdateBlueprintInput : [no documentation found]
@@ -2664,6 +3028,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateBlueprint(input: UpdateBlueprintInput) async throws -> UpdateBlueprintOutput
+    /// Performs the `UpdateClassifier` operation on the `AWSGlue` service.
+    ///
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     ///
     /// - Parameter UpdateClassifierInput : [no documentation found]
@@ -2678,6 +3044,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `VersionMismatchException` : There was a version conflict.
     func updateClassifier(input: UpdateClassifierInput) async throws -> UpdateClassifierOutput
+    /// Performs the `UpdateColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    ///
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition.
     ///
     /// - Parameter UpdateColumnStatisticsForPartitionInput : [no documentation found]
@@ -2693,6 +3061,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateColumnStatisticsForPartition(input: UpdateColumnStatisticsForPartitionInput) async throws -> UpdateColumnStatisticsForPartitionOutput
+    /// Performs the `UpdateColumnStatisticsForTable` operation on the `AWSGlue` service.
+    ///
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable.
     ///
     /// - Parameter UpdateColumnStatisticsForTableInput : [no documentation found]
@@ -2708,6 +3078,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateColumnStatisticsForTable(input: UpdateColumnStatisticsForTableInput) async throws -> UpdateColumnStatisticsForTableOutput
+    /// Performs the `UpdateConnection` operation on the `AWSGlue` service.
+    ///
     /// Updates a connection definition in the Data Catalog.
     ///
     /// - Parameter UpdateConnectionInput : [no documentation found]
@@ -2722,6 +3094,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
+    /// Performs the `UpdateCrawler` operation on the `AWSGlue` service.
+    ///
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
     ///
     /// - Parameter UpdateCrawlerInput : [no documentation found]
@@ -2737,6 +3111,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `VersionMismatchException` : There was a version conflict.
     func updateCrawler(input: UpdateCrawlerInput) async throws -> UpdateCrawlerOutput
+    /// Performs the `UpdateCrawlerSchedule` operation on the `AWSGlue` service.
+    ///
     /// Updates the schedule of a crawler using a cron expression.
     ///
     /// - Parameter UpdateCrawlerScheduleInput : [no documentation found]
@@ -2752,6 +3128,8 @@ public protocol GlueClientProtocol {
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     /// - `VersionMismatchException` : There was a version conflict.
     func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutput
+    /// Performs the `UpdateDatabase` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing database definition in a Data Catalog.
     ///
     /// - Parameter UpdateDatabaseInput : [no documentation found]
@@ -2768,6 +3146,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutput
+    /// Performs the `UpdateDataQualityRuleset` operation on the `AWSGlue` service.
+    ///
     /// Updates the specified data quality ruleset.
     ///
     /// - Parameter UpdateDataQualityRulesetInput : [no documentation found]
@@ -2785,6 +3165,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutput
+    /// Performs the `UpdateDevEndpoint` operation on the `AWSGlue` service.
+    ///
     /// Updates a specified development endpoint.
     ///
     /// - Parameter UpdateDevEndpointInput : [no documentation found]
@@ -2800,6 +3182,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
     func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutput
+    /// Performs the `UpdateJob` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
     ///
     /// - Parameter UpdateJobInput : [no documentation found]
@@ -2815,6 +3199,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
+    /// Performs the `UpdateJobFromSourceControl` operation on the `AWSGlue` service.
+    ///
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information.
     ///
     /// - Parameter UpdateJobFromSourceControlInput : [no documentation found]
@@ -2832,6 +3218,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
     func updateJobFromSourceControl(input: UpdateJobFromSourceControlInput) async throws -> UpdateJobFromSourceControlOutput
+    /// Performs the `UpdateMLTransform` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
     ///
     /// - Parameter UpdateMLTransformInput : [no documentation found]
@@ -2847,6 +3235,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateMLTransform(input: UpdateMLTransformInput) async throws -> UpdateMLTransformOutput
+    /// Performs the `UpdatePartition` operation on the `AWSGlue` service.
+    ///
     /// Updates a partition.
     ///
     /// - Parameter UpdatePartitionInput : [no documentation found]
@@ -2862,6 +3252,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updatePartition(input: UpdatePartitionInput) async throws -> UpdatePartitionOutput
+    /// Performs the `UpdateRegistry` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
     ///
     /// - Parameter UpdateRegistryInput : [no documentation found]
@@ -2877,6 +3269,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput
+    /// Performs the `UpdateSchema` operation on the `AWSGlue` service.
+    ///
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
     ///
     /// - Parameter UpdateSchemaInput : [no documentation found]
@@ -2892,6 +3286,8 @@ public protocol GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
+    /// Performs the `UpdateSourceControlFromJob` operation on the `AWSGlue` service.
+    ///
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information.
     ///
     /// - Parameter UpdateSourceControlFromJobInput : [no documentation found]
@@ -2909,6 +3305,8 @@ public protocol GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
     func updateSourceControlFromJob(input: UpdateSourceControlFromJobInput) async throws -> UpdateSourceControlFromJobOutput
+    /// Performs the `UpdateTable` operation on the `AWSGlue` service.
+    ///
     /// Updates a metadata table in the Data Catalog.
     ///
     /// - Parameter UpdateTableInput : [no documentation found]
@@ -2927,6 +3325,8 @@ public protocol GlueClientProtocol {
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput
+    /// Performs the `UpdateTrigger` operation on the `AWSGlue` service.
+    ///
     /// Updates a trigger definition.
     ///
     /// - Parameter UpdateTriggerInput : [no documentation found]
@@ -2942,6 +3342,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateTrigger(input: UpdateTriggerInput) async throws -> UpdateTriggerOutput
+    /// Performs the `UpdateUserDefinedFunction` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing function definition in the Data Catalog.
     ///
     /// - Parameter UpdateUserDefinedFunctionInput : [no documentation found]
@@ -2957,6 +3359,8 @@ public protocol GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func updateUserDefinedFunction(input: UpdateUserDefinedFunctionInput) async throws -> UpdateUserDefinedFunctionOutput
+    /// Performs the `UpdateWorkflow` operation on the `AWSGlue` service.
+    ///
     /// Updates an existing workflow.
     ///
     /// - Parameter UpdateWorkflowInput : [no documentation found]

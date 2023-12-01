@@ -12,7 +12,7 @@ extension EMRcontainersClient {
     ///     - input: A `[ListJobRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobRunsOutput`
     public func listJobRunsPaginated(input: ListJobRunsInput) -> ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput>(input: input, inputKey: \ListJobRunsInput.nextToken, outputKey: \ListJobRunsOutput.nextToken, paginationFunction: self.listJobRuns(input:))
+        return ClientRuntime.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobRuns(input:))
     }
 }
 
@@ -29,7 +29,7 @@ extension ListJobRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobRunsInput, Output == ListJobRunsOutput {
+extension PaginatorSequence where OperationStackInput == ListJobRunsInput, OperationStackOutput == ListJobRunsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobRunsPaginated`
     /// to access the nested member `[EMRcontainersClientTypes.JobRun]`
     /// - Returns: `[EMRcontainersClientTypes.JobRun]`
@@ -47,7 +47,7 @@ extension EMRcontainersClient {
     ///     - input: A `[ListJobTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobTemplatesOutput`
     public func listJobTemplatesPaginated(input: ListJobTemplatesInput) -> ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput>(input: input, inputKey: \ListJobTemplatesInput.nextToken, outputKey: \ListJobTemplatesOutput.nextToken, paginationFunction: self.listJobTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobTemplates(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension ListJobTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobTemplatesInput, Output == ListJobTemplatesOutput {
+extension PaginatorSequence where OperationStackInput == ListJobTemplatesInput, OperationStackOutput == ListJobTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobTemplatesPaginated`
     /// to access the nested member `[EMRcontainersClientTypes.JobTemplate]`
     /// - Returns: `[EMRcontainersClientTypes.JobTemplate]`
@@ -79,7 +79,7 @@ extension EMRcontainersClient {
     ///     - input: A `[ListManagedEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedEndpointsOutput`
     public func listManagedEndpointsPaginated(input: ListManagedEndpointsInput) -> ClientRuntime.PaginatorSequence<ListManagedEndpointsInput, ListManagedEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<ListManagedEndpointsInput, ListManagedEndpointsOutput>(input: input, inputKey: \ListManagedEndpointsInput.nextToken, outputKey: \ListManagedEndpointsOutput.nextToken, paginationFunction: self.listManagedEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<ListManagedEndpointsInput, ListManagedEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedEndpoints(input:))
     }
 }
 
@@ -96,7 +96,7 @@ extension ListManagedEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListManagedEndpointsInput, Output == ListManagedEndpointsOutput {
+extension PaginatorSequence where OperationStackInput == ListManagedEndpointsInput, OperationStackOutput == ListManagedEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listManagedEndpointsPaginated`
     /// to access the nested member `[EMRcontainersClientTypes.Endpoint]`
     /// - Returns: `[EMRcontainersClientTypes.Endpoint]`
@@ -114,7 +114,7 @@ extension EMRcontainersClient {
     ///     - input: A `[ListVirtualClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVirtualClustersOutput`
     public func listVirtualClustersPaginated(input: ListVirtualClustersInput) -> ClientRuntime.PaginatorSequence<ListVirtualClustersInput, ListVirtualClustersOutput> {
-        return ClientRuntime.PaginatorSequence<ListVirtualClustersInput, ListVirtualClustersOutput>(input: input, inputKey: \ListVirtualClustersInput.nextToken, outputKey: \ListVirtualClustersOutput.nextToken, paginationFunction: self.listVirtualClusters(input:))
+        return ClientRuntime.PaginatorSequence<ListVirtualClustersInput, ListVirtualClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVirtualClusters(input:))
     }
 }
 
@@ -131,7 +131,7 @@ extension ListVirtualClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListVirtualClustersInput, Output == ListVirtualClustersOutput {
+extension PaginatorSequence where OperationStackInput == ListVirtualClustersInput, OperationStackOutput == ListVirtualClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listVirtualClustersPaginated`
     /// to access the nested member `[EMRcontainersClientTypes.VirtualCluster]`
     /// - Returns: `[EMRcontainersClientTypes.VirtualCluster]`

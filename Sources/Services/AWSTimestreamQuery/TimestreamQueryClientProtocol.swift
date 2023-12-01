@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Timestream Query
 public protocol TimestreamQueryClientProtocol {
+    /// Performs the `CancelQuery` operation on the `Timestream_20181101` service.
+    ///
     /// Cancels a query that has been issued. Cancellation is provided only if the query has not completed running before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled. See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.cancel-query.html) for details.
     ///
     /// - Parameter CancelQueryInput : [no documentation found]
@@ -19,6 +21,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput
+    /// Performs the `CreateScheduledQuery` operation on the `Timestream_20181101` service.
+    ///
     /// Create a scheduled query that will be run on your behalf at the configured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notification for your scheduled query operations.
     ///
     /// - Parameter CreateScheduledQueryInput : [no documentation found]
@@ -36,6 +40,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func createScheduledQuery(input: CreateScheduledQueryInput) async throws -> CreateScheduledQueryOutput
+    /// Performs the `DeleteScheduledQuery` operation on the `Timestream_20181101` service.
+    ///
     /// Deletes a given scheduled query. This is an irreversible operation.
     ///
     /// - Parameter DeleteScheduledQueryInput : [no documentation found]
@@ -52,6 +58,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func deleteScheduledQuery(input: DeleteScheduledQueryInput) async throws -> DeleteScheduledQueryOutput
+    /// Performs the `DescribeEndpoints` operation on the `Timestream_20181101` service.
+    ///
     /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:
     ///
     /// * You are using [VPC endpoints (Amazon Web Services PrivateLink) with Timestream ](https://docs.aws.amazon.com/timestream/latest/developerguide/VPCEndpoints)
@@ -74,6 +82,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
+    /// Performs the `DescribeScheduledQuery` operation on the `Timestream_20181101` service.
+    ///
     /// Provides detailed information about a scheduled query.
     ///
     /// - Parameter DescribeScheduledQueryInput : [no documentation found]
@@ -90,6 +100,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func describeScheduledQuery(input: DescribeScheduledQueryInput) async throws -> DescribeScheduledQueryOutput
+    /// Performs the `ExecuteScheduledQuery` operation on the `Timestream_20181101` service.
+    ///
     /// You can use this API to run a scheduled query manually.
     ///
     /// - Parameter ExecuteScheduledQueryInput : [no documentation found]
@@ -106,6 +118,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func executeScheduledQuery(input: ExecuteScheduledQueryInput) async throws -> ExecuteScheduledQueryOutput
+    /// Performs the `ListScheduledQueries` operation on the `Timestream_20181101` service.
+    ///
     /// Gets a list of all scheduled queries in the caller's Amazon account and Region. ListScheduledQueries is eventually consistent.
     ///
     /// - Parameter ListScheduledQueriesInput : [no documentation found]
@@ -121,6 +135,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func listScheduledQueries(input: ListScheduledQueriesInput) async throws -> ListScheduledQueriesOutput
+    /// Performs the `ListTagsForResource` operation on the `Timestream_20181101` service.
+    ///
     /// List all tags on a Timestream query resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -135,6 +151,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PrepareQuery` operation on the `Timestream_20181101` service.
+    ///
     /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with the PrepareQueryRequest$ValidateOnly set to true.
     ///
     /// - Parameter PrepareQueryInput : [no documentation found]
@@ -150,6 +168,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func prepareQuery(input: PrepareQueryInput) async throws -> PrepareQueryOutput
+    /// Performs the `Query` operation on the `Timestream_20181101` service.
+    ///
     /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. Query will time out after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html) for details. Your query request will fail in the following cases:
     ///
     /// * If you submit a Query request with the same client token outside of the 5-minute idempotency window.
@@ -175,6 +195,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func query(input: QueryInput) async throws -> QueryOutput
+    /// Performs the `TagResource` operation on the `Timestream_20181101` service.
+    ///
     /// Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -190,6 +212,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `Timestream_20181101` service.
+    ///
     /// Removes the association of tags from a Timestream query resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -204,6 +228,8 @@ public protocol TimestreamQueryClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateScheduledQuery` operation on the `Timestream_20181101` service.
+    ///
     /// Update a scheduled query.
     ///
     /// - Parameter UpdateScheduledQueryInput : [no documentation found]

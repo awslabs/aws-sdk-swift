@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// AWS Elemental MediaConvert
 public protocol MediaConvertClientProtocol {
+    /// Performs the `AssociateCertificate` operation on the `MediaConvert` service.
+    ///
     /// Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
     ///
     /// - Parameter AssociateCertificateInput : [no documentation found]
@@ -20,6 +22,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutput
+    /// Performs the `CancelJob` operation on the `MediaConvert` service.
+    ///
     /// Permanently cancel a job. Once you have canceled a job, you can't start it again.
     ///
     /// - Parameter CancelJobInput : [no documentation found]
@@ -36,6 +40,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
+    /// Performs the `CreateJob` operation on the `MediaConvert` service.
+    ///
     /// Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter CreateJobInput : [no documentation found]
@@ -52,6 +58,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+    /// Performs the `CreateJobTemplate` operation on the `MediaConvert` service.
+    ///
     /// Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter CreateJobTemplateInput : [no documentation found]
@@ -68,6 +76,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
+    /// Performs the `CreatePreset` operation on the `MediaConvert` service.
+    ///
     /// Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter CreatePresetInput : [no documentation found]
@@ -84,6 +94,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput
+    /// Performs the `CreateQueue` operation on the `MediaConvert` service.
+    ///
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     ///
     /// - Parameter CreateQueueInput : [no documentation found]
@@ -100,6 +112,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
+    /// Performs the `DeleteJobTemplate` operation on the `MediaConvert` service.
+    ///
     /// Permanently delete a job template you have created.
     ///
     /// - Parameter DeleteJobTemplateInput : [no documentation found]
@@ -116,6 +130,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
+    /// Performs the `DeletePolicy` operation on the `MediaConvert` service.
+    ///
     /// Permanently delete a policy that you created.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
@@ -132,6 +148,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
+    /// Performs the `DeletePreset` operation on the `MediaConvert` service.
+    ///
     /// Permanently delete a preset you have created.
     ///
     /// - Parameter DeletePresetInput : [no documentation found]
@@ -148,6 +166,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput
+    /// Performs the `DeleteQueue` operation on the `MediaConvert` service.
+    ///
     /// Permanently delete a queue you have created.
     ///
     /// - Parameter DeleteQueueInput : [no documentation found]
@@ -164,6 +184,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
+    /// Performs the `DescribeEndpoints` operation on the `MediaConvert` service.
+    ///
     /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
     ///
     /// - Parameter DescribeEndpointsInput : DescribeEndpointsRequest
@@ -180,6 +202,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
+    /// Performs the `DisassociateCertificate` operation on the `MediaConvert` service.
+    ///
     /// Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     ///
     /// - Parameter DisassociateCertificateInput : [no documentation found]
@@ -196,6 +220,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutput
+    /// Performs the `GetJob` operation on the `MediaConvert` service.
+    ///
     /// Retrieve the JSON for a specific transcoding job.
     ///
     /// - Parameter GetJobInput : [no documentation found]
@@ -212,6 +238,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func getJob(input: GetJobInput) async throws -> GetJobOutput
+    /// Performs the `GetJobTemplate` operation on the `MediaConvert` service.
+    ///
     /// Retrieve the JSON for a specific job template.
     ///
     /// - Parameter GetJobTemplateInput : [no documentation found]
@@ -228,6 +256,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutput
+    /// Performs the `GetPolicy` operation on the `MediaConvert` service.
+    ///
     /// Retrieve the JSON for your policy.
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
@@ -244,6 +274,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
+    /// Performs the `GetPreset` operation on the `MediaConvert` service.
+    ///
     /// Retrieve the JSON for a specific preset.
     ///
     /// - Parameter GetPresetInput : [no documentation found]
@@ -260,6 +292,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func getPreset(input: GetPresetInput) async throws -> GetPresetOutput
+    /// Performs the `GetQueue` operation on the `MediaConvert` service.
+    ///
     /// Retrieve the JSON for a specific queue.
     ///
     /// - Parameter GetQueueInput : [no documentation found]
@@ -276,6 +310,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func getQueue(input: GetQueueInput) async throws -> GetQueueOutput
+    /// Performs the `ListJobs` operation on the `MediaConvert` service.
+    ///
     /// Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
@@ -292,6 +328,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+    /// Performs the `ListJobTemplates` operation on the `MediaConvert` service.
+    ///
     /// Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     ///
     /// - Parameter ListJobTemplatesInput : [no documentation found]
@@ -308,6 +346,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
+    /// Performs the `ListPresets` operation on the `MediaConvert` service.
+    ///
     /// Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     ///
     /// - Parameter ListPresetsInput : [no documentation found]
@@ -324,6 +364,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput
+    /// Performs the `ListQueues` operation on the `MediaConvert` service.
+    ///
     /// Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     ///
     /// - Parameter ListQueuesInput : [no documentation found]
@@ -340,6 +382,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
+    /// Performs the `ListTagsForResource` operation on the `MediaConvert` service.
+    ///
     /// Retrieve the tags for a MediaConvert resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -356,6 +400,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutPolicy` operation on the `MediaConvert` service.
+    ///
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter PutPolicyInput : [no documentation found]
@@ -372,6 +418,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput
+    /// Performs the `TagResource` operation on the `MediaConvert` service.
+    ///
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -388,6 +436,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `MediaConvert` service.
+    ///
     /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -404,6 +454,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateJobTemplate` operation on the `MediaConvert` service.
+    ///
     /// Modify one of your existing job templates.
     ///
     /// - Parameter UpdateJobTemplateInput : [no documentation found]
@@ -420,6 +472,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutput
+    /// Performs the `UpdatePreset` operation on the `MediaConvert` service.
+    ///
     /// Modify one of your existing presets.
     ///
     /// - Parameter UpdatePresetInput : [no documentation found]
@@ -436,6 +490,8 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutput
+    /// Performs the `UpdateQueue` operation on the `MediaConvert` service.
+    ///
     /// Modify one of your existing queues.
     ///
     /// - Parameter UpdateQueueInput : [no documentation found]

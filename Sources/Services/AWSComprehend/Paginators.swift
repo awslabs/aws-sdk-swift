@@ -12,7 +12,7 @@ extension ComprehendClient {
     ///     - input: A `[ListDatasetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
     public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasets(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension ComprehendClient {
     ///     - input: A `[ListDocumentClassificationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassificationJobsOutput`
     public func listDocumentClassificationJobsPaginated(input: ListDocumentClassificationJobsInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(input: input, inputKey: \ListDocumentClassificationJobsInput.nextToken, outputKey: \ListDocumentClassificationJobsOutput.nextToken, paginationFunction: self.listDocumentClassificationJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDocumentClassificationJobs(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ComprehendClient {
     ///     - input: A `[ListDocumentClassifiersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassifiersOutput`
     public func listDocumentClassifiersPaginated(input: ListDocumentClassifiersInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutput> {
-        return ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(input: input, inputKey: \ListDocumentClassifiersInput.nextToken, outputKey: \ListDocumentClassifiersOutput.nextToken, paginationFunction: self.listDocumentClassifiers(input:))
+        return ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDocumentClassifiers(input:))
     }
 }
 
@@ -79,7 +79,7 @@ extension ComprehendClient {
     ///     - input: A `[ListDocumentClassifierSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassifierSummariesOutput`
     public func listDocumentClassifierSummariesPaginated(input: ListDocumentClassifierSummariesInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(input: input, inputKey: \ListDocumentClassifierSummariesInput.nextToken, outputKey: \ListDocumentClassifierSummariesOutput.nextToken, paginationFunction: self.listDocumentClassifierSummaries(input:))
+        return ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDocumentClassifierSummaries(input:))
     }
 }
 
@@ -100,7 +100,7 @@ extension ComprehendClient {
     ///     - input: A `[ListDominantLanguageDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDominantLanguageDetectionJobsOutput`
     public func listDominantLanguageDetectionJobsPaginated(input: ListDominantLanguageDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(input: input, inputKey: \ListDominantLanguageDetectionJobsInput.nextToken, outputKey: \ListDominantLanguageDetectionJobsOutput.nextToken, paginationFunction: self.listDominantLanguageDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDominantLanguageDetectionJobs(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension ComprehendClient {
     ///     - input: A `[ListEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointsOutput`
     public func listEndpointsPaginated(input: ListEndpointsInput) -> ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \ListEndpointsInput.nextToken, outputKey: \ListEndpointsOutput.nextToken, paginationFunction: self.listEndpoints(input:))
+        return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEndpoints(input:))
     }
 }
 
@@ -135,7 +135,7 @@ extension ListEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEndpointsOutput {
+extension PaginatorSequence where OperationStackInput == ListEndpointsInput, OperationStackOutput == ListEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointsPaginated`
     /// to access the nested member `[ComprehendClientTypes.EndpointProperties]`
     /// - Returns: `[ComprehendClientTypes.EndpointProperties]`
@@ -153,7 +153,7 @@ extension ComprehendClient {
     ///     - input: A `[ListEntitiesDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesDetectionJobsOutput`
     public func listEntitiesDetectionJobsPaginated(input: ListEntitiesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(input: input, inputKey: \ListEntitiesDetectionJobsInput.nextToken, outputKey: \ListEntitiesDetectionJobsOutput.nextToken, paginationFunction: self.listEntitiesDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntitiesDetectionJobs(input:))
     }
 }
 
@@ -175,7 +175,7 @@ extension ComprehendClient {
     ///     - input: A `[ListEntityRecognizersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntityRecognizersOutput`
     public func listEntityRecognizersPaginated(input: ListEntityRecognizersInput) -> ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutput> {
-        return ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutput>(input: input, inputKey: \ListEntityRecognizersInput.nextToken, outputKey: \ListEntityRecognizersOutput.nextToken, paginationFunction: self.listEntityRecognizers(input:))
+        return ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityRecognizers(input:))
     }
 }
 
@@ -197,7 +197,7 @@ extension ComprehendClient {
     ///     - input: A `[ListEntityRecognizerSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntityRecognizerSummariesOutput`
     public func listEntityRecognizerSummariesPaginated(input: ListEntityRecognizerSummariesInput) -> ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput> {
-        return ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(input: input, inputKey: \ListEntityRecognizerSummariesInput.nextToken, outputKey: \ListEntityRecognizerSummariesOutput.nextToken, paginationFunction: self.listEntityRecognizerSummaries(input:))
+        return ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityRecognizerSummaries(input:))
     }
 }
 
@@ -218,7 +218,7 @@ extension ComprehendClient {
     ///     - input: A `[ListEventsDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventsDetectionJobsOutput`
     public func listEventsDetectionJobsPaginated(input: ListEventsDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(input: input, inputKey: \ListEventsDetectionJobsInput.nextToken, outputKey: \ListEventsDetectionJobsOutput.nextToken, paginationFunction: self.listEventsDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventsDetectionJobs(input:))
     }
 }
 
@@ -240,7 +240,7 @@ extension ComprehendClient {
     ///     - input: A `[ListFlywheelIterationHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelIterationHistoryOutput`
     public func listFlywheelIterationHistoryPaginated(input: ListFlywheelIterationHistoryInput) -> ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput> {
-        return ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(input: input, inputKey: \ListFlywheelIterationHistoryInput.nextToken, outputKey: \ListFlywheelIterationHistoryOutput.nextToken, paginationFunction: self.listFlywheelIterationHistory(input:))
+        return ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlywheelIterationHistory(input:))
     }
 }
 
@@ -263,7 +263,7 @@ extension ComprehendClient {
     ///     - input: A `[ListFlywheelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelsOutput`
     public func listFlywheelsPaginated(input: ListFlywheelsInput) -> ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutput>(input: input, inputKey: \ListFlywheelsInput.nextToken, outputKey: \ListFlywheelsOutput.nextToken, paginationFunction: self.listFlywheels(input:))
+        return ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlywheels(input:))
     }
 }
 
@@ -285,7 +285,7 @@ extension ComprehendClient {
     ///     - input: A `[ListKeyPhrasesDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKeyPhrasesDetectionJobsOutput`
     public func listKeyPhrasesDetectionJobsPaginated(input: ListKeyPhrasesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(input: input, inputKey: \ListKeyPhrasesDetectionJobsInput.nextToken, outputKey: \ListKeyPhrasesDetectionJobsOutput.nextToken, paginationFunction: self.listKeyPhrasesDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKeyPhrasesDetectionJobs(input:))
     }
 }
 
@@ -307,7 +307,7 @@ extension ComprehendClient {
     ///     - input: A `[ListPiiEntitiesDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPiiEntitiesDetectionJobsOutput`
     public func listPiiEntitiesDetectionJobsPaginated(input: ListPiiEntitiesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(input: input, inputKey: \ListPiiEntitiesDetectionJobsInput.nextToken, outputKey: \ListPiiEntitiesDetectionJobsOutput.nextToken, paginationFunction: self.listPiiEntitiesDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPiiEntitiesDetectionJobs(input:))
     }
 }
 
@@ -320,7 +320,7 @@ extension ListPiiEntitiesDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPiiEntitiesDetectionJobsInput, Output == ListPiiEntitiesDetectionJobsOutput {
+extension PaginatorSequence where OperationStackInput == ListPiiEntitiesDetectionJobsInput, OperationStackOutput == ListPiiEntitiesDetectionJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPiiEntitiesDetectionJobsPaginated`
     /// to access the nested member `[ComprehendClientTypes.PiiEntitiesDetectionJobProperties]`
     /// - Returns: `[ComprehendClientTypes.PiiEntitiesDetectionJobProperties]`
@@ -338,7 +338,7 @@ extension ComprehendClient {
     ///     - input: A `[ListSentimentDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSentimentDetectionJobsOutput`
     public func listSentimentDetectionJobsPaginated(input: ListSentimentDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(input: input, inputKey: \ListSentimentDetectionJobsInput.nextToken, outputKey: \ListSentimentDetectionJobsOutput.nextToken, paginationFunction: self.listSentimentDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSentimentDetectionJobs(input:))
     }
 }
 
@@ -360,7 +360,7 @@ extension ComprehendClient {
     ///     - input: A `[ListTargetedSentimentDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTargetedSentimentDetectionJobsOutput`
     public func listTargetedSentimentDetectionJobsPaginated(input: ListTargetedSentimentDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(input: input, inputKey: \ListTargetedSentimentDetectionJobsInput.nextToken, outputKey: \ListTargetedSentimentDetectionJobsOutput.nextToken, paginationFunction: self.listTargetedSentimentDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTargetedSentimentDetectionJobs(input:))
     }
 }
 
@@ -382,7 +382,7 @@ extension ComprehendClient {
     ///     - input: A `[ListTopicsDetectionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsDetectionJobsOutput`
     public func listTopicsDetectionJobsPaginated(input: ListTopicsDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(input: input, inputKey: \ListTopicsDetectionJobsInput.nextToken, outputKey: \ListTopicsDetectionJobsOutput.nextToken, paginationFunction: self.listTopicsDetectionJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopicsDetectionJobs(input:))
     }
 }
 

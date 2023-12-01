@@ -6,6 +6,8 @@ import ClientRuntime
 ///
 /// * cur.us-east-1.amazonaws.com
 public protocol CostandUsageReportClientProtocol {
+    /// Performs the `DeleteReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
+    ///
     /// Deletes the specified report.
     ///
     /// - Parameter DeleteReportDefinitionInput : Deletes the specified report.
@@ -18,6 +20,8 @@ public protocol CostandUsageReportClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
+    /// Performs the `DescribeReportDefinitions` operation on the `AWSOrigamiServiceGatewayService` service.
+    ///
     /// Lists the AWS Cost and Usage reports available to this account.
     ///
     /// - Parameter DescribeReportDefinitionsInput : Requests a list of AWS Cost and Usage reports owned by the account.
@@ -29,6 +33,8 @@ public protocol CostandUsageReportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutput
+    /// Performs the `ModifyReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
+    ///
     /// Allows you to programatically update your report preferences.
     ///
     /// - Parameter ModifyReportDefinitionInput : [no documentation found]
@@ -41,6 +47,8 @@ public protocol CostandUsageReportClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutput
+    /// Performs the `PutReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
+    ///
     /// Creates a new report using the description that you provide.
     ///
     /// - Parameter PutReportDefinitionInput : Creates a Cost and Usage Report.

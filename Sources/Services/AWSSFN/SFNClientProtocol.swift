@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Step Functions Step Functions is a service that lets you coordinate the components of distributed applications and microservices using visual workflows. You can use Step Functions to build applications from individual components, each of which performs a discrete function, or task, allowing you to scale and change applications quickly. Step Functions provides a console that helps visualize the components of your application as a series of steps. Step Functions automatically triggers and tracks each step, and retries steps when there are errors, so your application executes predictably and in the right order every time. Step Functions logs the state of each step, so you can quickly diagnose and debug any issues. Step Functions manages operations and underlying infrastructure to ensure your application is available at any scale. You can run tasks on Amazon Web Services, your own servers, or any system that has access to Amazon Web Services. You can access and use Step Functions using the console, the Amazon Web Services SDKs, or an HTTP API. For more information about Step Functions, see the [Step Functions Developer Guide](https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html) .
 public protocol SFNClientProtocol {
+    /// Performs the `CreateActivity` operation on the `AWSStepFunctions` service.
+    ///
     /// Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateActivity is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateActivity's idempotency check is based on the activity name. If a following request has different tags values, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter CreateActivityInput : [no documentation found]
@@ -17,6 +19,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidName` : The provided name is not valid.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutput
+    /// Performs the `CreateStateMachine` operation on the `AWSStepFunctions` service.
+    ///
     /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) in the Step Functions User Guide. If you set the publish parameter of this API action to true, it publishes version 1 as the first revision of the state machine. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, LoggingConfiguration, and TracingConfiguration. The check is also based on the publish and versionDescription parameters. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different.
     ///
     /// - Parameter CreateStateMachineInput : [no documentation found]
@@ -39,6 +43,8 @@ public protocol SFNClientProtocol {
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutput
+    /// Performs the `CreateStateMachineAlias` operation on the `AWSStepFunctions` service.
+    ///
     /// Creates an [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) for a state machine that points to one or two [versions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) of the same state machine. You can set your application to call [StartExecution] with an alias and update the version the alias uses without changing the client's code. You can also map an alias to split [StartExecution] requests between two versions of a state machine. To do this, add a second RoutingConfig object in the routingConfiguration parameter. You must also specify the percentage of execution run requests each version should receive in both RoutingConfig objects. Step Functions randomly chooses which version runs a given execution based on the percentage you specify. To create an alias that points to a single version, specify a single RoutingConfig object with a weight set to 100. You can create up to 100 aliases for each state machine. You must delete unused aliases using the [DeleteStateMachineAlias] API action. CreateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineArn, description, name, and routingConfiguration parameters. Requests that contain the same values for these parameters return a successful idempotent response without creating a duplicate resource. Related operations:
     ///
     /// * [DescribeStateMachineAlias]
@@ -64,6 +70,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func createStateMachineAlias(input: CreateStateMachineAliasInput) async throws -> CreateStateMachineAliasOutput
+    /// Performs the `DeleteActivity` operation on the `AWSStepFunctions` service.
+    ///
     /// Deletes an activity.
     ///
     /// - Parameter DeleteActivityInput : [no documentation found]
@@ -75,6 +83,8 @@ public protocol SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     func deleteActivity(input: DeleteActivityInput) async throws -> DeleteActivityOutput
+    /// Performs the `DeleteStateMachine` operation on the `AWSStepFunctions` service.
+    ///
     /// Deletes a state machine. This is an asynchronous operation: It sets the state machine's status to DELETING and begins the deletion process. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs:
     ///
     /// * The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine. arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel If you provide a qualified state machine ARN that refers to a Distributed Map state, the request fails with ValidationException.
@@ -94,6 +104,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func deleteStateMachine(input: DeleteStateMachineInput) async throws -> DeleteStateMachineOutput
+    /// Performs the `DeleteStateMachineAlias` operation on the `AWSStepFunctions` service.
+    ///
     /// Deletes a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html). After you delete a state machine alias, you can't use it to start executions. When you delete a state machine alias, Step Functions doesn't delete the state machine versions that alias references. Related operations:
     ///
     /// * [CreateStateMachineAlias]
@@ -116,6 +128,8 @@ public protocol SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func deleteStateMachineAlias(input: DeleteStateMachineAliasInput) async throws -> DeleteStateMachineAliasOutput
+    /// Performs the `DeleteStateMachineVersion` operation on the `AWSStepFunctions` service.
+    ///
     /// Deletes a state machine [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html). After you delete a version, you can't call [StartExecution] using that version's ARN or use the version with a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html). Deleting a state machine version won't terminate its in-progress executions. You can't delete a state machine version currently referenced by one or more aliases. Before you delete a version, you must either delete the aliases or update them to point to another state machine version. Related operations:
     ///
     /// * [PublishStateMachineVersion]
@@ -133,6 +147,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func deleteStateMachineVersion(input: DeleteStateMachineVersionInput) async throws -> DeleteStateMachineVersionOutput
+    /// Performs the `DescribeActivity` operation on the `AWSStepFunctions` service.
+    ///
     /// Describes an activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// - Parameter DescribeActivityInput : [no documentation found]
@@ -145,6 +161,8 @@ public protocol SFNClientProtocol {
     /// - `ActivityDoesNotExist` : The specified activity does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     func describeActivity(input: DescribeActivityInput) async throws -> DescribeActivityOutput
+    /// Performs the `DescribeExecution` operation on the `AWSStepFunctions` service.
+    ///
     /// Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. Use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run. If you specify a version or alias ARN when you call the [StartExecution] API action, DescribeExecution returns that ARN. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. Executions of an EXPRESS state machinearen't supported by DescribeExecution unless a Map Run dispatched them.
     ///
     /// - Parameter DescribeExecutionInput : [no documentation found]
@@ -157,6 +175,8 @@ public protocol SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput
+    /// Performs the `DescribeMapRun` operation on the `AWSStepFunctions` service.
+    ///
     /// Provides information about a Map Run's configuration, progress, and results. For more information, see [Examining Map Run](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html) in the Step Functions Developer Guide.
     ///
     /// - Parameter DescribeMapRunInput : [no documentation found]
@@ -169,6 +189,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     func describeMapRun(input: DescribeMapRunInput) async throws -> DescribeMapRunOutput
+    /// Performs the `DescribeStateMachine` operation on the `AWSStepFunctions` service.
+    ///
     /// Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs:
     ///
     /// * The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine. arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel If you provide a qualified state machine ARN that refers to a Distributed Map state, the request fails with ValidationException.
@@ -190,6 +212,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutput
+    /// Performs the `DescribeStateMachineAlias` operation on the `AWSStepFunctions` service.
+    ///
     /// Returns details about a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html). Related operations:
     ///
     /// * [CreateStateMachineAlias]
@@ -211,6 +235,8 @@ public protocol SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func describeStateMachineAlias(input: DescribeStateMachineAliasInput) async throws -> DescribeStateMachineAliasOutput
+    /// Performs the `DescribeStateMachineForExecution` operation on the `AWSStepFunctions` service.
+    ///
     /// Provides information about a state machine's definition, its execution role ARN, and configuration. If a Map Run dispatched the execution, this action returns the Map Run Amazon Resource Name (ARN) in the response. The state machine returned is the state machine associated with the Map Run. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines.
     ///
     /// - Parameter DescribeStateMachineForExecutionInput : [no documentation found]
@@ -223,6 +249,8 @@ public protocol SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutput
+    /// Performs the `GetActivityTask` operation on the `AWSStepFunctions` service.
+    ///
     /// Used by workers to retrieve a task (with the specified activity ARN) which has been scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns a taskToken with a null string. This API action isn't logged in CloudTrail. Workers should set their client side socket timeout to at least 65 seconds (5 seconds higher than the maximum time the service may hold the poll request). Polling with GetActivityTask can cause latency in some implementations. See [Avoid Latency When Polling for Activity Tasks](https://docs.aws.amazon.com/step-functions/latest/dg/bp-activity-pollers.html) in the Step Functions Developer Guide.
     ///
     /// - Parameter GetActivityTaskInput : [no documentation found]
@@ -236,6 +264,8 @@ public protocol SFNClientProtocol {
     /// - `ActivityWorkerLimitExceeded` : The maximum number of workers concurrently polling for activity tasks has been reached.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutput
+    /// Performs the `GetExecutionHistory` operation on the `AWSStepFunctions` service.
+    ///
     /// Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This API action is not supported by EXPRESS state machines.
     ///
     /// - Parameter GetExecutionHistoryInput : [no documentation found]
@@ -249,6 +279,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
     func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutput
+    /// Performs the `ListActivities` operation on the `AWSStepFunctions` service.
+    ///
     /// Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// - Parameter ListActivitiesInput : [no documentation found]
@@ -260,6 +292,8 @@ public protocol SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
     func listActivities(input: ListActivitiesInput) async throws -> ListActivitiesOutput
+    /// Performs the `ListExecutions` operation on the `AWSStepFunctions` service.
+    ///
     /// Lists all executions of a state machine or a Map Run. You can list all executions related to a state machine by specifying a state machine Amazon Resource Name (ARN), or those related to a Map Run by specifying a Map Run ARN. You can also provide a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) ARN or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) ARN to list the executions associated with a specific alias or version. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines.
     ///
     /// - Parameter ListExecutionsInput : [no documentation found]
@@ -276,6 +310,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineTypeNotSupported` :
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput
+    /// Performs the `ListMapRuns` operation on the `AWSStepFunctions` service.
+    ///
     /// Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call DescribeMapRun to obtain more information, if needed.
     ///
     /// - Parameter ListMapRunsInput : [no documentation found]
@@ -289,6 +325,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
     func listMapRuns(input: ListMapRunsInput) async throws -> ListMapRunsOutput
+    /// Performs the `ListStateMachineAliases` operation on the `AWSStepFunctions` service.
+    ///
     /// Lists [aliases](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) for a specified state machine ARN. Results are sorted by time, with the most recently created aliases listed first. To list aliases that reference a state machine [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), you can specify the version ARN in the stateMachineArn parameter. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. Related operations:
     ///
     /// * [CreateStateMachineAlias]
@@ -312,6 +350,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     func listStateMachineAliases(input: ListStateMachineAliasesInput) async throws -> ListStateMachineAliasesOutput
+    /// Performs the `ListStateMachines` operation on the `AWSStepFunctions` service.
+    ///
     /// Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// - Parameter ListStateMachinesInput : [no documentation found]
@@ -323,6 +363,8 @@ public protocol SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
     func listStateMachines(input: ListStateMachinesInput) async throws -> ListStateMachinesOutput
+    /// Performs the `ListStateMachineVersions` operation on the `AWSStepFunctions` service.
+    ///
     /// Lists [versions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) for the specified state machine Amazon Resource Name (ARN). The results are sorted in descending order of the version creation time. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. Related operations:
     ///
     /// * [PublishStateMachineVersion]
@@ -340,6 +382,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func listStateMachineVersions(input: ListStateMachineVersionsInput) async throws -> ListStateMachineVersionsOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSStepFunctions` service.
+    ///
     /// List tags for a given resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -352,6 +396,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PublishStateMachineVersion` operation on the `AWSStepFunctions` service.
+    ///
     /// Creates a [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) from the current revision of a state machine. Use versions to create immutable snapshots of your state machine. You can start executions from versions either directly or with an alias. To create an alias, use [CreateStateMachineAlias]. You can publish up to 1000 versions for each state machine. You must manually delete unused versions using the [DeleteStateMachineVersion] API action. PublishStateMachineVersion is an idempotent API. It doesn't create a duplicate state machine version if it already exists for the current revision. Step Functions bases PublishStateMachineVersion's idempotency check on the stateMachineArn, name, and revisionId parameters. Requests with the same parameters return a successful idempotent response. If you don't specify a revisionId, Step Functions checks for a previously published version of the state machine's current revision. Related operations:
     ///
     /// * [DeleteStateMachineVersion]
@@ -372,6 +418,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func publishStateMachineVersion(input: PublishStateMachineVersionInput) async throws -> PublishStateMachineVersionOutput
+    /// Performs the `SendTaskFailure` operation on the `AWSStepFunctions` service.
+    ///
     /// Used by activity workers and task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern to report that the task identified by the taskToken failed.
     ///
     /// - Parameter SendTaskFailureInput : [no documentation found]
@@ -385,6 +433,8 @@ public protocol SFNClientProtocol {
     /// - `TaskDoesNotExist` : [no documentation found]
     /// - `TaskTimedOut` : [no documentation found]
     func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutput
+    /// Performs the `SendTaskHeartbeat` operation on the `AWSStepFunctions` service.
+    ///
     /// Used by activity workers and task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern to report to Step Functions that the task represented by the specified taskToken is still making progress. This action resets the Heartbeat clock. The Heartbeat threshold is specified in the state machine's Amazon States Language definition (HeartbeatSeconds). This action does not in itself create an event in the execution history. However, if the task times out, the execution history contains an ActivityTimedOut entry for activities, or a TaskTimedOut entry for for tasks using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) or [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern. The Timeout of a task, defined in the state machine's Amazon States Language definition, is its maximum allowed duration, regardless of the number of [SendTaskHeartbeat] requests received. Use HeartbeatSeconds to configure the timeout interval for heartbeats.
     ///
     /// - Parameter SendTaskHeartbeatInput : [no documentation found]
@@ -398,6 +448,8 @@ public protocol SFNClientProtocol {
     /// - `TaskDoesNotExist` : [no documentation found]
     /// - `TaskTimedOut` : [no documentation found]
     func sendTaskHeartbeat(input: SendTaskHeartbeatInput) async throws -> SendTaskHeartbeatOutput
+    /// Performs the `SendTaskSuccess` operation on the `AWSStepFunctions` service.
+    ///
     /// Used by activity workers and task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern to report that the task identified by the taskToken completed successfully.
     ///
     /// - Parameter SendTaskSuccessInput : [no documentation found]
@@ -412,6 +464,8 @@ public protocol SFNClientProtocol {
     /// - `TaskDoesNotExist` : [no documentation found]
     /// - `TaskTimedOut` : [no documentation found]
     func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutput
+    /// Performs the `StartExecution` operation on the `AWSStepFunctions` service.
+    ///
     /// Starts a state machine execution. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs:
     ///
     /// * The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine. arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel If you provide a qualified state machine ARN that refers to a Distributed Map state, the request fails with ValidationException.
@@ -439,6 +493,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func startExecution(input: StartExecutionInput) async throws -> StartExecutionOutput
+    /// Performs the `StartSyncExecution` operation on the `AWSStepFunctions` service.
+    ///
     /// Starts a Synchronous Express state machine execution. StartSyncExecution is not available for STANDARD workflows. StartSyncExecution will return a 200 OK response, even if your execution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configuration. This API action isn't logged in CloudTrail.
     ///
     /// - Parameter StartSyncExecutionInput : [no documentation found]
@@ -455,6 +511,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `StateMachineTypeNotSupported` :
     func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutput
+    /// Performs the `StopExecution` operation on the `AWSStepFunctions` service.
+    ///
     /// Stops an execution. This API action is not supported by EXPRESS state machines.
     ///
     /// - Parameter StopExecutionInput : [no documentation found]
@@ -468,6 +526,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutput
+    /// Performs the `TagResource` operation on the `AWSStepFunctions` service.
+    ///
     /// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -481,6 +541,8 @@ public protocol SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSStepFunctions` service.
+    ///
     /// Remove a tag from a Step Functions resource
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -493,6 +555,8 @@ public protocol SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateMapRun` operation on the `AWSStepFunctions` service.
+    ///
     /// Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
     ///
     /// - Parameter UpdateMapRunInput : [no documentation found]
@@ -506,6 +570,8 @@ public protocol SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func updateMapRun(input: UpdateMapRunInput) async throws -> UpdateMapRunOutput
+    /// Performs the `UpdateStateMachine` operation on the `AWSStepFunctions` service.
+    ///
     /// Updates an existing state machine by modifying its definition, roleArn, or loggingConfiguration. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel refers to a Distributed Map state with a label mapStateLabel in the state machine named stateMachineName. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs:
     ///
     /// * The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine. arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel If you provide a qualified state machine ARN that refers to a Distributed Map state, the request fails with ValidationException.
@@ -535,6 +601,8 @@ public protocol SFNClientProtocol {
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func updateStateMachine(input: UpdateStateMachineInput) async throws -> UpdateStateMachineOutput
+    /// Performs the `UpdateStateMachineAlias` operation on the `AWSStepFunctions` service.
+    ///
     /// Updates the configuration of an existing state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) by modifying its description or routingConfiguration. You must specify at least one of the description or routingConfiguration parameters to update a state machine alias. UpdateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineAliasArn, description, and routingConfiguration parameters. Requests with the same parameters return an idempotent response. This operation is eventually consistent. All [StartExecution] requests made within a few seconds use the latest alias configuration. Executions started immediately after calling UpdateStateMachineAlias may use the previous routing configuration. Related operations:
     ///
     /// * [CreateStateMachineAlias]

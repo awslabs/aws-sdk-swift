@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Resilience Hub helps you proactively prepare and protect your Amazon Web Services applications from disruptions. It offers continual resiliency assessment and validation that integrates into your software development lifecycle. This enables you to uncover resiliency weaknesses, ensure recovery time objective (RTO) and recovery point objective (RPO) targets for your applications are met, and resolve issues before they are released into production.
 public protocol ResiliencehubClientProtocol {
+    /// Performs the `AddDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources suported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html) in the Resilience Hub User Guide.
     ///
     /// - Parameter AddDraftAppVersionResourceMappingsInput : [no documentation found]
@@ -20,6 +22,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func addDraftAppVersionResourceMappings(input: AddDraftAppVersionResourceMappingsInput) async throws -> AddDraftAppVersionResourceMappingsOutput
+    /// Performs the `BatchUpdateRecommendationStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Enables you to include or exclude one or more operational recommendations.
     ///
     /// - Parameter BatchUpdateRecommendationStatusInput : [no documentation found]
@@ -35,6 +39,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func batchUpdateRecommendationStatus(input: BatchUpdateRecommendationStatusInput) async throws -> BatchUpdateRecommendationStatusOutput
+    /// Performs the `CreateApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub). After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     ///
     /// - Parameter CreateAppInput : [no documentation found]
@@ -52,6 +58,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func createApp(input: CreateAppInput) async throws -> CreateAppOutput
+    /// Performs the `CreateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter CreateAppVersionAppComponentInput : [no documentation found]
@@ -69,6 +77,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func createAppVersionAppComponent(input: CreateAppVersionAppComponentInput) async throws -> CreateAppVersionAppComponentOutput
+    /// Performs the `CreateAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -92,6 +102,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func createAppVersionResource(input: CreateAppVersionResourceInput) async throws -> CreateAppVersionResourceOutput
+    /// Performs the `CreateRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new recommendation template for the Resilience Hub application.
     ///
     /// - Parameter CreateRecommendationTemplateInput : [no documentation found]
@@ -109,6 +121,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func createRecommendationTemplate(input: CreateRecommendationTemplateInput) async throws -> CreateRecommendationTemplateOutput
+    /// Performs the `CreateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a resiliency policy for an application. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
     /// - Parameter CreateResiliencyPolicyInput : [no documentation found]
@@ -125,6 +139,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func createResiliencyPolicy(input: CreateResiliencyPolicyInput) async throws -> CreateResiliencyPolicyOutput
+    /// Performs the `DeleteApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
@@ -140,6 +156,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
+    /// Performs the `DeleteAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteAppAssessmentInput : [no documentation found]
@@ -156,6 +174,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteAppAssessment(input: DeleteAppAssessmentInput) async throws -> DeleteAppAssessmentOutput
+    /// Performs the `DeleteAppInputSource` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
     ///
     /// - Parameter DeleteAppInputSourceInput : [no documentation found]
@@ -172,6 +192,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteAppInputSource(input: DeleteAppInputSourceInput) async throws -> DeleteAppInputSourceOutput
+    /// Performs the `DeleteAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Application Component from the Resilience Hub application.
     ///
     /// * This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
@@ -192,6 +214,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteAppVersionAppComponent(input: DeleteAppVersionAppComponentInput) async throws -> DeleteAppVersionAppComponentOutput
+    /// Performs the `DeleteAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a resource from the Resilience Hub application.
     ///
     /// * You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.
@@ -214,6 +238,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteAppVersionResource(input: DeleteAppVersionResourceInput) async throws -> DeleteAppVersionResourceOutput
+    /// Performs the `DeleteRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteRecommendationTemplateInput : [no documentation found]
@@ -229,6 +255,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteRecommendationTemplate(input: DeleteRecommendationTemplateInput) async throws -> DeleteRecommendationTemplateOutput
+    /// Performs the `DeleteResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteResiliencyPolicyInput : [no documentation found]
@@ -245,6 +273,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func deleteResiliencyPolicy(input: DeleteResiliencyPolicyInput) async throws -> DeleteResiliencyPolicyOutput
+    /// Performs the `DescribeApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an Resilience Hub application.
     ///
     /// - Parameter DescribeAppInput : [no documentation found]
@@ -260,6 +290,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
+    /// Performs the `DescribeAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an assessment for an Resilience Hub application.
     ///
     /// - Parameter DescribeAppAssessmentInput : [no documentation found]
@@ -275,6 +307,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeAppAssessment(input: DescribeAppAssessmentInput) async throws -> DescribeAppAssessmentOutput
+    /// Performs the `DescribeAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes the Resilience Hub application version.
     ///
     /// - Parameter DescribeAppVersionInput : [no documentation found]
@@ -290,6 +324,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeAppVersion(input: DescribeAppVersionInput) async throws -> DescribeAppVersionOutput
+    /// Performs the `DescribeAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an Application Component in the Resilience Hub application.
     ///
     /// - Parameter DescribeAppVersionAppComponentInput : [no documentation found]
@@ -306,6 +342,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeAppVersionAppComponent(input: DescribeAppVersionAppComponentInput) async throws -> DescribeAppVersionAppComponentOutput
+    /// Performs the `DescribeAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes a resource of the Resilience Hub application. This API accepts only one of the following parameters to descibe the resource:
     ///
     /// * resourceName
@@ -328,6 +366,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeAppVersionResource(input: DescribeAppVersionResourceInput) async throws -> DescribeAppVersionResourceOutput
+    /// Performs the `DescribeAppVersionResourcesResolutionStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
     ///
     /// - Parameter DescribeAppVersionResourcesResolutionStatusInput : [no documentation found]
@@ -343,6 +383,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeAppVersionResourcesResolutionStatus(input: DescribeAppVersionResourcesResolutionStatusInput) async throws -> DescribeAppVersionResourcesResolutionStatusOutput
+    /// Performs the `DescribeAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes details about an Resilience Hub application.
     ///
     /// - Parameter DescribeAppVersionTemplateInput : [no documentation found]
@@ -358,6 +400,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeAppVersionTemplate(input: DescribeAppVersionTemplateInput) async throws -> DescribeAppVersionTemplateOutput
+    /// Performs the `DescribeDraftAppVersionResourcesImportStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes the status of importing resources to an application version. If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     ///
     /// - Parameter DescribeDraftAppVersionResourcesImportStatusInput : [no documentation found]
@@ -373,6 +417,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeDraftAppVersionResourcesImportStatus(input: DescribeDraftAppVersionResourcesImportStatusInput) async throws -> DescribeDraftAppVersionResourcesImportStatusOutput
+    /// Performs the `DescribeResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     ///
     /// - Parameter DescribeResiliencyPolicyInput : [no documentation found]
@@ -388,6 +434,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func describeResiliencyPolicy(input: DescribeResiliencyPolicyInput) async throws -> DescribeResiliencyPolicyOutput
+    /// Performs the `ImportResourcesToDraftAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
     /// - Parameter ImportResourcesToDraftAppVersionInput : [no documentation found]
@@ -405,6 +453,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func importResourcesToDraftAppVersion(input: ImportResourcesToDraftAppVersionInput) async throws -> ImportResourcesToDraftAppVersionOutput
+    /// Performs the `ListAlarmRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the alarm recommendations for an Resilience Hub application.
     ///
     /// - Parameter ListAlarmRecommendationsInput : [no documentation found]
@@ -420,6 +470,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAlarmRecommendations(input: ListAlarmRecommendationsInput) async throws -> ListAlarmRecommendationsOutput
+    /// Performs the `ListAppAssessmentComplianceDrifts` operation on the `AwsResilienceHub` service.
+    ///
     /// List of compliance drifts that were detected while running an assessment.
     ///
     /// - Parameter ListAppAssessmentComplianceDriftsInput : [no documentation found]
@@ -434,6 +486,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppAssessmentComplianceDrifts(input: ListAppAssessmentComplianceDriftsInput) async throws -> ListAppAssessmentComplianceDriftsOutput
+    /// Performs the `ListAppAssessments` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     ///
     /// - Parameter ListAppAssessmentsInput : [no documentation found]
@@ -449,6 +503,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppAssessments(input: ListAppAssessmentsInput) async throws -> ListAppAssessmentsOutput
+    /// Performs the `ListAppComponentCompliances` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the compliances for an Resilience Hub Application Component.
     ///
     /// - Parameter ListAppComponentCompliancesInput : [no documentation found]
@@ -464,6 +520,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppComponentCompliances(input: ListAppComponentCompliancesInput) async throws -> ListAppComponentCompliancesOutput
+    /// Performs the `ListAppComponentRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the recommendations for an Resilience Hub Application Component.
     ///
     /// - Parameter ListAppComponentRecommendationsInput : [no documentation found]
@@ -479,6 +537,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppComponentRecommendations(input: ListAppComponentRecommendationsInput) async throws -> ListAppComponentRecommendationsOutput
+    /// Performs the `ListAppInputSources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
     /// - Parameter ListAppInputSourcesInput : [no documentation found]
@@ -494,6 +554,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppInputSources(input: ListAppInputSourcesInput) async throws -> ListAppInputSourcesOutput
+    /// Performs the `ListApps` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     ///
     /// - Parameter ListAppsInput : [no documentation found]
@@ -508,6 +570,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listApps(input: ListAppsInput) async throws -> ListAppsOutput
+    /// Performs the `ListAppVersionAppComponents` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the Application Components in the Resilience Hub application.
     ///
     /// - Parameter ListAppVersionAppComponentsInput : [no documentation found]
@@ -524,6 +588,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppVersionAppComponents(input: ListAppVersionAppComponentsInput) async throws -> ListAppVersionAppComponentsOutput
+    /// Performs the `ListAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
     ///
     /// - Parameter ListAppVersionResourceMappingsInput : [no documentation found]
@@ -539,6 +605,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppVersionResourceMappings(input: ListAppVersionResourceMappingsInput) async throws -> ListAppVersionResourceMappingsOutput
+    /// Performs the `ListAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the resources in an Resilience Hub application.
     ///
     /// - Parameter ListAppVersionResourcesInput : [no documentation found]
@@ -555,6 +623,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppVersionResources(input: ListAppVersionResourcesInput) async throws -> ListAppVersionResourcesOutput
+    /// Performs the `ListAppVersions` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the different versions for the Resilience Hub applications.
     ///
     /// - Parameter ListAppVersionsInput : [no documentation found]
@@ -569,6 +639,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listAppVersions(input: ListAppVersionsInput) async throws -> ListAppVersionsOutput
+    /// Performs the `ListRecommendationTemplates` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the recommendation templates for the Resilience Hub applications.
     ///
     /// - Parameter ListRecommendationTemplatesInput : [no documentation found]
@@ -583,6 +655,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listRecommendationTemplates(input: ListRecommendationTemplatesInput) async throws -> ListRecommendationTemplatesOutput
+    /// Performs the `ListResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the resiliency policies for the Resilience Hub applications.
     ///
     /// - Parameter ListResiliencyPoliciesInput : [no documentation found]
@@ -598,6 +672,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listResiliencyPolicies(input: ListResiliencyPoliciesInput) async throws -> ListResiliencyPoliciesOutput
+    /// Performs the `ListSopRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     ///
     /// - Parameter ListSopRecommendationsInput : [no documentation found]
@@ -614,6 +690,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listSopRecommendations(input: ListSopRecommendationsInput) async throws -> ListSopRecommendationsOutput
+    /// Performs the `ListSuggestedResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
     ///
     /// - Parameter ListSuggestedResiliencyPoliciesInput : [no documentation found]
@@ -629,6 +707,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listSuggestedResiliencyPolicies(input: ListSuggestedResiliencyPoliciesInput) async throws -> ListSuggestedResiliencyPoliciesOutput
+    /// Performs the `ListTagsForResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the tags for your resources in your Resilience Hub applications.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -644,6 +724,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTestRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the test recommendations for the Resilience Hub application.
     ///
     /// - Parameter ListTestRecommendationsInput : [no documentation found]
@@ -660,6 +742,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listTestRecommendations(input: ListTestRecommendationsInput) async throws -> ListTestRecommendationsOutput
+    /// Performs the `ListUnsupportedAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     ///
     /// - Parameter ListUnsupportedAppVersionResourcesInput : [no documentation found]
@@ -676,6 +760,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func listUnsupportedAppVersionResources(input: ListUnsupportedAppVersionResourcesInput) async throws -> ListUnsupportedAppVersionResourcesOutput
+    /// Performs the `PublishAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Publishes a new version of a specific Resilience Hub application.
     ///
     /// - Parameter PublishAppVersionInput : [no documentation found]
@@ -692,6 +778,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func publishAppVersion(input: PublishAppVersionInput) async throws -> PublishAppVersionOutput
+    /// Performs the `PutDraftAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds or updates the app template for an Resilience Hub application draft version.
     ///
     /// - Parameter PutDraftAppVersionTemplateInput : [no documentation found]
@@ -708,6 +796,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func putDraftAppVersionTemplate(input: PutDraftAppVersionTemplateInput) async throws -> PutDraftAppVersionTemplateOutput
+    /// Performs the `RemoveDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Removes resource mappings from a draft application version.
     ///
     /// - Parameter RemoveDraftAppVersionResourceMappingsInput : [no documentation found]
@@ -724,6 +814,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func removeDraftAppVersionResourceMappings(input: RemoveDraftAppVersionResourceMappingsInput) async throws -> RemoveDraftAppVersionResourceMappingsOutput
+    /// Performs the `ResolveAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Resolves the resources for an application version.
     ///
     /// - Parameter ResolveAppVersionResourcesInput : [no documentation found]
@@ -740,6 +832,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func resolveAppVersionResources(input: ResolveAppVersionResourcesInput) async throws -> ResolveAppVersionResourcesOutput
+    /// Performs the `StartAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new application assessment for an application.
     ///
     /// - Parameter StartAppAssessmentInput : [no documentation found]
@@ -757,6 +851,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func startAppAssessment(input: StartAppAssessmentInput) async throws -> StartAppAssessmentOutput
+    /// Performs the `TagResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Applies one or more tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -772,6 +868,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -787,6 +885,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates an application.
     ///
     /// - Parameter UpdateAppInput : [no documentation found]
@@ -803,6 +903,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
+    /// Performs the `UpdateAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter UpdateAppVersionInput : [no documentation found]
@@ -819,6 +921,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func updateAppVersion(input: UpdateAppVersionInput) async throws -> UpdateAppVersionOutput
+    /// Performs the `UpdateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter UpdateAppVersionAppComponentInput : [no documentation found]
@@ -835,6 +939,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func updateAppVersionAppComponent(input: UpdateAppVersionAppComponentInput) async throws -> UpdateAppVersionAppComponentOutput
+    /// Performs the `UpdateAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates the resource details in the Resilience Hub application.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -858,6 +964,8 @@ public protocol ResiliencehubClientProtocol {
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
     func updateAppVersionResource(input: UpdateAppVersionResourceInput) async throws -> UpdateAppVersionResourceOutput
+    /// Performs the `UpdateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
     /// - Parameter UpdateResiliencyPolicyInput : [no documentation found]

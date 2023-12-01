@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Use the Amazon OpenSearch Ingestion API to create and manage ingestion pipelines. OpenSearch Ingestion is a fully managed data collector that delivers real-time log and trace data to OpenSearch Service domains. For more information, see [Getting data into your cluster using OpenSearch Ingestion](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ingestion.html).
 public protocol OSISClientProtocol {
+    /// Performs the `CreatePipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Creates an OpenSearch Ingestion pipeline. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
     /// - Parameter CreatePipelineInput : [no documentation found]
@@ -19,6 +21,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceAlreadyExistsException` : You attempted to create a resource that already exists.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
+    /// Performs the `DeletePipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Deletes an OpenSearch Ingestion pipeline. For more information, see [Deleting Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/delete-pipeline.html).
     ///
     /// - Parameter DeletePipelineInput : [no documentation found]
@@ -34,6 +38,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
+    /// Performs the `GetPipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Retrieves information about an OpenSearch Ingestion pipeline.
     ///
     /// - Parameter GetPipelineInput : [no documentation found]
@@ -48,6 +54,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput
+    /// Performs the `GetPipelineBlueprint` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
     /// - Parameter GetPipelineBlueprintInput : [no documentation found]
@@ -62,6 +70,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func getPipelineBlueprint(input: GetPipelineBlueprintInput) async throws -> GetPipelineBlueprintOutput
+    /// Performs the `GetPipelineChangeProgress` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Returns progress information for the current change happening on an OpenSearch Ingestion pipeline. Currently, this operation only returns information when a pipeline is being created. For more information, see [Tracking the status of pipeline creation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#get-pipeline-progress).
     ///
     /// - Parameter GetPipelineChangeProgressInput : [no documentation found]
@@ -76,6 +86,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func getPipelineChangeProgress(input: GetPipelineChangeProgressInput) async throws -> GetPipelineChangeProgressOutput
+    /// Performs the `ListPipelineBlueprints` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
     /// - Parameter ListPipelineBlueprintsInput : [no documentation found]
@@ -90,6 +102,8 @@ public protocol OSISClientProtocol {
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func listPipelineBlueprints(input: ListPipelineBlueprintsInput) async throws -> ListPipelineBlueprintsOutput
+    /// Performs the `ListPipelines` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see [Viewing Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/list-pipeline.html).
     ///
     /// - Parameter ListPipelinesInput : [no documentation found]
@@ -104,6 +118,8 @@ public protocol OSISClientProtocol {
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -118,6 +134,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `StartPipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Starts an OpenSearch Ingestion pipeline. For more information, see [Starting an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--start).
     ///
     /// - Parameter StartPipelineInput : [no documentation found]
@@ -133,6 +151,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func startPipeline(input: StartPipelineInput) async throws -> StartPipelineOutput
+    /// Performs the `StopPipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Stops an OpenSearch Ingestion pipeline. For more information, see [Stopping an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--stop).
     ///
     /// - Parameter StopPipelineInput : [no documentation found]
@@ -148,6 +168,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func stopPipeline(input: StopPipelineInput) async throws -> StopPipelineOutput
+    /// Performs the `TagResource` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Tags an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -163,6 +185,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -177,6 +201,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdatePipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Updates an OpenSearch Ingestion pipeline. For more information, see [Updating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/update-pipeline.html).
     ///
     /// - Parameter UpdatePipelineInput : [no documentation found]
@@ -192,6 +218,8 @@ public protocol OSISClientProtocol {
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
     func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
+    /// Performs the `ValidatePipeline` operation on the `AmazonOpenSearchIngestionService` service.
+    ///
     /// Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
     /// - Parameter ValidatePipelineInput : [no documentation found]

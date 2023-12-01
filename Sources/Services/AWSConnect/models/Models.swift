@@ -14942,7 +14942,7 @@ extension ConnectClientTypes.EvaluationFormItem: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about an item from an evaluation form. The item must be either a section or a question.
-    public enum EvaluationFormItem: Swift.Equatable {
+    public indirect enum EvaluationFormItem: Swift.Equatable {
         /// The information of the section.
         case section(ConnectClientTypes.EvaluationFormSection)
         /// The information of the question.

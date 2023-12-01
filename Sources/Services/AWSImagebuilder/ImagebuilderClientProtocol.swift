@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// EC2 Image Builder is a fully managed Amazon Web Services service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date "golden" server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
 public protocol ImagebuilderClientProtocol {
+    /// Performs the `CancelImageCreation` operation on the `imagebuilder` service.
+    ///
     /// CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
     ///
     /// - Parameter CancelImageCreationInput : [no documentation found]
@@ -22,6 +24,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func cancelImageCreation(input: CancelImageCreationInput) async throws -> CancelImageCreationOutput
+    /// Performs the `CreateComponent` operation on the `imagebuilder` service.
+    ///
     /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods:
     ///
     /// * Inline, using the data property in the request body.
@@ -47,6 +51,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
+    /// Performs the `CreateContainerRecipe` operation on the `imagebuilder` service.
+    ///
     /// Creates a new container recipe. Container recipes define how images are configured, tested, and assessed.
     ///
     /// - Parameter CreateContainerRecipeInput : [no documentation found]
@@ -68,6 +74,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createContainerRecipe(input: CreateContainerRecipeInput) async throws -> CreateContainerRecipeOutput
+    /// Performs the `CreateDistributionConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
     /// - Parameter CreateDistributionConfigurationInput : [no documentation found]
@@ -89,6 +97,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createDistributionConfiguration(input: CreateDistributionConfigurationInput) async throws -> CreateDistributionConfigurationOutput
+    /// Performs the `CreateImage` operation on the `imagebuilder` service.
+    ///
     /// Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
     ///
     /// - Parameter CreateImageInput : [no documentation found]
@@ -108,6 +118,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createImage(input: CreateImageInput) async throws -> CreateImageOutput
+    /// Performs the `CreateImagePipeline` operation on the `imagebuilder` service.
+    ///
     /// Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
     ///
     /// - Parameter CreateImagePipelineInput : [no documentation found]
@@ -128,6 +140,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createImagePipeline(input: CreateImagePipelineInput) async throws -> CreateImagePipelineOutput
+    /// Performs the `CreateImageRecipe` operation on the `imagebuilder` service.
+    ///
     /// Creates a new image recipe. Image recipes define how images are configured, tested, and assessed.
     ///
     /// - Parameter CreateImageRecipeInput : [no documentation found]
@@ -149,6 +163,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createImageRecipe(input: CreateImageRecipeInput) async throws -> CreateImageRecipeOutput
+    /// Performs the `CreateInfrastructureConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
     ///
     /// - Parameter CreateInfrastructureConfigurationInput : [no documentation found]
@@ -169,6 +185,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createInfrastructureConfiguration(input: CreateInfrastructureConfigurationInput) async throws -> CreateInfrastructureConfigurationOutput
+    /// Performs the `DeleteComponent` operation on the `imagebuilder` service.
+    ///
     /// Deletes a component build version.
     ///
     /// - Parameter DeleteComponentInput : [no documentation found]
@@ -186,6 +204,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
+    /// Performs the `DeleteContainerRecipe` operation on the `imagebuilder` service.
+    ///
     /// Deletes a container recipe.
     ///
     /// - Parameter DeleteContainerRecipeInput : [no documentation found]
@@ -203,6 +223,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteContainerRecipe(input: DeleteContainerRecipeInput) async throws -> DeleteContainerRecipeOutput
+    /// Performs the `DeleteDistributionConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Deletes a distribution configuration.
     ///
     /// - Parameter DeleteDistributionConfigurationInput : [no documentation found]
@@ -220,6 +242,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteDistributionConfiguration(input: DeleteDistributionConfigurationInput) async throws -> DeleteDistributionConfigurationOutput
+    /// Performs the `DeleteImage` operation on the `imagebuilder` service.
+    ///
     /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
     ///
     /// * To deregister an EC2 Linux AMI, see [Deregister your Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html) in the Amazon EC2 User Guide .
@@ -243,6 +267,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
+    /// Performs the `DeleteImagePipeline` operation on the `imagebuilder` service.
+    ///
     /// Deletes an image pipeline.
     ///
     /// - Parameter DeleteImagePipelineInput : [no documentation found]
@@ -260,6 +286,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteImagePipeline(input: DeleteImagePipelineInput) async throws -> DeleteImagePipelineOutput
+    /// Performs the `DeleteImageRecipe` operation on the `imagebuilder` service.
+    ///
     /// Deletes an image recipe.
     ///
     /// - Parameter DeleteImageRecipeInput : [no documentation found]
@@ -277,6 +305,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteImageRecipe(input: DeleteImageRecipeInput) async throws -> DeleteImageRecipeOutput
+    /// Performs the `DeleteInfrastructureConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Deletes an infrastructure configuration.
     ///
     /// - Parameter DeleteInfrastructureConfigurationInput : [no documentation found]
@@ -294,6 +324,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteInfrastructureConfiguration(input: DeleteInfrastructureConfigurationInput) async throws -> DeleteInfrastructureConfigurationOutput
+    /// Performs the `GetComponent` operation on the `imagebuilder` service.
+    ///
     /// Gets a component object.
     ///
     /// - Parameter GetComponentInput : [no documentation found]
@@ -310,6 +342,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
+    /// Performs the `GetComponentPolicy` operation on the `imagebuilder` service.
+    ///
     /// Gets a component policy.
     ///
     /// - Parameter GetComponentPolicyInput : [no documentation found]
@@ -326,6 +360,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getComponentPolicy(input: GetComponentPolicyInput) async throws -> GetComponentPolicyOutput
+    /// Performs the `GetContainerRecipe` operation on the `imagebuilder` service.
+    ///
     /// Retrieves a container recipe.
     ///
     /// - Parameter GetContainerRecipeInput : [no documentation found]
@@ -342,6 +378,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getContainerRecipe(input: GetContainerRecipeInput) async throws -> GetContainerRecipeOutput
+    /// Performs the `GetContainerRecipePolicy` operation on the `imagebuilder` service.
+    ///
     /// Retrieves the policy for a container recipe.
     ///
     /// - Parameter GetContainerRecipePolicyInput : [no documentation found]
@@ -358,6 +396,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getContainerRecipePolicy(input: GetContainerRecipePolicyInput) async throws -> GetContainerRecipePolicyOutput
+    /// Performs the `GetDistributionConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Gets a distribution configuration.
     ///
     /// - Parameter GetDistributionConfigurationInput : [no documentation found]
@@ -374,6 +414,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getDistributionConfiguration(input: GetDistributionConfigurationInput) async throws -> GetDistributionConfigurationOutput
+    /// Performs the `GetImage` operation on the `imagebuilder` service.
+    ///
     /// Gets an image.
     ///
     /// - Parameter GetImageInput : [no documentation found]
@@ -390,6 +432,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getImage(input: GetImageInput) async throws -> GetImageOutput
+    /// Performs the `GetImagePipeline` operation on the `imagebuilder` service.
+    ///
     /// Gets an image pipeline.
     ///
     /// - Parameter GetImagePipelineInput : [no documentation found]
@@ -406,6 +450,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getImagePipeline(input: GetImagePipelineInput) async throws -> GetImagePipelineOutput
+    /// Performs the `GetImagePolicy` operation on the `imagebuilder` service.
+    ///
     /// Gets an image policy.
     ///
     /// - Parameter GetImagePolicyInput : [no documentation found]
@@ -422,6 +468,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getImagePolicy(input: GetImagePolicyInput) async throws -> GetImagePolicyOutput
+    /// Performs the `GetImageRecipe` operation on the `imagebuilder` service.
+    ///
     /// Gets an image recipe.
     ///
     /// - Parameter GetImageRecipeInput : [no documentation found]
@@ -438,6 +486,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getImageRecipe(input: GetImageRecipeInput) async throws -> GetImageRecipeOutput
+    /// Performs the `GetImageRecipePolicy` operation on the `imagebuilder` service.
+    ///
     /// Gets an image recipe policy.
     ///
     /// - Parameter GetImageRecipePolicyInput : [no documentation found]
@@ -454,6 +504,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getImageRecipePolicy(input: GetImageRecipePolicyInput) async throws -> GetImageRecipePolicyOutput
+    /// Performs the `GetInfrastructureConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Gets an infrastructure configuration.
     ///
     /// - Parameter GetInfrastructureConfigurationInput : GetInfrastructureConfiguration request object.
@@ -470,6 +522,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getInfrastructureConfiguration(input: GetInfrastructureConfigurationInput) async throws -> GetInfrastructureConfigurationOutput
+    /// Performs the `GetWorkflowExecution` operation on the `imagebuilder` service.
+    ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow.
     ///
     /// - Parameter GetWorkflowExecutionInput : [no documentation found]
@@ -486,6 +540,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getWorkflowExecution(input: GetWorkflowExecutionInput) async throws -> GetWorkflowExecutionOutput
+    /// Performs the `GetWorkflowStepExecution` operation on the `imagebuilder` service.
+    ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow step.
     ///
     /// - Parameter GetWorkflowStepExecutionInput : [no documentation found]
@@ -502,6 +558,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getWorkflowStepExecution(input: GetWorkflowStepExecutionInput) async throws -> GetWorkflowStepExecutionOutput
+    /// Performs the `ImportComponent` operation on the `imagebuilder` service.
+    ///
     /// Imports a component and transforms its data into a component document.
     ///
     /// - Parameter ImportComponentInput : [no documentation found]
@@ -522,6 +580,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func importComponent(input: ImportComponentInput) async throws -> ImportComponentOutput
+    /// Performs the `ImportVmImage` operation on the `imagebuilder` service.
+    ///
     /// When you export your virtual machine (VM) from its virtualization environment, that process creates a set of one or more disk container files that act as snapshots of your VM’s environment, settings, and data. The Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) action uses those files to import your VM and create an AMI. To import using the CLI command, see [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe.
     ///
     /// - Parameter ImportVmImageInput : [no documentation found]
@@ -535,6 +595,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func importVmImage(input: ImportVmImageInput) async throws -> ImportVmImageOutput
+    /// Performs the `ListComponentBuildVersions` operation on the `imagebuilder` service.
+    ///
     /// Returns the list of component build versions for the specified semantic version. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     ///
     /// - Parameter ListComponentBuildVersionsInput : [no documentation found]
@@ -552,6 +614,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listComponentBuildVersions(input: ListComponentBuildVersionsInput) async throws -> ListComponentBuildVersionsOutput
+    /// Performs the `ListComponents` operation on the `imagebuilder` service.
+    ///
     /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     ///
     /// - Parameter ListComponentsInput : [no documentation found]
@@ -569,6 +633,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
+    /// Performs the `ListContainerRecipes` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of container recipes.
     ///
     /// - Parameter ListContainerRecipesInput : [no documentation found]
@@ -586,6 +652,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listContainerRecipes(input: ListContainerRecipesInput) async throws -> ListContainerRecipesOutput
+    /// Performs the `ListDistributionConfigurations` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of distribution configurations.
     ///
     /// - Parameter ListDistributionConfigurationsInput : [no documentation found]
@@ -603,6 +671,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listDistributionConfigurations(input: ListDistributionConfigurationsInput) async throws -> ListDistributionConfigurationsOutput
+    /// Performs the `ListImageBuildVersions` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of image build versions.
     ///
     /// - Parameter ListImageBuildVersionsInput : [no documentation found]
@@ -620,6 +690,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImageBuildVersions(input: ListImageBuildVersionsInput) async throws -> ListImageBuildVersionsOutput
+    /// Performs the `ListImagePackages` operation on the `imagebuilder` service.
+    ///
     /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
     ///
     /// - Parameter ListImagePackagesInput : [no documentation found]
@@ -638,6 +710,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImagePackages(input: ListImagePackagesInput) async throws -> ListImagePackagesOutput
+    /// Performs the `ListImagePipelineImages` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of images created by the specified pipeline.
     ///
     /// - Parameter ListImagePipelineImagesInput : [no documentation found]
@@ -656,6 +730,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImagePipelineImages(input: ListImagePipelineImagesInput) async throws -> ListImagePipelineImagesOutput
+    /// Performs the `ListImagePipelines` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of image pipelines.
     ///
     /// - Parameter ListImagePipelinesInput : [no documentation found]
@@ -673,6 +749,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImagePipelines(input: ListImagePipelinesInput) async throws -> ListImagePipelinesOutput
+    /// Performs the `ListImageRecipes` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of image recipes.
     ///
     /// - Parameter ListImageRecipesInput : [no documentation found]
@@ -690,6 +768,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImageRecipes(input: ListImageRecipesInput) async throws -> ListImageRecipesOutput
+    /// Performs the `ListImages` operation on the `imagebuilder` service.
+    ///
     /// Returns the list of images that you have access to. Newly created images can take up to two minutes to appear in the ListImages API Results.
     ///
     /// - Parameter ListImagesInput : [no documentation found]
@@ -707,6 +787,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImages(input: ListImagesInput) async throws -> ListImagesOutput
+    /// Performs the `ListImageScanFindingAggregations` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the imagePipelineArn filter. If you don't specify a filter, Image Builder returns an aggregation for your account. To streamline results, you can use the following filters in your request:
     ///
     /// * accountId
@@ -732,6 +814,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImageScanFindingAggregations(input: ListImageScanFindingAggregationsInput) async throws -> ListImageScanFindingAggregationsOutput
+    /// Performs the `ListImageScanFindings` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of image scan findings for your account.
     ///
     /// - Parameter ListImageScanFindingsInput : [no documentation found]
@@ -749,6 +833,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listImageScanFindings(input: ListImageScanFindingsInput) async throws -> ListImageScanFindingsOutput
+    /// Performs the `ListInfrastructureConfigurations` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of infrastructure configurations.
     ///
     /// - Parameter ListInfrastructureConfigurationsInput : [no documentation found]
@@ -766,6 +852,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listInfrastructureConfigurations(input: ListInfrastructureConfigurationsInput) async throws -> ListInfrastructureConfigurationsOutput
+    /// Performs the `ListTagsForResource` operation on the `imagebuilder` service.
+    ///
     /// Returns the list of tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -779,6 +867,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListWorkflowExecutions` operation on the `imagebuilder` service.
+    ///
     /// Returns a list of workflow runtime instance metadata objects for a specific image build version.
     ///
     /// - Parameter ListWorkflowExecutionsInput : [no documentation found]
@@ -796,6 +886,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutput
+    /// Performs the `ListWorkflowStepExecutions` operation on the `imagebuilder` service.
+    ///
     /// Shows runtime data for each step in a runtime instance of the workflow that you specify in the request.
     ///
     /// - Parameter ListWorkflowStepExecutionsInput : [no documentation found]
@@ -813,6 +905,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listWorkflowStepExecutions(input: ListWorkflowStepExecutionsInput) async throws -> ListWorkflowStepExecutionsOutput
+    /// Performs the `PutComponentPolicy` operation on the `imagebuilder` service.
+    ///
     /// Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
     /// - Parameter PutComponentPolicyInput : [no documentation found]
@@ -831,6 +925,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func putComponentPolicy(input: PutComponentPolicyInput) async throws -> PutComponentPolicyOutput
+    /// Performs the `PutContainerRecipePolicy` operation on the `imagebuilder` service.
+    ///
     /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
     /// - Parameter PutContainerRecipePolicyInput : [no documentation found]
@@ -849,6 +945,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func putContainerRecipePolicy(input: PutContainerRecipePolicyInput) async throws -> PutContainerRecipePolicyOutput
+    /// Performs the `PutImagePolicy` operation on the `imagebuilder` service.
+    ///
     /// Applies a policy to an image. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
     /// - Parameter PutImagePolicyInput : [no documentation found]
@@ -867,6 +965,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func putImagePolicy(input: PutImagePolicyInput) async throws -> PutImagePolicyOutput
+    /// Performs the `PutImageRecipePolicy` operation on the `imagebuilder` service.
+    ///
     /// Applies a policy to an image recipe. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
     /// - Parameter PutImageRecipePolicyInput : [no documentation found]
@@ -885,6 +985,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func putImageRecipePolicy(input: PutImageRecipePolicyInput) async throws -> PutImageRecipePolicyOutput
+    /// Performs the `StartImagePipelineExecution` operation on the `imagebuilder` service.
+    ///
     /// Manually triggers a pipeline to create an image.
     ///
     /// - Parameter StartImagePipelineExecutionInput : [no documentation found]
@@ -904,6 +1006,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func startImagePipelineExecution(input: StartImagePipelineExecutionInput) async throws -> StartImagePipelineExecutionOutput
+    /// Performs the `TagResource` operation on the `imagebuilder` service.
+    ///
     /// Adds a tag to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -917,6 +1021,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `imagebuilder` service.
+    ///
     /// Removes a tag from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -930,6 +1036,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateDistributionConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
     /// - Parameter UpdateDistributionConfigurationInput : [no documentation found]
@@ -949,6 +1057,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput) async throws -> UpdateDistributionConfigurationOutput
+    /// Performs the `UpdateImagePipeline` operation on the `imagebuilder` service.
+    ///
     /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     ///
     /// - Parameter UpdateImagePipelineInput : [no documentation found]
@@ -967,6 +1077,8 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func updateImagePipeline(input: UpdateImagePipelineInput) async throws -> UpdateImagePipelineOutput
+    /// Performs the `UpdateInfrastructureConfiguration` operation on the `imagebuilder` service.
+    ///
     /// Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
     ///
     /// - Parameter UpdateInfrastructureConfigurationInput : [no documentation found]

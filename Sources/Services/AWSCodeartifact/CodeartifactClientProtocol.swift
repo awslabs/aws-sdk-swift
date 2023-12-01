@@ -111,6 +111,8 @@ import ClientRuntime
 ///
 /// * UpdateRepository: Updates the properties of a repository.
 public protocol CodeartifactClientProtocol {
+    /// Performs the `AssociateExternalConnection` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Adds an existing external connection to a repository. One external connection is allowed per repository. A repository can have one or more upstream repositories, or an external connection.
     ///
     /// - Parameter AssociateExternalConnectionInput : [no documentation found]
@@ -128,6 +130,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func associateExternalConnection(input: AssociateExternalConnectionInput) async throws -> AssociateExternalConnectionOutput
+    /// Performs the `CopyPackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Copies package versions from one repository to another repository in the same domain. You must specify versions or versionRevisions. You cannot specify both.
     ///
     /// - Parameter CopyPackageVersionsInput : [no documentation found]
@@ -145,6 +149,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func copyPackageVersions(input: CopyPackageVersionsInput) async throws -> CopyPackageVersionsOutput
+    /// Performs the `CreateDomain` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
@@ -162,6 +168,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
+    /// Performs the `CreateRepository` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Creates a repository.
     ///
     /// - Parameter CreateRepositoryInput : [no documentation found]
@@ -179,6 +187,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
+    /// Performs the `DeleteDomain` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories.
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
@@ -194,6 +204,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
+    /// Performs the `DeleteDomainPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes the resource policy set on a domain.
     ///
     /// - Parameter DeleteDomainPermissionsPolicyInput : [no documentation found]
@@ -210,6 +222,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func deleteDomainPermissionsPolicy(input: DeleteDomainPermissionsPolicyInput) async throws -> DeleteDomainPermissionsPolicyOutput
+    /// Performs the `DeletePackage` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html) API.
     ///
     /// - Parameter DeletePackageInput : [no documentation found]
@@ -226,6 +240,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
+    /// Performs the `DeletePackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
     ///
     /// - Parameter DeletePackageVersionsInput : [no documentation found]
@@ -242,6 +258,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func deletePackageVersions(input: DeletePackageVersionsInput) async throws -> DeletePackageVersionsOutput
+    /// Performs the `DeleteRepository` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes a repository.
     ///
     /// - Parameter DeleteRepositoryInput : [no documentation found]
@@ -258,6 +276,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
+    /// Performs the `DeleteRepositoryPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy.
     ///
     /// - Parameter DeleteRepositoryPermissionsPolicyInput : [no documentation found]
@@ -274,6 +294,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func deleteRepositoryPermissionsPolicy(input: DeleteRepositoryPermissionsPolicyInput) async throws -> DeleteRepositoryPermissionsPolicyOutput
+    /// Performs the `DescribeDomain` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a [DomainDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html) object that contains information about the requested domain.
     ///
     /// - Parameter DescribeDomainInput : [no documentation found]
@@ -289,6 +311,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
+    /// Performs the `DescribePackage` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
     ///
     /// - Parameter DescribePackageInput : [no documentation found]
@@ -304,6 +328,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput
+    /// Performs the `DescribePackageVersion` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) object that contains information about the requested package version.
     ///
     /// - Parameter DescribePackageVersionInput : [no documentation found]
@@ -320,6 +346,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput
+    /// Performs the `DescribeRepository` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a RepositoryDescription object that contains detailed information about the requested repository.
     ///
     /// - Parameter DescribeRepositoryInput : [no documentation found]
@@ -335,6 +363,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func describeRepository(input: DescribeRepositoryInput) async throws -> DescribeRepositoryOutput
+    /// Performs the `DisassociateExternalConnection` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Removes an existing external connection from a repository.
     ///
     /// - Parameter DisassociateExternalConnectionInput : [no documentation found]
@@ -352,6 +382,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func disassociateExternalConnection(input: DisassociateExternalConnectionInput) async throws -> DisassociateExternalConnectionOutput
+    /// Performs the `DisposePackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted. To view all disposed package versions in a repository, use [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html) and set the [status](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax) parameter to Disposed. To view information about a disposed package version, use [DescribePackageVersion](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html).
     ///
     /// - Parameter DisposePackageVersionsInput : [no documentation found]
@@ -368,6 +400,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func disposePackageVersions(input: DisposePackageVersionsInput) async throws -> DisposePackageVersionsOutput
+    /// Performs the `GetAuthorizationToken` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Generates a temporary authorization token for accessing repositories in the domain. This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions. For more information about authorization tokens, see [CodeArtifact authentication and tokens](https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html). CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command. You can call login periodically to refresh the token. When you create an authorization token with the GetAuthorizationToken API, you can set a custom authorization period, up to a maximum of 12 hours, with the durationSeconds parameter. The authorization period begins after login or GetAuthorizationToken is called. If login or GetAuthorizationToken is called while assuming a role, the token lifetime is independent of the maximum session duration of the role. For example, if you call sts assume-role and specify a session duration of 15 minutes, then generate a CodeArtifact authorization token, the token will be valid for the full authorization period even though this is longer than the 15-minute session duration. See [Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) for more information on controlling session duration.
     ///
     /// - Parameter GetAuthorizationTokenInput : [no documentation found]
@@ -383,6 +417,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
+    /// Performs the `GetDomainPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns the resource policy attached to the specified domain. The policy is a resource-based policy, not an identity-based policy. For more information, see [Identity-based policies and resource-based policies ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the IAM User Guide.
     ///
     /// - Parameter GetDomainPermissionsPolicyInput : [no documentation found]
@@ -398,6 +434,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func getDomainPermissionsPolicy(input: GetDomainPermissionsPolicyInput) async throws -> GetDomainPermissionsPolicyOutput
+    /// Performs the `GetPackageVersionAsset` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version.
     ///
     /// - Parameter GetPackageVersionAssetInput : [no documentation found]
@@ -414,6 +452,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func getPackageVersionAsset(input: GetPackageVersionAssetInput) async throws -> GetPackageVersionAssetOutput
+    /// Performs the `GetPackageVersionReadme` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
     ///
     /// - Parameter GetPackageVersionReadmeInput : [no documentation found]
@@ -429,6 +469,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func getPackageVersionReadme(input: GetPackageVersionReadmeInput) async throws -> GetPackageVersionReadmeOutput
+    /// Performs the `GetRepositoryEndpoint` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:
     ///
     /// * maven
@@ -452,6 +494,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func getRepositoryEndpoint(input: GetRepositoryEndpointInput) async throws -> GetRepositoryEndpointOutput
+    /// Performs the `GetRepositoryPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns the resource policy that is set on a repository.
     ///
     /// - Parameter GetRepositoryPermissionsPolicyInput : [no documentation found]
@@ -467,6 +511,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func getRepositoryPermissionsPolicy(input: GetRepositoryPermissionsPolicyInput) async throws -> GetRepositoryPermissionsPolicyOutput
+    /// Performs the `ListDomains` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
@@ -481,6 +527,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
+    /// Performs the `ListPackages` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects for packages in a repository that match the request parameters.
     ///
     /// - Parameter ListPackagesInput : [no documentation found]
@@ -496,6 +544,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
+    /// Performs the `ListPackageVersionAssets` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) objects for assets in a package version.
     ///
     /// - Parameter ListPackageVersionAssetsInput : [no documentation found]
@@ -511,6 +561,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listPackageVersionAssets(input: ListPackageVersionAssetsInput) async throws -> ListPackageVersionAssetsOutput
+    /// Performs the `ListPackageVersionDependencies` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns the direct dependencies for a package version. The dependencies are returned as [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html) objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
     ///
     /// - Parameter ListPackageVersionDependenciesInput : [no documentation found]
@@ -526,6 +578,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listPackageVersionDependencies(input: ListPackageVersionDependenciesInput) async throws -> ListPackageVersionDependenciesOutput
+    /// Performs the `ListPackageVersions` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a list of [PackageVersionSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html) objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no --status parameter.
     ///
     /// - Parameter ListPackageVersionsInput : [no documentation found]
@@ -541,6 +595,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutput
+    /// Performs the `ListRepositories` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input parameters.
     ///
     /// - Parameter ListRepositoriesInput : [no documentation found]
@@ -555,6 +611,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput
+    /// Performs the `ListRepositoriesInDomain` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
     ///
     /// - Parameter ListRepositoriesInDomainInput : [no documentation found]
@@ -570,6 +628,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listRepositoriesInDomain(input: ListRepositoriesInDomainInput) async throws -> ListRepositoriesInDomainOutput
+    /// Performs the `ListTagsForResource` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -584,6 +644,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PublishPackageVersion` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using [UpdatePackageVersionStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html). Once a package version’s status is set to Published, it cannot change back to Unfinished. Only generic packages can be published using this API. For more information, see [Using generic packages](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html) in the CodeArtifact User Guide.
     ///
     /// - Parameter PublishPackageVersionInput : [no documentation found]
@@ -601,6 +663,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func publishPackageVersion(input: PublishPackageVersionInput) async throws -> PublishPackageVersionOutput
+    /// Performs the `PutDomainPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy.
     ///
     /// - Parameter PutDomainPermissionsPolicyInput : [no documentation found]
@@ -618,6 +682,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func putDomainPermissionsPolicy(input: PutDomainPermissionsPolicyInput) async throws -> PutDomainPermissionsPolicyOutput
+    /// Performs the `PutPackageOriginConfiguration` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see [Editing package origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html) in the CodeArtifact User Guide. PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package. This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
     ///
     /// - Parameter PutPackageOriginConfigurationInput : [no documentation found]
@@ -633,6 +699,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func putPackageOriginConfiguration(input: PutPackageOriginConfigurationInput) async throws -> PutPackageOriginConfigurationOutput
+    /// Performs the `PutRepositoryPermissionsPolicy` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Sets the resource policy on a repository that specifies permissions to access it. When you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored when evaluting permissions. This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being able to update the resource policy.
     ///
     /// - Parameter PutRepositoryPermissionsPolicyInput : [no documentation found]
@@ -650,6 +718,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func putRepositoryPermissionsPolicy(input: PutRepositoryPermissionsPolicyInput) async throws -> PutRepositoryPermissionsPolicyOutput
+    /// Performs the `TagResource` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Adds or updates tags for a resource in CodeArtifact.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -665,6 +735,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Removes tags from a resource in CodeArtifact.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -679,6 +751,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdatePackageVersionsStatus` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus, you can update the status of package versions to Archived, Published, or Unlisted. To set the status of a package version to Disposed, use [DisposePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html).
     ///
     /// - Parameter UpdatePackageVersionsStatusInput : [no documentation found]
@@ -695,6 +769,8 @@ public protocol CodeartifactClientProtocol {
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
     func updatePackageVersionsStatus(input: UpdatePackageVersionsStatusInput) async throws -> UpdatePackageVersionsStatusOutput
+    /// Performs the `UpdateRepository` operation on the `CodeArtifactControlPlaneService` service.
+    ///
     /// Update the properties of a repository.
     ///
     /// - Parameter UpdateRepositoryInput : [no documentation found]

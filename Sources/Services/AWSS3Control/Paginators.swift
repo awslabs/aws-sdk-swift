@@ -12,7 +12,7 @@ extension S3ControlClient {
     ///     - input: A `[ListAccessPointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsOutput`
     public func listAccessPointsPaginated(input: ListAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutput>(input: input, inputKey: \ListAccessPointsInput.nextToken, outputKey: \ListAccessPointsOutput.nextToken, paginationFunction: self.listAccessPoints(input:))
+        return ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPoints(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension S3ControlClient {
     ///     - input: A `[ListAccessPointsForObjectLambdaInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsForObjectLambdaOutput`
     public func listAccessPointsForObjectLambdaPaginated(input: ListAccessPointsForObjectLambdaInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(input: input, inputKey: \ListAccessPointsForObjectLambdaInput.nextToken, outputKey: \ListAccessPointsForObjectLambdaOutput.nextToken, paginationFunction: self.listAccessPointsForObjectLambda(input:))
+        return ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPointsForObjectLambda(input:))
     }
 }
 
@@ -48,7 +48,7 @@ extension ListAccessPointsForObjectLambdaInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccessPointsForObjectLambdaInput, Output == ListAccessPointsForObjectLambdaOutput {
+extension PaginatorSequence where OperationStackInput == ListAccessPointsForObjectLambdaInput, OperationStackOutput == ListAccessPointsForObjectLambdaOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccessPointsForObjectLambdaPaginated`
     /// to access the nested member `[S3ControlClientTypes.ObjectLambdaAccessPoint]`
     /// - Returns: `[S3ControlClientTypes.ObjectLambdaAccessPoint]`
@@ -66,7 +66,7 @@ extension S3ControlClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension S3ControlClient {
     ///     - input: A `[ListMultiRegionAccessPointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMultiRegionAccessPointsOutput`
     public func listMultiRegionAccessPointsPaginated(input: ListMultiRegionAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(input: input, inputKey: \ListMultiRegionAccessPointsInput.nextToken, outputKey: \ListMultiRegionAccessPointsOutput.nextToken, paginationFunction: self.listMultiRegionAccessPoints(input:))
+        return ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMultiRegionAccessPoints(input:))
     }
 }
 
@@ -111,7 +111,7 @@ extension S3ControlClient {
     ///     - input: A `[ListRegionalBucketsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRegionalBucketsOutput`
     public func listRegionalBucketsPaginated(input: ListRegionalBucketsInput) -> ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutput>(input: input, inputKey: \ListRegionalBucketsInput.nextToken, outputKey: \ListRegionalBucketsOutput.nextToken, paginationFunction: self.listRegionalBuckets(input:))
+        return ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRegionalBuckets(input:))
     }
 }
 
@@ -134,7 +134,7 @@ extension S3ControlClient {
     ///     - input: A `[ListStorageLensConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStorageLensConfigurationsOutput`
     public func listStorageLensConfigurationsPaginated(input: ListStorageLensConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(input: input, inputKey: \ListStorageLensConfigurationsInput.nextToken, outputKey: \ListStorageLensConfigurationsOutput.nextToken, paginationFunction: self.listStorageLensConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStorageLensConfigurations(input:))
     }
 }
 

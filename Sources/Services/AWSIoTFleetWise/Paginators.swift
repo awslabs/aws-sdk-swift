@@ -12,7 +12,7 @@ extension IoTFleetWiseClient {
     ///     - input: A `[GetVehicleStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetVehicleStatusOutput`
     public func getVehicleStatusPaginated(input: GetVehicleStatusInput) -> ClientRuntime.PaginatorSequence<GetVehicleStatusInput, GetVehicleStatusOutput> {
-        return ClientRuntime.PaginatorSequence<GetVehicleStatusInput, GetVehicleStatusOutput>(input: input, inputKey: \GetVehicleStatusInput.nextToken, outputKey: \GetVehicleStatusOutput.nextToken, paginationFunction: self.getVehicleStatus(input:))
+        return ClientRuntime.PaginatorSequence<GetVehicleStatusInput, GetVehicleStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getVehicleStatus(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension GetVehicleStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetVehicleStatusInput, Output == GetVehicleStatusOutput {
+extension PaginatorSequence where OperationStackInput == GetVehicleStatusInput, OperationStackOutput == GetVehicleStatusOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getVehicleStatusPaginated`
     /// to access the nested member `[IoTFleetWiseClientTypes.VehicleStatus]`
     /// - Returns: `[IoTFleetWiseClientTypes.VehicleStatus]`

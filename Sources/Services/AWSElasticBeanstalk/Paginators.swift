@@ -12,7 +12,7 @@ extension ElasticBeanstalkClient {
     ///     - input: A `[DescribeEnvironmentManagedActionHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEnvironmentManagedActionHistoryOutput`
     public func describeEnvironmentManagedActionHistoryPaginated(input: DescribeEnvironmentManagedActionHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(input: input, inputKey: \DescribeEnvironmentManagedActionHistoryInput.nextToken, outputKey: \DescribeEnvironmentManagedActionHistoryOutput.nextToken, paginationFunction: self.describeEnvironmentManagedActionHistory(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEnvironmentManagedActionHistory(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeEnvironmentManagedActionHistoryInput: ClientRuntime.PaginateTo
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEnvironmentManagedActionHistoryInput, Output == DescribeEnvironmentManagedActionHistoryOutput {
+extension PaginatorSequence where OperationStackInput == DescribeEnvironmentManagedActionHistoryInput, OperationStackOutput == DescribeEnvironmentManagedActionHistoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEnvironmentManagedActionHistoryPaginated`
     /// to access the nested member `[ElasticBeanstalkClientTypes.ManagedActionHistoryItem]`
     /// - Returns: `[ElasticBeanstalkClientTypes.ManagedActionHistoryItem]`
@@ -44,7 +44,7 @@ extension ElasticBeanstalkClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -66,7 +66,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[ElasticBeanstalkClientTypes.EventDescription]`
     /// - Returns: `[ElasticBeanstalkClientTypes.EventDescription]`
@@ -84,7 +84,7 @@ extension ElasticBeanstalkClient {
     ///     - input: A `[ListPlatformBranchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformBranchesOutput`
     public func listPlatformBranchesPaginated(input: ListPlatformBranchesInput) -> ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutput>(input: input, inputKey: \ListPlatformBranchesInput.nextToken, outputKey: \ListPlatformBranchesOutput.nextToken, paginationFunction: self.listPlatformBranches(input:))
+        return ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPlatformBranches(input:))
     }
 }
 
@@ -106,7 +106,7 @@ extension ElasticBeanstalkClient {
     ///     - input: A `[ListPlatformVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformVersionsOutput`
     public func listPlatformVersionsPaginated(input: ListPlatformVersionsInput) -> ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutput>(input: input, inputKey: \ListPlatformVersionsInput.nextToken, outputKey: \ListPlatformVersionsOutput.nextToken, paginationFunction: self.listPlatformVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPlatformVersions(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListPlatformVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPlatformVersionsInput, Output == ListPlatformVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListPlatformVersionsInput, OperationStackOutput == ListPlatformVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPlatformVersionsPaginated`
     /// to access the nested member `[ElasticBeanstalkClientTypes.PlatformSummary]`
     /// - Returns: `[ElasticBeanstalkClientTypes.PlatformSummary]`

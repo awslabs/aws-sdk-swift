@@ -12,7 +12,7 @@ extension AppStreamClient {
     ///     - input: A `[DescribeAppBlockBuilderAppBlockAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuilderAppBlockAssociationsOutput`
     public func describeAppBlockBuilderAppBlockAssociationsPaginated(input: DescribeAppBlockBuilderAppBlockAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(input: input, inputKey: \DescribeAppBlockBuilderAppBlockAssociationsInput.nextToken, outputKey: \DescribeAppBlockBuilderAppBlockAssociationsOutput.nextToken, paginationFunction: self.describeAppBlockBuilderAppBlockAssociations(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAppBlockBuilderAppBlockAssociations(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension AppStreamClient {
     ///     - input: A `[DescribeAppBlockBuildersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuildersOutput`
     public func describeAppBlockBuildersPaginated(input: DescribeAppBlockBuildersInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(input: input, inputKey: \DescribeAppBlockBuildersInput.nextToken, outputKey: \DescribeAppBlockBuildersOutput.nextToken, paginationFunction: self.describeAppBlockBuilders(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAppBlockBuilders(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension AppStreamClient {
     ///     - input: A `[DescribeImagePermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagePermissionsOutput`
     public func describeImagePermissionsPaginated(input: DescribeImagePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(input: input, inputKey: \DescribeImagePermissionsInput.nextToken, outputKey: \DescribeImagePermissionsOutput.nextToken, paginationFunction: self.describeImagePermissions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImagePermissions(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension AppStreamClient {
     ///     - input: A `[DescribeImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutput`
     public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutput.nextToken, paginationFunction: self.describeImages(input:))
+        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImages(input:))
     }
 }
 

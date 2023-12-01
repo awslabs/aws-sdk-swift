@@ -2326,7 +2326,7 @@ extension IoTTwinMakerClientTypes.DataType: Swift.Codable {
             }
         }
         if let nestedType = self.nestedType {
-            try encodeContainer.encode(nestedType.value, forKey: .nestedType)
+            try encodeContainer.encode(nestedType, forKey: .nestedType)
         }
         if let relationship = self.relationship {
             try encodeContainer.encode(relationship, forKey: .relationship)
@@ -2343,7 +2343,7 @@ extension IoTTwinMakerClientTypes.DataType: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.ModelType.self, forKey: .type)
         type = typeDecoded
-        let nestedTypeDecoded = try containerValues.decodeIfPresent(Box<IoTTwinMakerClientTypes.DataType>.self, forKey: .nestedType)
+        let nestedTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.DataType.self, forKey: .nestedType)
         nestedType = nestedTypeDecoded
         let allowedValuesContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.DataValue?].self, forKey: .allowedValues)
         var allowedValuesDecoded0:[IoTTwinMakerClientTypes.DataValue]? = nil
@@ -2369,7 +2369,7 @@ extension IoTTwinMakerClientTypes {
         /// The allowed values for this data type.
         public var allowedValues: [IoTTwinMakerClientTypes.DataValue]?
         /// The nested type in the data type.
-        public var nestedType: Box<IoTTwinMakerClientTypes.DataType>?
+        @Indirect public var nestedType: IoTTwinMakerClientTypes.DataType?
         /// A relationship that associates a component with another component.
         public var relationship: IoTTwinMakerClientTypes.Relationship?
         /// The underlying type of the data type.
@@ -2380,7 +2380,7 @@ extension IoTTwinMakerClientTypes {
 
         public init(
             allowedValues: [IoTTwinMakerClientTypes.DataValue]? = nil,
-            nestedType: Box<IoTTwinMakerClientTypes.DataType>? = nil,
+            nestedType: IoTTwinMakerClientTypes.DataType? = nil,
             relationship: IoTTwinMakerClientTypes.Relationship? = nil,
             type: IoTTwinMakerClientTypes.ModelType? = nil,
             unitOfMeasure: Swift.String? = nil

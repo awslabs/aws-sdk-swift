@@ -1128,31 +1128,6 @@ extension NotReadableInputStreamExceptionBody: Swift.Decodable {
     }
 }
 
-public struct NotifyObjectCompleteInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "NotifyObjectCompleteInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<NotifyObjectCompleteInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<NotifyObjectCompleteOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let metadataBlob = input.operationInput.metadataBlob {
-            let metadataBlobBody = ClientRuntime.HttpBody(byteStream: metadataBlob)
-            input.builder.withBody(metadataBlobBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<NotifyObjectCompleteInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<NotifyObjectCompleteOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension NotifyObjectCompleteInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metadataBlob = "MetadataBlob"
@@ -1349,31 +1324,6 @@ enum NotifyObjectCompleteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public struct PutChunkInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutChunkInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutChunkInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutChunkOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let data = input.operationInput.data {
-            let dataBody = ClientRuntime.HttpBody(byteStream: data)
-            input.builder.withBody(dataBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutChunkInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutChunkOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension PutChunkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case data = "Data"
@@ -1556,31 +1506,6 @@ enum PutChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let inlineChunk = input.operationInput.inlineChunk {
-            let inlineChunkBody = ClientRuntime.HttpBody(byteStream: inlineChunk)
-            input.builder.withBody(inlineChunkBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension PutObjectInput: Swift.Encodable {

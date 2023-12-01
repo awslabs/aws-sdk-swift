@@ -178,7 +178,7 @@ extension RDSDataClientTypes.ArrayValue: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains an array.
-    public enum ArrayValue: Swift.Equatable {
+    public indirect enum ArrayValue: Swift.Equatable {
         /// An array of Boolean values.
         case booleanvalues([Swift.Bool])
         /// An array of integers.
@@ -1500,7 +1500,7 @@ extension RDSDataClientTypes.Field: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains a value.
-    public enum Field: Swift.Equatable {
+    public indirect enum Field: Swift.Equatable {
         /// A NULL value.
         case isnull(Swift.Bool)
         /// A value of Boolean data type.
@@ -2506,7 +2506,7 @@ extension RDSDataClientTypes.Value: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains the value of a column. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public enum Value: Swift.Equatable {
+    public indirect enum Value: Swift.Equatable {
         /// A NULL value.
         case isnull(Swift.Bool)
         /// A value for a column of BIT data type.

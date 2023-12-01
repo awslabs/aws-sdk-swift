@@ -12,7 +12,7 @@ extension IoTClient {
     ///     - input: A `[GetBehaviorModelTrainingSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBehaviorModelTrainingSummariesOutput`
     public func getBehaviorModelTrainingSummariesPaginated(input: GetBehaviorModelTrainingSummariesInput) -> ClientRuntime.PaginatorSequence<GetBehaviorModelTrainingSummariesInput, GetBehaviorModelTrainingSummariesOutput> {
-        return ClientRuntime.PaginatorSequence<GetBehaviorModelTrainingSummariesInput, GetBehaviorModelTrainingSummariesOutput>(input: input, inputKey: \GetBehaviorModelTrainingSummariesInput.nextToken, outputKey: \GetBehaviorModelTrainingSummariesOutput.nextToken, paginationFunction: self.getBehaviorModelTrainingSummaries(input:))
+        return ClientRuntime.PaginatorSequence<GetBehaviorModelTrainingSummariesInput, GetBehaviorModelTrainingSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBehaviorModelTrainingSummaries(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension GetBehaviorModelTrainingSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetBehaviorModelTrainingSummariesInput, Output == GetBehaviorModelTrainingSummariesOutput {
+extension PaginatorSequence where OperationStackInput == GetBehaviorModelTrainingSummariesInput, OperationStackOutput == GetBehaviorModelTrainingSummariesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getBehaviorModelTrainingSummariesPaginated`
     /// to access the nested member `[IoTClientTypes.BehaviorModelTrainingSummary]`
     /// - Returns: `[IoTClientTypes.BehaviorModelTrainingSummary]`
@@ -43,7 +43,7 @@ extension IoTClient {
     ///     - input: A `[ListActiveViolationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActiveViolationsOutput`
     public func listActiveViolationsPaginated(input: ListActiveViolationsInput) -> ClientRuntime.PaginatorSequence<ListActiveViolationsInput, ListActiveViolationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListActiveViolationsInput, ListActiveViolationsOutput>(input: input, inputKey: \ListActiveViolationsInput.nextToken, outputKey: \ListActiveViolationsOutput.nextToken, paginationFunction: self.listActiveViolations(input:))
+        return ClientRuntime.PaginatorSequence<ListActiveViolationsInput, ListActiveViolationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActiveViolations(input:))
     }
 }
 
@@ -60,7 +60,7 @@ extension ListActiveViolationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListActiveViolationsInput, Output == ListActiveViolationsOutput {
+extension PaginatorSequence where OperationStackInput == ListActiveViolationsInput, OperationStackOutput == ListActiveViolationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listActiveViolationsPaginated`
     /// to access the nested member `[IoTClientTypes.ActiveViolation]`
     /// - Returns: `[IoTClientTypes.ActiveViolation]`
@@ -78,7 +78,7 @@ extension IoTClient {
     ///     - input: A `[ListAttachedPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedPoliciesOutput`
     public func listAttachedPoliciesPaginated(input: ListAttachedPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAttachedPoliciesInput, ListAttachedPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAttachedPoliciesInput, ListAttachedPoliciesOutput>(input: input, inputKey: \ListAttachedPoliciesInput.marker, outputKey: \ListAttachedPoliciesOutput.nextMarker, paginationFunction: self.listAttachedPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListAttachedPoliciesInput, ListAttachedPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listAttachedPolicies(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension ListAttachedPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAttachedPoliciesInput, Output == ListAttachedPoliciesOutput {
+extension PaginatorSequence where OperationStackInput == ListAttachedPoliciesInput, OperationStackOutput == ListAttachedPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAttachedPoliciesPaginated`
     /// to access the nested member `[IoTClientTypes.Policy]`
     /// - Returns: `[IoTClientTypes.Policy]`
@@ -110,7 +110,7 @@ extension IoTClient {
     ///     - input: A `[ListAuditFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAuditFindingsOutput`
     public func listAuditFindingsPaginated(input: ListAuditFindingsInput) -> ClientRuntime.PaginatorSequence<ListAuditFindingsInput, ListAuditFindingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAuditFindingsInput, ListAuditFindingsOutput>(input: input, inputKey: \ListAuditFindingsInput.nextToken, outputKey: \ListAuditFindingsOutput.nextToken, paginationFunction: self.listAuditFindings(input:))
+        return ClientRuntime.PaginatorSequence<ListAuditFindingsInput, ListAuditFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuditFindings(input:))
     }
 }
 
@@ -128,7 +128,7 @@ extension ListAuditFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAuditFindingsInput, Output == ListAuditFindingsOutput {
+extension PaginatorSequence where OperationStackInput == ListAuditFindingsInput, OperationStackOutput == ListAuditFindingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAuditFindingsPaginated`
     /// to access the nested member `[IoTClientTypes.AuditFinding]`
     /// - Returns: `[IoTClientTypes.AuditFinding]`
@@ -146,7 +146,7 @@ extension IoTClient {
     ///     - input: A `[ListAuditMitigationActionsExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAuditMitigationActionsExecutionsOutput`
     public func listAuditMitigationActionsExecutionsPaginated(input: ListAuditMitigationActionsExecutionsInput) -> ClientRuntime.PaginatorSequence<ListAuditMitigationActionsExecutionsInput, ListAuditMitigationActionsExecutionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAuditMitigationActionsExecutionsInput, ListAuditMitigationActionsExecutionsOutput>(input: input, inputKey: \ListAuditMitigationActionsExecutionsInput.nextToken, outputKey: \ListAuditMitigationActionsExecutionsOutput.nextToken, paginationFunction: self.listAuditMitigationActionsExecutions(input:))
+        return ClientRuntime.PaginatorSequence<ListAuditMitigationActionsExecutionsInput, ListAuditMitigationActionsExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuditMitigationActionsExecutions(input:))
     }
 }
 
@@ -161,7 +161,7 @@ extension ListAuditMitigationActionsExecutionsInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where Input == ListAuditMitigationActionsExecutionsInput, Output == ListAuditMitigationActionsExecutionsOutput {
+extension PaginatorSequence where OperationStackInput == ListAuditMitigationActionsExecutionsInput, OperationStackOutput == ListAuditMitigationActionsExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAuditMitigationActionsExecutionsPaginated`
     /// to access the nested member `[IoTClientTypes.AuditMitigationActionExecutionMetadata]`
     /// - Returns: `[IoTClientTypes.AuditMitigationActionExecutionMetadata]`
@@ -179,7 +179,7 @@ extension IoTClient {
     ///     - input: A `[ListAuditMitigationActionsTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAuditMitigationActionsTasksOutput`
     public func listAuditMitigationActionsTasksPaginated(input: ListAuditMitigationActionsTasksInput) -> ClientRuntime.PaginatorSequence<ListAuditMitigationActionsTasksInput, ListAuditMitigationActionsTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListAuditMitigationActionsTasksInput, ListAuditMitigationActionsTasksOutput>(input: input, inputKey: \ListAuditMitigationActionsTasksInput.nextToken, outputKey: \ListAuditMitigationActionsTasksOutput.nextToken, paginationFunction: self.listAuditMitigationActionsTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListAuditMitigationActionsTasksInput, ListAuditMitigationActionsTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuditMitigationActionsTasks(input:))
     }
 }
 
@@ -196,7 +196,7 @@ extension ListAuditMitigationActionsTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAuditMitigationActionsTasksInput, Output == ListAuditMitigationActionsTasksOutput {
+extension PaginatorSequence where OperationStackInput == ListAuditMitigationActionsTasksInput, OperationStackOutput == ListAuditMitigationActionsTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAuditMitigationActionsTasksPaginated`
     /// to access the nested member `[IoTClientTypes.AuditMitigationActionsTaskMetadata]`
     /// - Returns: `[IoTClientTypes.AuditMitigationActionsTaskMetadata]`
@@ -214,7 +214,7 @@ extension IoTClient {
     ///     - input: A `[ListAuditSuppressionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAuditSuppressionsOutput`
     public func listAuditSuppressionsPaginated(input: ListAuditSuppressionsInput) -> ClientRuntime.PaginatorSequence<ListAuditSuppressionsInput, ListAuditSuppressionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAuditSuppressionsInput, ListAuditSuppressionsOutput>(input: input, inputKey: \ListAuditSuppressionsInput.nextToken, outputKey: \ListAuditSuppressionsOutput.nextToken, paginationFunction: self.listAuditSuppressions(input:))
+        return ClientRuntime.PaginatorSequence<ListAuditSuppressionsInput, ListAuditSuppressionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuditSuppressions(input:))
     }
 }
 
@@ -229,7 +229,7 @@ extension ListAuditSuppressionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAuditSuppressionsInput, Output == ListAuditSuppressionsOutput {
+extension PaginatorSequence where OperationStackInput == ListAuditSuppressionsInput, OperationStackOutput == ListAuditSuppressionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAuditSuppressionsPaginated`
     /// to access the nested member `[IoTClientTypes.AuditSuppression]`
     /// - Returns: `[IoTClientTypes.AuditSuppression]`
@@ -247,7 +247,7 @@ extension IoTClient {
     ///     - input: A `[ListAuditTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAuditTasksOutput`
     public func listAuditTasksPaginated(input: ListAuditTasksInput) -> ClientRuntime.PaginatorSequence<ListAuditTasksInput, ListAuditTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListAuditTasksInput, ListAuditTasksOutput>(input: input, inputKey: \ListAuditTasksInput.nextToken, outputKey: \ListAuditTasksOutput.nextToken, paginationFunction: self.listAuditTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListAuditTasksInput, ListAuditTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAuditTasks(input:))
     }
 }
 
@@ -263,7 +263,7 @@ extension ListAuditTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAuditTasksInput, Output == ListAuditTasksOutput {
+extension PaginatorSequence where OperationStackInput == ListAuditTasksInput, OperationStackOutput == ListAuditTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAuditTasksPaginated`
     /// to access the nested member `[IoTClientTypes.AuditTaskMetadata]`
     /// - Returns: `[IoTClientTypes.AuditTaskMetadata]`
@@ -281,7 +281,7 @@ extension IoTClient {
     ///     - input: A `[ListAuthorizersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAuthorizersOutput`
     public func listAuthorizersPaginated(input: ListAuthorizersInput) -> ClientRuntime.PaginatorSequence<ListAuthorizersInput, ListAuthorizersOutput> {
-        return ClientRuntime.PaginatorSequence<ListAuthorizersInput, ListAuthorizersOutput>(input: input, inputKey: \ListAuthorizersInput.marker, outputKey: \ListAuthorizersOutput.nextMarker, paginationFunction: self.listAuthorizers(input:))
+        return ClientRuntime.PaginatorSequence<ListAuthorizersInput, ListAuthorizersOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listAuthorizers(input:))
     }
 }
 
@@ -295,7 +295,7 @@ extension ListAuthorizersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAuthorizersInput, Output == ListAuthorizersOutput {
+extension PaginatorSequence where OperationStackInput == ListAuthorizersInput, OperationStackOutput == ListAuthorizersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAuthorizersPaginated`
     /// to access the nested member `[IoTClientTypes.AuthorizerSummary]`
     /// - Returns: `[IoTClientTypes.AuthorizerSummary]`
@@ -313,7 +313,7 @@ extension IoTClient {
     ///     - input: A `[ListBillingGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBillingGroupsOutput`
     public func listBillingGroupsPaginated(input: ListBillingGroupsInput) -> ClientRuntime.PaginatorSequence<ListBillingGroupsInput, ListBillingGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBillingGroupsInput, ListBillingGroupsOutput>(input: input, inputKey: \ListBillingGroupsInput.nextToken, outputKey: \ListBillingGroupsOutput.nextToken, paginationFunction: self.listBillingGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListBillingGroupsInput, ListBillingGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBillingGroups(input:))
     }
 }
 
@@ -326,7 +326,7 @@ extension ListBillingGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBillingGroupsInput, Output == ListBillingGroupsOutput {
+extension PaginatorSequence where OperationStackInput == ListBillingGroupsInput, OperationStackOutput == ListBillingGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBillingGroupsPaginated`
     /// to access the nested member `[IoTClientTypes.GroupNameAndArn]`
     /// - Returns: `[IoTClientTypes.GroupNameAndArn]`
@@ -344,7 +344,7 @@ extension IoTClient {
     ///     - input: A `[ListCACertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCACertificatesOutput`
     public func listCACertificatesPaginated(input: ListCACertificatesInput) -> ClientRuntime.PaginatorSequence<ListCACertificatesInput, ListCACertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCACertificatesInput, ListCACertificatesOutput>(input: input, inputKey: \ListCACertificatesInput.marker, outputKey: \ListCACertificatesOutput.nextMarker, paginationFunction: self.listCACertificates(input:))
+        return ClientRuntime.PaginatorSequence<ListCACertificatesInput, ListCACertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listCACertificates(input:))
     }
 }
 
@@ -358,7 +358,7 @@ extension ListCACertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCACertificatesInput, Output == ListCACertificatesOutput {
+extension PaginatorSequence where OperationStackInput == ListCACertificatesInput, OperationStackOutput == ListCACertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCACertificatesPaginated`
     /// to access the nested member `[IoTClientTypes.CACertificate]`
     /// - Returns: `[IoTClientTypes.CACertificate]`
@@ -376,7 +376,7 @@ extension IoTClient {
     ///     - input: A `[ListCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutput`
     public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \ListCertificatesInput.marker, outputKey: \ListCertificatesOutput.nextMarker, paginationFunction: self.listCertificates(input:))
+        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listCertificates(input:))
     }
 }
 
@@ -389,7 +389,7 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutput {
+extension PaginatorSequence where OperationStackInput == ListCertificatesInput, OperationStackOutput == ListCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
     /// to access the nested member `[IoTClientTypes.Certificate]`
     /// - Returns: `[IoTClientTypes.Certificate]`
@@ -407,7 +407,7 @@ extension IoTClient {
     ///     - input: A `[ListCertificatesByCAInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesByCAOutput`
     public func listCertificatesByCAPaginated(input: ListCertificatesByCAInput) -> ClientRuntime.PaginatorSequence<ListCertificatesByCAInput, ListCertificatesByCAOutput> {
-        return ClientRuntime.PaginatorSequence<ListCertificatesByCAInput, ListCertificatesByCAOutput>(input: input, inputKey: \ListCertificatesByCAInput.marker, outputKey: \ListCertificatesByCAOutput.nextMarker, paginationFunction: self.listCertificatesByCA(input:))
+        return ClientRuntime.PaginatorSequence<ListCertificatesByCAInput, ListCertificatesByCAOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listCertificatesByCA(input:))
     }
 }
 
@@ -421,7 +421,7 @@ extension ListCertificatesByCAInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificatesByCAInput, Output == ListCertificatesByCAOutput {
+extension PaginatorSequence where OperationStackInput == ListCertificatesByCAInput, OperationStackOutput == ListCertificatesByCAOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificatesByCAPaginated`
     /// to access the nested member `[IoTClientTypes.Certificate]`
     /// - Returns: `[IoTClientTypes.Certificate]`
@@ -439,7 +439,7 @@ extension IoTClient {
     ///     - input: A `[ListCustomMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomMetricsOutput`
     public func listCustomMetricsPaginated(input: ListCustomMetricsInput) -> ClientRuntime.PaginatorSequence<ListCustomMetricsInput, ListCustomMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCustomMetricsInput, ListCustomMetricsOutput>(input: input, inputKey: \ListCustomMetricsInput.nextToken, outputKey: \ListCustomMetricsOutput.nextToken, paginationFunction: self.listCustomMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListCustomMetricsInput, ListCustomMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomMetrics(input:))
     }
 }
 
@@ -451,7 +451,7 @@ extension ListCustomMetricsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCustomMetricsInput, Output == ListCustomMetricsOutput {
+extension PaginatorSequence where OperationStackInput == ListCustomMetricsInput, OperationStackOutput == ListCustomMetricsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomMetricsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -469,7 +469,7 @@ extension IoTClient {
     ///     - input: A `[ListDetectMitigationActionsExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDetectMitigationActionsExecutionsOutput`
     public func listDetectMitigationActionsExecutionsPaginated(input: ListDetectMitigationActionsExecutionsInput) -> ClientRuntime.PaginatorSequence<ListDetectMitigationActionsExecutionsInput, ListDetectMitigationActionsExecutionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDetectMitigationActionsExecutionsInput, ListDetectMitigationActionsExecutionsOutput>(input: input, inputKey: \ListDetectMitigationActionsExecutionsInput.nextToken, outputKey: \ListDetectMitigationActionsExecutionsOutput.nextToken, paginationFunction: self.listDetectMitigationActionsExecutions(input:))
+        return ClientRuntime.PaginatorSequence<ListDetectMitigationActionsExecutionsInput, ListDetectMitigationActionsExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDetectMitigationActionsExecutions(input:))
     }
 }
 
@@ -486,7 +486,7 @@ extension ListDetectMitigationActionsExecutionsInput: ClientRuntime.PaginateToke
         )}
 }
 
-extension PaginatorSequence where Input == ListDetectMitigationActionsExecutionsInput, Output == ListDetectMitigationActionsExecutionsOutput {
+extension PaginatorSequence where OperationStackInput == ListDetectMitigationActionsExecutionsInput, OperationStackOutput == ListDetectMitigationActionsExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDetectMitigationActionsExecutionsPaginated`
     /// to access the nested member `[IoTClientTypes.DetectMitigationActionExecution]`
     /// - Returns: `[IoTClientTypes.DetectMitigationActionExecution]`
@@ -504,7 +504,7 @@ extension IoTClient {
     ///     - input: A `[ListDetectMitigationActionsTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDetectMitigationActionsTasksOutput`
     public func listDetectMitigationActionsTasksPaginated(input: ListDetectMitigationActionsTasksInput) -> ClientRuntime.PaginatorSequence<ListDetectMitigationActionsTasksInput, ListDetectMitigationActionsTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListDetectMitigationActionsTasksInput, ListDetectMitigationActionsTasksOutput>(input: input, inputKey: \ListDetectMitigationActionsTasksInput.nextToken, outputKey: \ListDetectMitigationActionsTasksOutput.nextToken, paginationFunction: self.listDetectMitigationActionsTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListDetectMitigationActionsTasksInput, ListDetectMitigationActionsTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDetectMitigationActionsTasks(input:))
     }
 }
 
@@ -518,7 +518,7 @@ extension ListDetectMitigationActionsTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDetectMitigationActionsTasksInput, Output == ListDetectMitigationActionsTasksOutput {
+extension PaginatorSequence where OperationStackInput == ListDetectMitigationActionsTasksInput, OperationStackOutput == ListDetectMitigationActionsTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDetectMitigationActionsTasksPaginated`
     /// to access the nested member `[IoTClientTypes.DetectMitigationActionsTaskSummary]`
     /// - Returns: `[IoTClientTypes.DetectMitigationActionsTaskSummary]`
@@ -536,7 +536,7 @@ extension IoTClient {
     ///     - input: A `[ListDimensionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDimensionsOutput`
     public func listDimensionsPaginated(input: ListDimensionsInput) -> ClientRuntime.PaginatorSequence<ListDimensionsInput, ListDimensionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDimensionsInput, ListDimensionsOutput>(input: input, inputKey: \ListDimensionsInput.nextToken, outputKey: \ListDimensionsOutput.nextToken, paginationFunction: self.listDimensions(input:))
+        return ClientRuntime.PaginatorSequence<ListDimensionsInput, ListDimensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDimensions(input:))
     }
 }
 
@@ -548,7 +548,7 @@ extension ListDimensionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDimensionsInput, Output == ListDimensionsOutput {
+extension PaginatorSequence where OperationStackInput == ListDimensionsInput, OperationStackOutput == ListDimensionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDimensionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -566,7 +566,7 @@ extension IoTClient {
     ///     - input: A `[ListDomainConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainConfigurationsOutput`
     public func listDomainConfigurationsPaginated(input: ListDomainConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListDomainConfigurationsInput, ListDomainConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDomainConfigurationsInput, ListDomainConfigurationsOutput>(input: input, inputKey: \ListDomainConfigurationsInput.marker, outputKey: \ListDomainConfigurationsOutput.nextMarker, paginationFunction: self.listDomainConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListDomainConfigurationsInput, ListDomainConfigurationsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listDomainConfigurations(input:))
     }
 }
 
@@ -579,7 +579,7 @@ extension ListDomainConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDomainConfigurationsInput, Output == ListDomainConfigurationsOutput {
+extension PaginatorSequence where OperationStackInput == ListDomainConfigurationsInput, OperationStackOutput == ListDomainConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDomainConfigurationsPaginated`
     /// to access the nested member `[IoTClientTypes.DomainConfigurationSummary]`
     /// - Returns: `[IoTClientTypes.DomainConfigurationSummary]`
@@ -597,7 +597,7 @@ extension IoTClient {
     ///     - input: A `[ListFleetMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFleetMetricsOutput`
     public func listFleetMetricsPaginated(input: ListFleetMetricsInput) -> ClientRuntime.PaginatorSequence<ListFleetMetricsInput, ListFleetMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFleetMetricsInput, ListFleetMetricsOutput>(input: input, inputKey: \ListFleetMetricsInput.nextToken, outputKey: \ListFleetMetricsOutput.nextToken, paginationFunction: self.listFleetMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListFleetMetricsInput, ListFleetMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFleetMetrics(input:))
     }
 }
 
@@ -609,7 +609,7 @@ extension ListFleetMetricsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFleetMetricsInput, Output == ListFleetMetricsOutput {
+extension PaginatorSequence where OperationStackInput == ListFleetMetricsInput, OperationStackOutput == ListFleetMetricsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFleetMetricsPaginated`
     /// to access the nested member `[IoTClientTypes.FleetMetricNameAndArn]`
     /// - Returns: `[IoTClientTypes.FleetMetricNameAndArn]`
@@ -627,7 +627,7 @@ extension IoTClient {
     ///     - input: A `[ListIndicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIndicesOutput`
     public func listIndicesPaginated(input: ListIndicesInput) -> ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutput>(input: input, inputKey: \ListIndicesInput.nextToken, outputKey: \ListIndicesOutput.nextToken, paginationFunction: self.listIndices(input:))
+        return ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIndices(input:))
     }
 }
 
@@ -639,7 +639,7 @@ extension ListIndicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIndicesInput, Output == ListIndicesOutput {
+extension PaginatorSequence where OperationStackInput == ListIndicesInput, OperationStackOutput == ListIndicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIndicesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -657,7 +657,7 @@ extension IoTClient {
     ///     - input: A `[ListJobExecutionsForJobInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobExecutionsForJobOutput`
     public func listJobExecutionsForJobPaginated(input: ListJobExecutionsForJobInput) -> ClientRuntime.PaginatorSequence<ListJobExecutionsForJobInput, ListJobExecutionsForJobOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobExecutionsForJobInput, ListJobExecutionsForJobOutput>(input: input, inputKey: \ListJobExecutionsForJobInput.nextToken, outputKey: \ListJobExecutionsForJobOutput.nextToken, paginationFunction: self.listJobExecutionsForJob(input:))
+        return ClientRuntime.PaginatorSequence<ListJobExecutionsForJobInput, ListJobExecutionsForJobOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobExecutionsForJob(input:))
     }
 }
 
@@ -671,7 +671,7 @@ extension ListJobExecutionsForJobInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobExecutionsForJobInput, Output == ListJobExecutionsForJobOutput {
+extension PaginatorSequence where OperationStackInput == ListJobExecutionsForJobInput, OperationStackOutput == ListJobExecutionsForJobOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobExecutionsForJobPaginated`
     /// to access the nested member `[IoTClientTypes.JobExecutionSummaryForJob]`
     /// - Returns: `[IoTClientTypes.JobExecutionSummaryForJob]`
@@ -689,7 +689,7 @@ extension IoTClient {
     ///     - input: A `[ListJobExecutionsForThingInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobExecutionsForThingOutput`
     public func listJobExecutionsForThingPaginated(input: ListJobExecutionsForThingInput) -> ClientRuntime.PaginatorSequence<ListJobExecutionsForThingInput, ListJobExecutionsForThingOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobExecutionsForThingInput, ListJobExecutionsForThingOutput>(input: input, inputKey: \ListJobExecutionsForThingInput.nextToken, outputKey: \ListJobExecutionsForThingOutput.nextToken, paginationFunction: self.listJobExecutionsForThing(input:))
+        return ClientRuntime.PaginatorSequence<ListJobExecutionsForThingInput, ListJobExecutionsForThingOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobExecutionsForThing(input:))
     }
 }
 
@@ -705,7 +705,7 @@ extension ListJobExecutionsForThingInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobExecutionsForThingInput, Output == ListJobExecutionsForThingOutput {
+extension PaginatorSequence where OperationStackInput == ListJobExecutionsForThingInput, OperationStackOutput == ListJobExecutionsForThingOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobExecutionsForThingPaginated`
     /// to access the nested member `[IoTClientTypes.JobExecutionSummaryForThing]`
     /// - Returns: `[IoTClientTypes.JobExecutionSummaryForThing]`
@@ -723,7 +723,7 @@ extension IoTClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -740,7 +740,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
+extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[IoTClientTypes.JobSummary]`
     /// - Returns: `[IoTClientTypes.JobSummary]`
@@ -758,7 +758,7 @@ extension IoTClient {
     ///     - input: A `[ListJobTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobTemplatesOutput`
     public func listJobTemplatesPaginated(input: ListJobTemplatesInput) -> ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput>(input: input, inputKey: \ListJobTemplatesInput.nextToken, outputKey: \ListJobTemplatesOutput.nextToken, paginationFunction: self.listJobTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobTemplates(input:))
     }
 }
 
@@ -770,7 +770,7 @@ extension ListJobTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobTemplatesInput, Output == ListJobTemplatesOutput {
+extension PaginatorSequence where OperationStackInput == ListJobTemplatesInput, OperationStackOutput == ListJobTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobTemplatesPaginated`
     /// to access the nested member `[IoTClientTypes.JobTemplateSummary]`
     /// - Returns: `[IoTClientTypes.JobTemplateSummary]`
@@ -788,7 +788,7 @@ extension IoTClient {
     ///     - input: A `[ListManagedJobTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedJobTemplatesOutput`
     public func listManagedJobTemplatesPaginated(input: ListManagedJobTemplatesInput) -> ClientRuntime.PaginatorSequence<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutput>(input: input, inputKey: \ListManagedJobTemplatesInput.nextToken, outputKey: \ListManagedJobTemplatesOutput.nextToken, paginationFunction: self.listManagedJobTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedJobTemplates(input:))
     }
 }
 
@@ -801,7 +801,7 @@ extension ListManagedJobTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListManagedJobTemplatesInput, Output == ListManagedJobTemplatesOutput {
+extension PaginatorSequence where OperationStackInput == ListManagedJobTemplatesInput, OperationStackOutput == ListManagedJobTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listManagedJobTemplatesPaginated`
     /// to access the nested member `[IoTClientTypes.ManagedJobTemplateSummary]`
     /// - Returns: `[IoTClientTypes.ManagedJobTemplateSummary]`
@@ -819,7 +819,7 @@ extension IoTClient {
     ///     - input: A `[ListMetricValuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMetricValuesOutput`
     public func listMetricValuesPaginated(input: ListMetricValuesInput) -> ClientRuntime.PaginatorSequence<ListMetricValuesInput, ListMetricValuesOutput> {
-        return ClientRuntime.PaginatorSequence<ListMetricValuesInput, ListMetricValuesOutput>(input: input, inputKey: \ListMetricValuesInput.nextToken, outputKey: \ListMetricValuesOutput.nextToken, paginationFunction: self.listMetricValues(input:))
+        return ClientRuntime.PaginatorSequence<ListMetricValuesInput, ListMetricValuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetricValues(input:))
     }
 }
 
@@ -837,7 +837,7 @@ extension ListMetricValuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMetricValuesInput, Output == ListMetricValuesOutput {
+extension PaginatorSequence where OperationStackInput == ListMetricValuesInput, OperationStackOutput == ListMetricValuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMetricValuesPaginated`
     /// to access the nested member `[IoTClientTypes.MetricDatum]`
     /// - Returns: `[IoTClientTypes.MetricDatum]`
@@ -855,7 +855,7 @@ extension IoTClient {
     ///     - input: A `[ListMitigationActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMitigationActionsOutput`
     public func listMitigationActionsPaginated(input: ListMitigationActionsInput) -> ClientRuntime.PaginatorSequence<ListMitigationActionsInput, ListMitigationActionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMitigationActionsInput, ListMitigationActionsOutput>(input: input, inputKey: \ListMitigationActionsInput.nextToken, outputKey: \ListMitigationActionsOutput.nextToken, paginationFunction: self.listMitigationActions(input:))
+        return ClientRuntime.PaginatorSequence<ListMitigationActionsInput, ListMitigationActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMitigationActions(input:))
     }
 }
 
@@ -868,7 +868,7 @@ extension ListMitigationActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMitigationActionsInput, Output == ListMitigationActionsOutput {
+extension PaginatorSequence where OperationStackInput == ListMitigationActionsInput, OperationStackOutput == ListMitigationActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMitigationActionsPaginated`
     /// to access the nested member `[IoTClientTypes.MitigationActionIdentifier]`
     /// - Returns: `[IoTClientTypes.MitigationActionIdentifier]`
@@ -886,7 +886,7 @@ extension IoTClient {
     ///     - input: A `[ListOTAUpdatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOTAUpdatesOutput`
     public func listOTAUpdatesPaginated(input: ListOTAUpdatesInput) -> ClientRuntime.PaginatorSequence<ListOTAUpdatesInput, ListOTAUpdatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListOTAUpdatesInput, ListOTAUpdatesOutput>(input: input, inputKey: \ListOTAUpdatesInput.nextToken, outputKey: \ListOTAUpdatesOutput.nextToken, paginationFunction: self.listOTAUpdates(input:))
+        return ClientRuntime.PaginatorSequence<ListOTAUpdatesInput, ListOTAUpdatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOTAUpdates(input:))
     }
 }
 
@@ -899,7 +899,7 @@ extension ListOTAUpdatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOTAUpdatesInput, Output == ListOTAUpdatesOutput {
+extension PaginatorSequence where OperationStackInput == ListOTAUpdatesInput, OperationStackOutput == ListOTAUpdatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOTAUpdatesPaginated`
     /// to access the nested member `[IoTClientTypes.OTAUpdateSummary]`
     /// - Returns: `[IoTClientTypes.OTAUpdateSummary]`
@@ -917,7 +917,7 @@ extension IoTClient {
     ///     - input: A `[ListOutgoingCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOutgoingCertificatesOutput`
     public func listOutgoingCertificatesPaginated(input: ListOutgoingCertificatesInput) -> ClientRuntime.PaginatorSequence<ListOutgoingCertificatesInput, ListOutgoingCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListOutgoingCertificatesInput, ListOutgoingCertificatesOutput>(input: input, inputKey: \ListOutgoingCertificatesInput.marker, outputKey: \ListOutgoingCertificatesOutput.nextMarker, paginationFunction: self.listOutgoingCertificates(input:))
+        return ClientRuntime.PaginatorSequence<ListOutgoingCertificatesInput, ListOutgoingCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listOutgoingCertificates(input:))
     }
 }
 
@@ -930,7 +930,7 @@ extension ListOutgoingCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOutgoingCertificatesInput, Output == ListOutgoingCertificatesOutput {
+extension PaginatorSequence where OperationStackInput == ListOutgoingCertificatesInput, OperationStackOutput == ListOutgoingCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOutgoingCertificatesPaginated`
     /// to access the nested member `[IoTClientTypes.OutgoingCertificate]`
     /// - Returns: `[IoTClientTypes.OutgoingCertificate]`
@@ -948,7 +948,7 @@ extension IoTClient {
     ///     - input: A `[ListPackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutput`
     public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutput.nextToken, paginationFunction: self.listPackages(input:))
+        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackages(input:))
     }
 }
 
@@ -960,7 +960,7 @@ extension ListPackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPackagesInput, Output == ListPackagesOutput {
+extension PaginatorSequence where OperationStackInput == ListPackagesInput, OperationStackOutput == ListPackagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPackagesPaginated`
     /// to access the nested member `[IoTClientTypes.PackageSummary]`
     /// - Returns: `[IoTClientTypes.PackageSummary]`
@@ -978,7 +978,7 @@ extension IoTClient {
     ///     - input: A `[ListPackageVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackageVersionsOutput`
     public func listPackageVersionsPaginated(input: ListPackageVersionsInput) -> ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutput>(input: input, inputKey: \ListPackageVersionsInput.nextToken, outputKey: \ListPackageVersionsOutput.nextToken, paginationFunction: self.listPackageVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackageVersions(input:))
     }
 }
 
@@ -992,7 +992,7 @@ extension ListPackageVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPackageVersionsInput, Output == ListPackageVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListPackageVersionsInput, OperationStackOutput == ListPackageVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPackageVersionsPaginated`
     /// to access the nested member `[IoTClientTypes.PackageVersionSummary]`
     /// - Returns: `[IoTClientTypes.PackageVersionSummary]`
@@ -1010,7 +1010,7 @@ extension IoTClient {
     ///     - input: A `[ListPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutput`
     public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \ListPoliciesInput.marker, outputKey: \ListPoliciesOutput.nextMarker, paginationFunction: self.listPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listPolicies(input:))
     }
 }
 
@@ -1023,7 +1023,7 @@ extension ListPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPoliciesInput, Output == ListPoliciesOutput {
+extension PaginatorSequence where OperationStackInput == ListPoliciesInput, OperationStackOutput == ListPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPoliciesPaginated`
     /// to access the nested member `[IoTClientTypes.Policy]`
     /// - Returns: `[IoTClientTypes.Policy]`
@@ -1041,7 +1041,7 @@ extension IoTClient {
     ///     - input: A `[ListPolicyPrincipalsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyPrincipalsOutput`
     public func listPolicyPrincipalsPaginated(input: ListPolicyPrincipalsInput) -> ClientRuntime.PaginatorSequence<ListPolicyPrincipalsInput, ListPolicyPrincipalsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPolicyPrincipalsInput, ListPolicyPrincipalsOutput>(input: input, inputKey: \ListPolicyPrincipalsInput.marker, outputKey: \ListPolicyPrincipalsOutput.nextMarker, paginationFunction: self.listPolicyPrincipals(input:))
+        return ClientRuntime.PaginatorSequence<ListPolicyPrincipalsInput, ListPolicyPrincipalsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listPolicyPrincipals(input:))
     }
 }
 
@@ -1055,7 +1055,7 @@ extension ListPolicyPrincipalsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPolicyPrincipalsInput, Output == ListPolicyPrincipalsOutput {
+extension PaginatorSequence where OperationStackInput == ListPolicyPrincipalsInput, OperationStackOutput == ListPolicyPrincipalsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPolicyPrincipalsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1073,7 +1073,7 @@ extension IoTClient {
     ///     - input: A `[ListPrincipalPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalPoliciesOutput`
     public func listPrincipalPoliciesPaginated(input: ListPrincipalPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPrincipalPoliciesInput, ListPrincipalPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPrincipalPoliciesInput, ListPrincipalPoliciesOutput>(input: input, inputKey: \ListPrincipalPoliciesInput.marker, outputKey: \ListPrincipalPoliciesOutput.nextMarker, paginationFunction: self.listPrincipalPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListPrincipalPoliciesInput, ListPrincipalPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listPrincipalPolicies(input:))
     }
 }
 
@@ -1087,7 +1087,7 @@ extension ListPrincipalPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPrincipalPoliciesInput, Output == ListPrincipalPoliciesOutput {
+extension PaginatorSequence where OperationStackInput == ListPrincipalPoliciesInput, OperationStackOutput == ListPrincipalPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPrincipalPoliciesPaginated`
     /// to access the nested member `[IoTClientTypes.Policy]`
     /// - Returns: `[IoTClientTypes.Policy]`
@@ -1105,7 +1105,7 @@ extension IoTClient {
     ///     - input: A `[ListPrincipalThingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalThingsOutput`
     public func listPrincipalThingsPaginated(input: ListPrincipalThingsInput) -> ClientRuntime.PaginatorSequence<ListPrincipalThingsInput, ListPrincipalThingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPrincipalThingsInput, ListPrincipalThingsOutput>(input: input, inputKey: \ListPrincipalThingsInput.nextToken, outputKey: \ListPrincipalThingsOutput.nextToken, paginationFunction: self.listPrincipalThings(input:))
+        return ClientRuntime.PaginatorSequence<ListPrincipalThingsInput, ListPrincipalThingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPrincipalThings(input:))
     }
 }
 
@@ -1118,7 +1118,7 @@ extension ListPrincipalThingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPrincipalThingsInput, Output == ListPrincipalThingsOutput {
+extension PaginatorSequence where OperationStackInput == ListPrincipalThingsInput, OperationStackOutput == ListPrincipalThingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPrincipalThingsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1136,7 +1136,7 @@ extension IoTClient {
     ///     - input: A `[ListProvisioningTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProvisioningTemplatesOutput`
     public func listProvisioningTemplatesPaginated(input: ListProvisioningTemplatesInput) -> ClientRuntime.PaginatorSequence<ListProvisioningTemplatesInput, ListProvisioningTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProvisioningTemplatesInput, ListProvisioningTemplatesOutput>(input: input, inputKey: \ListProvisioningTemplatesInput.nextToken, outputKey: \ListProvisioningTemplatesOutput.nextToken, paginationFunction: self.listProvisioningTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListProvisioningTemplatesInput, ListProvisioningTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProvisioningTemplates(input:))
     }
 }
 
@@ -1148,7 +1148,7 @@ extension ListProvisioningTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProvisioningTemplatesInput, Output == ListProvisioningTemplatesOutput {
+extension PaginatorSequence where OperationStackInput == ListProvisioningTemplatesInput, OperationStackOutput == ListProvisioningTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProvisioningTemplatesPaginated`
     /// to access the nested member `[IoTClientTypes.ProvisioningTemplateSummary]`
     /// - Returns: `[IoTClientTypes.ProvisioningTemplateSummary]`
@@ -1166,7 +1166,7 @@ extension IoTClient {
     ///     - input: A `[ListProvisioningTemplateVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProvisioningTemplateVersionsOutput`
     public func listProvisioningTemplateVersionsPaginated(input: ListProvisioningTemplateVersionsInput) -> ClientRuntime.PaginatorSequence<ListProvisioningTemplateVersionsInput, ListProvisioningTemplateVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProvisioningTemplateVersionsInput, ListProvisioningTemplateVersionsOutput>(input: input, inputKey: \ListProvisioningTemplateVersionsInput.nextToken, outputKey: \ListProvisioningTemplateVersionsOutput.nextToken, paginationFunction: self.listProvisioningTemplateVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListProvisioningTemplateVersionsInput, ListProvisioningTemplateVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProvisioningTemplateVersions(input:))
     }
 }
 
@@ -1179,7 +1179,7 @@ extension ListProvisioningTemplateVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProvisioningTemplateVersionsInput, Output == ListProvisioningTemplateVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListProvisioningTemplateVersionsInput, OperationStackOutput == ListProvisioningTemplateVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProvisioningTemplateVersionsPaginated`
     /// to access the nested member `[IoTClientTypes.ProvisioningTemplateVersionSummary]`
     /// - Returns: `[IoTClientTypes.ProvisioningTemplateVersionSummary]`
@@ -1197,7 +1197,7 @@ extension IoTClient {
     ///     - input: A `[ListRelatedResourcesForAuditFindingInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRelatedResourcesForAuditFindingOutput`
     public func listRelatedResourcesForAuditFindingPaginated(input: ListRelatedResourcesForAuditFindingInput) -> ClientRuntime.PaginatorSequence<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutput> {
-        return ClientRuntime.PaginatorSequence<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutput>(input: input, inputKey: \ListRelatedResourcesForAuditFindingInput.nextToken, outputKey: \ListRelatedResourcesForAuditFindingOutput.nextToken, paginationFunction: self.listRelatedResourcesForAuditFinding(input:))
+        return ClientRuntime.PaginatorSequence<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRelatedResourcesForAuditFinding(input:))
     }
 }
 
@@ -1210,7 +1210,7 @@ extension ListRelatedResourcesForAuditFindingInput: ClientRuntime.PaginateToken 
         )}
 }
 
-extension PaginatorSequence where Input == ListRelatedResourcesForAuditFindingInput, Output == ListRelatedResourcesForAuditFindingOutput {
+extension PaginatorSequence where OperationStackInput == ListRelatedResourcesForAuditFindingInput, OperationStackOutput == ListRelatedResourcesForAuditFindingOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRelatedResourcesForAuditFindingPaginated`
     /// to access the nested member `[IoTClientTypes.RelatedResource]`
     /// - Returns: `[IoTClientTypes.RelatedResource]`
@@ -1228,7 +1228,7 @@ extension IoTClient {
     ///     - input: A `[ListRoleAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoleAliasesOutput`
     public func listRoleAliasesPaginated(input: ListRoleAliasesInput) -> ClientRuntime.PaginatorSequence<ListRoleAliasesInput, ListRoleAliasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoleAliasesInput, ListRoleAliasesOutput>(input: input, inputKey: \ListRoleAliasesInput.marker, outputKey: \ListRoleAliasesOutput.nextMarker, paginationFunction: self.listRoleAliases(input:))
+        return ClientRuntime.PaginatorSequence<ListRoleAliasesInput, ListRoleAliasesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listRoleAliases(input:))
     }
 }
 
@@ -1241,7 +1241,7 @@ extension ListRoleAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRoleAliasesInput, Output == ListRoleAliasesOutput {
+extension PaginatorSequence where OperationStackInput == ListRoleAliasesInput, OperationStackOutput == ListRoleAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRoleAliasesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1259,7 +1259,7 @@ extension IoTClient {
     ///     - input: A `[ListScheduledAuditsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledAuditsOutput`
     public func listScheduledAuditsPaginated(input: ListScheduledAuditsInput) -> ClientRuntime.PaginatorSequence<ListScheduledAuditsInput, ListScheduledAuditsOutput> {
-        return ClientRuntime.PaginatorSequence<ListScheduledAuditsInput, ListScheduledAuditsOutput>(input: input, inputKey: \ListScheduledAuditsInput.nextToken, outputKey: \ListScheduledAuditsOutput.nextToken, paginationFunction: self.listScheduledAudits(input:))
+        return ClientRuntime.PaginatorSequence<ListScheduledAuditsInput, ListScheduledAuditsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScheduledAudits(input:))
     }
 }
 
@@ -1271,7 +1271,7 @@ extension ListScheduledAuditsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListScheduledAuditsInput, Output == ListScheduledAuditsOutput {
+extension PaginatorSequence where OperationStackInput == ListScheduledAuditsInput, OperationStackOutput == ListScheduledAuditsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listScheduledAuditsPaginated`
     /// to access the nested member `[IoTClientTypes.ScheduledAuditMetadata]`
     /// - Returns: `[IoTClientTypes.ScheduledAuditMetadata]`
@@ -1289,7 +1289,7 @@ extension IoTClient {
     ///     - input: A `[ListSecurityProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfilesOutput`
     public func listSecurityProfilesPaginated(input: ListSecurityProfilesInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfilesInput, ListSecurityProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityProfilesInput, ListSecurityProfilesOutput>(input: input, inputKey: \ListSecurityProfilesInput.nextToken, outputKey: \ListSecurityProfilesOutput.nextToken, paginationFunction: self.listSecurityProfiles(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityProfilesInput, ListSecurityProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityProfiles(input:))
     }
 }
 
@@ -1303,7 +1303,7 @@ extension ListSecurityProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityProfilesInput, Output == ListSecurityProfilesOutput {
+extension PaginatorSequence where OperationStackInput == ListSecurityProfilesInput, OperationStackOutput == ListSecurityProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfilesPaginated`
     /// to access the nested member `[IoTClientTypes.SecurityProfileIdentifier]`
     /// - Returns: `[IoTClientTypes.SecurityProfileIdentifier]`
@@ -1321,7 +1321,7 @@ extension IoTClient {
     ///     - input: A `[ListSecurityProfilesForTargetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfilesForTargetOutput`
     public func listSecurityProfilesForTargetPaginated(input: ListSecurityProfilesForTargetInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfilesForTargetInput, ListSecurityProfilesForTargetOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityProfilesForTargetInput, ListSecurityProfilesForTargetOutput>(input: input, inputKey: \ListSecurityProfilesForTargetInput.nextToken, outputKey: \ListSecurityProfilesForTargetOutput.nextToken, paginationFunction: self.listSecurityProfilesForTarget(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityProfilesForTargetInput, ListSecurityProfilesForTargetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityProfilesForTarget(input:))
     }
 }
 
@@ -1335,7 +1335,7 @@ extension ListSecurityProfilesForTargetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityProfilesForTargetInput, Output == ListSecurityProfilesForTargetOutput {
+extension PaginatorSequence where OperationStackInput == ListSecurityProfilesForTargetInput, OperationStackOutput == ListSecurityProfilesForTargetOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfilesForTargetPaginated`
     /// to access the nested member `[IoTClientTypes.SecurityProfileTargetMapping]`
     /// - Returns: `[IoTClientTypes.SecurityProfileTargetMapping]`
@@ -1353,7 +1353,7 @@ extension IoTClient {
     ///     - input: A `[ListStreamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutput`
     public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutput.nextToken, paginationFunction: self.listStreams(input:))
+        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreams(input:))
     }
 }
 
@@ -1366,7 +1366,7 @@ extension ListStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStreamsInput, Output == ListStreamsOutput {
+extension PaginatorSequence where OperationStackInput == ListStreamsInput, OperationStackOutput == ListStreamsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStreamsPaginated`
     /// to access the nested member `[IoTClientTypes.StreamSummary]`
     /// - Returns: `[IoTClientTypes.StreamSummary]`
@@ -1384,7 +1384,7 @@ extension IoTClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -1396,7 +1396,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[IoTClientTypes.Tag]`
     /// - Returns: `[IoTClientTypes.Tag]`
@@ -1414,7 +1414,7 @@ extension IoTClient {
     ///     - input: A `[ListTargetsForPolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTargetsForPolicyOutput`
     public func listTargetsForPolicyPaginated(input: ListTargetsForPolicyInput) -> ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput> {
-        return ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(input: input, inputKey: \ListTargetsForPolicyInput.marker, outputKey: \ListTargetsForPolicyOutput.nextMarker, paginationFunction: self.listTargetsForPolicy(input:))
+        return ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listTargetsForPolicy(input:))
     }
 }
 
@@ -1427,7 +1427,7 @@ extension ListTargetsForPolicyInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTargetsForPolicyInput, Output == ListTargetsForPolicyOutput {
+extension PaginatorSequence where OperationStackInput == ListTargetsForPolicyInput, OperationStackOutput == ListTargetsForPolicyOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTargetsForPolicyPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1445,7 +1445,7 @@ extension IoTClient {
     ///     - input: A `[ListTargetsForSecurityProfileInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTargetsForSecurityProfileOutput`
     public func listTargetsForSecurityProfilePaginated(input: ListTargetsForSecurityProfileInput) -> ClientRuntime.PaginatorSequence<ListTargetsForSecurityProfileInput, ListTargetsForSecurityProfileOutput> {
-        return ClientRuntime.PaginatorSequence<ListTargetsForSecurityProfileInput, ListTargetsForSecurityProfileOutput>(input: input, inputKey: \ListTargetsForSecurityProfileInput.nextToken, outputKey: \ListTargetsForSecurityProfileOutput.nextToken, paginationFunction: self.listTargetsForSecurityProfile(input:))
+        return ClientRuntime.PaginatorSequence<ListTargetsForSecurityProfileInput, ListTargetsForSecurityProfileOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTargetsForSecurityProfile(input:))
     }
 }
 
@@ -1458,7 +1458,7 @@ extension ListTargetsForSecurityProfileInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTargetsForSecurityProfileInput, Output == ListTargetsForSecurityProfileOutput {
+extension PaginatorSequence where OperationStackInput == ListTargetsForSecurityProfileInput, OperationStackOutput == ListTargetsForSecurityProfileOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTargetsForSecurityProfilePaginated`
     /// to access the nested member `[IoTClientTypes.SecurityProfileTarget]`
     /// - Returns: `[IoTClientTypes.SecurityProfileTarget]`
@@ -1476,7 +1476,7 @@ extension IoTClient {
     ///     - input: A `[ListThingGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingGroupsOutput`
     public func listThingGroupsPaginated(input: ListThingGroupsInput) -> ClientRuntime.PaginatorSequence<ListThingGroupsInput, ListThingGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingGroupsInput, ListThingGroupsOutput>(input: input, inputKey: \ListThingGroupsInput.nextToken, outputKey: \ListThingGroupsOutput.nextToken, paginationFunction: self.listThingGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListThingGroupsInput, ListThingGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingGroups(input:))
     }
 }
 
@@ -1491,7 +1491,7 @@ extension ListThingGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingGroupsInput, Output == ListThingGroupsOutput {
+extension PaginatorSequence where OperationStackInput == ListThingGroupsInput, OperationStackOutput == ListThingGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingGroupsPaginated`
     /// to access the nested member `[IoTClientTypes.GroupNameAndArn]`
     /// - Returns: `[IoTClientTypes.GroupNameAndArn]`
@@ -1509,7 +1509,7 @@ extension IoTClient {
     ///     - input: A `[ListThingGroupsForThingInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingGroupsForThingOutput`
     public func listThingGroupsForThingPaginated(input: ListThingGroupsForThingInput) -> ClientRuntime.PaginatorSequence<ListThingGroupsForThingInput, ListThingGroupsForThingOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingGroupsForThingInput, ListThingGroupsForThingOutput>(input: input, inputKey: \ListThingGroupsForThingInput.nextToken, outputKey: \ListThingGroupsForThingOutput.nextToken, paginationFunction: self.listThingGroupsForThing(input:))
+        return ClientRuntime.PaginatorSequence<ListThingGroupsForThingInput, ListThingGroupsForThingOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingGroupsForThing(input:))
     }
 }
 
@@ -1522,7 +1522,7 @@ extension ListThingGroupsForThingInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingGroupsForThingInput, Output == ListThingGroupsForThingOutput {
+extension PaginatorSequence where OperationStackInput == ListThingGroupsForThingInput, OperationStackOutput == ListThingGroupsForThingOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingGroupsForThingPaginated`
     /// to access the nested member `[IoTClientTypes.GroupNameAndArn]`
     /// - Returns: `[IoTClientTypes.GroupNameAndArn]`
@@ -1540,7 +1540,7 @@ extension IoTClient {
     ///     - input: A `[ListThingPrincipalsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingPrincipalsOutput`
     public func listThingPrincipalsPaginated(input: ListThingPrincipalsInput) -> ClientRuntime.PaginatorSequence<ListThingPrincipalsInput, ListThingPrincipalsOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingPrincipalsInput, ListThingPrincipalsOutput>(input: input, inputKey: \ListThingPrincipalsInput.nextToken, outputKey: \ListThingPrincipalsOutput.nextToken, paginationFunction: self.listThingPrincipals(input:))
+        return ClientRuntime.PaginatorSequence<ListThingPrincipalsInput, ListThingPrincipalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingPrincipals(input:))
     }
 }
 
@@ -1553,7 +1553,7 @@ extension ListThingPrincipalsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingPrincipalsInput, Output == ListThingPrincipalsOutput {
+extension PaginatorSequence where OperationStackInput == ListThingPrincipalsInput, OperationStackOutput == ListThingPrincipalsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingPrincipalsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1571,7 +1571,7 @@ extension IoTClient {
     ///     - input: A `[ListThingRegistrationTaskReportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingRegistrationTaskReportsOutput`
     public func listThingRegistrationTaskReportsPaginated(input: ListThingRegistrationTaskReportsInput) -> ClientRuntime.PaginatorSequence<ListThingRegistrationTaskReportsInput, ListThingRegistrationTaskReportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingRegistrationTaskReportsInput, ListThingRegistrationTaskReportsOutput>(input: input, inputKey: \ListThingRegistrationTaskReportsInput.nextToken, outputKey: \ListThingRegistrationTaskReportsOutput.nextToken, paginationFunction: self.listThingRegistrationTaskReports(input:))
+        return ClientRuntime.PaginatorSequence<ListThingRegistrationTaskReportsInput, ListThingRegistrationTaskReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingRegistrationTaskReports(input:))
     }
 }
 
@@ -1585,7 +1585,7 @@ extension ListThingRegistrationTaskReportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingRegistrationTaskReportsInput, Output == ListThingRegistrationTaskReportsOutput {
+extension PaginatorSequence where OperationStackInput == ListThingRegistrationTaskReportsInput, OperationStackOutput == ListThingRegistrationTaskReportsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingRegistrationTaskReportsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1603,7 +1603,7 @@ extension IoTClient {
     ///     - input: A `[ListThingRegistrationTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingRegistrationTasksOutput`
     public func listThingRegistrationTasksPaginated(input: ListThingRegistrationTasksInput) -> ClientRuntime.PaginatorSequence<ListThingRegistrationTasksInput, ListThingRegistrationTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingRegistrationTasksInput, ListThingRegistrationTasksOutput>(input: input, inputKey: \ListThingRegistrationTasksInput.nextToken, outputKey: \ListThingRegistrationTasksOutput.nextToken, paginationFunction: self.listThingRegistrationTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListThingRegistrationTasksInput, ListThingRegistrationTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingRegistrationTasks(input:))
     }
 }
 
@@ -1616,7 +1616,7 @@ extension ListThingRegistrationTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingRegistrationTasksInput, Output == ListThingRegistrationTasksOutput {
+extension PaginatorSequence where OperationStackInput == ListThingRegistrationTasksInput, OperationStackOutput == ListThingRegistrationTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingRegistrationTasksPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1634,7 +1634,7 @@ extension IoTClient {
     ///     - input: A `[ListThingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingsOutput`
     public func listThingsPaginated(input: ListThingsInput) -> ClientRuntime.PaginatorSequence<ListThingsInput, ListThingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingsInput, ListThingsOutput>(input: input, inputKey: \ListThingsInput.nextToken, outputKey: \ListThingsOutput.nextToken, paginationFunction: self.listThings(input:))
+        return ClientRuntime.PaginatorSequence<ListThingsInput, ListThingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThings(input:))
     }
 }
 
@@ -1650,7 +1650,7 @@ extension ListThingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingsInput, Output == ListThingsOutput {
+extension PaginatorSequence where OperationStackInput == ListThingsInput, OperationStackOutput == ListThingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingsPaginated`
     /// to access the nested member `[IoTClientTypes.ThingAttribute]`
     /// - Returns: `[IoTClientTypes.ThingAttribute]`
@@ -1668,7 +1668,7 @@ extension IoTClient {
     ///     - input: A `[ListThingsInBillingGroupInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingsInBillingGroupOutput`
     public func listThingsInBillingGroupPaginated(input: ListThingsInBillingGroupInput) -> ClientRuntime.PaginatorSequence<ListThingsInBillingGroupInput, ListThingsInBillingGroupOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingsInBillingGroupInput, ListThingsInBillingGroupOutput>(input: input, inputKey: \ListThingsInBillingGroupInput.nextToken, outputKey: \ListThingsInBillingGroupOutput.nextToken, paginationFunction: self.listThingsInBillingGroup(input:))
+        return ClientRuntime.PaginatorSequence<ListThingsInBillingGroupInput, ListThingsInBillingGroupOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingsInBillingGroup(input:))
     }
 }
 
@@ -1681,7 +1681,7 @@ extension ListThingsInBillingGroupInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingsInBillingGroupInput, Output == ListThingsInBillingGroupOutput {
+extension PaginatorSequence where OperationStackInput == ListThingsInBillingGroupInput, OperationStackOutput == ListThingsInBillingGroupOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingsInBillingGroupPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1699,7 +1699,7 @@ extension IoTClient {
     ///     - input: A `[ListThingsInThingGroupInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingsInThingGroupOutput`
     public func listThingsInThingGroupPaginated(input: ListThingsInThingGroupInput) -> ClientRuntime.PaginatorSequence<ListThingsInThingGroupInput, ListThingsInThingGroupOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingsInThingGroupInput, ListThingsInThingGroupOutput>(input: input, inputKey: \ListThingsInThingGroupInput.nextToken, outputKey: \ListThingsInThingGroupOutput.nextToken, paginationFunction: self.listThingsInThingGroup(input:))
+        return ClientRuntime.PaginatorSequence<ListThingsInThingGroupInput, ListThingsInThingGroupOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingsInThingGroup(input:))
     }
 }
 
@@ -1713,7 +1713,7 @@ extension ListThingsInThingGroupInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingsInThingGroupInput, Output == ListThingsInThingGroupOutput {
+extension PaginatorSequence where OperationStackInput == ListThingsInThingGroupInput, OperationStackOutput == ListThingsInThingGroupOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingsInThingGroupPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1731,7 +1731,7 @@ extension IoTClient {
     ///     - input: A `[ListThingTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThingTypesOutput`
     public func listThingTypesPaginated(input: ListThingTypesInput) -> ClientRuntime.PaginatorSequence<ListThingTypesInput, ListThingTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListThingTypesInput, ListThingTypesOutput>(input: input, inputKey: \ListThingTypesInput.nextToken, outputKey: \ListThingTypesOutput.nextToken, paginationFunction: self.listThingTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListThingTypesInput, ListThingTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingTypes(input:))
     }
 }
 
@@ -1744,7 +1744,7 @@ extension ListThingTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListThingTypesInput, Output == ListThingTypesOutput {
+extension PaginatorSequence where OperationStackInput == ListThingTypesInput, OperationStackOutput == ListThingTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listThingTypesPaginated`
     /// to access the nested member `[IoTClientTypes.ThingTypeDefinition]`
     /// - Returns: `[IoTClientTypes.ThingTypeDefinition]`
@@ -1762,7 +1762,7 @@ extension IoTClient {
     ///     - input: A `[ListTopicRuleDestinationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTopicRuleDestinationsOutput`
     public func listTopicRuleDestinationsPaginated(input: ListTopicRuleDestinationsInput) -> ClientRuntime.PaginatorSequence<ListTopicRuleDestinationsInput, ListTopicRuleDestinationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTopicRuleDestinationsInput, ListTopicRuleDestinationsOutput>(input: input, inputKey: \ListTopicRuleDestinationsInput.nextToken, outputKey: \ListTopicRuleDestinationsOutput.nextToken, paginationFunction: self.listTopicRuleDestinations(input:))
+        return ClientRuntime.PaginatorSequence<ListTopicRuleDestinationsInput, ListTopicRuleDestinationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopicRuleDestinations(input:))
     }
 }
 
@@ -1774,7 +1774,7 @@ extension ListTopicRuleDestinationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTopicRuleDestinationsInput, Output == ListTopicRuleDestinationsOutput {
+extension PaginatorSequence where OperationStackInput == ListTopicRuleDestinationsInput, OperationStackOutput == ListTopicRuleDestinationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTopicRuleDestinationsPaginated`
     /// to access the nested member `[IoTClientTypes.TopicRuleDestinationSummary]`
     /// - Returns: `[IoTClientTypes.TopicRuleDestinationSummary]`
@@ -1792,7 +1792,7 @@ extension IoTClient {
     ///     - input: A `[ListTopicRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTopicRulesOutput`
     public func listTopicRulesPaginated(input: ListTopicRulesInput) -> ClientRuntime.PaginatorSequence<ListTopicRulesInput, ListTopicRulesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTopicRulesInput, ListTopicRulesOutput>(input: input, inputKey: \ListTopicRulesInput.nextToken, outputKey: \ListTopicRulesOutput.nextToken, paginationFunction: self.listTopicRules(input:))
+        return ClientRuntime.PaginatorSequence<ListTopicRulesInput, ListTopicRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopicRules(input:))
     }
 }
 
@@ -1806,7 +1806,7 @@ extension ListTopicRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTopicRulesInput, Output == ListTopicRulesOutput {
+extension PaginatorSequence where OperationStackInput == ListTopicRulesInput, OperationStackOutput == ListTopicRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTopicRulesPaginated`
     /// to access the nested member `[IoTClientTypes.TopicRuleListItem]`
     /// - Returns: `[IoTClientTypes.TopicRuleListItem]`
@@ -1824,7 +1824,7 @@ extension IoTClient {
     ///     - input: A `[ListV2LoggingLevelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListV2LoggingLevelsOutput`
     public func listV2LoggingLevelsPaginated(input: ListV2LoggingLevelsInput) -> ClientRuntime.PaginatorSequence<ListV2LoggingLevelsInput, ListV2LoggingLevelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListV2LoggingLevelsInput, ListV2LoggingLevelsOutput>(input: input, inputKey: \ListV2LoggingLevelsInput.nextToken, outputKey: \ListV2LoggingLevelsOutput.nextToken, paginationFunction: self.listV2LoggingLevels(input:))
+        return ClientRuntime.PaginatorSequence<ListV2LoggingLevelsInput, ListV2LoggingLevelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listV2LoggingLevels(input:))
     }
 }
 
@@ -1837,7 +1837,7 @@ extension ListV2LoggingLevelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListV2LoggingLevelsInput, Output == ListV2LoggingLevelsOutput {
+extension PaginatorSequence where OperationStackInput == ListV2LoggingLevelsInput, OperationStackOutput == ListV2LoggingLevelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listV2LoggingLevelsPaginated`
     /// to access the nested member `[IoTClientTypes.LogTargetConfiguration]`
     /// - Returns: `[IoTClientTypes.LogTargetConfiguration]`
@@ -1855,7 +1855,7 @@ extension IoTClient {
     ///     - input: A `[ListViolationEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListViolationEventsOutput`
     public func listViolationEventsPaginated(input: ListViolationEventsInput) -> ClientRuntime.PaginatorSequence<ListViolationEventsInput, ListViolationEventsOutput> {
-        return ClientRuntime.PaginatorSequence<ListViolationEventsInput, ListViolationEventsOutput>(input: input, inputKey: \ListViolationEventsInput.nextToken, outputKey: \ListViolationEventsOutput.nextToken, paginationFunction: self.listViolationEvents(input:))
+        return ClientRuntime.PaginatorSequence<ListViolationEventsInput, ListViolationEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listViolationEvents(input:))
     }
 }
 
@@ -1874,7 +1874,7 @@ extension ListViolationEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListViolationEventsInput, Output == ListViolationEventsOutput {
+extension PaginatorSequence where OperationStackInput == ListViolationEventsInput, OperationStackOutput == ListViolationEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listViolationEventsPaginated`
     /// to access the nested member `[IoTClientTypes.ViolationEvent]`
     /// - Returns: `[IoTClientTypes.ViolationEvent]`

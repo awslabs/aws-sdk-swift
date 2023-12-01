@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Use the Amazon OpenSearch Service configuration API to create, configure, and manage OpenSearch Service domains. For sample code that uses the configuration API, see the [ Amazon OpenSearch Service Developer Guide ](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-configuration-samples.html). The guide also contains [sample code](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html) for sending signed HTTP requests to the OpenSearch APIs. The endpoint for configuration service requests is Region specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported Regions and endpoints, see [Amazon Web Services service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#service-regions).
 public protocol OpenSearchClientProtocol {
+    /// Performs the `AcceptInboundConnection` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
     /// - Parameter AcceptInboundConnectionInput : Container for the parameters to the AcceptInboundConnection operation.
@@ -17,6 +19,8 @@ public protocol OpenSearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func acceptInboundConnection(input: AcceptInboundConnectionInput) async throws -> AcceptInboundConnectionOutput
+    /// Performs the `AddTags` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
     ///
     /// - Parameter AddTagsInput : Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain.
@@ -31,6 +35,8 @@ public protocol OpenSearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func addTags(input: AddTagsInput) async throws -> AddTagsOutput
+    /// Performs the `AssociatePackage` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter AssociatePackageInput : Container for the request parameters to the AssociatePackage operation.
@@ -47,6 +53,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutput
+    /// Performs the `AuthorizeVpcEndpointAccess` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
     /// - Parameter AuthorizeVpcEndpointAccessInput : [no documentation found]
@@ -63,6 +71,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutput
+    /// Performs the `CancelServiceSoftwareUpdate` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
     /// - Parameter CancelServiceSoftwareUpdateInput : Container for the request parameters to cancel a service software update.
@@ -77,6 +87,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func cancelServiceSoftwareUpdate(input: CancelServiceSoftwareUpdateInput) async throws -> CancelServiceSoftwareUpdateOutput
+    /// Performs the `CreateDomain` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Creates an Amazon OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
@@ -94,6 +106,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
+    /// Performs the `CreateOutboundConnection` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
     /// - Parameter CreateOutboundConnectionInput : Container for the parameters to the CreateOutboundConnection operation.
@@ -108,6 +122,8 @@ public protocol OpenSearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
     func createOutboundConnection(input: CreateOutboundConnectionInput) async throws -> CreateOutboundConnectionOutput
+    /// Performs the `CreatePackage` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter CreatePackageInput : Container for request parameters to the CreatePackage operation.
@@ -125,6 +141,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
+    /// Performs the `CreateVpcEndpoint` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
     /// - Parameter CreateVpcEndpointInput : [no documentation found]
@@ -141,6 +159,8 @@ public protocol OpenSearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput
+    /// Performs the `DeleteDomain` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
     ///
     /// - Parameter DeleteDomainInput : Container for the parameters to the DeleteDomain operation.
@@ -155,6 +175,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
+    /// Performs the `DeleteInboundConnection` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
     /// - Parameter DeleteInboundConnectionInput : Container for the parameters to the DeleteInboundConnection operation.
@@ -167,6 +189,8 @@ public protocol OpenSearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func deleteInboundConnection(input: DeleteInboundConnectionInput) async throws -> DeleteInboundConnectionOutput
+    /// Performs the `DeleteOutboundConnection` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
     /// - Parameter DeleteOutboundConnectionInput : Container for the parameters to the DeleteOutboundConnection operation.
@@ -179,6 +203,8 @@ public protocol OpenSearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func deleteOutboundConnection(input: DeleteOutboundConnectionInput) async throws -> DeleteOutboundConnectionOutput
+    /// Performs the `DeletePackage` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Deletes an Amazon OpenSearch Service package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter DeletePackageInput : Deletes a package from OpenSearch Service. The package can't be associated with any OpenSearch Service domain.
@@ -195,6 +221,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
+    /// Performs the `DeleteVpcEndpoint` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
     /// - Parameter DeleteVpcEndpointInput : [no documentation found]
@@ -209,6 +237,8 @@ public protocol OpenSearchClientProtocol {
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutput
+    /// Performs the `DescribeDomain` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
     ///
     /// - Parameter DescribeDomainInput : Container for the parameters to the DescribeDomain operation.
@@ -223,6 +253,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
+    /// Performs the `DescribeDomainAutoTunes` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
     ///
     /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
@@ -237,6 +269,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutput
+    /// Performs the `DescribeDomainChangeProgress` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see [Making configuration changes in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes.html).
     ///
     /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation.
@@ -251,6 +285,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutput
+    /// Performs the `DescribeDomainConfig` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns the configuration of an Amazon OpenSearch Service domain.
     ///
     /// - Parameter DescribeDomainConfigInput : Container for the parameters to the DescribeDomainConfig operation.
@@ -265,6 +301,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomainConfig(input: DescribeDomainConfigInput) async throws -> DescribeDomainConfigOutput
+    /// Performs the `DescribeDomainHealth` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
     ///
     /// - Parameter DescribeDomainHealthInput : Container for the parameters to the DescribeDomainHealth operation.
@@ -280,6 +318,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomainHealth(input: DescribeDomainHealthInput) async throws -> DescribeDomainHealthOutput
+    /// Performs the `DescribeDomainNodes` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
     ///
     /// - Parameter DescribeDomainNodesInput : Container for the parameters to the DescribeDomainNodes operation.
@@ -296,6 +336,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomainNodes(input: DescribeDomainNodesInput) async throws -> DescribeDomainNodesOutput
+    /// Performs the `DescribeDomains` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     ///
     /// - Parameter DescribeDomainsInput : Container for the parameters to the DescribeDomains operation.
@@ -309,6 +351,8 @@ public protocol OpenSearchClientProtocol {
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutput
+    /// Performs the `DescribeDryRunProgress` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see [Determining whether a change will cause a blue/green deployment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#dryrun).
     ///
     /// - Parameter DescribeDryRunProgressInput : [no documentation found]
@@ -324,6 +368,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeDryRunProgress(input: DescribeDryRunProgressInput) async throws -> DescribeDryRunProgressOutput
+    /// Performs the `DescribeInboundConnections` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
     /// - Parameter DescribeInboundConnectionsInput : Container for the parameters to the DescribeInboundConnections operation.
@@ -336,6 +382,8 @@ public protocol OpenSearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `InvalidPaginationTokenException` : Request processing failed because you provided an invalid pagination token.
     func describeInboundConnections(input: DescribeInboundConnectionsInput) async throws -> DescribeInboundConnectionsOutput
+    /// Performs the `DescribeInstanceTypeLimits` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
     ///
     /// - Parameter DescribeInstanceTypeLimitsInput : Container for the parameters to the DescribeInstanceTypeLimits operation.
@@ -352,6 +400,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeInstanceTypeLimits(input: DescribeInstanceTypeLimitsInput) async throws -> DescribeInstanceTypeLimitsOutput
+    /// Performs the `DescribeOutboundConnections` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
     /// - Parameter DescribeOutboundConnectionsInput : Container for the parameters to the DescribeOutboundConnections operation.
@@ -364,6 +414,8 @@ public protocol OpenSearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `InvalidPaginationTokenException` : Request processing failed because you provided an invalid pagination token.
     func describeOutboundConnections(input: DescribeOutboundConnectionsInput) async throws -> DescribeOutboundConnectionsOutput
+    /// Performs the `DescribePackages` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes all packages available to OpenSearch Service. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter DescribePackagesInput : Container for the request parameters to the DescribePackage operation.
@@ -379,6 +431,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describePackages(input: DescribePackagesInput) async throws -> DescribePackagesOutput
+    /// Performs the `DescribeReservedInstanceOfferings` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
     ///
     /// - Parameter DescribeReservedInstanceOfferingsInput : Container for the request parameters to a DescribeReservedInstanceOfferings operation.
@@ -393,6 +447,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeReservedInstanceOfferings(input: DescribeReservedInstanceOfferingsInput) async throws -> DescribeReservedInstanceOfferingsOutput
+    /// Performs the `DescribeReservedInstances` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
     ///
     /// - Parameter DescribeReservedInstancesInput : Container for the request parameters to the DescribeReservedInstances operation.
@@ -407,6 +463,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeReservedInstances(input: DescribeReservedInstancesInput) async throws -> DescribeReservedInstancesOutput
+    /// Performs the `DescribeVpcEndpoints` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
     /// - Parameter DescribeVpcEndpointsInput : [no documentation found]
@@ -421,6 +479,8 @@ public protocol OpenSearchClientProtocol {
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput
+    /// Performs the `DissociatePackage` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter DissociatePackageInput : Container for the request parameters to the DissociatePackage operation.
@@ -437,6 +497,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutput
+    /// Performs the `GetCompatibleVersions` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     ///
     /// - Parameter GetCompatibleVersionsInput : Container for the request parameters to GetCompatibleVersions operation.
@@ -452,6 +514,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getCompatibleVersions(input: GetCompatibleVersionsInput) async throws -> GetCompatibleVersionsOutput
+    /// Performs the `GetDomainMaintenanceStatus` operation on the `AmazonOpenSearchService` service.
+    ///
     /// The status of the maintenance action.
     ///
     /// - Parameter GetDomainMaintenanceStatusInput : Container for the parameters to the GetDomainMaintenanceStatus operation.
@@ -467,6 +531,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getDomainMaintenanceStatus(input: GetDomainMaintenanceStatusInput) async throws -> GetDomainMaintenanceStatusOutput
+    /// Performs the `GetPackageVersionHistory` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter GetPackageVersionHistoryInput : Container for the request parameters to the GetPackageVersionHistory operation.
@@ -482,6 +548,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutput
+    /// Performs the `GetUpgradeHistory` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
     ///
     /// - Parameter GetUpgradeHistoryInput : Container for the request parameters to the GetUpgradeHistory operation.
@@ -497,6 +565,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutput
+    /// Performs the `GetUpgradeStatus` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain.
     ///
     /// - Parameter GetUpgradeStatusInput : Container for the request parameters to the GetUpgradeStatus operation.
@@ -512,6 +582,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutput
+    /// Performs the `ListDomainMaintenances` operation on the `AmazonOpenSearchService` service.
+    ///
     /// A list of maintenance actions for the domain.
     ///
     /// - Parameter ListDomainMaintenancesInput : Container for the parameters to the ListDomainMaintenances operation.
@@ -527,6 +599,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listDomainMaintenances(input: ListDomainMaintenancesInput) async throws -> ListDomainMaintenancesOutput
+    /// Performs the `ListDomainNames` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
     ///
     /// - Parameter ListDomainNamesInput : Container for the parameters to the ListDomainNames operation.
@@ -539,6 +613,8 @@ public protocol OpenSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
+    /// Performs the `ListDomainsForPackage` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter ListDomainsForPackageInput : Container for the request parameters to the ListDomainsForPackage operation.
@@ -554,6 +630,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listDomainsForPackage(input: ListDomainsForPackageInput) async throws -> ListDomainsForPackageOutput
+    /// Performs the `ListInstanceTypeDetails` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
     ///
     /// - Parameter ListInstanceTypeDetailsInput : [no documentation found]
@@ -568,6 +646,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listInstanceTypeDetails(input: ListInstanceTypeDetailsInput) async throws -> ListInstanceTypeDetailsOutput
+    /// Performs the `ListPackagesForDomain` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter ListPackagesForDomainInput : Container for the request parameters to the ListPackagesForDomain operation.
@@ -583,6 +663,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutput
+    /// Performs the `ListScheduledActions` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be [service software updates](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or [blue/green Auto-Tune enhancements](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
     ///
     /// - Parameter ListScheduledActionsInput : [no documentation found]
@@ -598,6 +680,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listScheduledActions(input: ListScheduledActionsInput) async throws -> ListScheduledActionsOutput
+    /// Performs the `ListTags` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
     ///
     /// - Parameter ListTagsInput : Container for the parameters to the ListTags operation.
@@ -612,6 +696,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutput
+    /// Performs the `ListVersions` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
     ///
     /// - Parameter ListVersionsInput : Container for the request parameters to the ListVersions operation.
@@ -626,6 +712,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutput
+    /// Performs the `ListVpcEndpointAccess` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
     /// - Parameter ListVpcEndpointAccessInput : [no documentation found]
@@ -640,6 +728,8 @@ public protocol OpenSearchClientProtocol {
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutput
+    /// Performs the `ListVpcEndpoints` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
     ///
     /// - Parameter ListVpcEndpointsInput : [no documentation found]
@@ -653,6 +743,8 @@ public protocol OpenSearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutput
+    /// Performs the `ListVpcEndpointsForDomain` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
     /// - Parameter ListVpcEndpointsForDomainInput : [no documentation found]
@@ -667,6 +759,8 @@ public protocol OpenSearchClientProtocol {
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutput
+    /// Performs the `PurchaseReservedInstanceOffering` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
     ///
     /// - Parameter PurchaseReservedInstanceOfferingInput : Container for request parameters to the PurchaseReservedInstanceOffering operation.
@@ -683,6 +777,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func purchaseReservedInstanceOffering(input: PurchaseReservedInstanceOfferingInput) async throws -> PurchaseReservedInstanceOfferingOutput
+    /// Performs the `RejectInboundConnection` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
     ///
     /// - Parameter RejectInboundConnectionInput : Container for the request parameters to the RejectInboundConnection operation.
@@ -695,6 +791,8 @@ public protocol OpenSearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     func rejectInboundConnection(input: RejectInboundConnectionInput) async throws -> RejectInboundConnectionOutput
+    /// Performs the `RemoveTags` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain. For more information, see [ Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
     ///
     /// - Parameter RemoveTagsInput : Container for the request parameters to the RemoveTags operation.
@@ -708,6 +806,8 @@ public protocol OpenSearchClientProtocol {
     /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
+    /// Performs the `RevokeVpcEndpointAccess` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
     /// - Parameter RevokeVpcEndpointAccessInput : [no documentation found]
@@ -723,6 +823,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutput
+    /// Performs the `StartDomainMaintenance` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
     ///
     /// - Parameter StartDomainMaintenanceInput : Container for the parameters to the StartDomainMaintenance operation.
@@ -738,6 +840,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func startDomainMaintenance(input: StartDomainMaintenanceInput) async throws -> StartDomainMaintenanceOutput
+    /// Performs the `StartServiceSoftwareUpdate` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
     /// - Parameter StartServiceSoftwareUpdateInput : Container for the request parameters to the StartServiceSoftwareUpdate operation.
@@ -752,6 +856,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func startServiceSoftwareUpdate(input: StartServiceSoftwareUpdateInput) async throws -> StartServiceSoftwareUpdateOutput
+    /// Performs the `UpdateDomainConfig` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     ///
     /// - Parameter UpdateDomainConfigInput : Container for the request parameters to the UpdateDomain operation.
@@ -768,6 +874,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func updateDomainConfig(input: UpdateDomainConfigInput) async throws -> UpdateDomainConfigOutput
+    /// Performs the `UpdatePackage` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter UpdatePackageInput : Container for request parameters to the UpdatePackage operation.
@@ -784,6 +892,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput
+    /// Performs the `UpdateScheduledAction` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
     ///
     /// - Parameter UpdateScheduledActionInput : [no documentation found]
@@ -801,6 +911,8 @@ public protocol OpenSearchClientProtocol {
     /// - `SlotNotAvailableException` : An exception for attempting to schedule a domain action during an unavailable time slot.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutput
+    /// Performs the `UpdateVpcEndpoint` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
     /// - Parameter UpdateVpcEndpointInput : [no documentation found]
@@ -817,6 +929,8 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput
+    /// Performs the `UpgradeDomain` operation on the `AmazonOpenSearchService` service.
+    ///
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
     ///
     /// - Parameter UpgradeDomainInput : Container for the request parameters to the UpgradeDomain operation.

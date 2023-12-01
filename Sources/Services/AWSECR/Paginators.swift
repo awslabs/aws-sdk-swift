@@ -12,7 +12,7 @@ extension ECRClient {
     ///     - input: A `[DescribeImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutput`
     public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutput.nextToken, paginationFunction: self.describeImages(input:))
+        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImages(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeImagesInput, OperationStackOutput == DescribeImagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
     /// to access the nested member `[ECRClientTypes.ImageDetail]`
     /// - Returns: `[ECRClientTypes.ImageDetail]`
@@ -46,7 +46,7 @@ extension ECRClient {
     ///     - input: A `[DescribeImageScanFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageScanFindingsOutput`
     public func describeImageScanFindingsPaginated(input: DescribeImageScanFindingsInput) -> ClientRuntime.PaginatorSequence<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(input: input, inputKey: \DescribeImageScanFindingsInput.nextToken, outputKey: \DescribeImageScanFindingsOutput.nextToken, paginationFunction: self.describeImageScanFindings(input:))
+        return ClientRuntime.PaginatorSequence<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageScanFindings(input:))
     }
 }
 
@@ -70,7 +70,7 @@ extension ECRClient {
     ///     - input: A `[DescribePullThroughCacheRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePullThroughCacheRulesOutput`
     public func describePullThroughCacheRulesPaginated(input: DescribePullThroughCacheRulesInput) -> ClientRuntime.PaginatorSequence<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(input: input, inputKey: \DescribePullThroughCacheRulesInput.nextToken, outputKey: \DescribePullThroughCacheRulesOutput.nextToken, paginationFunction: self.describePullThroughCacheRules(input:))
+        return ClientRuntime.PaginatorSequence<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePullThroughCacheRules(input:))
     }
 }
 
@@ -84,7 +84,7 @@ extension DescribePullThroughCacheRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribePullThroughCacheRulesInput, Output == DescribePullThroughCacheRulesOutput {
+extension PaginatorSequence where OperationStackInput == DescribePullThroughCacheRulesInput, OperationStackOutput == DescribePullThroughCacheRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePullThroughCacheRulesPaginated`
     /// to access the nested member `[ECRClientTypes.PullThroughCacheRule]`
     /// - Returns: `[ECRClientTypes.PullThroughCacheRule]`
@@ -102,7 +102,7 @@ extension ECRClient {
     ///     - input: A `[DescribeRepositoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoriesOutput`
     public func describeRepositoriesPaginated(input: DescribeRepositoriesInput) -> ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput>(input: input, inputKey: \DescribeRepositoriesInput.nextToken, outputKey: \DescribeRepositoriesOutput.nextToken, paginationFunction: self.describeRepositories(input:))
+        return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRepositories(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension DescribeRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRepositoriesInput, Output == DescribeRepositoriesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeRepositoriesInput, OperationStackOutput == DescribeRepositoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRepositoriesPaginated`
     /// to access the nested member `[ECRClientTypes.Repository]`
     /// - Returns: `[ECRClientTypes.Repository]`
@@ -134,7 +134,7 @@ extension ECRClient {
     ///     - input: A `[GetLifecyclePolicyPreviewInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetLifecyclePolicyPreviewOutput`
     public func getLifecyclePolicyPreviewPaginated(input: GetLifecyclePolicyPreviewInput) -> ClientRuntime.PaginatorSequence<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput> {
-        return ClientRuntime.PaginatorSequence<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(input: input, inputKey: \GetLifecyclePolicyPreviewInput.nextToken, outputKey: \GetLifecyclePolicyPreviewOutput.nextToken, paginationFunction: self.getLifecyclePolicyPreview(input:))
+        return ClientRuntime.PaginatorSequence<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getLifecyclePolicyPreview(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension GetLifecyclePolicyPreviewInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetLifecyclePolicyPreviewInput, Output == GetLifecyclePolicyPreviewOutput {
+extension PaginatorSequence where OperationStackInput == GetLifecyclePolicyPreviewInput, OperationStackOutput == GetLifecyclePolicyPreviewOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getLifecyclePolicyPreviewPaginated`
     /// to access the nested member `[ECRClientTypes.LifecyclePolicyPreviewResult]`
     /// - Returns: `[ECRClientTypes.LifecyclePolicyPreviewResult]`
@@ -168,7 +168,7 @@ extension ECRClient {
     ///     - input: A `[ListImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagesOutput`
     public func listImagesPaginated(input: ListImagesInput) -> ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput>(input: input, inputKey: \ListImagesInput.nextToken, outputKey: \ListImagesOutput.nextToken, paginationFunction: self.listImages(input:))
+        return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImages(input:))
     }
 }
 
@@ -183,7 +183,7 @@ extension ListImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListImagesInput, Output == ListImagesOutput {
+extension PaginatorSequence where OperationStackInput == ListImagesInput, OperationStackOutput == ListImagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listImagesPaginated`
     /// to access the nested member `[ECRClientTypes.ImageIdentifier]`
     /// - Returns: `[ECRClientTypes.ImageIdentifier]`

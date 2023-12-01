@@ -12,7 +12,7 @@ extension IoTAnalyticsClient {
     ///     - input: A `[ListChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
+        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
     }
 }
 
@@ -33,7 +33,7 @@ extension IoTAnalyticsClient {
     ///     - input: A `[ListDatasetContentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetContentsOutput`
     public func listDatasetContentsPaginated(input: ListDatasetContentsInput) -> ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutput>(input: input, inputKey: \ListDatasetContentsInput.nextToken, outputKey: \ListDatasetContentsOutput.nextToken, paginationFunction: self.listDatasetContents(input:))
+        return ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetContents(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension IoTAnalyticsClient {
     ///     - input: A `[ListDatasetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
     public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasets(input:))
     }
 }
 
@@ -78,7 +78,7 @@ extension IoTAnalyticsClient {
     ///     - input: A `[ListDatastoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatastoresOutput`
     public func listDatastoresPaginated(input: ListDatastoresInput) -> ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutput>(input: input, inputKey: \ListDatastoresInput.nextToken, outputKey: \ListDatastoresOutput.nextToken, paginationFunction: self.listDatastores(input:))
+        return ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatastores(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension IoTAnalyticsClient {
     ///     - input: A `[ListPipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
     public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutput.nextToken, paginationFunction: self.listPipelines(input:))
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelines(input:))
     }
 }
 
