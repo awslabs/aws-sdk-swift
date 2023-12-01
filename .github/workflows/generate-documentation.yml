@@ -71,14 +71,21 @@ jobs:
           aws-region: us-east-1
       - name: Install AWS CLI
         run: |
+          # Need to install aws cli from latest since GH runner doesn't yet have
+          # cloudfront-keyvaluestore in the preinstalled version
           DEBIAN_FRONTEND="noninteractive" sudo apt-get update
-          sudo apt-get -y install curl unzip jq
+          sudo apt-get -y install curl unzip
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip && sudo ./aws/install --update
       - name: Update Cloudfront key value store
         run: |
-          KVS_ETAG=`aws cloudfront-keyvaluestore describe-key-value-store --query 'ETag' --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }}` \
+          export KVS_ETAG=`aws cloudfront-keyvaluestore describe-key-value-store \
+            --output text \
+            --query ETag \
+            --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }}` \
           aws cloudfront-keyvaluestore put-key \
             --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }} \
             --if-match $KVS_ETAG
-            --key latest --value "$VERSION"
+            --key latest \
+            --value "$VERSION"
+
