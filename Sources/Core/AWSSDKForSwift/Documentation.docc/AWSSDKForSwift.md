@@ -11,5 +11,11 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 ## Service Documentation
 
 
-[AWSSTS](../../../../swift/awssts/latest/documentation/awssts)
+[AWSGlacier](../../../../../swift/apidocs/awsglacier/latest)
+
+[AWSKinesis](../../../../../swift/apidocs/awskinesis/latest)
+
+[AWSSTS](../../../../../swift/apidocs/awssts/latest)
+
+[AWSTranscribeStreaming](../../../../../swift/apidocs/awstranscribestreaming/latest)
 

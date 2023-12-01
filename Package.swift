@@ -203,7 +203,10 @@ addDependencies(
 )
 
 let serviceTargets: [String] = [
+    "AWSGlacier",
+    "AWSKinesis",
     "AWSSTS",
+    "AWSTranscribeStreaming",
 ]
 
 serviceTargets.forEach(addServiceTarget)
