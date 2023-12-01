@@ -24,6 +24,8 @@ jobs:
       IGNORE: xxx
       # Remove the following before merge
       AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v4
@@ -39,6 +41,7 @@ jobs:
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip && ./aws/install
       - name: Extract version from GITHUB_REF
+        id: set-version
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo "Tagged release"
