@@ -35,6 +35,7 @@ jobs:
           unzip awscliv2.zip && ./aws/install
       - name: Extract version from GITHUB_REF
         id: set-version
+        shell: bash
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo "Tagged release"
