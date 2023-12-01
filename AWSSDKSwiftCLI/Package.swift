@@ -24,7 +24,8 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
             ],
             resources: [
-                .process("Resources/Package.Base.swift")
+                .process("Resources/Package.Base.swift"),
+                .process("Resources/DocIndex.Base.md")
             ],
             swiftSettings: [
                 .unsafeFlags(["-package-description-version", "5.7"])
