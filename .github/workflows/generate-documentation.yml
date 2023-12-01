@@ -53,7 +53,7 @@ jobs:
             echo "Assumed version number $VERSION"
             echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           fi
-          echo "::set-output name=version::$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Generate docs
         run: |
           DOCS_BUCKET=${{ secrets.CD_API_REFS_BUCKET_NAME }} \
