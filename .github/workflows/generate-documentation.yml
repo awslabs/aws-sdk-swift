@@ -13,7 +13,8 @@ jobs:
     strategy:
       matrix:
         # Use strategy to split up the work into 32 jobs
-        job: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        # job: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        job: [0, 1]
     runs-on: ubuntu-latest
     container: swift:5.9-jammy
     env:
@@ -47,13 +48,8 @@ jobs:
             echo "VERSION=$VERSION" >> "$GITHUB_ENV"
             echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           else
-            # Revert this prior to merge
-            # echo "Error: runs on a tag only"
-            # exit(1)
-            VERSION="0.0.8"
-            echo "Assumed version number $VERSION"
-            echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            echo "Error: runs on a tag only"
+            exit(1)
           fi
       - name: Generate docs
         run: |
