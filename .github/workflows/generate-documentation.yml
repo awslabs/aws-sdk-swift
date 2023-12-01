@@ -85,7 +85,7 @@ jobs:
             --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }}`
           aws cloudfront-keyvaluestore put-key \
             --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }} \
-            --if-match $KVS_ETAG
+            --if-match $KVS_ETAG \
             --key latest \
             --value "$VERSION"
 
