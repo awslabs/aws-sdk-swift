@@ -31,7 +31,7 @@ generateDocs() {
             --disable-indexing \
             --transform-for-static-hosting \
             --output-path $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
-            --hosting-base-path swift/$package_lowercase/$VERSION
+            --hosting-base-path swift/apidocs/$package_lowercase/$VERSION
 
     # break if swift package generate-documentation fails
     if [ $? -ne 0 ]; then
