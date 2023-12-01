@@ -82,7 +82,7 @@ jobs:
           export KVS_ETAG=`aws cloudfront-keyvaluestore describe-key-value-store \
             --output text \
             --query ETag \
-            --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }}` \
+            --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }}`
           aws cloudfront-keyvaluestore put-key \
             --kvs-arn ${{ secrets.CD_CLOUDFRONT_KVS_ARN }} \
             --if-match $KVS_ETAG
