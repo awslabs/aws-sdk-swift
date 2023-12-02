@@ -162,10 +162,7 @@ func addAllServices() {
 var integrationTestServices = Set<String>()
 
 func addIntegrationTests() {
-    integrationTestServices = []
-    for service in servicesWithIntegrationTests {
-        addIntegrationTestTarget(service)
-    }
+    servicesWithIntegrationTests.forEach { addIntegrationTestTarget($0) }
 }
 
 func excludeRuntimeUnitTests() {
@@ -238,7 +235,7 @@ addDependencies(
 // Uncomment this line to exclude runtime unit tests
 // excludeRuntimeUnitTests()
 
-let serviceTargets = [
+let serviceTargets: [String] = [
     "AWSACM",
     "AWSACMPCA",
     "AWSAPIGateway",
@@ -601,7 +598,7 @@ let serviceTargets = [
 // Uncomment this line to enable all services
 addAllServices()
 
-let servicesWithIntegrationTests = [
+let servicesWithIntegrationTests: [String] = [
     "AWSECS",
     "AWSKinesis",
     "AWSMediaConvert",

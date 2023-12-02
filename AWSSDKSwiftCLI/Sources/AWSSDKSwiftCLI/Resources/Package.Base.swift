@@ -162,10 +162,7 @@ func addAllServices() {
 var integrationTestServices = Set<String>()
 
 func addIntegrationTests() {
-    integrationTestServices = []
-    for service in servicesWithIntegrationTests {
-        addIntegrationTestTarget(service)
-    }
+    servicesWithIntegrationTests.forEach { addIntegrationTestTarget($0) }
 }
 
 func excludeRuntimeUnitTests() {

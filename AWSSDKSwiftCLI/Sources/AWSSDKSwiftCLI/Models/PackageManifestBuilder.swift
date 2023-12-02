@@ -142,7 +142,7 @@ struct PackageManifestBuilder {
     /// and calls the `addServiceTarget` for each item.
     private func buildServiceTargets() -> String {
         var lines: [String] = []
-        lines += ["let serviceTargets = ["]
+        lines += ["let serviceTargets: [String] = ["]
         lines += services.map { "    \($0.name.wrappedInQuotes())," }
         lines += ["]"]
         lines += [""]
@@ -156,10 +156,8 @@ struct PackageManifestBuilder {
     /// This generates an array of strings, where the each item is a name of a service
     /// and calls the `addIntegrationTestTarget` for each item.
     private func buildIntegrationTestsTargets() -> String {
-        let propertyName = "servicesWithIntegrationTests"
-
         var lines: [String] = []
-        lines += ["let \(propertyName) = ["]
+        lines += ["let servicesWithIntegrationTests: [String] = ["]
         lines += services.filter(\.includeIntegrationTests).map { "    \($0.name.wrappedInQuotes())," }
         lines += ["]"]
         lines += [""]
@@ -174,13 +172,10 @@ struct PackageManifestBuilder {
         return [
             "// Uncomment this line to enable protocol tests",
             (includeProtocolTests ? "" : "// ") + "addProtocolTests()"
-
         ].joined(separator: .newline)
     }
 
     private func buildResolvedServices() -> String {
-        return [
-            "addResolvedTargets()"
-        ].joined(separator: .newline)
+        "addResolvedTargets()"
     }
 }
