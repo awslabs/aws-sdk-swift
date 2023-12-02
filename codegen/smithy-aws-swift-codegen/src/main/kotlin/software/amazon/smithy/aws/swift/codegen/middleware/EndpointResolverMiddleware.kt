@@ -12,7 +12,6 @@ import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.aws.swift.codegen.ENDPOINT_PARAMS
 import software.amazon.smithy.aws.swift.codegen.ENDPOINT_RESOLVER
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -30,8 +29,7 @@ class EndpointResolverMiddleware(
 
     override val id: String = "EndpointResolverMiddleware"
 
-    override val typeName =
-        "EndpointResolverMiddleware<$outputSymbol: ${ClientRuntimeTypes.Http.HttpResponseBinding}, $outputErrorSymbol: ${ClientRuntimeTypes.Http.HttpResponseErrorBinding}>"
+    override val typeName = "EndpointResolverMiddleware<$outputSymbol>"
 
     override val properties: MutableMap<String, Symbol> = mutableMapOf(
         ENDPOINT_RESOLVER to AWSServiceTypes.EndpointResolver,

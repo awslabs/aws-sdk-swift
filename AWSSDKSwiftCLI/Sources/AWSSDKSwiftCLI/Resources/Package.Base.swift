@@ -35,6 +35,11 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "AWSSDKForSwift",
+            path: "Sources/Core/AWSSDKForSwift",
+            exclude: ["Documentation.docc/AWSSDKForSwift.md"]
+        ),
+        .target(
             name: "AWSClientRuntime",
             dependencies: [.crt, .clientRuntime],
             path: "./Sources/Core/AWSClientRuntime"
@@ -53,6 +58,7 @@ let package = Package(
 func addDependencies(clientRuntimeVersion: Version, crtVersion: Version) {
     addClientRuntimeDependency(clientRuntimeVersion)
     addCRTDependency(crtVersion)
+    addDoccDependency()
 }
 
 func addClientRuntimeDependency(_ version: Version) {
@@ -80,6 +86,12 @@ func addClientRuntimeDependency(_ version: Version) {
 func addCRTDependency(_ version: Version) {
     package.dependencies += [
         .package(url: "https://github.com/awslabs/aws-crt-swift", exact: version)
+    ]
+}
+
+func addDoccDependency() {
+    package.dependencies += [
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ]
 }
 
