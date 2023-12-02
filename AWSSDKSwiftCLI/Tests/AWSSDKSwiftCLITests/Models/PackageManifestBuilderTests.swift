@@ -52,7 +52,8 @@ class PackageManifestBuilderTests: XCTestCase {
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0, includeIntegrationTests: true) },
             includeProtocolTests: false,
             includeIntegrationTests: false,
-            excludeServiceTests: false,
+            excludeAWSServices: false,
+            excludeRuntimeTests: false,
             basePackageContents: { "<contents of base package>" }
         )
         let result = try! subject.build()

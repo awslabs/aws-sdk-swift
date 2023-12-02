@@ -38,8 +38,11 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     @Flag(help: "If the package manifest should include the protocol tests.")
     var includeProtocolTests: Bool = false
 
-    @Flag(help: "If the package manifest should exclude service tests.")
-    var excludeServiceTests = false
+    @Flag(help: "If the package manifest should exclude AWS services.")
+    var excludeAWSServices = false
+
+    @Flag(help: "If the package manifest should exclude runtime tests.")
+    var excludeRuntimeTests = false
 
     func run() throws {
         let generatePackageManifest = GeneratePackageManifest.standard(
@@ -50,7 +53,8 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             services: services.isEmpty ? nil : services,
             includeIntegrationTests: includeIntegrationTests,
             includeProtocolTests: includeProtocolTests,
-            excludeServiceTests: excludeServiceTests
+            excludeAWSServices: excludeAWSServices,
+            excludeRuntimeTests: excludeRuntimeTests
         )
         try generatePackageManifest.run()
     }
@@ -77,8 +81,10 @@ struct GeneratePackageManifest {
     let includeIntegrationTests: Bool
     /// If the package manifest should include the protocol tests.
     let includeProtocolTests: Bool
-    /// If the package manifest should exclude the service tests.
-    let excludeServiceTests: Bool
+    /// If the package manifest should exclude the AWS services.
+    let excludeAWSServices: Bool
+    /// If the package manifest should exclude runtime unit tests.
+    let excludeRuntimeTests: Bool
 
     typealias BuildPackageManifest = (
         _ clientRuntimeVersion: Version,
@@ -233,7 +239,8 @@ extension GeneratePackageManifest {
         services: [String]? = nil,
         includeIntegrationTests: Bool = false,
         includeProtocolTests: Bool = false,
-        excludeServiceTests: Bool = false
+        excludeAWSServices: Bool = false,
+        excludeRuntimeTests: Bool = false
     ) -> Self {
         GeneratePackageManifest(
             repoPath: repoPath,
@@ -243,7 +250,8 @@ extension GeneratePackageManifest {
             services: services,
             includeIntegrationTests: includeIntegrationTests,
             includeProtocolTests: includeProtocolTests,
-            excludeServiceTests: excludeServiceTests
+            excludeAWSServices: excludeAWSServices,
+            excludeRuntimeTests: excludeRuntimeTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
             let builder = PackageManifestBuilder(
                 clientRuntimeVersion: _clientRuntimeVersion,
@@ -251,7 +259,8 @@ extension GeneratePackageManifest {
                 services: _services,
                 includeProtocolTests: includeProtocolTests,
                 includeIntegrationTests: includeIntegrationTests,
-                excludeServiceTests: excludeServiceTests
+                excludeAWSServices: excludeAWSServices,
+                excludeRuntimeTests: excludeRuntimeTests
             )
             return try builder.build()
         }

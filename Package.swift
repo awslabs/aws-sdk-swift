@@ -98,7 +98,6 @@ func addDoccDependency() {
 // MARK: - Services
 
 func addServiceTarget(_ name: String) {
-    let testName = "\(name)Tests"
     package.products += [
         .library(name: name, targets: [name]),
     ]
@@ -107,7 +106,13 @@ func addServiceTarget(_ name: String) {
             name: name,
             dependencies: [.clientRuntime, .awsClientRuntime],
             path: "./Sources/Services/\(name)"
-        ),
+        )
+    ]
+}
+
+func addServiceUnitTestTarget(_ name: String) {
+    let testName = "\(name)Tests"
+    package.targets += [
         .testTarget(
             name: "\(testName)",
             dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
@@ -147,8 +152,11 @@ func addIntegrationTestTarget(_ name: String) {
 
 var enabledServices = Set<String>()
 
+var enabledServiceUnitTests = Set<String>()
+
 func addAllServices() {
     enabledServices = Set(serviceTargets)
+    enabledServiceUnitTests = Set(serviceTargets)
 }
 
 var integrationTestServices = Set<String>()
@@ -158,6 +166,10 @@ func addIntegrationTests() {
     for service in servicesWithIntegrationTests {
         addIntegrationTestTarget(service)
     }
+}
+
+func excludeRuntimeUnitTests() {
+    package.targets.removeAll { $0.name == "AWSClientRuntimeTests" }
 }
 
 func addProtocolTests() {
@@ -212,6 +224,7 @@ func addProtocolTests() {
 
 func addResolvedTargets() {
     enabledServices.union(integrationTestServices).forEach(addServiceTarget)
+    enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
 }
 
 
@@ -221,6 +234,9 @@ addDependencies(
     clientRuntimeVersion: "0.35.0",
     crtVersion: "0.17.0"
 )
+
+// Uncomment this line to exclude runtime unit tests
+// excludeRuntimeUnitTests()
 
 let serviceTargets = [
     "AWSACM",
@@ -595,7 +611,7 @@ let servicesWithIntegrationTests = [
 ]
 
 // Uncomment this line to enable integration tests
-addIntegrationTests()
+// addIntegrationTests()
 
 // Uncomment this line to enable protocol tests
 // addProtocolTests()
