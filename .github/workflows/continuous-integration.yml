@@ -40,7 +40,7 @@ jobs:
             xcode: Xcode_15.0.1
           - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
             xcode: Xcode_15.0.1
-          # Don't run new iOS simulator with old Xcode
+          # Don't run new iOS/tvOS simulator with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_14.0.1
           - destination: 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
