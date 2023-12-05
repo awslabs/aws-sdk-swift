@@ -12,7 +12,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeAccountAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccountAttributesOutput`
     public func describeAccountAttributesPaginated(input: DescribeAccountAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeAccountAttributesInput, DescribeAccountAttributesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(input: input, inputKey: \DescribeAccountAttributesInput.nextToken, outputKey: \DescribeAccountAttributesOutput.nextToken, paginationFunction: self.describeAccountAttributes(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccountAttributes(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension DescribeAccountAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAccountAttributesInput, Output == DescribeAccountAttributesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeAccountAttributesInput, OperationStackOutput == DescribeAccountAttributesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAccountAttributesPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.AccountAttribute]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.AccountAttribute]`
@@ -42,7 +42,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeAccountLimitsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccountLimitsOutput`
     public func describeAccountLimitsPaginated(input: DescribeAccountLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(input: input, inputKey: \DescribeAccountLimitsInput.nextToken, outputKey: \DescribeAccountLimitsOutput.nextToken, paginationFunction: self.describeAccountLimits(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccountLimits(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension DescribeAccountLimitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAccountLimitsInput, Output == DescribeAccountLimitsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeAccountLimitsInput, OperationStackOutput == DescribeAccountLimitsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAccountLimitsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.AccountLimit]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.AccountLimit]`
@@ -72,7 +72,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeConfigurationSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationSetsOutput`
     public func describeConfigurationSetsPaginated(input: DescribeConfigurationSetsInput) -> ClientRuntime.PaginatorSequence<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(input: input, inputKey: \DescribeConfigurationSetsInput.nextToken, outputKey: \DescribeConfigurationSetsOutput.nextToken, paginationFunction: self.describeConfigurationSets(input:))
+        return ClientRuntime.PaginatorSequence<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConfigurationSets(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension DescribeConfigurationSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeConfigurationSetsInput, Output == DescribeConfigurationSetsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeConfigurationSetsInput, OperationStackOutput == DescribeConfigurationSetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeConfigurationSetsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]`
@@ -104,7 +104,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeKeywordsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeKeywordsOutput`
     public func describeKeywordsPaginated(input: DescribeKeywordsInput) -> ClientRuntime.PaginatorSequence<DescribeKeywordsInput, DescribeKeywordsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeKeywordsInput, DescribeKeywordsOutput>(input: input, inputKey: \DescribeKeywordsInput.nextToken, outputKey: \DescribeKeywordsOutput.nextToken, paginationFunction: self.describeKeywords(input:))
+        return ClientRuntime.PaginatorSequence<DescribeKeywordsInput, DescribeKeywordsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeKeywords(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension DescribeKeywordsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeKeywordsInput, Output == DescribeKeywordsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeKeywordsInput, OperationStackOutput == DescribeKeywordsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeKeywordsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.KeywordInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.KeywordInformation]`
@@ -137,7 +137,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeOptedOutNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOptedOutNumbersOutput`
     public func describeOptedOutNumbersPaginated(input: DescribeOptedOutNumbersInput) -> ClientRuntime.PaginatorSequence<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(input: input, inputKey: \DescribeOptedOutNumbersInput.nextToken, outputKey: \DescribeOptedOutNumbersOutput.nextToken, paginationFunction: self.describeOptedOutNumbers(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOptedOutNumbers(input:))
     }
 }
 
@@ -152,7 +152,7 @@ extension DescribeOptedOutNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeOptedOutNumbersInput, Output == DescribeOptedOutNumbersOutput {
+extension PaginatorSequence where OperationStackInput == DescribeOptedOutNumbersInput, OperationStackOutput == DescribeOptedOutNumbersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOptedOutNumbersPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation]`
@@ -170,7 +170,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeOptOutListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOptOutListsOutput`
     public func describeOptOutListsPaginated(input: DescribeOptOutListsInput) -> ClientRuntime.PaginatorSequence<DescribeOptOutListsInput, DescribeOptOutListsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOptOutListsInput, DescribeOptOutListsOutput>(input: input, inputKey: \DescribeOptOutListsInput.nextToken, outputKey: \DescribeOptOutListsOutput.nextToken, paginationFunction: self.describeOptOutLists(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOptOutListsInput, DescribeOptOutListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOptOutLists(input:))
     }
 }
 
@@ -183,7 +183,7 @@ extension DescribeOptOutListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeOptOutListsInput, Output == DescribeOptOutListsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeOptOutListsInput, OperationStackOutput == DescribeOptOutListsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOptOutListsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.OptOutListInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.OptOutListInformation]`
@@ -201,7 +201,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribePhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePhoneNumbersOutput`
     public func describePhoneNumbersPaginated(input: DescribePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<DescribePhoneNumbersInput, DescribePhoneNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(input: input, inputKey: \DescribePhoneNumbersInput.nextToken, outputKey: \DescribePhoneNumbersOutput.nextToken, paginationFunction: self.describePhoneNumbers(input:))
+        return ClientRuntime.PaginatorSequence<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePhoneNumbers(input:))
     }
 }
 
@@ -215,7 +215,7 @@ extension DescribePhoneNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribePhoneNumbersInput, Output == DescribePhoneNumbersOutput {
+extension PaginatorSequence where OperationStackInput == DescribePhoneNumbersInput, OperationStackOutput == DescribePhoneNumbersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePhoneNumbersPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation]`
@@ -233,7 +233,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribePoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePoolsOutput`
     public func describePoolsPaginated(input: DescribePoolsInput) -> ClientRuntime.PaginatorSequence<DescribePoolsInput, DescribePoolsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePoolsInput, DescribePoolsOutput>(input: input, inputKey: \DescribePoolsInput.nextToken, outputKey: \DescribePoolsOutput.nextToken, paginationFunction: self.describePools(input:))
+        return ClientRuntime.PaginatorSequence<DescribePoolsInput, DescribePoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePools(input:))
     }
 }
 
@@ -247,12 +247,240 @@ extension DescribePoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribePoolsInput, Output == DescribePoolsOutput {
+extension PaginatorSequence where OperationStackInput == DescribePoolsInput, OperationStackOutput == DescribePoolsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePoolsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.PoolInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.PoolInformation]`
     public func pools() async throws -> [PinpointSMSVoiceV2ClientTypes.PoolInformation] {
         return try await self.asyncCompactMap { item in item.pools }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationAttachmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationAttachmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationAttachmentsOutput`
+    public func describeRegistrationAttachmentsPaginated(input: DescribeRegistrationAttachmentsInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrationAttachments(input:))
+    }
+}
+
+extension DescribeRegistrationAttachmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationAttachmentsInput {
+        return DescribeRegistrationAttachmentsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationAttachmentIds: self.registrationAttachmentIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationAttachmentsInput, OperationStackOutput == DescribeRegistrationAttachmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationAttachmentsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]`
+    public func registrationAttachments() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation] {
+        return try await self.asyncCompactMap { item in item.registrationAttachments }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationFieldDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationFieldDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationFieldDefinitionsOutput`
+    public func describeRegistrationFieldDefinitionsPaginated(input: DescribeRegistrationFieldDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrationFieldDefinitions(input:))
+    }
+}
+
+extension DescribeRegistrationFieldDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationFieldDefinitionsInput {
+        return DescribeRegistrationFieldDefinitionsInput(
+            fieldPaths: self.fieldPaths,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationType: self.registrationType,
+            sectionPath: self.sectionPath
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationFieldDefinitionsInput, OperationStackOutput == DescribeRegistrationFieldDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationFieldDefinitionsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]`
+    public func registrationFieldDefinitions() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition] {
+        return try await self.asyncCompactMap { item in item.registrationFieldDefinitions }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationFieldValuesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationFieldValuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationFieldValuesOutput`
+    public func describeRegistrationFieldValuesPaginated(input: DescribeRegistrationFieldValuesInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrationFieldValues(input:))
+    }
+}
+
+extension DescribeRegistrationFieldValuesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationFieldValuesInput {
+        return DescribeRegistrationFieldValuesInput(
+            fieldPaths: self.fieldPaths,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationId: self.registrationId,
+            sectionPath: self.sectionPath,
+            versionNumber: self.versionNumber
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationFieldValuesInput, OperationStackOutput == DescribeRegistrationFieldValuesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationFieldValuesPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]`
+    public func registrationFieldValues() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation] {
+        return try await self.asyncCompactMap { item in item.registrationFieldValues }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationsOutput`
+    public func describeRegistrationsPaginated(input: DescribeRegistrationsInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationsInput, DescribeRegistrationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationsInput, DescribeRegistrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrations(input:))
+    }
+}
+
+extension DescribeRegistrationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationsInput {
+        return DescribeRegistrationsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationIds: self.registrationIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationsInput, OperationStackOutput == DescribeRegistrationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationInformation]`
+    public func registrations() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationInformation] {
+        return try await self.asyncCompactMap { item in item.registrations }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationSectionDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationSectionDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationSectionDefinitionsOutput`
+    public func describeRegistrationSectionDefinitionsPaginated(input: DescribeRegistrationSectionDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrationSectionDefinitions(input:))
+    }
+}
+
+extension DescribeRegistrationSectionDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationSectionDefinitionsInput {
+        return DescribeRegistrationSectionDefinitionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationType: self.registrationType,
+            sectionPaths: self.sectionPaths
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationSectionDefinitionsInput, OperationStackOutput == DescribeRegistrationSectionDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationSectionDefinitionsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]`
+    public func registrationSectionDefinitions() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition] {
+        return try await self.asyncCompactMap { item in item.registrationSectionDefinitions }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationTypeDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationTypeDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationTypeDefinitionsOutput`
+    public func describeRegistrationTypeDefinitionsPaginated(input: DescribeRegistrationTypeDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrationTypeDefinitions(input:))
+    }
+}
+
+extension DescribeRegistrationTypeDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationTypeDefinitionsInput {
+        return DescribeRegistrationTypeDefinitionsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationTypes: self.registrationTypes
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationTypeDefinitionsInput, OperationStackOutput == DescribeRegistrationTypeDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationTypeDefinitionsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]`
+    public func registrationTypeDefinitions() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition] {
+        return try await self.asyncCompactMap { item in item.registrationTypeDefinitions }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeRegistrationVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistrationVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistrationVersionsOutput`
+    public func describeRegistrationVersionsPaginated(input: DescribeRegistrationVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistrationVersions(input:))
+    }
+}
+
+extension DescribeRegistrationVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRegistrationVersionsInput {
+        return DescribeRegistrationVersionsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationId: self.registrationId,
+            versionNumbers: self.versionNumbers
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRegistrationVersionsInput, OperationStackOutput == DescribeRegistrationVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistrationVersionsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]`
+    public func registrationVersions() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation] {
+        return try await self.asyncCompactMap { item in item.registrationVersions }
     }
 }
 extension PinpointSMSVoiceV2Client {
@@ -265,7 +493,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeSenderIdsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSenderIdsOutput`
     public func describeSenderIdsPaginated(input: DescribeSenderIdsInput) -> ClientRuntime.PaginatorSequence<DescribeSenderIdsInput, DescribeSenderIdsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSenderIdsInput, DescribeSenderIdsOutput>(input: input, inputKey: \DescribeSenderIdsInput.nextToken, outputKey: \DescribeSenderIdsOutput.nextToken, paginationFunction: self.describeSenderIds(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSenderIdsInput, DescribeSenderIdsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSenderIds(input:))
     }
 }
 
@@ -279,7 +507,7 @@ extension DescribeSenderIdsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSenderIdsInput, Output == DescribeSenderIdsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeSenderIdsInput, OperationStackOutput == DescribeSenderIdsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSenderIdsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.SenderIdInformation]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.SenderIdInformation]`
@@ -297,7 +525,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[DescribeSpendLimitsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSpendLimitsOutput`
     public func describeSpendLimitsPaginated(input: DescribeSpendLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeSpendLimitsInput, DescribeSpendLimitsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(input: input, inputKey: \DescribeSpendLimitsInput.nextToken, outputKey: \DescribeSpendLimitsOutput.nextToken, paginationFunction: self.describeSpendLimits(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSpendLimits(input:))
     }
 }
 
@@ -309,12 +537,45 @@ extension DescribeSpendLimitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSpendLimitsInput, Output == DescribeSpendLimitsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeSpendLimitsInput, OperationStackOutput == DescribeSpendLimitsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSpendLimitsPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.SpendLimit]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.SpendLimit]`
     public func spendLimits() async throws -> [PinpointSMSVoiceV2ClientTypes.SpendLimit] {
         return try await self.asyncCompactMap { item in item.spendLimits }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeVerifiedDestinationNumbersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeVerifiedDestinationNumbersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedDestinationNumbersOutput`
+    public func describeVerifiedDestinationNumbersPaginated(input: DescribeVerifiedDestinationNumbersInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVerifiedDestinationNumbers(input:))
+    }
+}
+
+extension DescribeVerifiedDestinationNumbersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVerifiedDestinationNumbersInput {
+        return DescribeVerifiedDestinationNumbersInput(
+            destinationPhoneNumbers: self.destinationPhoneNumbers,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            verifiedDestinationNumberIds: self.verifiedDestinationNumberIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeVerifiedDestinationNumbersInput, OperationStackOutput == DescribeVerifiedDestinationNumbersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeVerifiedDestinationNumbersPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]`
+    public func verifiedDestinationNumbers() async throws -> [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation] {
+        return try await self.asyncCompactMap { item in item.verifiedDestinationNumbers }
     }
 }
 extension PinpointSMSVoiceV2Client {
@@ -327,7 +588,7 @@ extension PinpointSMSVoiceV2Client {
     ///     - input: A `[ListPoolOriginationIdentitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPoolOriginationIdentitiesOutput`
     public func listPoolOriginationIdentitiesPaginated(input: ListPoolOriginationIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(input: input, inputKey: \ListPoolOriginationIdentitiesInput.nextToken, outputKey: \ListPoolOriginationIdentitiesOutput.nextToken, paginationFunction: self.listPoolOriginationIdentities(input:))
+        return ClientRuntime.PaginatorSequence<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPoolOriginationIdentities(input:))
     }
 }
 
@@ -341,11 +602,43 @@ extension ListPoolOriginationIdentitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPoolOriginationIdentitiesInput, Output == ListPoolOriginationIdentitiesOutput {
+extension PaginatorSequence where OperationStackInput == ListPoolOriginationIdentitiesInput, OperationStackOutput == ListPoolOriginationIdentitiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPoolOriginationIdentitiesPaginated`
     /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata]`
     /// - Returns: `[PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata]`
     public func originationIdentities() async throws -> [PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata] {
         return try await self.asyncCompactMap { item in item.originationIdentities }
+    }
+}
+extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[ListRegistrationAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRegistrationAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegistrationAssociationsOutput`
+    public func listRegistrationAssociationsPaginated(input: ListRegistrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRegistrationAssociations(input:))
+    }
+}
+
+extension ListRegistrationAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRegistrationAssociationsInput {
+        return ListRegistrationAssociationsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registrationId: self.registrationId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRegistrationAssociationsInput, OperationStackOutput == ListRegistrationAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRegistrationAssociationsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]`
+    public func registrationAssociations() async throws -> [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata] {
+        return try await self.asyncCompactMap { item in item.registrationAssociations }
     }
 }

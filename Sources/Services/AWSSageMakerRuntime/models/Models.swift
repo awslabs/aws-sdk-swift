@@ -350,35 +350,9 @@ enum InvokeEndpointAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeEndpointInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeEndpointInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyData = body
-            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension InvokeEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), enableExplanations: \(Swift.String(describing: enableExplanations)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetModel: \(Swift.String(describing: targetModel)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), enableExplanations: \(Swift.String(describing: enableExplanations)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetModel: \(Swift.String(describing: targetModel)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 extension InvokeEndpointInput: Swift.Encodable {
@@ -408,6 +382,9 @@ extension InvokeEndpointInput: ClientRuntime.HeaderProvider {
         }
         if let enableExplanations = enableExplanations {
             items.add(Header(name: "X-Amzn-SageMaker-Enable-Explanations", value: Swift.String(enableExplanations)))
+        }
+        if let inferenceComponentName = inferenceComponentName {
+            items.add(Header(name: "X-Amzn-SageMaker-Inference-Component", value: Swift.String(inferenceComponentName)))
         }
         if let inferenceId = inferenceId {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
@@ -449,6 +426,8 @@ public struct InvokeEndpointInput: Swift.Equatable {
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
     public var endpointName: Swift.String?
+    /// If the endpoint hosts one or more inference components, this parameter specifies the name of inference component to invoke.
+    public var inferenceComponentName: Swift.String?
     /// If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data capture, see [Capture Data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
     public var inferenceId: Swift.String?
     /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
@@ -465,6 +444,7 @@ public struct InvokeEndpointInput: Swift.Equatable {
         customAttributes: Swift.String? = nil,
         enableExplanations: Swift.String? = nil,
         endpointName: Swift.String? = nil,
+        inferenceComponentName: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         targetContainerHostname: Swift.String? = nil,
         targetModel: Swift.String? = nil,
@@ -477,6 +457,7 @@ public struct InvokeEndpointInput: Swift.Equatable {
         self.customAttributes = customAttributes
         self.enableExplanations = enableExplanations
         self.endpointName = endpointName
+        self.inferenceComponentName = inferenceComponentName
         self.inferenceId = inferenceId
         self.targetContainerHostname = targetContainerHostname
         self.targetModel = targetModel
@@ -590,35 +571,9 @@ enum InvokeEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeEndpointWithResponseStreamInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyData = body
-            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension InvokeEndpointWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 extension InvokeEndpointWithResponseStreamInput: Swift.Encodable {
@@ -645,6 +600,9 @@ extension InvokeEndpointWithResponseStreamInput: ClientRuntime.HeaderProvider {
         }
         if let customAttributes = customAttributes {
             items.add(Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
+        }
+        if let inferenceComponentName = inferenceComponentName {
+            items.add(Header(name: "X-Amzn-SageMaker-Inference-Component", value: Swift.String(inferenceComponentName)))
         }
         if let inferenceId = inferenceId {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
@@ -681,6 +639,8 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Equatable {
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
     public var endpointName: Swift.String?
+    /// If the endpoint hosts one or more inference components, this parameter specifies the name of inference component to invoke for a streaming response.
+    public var inferenceComponentName: Swift.String?
     /// An identifier that you assign to your request.
     public var inferenceId: Swift.String?
     /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
@@ -694,6 +654,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Equatable {
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         endpointName: Swift.String? = nil,
+        inferenceComponentName: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         targetContainerHostname: Swift.String? = nil,
         targetVariant: Swift.String? = nil
@@ -704,6 +665,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Equatable {
         self.contentType = contentType
         self.customAttributes = customAttributes
         self.endpointName = endpointName
+        self.inferenceComponentName = inferenceComponentName
         self.inferenceId = inferenceId
         self.targetContainerHostname = targetContainerHostname
         self.targetVariant = targetVariant

@@ -872,32 +872,6 @@ extension IoTDataPlaneClientTypes {
     }
 }
 
-public struct PublishInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PublishInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PublishInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PublishOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadData = payload
-            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PublishInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PublishOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension PublishInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload
@@ -1459,32 +1433,6 @@ extension UnsupportedDocumentEncodingExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
-}
-
-public struct UpdateThingShadowInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateThingShadowInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateThingShadowInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateThingShadowOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadData = payload
-            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateThingShadowInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateThingShadowOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateThingShadowInput: Swift.Encodable {

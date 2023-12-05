@@ -719,4 +719,111 @@ extension RDSClientProtocol {
         let waiter = Waiter(config: try Self.dbSnapshotDeletedWaiterConfig(), operation: self.describeDBSnapshots(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
+
+    static func tenantDatabaseAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTenantDatabasesInput, result: Result<DescribeTenantDatabasesOutput, Error>) -> Bool in
+                // JMESPath expression: "TenantDatabases[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "available"
+                guard case .success(let output) = result else { return false }
+                let tenantDatabases = output.tenantDatabases
+                let projection: [Swift.String]? = tenantDatabases?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeTenantDatabasesInput, result: Result<DescribeTenantDatabasesOutput, Error>) -> Bool in
+                // JMESPath expression: "TenantDatabases[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "deleted"
+                guard case .success(let output) = result else { return false }
+                let tenantDatabases = output.tenantDatabases
+                let projection: [Swift.String]? = tenantDatabases?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
+            }),
+            .init(state: .failure, matcher: { (input: DescribeTenantDatabasesInput, result: Result<DescribeTenantDatabasesOutput, Error>) -> Bool in
+                // JMESPath expression: "TenantDatabases[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "incompatible-parameters"
+                guard case .success(let output) = result else { return false }
+                let tenantDatabases = output.tenantDatabases
+                let projection: [Swift.String]? = tenantDatabases?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
+            }),
+            .init(state: .failure, matcher: { (input: DescribeTenantDatabasesInput, result: Result<DescribeTenantDatabasesOutput, Error>) -> Bool in
+                // JMESPath expression: "TenantDatabases[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "incompatible-restore"
+                guard case .success(let output) = result else { return false }
+                let tenantDatabases = output.tenantDatabases
+                let projection: [Swift.String]? = tenantDatabases?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-restore") }) ?? false
+            }),
+        ]
+        return try WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the TenantDatabaseAvailable event on the describeTenantDatabases operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeTenantDatabasesInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilTenantDatabaseAvailable(options: WaiterOptions, input: DescribeTenantDatabasesInput) async throws -> WaiterOutcome<DescribeTenantDatabasesOutput> {
+        let waiter = Waiter(config: try Self.tenantDatabaseAvailableWaiterConfig(), operation: self.describeTenantDatabases(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func tenantDatabaseDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTenantDatabasesInput, result: Result<DescribeTenantDatabasesOutput, Error>) -> Bool in
+                // JMESPath expression: "length(TenantDatabases) == `0`"
+                // JMESPath comparator: "booleanEquals"
+                // JMESPath expected value: "true"
+                guard case .success(let output) = result else { return false }
+                let tenantDatabases = output.tenantDatabases
+                let count = Double(tenantDatabases?.count ?? 0)
+                let number = Double(0.0)
+                let comparison = JMESUtils.compare(count, ==, number)
+                return JMESUtils.compare(comparison, ==, true)
+            }),
+            .init(state: .success, matcher: { (input: DescribeTenantDatabasesInput, result: Result<DescribeTenantDatabasesOutput, Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ServiceError)?.typeName == "DBInstanceNotFoundFault"
+            }),
+        ]
+        return try WaiterConfiguration<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the TenantDatabaseDeleted event on the describeTenantDatabases operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeTenantDatabasesInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilTenantDatabaseDeleted(options: WaiterOptions, input: DescribeTenantDatabasesInput) async throws -> WaiterOutcome<DescribeTenantDatabasesOutput> {
+        let waiter = Waiter(config: try Self.tenantDatabaseDeletedWaiterConfig(), operation: self.describeTenantDatabases(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
 }

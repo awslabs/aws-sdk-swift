@@ -12,7 +12,7 @@ extension ACMPCAClient {
     ///     - input: A `[ListCertificateAuthoritiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCertificateAuthoritiesOutput`
     public func listCertificateAuthoritiesPaginated(input: ListCertificateAuthoritiesInput) -> ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(input: input, inputKey: \ListCertificateAuthoritiesInput.nextToken, outputKey: \ListCertificateAuthoritiesOutput.nextToken, paginationFunction: self.listCertificateAuthorities(input:))
+        return ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCertificateAuthorities(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListCertificateAuthoritiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificateAuthoritiesInput, Output == ListCertificateAuthoritiesOutput {
+extension PaginatorSequence where OperationStackInput == ListCertificateAuthoritiesInput, OperationStackOutput == ListCertificateAuthoritiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificateAuthoritiesPaginated`
     /// to access the nested member `[ACMPCAClientTypes.CertificateAuthority]`
     /// - Returns: `[ACMPCAClientTypes.CertificateAuthority]`
@@ -43,7 +43,7 @@ extension ACMPCAClient {
     ///     - input: A `[ListPermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutput`
     public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutput.nextToken, paginationFunction: self.listPermissions(input:))
+        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissions(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPermissionsInput, Output == ListPermissionsOutput {
+extension PaginatorSequence where OperationStackInput == ListPermissionsInput, OperationStackOutput == ListPermissionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPermissionsPaginated`
     /// to access the nested member `[ACMPCAClientTypes.Permission]`
     /// - Returns: `[ACMPCAClientTypes.Permission]`
@@ -74,7 +74,7 @@ extension ACMPCAClient {
     ///     - input: A `[ListTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
     public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTags(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsInput, Output == ListTagsOutput {
+extension PaginatorSequence where OperationStackInput == ListTagsInput, OperationStackOutput == ListTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsPaginated`
     /// to access the nested member `[ACMPCAClientTypes.Tag]`
     /// - Returns: `[ACMPCAClientTypes.Tag]`

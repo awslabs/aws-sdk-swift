@@ -1612,7 +1612,7 @@ public struct CreateDataProviderInput: Swift.Equatable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora_postgresql", "mysql", "oracle", "postgres", and "sqlserver". A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     /// This member is required.
     public var engine: Swift.String?
     /// The settings in JSON format for a data provider.
@@ -3731,7 +3731,7 @@ public struct CreateReplicationSubnetGroupInput: Swift.Equatable {
     /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
     /// This member is required.
     public var replicationSubnetGroupIdentifier: Swift.String?
-    /// One or more subnet IDs to be assigned to the subnet group.
+    /// Two or more subnet IDs to be assigned to the subnet group.
     /// This member is required.
     public var subnetIds: [Swift.String]?
     /// One or more tags to be assigned to the subnet group.
@@ -4219,7 +4219,7 @@ extension DatabaseMigrationClientTypes {
         public var dataProviderName: Swift.String?
         /// A description of the data provider. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public var description: Swift.String?
-        /// The type of database engine for the data provider. Valid values include "aurora", "aurora_postgresql", "mysql", "oracle", "postgres", and "sqlserver". A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public var engine: Swift.String?
         /// The settings in JSON format for a data provider.
         public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
@@ -7021,7 +7021,7 @@ extension DescribeDataProvidersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeDataProvidersInput: Swift.Equatable {
-    /// Filters applied to the data providers described in the form of key-value pairs.
+    /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names: data-provider-identifier
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -13724,7 +13724,7 @@ extension DatabaseMigrationClientTypes {
         public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public var engineDisplayName: Swift.String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "redshift-serverless", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
         public var engineName: Swift.String?
         /// Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account.
         public var externalId: Swift.String?
@@ -15068,6 +15068,9 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentLsn = "CurrentLsn"
         case databaseName = "DatabaseName"
+        case keepCsvFiles = "KeepCsvFiles"
+        case loadTimeout = "LoadTimeout"
+        case maxFileSize = "MaxFileSize"
         case maxKBytesPerRead = "MaxKBytesPerRead"
         case password = "Password"
         case port = "Port"
@@ -15076,6 +15079,7 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.Codable {
         case serverName = "ServerName"
         case setDataCaptureChanges = "SetDataCaptureChanges"
         case username = "Username"
+        case writeBufferSize = "WriteBufferSize"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -15085,6 +15089,15 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.Codable {
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let keepCsvFiles = self.keepCsvFiles {
+            try encodeContainer.encode(keepCsvFiles, forKey: .keepCsvFiles)
+        }
+        if let loadTimeout = self.loadTimeout {
+            try encodeContainer.encode(loadTimeout, forKey: .loadTimeout)
+        }
+        if let maxFileSize = self.maxFileSize {
+            try encodeContainer.encode(maxFileSize, forKey: .maxFileSize)
         }
         if let maxKBytesPerRead = self.maxKBytesPerRead {
             try encodeContainer.encode(maxKBytesPerRead, forKey: .maxKBytesPerRead)
@@ -15110,6 +15123,9 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.Codable {
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
         }
+        if let writeBufferSize = self.writeBufferSize {
+            try encodeContainer.encode(writeBufferSize, forKey: .writeBufferSize)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -15134,12 +15150,20 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.Codable {
         secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
         let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
         secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let loadTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadTimeout)
+        loadTimeout = loadTimeoutDecoded
+        let writeBufferSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .writeBufferSize)
+        writeBufferSize = writeBufferSizeDecoded
+        let maxFileSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxFileSize)
+        maxFileSize = maxFileSizeDecoded
+        let keepCsvFilesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepCsvFiles)
+        keepCsvFiles = keepCsvFilesDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IBMDb2Settings(currentLsn: \(Swift.String(describing: currentLsn)), databaseName: \(Swift.String(describing: databaseName)), maxKBytesPerRead: \(Swift.String(describing: maxKBytesPerRead)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), setDataCaptureChanges: \(Swift.String(describing: setDataCaptureChanges)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "IBMDb2Settings(currentLsn: \(Swift.String(describing: currentLsn)), databaseName: \(Swift.String(describing: databaseName)), keepCsvFiles: \(Swift.String(describing: keepCsvFiles)), loadTimeout: \(Swift.String(describing: loadTimeout)), maxFileSize: \(Swift.String(describing: maxFileSize)), maxKBytesPerRead: \(Swift.String(describing: maxKBytesPerRead)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), setDataCaptureChanges: \(Swift.String(describing: setDataCaptureChanges)), username: \(Swift.String(describing: username)), writeBufferSize: \(Swift.String(describing: writeBufferSize)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -15149,6 +15173,12 @@ extension DatabaseMigrationClientTypes {
         public var currentLsn: Swift.String?
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
+        /// If true, DMS saves any .csv files to the Db2 LUW target that were used to replicate data. DMS uses these files for analysis and troubleshooting. The default value is false.
+        public var keepCsvFiles: Swift.Bool?
+        /// The amount of time (in milliseconds) before DMS times out operations performed by DMS on the Db2 target. The default value is 1200 (20 minutes).
+        public var loadTimeout: Swift.Int?
+        /// Specifies the maximum size (in KB) of .csv files used to transfer data to Db2 LUW.
+        public var maxFileSize: Swift.Int?
         /// Maximum number of bytes per read, as a NUMBER value. The default is 64 KB.
         public var maxKBytesPerRead: Swift.Int?
         /// Endpoint connection password.
@@ -15165,10 +15195,15 @@ extension DatabaseMigrationClientTypes {
         public var setDataCaptureChanges: Swift.Bool?
         /// Endpoint connection user name.
         public var username: Swift.String?
+        /// The size (in KB) of the in-memory file write buffer used when generating .csv files on the local disk on the DMS replication instance. The default value is 1024 (1 MB).
+        public var writeBufferSize: Swift.Int?
 
         public init(
             currentLsn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
+            keepCsvFiles: Swift.Bool? = nil,
+            loadTimeout: Swift.Int? = nil,
+            maxFileSize: Swift.Int? = nil,
             maxKBytesPerRead: Swift.Int? = nil,
             password: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -15176,11 +15211,15 @@ extension DatabaseMigrationClientTypes {
             secretsManagerSecretId: Swift.String? = nil,
             serverName: Swift.String? = nil,
             setDataCaptureChanges: Swift.Bool? = nil,
-            username: Swift.String? = nil
+            username: Swift.String? = nil,
+            writeBufferSize: Swift.Int? = nil
         )
         {
             self.currentLsn = currentLsn
             self.databaseName = databaseName
+            self.keepCsvFiles = keepCsvFiles
+            self.loadTimeout = loadTimeout
+            self.maxFileSize = maxFileSize
             self.maxKBytesPerRead = maxKBytesPerRead
             self.password = password
             self.port = port
@@ -15189,6 +15228,7 @@ extension DatabaseMigrationClientTypes {
             self.serverName = serverName
             self.setDataCaptureChanges = setDataCaptureChanges
             self.username = username
+            self.writeBufferSize = writeBufferSize
         }
     }
 
@@ -17620,7 +17660,7 @@ public struct ModifyDataProviderInput: Swift.Equatable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora_postgresql", "mysql", "oracle", "postgres", and "sqlserver". A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     public var engine: Swift.String?
     /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:
     ///
@@ -20080,6 +20120,7 @@ extension DatabaseMigrationClientTypes.MySQLSettings: Swift.Codable {
         case cleanSourceMetadataOnMismatch = "CleanSourceMetadataOnMismatch"
         case databaseName = "DatabaseName"
         case eventsPollInterval = "EventsPollInterval"
+        case executeTimeout = "ExecuteTimeout"
         case maxFileSize = "MaxFileSize"
         case parallelLoadThreads = "ParallelLoadThreads"
         case password = "Password"
@@ -20105,6 +20146,9 @@ extension DatabaseMigrationClientTypes.MySQLSettings: Swift.Codable {
         }
         if let eventsPollInterval = self.eventsPollInterval {
             try encodeContainer.encode(eventsPollInterval, forKey: .eventsPollInterval)
+        }
+        if let executeTimeout = self.executeTimeout {
+            try encodeContainer.encode(executeTimeout, forKey: .executeTimeout)
         }
         if let maxFileSize = self.maxFileSize {
             try encodeContainer.encode(maxFileSize, forKey: .maxFileSize)
@@ -20168,12 +20212,14 @@ extension DatabaseMigrationClientTypes.MySQLSettings: Swift.Codable {
         secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
         let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
         secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let executeTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .executeTimeout)
+        executeTimeout = executeTimeoutDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.MySQLSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MySQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), cleanSourceMetadataOnMismatch: \(Swift.String(describing: cleanSourceMetadataOnMismatch)), databaseName: \(Swift.String(describing: databaseName)), eventsPollInterval: \(Swift.String(describing: eventsPollInterval)), maxFileSize: \(Swift.String(describing: maxFileSize)), parallelLoadThreads: \(Swift.String(describing: parallelLoadThreads)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), serverTimezone: \(Swift.String(describing: serverTimezone)), targetDbType: \(Swift.String(describing: targetDbType)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "MySQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), cleanSourceMetadataOnMismatch: \(Swift.String(describing: cleanSourceMetadataOnMismatch)), databaseName: \(Swift.String(describing: databaseName)), eventsPollInterval: \(Swift.String(describing: eventsPollInterval)), executeTimeout: \(Swift.String(describing: executeTimeout)), maxFileSize: \(Swift.String(describing: maxFileSize)), parallelLoadThreads: \(Swift.String(describing: parallelLoadThreads)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), serverTimezone: \(Swift.String(describing: serverTimezone)), targetDbType: \(Swift.String(describing: targetDbType)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -20187,6 +20233,8 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// Specifies how often to check the binary log for new changes/events when the database is idle. The default is five seconds. Example: eventsPollInterval=5; In the example, DMS checks for changes in the binary logs every five seconds.
         public var eventsPollInterval: Swift.Int?
+        /// Sets the client statement timeout (in seconds) for a MySQL source endpoint.
+        public var executeTimeout: Swift.Int?
         /// Specifies the maximum size (in KB) of any .csv file used to transfer data to a MySQL-compatible database. Example: maxFileSize=512
         public var maxFileSize: Swift.Int?
         /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. The default is one. Example: parallelLoadThreads=1
@@ -20213,6 +20261,7 @@ extension DatabaseMigrationClientTypes {
             cleanSourceMetadataOnMismatch: Swift.Bool? = nil,
             databaseName: Swift.String? = nil,
             eventsPollInterval: Swift.Int? = nil,
+            executeTimeout: Swift.Int? = nil,
             maxFileSize: Swift.Int? = nil,
             parallelLoadThreads: Swift.Int? = nil,
             password: Swift.String? = nil,
@@ -20229,6 +20278,7 @@ extension DatabaseMigrationClientTypes {
             self.cleanSourceMetadataOnMismatch = cleanSourceMetadataOnMismatch
             self.databaseName = databaseName
             self.eventsPollInterval = eventsPollInterval
+            self.executeTimeout = executeTimeout
             self.maxFileSize = maxFileSize
             self.parallelLoadThreads = parallelLoadThreads
             self.password = password
@@ -23538,6 +23588,7 @@ extension DatabaseMigrationClientTypes.Replication: Swift.Codable {
         case replicationConfigArn = "ReplicationConfigArn"
         case replicationConfigIdentifier = "ReplicationConfigIdentifier"
         case replicationCreateTime = "ReplicationCreateTime"
+        case replicationDeprovisionTime = "ReplicationDeprovisionTime"
         case replicationLastStopTime = "ReplicationLastStopTime"
         case replicationStats = "ReplicationStats"
         case replicationType = "ReplicationType"
@@ -23580,6 +23631,9 @@ extension DatabaseMigrationClientTypes.Replication: Swift.Codable {
         }
         if let replicationCreateTime = self.replicationCreateTime {
             try encodeContainer.encodeTimestamp(replicationCreateTime, format: .epochSeconds, forKey: .replicationCreateTime)
+        }
+        if let replicationDeprovisionTime = self.replicationDeprovisionTime {
+            try encodeContainer.encodeTimestamp(replicationDeprovisionTime, format: .epochSeconds, forKey: .replicationDeprovisionTime)
         }
         if let replicationLastStopTime = self.replicationLastStopTime {
             try encodeContainer.encodeTimestamp(replicationLastStopTime, format: .epochSeconds, forKey: .replicationLastStopTime)
@@ -23657,6 +23711,8 @@ extension DatabaseMigrationClientTypes.Replication: Swift.Codable {
         replicationUpdateTime = replicationUpdateTimeDecoded
         let replicationLastStopTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationLastStopTime)
         replicationLastStopTime = replicationLastStopTimeDecoded
+        let replicationDeprovisionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .replicationDeprovisionTime)
+        replicationDeprovisionTime = replicationDeprovisionTimeDecoded
     }
 }
 
@@ -23681,6 +23737,8 @@ extension DatabaseMigrationClientTypes {
         public var replicationConfigIdentifier: Swift.String?
         /// The time the serverless replication was created.
         public var replicationCreateTime: ClientRuntime.Date?
+        /// The timestamp when DMS will deprovision the replication.
+        public var replicationDeprovisionTime: ClientRuntime.Date?
         /// The timestamp when replication was last stopped.
         public var replicationLastStopTime: ClientRuntime.Date?
         /// This object provides a collection of statistics about a serverless replication.
@@ -23738,6 +23796,7 @@ extension DatabaseMigrationClientTypes {
             replicationConfigArn: Swift.String? = nil,
             replicationConfigIdentifier: Swift.String? = nil,
             replicationCreateTime: ClientRuntime.Date? = nil,
+            replicationDeprovisionTime: ClientRuntime.Date? = nil,
             replicationLastStopTime: ClientRuntime.Date? = nil,
             replicationStats: DatabaseMigrationClientTypes.ReplicationStats? = nil,
             replicationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
@@ -23758,6 +23817,7 @@ extension DatabaseMigrationClientTypes {
             self.replicationConfigArn = replicationConfigArn
             self.replicationConfigIdentifier = replicationConfigIdentifier
             self.replicationCreateTime = replicationCreateTime
+            self.replicationDeprovisionTime = replicationDeprovisionTime
             self.replicationLastStopTime = replicationLastStopTime
             self.replicationStats = replicationStats
             self.replicationType = replicationType

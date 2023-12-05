@@ -11014,7 +11014,7 @@ extension SearchPlaceIndexForPositionInput: Swift.Encodable {
         if let language = self.language {
             try encodeContainer.encode(language, forKey: .language)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let position = position {
@@ -11057,7 +11057,7 @@ public struct SearchPlaceIndexForPositionInput: Swift.Equatable {
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
     /// An optional parameter. The maximum number of results returned per request. Default value: 50
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
     /// This member is required.
     public var position: [Swift.Double]?
@@ -11066,7 +11066,7 @@ public struct SearchPlaceIndexForPositionInput: Swift.Equatable {
         indexName: Swift.String? = nil,
         key: Swift.String? = nil,
         language: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         position: [Swift.Double]? = nil
     )
     {
@@ -11080,7 +11080,7 @@ public struct SearchPlaceIndexForPositionInput: Swift.Equatable {
 
 struct SearchPlaceIndexForPositionInputBody: Swift.Equatable {
     let position: [Swift.Double]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let language: Swift.String?
 }
 
@@ -11104,7 +11104,7 @@ extension SearchPlaceIndexForPositionInputBody: Swift.Decodable {
             }
         }
         position = positionDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
@@ -11203,7 +11203,7 @@ extension LocationClientTypes.SearchPlaceIndexForPositionSummary: Swift.Codable 
         if let language = self.language {
             try encodeContainer.encode(language, forKey: .language)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let position = position {
@@ -11227,7 +11227,7 @@ extension LocationClientTypes.SearchPlaceIndexForPositionSummary: Swift.Codable 
             }
         }
         position = positionDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let dataSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSource)
         dataSource = dataSourceDecoded
@@ -11259,7 +11259,7 @@ extension LocationClientTypes {
         /// The preferred language used to return results. Matches the language in the request. The value is a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English.
         public var language: Swift.String?
         /// Contains the optional result count limit that is specified in the request. Default value: 50
-        public var maxResults: Swift.Int
+        public var maxResults: Swift.Int?
         /// The position specified in the request.
         /// This member is required.
         public var position: [Swift.Double]?
@@ -11267,7 +11267,7 @@ extension LocationClientTypes {
         public init(
             dataSource: Swift.String? = nil,
             language: Swift.String? = nil,
-            maxResults: Swift.Int = 0,
+            maxResults: Swift.Int? = nil,
             position: [Swift.Double]? = nil
         )
         {
@@ -11770,7 +11770,7 @@ extension SearchPlaceIndexForTextInput: Swift.Encodable {
         if let language = self.language {
             try encodeContainer.encode(language, forKey: .language)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let text = self.text {
@@ -11820,7 +11820,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
     /// An optional parameter. The maximum number of results returned per request. The default: 50
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The address, name, city, or region to be used in the search in free-form text format. For example, 123 Any Street.
     /// This member is required.
     public var text: Swift.String?
@@ -11833,7 +11833,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
         indexName: Swift.String? = nil,
         key: Swift.String? = nil,
         language: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         text: Swift.String? = nil
     )
     {
@@ -11854,7 +11854,7 @@ struct SearchPlaceIndexForTextInputBody: Swift.Equatable {
     let biasPosition: [Swift.Double]?
     let filterBBox: [Swift.Double]?
     let filterCountries: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let language: Swift.String?
     let filterCategories: [Swift.String]?
 }
@@ -11907,7 +11907,7 @@ extension SearchPlaceIndexForTextInputBody: Swift.Decodable {
             }
         }
         filterCountries = filterCountriesDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
@@ -12046,7 +12046,7 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
         if let language = self.language {
             try encodeContainer.encode(language, forKey: .language)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let resultBBox = resultBBox {
@@ -12097,7 +12097,7 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
             }
         }
         filterCountries = filterCountriesDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let resultBBoxContainer = try containerValues.decodeIfPresent([Swift.Double?].self, forKey: .resultBBox)
         var resultBBoxDecoded0:[Swift.Double]? = nil
@@ -12159,7 +12159,7 @@ extension LocationClientTypes {
         /// The preferred language used to return results. Matches the language in the request. The value is a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English.
         public var language: Swift.String?
         /// Contains the optional result count limit specified in the request.
-        public var maxResults: Swift.Int
+        public var maxResults: Swift.Int?
         /// The bounding box that fully contains all search results. If you specified the optional FilterBBox parameter in the request, ResultBBox is contained within FilterBBox.
         public var resultBBox: [Swift.Double]?
         /// The search text specified in the request.
@@ -12173,7 +12173,7 @@ extension LocationClientTypes {
             filterCategories: [Swift.String]? = nil,
             filterCountries: [Swift.String]? = nil,
             language: Swift.String? = nil,
-            maxResults: Swift.Int = 0,
+            maxResults: Swift.Int? = nil,
             resultBBox: [Swift.Double]? = nil,
             text: Swift.String? = nil
         )

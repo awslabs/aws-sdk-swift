@@ -2,6 +2,86 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessAnalyzerClientTypes.Access: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actions)
+        var actionsDecoded0:[Swift.String]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [Swift.String]()
+            for string0 in actionsContainer {
+                if let string0 = string0 {
+                    actionsDecoded0?.append(string0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about actions that define permissions to check against a policy.
+    public struct Access: Swift.Equatable {
+        /// A list of actions for the access permissions.
+        /// This member is required.
+        public var actions: [Swift.String]?
+
+        public init(
+            actions: [Swift.String]? = nil
+        )
+        {
+            self.actions = actions
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes {
+    public enum AccessCheckPolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case identityPolicy
+        case resourcePolicy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessCheckPolicyType] {
+            return [
+                .identityPolicy,
+                .resourcePolicy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .identityPolicy: return "IDENTITY_POLICY"
+            case .resourcePolicy: return "RESOURCE_POLICY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AccessCheckPolicyType(rawValue: rawValue) ?? AccessCheckPolicyType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -904,6 +984,43 @@ extension AccessAnalyzerClientTypes {
 
 }
 
+extension AccessAnalyzerClientTypes.AnalyzerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case unusedaccess = "unusedAccess"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .unusedaccess(unusedaccess):
+                try container.encode(unusedaccess, forKey: .unusedaccess)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let unusedaccessDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.UnusedAccessConfiguration.self, forKey: .unusedaccess)
+        if let unusedaccess = unusedaccessDecoded {
+            self = .unusedaccess(unusedaccess)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about the configuration of an unused access analyzer for an Amazon Web Services organization or account.
+    public enum AnalyzerConfiguration: Swift.Equatable {
+        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account. External access analyzers do not support any configuration.
+        case unusedaccess(AccessAnalyzerClientTypes.UnusedAccessConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension AccessAnalyzerClientTypes {
     public enum AnalyzerStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -945,6 +1062,7 @@ extension AccessAnalyzerClientTypes {
 extension AccessAnalyzerClientTypes.AnalyzerSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case configuration
         case createdAt
         case lastResourceAnalyzed
         case lastResourceAnalyzedAt
@@ -959,6 +1077,9 @@ extension AccessAnalyzerClientTypes.AnalyzerSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
@@ -1018,6 +1139,8 @@ extension AccessAnalyzerClientTypes.AnalyzerSummary: Swift.Codable {
         status = statusDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.StatusReason.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.AnalyzerConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -1027,6 +1150,8 @@ extension AccessAnalyzerClientTypes {
         /// The ARN of the analyzer.
         /// This member is required.
         public var arn: Swift.String?
+        /// Specifies whether the analyzer is an external access or unused access analyzer.
+        public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
         /// A timestamp for the time at which the analyzer was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -1050,6 +1175,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil,
             createdAt: ClientRuntime.Date? = nil,
             lastResourceAnalyzed: Swift.String? = nil,
             lastResourceAnalyzedAt: ClientRuntime.Date? = nil,
@@ -1061,6 +1187,7 @@ extension AccessAnalyzerClientTypes {
         )
         {
             self.arn = arn
+            self.configuration = configuration
             self.createdAt = createdAt
             self.lastResourceAnalyzed = lastResourceAnalyzed
             self.lastResourceAnalyzedAt = lastResourceAnalyzedAt
@@ -1309,6 +1436,410 @@ enum CancelPolicyGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CheckAccessNotGrantedInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CheckAccessNotGrantedInput(access: \(Swift.String(describing: access)), policyType: \(Swift.String(describing: policyType)), policyDocument: \"CONTENT_REDACTED\")"}
+}
+
+extension CheckAccessNotGrantedInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case access
+        case policyDocument
+        case policyType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let access = access {
+            var accessContainer = encodeContainer.nestedUnkeyedContainer(forKey: .access)
+            for access0 in access {
+                try accessContainer.encode(access0)
+            }
+        }
+        if let policyDocument = self.policyDocument {
+            try encodeContainer.encode(policyDocument, forKey: .policyDocument)
+        }
+        if let policyType = self.policyType {
+            try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
+        }
+    }
+}
+
+extension CheckAccessNotGrantedInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/policy/check-access-not-granted"
+    }
+}
+
+public struct CheckAccessNotGrantedInput: Swift.Equatable {
+    /// An access object containing the permissions that shouldn't be granted by the specified policy.
+    /// This member is required.
+    public var access: [AccessAnalyzerClientTypes.Access]?
+    /// The JSON policy document to use as the content for the policy.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+    /// This member is required.
+    public var policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType?
+
+    public init(
+        access: [AccessAnalyzerClientTypes.Access]? = nil,
+        policyDocument: Swift.String? = nil,
+        policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType? = nil
+    )
+    {
+        self.access = access
+        self.policyDocument = policyDocument
+        self.policyType = policyType
+    }
+}
+
+struct CheckAccessNotGrantedInputBody: Swift.Equatable {
+    let policyDocument: Swift.String?
+    let access: [AccessAnalyzerClientTypes.Access]?
+    let policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType?
+}
+
+extension CheckAccessNotGrantedInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case access
+        case policyDocument
+        case policyType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let accessContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.Access?].self, forKey: .access)
+        var accessDecoded0:[AccessAnalyzerClientTypes.Access]? = nil
+        if let accessContainer = accessContainer {
+            accessDecoded0 = [AccessAnalyzerClientTypes.Access]()
+            for structure0 in accessContainer {
+                if let structure0 = structure0 {
+                    accessDecoded0?.append(structure0)
+                }
+            }
+        }
+        access = accessDecoded0
+        let policyTypeDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.AccessCheckPolicyType.self, forKey: .policyType)
+        policyType = policyTypeDecoded
+    }
+}
+
+extension CheckAccessNotGrantedOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CheckAccessNotGrantedOutputBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.reasons = output.reasons
+            self.result = output.result
+        } else {
+            self.message = nil
+            self.reasons = nil
+            self.result = nil
+        }
+    }
+}
+
+public struct CheckAccessNotGrantedOutput: Swift.Equatable {
+    /// The message indicating whether the specified access is allowed.
+    public var message: Swift.String?
+    /// A description of the reasoning of the result.
+    public var reasons: [AccessAnalyzerClientTypes.ReasonSummary]?
+    /// The result of the check for whether the access is allowed. If the result is PASS, the specified policy doesn't allow any of the specified permissions in the access object. If the result is FAIL, the specified policy might allow some or all of the permissions in the access object.
+    public var result: AccessAnalyzerClientTypes.CheckAccessNotGrantedResult?
+
+    public init(
+        message: Swift.String? = nil,
+        reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
+        result: AccessAnalyzerClientTypes.CheckAccessNotGrantedResult? = nil
+    )
+    {
+        self.message = message
+        self.reasons = reasons
+        self.result = result
+    }
+}
+
+struct CheckAccessNotGrantedOutputBody: Swift.Equatable {
+    let result: AccessAnalyzerClientTypes.CheckAccessNotGrantedResult?
+    let message: Swift.String?
+    let reasons: [AccessAnalyzerClientTypes.ReasonSummary]?
+}
+
+extension CheckAccessNotGrantedOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case reasons
+        case result
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.CheckAccessNotGrantedResult.self, forKey: .result)
+        result = resultDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.ReasonSummary?].self, forKey: .reasons)
+        var reasonsDecoded0:[AccessAnalyzerClientTypes.ReasonSummary]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [AccessAnalyzerClientTypes.ReasonSummary]()
+            for structure0 in reasonsContainer {
+                if let structure0 = structure0 {
+                    reasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+enum CheckAccessNotGrantedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    public enum CheckAccessNotGrantedResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CheckAccessNotGrantedResult] {
+            return [
+                .fail,
+                .pass,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CheckAccessNotGrantedResult(rawValue: rawValue) ?? CheckAccessNotGrantedResult.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CheckNoNewAccessInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CheckNoNewAccessInput(policyType: \(Swift.String(describing: policyType)), existingPolicyDocument: \"CONTENT_REDACTED\", newPolicyDocument: \"CONTENT_REDACTED\")"}
+}
+
+extension CheckNoNewAccessInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case existingPolicyDocument
+        case newPolicyDocument
+        case policyType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let existingPolicyDocument = self.existingPolicyDocument {
+            try encodeContainer.encode(existingPolicyDocument, forKey: .existingPolicyDocument)
+        }
+        if let newPolicyDocument = self.newPolicyDocument {
+            try encodeContainer.encode(newPolicyDocument, forKey: .newPolicyDocument)
+        }
+        if let policyType = self.policyType {
+            try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
+        }
+    }
+}
+
+extension CheckNoNewAccessInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/policy/check-no-new-access"
+    }
+}
+
+public struct CheckNoNewAccessInput: Swift.Equatable {
+    /// The JSON policy document to use as the content for the existing policy.
+    /// This member is required.
+    public var existingPolicyDocument: Swift.String?
+    /// The JSON policy document to use as the content for the updated policy.
+    /// This member is required.
+    public var newPolicyDocument: Swift.String?
+    /// The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+    /// This member is required.
+    public var policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType?
+
+    public init(
+        existingPolicyDocument: Swift.String? = nil,
+        newPolicyDocument: Swift.String? = nil,
+        policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType? = nil
+    )
+    {
+        self.existingPolicyDocument = existingPolicyDocument
+        self.newPolicyDocument = newPolicyDocument
+        self.policyType = policyType
+    }
+}
+
+struct CheckNoNewAccessInputBody: Swift.Equatable {
+    let newPolicyDocument: Swift.String?
+    let existingPolicyDocument: Swift.String?
+    let policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType?
+}
+
+extension CheckNoNewAccessInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case existingPolicyDocument
+        case newPolicyDocument
+        case policyType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let newPolicyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newPolicyDocument)
+        newPolicyDocument = newPolicyDocumentDecoded
+        let existingPolicyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .existingPolicyDocument)
+        existingPolicyDocument = existingPolicyDocumentDecoded
+        let policyTypeDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.AccessCheckPolicyType.self, forKey: .policyType)
+        policyType = policyTypeDecoded
+    }
+}
+
+extension CheckNoNewAccessOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CheckNoNewAccessOutputBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.reasons = output.reasons
+            self.result = output.result
+        } else {
+            self.message = nil
+            self.reasons = nil
+            self.result = nil
+        }
+    }
+}
+
+public struct CheckNoNewAccessOutput: Swift.Equatable {
+    /// The message indicating whether the updated policy allows new access.
+    public var message: Swift.String?
+    /// A description of the reasoning of the result.
+    public var reasons: [AccessAnalyzerClientTypes.ReasonSummary]?
+    /// The result of the check for new access. If the result is PASS, no new access is allowed by the updated policy. If the result is FAIL, the updated policy might allow new access.
+    public var result: AccessAnalyzerClientTypes.CheckNoNewAccessResult?
+
+    public init(
+        message: Swift.String? = nil,
+        reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
+        result: AccessAnalyzerClientTypes.CheckNoNewAccessResult? = nil
+    )
+    {
+        self.message = message
+        self.reasons = reasons
+        self.result = result
+    }
+}
+
+struct CheckNoNewAccessOutputBody: Swift.Equatable {
+    let result: AccessAnalyzerClientTypes.CheckNoNewAccessResult?
+    let message: Swift.String?
+    let reasons: [AccessAnalyzerClientTypes.ReasonSummary]?
+}
+
+extension CheckNoNewAccessOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case reasons
+        case result
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.CheckNoNewAccessResult.self, forKey: .result)
+        result = resultDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.ReasonSummary?].self, forKey: .reasons)
+        var reasonsDecoded0:[AccessAnalyzerClientTypes.ReasonSummary]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [AccessAnalyzerClientTypes.ReasonSummary]()
+            for structure0 in reasonsContainer {
+                if let structure0 = structure0 {
+                    reasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+enum CheckNoNewAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    public enum CheckNoNewAccessResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CheckNoNewAccessResult] {
+            return [
+                .fail,
+                .pass,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CheckNoNewAccessResult(rawValue: rawValue) ?? CheckNoNewAccessResult.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AccessAnalyzerClientTypes.CloudTrailDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessRole
@@ -1469,6 +2000,7 @@ extension AccessAnalyzerClientTypes.Configuration: Swift.Codable {
         case rdsdbclustersnapshot = "rdsDbClusterSnapshot"
         case rdsdbsnapshot = "rdsDbSnapshot"
         case s3bucket = "s3Bucket"
+        case s3expressdirectorybucket = "s3ExpressDirectoryBucket"
         case sdkUnknown
         case secretsmanagersecret = "secretsManagerSecret"
         case snstopic = "snsTopic"
@@ -1494,6 +2026,8 @@ extension AccessAnalyzerClientTypes.Configuration: Swift.Codable {
                 try container.encode(rdsdbsnapshot, forKey: .rdsdbsnapshot)
             case let .s3bucket(s3bucket):
                 try container.encode(s3bucket, forKey: .s3bucket)
+            case let .s3expressdirectorybucket(s3expressdirectorybucket):
+                try container.encode(s3expressdirectorybucket, forKey: .s3expressdirectorybucket)
             case let .secretsmanagersecret(secretsmanagersecret):
                 try container.encode(secretsmanagersecret, forKey: .secretsmanagersecret)
             case let .snstopic(snstopic):
@@ -1562,6 +2096,11 @@ extension AccessAnalyzerClientTypes.Configuration: Swift.Codable {
             self = .sqsqueue(sqsqueue)
             return
         }
+        let s3expressdirectorybucketDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration.self, forKey: .s3expressdirectorybucket)
+        if let s3expressdirectorybucket = s3expressdirectorybucketDecoded {
+            self = .s3expressdirectorybucket(s3expressdirectorybucket)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -1585,12 +2124,14 @@ extension AccessAnalyzerClientTypes {
         case rdsdbsnapshot(AccessAnalyzerClientTypes.RdsDbSnapshotConfiguration)
         /// The access control configuration is for a Secrets Manager secret.
         case secretsmanagersecret(AccessAnalyzerClientTypes.SecretsManagerSecretConfiguration)
-        /// The access control configuration is for an Amazon S3 Bucket.
+        /// The access control configuration is for an Amazon S3 bucket.
         case s3bucket(AccessAnalyzerClientTypes.S3BucketConfiguration)
         /// The access control configuration is for an Amazon SNS topic
         case snstopic(AccessAnalyzerClientTypes.SnsTopicConfiguration)
         /// The access control configuration is for an Amazon SQS queue.
         case sqsqueue(AccessAnalyzerClientTypes.SqsQueueConfiguration)
+        /// The access control configuration is for an Amazon S3 directory bucket.
+        case s3expressdirectorybucket(AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration)
         case sdkUnknown(Swift.String)
     }
 
@@ -1822,6 +2363,7 @@ extension CreateAnalyzerInput: Swift.Encodable {
         case analyzerName
         case archiveRules
         case clientToken
+        case configuration
         case tags
         case type
     }
@@ -1839,6 +2381,9 @@ extension CreateAnalyzerInput: Swift.Encodable {
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1867,9 +2412,11 @@ public struct CreateAnalyzerInput: Swift.Equatable {
     public var archiveRules: [AccessAnalyzerClientTypes.InlineArchiveRule]?
     /// A client token.
     public var clientToken: Swift.String?
-    /// The tags to apply to the analyzer.
+    /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an external access analyzer, this field is not used.
+    public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
+    /// An array of key-value pairs to apply to the analyzer.
     public var tags: [Swift.String:Swift.String]?
-    /// The type of analyzer to create. Only ACCOUNT and ORGANIZATION analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
+    /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZTAION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
     /// This member is required.
     public var type: AccessAnalyzerClientTypes.ModelType?
 
@@ -1877,6 +2424,7 @@ public struct CreateAnalyzerInput: Swift.Equatable {
         analyzerName: Swift.String? = nil,
         archiveRules: [AccessAnalyzerClientTypes.InlineArchiveRule]? = nil,
         clientToken: Swift.String? = nil,
+        configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         type: AccessAnalyzerClientTypes.ModelType? = nil
     )
@@ -1884,6 +2432,7 @@ public struct CreateAnalyzerInput: Swift.Equatable {
         self.analyzerName = analyzerName
         self.archiveRules = archiveRules
         self.clientToken = clientToken
+        self.configuration = configuration
         self.tags = tags
         self.type = type
     }
@@ -1895,6 +2444,7 @@ struct CreateAnalyzerInputBody: Swift.Equatable {
     let archiveRules: [AccessAnalyzerClientTypes.InlineArchiveRule]?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
 }
 
 extension CreateAnalyzerInputBody: Swift.Decodable {
@@ -1902,6 +2452,7 @@ extension CreateAnalyzerInputBody: Swift.Decodable {
         case analyzerName
         case archiveRules
         case clientToken
+        case configuration
         case tags
         case type
     }
@@ -1936,6 +2487,8 @@ extension CreateAnalyzerInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.AnalyzerConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -2551,6 +3104,130 @@ extension AccessAnalyzerClientTypes {
 
 }
 
+extension AccessAnalyzerClientTypes.ExternalAccessDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case condition
+        case isPublic
+        case principal
+        case sources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = action {
+            var actionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .action)
+            for string0 in action {
+                try actionContainer.encode(string0)
+            }
+        }
+        if let condition = condition {
+            var conditionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .condition)
+            for (dictKey0, conditionKeyMap0) in condition {
+                try conditionContainer.encode(conditionKeyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let isPublic = self.isPublic {
+            try encodeContainer.encode(isPublic, forKey: .isPublic)
+        }
+        if let principal = principal {
+            var principalContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .principal)
+            for (dictKey0, principalMap0) in principal {
+                try principalContainer.encode(principalMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for findingsource0 in sources {
+                try sourcesContainer.encode(findingsource0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .action)
+        var actionDecoded0:[Swift.String]? = nil
+        if let actionContainer = actionContainer {
+            actionDecoded0 = [Swift.String]()
+            for string0 in actionContainer {
+                if let string0 = string0 {
+                    actionDecoded0?.append(string0)
+                }
+            }
+        }
+        action = actionDecoded0
+        let conditionContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .condition)
+        var conditionDecoded0: [Swift.String:Swift.String]? = nil
+        if let conditionContainer = conditionContainer {
+            conditionDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in conditionContainer {
+                if let string0 = string0 {
+                    conditionDecoded0?[key0] = string0
+                }
+            }
+        }
+        condition = conditionDecoded0
+        let isPublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isPublic)
+        isPublic = isPublicDecoded
+        let principalContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .principal)
+        var principalDecoded0: [Swift.String:Swift.String]? = nil
+        if let principalContainer = principalContainer {
+            principalDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in principalContainer {
+                if let string0 = string0 {
+                    principalDecoded0?[key0] = string0
+                }
+            }
+        }
+        principal = principalDecoded0
+        let sourcesContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.FindingSource?].self, forKey: .sources)
+        var sourcesDecoded0:[AccessAnalyzerClientTypes.FindingSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [AccessAnalyzerClientTypes.FindingSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an external access finding.
+    public struct ExternalAccessDetails: Swift.Equatable {
+        /// The action in the analyzed policy statement that an external principal has permission to use.
+        public var action: [Swift.String]?
+        /// The condition in the analyzed policy statement that resulted in an external access finding.
+        /// This member is required.
+        public var condition: [Swift.String:Swift.String]?
+        /// Specifies whether the external access finding is public.
+        public var isPublic: Swift.Bool?
+        /// The external principal that has access to a resource within the zone of trust.
+        public var principal: [Swift.String:Swift.String]?
+        /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
+        public var sources: [AccessAnalyzerClientTypes.FindingSource]?
+
+        public init(
+            action: [Swift.String]? = nil,
+            condition: [Swift.String:Swift.String]? = nil,
+            isPublic: Swift.Bool? = nil,
+            principal: [Swift.String:Swift.String]? = nil,
+            sources: [AccessAnalyzerClientTypes.FindingSource]? = nil
+        )
+        {
+            self.action = action
+            self.condition = condition
+            self.isPublic = isPublic
+            self.principal = principal
+            self.sources = sources
+        }
+    }
+
+}
+
 extension AccessAnalyzerClientTypes.Finding: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action
@@ -2717,7 +3394,7 @@ extension AccessAnalyzerClientTypes {
         public var id: Swift.String?
         /// Indicates whether the policy that generated the finding allows public access to the resource.
         public var isPublic: Swift.Bool?
-        /// The external principal that access to a resource within the zone of trust.
+        /// The external principal that has access to a resource within the zone of trust.
         public var principal: [Swift.String:Swift.String]?
         /// The resource that an external principal has access to.
         public var resource: Swift.String?
@@ -2805,6 +3482,83 @@ extension AccessAnalyzerClientTypes {
             self = FindingChangeType(rawValue: rawValue) ?? FindingChangeType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension AccessAnalyzerClientTypes.FindingDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case externalaccessdetails = "externalAccessDetails"
+        case sdkUnknown
+        case unusediamroledetails = "unusedIamRoleDetails"
+        case unusediamuseraccesskeydetails = "unusedIamUserAccessKeyDetails"
+        case unusediamuserpassworddetails = "unusedIamUserPasswordDetails"
+        case unusedpermissiondetails = "unusedPermissionDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .externalaccessdetails(externalaccessdetails):
+                try container.encode(externalaccessdetails, forKey: .externalaccessdetails)
+            case let .unusediamroledetails(unusediamroledetails):
+                try container.encode(unusediamroledetails, forKey: .unusediamroledetails)
+            case let .unusediamuseraccesskeydetails(unusediamuseraccesskeydetails):
+                try container.encode(unusediamuseraccesskeydetails, forKey: .unusediamuseraccesskeydetails)
+            case let .unusediamuserpassworddetails(unusediamuserpassworddetails):
+                try container.encode(unusediamuserpassworddetails, forKey: .unusediamuserpassworddetails)
+            case let .unusedpermissiondetails(unusedpermissiondetails):
+                try container.encode(unusedpermissiondetails, forKey: .unusedpermissiondetails)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let externalaccessdetailsDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.ExternalAccessDetails.self, forKey: .externalaccessdetails)
+        if let externalaccessdetails = externalaccessdetailsDecoded {
+            self = .externalaccessdetails(externalaccessdetails)
+            return
+        }
+        let unusedpermissiondetailsDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.UnusedPermissionDetails.self, forKey: .unusedpermissiondetails)
+        if let unusedpermissiondetails = unusedpermissiondetailsDecoded {
+            self = .unusedpermissiondetails(unusedpermissiondetails)
+            return
+        }
+        let unusediamuseraccesskeydetailsDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails.self, forKey: .unusediamuseraccesskeydetails)
+        if let unusediamuseraccesskeydetails = unusediamuseraccesskeydetailsDecoded {
+            self = .unusediamuseraccesskeydetails(unusediamuseraccesskeydetails)
+            return
+        }
+        let unusediamroledetailsDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.UnusedIamRoleDetails.self, forKey: .unusediamroledetails)
+        if let unusediamroledetails = unusediamroledetailsDecoded {
+            self = .unusediamroledetails(unusediamroledetails)
+            return
+        }
+        let unusediamuserpassworddetailsDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails.self, forKey: .unusediamuserpassworddetails)
+        if let unusediamuserpassworddetails = unusediamuserpassworddetailsDecoded {
+            self = .unusediamuserpassworddetails(unusediamuserpassworddetails)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an external access or unused access finding. Only one parameter can be used in a FindingDetails object.
+    public enum FindingDetails: Swift.Equatable {
+        /// The details for an external access analyzer finding.
+        case externalaccessdetails(AccessAnalyzerClientTypes.ExternalAccessDetails)
+        /// The details for an unused access analyzer finding with an unused permission finding type.
+        case unusedpermissiondetails(AccessAnalyzerClientTypes.UnusedPermissionDetails)
+        /// The details for an unused access analyzer finding with an unused IAM user access key finding type.
+        case unusediamuseraccesskeydetails(AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails)
+        /// The details for an unused access analyzer finding with an unused IAM role finding type.
+        case unusediamroledetails(AccessAnalyzerClientTypes.UnusedIamRoleDetails)
+        /// The details for an unused access analyzer finding with an unused IAM user password finding type.
+        case unusediamuserpassworddetails(AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension AccessAnalyzerClientTypes.FindingSource: Swift.Codable {
@@ -3222,6 +3976,179 @@ extension AccessAnalyzerClientTypes {
         }
     }
 
+}
+
+extension AccessAnalyzerClientTypes.FindingSummaryV2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzedAt
+        case createdAt
+        case error
+        case findingType
+        case id
+        case resource
+        case resourceOwnerAccount
+        case resourceType
+        case status
+        case updatedAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzedAt = self.analyzedAt {
+            try encodeContainer.encodeTimestamp(analyzedAt, format: .dateTime, forKey: .analyzedAt)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let findingType = self.findingType {
+            try encodeContainer.encode(findingType.rawValue, forKey: .findingType)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let resourceOwnerAccount = self.resourceOwnerAccount {
+            try encodeContainer.encode(resourceOwnerAccount, forKey: .resourceOwnerAccount)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analyzedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .analyzedAt)
+        analyzedAt = analyzedAtDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceOwnerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceOwnerAccount)
+        resourceOwnerAccount = resourceOwnerAccountDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.FindingStatus.self, forKey: .status)
+        status = statusDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let findingTypeDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.FindingType.self, forKey: .findingType)
+        findingType = findingTypeDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about a finding.
+    public struct FindingSummaryV2: Swift.Equatable {
+        /// The time at which the resource-based policy or IAM entity that generated the finding was analyzed.
+        /// This member is required.
+        public var analyzedAt: ClientRuntime.Date?
+        /// The time at which the finding was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The error that resulted in an Error finding.
+        public var error: Swift.String?
+        /// The type of the external access or unused access finding.
+        public var findingType: AccessAnalyzerClientTypes.FindingType?
+        /// The ID of the finding.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The resource that the external principal has access to.
+        public var resource: Swift.String?
+        /// The Amazon Web Services account ID that owns the resource.
+        /// This member is required.
+        public var resourceOwnerAccount: Swift.String?
+        /// The type of the resource that the external principal has access to.
+        /// This member is required.
+        public var resourceType: AccessAnalyzerClientTypes.ResourceType?
+        /// The status of the finding.
+        /// This member is required.
+        public var status: AccessAnalyzerClientTypes.FindingStatus?
+        /// The time at which the finding was most recently updated.
+        /// This member is required.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            analyzedAt: ClientRuntime.Date? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            error: Swift.String? = nil,
+            findingType: AccessAnalyzerClientTypes.FindingType? = nil,
+            id: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            resourceOwnerAccount: Swift.String? = nil,
+            resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
+            status: AccessAnalyzerClientTypes.FindingStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.analyzedAt = analyzedAt
+            self.createdAt = createdAt
+            self.error = error
+            self.findingType = findingType
+            self.id = id
+            self.resource = resource
+            self.resourceOwnerAccount = resourceOwnerAccount
+            self.resourceType = resourceType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes {
+    public enum FindingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case externalAccess
+        case unusedIamRole
+        case unusedIamUserAccessKey
+        case unusedIamUserPassword
+        case unusedPermission
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingType] {
+            return [
+                .externalAccess,
+                .unusedIamRole,
+                .unusedIamUserAccessKey,
+                .unusedIamUserPassword,
+                .unusedPermission,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .externalAccess: return "ExternalAccess"
+            case .unusedIamRole: return "UnusedIAMRole"
+            case .unusedIamUserAccessKey: return "UnusedIAMUserAccessKey"
+            case .unusedIamUserPassword: return "UnusedIAMUserPassword"
+            case .unusedPermission: return "UnusedPermission"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FindingType(rawValue: rawValue) ?? FindingType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AccessAnalyzerClientTypes.GeneratedPolicy: Swift.Codable {
@@ -3886,6 +4813,255 @@ enum GetFindingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetFindingV2Input: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let analyzerArn = analyzerArn else {
+                let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let analyzerArnQueryItem = ClientRuntime.URLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+            items.append(analyzerArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetFindingV2Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/findingv2/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct GetFindingV2Input: Swift.Equatable {
+    /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) that generated the finding.
+    /// This member is required.
+    public var analyzerArn: Swift.String?
+    /// The ID of the finding to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        analyzerArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.analyzerArn = analyzerArn
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct GetFindingV2InputBody: Swift.Equatable {
+}
+
+extension GetFindingV2InputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetFindingV2Output: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetFindingV2OutputBody = try responseDecoder.decode(responseBody: data)
+            self.analyzedAt = output.analyzedAt
+            self.createdAt = output.createdAt
+            self.error = output.error
+            self.findingDetails = output.findingDetails
+            self.findingType = output.findingType
+            self.id = output.id
+            self.nextToken = output.nextToken
+            self.resource = output.resource
+            self.resourceOwnerAccount = output.resourceOwnerAccount
+            self.resourceType = output.resourceType
+            self.status = output.status
+            self.updatedAt = output.updatedAt
+        } else {
+            self.analyzedAt = nil
+            self.createdAt = nil
+            self.error = nil
+            self.findingDetails = nil
+            self.findingType = nil
+            self.id = nil
+            self.nextToken = nil
+            self.resource = nil
+            self.resourceOwnerAccount = nil
+            self.resourceType = nil
+            self.status = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct GetFindingV2Output: Swift.Equatable {
+    /// The time at which the resource-based policy or IAM entity that generated the finding was analyzed.
+    /// This member is required.
+    public var analyzedAt: ClientRuntime.Date?
+    /// The time at which the finding was created.
+    /// This member is required.
+    public var createdAt: ClientRuntime.Date?
+    /// An error.
+    public var error: Swift.String?
+    /// A localized message that explains the finding and provides guidance on how to address it.
+    /// This member is required.
+    public var findingDetails: [AccessAnalyzerClientTypes.FindingDetails]?
+    /// The type of the finding. For external access analyzers, the type is ExternalAccess. For unused access analyzers, the type can be UnusedIAMRole, UnusedIAMUserAccessKey, UnusedIAMUserPassword, or UnusedPermission.
+    public var findingType: AccessAnalyzerClientTypes.FindingType?
+    /// The ID of the finding to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+    /// A token used for pagination of results returned.
+    public var nextToken: Swift.String?
+    /// The resource that generated the finding.
+    public var resource: Swift.String?
+    /// Tye Amazon Web Services account ID that owns the resource.
+    /// This member is required.
+    public var resourceOwnerAccount: Swift.String?
+    /// The type of the resource identified in the finding.
+    /// This member is required.
+    public var resourceType: AccessAnalyzerClientTypes.ResourceType?
+    /// The status of the finding.
+    /// This member is required.
+    public var status: AccessAnalyzerClientTypes.FindingStatus?
+    /// The time at which the finding was updated.
+    /// This member is required.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        analyzedAt: ClientRuntime.Date? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        error: Swift.String? = nil,
+        findingDetails: [AccessAnalyzerClientTypes.FindingDetails]? = nil,
+        findingType: AccessAnalyzerClientTypes.FindingType? = nil,
+        id: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        resource: Swift.String? = nil,
+        resourceOwnerAccount: Swift.String? = nil,
+        resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
+        status: AccessAnalyzerClientTypes.FindingStatus? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.analyzedAt = analyzedAt
+        self.createdAt = createdAt
+        self.error = error
+        self.findingDetails = findingDetails
+        self.findingType = findingType
+        self.id = id
+        self.nextToken = nextToken
+        self.resource = resource
+        self.resourceOwnerAccount = resourceOwnerAccount
+        self.resourceType = resourceType
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+struct GetFindingV2OutputBody: Swift.Equatable {
+    let analyzedAt: ClientRuntime.Date?
+    let createdAt: ClientRuntime.Date?
+    let error: Swift.String?
+    let id: Swift.String?
+    let nextToken: Swift.String?
+    let resource: Swift.String?
+    let resourceType: AccessAnalyzerClientTypes.ResourceType?
+    let resourceOwnerAccount: Swift.String?
+    let status: AccessAnalyzerClientTypes.FindingStatus?
+    let updatedAt: ClientRuntime.Date?
+    let findingDetails: [AccessAnalyzerClientTypes.FindingDetails]?
+    let findingType: AccessAnalyzerClientTypes.FindingType?
+}
+
+extension GetFindingV2OutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzedAt
+        case createdAt
+        case error
+        case findingDetails
+        case findingType
+        case id
+        case nextToken
+        case resource
+        case resourceOwnerAccount
+        case resourceType
+        case status
+        case updatedAt
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analyzedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .analyzedAt)
+        analyzedAt = analyzedAtDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceOwnerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceOwnerAccount)
+        resourceOwnerAccount = resourceOwnerAccountDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.FindingStatus.self, forKey: .status)
+        status = statusDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let findingDetailsContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.FindingDetails?].self, forKey: .findingDetails)
+        var findingDetailsDecoded0:[AccessAnalyzerClientTypes.FindingDetails]? = nil
+        if let findingDetailsContainer = findingDetailsContainer {
+            findingDetailsDecoded0 = [AccessAnalyzerClientTypes.FindingDetails]()
+            for union0 in findingDetailsContainer {
+                if let union0 = union0 {
+                    findingDetailsDecoded0?.append(union0)
+                }
+            }
+        }
+        findingDetails = findingDetailsDecoded0
+        let findingTypeDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.FindingType.self, forKey: .findingType)
+        findingType = findingTypeDecoded
+    }
+}
+
+enum GetFindingV2OutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetGeneratedPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4185,6 +5361,62 @@ extension AccessAnalyzerClientTypes {
         public init() { }
     }
 
+}
+
+extension InvalidParameterException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified parameter is invalid.
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidParameterExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidParameterExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension AccessAnalyzerClientTypes.JobDetails: Swift.Codable {
@@ -5608,6 +6840,189 @@ enum ListFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListFindingsV2Input: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzerArn
+        case filter
+        case maxResults
+        case nextToken
+        case sort
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzerArn = self.analyzerArn {
+            try encodeContainer.encode(analyzerArn, forKey: .analyzerArn)
+        }
+        if let filter = filter {
+            var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sort = self.sort {
+            try encodeContainer.encode(sort, forKey: .sort)
+        }
+    }
+}
+
+extension ListFindingsV2Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/findingv2"
+    }
+}
+
+public struct ListFindingsV2Input: Swift.Equatable {
+    /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) to retrieve findings from.
+    /// This member is required.
+    public var analyzerArn: Swift.String?
+    /// A filter to match for the findings to return.
+    public var filter: [Swift.String:AccessAnalyzerClientTypes.Criterion]?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results returned.
+    public var nextToken: Swift.String?
+    /// The criteria used to sort.
+    public var sort: AccessAnalyzerClientTypes.SortCriteria?
+
+    public init(
+        analyzerArn: Swift.String? = nil,
+        filter: [Swift.String:AccessAnalyzerClientTypes.Criterion]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sort: AccessAnalyzerClientTypes.SortCriteria? = nil
+    )
+    {
+        self.analyzerArn = analyzerArn
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sort = sort
+    }
+}
+
+struct ListFindingsV2InputBody: Swift.Equatable {
+    let analyzerArn: Swift.String?
+    let filter: [Swift.String:AccessAnalyzerClientTypes.Criterion]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let sort: AccessAnalyzerClientTypes.SortCriteria?
+}
+
+extension ListFindingsV2InputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzerArn
+        case filter
+        case maxResults
+        case nextToken
+        case sort
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analyzerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analyzerArn)
+        analyzerArn = analyzerArnDecoded
+        let filterContainer = try containerValues.decodeIfPresent([Swift.String: AccessAnalyzerClientTypes.Criterion?].self, forKey: .filter)
+        var filterDecoded0: [Swift.String:AccessAnalyzerClientTypes.Criterion]? = nil
+        if let filterContainer = filterContainer {
+            filterDecoded0 = [Swift.String:AccessAnalyzerClientTypes.Criterion]()
+            for (key0, criterion0) in filterContainer {
+                if let criterion0 = criterion0 {
+                    filterDecoded0?[key0] = criterion0
+                }
+            }
+        }
+        filter = filterDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let sortDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.SortCriteria.self, forKey: .sort)
+        sort = sortDecoded
+    }
+}
+
+extension ListFindingsV2Output: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListFindingsV2OutputBody = try responseDecoder.decode(responseBody: data)
+            self.findings = output.findings
+            self.nextToken = output.nextToken
+        } else {
+            self.findings = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFindingsV2Output: Swift.Equatable {
+    /// A list of findings retrieved from the analyzer that match the filter criteria specified, if any.
+    /// This member is required.
+    public var findings: [AccessAnalyzerClientTypes.FindingSummaryV2]?
+    /// A token used for pagination of results returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        findings: [AccessAnalyzerClientTypes.FindingSummaryV2]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.findings = findings
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFindingsV2OutputBody: Swift.Equatable {
+    let findings: [AccessAnalyzerClientTypes.FindingSummaryV2]?
+    let nextToken: Swift.String?
+}
+
+extension ListFindingsV2OutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findings
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingsContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.FindingSummaryV2?].self, forKey: .findings)
+        var findingsDecoded0:[AccessAnalyzerClientTypes.FindingSummaryV2]? = nil
+        if let findingsContainer = findingsContainer {
+            findingsDecoded0 = [AccessAnalyzerClientTypes.FindingSummaryV2]()
+            for structure0 in findingsContainer {
+                if let structure0 = structure0 {
+                    findingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        findings = findingsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFindingsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListPolicyGenerationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6574,6 +7989,61 @@ extension AccessAnalyzerClientTypes {
     }
 }
 
+extension AccessAnalyzerClientTypes.ReasonSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case statementId
+        case statementIndex
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let statementId = self.statementId {
+            try encodeContainer.encode(statementId, forKey: .statementId)
+        }
+        if let statementIndex = self.statementIndex {
+            try encodeContainer.encode(statementIndex, forKey: .statementIndex)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statementIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statementIndex)
+        statementIndex = statementIndexDecoded
+        let statementIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statementId)
+        statementId = statementIdDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about the reasoning why a check for access passed or failed.
+    public struct ReasonSummary: Swift.Equatable {
+        /// A description of the reasoning of a result of checking for access.
+        public var description: Swift.String?
+        /// The identifier for the reason statement.
+        public var statementId: Swift.String?
+        /// The index number of the reason statement.
+        public var statementIndex: Swift.Int?
+
+        public init(
+            description: Swift.String? = nil,
+            statementId: Swift.String? = nil,
+            statementIndex: Swift.Int? = nil
+        )
+        {
+            self.description = description
+            self.statementId = statementId
+            self.statementIndex = statementIndex
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6663,6 +8133,7 @@ extension AccessAnalyzerClientTypes {
         case awsLambdaLayerversion
         case awsRdsDbclustersnapshot
         case awsRdsDbsnapshot
+        case awsS3expressDirectorybucket
         case awsS3Bucket
         case awsSecretsmanagerSecret
         case awsSnsTopic
@@ -6680,6 +8151,7 @@ extension AccessAnalyzerClientTypes {
                 .awsLambdaLayerversion,
                 .awsRdsDbclustersnapshot,
                 .awsRdsDbsnapshot,
+                .awsS3expressDirectorybucket,
                 .awsS3Bucket,
                 .awsSecretsmanagerSecret,
                 .awsSnsTopic,
@@ -6702,6 +8174,7 @@ extension AccessAnalyzerClientTypes {
             case .awsLambdaLayerversion: return "AWS::Lambda::LayerVersion"
             case .awsRdsDbclustersnapshot: return "AWS::RDS::DBClusterSnapshot"
             case .awsRdsDbsnapshot: return "AWS::RDS::DBSnapshot"
+            case .awsS3expressDirectorybucket: return "AWS::S3Express::DirectoryBucket"
             case .awsS3Bucket: return "AWS::S3::Bucket"
             case .awsSecretsmanagerSecret: return "AWS::SecretsManager::Secret"
             case .awsSnsTopic: return "AWS::SNS::Topic"
@@ -6903,6 +8376,41 @@ extension AccessAnalyzerClientTypes {
             self.bucketAclGrants = bucketAclGrants
             self.bucketPolicy = bucketPolicy
             self.bucketPublicAccessBlock = bucketPublicAccessBlock
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketPolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketPolicy = self.bucketPolicy {
+            try encodeContainer.encode(bucketPolicy, forKey: .bucketPolicy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketPolicy)
+        bucketPolicy = bucketPolicyDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Proposed access control configuration for an Amazon S3 directory bucket. You can propose a configuration for a new Amazon S3 directory bucket or an existing Amazon S3 directory bucket that you own by specifying the Amazon S3 bucket policy. If the configuration is for an existing Amazon S3 directory bucket and you do not specify the Amazon S3 bucket policy, the access preview uses the existing policy attached to the directory bucket. If the access preview is for a new resource and you do not specify the Amazon S3 bucket policy, the access preview assumes an directory bucket without a policy. To propose deletion of an existing bucket policy, you can specify an empty string. For more information about bucket policy limits, see [Example bucket policies](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html).
+    public struct S3ExpressDirectoryBucketConfiguration: Swift.Equatable {
+        /// The proposed bucket policy for the Amazon S3 directory bucket.
+        public var bucketPolicy: Swift.String?
+
+        public init(
+            bucketPolicy: Swift.String? = nil
+        )
+        {
+            self.bucketPolicy = bucketPolicy
         }
     }
 
@@ -7850,13 +9358,17 @@ extension AccessAnalyzerClientTypes {
 extension AccessAnalyzerClientTypes {
     public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case account
+        case accountUnusedAccess
         case organization
+        case organizationUnusedAccess
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelType] {
             return [
                 .account,
+                .accountUnusedAccess,
                 .organization,
+                .organizationUnusedAccess,
                 .sdkUnknown("")
             ]
         }
@@ -7867,7 +9379,9 @@ extension AccessAnalyzerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .account: return "ACCOUNT"
+            case .accountUnusedAccess: return "ACCOUNT_UNUSED_ACCESS"
             case .organization: return "ORGANIZATION"
+            case .organizationUnusedAccess: return "ORGANIZATION_UNUSED_ACCESS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7876,6 +9390,62 @@ extension AccessAnalyzerClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = ModelType(rawValue: rawValue) ?? ModelType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension UnprocessableEntityException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnprocessableEntityExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified entity could not be processed.
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnprocessableEntityException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnprocessableEntityExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnprocessableEntityExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -7957,6 +9527,271 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension AccessAnalyzerClientTypes.UnusedAccessConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unusedAccessAge
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let unusedAccessAge = self.unusedAccessAge {
+            try encodeContainer.encode(unusedAccessAge, forKey: .unusedAccessAge)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let unusedAccessAgeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unusedAccessAge)
+        unusedAccessAge = unusedAccessAgeDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an unused access analyzer.
+    public struct UnusedAccessConfiguration: Swift.Equatable {
+        /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 180 days.
+        public var unusedAccessAge: Swift.Int?
+
+        public init(
+            unusedAccessAge: Swift.Int? = nil
+        )
+        {
+            self.unusedAccessAge = unusedAccessAge
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.UnusedAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case lastAccessed
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let lastAccessed = self.lastAccessed {
+            try encodeContainer.encodeTimestamp(lastAccessed, format: .dateTime, forKey: .lastAccessed)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let lastAccessedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAccessed)
+        lastAccessed = lastAccessedDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an unused access finding for an action. IAM Access Analyzer charges for unused access analysis based on the number of IAM roles and users analyzed per month. For more details on pricing, see [IAM Access Analyzer pricing](https://aws.amazon.com/iam/access-analyzer/pricing).
+    public struct UnusedAction: Swift.Equatable {
+        /// The action for which the unused access finding was generated.
+        /// This member is required.
+        public var action: Swift.String?
+        /// The time at which the action was last accessed.
+        public var lastAccessed: ClientRuntime.Date?
+
+        public init(
+            action: Swift.String? = nil,
+            lastAccessed: ClientRuntime.Date? = nil
+        )
+        {
+            self.action = action
+            self.lastAccessed = lastAccessed
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.UnusedIamRoleDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastAccessed
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastAccessed = self.lastAccessed {
+            try encodeContainer.encodeTimestamp(lastAccessed, format: .dateTime, forKey: .lastAccessed)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastAccessedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAccessed)
+        lastAccessed = lastAccessedDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an unused access finding for an IAM role. IAM Access Analyzer charges for unused access analysis based on the number of IAM roles and users analyzed per month. For more details on pricing, see [IAM Access Analyzer pricing](https://aws.amazon.com/iam/access-analyzer/pricing).
+    public struct UnusedIamRoleDetails: Swift.Equatable {
+        /// The time at which the role was last accessed.
+        public var lastAccessed: ClientRuntime.Date?
+
+        public init(
+            lastAccessed: ClientRuntime.Date? = nil
+        )
+        {
+            self.lastAccessed = lastAccessed
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessKeyId
+        case lastAccessed
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessKeyId = self.accessKeyId {
+            try encodeContainer.encode(accessKeyId, forKey: .accessKeyId)
+        }
+        if let lastAccessed = self.lastAccessed {
+            try encodeContainer.encodeTimestamp(lastAccessed, format: .dateTime, forKey: .lastAccessed)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessKeyId)
+        accessKeyId = accessKeyIdDecoded
+        let lastAccessedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAccessed)
+        lastAccessed = lastAccessedDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an unused access finding for an IAM user access key. IAM Access Analyzer charges for unused access analysis based on the number of IAM roles and users analyzed per month. For more details on pricing, see [IAM Access Analyzer pricing](https://aws.amazon.com/iam/access-analyzer/pricing).
+    public struct UnusedIamUserAccessKeyDetails: Swift.Equatable {
+        /// The ID of the access key for which the unused access finding was generated.
+        /// This member is required.
+        public var accessKeyId: Swift.String?
+        /// The time at which the access key was last accessed.
+        public var lastAccessed: ClientRuntime.Date?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            lastAccessed: ClientRuntime.Date? = nil
+        )
+        {
+            self.accessKeyId = accessKeyId
+            self.lastAccessed = lastAccessed
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.UnusedIamUserPasswordDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastAccessed
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastAccessed = self.lastAccessed {
+            try encodeContainer.encodeTimestamp(lastAccessed, format: .dateTime, forKey: .lastAccessed)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastAccessedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAccessed)
+        lastAccessed = lastAccessedDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an unused access finding for an IAM user password. IAM Access Analyzer charges for unused access analysis based on the number of IAM roles and users analyzed per month. For more details on pricing, see [IAM Access Analyzer pricing](https://aws.amazon.com/iam/access-analyzer/pricing).
+    public struct UnusedIamUserPasswordDetails: Swift.Equatable {
+        /// The time at which the password was last accessed.
+        public var lastAccessed: ClientRuntime.Date?
+
+        public init(
+            lastAccessed: ClientRuntime.Date? = nil
+        )
+        {
+            self.lastAccessed = lastAccessed
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.UnusedPermissionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions
+        case lastAccessed
+        case serviceNamespace
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for unusedaction0 in actions {
+                try actionsContainer.encode(unusedaction0)
+            }
+        }
+        if let lastAccessed = self.lastAccessed {
+            try encodeContainer.encodeTimestamp(lastAccessed, format: .dateTime, forKey: .lastAccessed)
+        }
+        if let serviceNamespace = self.serviceNamespace {
+            try encodeContainer.encode(serviceNamespace, forKey: .serviceNamespace)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionsContainer = try containerValues.decodeIfPresent([AccessAnalyzerClientTypes.UnusedAction?].self, forKey: .actions)
+        var actionsDecoded0:[AccessAnalyzerClientTypes.UnusedAction]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [AccessAnalyzerClientTypes.UnusedAction]()
+            for structure0 in actionsContainer {
+                if let structure0 = structure0 {
+                    actionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+        let serviceNamespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceNamespace)
+        serviceNamespace = serviceNamespaceDecoded
+        let lastAccessedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastAccessed)
+        lastAccessed = lastAccessedDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about an unused access finding for a permission. IAM Access Analyzer charges for unused access analysis based on the number of IAM roles and users analyzed per month. For more details on pricing, see [IAM Access Analyzer pricing](https://aws.amazon.com/iam/access-analyzer/pricing).
+    public struct UnusedPermissionDetails: Swift.Equatable {
+        /// A list of unused actions for which the unused access finding was generated.
+        public var actions: [AccessAnalyzerClientTypes.UnusedAction]?
+        /// The time at which the permission last accessed.
+        public var lastAccessed: ClientRuntime.Date?
+        /// The namespace of the Amazon Web Services service that contains the unused actions.
+        /// This member is required.
+        public var serviceNamespace: Swift.String?
+
+        public init(
+            actions: [AccessAnalyzerClientTypes.UnusedAction]? = nil,
+            lastAccessed: ClientRuntime.Date? = nil,
+            serviceNamespace: Swift.String? = nil
+        )
+        {
+            self.actions = actions
+            self.lastAccessed = lastAccessed
+            self.serviceNamespace = serviceNamespace
+        }
+    }
+
 }
 
 extension UpdateArchiveRuleInput: Swift.Encodable {
@@ -8396,7 +10231,7 @@ public struct ValidatePolicyInput: Swift.Equatable {
     /// The JSON policy document to use as the content for the policy.
     /// This member is required.
     public var policyDocument: Swift.String?
-    /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. They also include service-control policies (SCPs) that are attached to an Amazon Web Services organization, organizational unit (OU), or an account. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+    /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account.
     /// This member is required.
     public var policyType: AccessAnalyzerClientTypes.PolicyType?
     /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY. For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Analyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies.

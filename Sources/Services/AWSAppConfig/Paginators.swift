@@ -12,7 +12,7 @@ extension AppConfigClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[AppConfigClientTypes.Application]`
     /// - Returns: `[AppConfigClientTypes.Application]`
@@ -42,7 +42,7 @@ extension AppConfigClient {
     ///     - input: A `[ListConfigurationProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationProfilesOutput`
     public func listConfigurationProfilesPaginated(input: ListConfigurationProfilesInput) -> ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutput>(input: input, inputKey: \ListConfigurationProfilesInput.nextToken, outputKey: \ListConfigurationProfilesOutput.nextToken, paginationFunction: self.listConfigurationProfiles(input:))
+        return ClientRuntime.PaginatorSequence<ListConfigurationProfilesInput, ListConfigurationProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationProfiles(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListConfigurationProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListConfigurationProfilesInput, Output == ListConfigurationProfilesOutput {
+extension PaginatorSequence where OperationStackInput == ListConfigurationProfilesInput, OperationStackOutput == ListConfigurationProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listConfigurationProfilesPaginated`
     /// to access the nested member `[AppConfigClientTypes.ConfigurationProfileSummary]`
     /// - Returns: `[AppConfigClientTypes.ConfigurationProfileSummary]`
@@ -74,7 +74,7 @@ extension AppConfigClient {
     ///     - input: A `[ListDeploymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutput`
     public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutput.nextToken, paginationFunction: self.listDeployments(input:))
+        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeployments(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutput {
+extension PaginatorSequence where OperationStackInput == ListDeploymentsInput, OperationStackOutput == ListDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
     /// to access the nested member `[AppConfigClientTypes.DeploymentSummary]`
     /// - Returns: `[AppConfigClientTypes.DeploymentSummary]`
@@ -106,7 +106,7 @@ extension AppConfigClient {
     ///     - input: A `[ListDeploymentStrategiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentStrategiesOutput`
     public func listDeploymentStrategiesPaginated(input: ListDeploymentStrategiesInput) -> ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput>(input: input, inputKey: \ListDeploymentStrategiesInput.nextToken, outputKey: \ListDeploymentStrategiesOutput.nextToken, paginationFunction: self.listDeploymentStrategies(input:))
+        return ClientRuntime.PaginatorSequence<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentStrategies(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListDeploymentStrategiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentStrategiesInput, Output == ListDeploymentStrategiesOutput {
+extension PaginatorSequence where OperationStackInput == ListDeploymentStrategiesInput, OperationStackOutput == ListDeploymentStrategiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentStrategiesPaginated`
     /// to access the nested member `[AppConfigClientTypes.DeploymentStrategy]`
     /// - Returns: `[AppConfigClientTypes.DeploymentStrategy]`
@@ -136,7 +136,7 @@ extension AppConfigClient {
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
     public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutput {
+extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, OperationStackOutput == ListEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
     /// to access the nested member `[AppConfigClientTypes.Environment]`
     /// - Returns: `[AppConfigClientTypes.Environment]`
@@ -167,7 +167,7 @@ extension AppConfigClient {
     ///     - input: A `[ListExtensionAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionAssociationsOutput`
     public func listExtensionAssociationsPaginated(input: ListExtensionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutput>(input: input, inputKey: \ListExtensionAssociationsInput.nextToken, outputKey: \ListExtensionAssociationsOutput.nextToken, paginationFunction: self.listExtensionAssociations(input:))
+        return ClientRuntime.PaginatorSequence<ListExtensionAssociationsInput, ListExtensionAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExtensionAssociations(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListExtensionAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListExtensionAssociationsInput, Output == ListExtensionAssociationsOutput {
+extension PaginatorSequence where OperationStackInput == ListExtensionAssociationsInput, OperationStackOutput == ListExtensionAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listExtensionAssociationsPaginated`
     /// to access the nested member `[AppConfigClientTypes.ExtensionAssociationSummary]`
     /// - Returns: `[AppConfigClientTypes.ExtensionAssociationSummary]`
@@ -200,7 +200,7 @@ extension AppConfigClient {
     ///     - input: A `[ListExtensionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionsOutput`
     public func listExtensionsPaginated(input: ListExtensionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput>(input: input, inputKey: \ListExtensionsInput.nextToken, outputKey: \ListExtensionsOutput.nextToken, paginationFunction: self.listExtensions(input:))
+        return ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExtensions(input:))
     }
 }
 
@@ -213,7 +213,7 @@ extension ListExtensionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListExtensionsInput, Output == ListExtensionsOutput {
+extension PaginatorSequence where OperationStackInput == ListExtensionsInput, OperationStackOutput == ListExtensionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listExtensionsPaginated`
     /// to access the nested member `[AppConfigClientTypes.ExtensionSummary]`
     /// - Returns: `[AppConfigClientTypes.ExtensionSummary]`
@@ -231,7 +231,7 @@ extension AppConfigClient {
     ///     - input: A `[ListHostedConfigurationVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHostedConfigurationVersionsOutput`
     public func listHostedConfigurationVersionsPaginated(input: ListHostedConfigurationVersionsInput) -> ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput>(input: input, inputKey: \ListHostedConfigurationVersionsInput.nextToken, outputKey: \ListHostedConfigurationVersionsOutput.nextToken, paginationFunction: self.listHostedConfigurationVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHostedConfigurationVersions(input:))
     }
 }
 
@@ -246,7 +246,7 @@ extension ListHostedConfigurationVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListHostedConfigurationVersionsInput, Output == ListHostedConfigurationVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListHostedConfigurationVersionsInput, OperationStackOutput == ListHostedConfigurationVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listHostedConfigurationVersionsPaginated`
     /// to access the nested member `[AppConfigClientTypes.HostedConfigurationVersionSummary]`
     /// - Returns: `[AppConfigClientTypes.HostedConfigurationVersionSummary]`

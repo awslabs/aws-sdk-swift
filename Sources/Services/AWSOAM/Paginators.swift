@@ -12,7 +12,7 @@ extension OAMClient {
     ///     - input: A `[ListAttachedLinksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedLinksOutput`
     public func listAttachedLinksPaginated(input: ListAttachedLinksInput) -> ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutput> {
-        return ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutput>(input: input, inputKey: \ListAttachedLinksInput.nextToken, outputKey: \ListAttachedLinksOutput.nextToken, paginationFunction: self.listAttachedLinks(input:))
+        return ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachedLinks(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAttachedLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAttachedLinksInput, Output == ListAttachedLinksOutput {
+extension PaginatorSequence where OperationStackInput == ListAttachedLinksInput, OperationStackOutput == ListAttachedLinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAttachedLinksPaginated`
     /// to access the nested member `[OAMClientTypes.ListAttachedLinksItem]`
     /// - Returns: `[OAMClientTypes.ListAttachedLinksItem]`
@@ -43,7 +43,7 @@ extension OAMClient {
     ///     - input: A `[ListLinksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLinksOutput`
     public func listLinksPaginated(input: ListLinksInput) -> ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutput> {
-        return ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutput>(input: input, inputKey: \ListLinksInput.nextToken, outputKey: \ListLinksOutput.nextToken, paginationFunction: self.listLinks(input:))
+        return ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLinks(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLinksInput, Output == ListLinksOutput {
+extension PaginatorSequence where OperationStackInput == ListLinksInput, OperationStackOutput == ListLinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLinksPaginated`
     /// to access the nested member `[OAMClientTypes.ListLinksItem]`
     /// - Returns: `[OAMClientTypes.ListLinksItem]`
@@ -73,7 +73,7 @@ extension OAMClient {
     ///     - input: A `[ListSinksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSinksOutput`
     public func listSinksPaginated(input: ListSinksInput) -> ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutput> {
-        return ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutput>(input: input, inputKey: \ListSinksInput.nextToken, outputKey: \ListSinksOutput.nextToken, paginationFunction: self.listSinks(input:))
+        return ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSinks(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListSinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSinksInput, Output == ListSinksOutput {
+extension PaginatorSequence where OperationStackInput == ListSinksInput, OperationStackOutput == ListSinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSinksPaginated`
     /// to access the nested member `[OAMClientTypes.ListSinksItem]`
     /// - Returns: `[OAMClientTypes.ListSinksItem]`

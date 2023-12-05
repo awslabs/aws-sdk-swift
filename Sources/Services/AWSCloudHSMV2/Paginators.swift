@@ -12,7 +12,7 @@ extension CloudHSMV2Client {
     ///     - input: A `[DescribeBackupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutput`
     public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutput.nextToken, paginationFunction: self.describeBackups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBackups(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension CloudHSMV2Client {
     ///     - input: A `[DescribeClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutput`
     public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \DescribeClustersInput.nextToken, outputKey: \DescribeClustersOutput.nextToken, paginationFunction: self.describeClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClusters(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension CloudHSMV2Client {
     ///     - input: A `[ListTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
     public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTags(input:))
     }
 }
 

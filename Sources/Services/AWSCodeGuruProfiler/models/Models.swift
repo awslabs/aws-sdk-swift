@@ -3472,32 +3472,6 @@ extension CodeGuruProfilerClientTypes {
 
 }
 
-public struct PostAgentProfileInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PostAgentProfileInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PostAgentProfileInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PostAgentProfileOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let agentProfile = input.operationInput.agentProfile {
-            let agentProfileData = agentProfile
-            let agentProfileBody = ClientRuntime.HttpBody.data(agentProfileData)
-            input.builder.withBody(agentProfileBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PostAgentProfileInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PostAgentProfileOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension PostAgentProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentProfile

@@ -12,7 +12,7 @@ extension Route53DomainsClient {
     ///     - input: A `[ListDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
     public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.marker, outputKey: \ListDomainsOutput.nextPageMarker, paginationFunction: self.listDomains(input:))
+        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \.marker, outputKey: \.nextPageMarker, paginationFunction: self.listDomains(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutput {
+extension PaginatorSequence where OperationStackInput == ListDomainsInput, OperationStackOutput == ListDomainsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDomainsPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.DomainSummary]`
     /// - Returns: `[Route53DomainsClientTypes.DomainSummary]`
@@ -44,7 +44,7 @@ extension Route53DomainsClient {
     ///     - input: A `[ListOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutput`
     public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \ListOperationsInput.marker, outputKey: \ListOperationsOutput.nextPageMarker, paginationFunction: self.listOperations(input:))
+        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \.marker, outputKey: \.nextPageMarker, paginationFunction: self.listOperations(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension ListOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOperationsInput, Output == ListOperationsOutput {
+extension PaginatorSequence where OperationStackInput == ListOperationsInput, OperationStackOutput == ListOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOperationsPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.OperationSummary]`
     /// - Returns: `[Route53DomainsClientTypes.OperationSummary]`
@@ -79,7 +79,7 @@ extension Route53DomainsClient {
     ///     - input: A `[ListPricesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPricesOutput`
     public func listPricesPaginated(input: ListPricesInput) -> ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutput> {
-        return ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutput>(input: input, inputKey: \ListPricesInput.marker, outputKey: \ListPricesOutput.nextPageMarker, paginationFunction: self.listPrices(input:))
+        return ClientRuntime.PaginatorSequence<ListPricesInput, ListPricesOutput>(input: input, inputKey: \.marker, outputKey: \.nextPageMarker, paginationFunction: self.listPrices(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension ListPricesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPricesInput, Output == ListPricesOutput {
+extension PaginatorSequence where OperationStackInput == ListPricesInput, OperationStackOutput == ListPricesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPricesPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.DomainPrice]`
     /// - Returns: `[Route53DomainsClientTypes.DomainPrice]`
@@ -110,7 +110,7 @@ extension Route53DomainsClient {
     ///     - input: A `[ViewBillingInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ViewBillingOutput`
     public func viewBillingPaginated(input: ViewBillingInput) -> ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutput> {
-        return ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutput>(input: input, inputKey: \ViewBillingInput.marker, outputKey: \ViewBillingOutput.nextPageMarker, paginationFunction: self.viewBilling(input:))
+        return ClientRuntime.PaginatorSequence<ViewBillingInput, ViewBillingOutput>(input: input, inputKey: \.marker, outputKey: \.nextPageMarker, paginationFunction: self.viewBilling(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ViewBillingInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ViewBillingInput, Output == ViewBillingOutput {
+extension PaginatorSequence where OperationStackInput == ViewBillingInput, OperationStackOutput == ViewBillingOutput {
     /// This paginator transforms the `AsyncSequence` returned by `viewBillingPaginated`
     /// to access the nested member `[Route53DomainsClientTypes.BillingRecord]`
     /// - Returns: `[Route53DomainsClientTypes.BillingRecord]`

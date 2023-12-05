@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// This API reference provides descriptions, syntax, and other details about each of the actions and data types for AWS Migration Hub Orchestrator. he topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using.
 public protocol MigrationHubOrchestratorClientProtocol {
+    /// Performs the `CreateWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Create a workflow to orchestrate your migrations.
     ///
     /// - Parameter CreateWorkflowInput : [no documentation found]
@@ -18,6 +20,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
+    /// Performs the `CreateWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Create a step in the migration workflow.
     ///
     /// - Parameter CreateWorkflowStepInput : [no documentation found]
@@ -32,6 +36,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflowStep(input: CreateWorkflowStepInput) async throws -> CreateWorkflowStepOutput
+    /// Performs the `CreateWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Create a step group in a migration workflow.
     ///
     /// - Parameter CreateWorkflowStepGroupInput : [no documentation found]
@@ -46,6 +52,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflowStepGroup(input: CreateWorkflowStepGroupInput) async throws -> CreateWorkflowStepGroupOutput
+    /// Performs the `DeleteWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
@@ -61,6 +69,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
+    /// Performs the `DeleteWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
     ///
     /// - Parameter DeleteWorkflowStepInput : [no documentation found]
@@ -76,6 +86,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflowStep(input: DeleteWorkflowStepInput) async throws -> DeleteWorkflowStepOutput
+    /// Performs the `DeleteWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Delete a step group in a migration workflow.
     ///
     /// - Parameter DeleteWorkflowStepGroupInput : [no documentation found]
@@ -91,6 +103,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflowStepGroup(input: DeleteWorkflowStepGroupInput) async throws -> DeleteWorkflowStepGroupOutput
+    /// Performs the `GetTemplate` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Get the template you want to use for creating a migration workflow.
     ///
     /// - Parameter GetTemplateInput : [no documentation found]
@@ -105,6 +119,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
+    /// Performs the `GetTemplateStep` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Get a specific step in a template.
     ///
     /// - Parameter GetTemplateStepInput : [no documentation found]
@@ -120,6 +136,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getTemplateStep(input: GetTemplateStepInput) async throws -> GetTemplateStepOutput
+    /// Performs the `GetTemplateStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Get a step group in a template.
     ///
     /// - Parameter GetTemplateStepGroupInput : [no documentation found]
@@ -135,6 +153,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getTemplateStepGroup(input: GetTemplateStepGroupInput) async throws -> GetTemplateStepGroupOutput
+    /// Performs the `GetWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Get migration workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
@@ -150,6 +170,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
+    /// Performs the `GetWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Get a step in the migration workflow.
     ///
     /// - Parameter GetWorkflowStepInput : [no documentation found]
@@ -164,6 +186,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getWorkflowStep(input: GetWorkflowStepInput) async throws -> GetWorkflowStepOutput
+    /// Performs the `GetWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Get the step group of a migration workflow.
     ///
     /// - Parameter GetWorkflowStepGroupInput : [no documentation found]
@@ -179,6 +203,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkflowStepGroup(input: GetWorkflowStepGroupInput) async throws -> GetWorkflowStepGroupOutput
+    /// Performs the `ListPlugins` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List AWS Migration Hub Orchestrator plugins.
     ///
     /// - Parameter ListPluginsInput : [no documentation found]
@@ -192,6 +218,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the tags added to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -204,6 +232,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTemplates` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     ///
     /// - Parameter ListTemplatesInput : [no documentation found]
@@ -217,6 +247,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
+    /// Performs the `ListTemplateStepGroups` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the step groups in a template.
     ///
     /// - Parameter ListTemplateStepGroupsInput : [no documentation found]
@@ -231,6 +263,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listTemplateStepGroups(input: ListTemplateStepGroupsInput) async throws -> ListTemplateStepGroupsOutput
+    /// Performs the `ListTemplateSteps` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the steps in a template.
     ///
     /// - Parameter ListTemplateStepsInput : [no documentation found]
@@ -246,6 +280,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTemplateSteps(input: ListTemplateStepsInput) async throws -> ListTemplateStepsOutput
+    /// Performs the `ListWorkflows` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the migration workflows.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
@@ -261,6 +297,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
+    /// Performs the `ListWorkflowStepGroups` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the step groups in a migration workflow.
     ///
     /// - Parameter ListWorkflowStepGroupsInput : [no documentation found]
@@ -276,6 +314,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflowStepGroups(input: ListWorkflowStepGroupsInput) async throws -> ListWorkflowStepGroupsOutput
+    /// Performs the `ListWorkflowSteps` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// List the steps in a workflow.
     ///
     /// - Parameter ListWorkflowStepsInput : [no documentation found]
@@ -290,6 +330,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflowSteps(input: ListWorkflowStepsInput) async throws -> ListWorkflowStepsOutput
+    /// Performs the `RetryWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Retry a failed step in a migration workflow.
     ///
     /// - Parameter RetryWorkflowStepInput : [no documentation found]
@@ -304,6 +346,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func retryWorkflowStep(input: RetryWorkflowStepInput) async throws -> RetryWorkflowStepOutput
+    /// Performs the `StartWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Start a migration workflow.
     ///
     /// - Parameter StartWorkflowInput : [no documentation found]
@@ -319,6 +363,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startWorkflow(input: StartWorkflowInput) async throws -> StartWorkflowOutput
+    /// Performs the `StopWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Stop an ongoing migration workflow.
     ///
     /// - Parameter StopWorkflowInput : [no documentation found]
@@ -334,6 +380,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func stopWorkflow(input: StopWorkflowInput) async throws -> StopWorkflowOutput
+    /// Performs the `TagResource` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -346,6 +394,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Deletes the tags for a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -358,6 +408,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Update a migration workflow.
     ///
     /// - Parameter UpdateWorkflowInput : [no documentation found]
@@ -373,6 +425,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
+    /// Performs the `UpdateWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Update a step in a migration workflow.
     ///
     /// - Parameter UpdateWorkflowStepInput : [no documentation found]
@@ -387,6 +441,8 @@ public protocol MigrationHubOrchestratorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflowStep(input: UpdateWorkflowStepInput) async throws -> UpdateWorkflowStepOutput
+    /// Performs the `UpdateWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    ///
     /// Update the step group in a migration workflow.
     ///
     /// - Parameter UpdateWorkflowStepGroupInput : [no documentation found]

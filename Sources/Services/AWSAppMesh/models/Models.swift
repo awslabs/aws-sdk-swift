@@ -4389,7 +4389,7 @@ extension AppMeshClientTypes {
         public var hostname: AppMeshClientTypes.GatewayRouteHostnameMatch?
         /// The gateway route metadata to be matched on.
         public var metadata: [AppMeshClientTypes.GrpcGatewayRouteMetadata]?
-        /// The port number to match from the request.
+        /// The gateway route port to be matched on.
         public var port: Swift.Int?
         /// The fully qualified domain name for the service to match from the request.
         public var serviceName: Swift.String?
@@ -5200,7 +5200,7 @@ extension AppMeshClientTypes.HealthCheckPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if healthyThreshold != 0 {
+        if let healthyThreshold = self.healthyThreshold {
             try encodeContainer.encode(healthyThreshold, forKey: .healthyThreshold)
         }
         if let intervalMillis = self.intervalMillis {
@@ -5209,7 +5209,7 @@ extension AppMeshClientTypes.HealthCheckPolicy: Swift.Codable {
         if let path = self.path {
             try encodeContainer.encode(path, forKey: .path)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let `protocol` = self.`protocol` {
@@ -5218,7 +5218,7 @@ extension AppMeshClientTypes.HealthCheckPolicy: Swift.Codable {
         if let timeoutMillis = self.timeoutMillis {
             try encodeContainer.encode(timeoutMillis, forKey: .timeoutMillis)
         }
-        if unhealthyThreshold != 0 {
+        if let unhealthyThreshold = self.unhealthyThreshold {
             try encodeContainer.encode(unhealthyThreshold, forKey: .unhealthyThreshold)
         }
     }
@@ -5231,13 +5231,13 @@ extension AppMeshClientTypes.HealthCheckPolicy: Swift.Codable {
         intervalMillis = intervalMillisDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.PortProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
         path = pathDecoded
-        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold) ?? 0
+        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold)
         healthyThreshold = healthyThresholdDecoded
-        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold) ?? 0
+        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold)
         unhealthyThreshold = unhealthyThresholdDecoded
     }
 }
@@ -5247,14 +5247,14 @@ extension AppMeshClientTypes {
     public struct HealthCheckPolicy: Swift.Equatable {
         /// The number of consecutive successful health checks that must occur before declaring listener healthy.
         /// This member is required.
-        public var healthyThreshold: Swift.Int
+        public var healthyThreshold: Swift.Int?
         /// The time period in milliseconds between each health check execution.
         /// This member is required.
         public var intervalMillis: Swift.Int?
         /// The destination path for the health check request. This value is only used if the specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
         public var path: Swift.String?
         /// The destination port for the health check request. This port must match the port defined in the [PortMapping] for the listener.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The protocol for the health check request. If you specify grpc, then your service must conform to the [GRPC Health Checking Protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
         /// This member is required.
         public var `protocol`: AppMeshClientTypes.PortProtocol?
@@ -5263,16 +5263,16 @@ extension AppMeshClientTypes {
         public var timeoutMillis: Swift.Int?
         /// The number of consecutive failed health checks that must occur before declaring a virtual node unhealthy.
         /// This member is required.
-        public var unhealthyThreshold: Swift.Int
+        public var unhealthyThreshold: Swift.Int?
 
         public init(
-            healthyThreshold: Swift.Int = 0,
+            healthyThreshold: Swift.Int? = nil,
             intervalMillis: Swift.Int? = nil,
             path: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             `protocol`: AppMeshClientTypes.PortProtocol? = nil,
             timeoutMillis: Swift.Int? = nil,
-            unhealthyThreshold: Swift.Int = 0
+            unhealthyThreshold: Swift.Int? = nil
         )
         {
             self.healthyThreshold = healthyThreshold
@@ -8736,7 +8736,7 @@ extension AppMeshClientTypes.PortMapping: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let `protocol` = self.`protocol` {
@@ -8746,7 +8746,7 @@ extension AppMeshClientTypes.PortMapping: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.PortProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -8758,13 +8758,13 @@ extension AppMeshClientTypes {
     public struct PortMapping: Swift.Equatable {
         /// The port used for the port mapping.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The protocol used for the port mapping. Specify one protocol.
         /// This member is required.
         public var `protocol`: AppMeshClientTypes.PortProtocol?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             `protocol`: AppMeshClientTypes.PortProtocol? = nil
         )
         {
@@ -11830,14 +11830,14 @@ extension AppMeshClientTypes.VirtualGatewayGrpcConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxRequests != 0 {
+        if let maxRequests = self.maxRequests {
             try encodeContainer.encode(maxRequests, forKey: .maxRequests)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests) ?? 0
+        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests)
         maxRequests = maxRequestsDecoded
     }
 }
@@ -11847,10 +11847,10 @@ extension AppMeshClientTypes {
     public struct VirtualGatewayGrpcConnectionPool: Swift.Equatable {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
-        public var maxRequests: Swift.Int
+        public var maxRequests: Swift.Int?
 
         public init(
-            maxRequests: Swift.Int = 0
+            maxRequests: Swift.Int? = nil
         )
         {
             self.maxRequests = maxRequests
@@ -11872,7 +11872,7 @@ extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if healthyThreshold != 0 {
+        if let healthyThreshold = self.healthyThreshold {
             try encodeContainer.encode(healthyThreshold, forKey: .healthyThreshold)
         }
         if let intervalMillis = self.intervalMillis {
@@ -11881,7 +11881,7 @@ extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy: Swift.Codable {
         if let path = self.path {
             try encodeContainer.encode(path, forKey: .path)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let `protocol` = self.`protocol` {
@@ -11890,7 +11890,7 @@ extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy: Swift.Codable {
         if let timeoutMillis = self.timeoutMillis {
             try encodeContainer.encode(timeoutMillis, forKey: .timeoutMillis)
         }
-        if unhealthyThreshold != 0 {
+        if let unhealthyThreshold = self.unhealthyThreshold {
             try encodeContainer.encode(unhealthyThreshold, forKey: .unhealthyThreshold)
         }
     }
@@ -11903,13 +11903,13 @@ extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy: Swift.Codable {
         intervalMillis = intervalMillisDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayPortProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
         path = pathDecoded
-        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold) ?? 0
+        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold)
         healthyThreshold = healthyThresholdDecoded
-        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold) ?? 0
+        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold)
         unhealthyThreshold = unhealthyThresholdDecoded
     }
 }
@@ -11919,14 +11919,14 @@ extension AppMeshClientTypes {
     public struct VirtualGatewayHealthCheckPolicy: Swift.Equatable {
         /// The number of consecutive successful health checks that must occur before declaring the listener healthy.
         /// This member is required.
-        public var healthyThreshold: Swift.Int
+        public var healthyThreshold: Swift.Int?
         /// The time period in milliseconds between each health check execution.
         /// This member is required.
         public var intervalMillis: Swift.Int?
         /// The destination path for the health check request. This value is only used if the specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
         public var path: Swift.String?
         /// The destination port for the health check request. This port must match the port defined in the [PortMapping] for the listener.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The protocol for the health check request. If you specify grpc, then your service must conform to the [GRPC Health Checking Protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
         /// This member is required.
         public var `protocol`: AppMeshClientTypes.VirtualGatewayPortProtocol?
@@ -11935,16 +11935,16 @@ extension AppMeshClientTypes {
         public var timeoutMillis: Swift.Int?
         /// The number of consecutive failed health checks that must occur before declaring a virtual gateway unhealthy.
         /// This member is required.
-        public var unhealthyThreshold: Swift.Int
+        public var unhealthyThreshold: Swift.Int?
 
         public init(
-            healthyThreshold: Swift.Int = 0,
+            healthyThreshold: Swift.Int? = nil,
             intervalMillis: Swift.Int? = nil,
             path: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             `protocol`: AppMeshClientTypes.VirtualGatewayPortProtocol? = nil,
             timeoutMillis: Swift.Int? = nil,
-            unhealthyThreshold: Swift.Int = 0
+            unhealthyThreshold: Swift.Int? = nil
         )
         {
             self.healthyThreshold = healthyThreshold
@@ -11966,14 +11966,14 @@ extension AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxRequests != 0 {
+        if let maxRequests = self.maxRequests {
             try encodeContainer.encode(maxRequests, forKey: .maxRequests)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests) ?? 0
+        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests)
         maxRequests = maxRequestsDecoded
     }
 }
@@ -11983,10 +11983,10 @@ extension AppMeshClientTypes {
     public struct VirtualGatewayHttp2ConnectionPool: Swift.Equatable {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
-        public var maxRequests: Swift.Int
+        public var maxRequests: Swift.Int?
 
         public init(
-            maxRequests: Swift.Int = 0
+            maxRequests: Swift.Int? = nil
         )
         {
             self.maxRequests = maxRequests
@@ -12003,7 +12003,7 @@ extension AppMeshClientTypes.VirtualGatewayHttpConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxConnections != 0 {
+        if let maxConnections = self.maxConnections {
             try encodeContainer.encode(maxConnections, forKey: .maxConnections)
         }
         if let maxPendingRequests = self.maxPendingRequests {
@@ -12013,7 +12013,7 @@ extension AppMeshClientTypes.VirtualGatewayHttpConnectionPool: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnections) ?? 0
+        let maxConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnections)
         maxConnections = maxConnectionsDecoded
         let maxPendingRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPendingRequests)
         maxPendingRequests = maxPendingRequestsDecoded
@@ -12025,12 +12025,12 @@ extension AppMeshClientTypes {
     public struct VirtualGatewayHttpConnectionPool: Swift.Equatable {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         /// This member is required.
-        public var maxConnections: Swift.Int
+        public var maxConnections: Swift.Int?
         /// Number of overflowing requests after max_connections Envoy will queue to upstream cluster.
         public var maxPendingRequests: Swift.Int?
 
         public init(
-            maxConnections: Swift.Int = 0,
+            maxConnections: Swift.Int? = nil,
             maxPendingRequests: Swift.Int? = nil
         )
         {
@@ -12517,7 +12517,7 @@ extension AppMeshClientTypes.VirtualGatewayPortMapping: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let `protocol` = self.`protocol` {
@@ -12527,7 +12527,7 @@ extension AppMeshClientTypes.VirtualGatewayPortMapping: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayPortProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -12539,13 +12539,13 @@ extension AppMeshClientTypes {
     public struct VirtualGatewayPortMapping: Swift.Equatable {
         /// The port used for the port mapping. Specify one protocol.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The protocol used for the port mapping.
         /// This member is required.
         public var `protocol`: AppMeshClientTypes.VirtualGatewayPortProtocol?
 
         public init(
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             `protocol`: AppMeshClientTypes.VirtualGatewayPortProtocol? = nil
         )
         {
@@ -13220,14 +13220,14 @@ extension AppMeshClientTypes.VirtualNodeGrpcConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxRequests != 0 {
+        if let maxRequests = self.maxRequests {
             try encodeContainer.encode(maxRequests, forKey: .maxRequests)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests) ?? 0
+        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests)
         maxRequests = maxRequestsDecoded
     }
 }
@@ -13237,10 +13237,10 @@ extension AppMeshClientTypes {
     public struct VirtualNodeGrpcConnectionPool: Swift.Equatable {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
-        public var maxRequests: Swift.Int
+        public var maxRequests: Swift.Int?
 
         public init(
-            maxRequests: Swift.Int = 0
+            maxRequests: Swift.Int? = nil
         )
         {
             self.maxRequests = maxRequests
@@ -13256,14 +13256,14 @@ extension AppMeshClientTypes.VirtualNodeHttp2ConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxRequests != 0 {
+        if let maxRequests = self.maxRequests {
             try encodeContainer.encode(maxRequests, forKey: .maxRequests)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests) ?? 0
+        let maxRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRequests)
         maxRequests = maxRequestsDecoded
     }
 }
@@ -13273,10 +13273,10 @@ extension AppMeshClientTypes {
     public struct VirtualNodeHttp2ConnectionPool: Swift.Equatable {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
-        public var maxRequests: Swift.Int
+        public var maxRequests: Swift.Int?
 
         public init(
-            maxRequests: Swift.Int = 0
+            maxRequests: Swift.Int? = nil
         )
         {
             self.maxRequests = maxRequests
@@ -13293,7 +13293,7 @@ extension AppMeshClientTypes.VirtualNodeHttpConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxConnections != 0 {
+        if let maxConnections = self.maxConnections {
             try encodeContainer.encode(maxConnections, forKey: .maxConnections)
         }
         if let maxPendingRequests = self.maxPendingRequests {
@@ -13303,7 +13303,7 @@ extension AppMeshClientTypes.VirtualNodeHttpConnectionPool: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnections) ?? 0
+        let maxConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnections)
         maxConnections = maxConnectionsDecoded
         let maxPendingRequestsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPendingRequests)
         maxPendingRequests = maxPendingRequestsDecoded
@@ -13315,12 +13315,12 @@ extension AppMeshClientTypes {
     public struct VirtualNodeHttpConnectionPool: Swift.Equatable {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         /// This member is required.
-        public var maxConnections: Swift.Int
+        public var maxConnections: Swift.Int?
         /// Number of overflowing requests after max_connections Envoy will queue to upstream cluster.
         public var maxPendingRequests: Swift.Int?
 
         public init(
-            maxConnections: Swift.Int = 0,
+            maxConnections: Swift.Int? = nil,
             maxPendingRequests: Swift.Int? = nil
         )
         {
@@ -13657,14 +13657,14 @@ extension AppMeshClientTypes.VirtualNodeTcpConnectionPool: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxConnections != 0 {
+        if let maxConnections = self.maxConnections {
             try encodeContainer.encode(maxConnections, forKey: .maxConnections)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnections) ?? 0
+        let maxConnectionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConnections)
         maxConnections = maxConnectionsDecoded
     }
 }
@@ -13674,10 +13674,10 @@ extension AppMeshClientTypes {
     public struct VirtualNodeTcpConnectionPool: Swift.Equatable {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         /// This member is required.
-        public var maxConnections: Swift.Int
+        public var maxConnections: Swift.Int?
 
         public init(
-            maxConnections: Swift.Int = 0
+            maxConnections: Swift.Int? = nil
         )
         {
             self.maxConnections = maxConnections

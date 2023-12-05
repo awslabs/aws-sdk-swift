@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Honeycode is a fully managed service that allows you to quickly build mobile and web apps for teams—without programming. Build Honeycode apps for managing almost anything, like projects, customers, operations, approvals, resources, and even your team.
 public protocol HoneycodeClientProtocol {
+    /// Performs the `BatchCreateTableRows` operation on the `SheetsPublicApiService` service.
+    ///
     /// The BatchCreateTableRows API allows you to create one or more rows at the end of a table in a workbook. The API allows you to specify the values to set in some or all of the columns in the new rows. If a column is not explicitly set in a specific row, then the column level formula specified in the table will be applied to the new row. If there is no column level formula but the last row of the table has a formula, then that formula will be copied down to the new row. If there is no column level formula and no formula in the last row of the table, then that column will be left blank for the new rows.
     ///
     /// - Parameter BatchCreateTableRowsInput : [no documentation found]
@@ -22,6 +24,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchCreateTableRows(input: BatchCreateTableRowsInput) async throws -> BatchCreateTableRowsOutput
+    /// Performs the `BatchDeleteTableRows` operation on the `SheetsPublicApiService` service.
+    ///
     /// The BatchDeleteTableRows API allows you to delete one or more rows from a table in a workbook. You need to specify the ids of the rows that you want to delete from the table.
     ///
     /// - Parameter BatchDeleteTableRowsInput : [no documentation found]
@@ -39,6 +43,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchDeleteTableRows(input: BatchDeleteTableRowsInput) async throws -> BatchDeleteTableRowsOutput
+    /// Performs the `BatchUpdateTableRows` operation on the `SheetsPublicApiService` service.
+    ///
     /// The BatchUpdateTableRows API allows you to update one or more rows in a table in a workbook. You can specify the values to set in some or all of the columns in the table for the specified rows. If a column is not explicitly specified in a particular row, then that column will not be updated for that row. To clear out the data in a specific cell, you need to set the value as an empty string ("").
     ///
     /// - Parameter BatchUpdateTableRowsInput : [no documentation found]
@@ -56,6 +62,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchUpdateTableRows(input: BatchUpdateTableRowsInput) async throws -> BatchUpdateTableRowsOutput
+    /// Performs the `BatchUpsertTableRows` operation on the `SheetsPublicApiService` service.
+    ///
     /// The BatchUpsertTableRows API allows you to upsert one or more rows in a table. The upsert operation takes a filter expression as input and evaluates it to find matching rows on the destination table. If matching rows are found, it will update the cells in the matching rows to new values specified in the request. If no matching rows are found, a new row is added at the end of the table and the cells in that row are set to the new values specified in the request. You can specify the values to set in some or all of the columns in the table for the matching or newly appended rows. If a column is not explicitly specified for a particular row, then that column will not be updated for that row. To clear out the data in a specific cell, you need to set the value as an empty string ("").
     ///
     /// - Parameter BatchUpsertTableRowsInput : [no documentation found]
@@ -74,6 +82,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchUpsertTableRows(input: BatchUpsertTableRowsInput) async throws -> BatchUpsertTableRowsOutput
+    /// Performs the `DescribeTableDataImportJob` operation on the `SheetsPublicApiService` service.
+    ///
     /// The DescribeTableDataImportJob API allows you to retrieve the status and details of a table data import job.
     ///
     /// - Parameter DescribeTableDataImportJobInput : [no documentation found]
@@ -91,6 +101,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func describeTableDataImportJob(input: DescribeTableDataImportJobInput) async throws -> DescribeTableDataImportJobOutput
+    /// Performs the `GetScreenData` operation on the `SheetsPublicApiService` service.
+    ///
     /// The GetScreenData API allows retrieval of data from a screen in a Honeycode app. The API allows setting local variables in the screen to filter, sort or otherwise affect what will be displayed on the screen.
     ///
     /// - Parameter GetScreenDataInput : [no documentation found]
@@ -108,6 +120,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func getScreenData(input: GetScreenDataInput) async throws -> GetScreenDataOutput
+    /// Performs the `InvokeScreenAutomation` operation on the `SheetsPublicApiService` service.
+    ///
     /// The InvokeScreenAutomation API allows invoking an action defined in a screen in a Honeycode app. The API allows setting local variables, which can then be used in the automation being invoked. This allows automating the Honeycode app interactions to write, update or delete data in the workbook.
     ///
     /// - Parameter InvokeScreenAutomationInput : [no documentation found]
@@ -128,6 +142,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func invokeScreenAutomation(input: InvokeScreenAutomationInput) async throws -> InvokeScreenAutomationOutput
+    /// Performs the `ListTableColumns` operation on the `SheetsPublicApiService` service.
+    ///
     /// The ListTableColumns API allows you to retrieve a list of all the columns in a table in a workbook.
     ///
     /// - Parameter ListTableColumnsInput : [no documentation found]
@@ -145,6 +161,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTableColumns(input: ListTableColumnsInput) async throws -> ListTableColumnsOutput
+    /// Performs the `ListTableRows` operation on the `SheetsPublicApiService` service.
+    ///
     /// The ListTableRows API allows you to retrieve a list of all the rows in a table in a workbook.
     ///
     /// - Parameter ListTableRowsInput : [no documentation found]
@@ -162,6 +180,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTableRows(input: ListTableRowsInput) async throws -> ListTableRowsOutput
+    /// Performs the `ListTables` operation on the `SheetsPublicApiService` service.
+    ///
     /// The ListTables API allows you to retrieve a list of all the tables in a workbook.
     ///
     /// - Parameter ListTablesInput : [no documentation found]
@@ -179,6 +199,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTables(input: ListTablesInput) async throws -> ListTablesOutput
+    /// Performs the `ListTagsForResource` operation on the `SheetsPublicApiService` service.
+    ///
     /// The ListTagsForResource API allows you to return a resource's tags.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -196,6 +218,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `QueryTableRows` operation on the `SheetsPublicApiService` service.
+    ///
     /// The QueryTableRows API allows you to use a filter formula to query for specific rows in a table.
     ///
     /// - Parameter QueryTableRowsInput : [no documentation found]
@@ -213,6 +237,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func queryTableRows(input: QueryTableRowsInput) async throws -> QueryTableRowsOutput
+    /// Performs the `StartTableDataImportJob` operation on the `SheetsPublicApiService` service.
+    ///
     /// The StartTableDataImportJob API allows you to start an import job on a table. This API will only return the id of the job that was started. To find out the status of the import request, you need to call the DescribeTableDataImportJob API.
     ///
     /// - Parameter StartTableDataImportJobInput : [no documentation found]
@@ -231,6 +257,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func startTableDataImportJob(input: StartTableDataImportJobInput) async throws -> StartTableDataImportJobOutput
+    /// Performs the `TagResource` operation on the `SheetsPublicApiService` service.
+    ///
     /// The TagResource API allows you to add tags to an ARN-able resource. Resource includes workbook, table, screen and screen-automation.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -248,6 +276,8 @@ public protocol HoneycodeClientProtocol {
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `SheetsPublicApiService` service.
+    ///
     /// The UntagResource API allows you to removes tags from an ARN-able resource. Resource includes workbook, table, screen and screen-automation.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

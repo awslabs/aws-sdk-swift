@@ -11,6 +11,8 @@ import ClientRuntime
 ///
 /// Amazon A2I integrates APIs from various AWS services to create and start human review workflows for those services. To learn how Amazon A2I uses these APIs, see [Use APIs in Amazon A2I](https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-api-references.html) in the Amazon SageMaker Developer Guide.
 public protocol SageMakerA2IRuntimeClientProtocol {
+    /// Performs the `DeleteHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    ///
     /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException.
     ///
     /// - Parameter DeleteHumanLoopInput : [no documentation found]
@@ -25,6 +27,8 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func deleteHumanLoop(input: DeleteHumanLoopInput) async throws -> DeleteHumanLoopOutput
+    /// Performs the `DescribeHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    ///
     /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error.
     ///
     /// - Parameter DescribeHumanLoopInput : [no documentation found]
@@ -39,6 +43,8 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func describeHumanLoop(input: DescribeHumanLoopInput) async throws -> DescribeHumanLoopOutput
+    /// Performs the `ListHumanLoops` operation on the `AmazonSageMakerA2IRuntime` service.
+    ///
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     ///
     /// - Parameter ListHumanLoopsInput : [no documentation found]
@@ -53,6 +59,8 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listHumanLoops(input: ListHumanLoopsInput) async throws -> ListHumanLoopsOutput
+    /// Performs the `StartHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    ///
     /// Starts a human loop, provided that at least one activation condition is met.
     ///
     /// - Parameter StartHumanLoopInput : [no documentation found]
@@ -68,6 +76,8 @@ public protocol SageMakerA2IRuntimeClientProtocol {
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func startHumanLoop(input: StartHumanLoopInput) async throws -> StartHumanLoopOutput
+    /// Performs the `StopHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    ///
     /// Stops the specified human loop.
     ///
     /// - Parameter StopHumanLoopInput : [no documentation found]

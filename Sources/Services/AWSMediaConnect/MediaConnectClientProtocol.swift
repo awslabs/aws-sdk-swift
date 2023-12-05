@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// API for AWS Elemental MediaConnect
 public protocol MediaConnectClientProtocol {
+    /// Performs the `AddBridgeOutputs` operation on the `MediaConnect` service.
+    ///
     /// Adds outputs to an existing bridge.
     ///
     /// - Parameter AddBridgeOutputsInput : A request to add outputs to the specified bridge.
@@ -21,6 +23,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func addBridgeOutputs(input: AddBridgeOutputsInput) async throws -> AddBridgeOutputsOutput
+    /// Performs the `AddBridgeSources` operation on the `MediaConnect` service.
+    ///
     /// Adds sources to an existing bridge.
     ///
     /// - Parameter AddBridgeSourcesInput : A request to add sources to the specified bridge.
@@ -38,6 +42,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func addBridgeSources(input: AddBridgeSourcesInput) async throws -> AddBridgeSourcesOutput
+    /// Performs the `AddFlowMediaStreams` operation on the `MediaConnect` service.
+    ///
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     ///
     /// - Parameter AddFlowMediaStreamsInput : A request to add media streams to the flow.
@@ -54,6 +60,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func addFlowMediaStreams(input: AddFlowMediaStreamsInput) async throws -> AddFlowMediaStreamsOutput
+    /// Performs the `AddFlowOutputs` operation on the `MediaConnect` service.
+    ///
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     ///
     /// - Parameter AddFlowOutputsInput : A request to add outputs to the specified flow.
@@ -71,6 +79,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func addFlowOutputs(input: AddFlowOutputsInput) async throws -> AddFlowOutputsOutput
+    /// Performs the `AddFlowSources` operation on the `MediaConnect` service.
+    ///
     /// Adds Sources to flow
     ///
     /// - Parameter AddFlowSourcesInput : A request to add sources to the flow.
@@ -87,6 +97,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func addFlowSources(input: AddFlowSourcesInput) async throws -> AddFlowSourcesOutput
+    /// Performs the `AddFlowVpcInterfaces` operation on the `MediaConnect` service.
+    ///
     /// Adds VPC interfaces to flow
     ///
     /// - Parameter AddFlowVpcInterfacesInput : A request to add VPC interfaces to the flow.
@@ -103,6 +115,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func addFlowVpcInterfaces(input: AddFlowVpcInterfacesInput) async throws -> AddFlowVpcInterfacesOutput
+    /// Performs the `CreateBridge` operation on the `MediaConnect` service.
+    ///
     /// Creates a new bridge. The request must include one source.
     ///
     /// - Parameter CreateBridgeInput : Creates a new bridge. The request must include one source.
@@ -120,6 +134,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func createBridge(input: CreateBridgeInput) async throws -> CreateBridgeOutput
+    /// Performs the `CreateFlow` operation on the `MediaConnect` service.
+    ///
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     ///
     /// - Parameter CreateFlowInput : Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
@@ -136,6 +152,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutput
+    /// Performs the `CreateGateway` operation on the `MediaConnect` service.
+    ///
     /// Creates a new gateway. The request must include at least one network (up to 4).
     ///
     /// - Parameter CreateGatewayInput : Creates a new gateway. The request must include at least one network (up to 4).
@@ -153,6 +171,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput
+    /// Performs the `DeleteBridge` operation on the `MediaConnect` service.
+    ///
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     ///
     /// - Parameter DeleteBridgeInput : [no documentation found]
@@ -170,6 +190,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func deleteBridge(input: DeleteBridgeInput) async throws -> DeleteBridgeOutput
+    /// Performs the `DeleteFlow` operation on the `MediaConnect` service.
+    ///
     /// Deletes a flow. Before you can delete a flow, you must stop the flow.
     ///
     /// - Parameter DeleteFlowInput : [no documentation found]
@@ -186,6 +208,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutput
+    /// Performs the `DeleteGateway` operation on the `MediaConnect` service.
+    ///
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     ///
     /// - Parameter DeleteGatewayInput : [no documentation found]
@@ -203,6 +227,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput
+    /// Performs the `DeregisterGatewayInstance` operation on the `MediaConnect` service.
+    ///
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     ///
     /// - Parameter DeregisterGatewayInstanceInput : [no documentation found]
@@ -220,6 +246,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func deregisterGatewayInstance(input: DeregisterGatewayInstanceInput) async throws -> DeregisterGatewayInstanceOutput
+    /// Performs the `DescribeBridge` operation on the `MediaConnect` service.
+    ///
     /// Displays the details of a bridge.
     ///
     /// - Parameter DescribeBridgeInput : [no documentation found]
@@ -237,6 +265,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeBridge(input: DescribeBridgeInput) async throws -> DescribeBridgeOutput
+    /// Performs the `DescribeFlow` operation on the `MediaConnect` service.
+    ///
     /// Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     ///
     /// - Parameter DescribeFlowInput : [no documentation found]
@@ -253,6 +283,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput
+    /// Performs the `DescribeGateway` operation on the `MediaConnect` service.
+    ///
     /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
     ///
     /// - Parameter DescribeGatewayInput : [no documentation found]
@@ -270,6 +302,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeGateway(input: DescribeGatewayInput) async throws -> DescribeGatewayOutput
+    /// Performs the `DescribeGatewayInstance` operation on the `MediaConnect` service.
+    ///
     /// Displays the details of an instance.
     ///
     /// - Parameter DescribeGatewayInstanceInput : [no documentation found]
@@ -287,6 +321,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeGatewayInstance(input: DescribeGatewayInstanceInput) async throws -> DescribeGatewayInstanceOutput
+    /// Performs the `DescribeOffering` operation on the `MediaConnect` service.
+    ///
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     ///
     /// - Parameter DescribeOfferingInput : [no documentation found]
@@ -302,6 +338,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput
+    /// Performs the `DescribeReservation` operation on the `MediaConnect` service.
+    ///
     /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     ///
     /// - Parameter DescribeReservationInput : [no documentation found]
@@ -317,6 +355,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput
+    /// Performs the `GrantFlowEntitlements` operation on the `MediaConnect` service.
+    ///
     /// Grants entitlements to an existing flow.
     ///
     /// - Parameter GrantFlowEntitlementsInput : A request to grant entitlements on a flow.
@@ -334,6 +374,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func grantFlowEntitlements(input: GrantFlowEntitlementsInput) async throws -> GrantFlowEntitlementsOutput
+    /// Performs the `ListBridges` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of bridges that are associated with this account and an optionally specified Arn. This request returns a paginated result.
     ///
     /// - Parameter ListBridgesInput : [no documentation found]
@@ -349,6 +391,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listBridges(input: ListBridgesInput) async throws -> ListBridgesOutput
+    /// Performs the `ListEntitlements` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     ///
     /// - Parameter ListEntitlementsInput : [no documentation found]
@@ -363,6 +407,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listEntitlements(input: ListEntitlementsInput) async throws -> ListEntitlementsOutput
+    /// Performs the `ListFlows` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of flows that are associated with this account. This request returns a paginated result.
     ///
     /// - Parameter ListFlowsInput : [no documentation found]
@@ -377,6 +423,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput
+    /// Performs the `ListGatewayInstances` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of instances associated with the AWS account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     ///
     /// - Parameter ListGatewayInstancesInput : [no documentation found]
@@ -392,6 +440,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listGatewayInstances(input: ListGatewayInstancesInput) async throws -> ListGatewayInstancesOutput
+    /// Performs the `ListGateways` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
@@ -407,6 +457,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
+    /// Performs the `ListOfferings` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     ///
     /// - Parameter ListOfferingsInput : [no documentation found]
@@ -421,6 +473,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
+    /// Performs the `ListReservations` operation on the `MediaConnect` service.
+    ///
     /// Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
     ///
     /// - Parameter ListReservationsInput : [no documentation found]
@@ -435,6 +489,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput
+    /// Performs the `ListTagsForResource` operation on the `MediaConnect` service.
+    ///
     /// List all tags on an AWS Elemental MediaConnect resource
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -448,6 +504,8 @@ public protocol MediaConnectClientProtocol {
     /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PurchaseOffering` operation on the `MediaConnect` service.
+    ///
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     ///
     /// - Parameter PurchaseOfferingInput : A request to purchase a offering.
@@ -464,6 +522,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
+    /// Performs the `RemoveBridgeOutput` operation on the `MediaConnect` service.
+    ///
     /// Removes an output from a bridge.
     ///
     /// - Parameter RemoveBridgeOutputInput : [no documentation found]
@@ -481,6 +541,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func removeBridgeOutput(input: RemoveBridgeOutputInput) async throws -> RemoveBridgeOutputOutput
+    /// Performs the `RemoveBridgeSource` operation on the `MediaConnect` service.
+    ///
     /// Removes a source from a bridge.
     ///
     /// - Parameter RemoveBridgeSourceInput : [no documentation found]
@@ -498,6 +560,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func removeBridgeSource(input: RemoveBridgeSourceInput) async throws -> RemoveBridgeSourceOutput
+    /// Performs the `RemoveFlowMediaStream` operation on the `MediaConnect` service.
+    ///
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     ///
     /// - Parameter RemoveFlowMediaStreamInput : [no documentation found]
@@ -514,6 +578,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func removeFlowMediaStream(input: RemoveFlowMediaStreamInput) async throws -> RemoveFlowMediaStreamOutput
+    /// Performs the `RemoveFlowOutput` operation on the `MediaConnect` service.
+    ///
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     ///
     /// - Parameter RemoveFlowOutputInput : [no documentation found]
@@ -530,6 +596,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func removeFlowOutput(input: RemoveFlowOutputInput) async throws -> RemoveFlowOutputOutput
+    /// Performs the `RemoveFlowSource` operation on the `MediaConnect` service.
+    ///
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     ///
     /// - Parameter RemoveFlowSourceInput : [no documentation found]
@@ -546,6 +614,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func removeFlowSource(input: RemoveFlowSourceInput) async throws -> RemoveFlowSourceOutput
+    /// Performs the `RemoveFlowVpcInterface` operation on the `MediaConnect` service.
+    ///
     /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     ///
     /// - Parameter RemoveFlowVpcInterfaceInput : [no documentation found]
@@ -562,6 +632,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func removeFlowVpcInterface(input: RemoveFlowVpcInterfaceInput) async throws -> RemoveFlowVpcInterfaceOutput
+    /// Performs the `RevokeFlowEntitlement` operation on the `MediaConnect` service.
+    ///
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     ///
     /// - Parameter RevokeFlowEntitlementInput : [no documentation found]
@@ -578,6 +650,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func revokeFlowEntitlement(input: RevokeFlowEntitlementInput) async throws -> RevokeFlowEntitlementOutput
+    /// Performs the `StartFlow` operation on the `MediaConnect` service.
+    ///
     /// Starts a flow.
     ///
     /// - Parameter StartFlowInput : [no documentation found]
@@ -594,6 +668,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func startFlow(input: StartFlowInput) async throws -> StartFlowOutput
+    /// Performs the `StopFlow` operation on the `MediaConnect` service.
+    ///
     /// Stops a flow.
     ///
     /// - Parameter StopFlowInput : [no documentation found]
@@ -610,6 +686,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func stopFlow(input: StopFlowInput) async throws -> StopFlowOutput
+    /// Performs the `TagResource` operation on the `MediaConnect` service.
+    ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// - Parameter TagResourceInput : The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -623,6 +701,8 @@ public protocol MediaConnectClientProtocol {
     /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `MediaConnect` service.
+    ///
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -636,6 +716,8 @@ public protocol MediaConnectClientProtocol {
     /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateBridge` operation on the `MediaConnect` service.
+    ///
     /// Updates the bridge
     ///
     /// - Parameter UpdateBridgeInput : A request to update the bridge.
@@ -653,6 +735,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateBridge(input: UpdateBridgeInput) async throws -> UpdateBridgeOutput
+    /// Performs the `UpdateBridgeOutput` operation on the `MediaConnect` service.
+    ///
     /// Updates an existing bridge output.
     ///
     /// - Parameter UpdateBridgeOutputInput : The fields that you want to update in the bridge output.
@@ -670,6 +754,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateBridgeOutput(input: UpdateBridgeOutputInput) async throws -> UpdateBridgeOutputOutput
+    /// Performs the `UpdateBridgeSource` operation on the `MediaConnect` service.
+    ///
     /// Updates an existing bridge source.
     ///
     /// - Parameter UpdateBridgeSourceInput : The fields that you want to update in the bridge source.
@@ -687,6 +773,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateBridgeSource(input: UpdateBridgeSourceInput) async throws -> UpdateBridgeSourceOutput
+    /// Performs the `UpdateBridgeState` operation on the `MediaConnect` service.
+    ///
     /// Updates the bridge state
     ///
     /// - Parameter UpdateBridgeStateInput : A request to update the bridge state.
@@ -704,6 +792,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateBridgeState(input: UpdateBridgeStateInput) async throws -> UpdateBridgeStateOutput
+    /// Performs the `UpdateFlow` operation on the `MediaConnect` service.
+    ///
     /// Updates flow
     ///
     /// - Parameter UpdateFlowInput : A request to update flow.
@@ -720,6 +810,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutput
+    /// Performs the `UpdateFlowEntitlement` operation on the `MediaConnect` service.
+    ///
     /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     ///
     /// - Parameter UpdateFlowEntitlementInput : The entitlement fields that you want to update.
@@ -736,6 +828,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateFlowEntitlement(input: UpdateFlowEntitlementInput) async throws -> UpdateFlowEntitlementOutput
+    /// Performs the `UpdateFlowMediaStream` operation on the `MediaConnect` service.
+    ///
     /// Updates an existing media stream.
     ///
     /// - Parameter UpdateFlowMediaStreamInput : The fields that you want to update in the media stream.
@@ -752,6 +846,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateFlowMediaStream(input: UpdateFlowMediaStreamInput) async throws -> UpdateFlowMediaStreamOutput
+    /// Performs the `UpdateFlowOutput` operation on the `MediaConnect` service.
+    ///
     /// Updates an existing flow output.
     ///
     /// - Parameter UpdateFlowOutputInput : The fields that you want to update in the output.
@@ -768,6 +864,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateFlowOutput(input: UpdateFlowOutputInput) async throws -> UpdateFlowOutputOutput
+    /// Performs the `UpdateFlowSource` operation on the `MediaConnect` service.
+    ///
     /// Updates the source of a flow.
     ///
     /// - Parameter UpdateFlowSourceInput : A request to update the source of a flow.
@@ -784,6 +882,8 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func updateFlowSource(input: UpdateFlowSourceInput) async throws -> UpdateFlowSourceOutput
+    /// Performs the `UpdateGatewayInstance` operation on the `MediaConnect` service.
+    ///
     /// Updates the configuration of an existing Gateway Instance.
     ///
     /// - Parameter UpdateGatewayInstanceInput : A request to update gateway instance state.

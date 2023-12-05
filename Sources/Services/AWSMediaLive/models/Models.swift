@@ -5653,6 +5653,151 @@ enum ClaimDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension MediaLiveClientTypes.ColorCorrection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputColorSpace = "inputColorSpace"
+        case outputColorSpace = "outputColorSpace"
+        case uri = "uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputColorSpace = self.inputColorSpace {
+            try encodeContainer.encode(inputColorSpace.rawValue, forKey: .inputColorSpace)
+        }
+        if let outputColorSpace = self.outputColorSpace {
+            try encodeContainer.encode(outputColorSpace.rawValue, forKey: .outputColorSpace)
+        }
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputColorSpaceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ColorSpace.self, forKey: .inputColorSpace)
+        inputColorSpace = inputColorSpaceDecoded
+        let outputColorSpaceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ColorSpace.self, forKey: .outputColorSpace)
+        outputColorSpace = outputColorSpaceDecoded
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Property of ColorCorrectionSettings. Used for custom color space conversion. The object identifies one 3D LUT file and specifies the input/output color space combination that the file will be used for.
+    public struct ColorCorrection: Swift.Equatable {
+        /// The color space of the input.
+        /// This member is required.
+        public var inputColorSpace: MediaLiveClientTypes.ColorSpace?
+        /// The color space of the output.
+        /// This member is required.
+        public var outputColorSpace: MediaLiveClientTypes.ColorSpace?
+        /// The URI of the 3D LUT file. The protocol must be 's3:' or 's3ssl:':.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            inputColorSpace: MediaLiveClientTypes.ColorSpace? = nil,
+            outputColorSpace: MediaLiveClientTypes.ColorSpace? = nil,
+            uri: Swift.String? = nil
+        )
+        {
+            self.inputColorSpace = inputColorSpace
+            self.outputColorSpace = outputColorSpace
+            self.uri = uri
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.ColorCorrectionSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalColorCorrections = "globalColorCorrections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalColorCorrections = globalColorCorrections {
+            var globalColorCorrectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalColorCorrections)
+            for colorcorrection0 in globalColorCorrections {
+                try globalColorCorrectionsContainer.encode(colorcorrection0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let globalColorCorrectionsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ColorCorrection?].self, forKey: .globalColorCorrections)
+        var globalColorCorrectionsDecoded0:[MediaLiveClientTypes.ColorCorrection]? = nil
+        if let globalColorCorrectionsContainer = globalColorCorrectionsContainer {
+            globalColorCorrectionsDecoded0 = [MediaLiveClientTypes.ColorCorrection]()
+            for structure0 in globalColorCorrectionsContainer {
+                if let structure0 = structure0 {
+                    globalColorCorrectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        globalColorCorrections = globalColorCorrectionsDecoded0
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Property of encoderSettings. Controls color conversion when you are using 3D LUT files to perform color conversion on video.
+    public struct ColorCorrectionSettings: Swift.Equatable {
+        /// An array of colorCorrections that applies when you are using 3D LUT files to perform color conversion on video. Each colorCorrection contains one 3D LUT file (that defines the color mapping for converting an input color space to an output color space), and the input/output combination that this 3D LUT file applies to. MediaLive reads the color space in the input metadata, determines the color space that you have specified for the output, and finds and uses the LUT file that applies to this combination.
+        /// This member is required.
+        public var globalColorCorrections: [MediaLiveClientTypes.ColorCorrection]?
+
+        public init(
+            globalColorCorrections: [MediaLiveClientTypes.ColorCorrection]? = nil
+        )
+        {
+            self.globalColorCorrections = globalColorCorrections
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Property of colorCorrections. When you are using 3D LUT files to perform color conversion on video, these are the supported color spaces.
+    public enum ColorSpace: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hdr10
+        case hlg2020
+        case rec601
+        case rec709
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColorSpace] {
+            return [
+                .hdr10,
+                .hlg2020,
+                .rec601,
+                .rec709,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hdr10: return "HDR10"
+            case .hlg2020: return "HLG_2020"
+            case .rec601: return "REC_601"
+            case .rec709: return "REC_709"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ColorSpace(rawValue: rawValue) ?? ColorSpace.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.ColorSpacePassthroughSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12734,6 +12879,7 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         case availConfiguration = "availConfiguration"
         case blackoutSlate = "blackoutSlate"
         case captionDescriptions = "captionDescriptions"
+        case colorCorrectionSettings = "colorCorrectionSettings"
         case featureActivations = "featureActivations"
         case globalConfiguration = "globalConfiguration"
         case motionGraphicsConfiguration = "motionGraphicsConfiguration"
@@ -12766,6 +12912,9 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
             for captiondescription0 in captionDescriptions {
                 try captionDescriptionsContainer.encode(captiondescription0)
             }
+        }
+        if let colorCorrectionSettings = self.colorCorrectionSettings {
+            try encodeContainer.encode(colorCorrectionSettings, forKey: .colorCorrectionSettings)
         }
         if let featureActivations = self.featureActivations {
             try encodeContainer.encode(featureActivations, forKey: .featureActivations)
@@ -12829,6 +12978,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
             }
         }
         captionDescriptions = captionDescriptionsDecoded0
+        let colorCorrectionSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ColorCorrectionSettings.self, forKey: .colorCorrectionSettings)
+        colorCorrectionSettings = colorCorrectionSettingsDecoded
         let featureActivationsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FeatureActivations.self, forKey: .featureActivations)
         featureActivations = featureActivationsDecoded
         let globalConfigurationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.GlobalConfiguration.self, forKey: .globalConfiguration)
@@ -12880,6 +13031,8 @@ extension MediaLiveClientTypes {
         public var blackoutSlate: MediaLiveClientTypes.BlackoutSlate?
         /// Settings for caption decriptions
         public var captionDescriptions: [MediaLiveClientTypes.CaptionDescription]?
+        /// Color correction settings
+        public var colorCorrectionSettings: MediaLiveClientTypes.ColorCorrectionSettings?
         /// Feature Activations
         public var featureActivations: MediaLiveClientTypes.FeatureActivations?
         /// Configuration settings that apply to the event as a whole.
@@ -12906,6 +13059,7 @@ extension MediaLiveClientTypes {
             availConfiguration: MediaLiveClientTypes.AvailConfiguration? = nil,
             blackoutSlate: MediaLiveClientTypes.BlackoutSlate? = nil,
             captionDescriptions: [MediaLiveClientTypes.CaptionDescription]? = nil,
+            colorCorrectionSettings: MediaLiveClientTypes.ColorCorrectionSettings? = nil,
             featureActivations: MediaLiveClientTypes.FeatureActivations? = nil,
             globalConfiguration: MediaLiveClientTypes.GlobalConfiguration? = nil,
             motionGraphicsConfiguration: MediaLiveClientTypes.MotionGraphicsConfiguration? = nil,
@@ -12921,6 +13075,7 @@ extension MediaLiveClientTypes {
             self.availConfiguration = availConfiguration
             self.blackoutSlate = blackoutSlate
             self.captionDescriptions = captionDescriptions
+            self.colorCorrectionSettings = colorCorrectionSettings
             self.featureActivations = featureActivations
             self.globalConfiguration = globalConfiguration
             self.motionGraphicsConfiguration = motionGraphicsConfiguration
@@ -13159,6 +13314,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.FeatureActivations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputPrepareScheduleActions = "inputPrepareScheduleActions"
+        case outputStaticImageOverlayScheduleActions = "outputStaticImageOverlayScheduleActions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13166,12 +13322,17 @@ extension MediaLiveClientTypes.FeatureActivations: Swift.Codable {
         if let inputPrepareScheduleActions = self.inputPrepareScheduleActions {
             try encodeContainer.encode(inputPrepareScheduleActions.rawValue, forKey: .inputPrepareScheduleActions)
         }
+        if let outputStaticImageOverlayScheduleActions = self.outputStaticImageOverlayScheduleActions {
+            try encodeContainer.encode(outputStaticImageOverlayScheduleActions.rawValue, forKey: .outputStaticImageOverlayScheduleActions)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputPrepareScheduleActionsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions.self, forKey: .inputPrepareScheduleActions)
         inputPrepareScheduleActions = inputPrepareScheduleActionsDecoded
+        let outputStaticImageOverlayScheduleActionsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FeatureActivationsOutputStaticImageOverlayScheduleActions.self, forKey: .outputStaticImageOverlayScheduleActions)
+        outputStaticImageOverlayScheduleActions = outputStaticImageOverlayScheduleActionsDecoded
     }
 }
 
@@ -13180,12 +13341,16 @@ extension MediaLiveClientTypes {
     public struct FeatureActivations: Swift.Equatable {
         /// Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled. If you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule.
         public var inputPrepareScheduleActions: MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions?
+        /// Enables the output static image overlay feature. Enabling this feature allows you to send channel schedule updates to display/clear/modify image overlays on an output-by-output bases.
+        public var outputStaticImageOverlayScheduleActions: MediaLiveClientTypes.FeatureActivationsOutputStaticImageOverlayScheduleActions?
 
         public init(
-            inputPrepareScheduleActions: MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions? = nil
+            inputPrepareScheduleActions: MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions? = nil,
+            outputStaticImageOverlayScheduleActions: MediaLiveClientTypes.FeatureActivationsOutputStaticImageOverlayScheduleActions? = nil
         )
         {
             self.inputPrepareScheduleActions = inputPrepareScheduleActions
+            self.outputStaticImageOverlayScheduleActions = outputStaticImageOverlayScheduleActions
         }
     }
 
@@ -13220,6 +13385,39 @@ extension MediaLiveClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = FeatureActivationsInputPrepareScheduleActions(rawValue: rawValue) ?? FeatureActivationsInputPrepareScheduleActions.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Feature Activations Output Static Image Overlay Schedule Actions
+    public enum FeatureActivationsOutputStaticImageOverlayScheduleActions: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureActivationsOutputStaticImageOverlayScheduleActions] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FeatureActivationsOutputStaticImageOverlayScheduleActions(rawValue: rawValue) ?? FeatureActivationsOutputStaticImageOverlayScheduleActions.sdkUnknown(rawValue)
         }
     }
 }
@@ -31055,6 +31253,8 @@ extension MediaLiveClientTypes.ScheduleActionSettings: Swift.Codable {
         case scte35TimeSignalSettings = "scte35TimeSignalSettings"
         case staticImageActivateSettings = "staticImageActivateSettings"
         case staticImageDeactivateSettings = "staticImageDeactivateSettings"
+        case staticImageOutputActivateSettings = "staticImageOutputActivateSettings"
+        case staticImageOutputDeactivateSettings = "staticImageOutputDeactivateSettings"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -31098,6 +31298,12 @@ extension MediaLiveClientTypes.ScheduleActionSettings: Swift.Codable {
         if let staticImageDeactivateSettings = self.staticImageDeactivateSettings {
             try encodeContainer.encode(staticImageDeactivateSettings, forKey: .staticImageDeactivateSettings)
         }
+        if let staticImageOutputActivateSettings = self.staticImageOutputActivateSettings {
+            try encodeContainer.encode(staticImageOutputActivateSettings, forKey: .staticImageOutputActivateSettings)
+        }
+        if let staticImageOutputDeactivateSettings = self.staticImageOutputDeactivateSettings {
+            try encodeContainer.encode(staticImageOutputDeactivateSettings, forKey: .staticImageOutputDeactivateSettings)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -31128,6 +31334,10 @@ extension MediaLiveClientTypes.ScheduleActionSettings: Swift.Codable {
         staticImageActivateSettings = staticImageActivateSettingsDecoded
         let staticImageDeactivateSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings.self, forKey: .staticImageDeactivateSettings)
         staticImageDeactivateSettings = staticImageDeactivateSettingsDecoded
+        let staticImageOutputActivateSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings.self, forKey: .staticImageOutputActivateSettings)
+        staticImageOutputActivateSettings = staticImageOutputActivateSettingsDecoded
+        let staticImageOutputDeactivateSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings.self, forKey: .staticImageOutputDeactivateSettings)
+        staticImageOutputDeactivateSettings = staticImageOutputDeactivateSettingsDecoded
     }
 }
 
@@ -31160,6 +31370,10 @@ extension MediaLiveClientTypes {
         public var staticImageActivateSettings: MediaLiveClientTypes.StaticImageActivateScheduleActionSettings?
         /// Action to deactivate a static image overlay
         public var staticImageDeactivateSettings: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings?
+        /// Action to activate a static image overlay in one or more specified outputs
+        public var staticImageOutputActivateSettings: MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings?
+        /// Action to deactivate a static image overlay in one or more specified outputs
+        public var staticImageOutputDeactivateSettings: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings?
 
         public init(
             hlsId3SegmentTaggingSettings: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings? = nil,
@@ -31174,7 +31388,9 @@ extension MediaLiveClientTypes {
             scte35SpliceInsertSettings: MediaLiveClientTypes.Scte35SpliceInsertScheduleActionSettings? = nil,
             scte35TimeSignalSettings: MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings? = nil,
             staticImageActivateSettings: MediaLiveClientTypes.StaticImageActivateScheduleActionSettings? = nil,
-            staticImageDeactivateSettings: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings? = nil
+            staticImageDeactivateSettings: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings? = nil,
+            staticImageOutputActivateSettings: MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings? = nil,
+            staticImageOutputDeactivateSettings: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings? = nil
         )
         {
             self.hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettings
@@ -31190,6 +31406,8 @@ extension MediaLiveClientTypes {
             self.scte35TimeSignalSettings = scte35TimeSignalSettings
             self.staticImageActivateSettings = staticImageActivateSettings
             self.staticImageDeactivateSettings = staticImageDeactivateSettings
+            self.staticImageOutputActivateSettings = staticImageOutputActivateSettings
+            self.staticImageOutputDeactivateSettings = staticImageOutputDeactivateSettings
         }
     }
 
@@ -33052,7 +33270,7 @@ extension StartInputDeviceInput: ClientRuntime.URLPathProvider {
 
 /// Placeholder documentation for StartInputDeviceRequest
 public struct StartInputDeviceInput: Swift.Equatable {
-    /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
+    /// The unique ID of the input device to start. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
@@ -33577,6 +33795,223 @@ extension MediaLiveClientTypes {
 
 }
 
+extension MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration = "duration"
+        case fadeIn = "fadeIn"
+        case fadeOut = "fadeOut"
+        case height = "height"
+        case image = "image"
+        case imagex = "imageX"
+        case imagey = "imageY"
+        case layer = "layer"
+        case opacity = "opacity"
+        case outputNames = "outputNames"
+        case width = "width"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
+        }
+        if let fadeIn = self.fadeIn {
+            try encodeContainer.encode(fadeIn, forKey: .fadeIn)
+        }
+        if let fadeOut = self.fadeOut {
+            try encodeContainer.encode(fadeOut, forKey: .fadeOut)
+        }
+        if let height = self.height {
+            try encodeContainer.encode(height, forKey: .height)
+        }
+        if let image = self.image {
+            try encodeContainer.encode(image, forKey: .image)
+        }
+        if let imagex = self.imagex {
+            try encodeContainer.encode(imagex, forKey: .imagex)
+        }
+        if let imagey = self.imagey {
+            try encodeContainer.encode(imagey, forKey: .imagey)
+        }
+        if let layer = self.layer {
+            try encodeContainer.encode(layer, forKey: .layer)
+        }
+        if let opacity = self.opacity {
+            try encodeContainer.encode(opacity, forKey: .opacity)
+        }
+        if let outputNames = outputNames {
+            var outputNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputNames)
+            for __string0 in outputNames {
+                try outputNamesContainer.encode(__string0)
+            }
+        }
+        if let width = self.width {
+            try encodeContainer.encode(width, forKey: .width)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
+        let fadeInDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fadeIn)
+        fadeIn = fadeInDecoded
+        let fadeOutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fadeOut)
+        fadeOut = fadeOutDecoded
+        let heightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .height)
+        height = heightDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputLocation.self, forKey: .image)
+        image = imageDecoded
+        let imagexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .imagex)
+        imagex = imagexDecoded
+        let imageyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .imagey)
+        imagey = imageyDecoded
+        let layerDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .layer)
+        layer = layerDecoded
+        let opacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .opacity)
+        opacity = opacityDecoded
+        let outputNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .outputNames)
+        var outputNamesDecoded0:[Swift.String]? = nil
+        if let outputNamesContainer = outputNamesContainer {
+            outputNamesDecoded0 = [Swift.String]()
+            for string0 in outputNamesContainer {
+                if let string0 = string0 {
+                    outputNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        outputNames = outputNamesDecoded0
+        let widthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .width)
+        width = widthDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Settings for the action to activate a static image.
+    public struct StaticImageOutputActivateScheduleActionSettings: Swift.Equatable {
+        /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
+        public var duration: Swift.Int?
+        /// The time in milliseconds for the image to fade in. The fade-in starts at the start time of the overlay. Default is 0 (no fade-in).
+        public var fadeIn: Swift.Int?
+        /// Applies only if a duration is specified. The time in milliseconds for the image to fade out. The fade-out starts when the duration time is hit, so it effectively extends the duration. Default is 0 (no fade-out).
+        public var fadeOut: Swift.Int?
+        /// The height of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified height. Leave blank to use the native height of the overlay.
+        public var height: Swift.Int?
+        /// The location and filename of the image file to overlay on the video. The file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in pixels) than the input video.
+        /// This member is required.
+        public var image: MediaLiveClientTypes.InputLocation?
+        /// Placement of the left edge of the overlay relative to the left edge of the video frame, in pixels. 0 (the default) is the left edge of the frame. If the placement causes the overlay to extend beyond the right edge of the underlying video, then the overlay is cropped on the right.
+        public var imagex: Swift.Int?
+        /// Placement of the top edge of the overlay relative to the top edge of the video frame, in pixels. 0 (the default) is the top edge of the frame. If the placement causes the overlay to extend beyond the bottom edge of the underlying video, then the overlay is cropped on the bottom.
+        public var imagey: Swift.Int?
+        /// The number of the layer, 0 to 7. There are 8 layers that can be overlaid on the video, each layer with a different image. The layers are in Z order, which means that overlays with higher values of layer are inserted on top of overlays with lower values of layer. Default is 0.
+        public var layer: Swift.Int?
+        /// Opacity of image where 0 is transparent and 100 is fully opaque. Default is 100.
+        public var opacity: Swift.Int?
+        /// The name(s) of the output(s) the activation should apply to.
+        /// This member is required.
+        public var outputNames: [Swift.String]?
+        /// The width of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified width. Leave blank to use the native width of the overlay.
+        public var width: Swift.Int?
+
+        public init(
+            duration: Swift.Int? = nil,
+            fadeIn: Swift.Int? = nil,
+            fadeOut: Swift.Int? = nil,
+            height: Swift.Int? = nil,
+            image: MediaLiveClientTypes.InputLocation? = nil,
+            imagex: Swift.Int? = nil,
+            imagey: Swift.Int? = nil,
+            layer: Swift.Int? = nil,
+            opacity: Swift.Int? = nil,
+            outputNames: [Swift.String]? = nil,
+            width: Swift.Int? = nil
+        )
+        {
+            self.duration = duration
+            self.fadeIn = fadeIn
+            self.fadeOut = fadeOut
+            self.height = height
+            self.image = image
+            self.imagex = imagex
+            self.imagey = imagey
+            self.layer = layer
+            self.opacity = opacity
+            self.outputNames = outputNames
+            self.width = width
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fadeOut = "fadeOut"
+        case layer = "layer"
+        case outputNames = "outputNames"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fadeOut = self.fadeOut {
+            try encodeContainer.encode(fadeOut, forKey: .fadeOut)
+        }
+        if let layer = self.layer {
+            try encodeContainer.encode(layer, forKey: .layer)
+        }
+        if let outputNames = outputNames {
+            var outputNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputNames)
+            for __string0 in outputNames {
+                try outputNamesContainer.encode(__string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fadeOutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fadeOut)
+        fadeOut = fadeOutDecoded
+        let layerDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .layer)
+        layer = layerDecoded
+        let outputNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .outputNames)
+        var outputNamesDecoded0:[Swift.String]? = nil
+        if let outputNamesContainer = outputNamesContainer {
+            outputNamesDecoded0 = [Swift.String]()
+            for string0 in outputNamesContainer {
+                if let string0 = string0 {
+                    outputNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        outputNames = outputNamesDecoded0
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Settings for the action to deactivate the image in a specific layer.
+    public struct StaticImageOutputDeactivateScheduleActionSettings: Swift.Equatable {
+        /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
+        public var fadeOut: Swift.Int?
+        /// The image overlay layer to deactivate, 0 to 7. Default is 0.
+        public var layer: Swift.Int?
+        /// The name(s) of the output(s) the deactivation should apply to.
+        /// This member is required.
+        public var outputNames: [Swift.String]?
+
+        public init(
+            fadeOut: Swift.Int? = nil,
+            layer: Swift.Int? = nil,
+            outputNames: [Swift.String]? = nil
+        )
+        {
+            self.fadeOut = fadeOut
+            self.layer = layer
+            self.outputNames = outputNames
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.StaticKeySettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyProviderServer = "keyProviderServer"
@@ -33940,7 +34375,7 @@ extension StopInputDeviceInput: ClientRuntime.URLPathProvider {
 
 /// Placeholder documentation for StopInputDeviceRequest
 public struct StopInputDeviceInput: Swift.Equatable {
-    /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
+    /// The unique ID of the input device to stop. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
 
@@ -34558,7 +34993,7 @@ extension MediaLiveClientTypes.ThumbnailConfiguration: Swift.Codable {
 extension MediaLiveClientTypes {
     /// Thumbnail Configuration
     public struct ThumbnailConfiguration: Swift.Equatable {
-        /// Whether Thumbnail is enabled.
+        /// Enables the thumbnail feature. The feature generates thumbnails of the incoming video in each pipeline in the channel. AUTO turns the feature on, DISABLE turns the feature off.
         /// This member is required.
         public var state: MediaLiveClientTypes.ThumbnailState?
 

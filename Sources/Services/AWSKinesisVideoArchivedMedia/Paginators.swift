@@ -12,7 +12,7 @@ extension KinesisVideoArchivedMediaClient {
     ///     - input: A `[GetImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetImagesOutput`
     public func getImagesPaginated(input: GetImagesInput) -> ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutput> {
-        return ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutput>(input: input, inputKey: \GetImagesInput.nextToken, outputKey: \GetImagesOutput.nextToken, paginationFunction: self.getImages(input:))
+        return ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getImages(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension GetImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetImagesInput, Output == GetImagesOutput {
+extension PaginatorSequence where OperationStackInput == GetImagesInput, OperationStackOutput == GetImagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getImagesPaginated`
     /// to access the nested member `[KinesisVideoArchivedMediaClientTypes.Image]`
     /// - Returns: `[KinesisVideoArchivedMediaClientTypes.Image]`
@@ -52,7 +52,7 @@ extension KinesisVideoArchivedMediaClient {
     ///     - input: A `[ListFragmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFragmentsOutput`
     public func listFragmentsPaginated(input: ListFragmentsInput) -> ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutput>(input: input, inputKey: \ListFragmentsInput.nextToken, outputKey: \ListFragmentsOutput.nextToken, paginationFunction: self.listFragments(input:))
+        return ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFragments(input:))
     }
 }
 
@@ -67,7 +67,7 @@ extension ListFragmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFragmentsInput, Output == ListFragmentsOutput {
+extension PaginatorSequence where OperationStackInput == ListFragmentsInput, OperationStackOutput == ListFragmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFragmentsPaginated`
     /// to access the nested member `[KinesisVideoArchivedMediaClientTypes.Fragment]`
     /// - Returns: `[KinesisVideoArchivedMediaClientTypes.Fragment]`

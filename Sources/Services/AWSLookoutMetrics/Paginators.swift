@@ -12,7 +12,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[DescribeAnomalyDetectionExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAnomalyDetectionExecutionsOutput`
     public func describeAnomalyDetectionExecutionsPaginated(input: DescribeAnomalyDetectionExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAnomalyDetectionExecutionsInput, DescribeAnomalyDetectionExecutionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeAnomalyDetectionExecutionsInput, DescribeAnomalyDetectionExecutionsOutput>(input: input, inputKey: \DescribeAnomalyDetectionExecutionsInput.nextToken, outputKey: \DescribeAnomalyDetectionExecutionsOutput.nextToken, paginationFunction: self.describeAnomalyDetectionExecutions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeAnomalyDetectionExecutionsInput, DescribeAnomalyDetectionExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAnomalyDetectionExecutions(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[GetFeedbackInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFeedbackOutput`
     public func getFeedbackPaginated(input: GetFeedbackInput) -> ClientRuntime.PaginatorSequence<GetFeedbackInput, GetFeedbackOutput> {
-        return ClientRuntime.PaginatorSequence<GetFeedbackInput, GetFeedbackOutput>(input: input, inputKey: \GetFeedbackInput.nextToken, outputKey: \GetFeedbackOutput.nextToken, paginationFunction: self.getFeedback(input:))
+        return ClientRuntime.PaginatorSequence<GetFeedbackInput, GetFeedbackOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFeedback(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[ListAlertsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAlertsOutput`
     public func listAlertsPaginated(input: ListAlertsInput) -> ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput>(input: input, inputKey: \ListAlertsInput.nextToken, outputKey: \ListAlertsOutput.nextToken, paginationFunction: self.listAlerts(input:))
+        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAlerts(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[ListAnomalyDetectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnomalyDetectorsOutput`
     public func listAnomalyDetectorsPaginated(input: ListAnomalyDetectorsInput) -> ClientRuntime.PaginatorSequence<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(input: input, inputKey: \ListAnomalyDetectorsInput.nextToken, outputKey: \ListAnomalyDetectorsOutput.nextToken, paginationFunction: self.listAnomalyDetectors(input:))
+        return ClientRuntime.PaginatorSequence<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnomalyDetectors(input:))
     }
 }
 
@@ -101,7 +101,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[ListAnomalyGroupRelatedMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnomalyGroupRelatedMetricsOutput`
     public func listAnomalyGroupRelatedMetricsPaginated(input: ListAnomalyGroupRelatedMetricsInput) -> ClientRuntime.PaginatorSequence<ListAnomalyGroupRelatedMetricsInput, ListAnomalyGroupRelatedMetricsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAnomalyGroupRelatedMetricsInput, ListAnomalyGroupRelatedMetricsOutput>(input: input, inputKey: \ListAnomalyGroupRelatedMetricsInput.nextToken, outputKey: \ListAnomalyGroupRelatedMetricsOutput.nextToken, paginationFunction: self.listAnomalyGroupRelatedMetrics(input:))
+        return ClientRuntime.PaginatorSequence<ListAnomalyGroupRelatedMetricsInput, ListAnomalyGroupRelatedMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnomalyGroupRelatedMetrics(input:))
     }
 }
 
@@ -125,7 +125,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[ListAnomalyGroupSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnomalyGroupSummariesOutput`
     public func listAnomalyGroupSummariesPaginated(input: ListAnomalyGroupSummariesInput) -> ClientRuntime.PaginatorSequence<ListAnomalyGroupSummariesInput, ListAnomalyGroupSummariesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAnomalyGroupSummariesInput, ListAnomalyGroupSummariesOutput>(input: input, inputKey: \ListAnomalyGroupSummariesInput.nextToken, outputKey: \ListAnomalyGroupSummariesOutput.nextToken, paginationFunction: self.listAnomalyGroupSummaries(input:))
+        return ClientRuntime.PaginatorSequence<ListAnomalyGroupSummariesInput, ListAnomalyGroupSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnomalyGroupSummaries(input:))
     }
 }
 
@@ -148,7 +148,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[ListAnomalyGroupTimeSeriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnomalyGroupTimeSeriesOutput`
     public func listAnomalyGroupTimeSeriesPaginated(input: ListAnomalyGroupTimeSeriesInput) -> ClientRuntime.PaginatorSequence<ListAnomalyGroupTimeSeriesInput, ListAnomalyGroupTimeSeriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAnomalyGroupTimeSeriesInput, ListAnomalyGroupTimeSeriesOutput>(input: input, inputKey: \ListAnomalyGroupTimeSeriesInput.nextToken, outputKey: \ListAnomalyGroupTimeSeriesOutput.nextToken, paginationFunction: self.listAnomalyGroupTimeSeries(input:))
+        return ClientRuntime.PaginatorSequence<ListAnomalyGroupTimeSeriesInput, ListAnomalyGroupTimeSeriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnomalyGroupTimeSeries(input:))
     }
 }
 
@@ -172,7 +172,7 @@ extension LookoutMetricsClient {
     ///     - input: A `[ListMetricSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMetricSetsOutput`
     public func listMetricSetsPaginated(input: ListMetricSetsInput) -> ClientRuntime.PaginatorSequence<ListMetricSetsInput, ListMetricSetsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMetricSetsInput, ListMetricSetsOutput>(input: input, inputKey: \ListMetricSetsInput.nextToken, outputKey: \ListMetricSetsOutput.nextToken, paginationFunction: self.listMetricSets(input:))
+        return ClientRuntime.PaginatorSequence<ListMetricSetsInput, ListMetricSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetricSets(input:))
     }
 }
 

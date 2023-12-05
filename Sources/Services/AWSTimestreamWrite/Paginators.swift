@@ -12,7 +12,7 @@ extension TimestreamWriteClient {
     ///     - input: A `[ListBatchLoadTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBatchLoadTasksOutput`
     public func listBatchLoadTasksPaginated(input: ListBatchLoadTasksInput) -> ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(input: input, inputKey: \ListBatchLoadTasksInput.nextToken, outputKey: \ListBatchLoadTasksOutput.nextToken, paginationFunction: self.listBatchLoadTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBatchLoadTasks(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension TimestreamWriteClient {
     ///     - input: A `[ListDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
     public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
+        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatabases(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension TimestreamWriteClient {
     ///     - input: A `[ListTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
     public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTables(input:))
     }
 }
 

@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The new Amazon Elastic DocumentDB service endpoint.
 public protocol DocDBElasticClientProtocol {
+    /// Performs the `CreateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
@@ -20,6 +22,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
+    /// Performs the `CreateClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Creates a snapshot of a cluster.
     ///
     /// - Parameter CreateClusterSnapshotInput : [no documentation found]
@@ -37,6 +41,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
+    /// Performs the `DeleteCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Delete a Elastic DocumentDB cluster.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
@@ -53,6 +59,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
+    /// Performs the `DeleteClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Delete a Elastic DocumentDB snapshot.
     ///
     /// - Parameter DeleteClusterSnapshotInput : [no documentation found]
@@ -69,6 +77,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
+    /// Performs the `GetCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about a specific Elastic DocumentDB cluster.
     ///
     /// - Parameter GetClusterInput : [no documentation found]
@@ -84,6 +94,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func getCluster(input: GetClusterInput) async throws -> GetClusterOutput
+    /// Performs the `GetClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about a specific Elastic DocumentDB snapshot
     ///
     /// - Parameter GetClusterSnapshotInput : [no documentation found]
@@ -99,6 +111,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput
+    /// Performs the `ListClusters` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about provisioned Elastic DocumentDB clusters.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
@@ -113,6 +127,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
+    /// Performs the `ListClusterSnapshots` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
     ///
     /// - Parameter ListClusterSnapshotsInput : [no documentation found]
@@ -127,6 +143,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput
+    /// Performs the `ListTagsForResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Lists all tags on a Elastic DocumentDB resource
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -141,6 +159,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `RestoreClusterFromSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Restores a Elastic DocumentDB cluster from a snapshot.
     ///
     /// - Parameter RestoreClusterFromSnapshotInput : [no documentation found]
@@ -158,6 +178,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput
+    /// Performs the `TagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Adds metadata tags to a Elastic DocumentDB resource
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -172,6 +194,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Removes metadata tags to a Elastic DocumentDB resource
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -186,6 +210,8 @@ public protocol DocDBElasticClientProtocol {
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
     /// Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password, upgrading API version setting up a backup window and maintenance window
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]

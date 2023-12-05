@@ -242,8 +242,12 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1554,7 +1558,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * General purpose:
         ///
-        /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+        /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
         ///
@@ -1570,7 +1574,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * Memory optimized:
         ///
-        /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+        /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
         ///
@@ -1980,7 +1984,7 @@ extension ElastiCacheClientTypes {
     ///
     /// * General purpose:
     ///
-    /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+    /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
     ///
@@ -1996,7 +2000,7 @@ extension ElastiCacheClientTypes {
     ///
     /// * Memory optimized:
     ///
-    /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+    /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
     ///
@@ -3392,6 +3396,51 @@ extension CacheSubnetQuotaExceededFaultBody: Swift.Decodable {
     }
 }
 
+extension ElastiCacheClientTypes.CacheUsageLimits: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataStorage = "DataStorage"
+        case ecpuPerSecond = "ECPUPerSecond"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dataStorage = dataStorage {
+            try container.encode(dataStorage, forKey: ClientRuntime.Key("DataStorage"))
+        }
+        if let ecpuPerSecond = ecpuPerSecond {
+            try container.encode(ecpuPerSecond, forKey: ClientRuntime.Key("ECPUPerSecond"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataStorageDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.DataStorage.self, forKey: .dataStorage)
+        dataStorage = dataStorageDecoded
+        let ecpuPerSecondDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ECPUPerSecond.self, forKey: .ecpuPerSecond)
+        ecpuPerSecond = ecpuPerSecondDecoded
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// The usage limits for storage and ElastiCache Processing Units for the cache.
+    public struct CacheUsageLimits: Swift.Equatable {
+        /// The maximum data storage limit in the cache, expressed in Gigabytes.
+        public var dataStorage: ElastiCacheClientTypes.DataStorage?
+        /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
+        public var ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond?
+
+        public init(
+            dataStorage: ElastiCacheClientTypes.DataStorage? = nil,
+            ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond? = nil
+        )
+        {
+            self.dataStorage = dataStorage
+            self.ecpuPerSecond = ecpuPerSecond
+        }
+    }
+
+}
+
 extension ElastiCacheClientTypes {
     public enum ChangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case immediate
@@ -3788,6 +3837,170 @@ extension ElastiCacheClientTypes {
 
 }
 
+extension CopyServerlessCacheSnapshotInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
+        }
+        if let sourceServerlessCacheSnapshotName = sourceServerlessCacheSnapshotName {
+            try container.encode(sourceServerlessCacheSnapshotName, forKey: ClientRuntime.Key("SourceServerlessCacheSnapshotName"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let targetServerlessCacheSnapshotName = targetServerlessCacheSnapshotName {
+            try container.encode(targetServerlessCacheSnapshotName, forKey: ClientRuntime.Key("TargetServerlessCacheSnapshotName"))
+        }
+        try container.encode("CopyServerlessCacheSnapshot", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CopyServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CopyServerlessCacheSnapshotInput: Swift.Equatable {
+    /// The identifier of the KMS key used to encrypt the target snapshot. Available for Redis only.
+    public var kmsKeyId: Swift.String?
+    /// The identifier of the existing serverless cache’s snapshot to be copied. Available for Redis only.
+    /// This member is required.
+    public var sourceServerlessCacheSnapshotName: Swift.String?
+    /// A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Redis only. Default: NULL
+    public var tags: [ElastiCacheClientTypes.Tag]?
+    /// The identifier for the snapshot to be created. Available for Redis only.
+    /// This member is required.
+    public var targetServerlessCacheSnapshotName: Swift.String?
+
+    public init(
+        kmsKeyId: Swift.String? = nil,
+        sourceServerlessCacheSnapshotName: Swift.String? = nil,
+        tags: [ElastiCacheClientTypes.Tag]? = nil,
+        targetServerlessCacheSnapshotName: Swift.String? = nil
+    )
+    {
+        self.kmsKeyId = kmsKeyId
+        self.sourceServerlessCacheSnapshotName = sourceServerlessCacheSnapshotName
+        self.tags = tags
+        self.targetServerlessCacheSnapshotName = targetServerlessCacheSnapshotName
+    }
+}
+
+struct CopyServerlessCacheSnapshotInputBody: Swift.Equatable {
+    let sourceServerlessCacheSnapshotName: Swift.String?
+    let targetServerlessCacheSnapshotName: Swift.String?
+    let kmsKeyId: Swift.String?
+    let tags: [ElastiCacheClientTypes.Tag]?
+}
+
+extension CopyServerlessCacheSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId = "KmsKeyId"
+        case sourceServerlessCacheSnapshotName = "SourceServerlessCacheSnapshotName"
+        case tags = "Tags"
+        case targetServerlessCacheSnapshotName = "TargetServerlessCacheSnapshotName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerlessCacheSnapshotName)
+        sourceServerlessCacheSnapshotName = sourceServerlessCacheSnapshotNameDecoded
+        let targetServerlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetServerlessCacheSnapshotName)
+        targetServerlessCacheSnapshotName = targetServerlessCacheSnapshotNameDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([ElastiCacheClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[ElastiCacheClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [ElastiCacheClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CopyServerlessCacheSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopyServerlessCacheSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCacheSnapshot = output.serverlessCacheSnapshot
+        } else {
+            self.serverlessCacheSnapshot = nil
+        }
+    }
+}
+
+public struct CopyServerlessCacheSnapshotOutput: Swift.Equatable {
+    /// The response for the attempt to copy the serverless cache snapshot. Available for Redis only.
+    public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+
+    public init(
+        serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
+    )
+    {
+        self.serverlessCacheSnapshot = serverlessCacheSnapshot
+    }
+}
+
+struct CopyServerlessCacheSnapshotOutputBody: Swift.Equatable {
+    let serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+}
+
+extension CopyServerlessCacheSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopyServerlessCacheSnapshotResult"))
+        let serverlessCacheSnapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCacheSnapshot.self, forKey: .serverlessCacheSnapshot)
+        serverlessCacheSnapshot = serverlessCacheSnapshotDecoded
+    }
+}
+
+enum CopyServerlessCacheSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotAlreadyExistsFault": return try await ServerlessCacheSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotQuotaExceededFault": return try await ServerlessCacheSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension CopySnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -4160,7 +4373,7 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     ///
     /// * General purpose:
     ///
-    /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+    /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
     ///
@@ -4176,7 +4389,7 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     ///
     /// * Memory optimized:
     ///
-    /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+    /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
     ///
@@ -5408,6 +5621,9 @@ extension CreateReplicationGroupInput: Swift.Encodable {
                 try securityGroupIdsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let serverlessCacheSnapshotName = serverlessCacheSnapshotName {
+            try container.encode(serverlessCacheSnapshotName, forKey: ClientRuntime.Key("ServerlessCacheSnapshotName"))
+        }
         if let snapshotArns = snapshotArns {
             if !snapshotArns.isEmpty {
                 var snapshotArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SnapshotArns"))
@@ -5493,7 +5709,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     ///
     /// * General purpose:
     ///
-    /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+    /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
     ///
@@ -5509,7 +5725,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     ///
     /// * Memory optimized:
     ///
-    /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+    /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
     ///
@@ -5609,6 +5825,8 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var replicationGroupId: Swift.String?
     /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
     public var securityGroupIds: [Swift.String]?
+    /// The name of the snapshot used to create a replication group. Available for Redis only.
+    public var serverlessCacheSnapshotName: Swift.String?
     /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
     public var snapshotArns: [Swift.String]?
     /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
@@ -5657,6 +5875,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         replicationGroupDescription: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
+        serverlessCacheSnapshotName: Swift.String? = nil,
         snapshotArns: [Swift.String]? = nil,
         snapshotName: Swift.String? = nil,
         snapshotRetentionLimit: Swift.Int? = nil,
@@ -5697,6 +5916,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         self.replicationGroupDescription = replicationGroupDescription
         self.replicationGroupId = replicationGroupId
         self.securityGroupIds = securityGroupIds
+        self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
         self.snapshotArns = snapshotArns
         self.snapshotName = snapshotName
         self.snapshotRetentionLimit = snapshotRetentionLimit
@@ -5747,6 +5967,7 @@ struct CreateReplicationGroupInputBody: Swift.Equatable {
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
     let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     let clusterMode: ElastiCacheClientTypes.ClusterMode?
+    let serverlessCacheSnapshotName: Swift.String?
 }
 
 extension CreateReplicationGroupInputBody: Swift.Decodable {
@@ -5781,6 +6002,7 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         case replicationGroupDescription = "ReplicationGroupDescription"
         case replicationGroupId = "ReplicationGroupId"
         case securityGroupIds = "SecurityGroupIds"
+        case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
         case snapshotArns = "SnapshotArns"
         case snapshotName = "SnapshotName"
         case snapshotRetentionLimit = "SnapshotRetentionLimit"
@@ -6005,6 +6227,8 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         transitEncryptionMode = transitEncryptionModeDecoded
         let clusterModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ClusterMode.self, forKey: .clusterMode)
         clusterMode = clusterModeDecoded
+        let serverlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheSnapshotName)
+        serverlessCacheSnapshotName = serverlessCacheSnapshotNameDecoded
     }
 }
 
@@ -6072,6 +6296,514 @@ enum CreateReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ReplicationGroupAlreadyExists": return try await ReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateServerlessCacheInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let cacheUsageLimits = cacheUsageLimits {
+            try container.encode(cacheUsageLimits, forKey: ClientRuntime.Key("CacheUsageLimits"))
+        }
+        if let dailySnapshotTime = dailySnapshotTime {
+            try container.encode(dailySnapshotTime, forKey: ClientRuntime.Key("DailySnapshotTime"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let engine = engine {
+            try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
+        }
+        if let majorEngineVersion = majorEngineVersion {
+            try container.encode(majorEngineVersion, forKey: ClientRuntime.Key("MajorEngineVersion"))
+        }
+        if let securityGroupIds = securityGroupIds {
+            if !securityGroupIds.isEmpty {
+                var securityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SecurityGroupIds"))
+                for (index0, string0) in securityGroupIds.enumerated() {
+                    try securityGroupIdsContainer.encode(string0, forKey: ClientRuntime.Key("SecurityGroupId.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var securityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SecurityGroupIds"))
+                try securityGroupIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        if let snapshotArnsToRestore = snapshotArnsToRestore {
+            if !snapshotArnsToRestore.isEmpty {
+                var snapshotArnsToRestoreContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SnapshotArnsToRestore"))
+                for (index0, string0) in snapshotArnsToRestore.enumerated() {
+                    try snapshotArnsToRestoreContainer.encode(string0, forKey: ClientRuntime.Key("SnapshotArn.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var snapshotArnsToRestoreContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SnapshotArnsToRestore"))
+                try snapshotArnsToRestoreContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let snapshotRetentionLimit = snapshotRetentionLimit {
+            try container.encode(snapshotRetentionLimit, forKey: ClientRuntime.Key("SnapshotRetentionLimit"))
+        }
+        if let subnetIds = subnetIds {
+            if !subnetIds.isEmpty {
+                var subnetIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SubnetIds"))
+                for (index0, string0) in subnetIds.enumerated() {
+                    try subnetIdsContainer.encode(string0, forKey: ClientRuntime.Key("SubnetId.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var subnetIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SubnetIds"))
+                try subnetIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let userGroupId = userGroupId {
+            try container.encode(userGroupId, forKey: ClientRuntime.Key("UserGroupId"))
+        }
+        try container.encode("CreateServerlessCache", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateServerlessCacheInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateServerlessCacheInput: Swift.Equatable {
+    /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
+    public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+    /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with 0, i.e. no snapshots will be created on an automatic daily basis. Available for Redis only.
+    public var dailySnapshotTime: Swift.String?
+    /// User-provided description for the serverless cache. The default is NULL, i.e. if no description is provided then an empty string will be returned. The maximum length is 255 characters.
+    public var description: Swift.String?
+    /// The name of the cache engine to be used for creating the serverless cache.
+    /// This member is required.
+    public var engine: Swift.String?
+    /// ARN of the customer managed key for encrypting the data at rest. If no KMS key is provided, a default service key is used.
+    public var kmsKeyId: Swift.String?
+    /// The version of the cache engine that will be used to create the serverless cache.
+    public var majorEngineVersion: Swift.String?
+    /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic access for the VPC end-point (private-link). If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC end-point.
+    public var securityGroupIds: [Swift.String]?
+    /// User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
+    /// This member is required.
+    public var serverlessCacheName: Swift.String?
+    /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Redis only.
+    public var snapshotArnsToRestore: [Swift.String]?
+    /// The number of snapshots that will be retained for the serverless cache that is being created. As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Redis only.
+    public var snapshotRetentionLimit: Swift.Int?
+    /// A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed. All the subnetIds must belong to the same VPC.
+    public var subnetIds: [Swift.String]?
+    /// The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL.
+    public var tags: [ElastiCacheClientTypes.Tag]?
+    /// The identifier of the UserGroup to be associated with the serverless cache. Available for Redis only. Default is NULL.
+    public var userGroupId: Swift.String?
+
+    public init(
+        cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
+        dailySnapshotTime: Swift.String? = nil,
+        description: Swift.String? = nil,
+        engine: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        majorEngineVersion: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        serverlessCacheName: Swift.String? = nil,
+        snapshotArnsToRestore: [Swift.String]? = nil,
+        snapshotRetentionLimit: Swift.Int? = nil,
+        subnetIds: [Swift.String]? = nil,
+        tags: [ElastiCacheClientTypes.Tag]? = nil,
+        userGroupId: Swift.String? = nil
+    )
+    {
+        self.cacheUsageLimits = cacheUsageLimits
+        self.dailySnapshotTime = dailySnapshotTime
+        self.description = description
+        self.engine = engine
+        self.kmsKeyId = kmsKeyId
+        self.majorEngineVersion = majorEngineVersion
+        self.securityGroupIds = securityGroupIds
+        self.serverlessCacheName = serverlessCacheName
+        self.snapshotArnsToRestore = snapshotArnsToRestore
+        self.snapshotRetentionLimit = snapshotRetentionLimit
+        self.subnetIds = subnetIds
+        self.tags = tags
+        self.userGroupId = userGroupId
+    }
+}
+
+struct CreateServerlessCacheInputBody: Swift.Equatable {
+    let serverlessCacheName: Swift.String?
+    let description: Swift.String?
+    let engine: Swift.String?
+    let majorEngineVersion: Swift.String?
+    let cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+    let kmsKeyId: Swift.String?
+    let securityGroupIds: [Swift.String]?
+    let snapshotArnsToRestore: [Swift.String]?
+    let tags: [ElastiCacheClientTypes.Tag]?
+    let userGroupId: Swift.String?
+    let subnetIds: [Swift.String]?
+    let snapshotRetentionLimit: Swift.Int?
+    let dailySnapshotTime: Swift.String?
+}
+
+extension CreateServerlessCacheInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheUsageLimits = "CacheUsageLimits"
+        case dailySnapshotTime = "DailySnapshotTime"
+        case description = "Description"
+        case engine = "Engine"
+        case kmsKeyId = "KmsKeyId"
+        case majorEngineVersion = "MajorEngineVersion"
+        case securityGroupIds = "SecurityGroupIds"
+        case serverlessCacheName = "ServerlessCacheName"
+        case snapshotArnsToRestore = "SnapshotArnsToRestore"
+        case snapshotRetentionLimit = "SnapshotRetentionLimit"
+        case subnetIds = "SubnetIds"
+        case tags = "Tags"
+        case userGroupId = "UserGroupId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
+        majorEngineVersion = majorEngineVersionDecoded
+        let cacheUsageLimitsDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheUsageLimits.self, forKey: .cacheUsageLimits)
+        cacheUsageLimits = cacheUsageLimitsDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.securityGroupIds) {
+            struct KeyVal0{struct SecurityGroupId{}}
+            let securityGroupIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.SecurityGroupId>.CodingKeys.self, forKey: .securityGroupIds)
+            if let securityGroupIdsWrappedContainer = securityGroupIdsWrappedContainer {
+                let securityGroupIdsContainer = try securityGroupIdsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var securityGroupIdsBuffer:[Swift.String]? = nil
+                if let securityGroupIdsContainer = securityGroupIdsContainer {
+                    securityGroupIdsBuffer = [Swift.String]()
+                    for stringContainer0 in securityGroupIdsContainer {
+                        securityGroupIdsBuffer?.append(stringContainer0)
+                    }
+                }
+                securityGroupIds = securityGroupIdsBuffer
+            } else {
+                securityGroupIds = []
+            }
+        } else {
+            securityGroupIds = nil
+        }
+        if containerValues.contains(.snapshotArnsToRestore) {
+            struct KeyVal0{struct SnapshotArn{}}
+            let snapshotArnsToRestoreWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.SnapshotArn>.CodingKeys.self, forKey: .snapshotArnsToRestore)
+            if let snapshotArnsToRestoreWrappedContainer = snapshotArnsToRestoreWrappedContainer {
+                let snapshotArnsToRestoreContainer = try snapshotArnsToRestoreWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var snapshotArnsToRestoreBuffer:[Swift.String]? = nil
+                if let snapshotArnsToRestoreContainer = snapshotArnsToRestoreContainer {
+                    snapshotArnsToRestoreBuffer = [Swift.String]()
+                    for stringContainer0 in snapshotArnsToRestoreContainer {
+                        snapshotArnsToRestoreBuffer?.append(stringContainer0)
+                    }
+                }
+                snapshotArnsToRestore = snapshotArnsToRestoreBuffer
+            } else {
+                snapshotArnsToRestore = []
+            }
+        } else {
+            snapshotArnsToRestore = nil
+        }
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([ElastiCacheClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[ElastiCacheClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [ElastiCacheClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
+        userGroupId = userGroupIdDecoded
+        if containerValues.contains(.subnetIds) {
+            struct KeyVal0{struct SubnetId{}}
+            let subnetIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.SubnetId>.CodingKeys.self, forKey: .subnetIds)
+            if let subnetIdsWrappedContainer = subnetIdsWrappedContainer {
+                let subnetIdsContainer = try subnetIdsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var subnetIdsBuffer:[Swift.String]? = nil
+                if let subnetIdsContainer = subnetIdsContainer {
+                    subnetIdsBuffer = [Swift.String]()
+                    for stringContainer0 in subnetIdsContainer {
+                        subnetIdsBuffer?.append(stringContainer0)
+                    }
+                }
+                subnetIds = subnetIdsBuffer
+            } else {
+                subnetIds = []
+            }
+        } else {
+            subnetIds = nil
+        }
+        let snapshotRetentionLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotRetentionLimit)
+        snapshotRetentionLimit = snapshotRetentionLimitDecoded
+        let dailySnapshotTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dailySnapshotTime)
+        dailySnapshotTime = dailySnapshotTimeDecoded
+    }
+}
+
+extension CreateServerlessCacheOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServerlessCacheOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCache = output.serverlessCache
+        } else {
+            self.serverlessCache = nil
+        }
+    }
+}
+
+public struct CreateServerlessCacheOutput: Swift.Equatable {
+    /// The response for the attempt to create the serverless cache.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+
+    public init(
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
+    )
+    {
+        self.serverlessCache = serverlessCache
+    }
+}
+
+struct CreateServerlessCacheOutputBody: Swift.Equatable {
+    let serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+}
+
+extension CreateServerlessCacheOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCache = "ServerlessCache"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateServerlessCacheResult"))
+        let serverlessCacheDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCache.self, forKey: .serverlessCache)
+        serverlessCache = serverlessCacheDecoded
+    }
+}
+
+enum CreateServerlessCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidCredentialsException": return try await InvalidCredentialsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheAlreadyExistsFault": return try await ServerlessCacheAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheQuotaForCustomerExceededFault": return try await ServerlessCacheQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateServerlessCacheSnapshotInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        if let serverlessCacheSnapshotName = serverlessCacheSnapshotName {
+            try container.encode(serverlessCacheSnapshotName, forKey: ClientRuntime.Key("ServerlessCacheSnapshotName"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("CreateServerlessCacheSnapshot", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateServerlessCacheSnapshotInput: Swift.Equatable {
+    /// The ID of the KMS key used to encrypt the snapshot. Available for Redis only. Default: NULL
+    public var kmsKeyId: Swift.String?
+    /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Redis only.
+    /// This member is required.
+    public var serverlessCacheName: Swift.String?
+    /// The name for the snapshot being created. Must be unique for the customer account. Available for Redis only. Must be between 1 and 255 characters.
+    /// This member is required.
+    public var serverlessCacheSnapshotName: Swift.String?
+    /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Redis only.
+    public var tags: [ElastiCacheClientTypes.Tag]?
+
+    public init(
+        kmsKeyId: Swift.String? = nil,
+        serverlessCacheName: Swift.String? = nil,
+        serverlessCacheSnapshotName: Swift.String? = nil,
+        tags: [ElastiCacheClientTypes.Tag]? = nil
+    )
+    {
+        self.kmsKeyId = kmsKeyId
+        self.serverlessCacheName = serverlessCacheName
+        self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+        self.tags = tags
+    }
+}
+
+struct CreateServerlessCacheSnapshotInputBody: Swift.Equatable {
+    let serverlessCacheSnapshotName: Swift.String?
+    let serverlessCacheName: Swift.String?
+    let kmsKeyId: Swift.String?
+    let tags: [ElastiCacheClientTypes.Tag]?
+}
+
+extension CreateServerlessCacheSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId = "KmsKeyId"
+        case serverlessCacheName = "ServerlessCacheName"
+        case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheSnapshotName)
+        serverlessCacheSnapshotName = serverlessCacheSnapshotNameDecoded
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([ElastiCacheClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[ElastiCacheClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [ElastiCacheClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CreateServerlessCacheSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServerlessCacheSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCacheSnapshot = output.serverlessCacheSnapshot
+        } else {
+            self.serverlessCacheSnapshot = nil
+        }
+    }
+}
+
+public struct CreateServerlessCacheSnapshotOutput: Swift.Equatable {
+    /// The state of a serverless cache snapshot at a specific point in time, to the millisecond. Available for Redis only.
+    public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+
+    public init(
+        serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
+    )
+    {
+        self.serverlessCacheSnapshot = serverlessCacheSnapshot
+    }
+}
+
+struct CreateServerlessCacheSnapshotOutputBody: Swift.Equatable {
+    let serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+}
+
+extension CreateServerlessCacheSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateServerlessCacheSnapshotResult"))
+        let serverlessCacheSnapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCacheSnapshot.self, forKey: .serverlessCacheSnapshot)
+        serverlessCacheSnapshot = serverlessCacheSnapshotDecoded
+    }
+}
+
+enum CreateServerlessCacheSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotAlreadyExistsFault": return try await ServerlessCacheSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotQuotaExceededFault": return try await ServerlessCacheSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -6302,7 +7034,7 @@ public struct CreateUserGroupInput: Swift.Equatable {
     /// The current supported value is Redis.
     /// This member is required.
     public var engine: Swift.String?
-    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Redis only.
     public var tags: [ElastiCacheClientTypes.Tag]?
     /// The ID of the user group.
     /// This member is required.
@@ -6396,6 +7128,7 @@ extension CreateUserGroupOutput: ClientRuntime.HttpResponseBinding {
             self.minimumEngineVersion = output.minimumEngineVersion
             self.pendingChanges = output.pendingChanges
             self.replicationGroups = output.replicationGroups
+            self.serverlessCaches = output.serverlessCaches
             self.status = output.status
             self.userGroupId = output.userGroupId
             self.userIds = output.userIds
@@ -6405,6 +7138,7 @@ extension CreateUserGroupOutput: ClientRuntime.HttpResponseBinding {
             self.minimumEngineVersion = nil
             self.pendingChanges = nil
             self.replicationGroups = nil
+            self.serverlessCaches = nil
             self.status = nil
             self.userGroupId = nil
             self.userIds = nil
@@ -6423,6 +7157,8 @@ public struct CreateUserGroupOutput: Swift.Equatable {
     public var pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
     /// A list of replication groups that the user group can access.
     public var replicationGroups: [Swift.String]?
+    /// Indicates which serverless caches the specified user group is associated with. Available for Redis only.
+    public var serverlessCaches: [Swift.String]?
     /// Indicates user group status. Can be "creating", "active", "modifying", "deleting".
     public var status: Swift.String?
     /// The ID of the user group.
@@ -6436,6 +7172,7 @@ public struct CreateUserGroupOutput: Swift.Equatable {
         minimumEngineVersion: Swift.String? = nil,
         pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges? = nil,
         replicationGroups: [Swift.String]? = nil,
+        serverlessCaches: [Swift.String]? = nil,
         status: Swift.String? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
@@ -6446,6 +7183,7 @@ public struct CreateUserGroupOutput: Swift.Equatable {
         self.minimumEngineVersion = minimumEngineVersion
         self.pendingChanges = pendingChanges
         self.replicationGroups = replicationGroups
+        self.serverlessCaches = serverlessCaches
         self.status = status
         self.userGroupId = userGroupId
         self.userIds = userIds
@@ -6460,6 +7198,7 @@ struct CreateUserGroupOutputBody: Swift.Equatable {
     let minimumEngineVersion: Swift.String?
     let pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
     let replicationGroups: [Swift.String]?
+    let serverlessCaches: [Swift.String]?
     let arn: Swift.String?
 }
 
@@ -6470,6 +7209,7 @@ extension CreateUserGroupOutputBody: Swift.Decodable {
         case minimumEngineVersion = "MinimumEngineVersion"
         case pendingChanges = "PendingChanges"
         case replicationGroups = "ReplicationGroups"
+        case serverlessCaches = "ServerlessCaches"
         case status = "Status"
         case userGroupId = "UserGroupId"
         case userIds = "UserIds"
@@ -6525,6 +7265,25 @@ extension CreateUserGroupOutputBody: Swift.Decodable {
             }
         } else {
             replicationGroups = nil
+        }
+        if containerValues.contains(.serverlessCaches) {
+            struct KeyVal0{struct member{}}
+            let serverlessCachesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serverlessCaches)
+            if let serverlessCachesWrappedContainer = serverlessCachesWrappedContainer {
+                let serverlessCachesContainer = try serverlessCachesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var serverlessCachesBuffer:[Swift.String]? = nil
+                if let serverlessCachesContainer = serverlessCachesContainer {
+                    serverlessCachesBuffer = [Swift.String]()
+                    for stringContainer0 in serverlessCachesContainer {
+                        serverlessCachesBuffer?.append(stringContainer0)
+                    }
+                }
+                serverlessCaches = serverlessCachesBuffer
+            } else {
+                serverlessCaches = []
+            }
+        } else {
+            serverlessCaches = nil
         }
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -6923,6 +7682,82 @@ extension ElastiCacheClientTypes {
         }
     }
 
+}
+
+extension ElastiCacheClientTypes.DataStorage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maximum = "Maximum"
+        case unit = "Unit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maximum = maximum {
+            try container.encode(maximum, forKey: ClientRuntime.Key("Maximum"))
+        }
+        if let unit = unit {
+            try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maximumDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximum)
+        maximum = maximumDecoded
+        let unitDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.DataStorageUnit.self, forKey: .unit)
+        unit = unitDecoded
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// The data storage limit.
+    public struct DataStorage: Swift.Equatable {
+        /// The upper limit for data storage the cache is set to use.
+        /// This member is required.
+        public var maximum: Swift.Int?
+        /// The unit that the storage is measured in, in GB.
+        /// This member is required.
+        public var unit: ElastiCacheClientTypes.DataStorageUnit?
+
+        public init(
+            maximum: Swift.Int? = nil,
+            unit: ElastiCacheClientTypes.DataStorageUnit? = nil
+        )
+        {
+            self.maximum = maximum
+            self.unit = unit
+        }
+    }
+
+}
+
+extension ElastiCacheClientTypes {
+    public enum DataStorageUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case gb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataStorageUnit] {
+            return [
+                .gb,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .gb: return "GB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataStorageUnit(rawValue: rawValue) ?? DataStorageUnit.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ElastiCacheClientTypes {
@@ -8043,6 +8878,220 @@ enum DeleteReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteServerlessCacheInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let finalSnapshotName = finalSnapshotName {
+            try container.encode(finalSnapshotName, forKey: ClientRuntime.Key("FinalSnapshotName"))
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        try container.encode("DeleteServerlessCache", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteServerlessCacheInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteServerlessCacheInput: Swift.Equatable {
+    /// Name of the final snapshot to be taken before the serverless cache is deleted. Available for Redis only. Default: NULL, i.e. a final snapshot is not taken.
+    public var finalSnapshotName: Swift.String?
+    /// The identifier of the serverless cache to be deleted.
+    /// This member is required.
+    public var serverlessCacheName: Swift.String?
+
+    public init(
+        finalSnapshotName: Swift.String? = nil,
+        serverlessCacheName: Swift.String? = nil
+    )
+    {
+        self.finalSnapshotName = finalSnapshotName
+        self.serverlessCacheName = serverlessCacheName
+    }
+}
+
+struct DeleteServerlessCacheInputBody: Swift.Equatable {
+    let serverlessCacheName: Swift.String?
+    let finalSnapshotName: Swift.String?
+}
+
+extension DeleteServerlessCacheInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case finalSnapshotName = "FinalSnapshotName"
+        case serverlessCacheName = "ServerlessCacheName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let finalSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalSnapshotName)
+        finalSnapshotName = finalSnapshotNameDecoded
+    }
+}
+
+extension DeleteServerlessCacheOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteServerlessCacheOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCache = output.serverlessCache
+        } else {
+            self.serverlessCache = nil
+        }
+    }
+}
+
+public struct DeleteServerlessCacheOutput: Swift.Equatable {
+    /// Provides the details of the specified serverless cache that is about to be deleted.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+
+    public init(
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
+    )
+    {
+        self.serverlessCache = serverlessCache
+    }
+}
+
+struct DeleteServerlessCacheOutputBody: Swift.Equatable {
+    let serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+}
+
+extension DeleteServerlessCacheOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCache = "ServerlessCache"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteServerlessCacheResult"))
+        let serverlessCacheDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCache.self, forKey: .serverlessCache)
+        serverlessCache = serverlessCacheDecoded
+    }
+}
+
+enum DeleteServerlessCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidCredentialsException": return try await InvalidCredentialsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotAlreadyExistsFault": return try await ServerlessCacheSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteServerlessCacheSnapshotInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let serverlessCacheSnapshotName = serverlessCacheSnapshotName {
+            try container.encode(serverlessCacheSnapshotName, forKey: ClientRuntime.Key("ServerlessCacheSnapshotName"))
+        }
+        try container.encode("DeleteServerlessCacheSnapshot", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteServerlessCacheSnapshotInput: Swift.Equatable {
+    /// Idenfitier of the snapshot to be deleted. Available for Redis only.
+    /// This member is required.
+    public var serverlessCacheSnapshotName: Swift.String?
+
+    public init(
+        serverlessCacheSnapshotName: Swift.String? = nil
+    )
+    {
+        self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+    }
+}
+
+struct DeleteServerlessCacheSnapshotInputBody: Swift.Equatable {
+    let serverlessCacheSnapshotName: Swift.String?
+}
+
+extension DeleteServerlessCacheSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheSnapshotName)
+        serverlessCacheSnapshotName = serverlessCacheSnapshotNameDecoded
+    }
+}
+
+extension DeleteServerlessCacheSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteServerlessCacheSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCacheSnapshot = output.serverlessCacheSnapshot
+        } else {
+            self.serverlessCacheSnapshot = nil
+        }
+    }
+}
+
+public struct DeleteServerlessCacheSnapshotOutput: Swift.Equatable {
+    /// The snapshot to be deleted. Available for Redis only.
+    public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+
+    public init(
+        serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
+    )
+    {
+        self.serverlessCacheSnapshot = serverlessCacheSnapshot
+    }
+}
+
+struct DeleteServerlessCacheSnapshotOutputBody: Swift.Equatable {
+    let serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+}
+
+extension DeleteServerlessCacheSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteServerlessCacheSnapshotResult"))
+        let serverlessCacheSnapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCacheSnapshot.self, forKey: .serverlessCacheSnapshot)
+        serverlessCacheSnapshot = serverlessCacheSnapshotDecoded
+    }
+}
+
+enum DeleteServerlessCacheSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DeleteSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -8200,6 +9249,7 @@ extension DeleteUserGroupOutput: ClientRuntime.HttpResponseBinding {
             self.minimumEngineVersion = output.minimumEngineVersion
             self.pendingChanges = output.pendingChanges
             self.replicationGroups = output.replicationGroups
+            self.serverlessCaches = output.serverlessCaches
             self.status = output.status
             self.userGroupId = output.userGroupId
             self.userIds = output.userIds
@@ -8209,6 +9259,7 @@ extension DeleteUserGroupOutput: ClientRuntime.HttpResponseBinding {
             self.minimumEngineVersion = nil
             self.pendingChanges = nil
             self.replicationGroups = nil
+            self.serverlessCaches = nil
             self.status = nil
             self.userGroupId = nil
             self.userIds = nil
@@ -8227,6 +9278,8 @@ public struct DeleteUserGroupOutput: Swift.Equatable {
     public var pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
     /// A list of replication groups that the user group can access.
     public var replicationGroups: [Swift.String]?
+    /// Indicates which serverless caches the specified user group is associated with. Available for Redis only.
+    public var serverlessCaches: [Swift.String]?
     /// Indicates user group status. Can be "creating", "active", "modifying", "deleting".
     public var status: Swift.String?
     /// The ID of the user group.
@@ -8240,6 +9293,7 @@ public struct DeleteUserGroupOutput: Swift.Equatable {
         minimumEngineVersion: Swift.String? = nil,
         pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges? = nil,
         replicationGroups: [Swift.String]? = nil,
+        serverlessCaches: [Swift.String]? = nil,
         status: Swift.String? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
@@ -8250,6 +9304,7 @@ public struct DeleteUserGroupOutput: Swift.Equatable {
         self.minimumEngineVersion = minimumEngineVersion
         self.pendingChanges = pendingChanges
         self.replicationGroups = replicationGroups
+        self.serverlessCaches = serverlessCaches
         self.status = status
         self.userGroupId = userGroupId
         self.userIds = userIds
@@ -8264,6 +9319,7 @@ struct DeleteUserGroupOutputBody: Swift.Equatable {
     let minimumEngineVersion: Swift.String?
     let pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
     let replicationGroups: [Swift.String]?
+    let serverlessCaches: [Swift.String]?
     let arn: Swift.String?
 }
 
@@ -8274,6 +9330,7 @@ extension DeleteUserGroupOutputBody: Swift.Decodable {
         case minimumEngineVersion = "MinimumEngineVersion"
         case pendingChanges = "PendingChanges"
         case replicationGroups = "ReplicationGroups"
+        case serverlessCaches = "ServerlessCaches"
         case status = "Status"
         case userGroupId = "UserGroupId"
         case userIds = "UserIds"
@@ -8329,6 +9386,25 @@ extension DeleteUserGroupOutputBody: Swift.Decodable {
             }
         } else {
             replicationGroups = nil
+        }
+        if containerValues.contains(.serverlessCaches) {
+            struct KeyVal0{struct member{}}
+            let serverlessCachesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serverlessCaches)
+            if let serverlessCachesWrappedContainer = serverlessCachesWrappedContainer {
+                let serverlessCachesContainer = try serverlessCachesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var serverlessCachesBuffer:[Swift.String]? = nil
+                if let serverlessCachesContainer = serverlessCachesContainer {
+                    serverlessCachesBuffer = [Swift.String]()
+                    for stringContainer0 in serverlessCachesContainer {
+                        serverlessCachesBuffer?.append(stringContainer0)
+                    }
+                }
+                serverlessCaches = serverlessCachesBuffer
+            } else {
+                serverlessCaches = []
+            }
+        } else {
+            serverlessCaches = nil
         }
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10199,7 +11275,7 @@ public struct DescribeReservedCacheNodesInput: Swift.Equatable {
     ///
     /// * General purpose:
     ///
-    /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+    /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
     ///
@@ -10215,7 +11291,7 @@ public struct DescribeReservedCacheNodesInput: Swift.Equatable {
     ///
     /// * Memory optimized:
     ///
-    /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+    /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
     ///
@@ -10358,7 +11434,7 @@ public struct DescribeReservedCacheNodesOfferingsInput: Swift.Equatable {
     ///
     /// * General purpose:
     ///
-    /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+    /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
     ///
@@ -10374,7 +11450,7 @@ public struct DescribeReservedCacheNodesOfferingsInput: Swift.Equatable {
     ///
     /// * Memory optimized:
     ///
-    /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+    /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
     ///
     /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
     ///
@@ -10625,6 +11701,323 @@ enum DescribeReservedCacheNodesOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeServerlessCacheSnapshotsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        if let serverlessCacheSnapshotName = serverlessCacheSnapshotName {
+            try container.encode(serverlessCacheSnapshotName, forKey: ClientRuntime.Key("ServerlessCacheSnapshotName"))
+        }
+        if let snapshotType = snapshotType {
+            try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
+        }
+        try container.encode("DescribeServerlessCacheSnapshots", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeServerlessCacheSnapshotsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeServerlessCacheSnapshotsInput: Swift.Equatable {
+    /// The maximum number of records to include in the response. If more records exist than the specified max-results value, a market is included in the response so that remaining results can be retrieved. Available for Redis only.The default is 50. The Validation Constraints are a maximum of 50.
+    public var maxResults: Swift.Int?
+    /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by max-results. Available for Redis only.
+    public var nextToken: Swift.String?
+    /// The identifier of serverless cache. If this parameter is specified, only snapshots associated with that specific serverless cache are described. Available for Redis only.
+    public var serverlessCacheName: Swift.String?
+    /// The identifier of the serverless cache’s snapshot. If this parameter is specified, only this snapshot is described. Available for Redis only.
+    public var serverlessCacheSnapshotName: Swift.String?
+    /// The type of snapshot that is being described. Available for Redis only.
+    public var snapshotType: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serverlessCacheName: Swift.String? = nil,
+        serverlessCacheSnapshotName: Swift.String? = nil,
+        snapshotType: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serverlessCacheName = serverlessCacheName
+        self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+        self.snapshotType = snapshotType
+    }
+}
+
+struct DescribeServerlessCacheSnapshotsInputBody: Swift.Equatable {
+    let serverlessCacheName: Swift.String?
+    let serverlessCacheSnapshotName: Swift.String?
+    let snapshotType: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeServerlessCacheSnapshotsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case serverlessCacheName = "ServerlessCacheName"
+        case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+        case snapshotType = "SnapshotType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let serverlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheSnapshotName)
+        serverlessCacheSnapshotName = serverlessCacheSnapshotNameDecoded
+        let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
+        snapshotType = snapshotTypeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension DescribeServerlessCacheSnapshotsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeServerlessCacheSnapshotsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.serverlessCacheSnapshots = output.serverlessCacheSnapshots
+        } else {
+            self.nextToken = nil
+            self.serverlessCacheSnapshots = nil
+        }
+    }
+}
+
+public struct DescribeServerlessCacheSnapshotsOutput: Swift.Equatable {
+    /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by max-results. Available for Redis only.
+    public var nextToken: Swift.String?
+    /// The serverless caches snapshots associated with a given description request. Available for Redis only.
+    public var serverlessCacheSnapshots: [ElastiCacheClientTypes.ServerlessCacheSnapshot]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serverlessCacheSnapshots: [ElastiCacheClientTypes.ServerlessCacheSnapshot]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.serverlessCacheSnapshots = serverlessCacheSnapshots
+    }
+}
+
+struct DescribeServerlessCacheSnapshotsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let serverlessCacheSnapshots: [ElastiCacheClientTypes.ServerlessCacheSnapshot]?
+}
+
+extension DescribeServerlessCacheSnapshotsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case serverlessCacheSnapshots = "ServerlessCacheSnapshots"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeServerlessCacheSnapshotsResult"))
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        if containerValues.contains(.serverlessCacheSnapshots) {
+            struct KeyVal0{struct ServerlessCacheSnapshot{}}
+            let serverlessCacheSnapshotsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.ServerlessCacheSnapshot>.CodingKeys.self, forKey: .serverlessCacheSnapshots)
+            if let serverlessCacheSnapshotsWrappedContainer = serverlessCacheSnapshotsWrappedContainer {
+                let serverlessCacheSnapshotsContainer = try serverlessCacheSnapshotsWrappedContainer.decodeIfPresent([ElastiCacheClientTypes.ServerlessCacheSnapshot].self, forKey: .member)
+                var serverlessCacheSnapshotsBuffer:[ElastiCacheClientTypes.ServerlessCacheSnapshot]? = nil
+                if let serverlessCacheSnapshotsContainer = serverlessCacheSnapshotsContainer {
+                    serverlessCacheSnapshotsBuffer = [ElastiCacheClientTypes.ServerlessCacheSnapshot]()
+                    for structureContainer0 in serverlessCacheSnapshotsContainer {
+                        serverlessCacheSnapshotsBuffer?.append(structureContainer0)
+                    }
+                }
+                serverlessCacheSnapshots = serverlessCacheSnapshotsBuffer
+            } else {
+                serverlessCacheSnapshots = []
+            }
+        } else {
+            serverlessCacheSnapshots = nil
+        }
+    }
+}
+
+enum DescribeServerlessCacheSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeServerlessCachesInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        try container.encode("DescribeServerlessCaches", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeServerlessCachesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeServerlessCachesInput: Swift.Equatable {
+    /// The maximum number of records in the response. If more records exist than the specified max-records value, the next token is included in the response so that remaining results can be retrieved. The default is 50.
+    public var maxResults: Swift.Int?
+    /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+    /// The identifier for the serverless cache. If this parameter is specified, only information about that specific serverless cache is returned. Default: NULL
+    public var serverlessCacheName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serverlessCacheName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serverlessCacheName = serverlessCacheName
+    }
+}
+
+struct DescribeServerlessCachesInputBody: Swift.Equatable {
+    let serverlessCacheName: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeServerlessCachesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case serverlessCacheName = "ServerlessCacheName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeServerlessCachesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeServerlessCachesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.serverlessCaches = output.serverlessCaches
+        } else {
+            self.nextToken = nil
+            self.serverlessCaches = nil
+        }
+    }
+}
+
+public struct DescribeServerlessCachesOutput: Swift.Equatable {
+    /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+    /// The serverless caches associated with a given description request.
+    public var serverlessCaches: [ElastiCacheClientTypes.ServerlessCache]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serverlessCaches: [ElastiCacheClientTypes.ServerlessCache]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.serverlessCaches = serverlessCaches
+    }
+}
+
+struct DescribeServerlessCachesOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let serverlessCaches: [ElastiCacheClientTypes.ServerlessCache]?
+}
+
+extension DescribeServerlessCachesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case serverlessCaches = "ServerlessCaches"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeServerlessCachesResult"))
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        if containerValues.contains(.serverlessCaches) {
+            struct KeyVal0{struct member{}}
+            let serverlessCachesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serverlessCaches)
+            if let serverlessCachesWrappedContainer = serverlessCachesWrappedContainer {
+                let serverlessCachesContainer = try serverlessCachesWrappedContainer.decodeIfPresent([ElastiCacheClientTypes.ServerlessCache].self, forKey: .member)
+                var serverlessCachesBuffer:[ElastiCacheClientTypes.ServerlessCache]? = nil
+                if let serverlessCachesContainer = serverlessCachesContainer {
+                    serverlessCachesBuffer = [ElastiCacheClientTypes.ServerlessCache]()
+                    for structureContainer0 in serverlessCachesContainer {
+                        serverlessCachesBuffer?.append(structureContainer0)
+                    }
+                }
+                serverlessCaches = serverlessCachesBuffer
+            } else {
+                serverlessCaches = []
+            }
+        } else {
+            serverlessCaches = nil
+        }
+    }
+}
+
+enum DescribeServerlessCachesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -11989,6 +13382,42 @@ extension ElastiCacheClientTypes {
 
 }
 
+extension ElastiCacheClientTypes.ECPUPerSecond: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maximum = "Maximum"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maximum = maximum {
+            try container.encode(maximum, forKey: ClientRuntime.Key("Maximum"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maximumDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximum)
+        maximum = maximumDecoded
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
+    public struct ECPUPerSecond: Swift.Equatable {
+        /// The configuration for the maximum number of ECPUs the cache can consume per second.
+        /// This member is required.
+        public var maximum: Swift.Int?
+
+        public init(
+            maximum: Swift.Int? = nil
+        )
+        {
+            self.maximum = maximum
+        }
+    }
+
+}
+
 extension ElastiCacheClientTypes.Endpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
@@ -12214,6 +13643,118 @@ extension ElastiCacheClientTypes {
         }
     }
 
+}
+
+extension ExportServerlessCacheSnapshotInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let s3BucketName = s3BucketName {
+            try container.encode(s3BucketName, forKey: ClientRuntime.Key("S3BucketName"))
+        }
+        if let serverlessCacheSnapshotName = serverlessCacheSnapshotName {
+            try container.encode(serverlessCacheSnapshotName, forKey: ClientRuntime.Key("ServerlessCacheSnapshotName"))
+        }
+        try container.encode("ExportServerlessCacheSnapshot", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ExportServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExportServerlessCacheSnapshotInput: Swift.Equatable {
+    /// Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region as the snapshot. Available for Redis only.
+    /// This member is required.
+    public var s3BucketName: Swift.String?
+    /// The identifier of the serverless cache snapshot to be exported to S3. Available for Redis only.
+    /// This member is required.
+    public var serverlessCacheSnapshotName: Swift.String?
+
+    public init(
+        s3BucketName: Swift.String? = nil,
+        serverlessCacheSnapshotName: Swift.String? = nil
+    )
+    {
+        self.s3BucketName = s3BucketName
+        self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+    }
+}
+
+struct ExportServerlessCacheSnapshotInputBody: Swift.Equatable {
+    let serverlessCacheSnapshotName: Swift.String?
+    let s3BucketName: Swift.String?
+}
+
+extension ExportServerlessCacheSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3BucketName = "S3BucketName"
+        case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheSnapshotName)
+        serverlessCacheSnapshotName = serverlessCacheSnapshotNameDecoded
+        let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
+        s3BucketName = s3BucketNameDecoded
+    }
+}
+
+extension ExportServerlessCacheSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportServerlessCacheSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCacheSnapshot = output.serverlessCacheSnapshot
+        } else {
+            self.serverlessCacheSnapshot = nil
+        }
+    }
+}
+
+public struct ExportServerlessCacheSnapshotOutput: Swift.Equatable {
+    /// The state of a serverless cache at a specific point in time, to the millisecond. Available for Redis only.
+    public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+
+    public init(
+        serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
+    )
+    {
+        self.serverlessCacheSnapshot = serverlessCacheSnapshot
+    }
+}
+
+struct ExportServerlessCacheSnapshotOutputBody: Swift.Equatable {
+    let serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
+}
+
+extension ExportServerlessCacheSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCacheSnapshot = "ServerlessCacheSnapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ExportServerlessCacheSnapshotResult"))
+        let serverlessCacheSnapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCacheSnapshot.self, forKey: .serverlessCacheSnapshot)
+        serverlessCacheSnapshot = serverlessCacheSnapshotDecoded
+    }
+}
+
+enum ExportServerlessCacheSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension FailoverGlobalReplicationGroupInput: Swift.Encodable {
@@ -13532,6 +15073,60 @@ extension InvalidCacheSecurityGroupStateFaultBody: Swift.Decodable {
     }
 }
 
+extension InvalidCredentialsException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidCredentialsExceptionBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You must enter valid credentials.
+public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCredentialsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidCredentialsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidCredentialsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidGlobalReplicationGroupStateFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -13793,6 +15388,114 @@ struct InvalidReplicationGroupStateFaultBody: Swift.Equatable {
 }
 
 extension InvalidReplicationGroupStateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidServerlessCacheSnapshotStateFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidServerlessCacheSnapshotStateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The state of the serverless cache snapshot was not received. Available for Redis only.
+public struct InvalidServerlessCacheSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidServerlessCacheSnapshotStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidServerlessCacheSnapshotStateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidServerlessCacheSnapshotStateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidServerlessCacheStateFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidServerlessCacheStateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The account for these credentials is not currently active.
+public struct InvalidServerlessCacheStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidServerlessCacheStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidServerlessCacheStateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidServerlessCacheStateFaultBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -14413,8 +16116,12 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16523,6 +18230,213 @@ enum ModifyReplicationGroupShardConfigurationOutputError: ClientRuntime.HttpResp
     }
 }
 
+extension ModifyServerlessCacheInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let cacheUsageLimits = cacheUsageLimits {
+            try container.encode(cacheUsageLimits, forKey: ClientRuntime.Key("CacheUsageLimits"))
+        }
+        if let dailySnapshotTime = dailySnapshotTime {
+            try container.encode(dailySnapshotTime, forKey: ClientRuntime.Key("DailySnapshotTime"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let removeUserGroup = removeUserGroup {
+            try container.encode(removeUserGroup, forKey: ClientRuntime.Key("RemoveUserGroup"))
+        }
+        if let securityGroupIds = securityGroupIds {
+            if !securityGroupIds.isEmpty {
+                var securityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SecurityGroupIds"))
+                for (index0, string0) in securityGroupIds.enumerated() {
+                    try securityGroupIdsContainer.encode(string0, forKey: ClientRuntime.Key("SecurityGroupId.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var securityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SecurityGroupIds"))
+                try securityGroupIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        if let snapshotRetentionLimit = snapshotRetentionLimit {
+            try container.encode(snapshotRetentionLimit, forKey: ClientRuntime.Key("SnapshotRetentionLimit"))
+        }
+        if let userGroupId = userGroupId {
+            try container.encode(userGroupId, forKey: ClientRuntime.Key("UserGroupId"))
+        }
+        try container.encode("ModifyServerlessCache", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyServerlessCacheInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyServerlessCacheInput: Swift.Equatable {
+    /// Modify the cache usage limit for the serverless cache.
+    public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+    /// The daily time during which Elasticache begins taking a daily snapshot of the serverless cache. Available for Redis only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
+    public var dailySnapshotTime: Swift.String?
+    /// User provided description for the serverless cache. Default = NULL, i.e. the existing description is not removed/modified. The description has a maximum length of 255 characters.
+    public var description: Swift.String?
+    /// The identifier of the UserGroup to be removed from association with the Redis serverless cache. Available for Redis only. Default is NULL.
+    public var removeUserGroup: Swift.Bool?
+    /// The new list of VPC security groups to be associated with the serverless cache. Populating this list means the current VPC security groups will be removed. This security group is used to authorize traffic access for the VPC end-point (private-link). Default = NULL - the existing list of VPC security groups is not removed.
+    public var securityGroupIds: [Swift.String]?
+    /// User-provided identifier for the serverless cache to be modified.
+    /// This member is required.
+    public var serverlessCacheName: Swift.String?
+    /// The number of days for which Elasticache retains automatic snapshots before deleting them. Available for Redis only. Default = NULL, i.e. the existing snapshot-retention-limit will not be removed or modified. The maximum value allowed is 35 days.
+    public var snapshotRetentionLimit: Swift.Int?
+    /// The identifier of the UserGroup to be associated with the serverless cache. Available for Redis only. Default is NULL - the existing UserGroup is not removed.
+    public var userGroupId: Swift.String?
+
+    public init(
+        cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
+        dailySnapshotTime: Swift.String? = nil,
+        description: Swift.String? = nil,
+        removeUserGroup: Swift.Bool? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        serverlessCacheName: Swift.String? = nil,
+        snapshotRetentionLimit: Swift.Int? = nil,
+        userGroupId: Swift.String? = nil
+    )
+    {
+        self.cacheUsageLimits = cacheUsageLimits
+        self.dailySnapshotTime = dailySnapshotTime
+        self.description = description
+        self.removeUserGroup = removeUserGroup
+        self.securityGroupIds = securityGroupIds
+        self.serverlessCacheName = serverlessCacheName
+        self.snapshotRetentionLimit = snapshotRetentionLimit
+        self.userGroupId = userGroupId
+    }
+}
+
+struct ModifyServerlessCacheInputBody: Swift.Equatable {
+    let serverlessCacheName: Swift.String?
+    let description: Swift.String?
+    let cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+    let removeUserGroup: Swift.Bool?
+    let userGroupId: Swift.String?
+    let securityGroupIds: [Swift.String]?
+    let snapshotRetentionLimit: Swift.Int?
+    let dailySnapshotTime: Swift.String?
+}
+
+extension ModifyServerlessCacheInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheUsageLimits = "CacheUsageLimits"
+        case dailySnapshotTime = "DailySnapshotTime"
+        case description = "Description"
+        case removeUserGroup = "RemoveUserGroup"
+        case securityGroupIds = "SecurityGroupIds"
+        case serverlessCacheName = "ServerlessCacheName"
+        case snapshotRetentionLimit = "SnapshotRetentionLimit"
+        case userGroupId = "UserGroupId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let cacheUsageLimitsDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheUsageLimits.self, forKey: .cacheUsageLimits)
+        cacheUsageLimits = cacheUsageLimitsDecoded
+        let removeUserGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeUserGroup)
+        removeUserGroup = removeUserGroupDecoded
+        let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
+        userGroupId = userGroupIdDecoded
+        if containerValues.contains(.securityGroupIds) {
+            struct KeyVal0{struct SecurityGroupId{}}
+            let securityGroupIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.SecurityGroupId>.CodingKeys.self, forKey: .securityGroupIds)
+            if let securityGroupIdsWrappedContainer = securityGroupIdsWrappedContainer {
+                let securityGroupIdsContainer = try securityGroupIdsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var securityGroupIdsBuffer:[Swift.String]? = nil
+                if let securityGroupIdsContainer = securityGroupIdsContainer {
+                    securityGroupIdsBuffer = [Swift.String]()
+                    for stringContainer0 in securityGroupIdsContainer {
+                        securityGroupIdsBuffer?.append(stringContainer0)
+                    }
+                }
+                securityGroupIds = securityGroupIdsBuffer
+            } else {
+                securityGroupIds = []
+            }
+        } else {
+            securityGroupIds = nil
+        }
+        let snapshotRetentionLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotRetentionLimit)
+        snapshotRetentionLimit = snapshotRetentionLimitDecoded
+        let dailySnapshotTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dailySnapshotTime)
+        dailySnapshotTime = dailySnapshotTimeDecoded
+    }
+}
+
+extension ModifyServerlessCacheOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyServerlessCacheOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverlessCache = output.serverlessCache
+        } else {
+            self.serverlessCache = nil
+        }
+    }
+}
+
+public struct ModifyServerlessCacheOutput: Swift.Equatable {
+    /// The response for the attempt to modify the serverless cache.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+
+    public init(
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
+    )
+    {
+        self.serverlessCache = serverlessCache
+    }
+}
+
+struct ModifyServerlessCacheOutputBody: Swift.Equatable {
+    let serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+}
+
+extension ModifyServerlessCacheOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverlessCache = "ServerlessCache"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyServerlessCacheResult"))
+        let serverlessCacheDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCache.self, forKey: .serverlessCache)
+        serverlessCache = serverlessCacheDecoded
+    }
+}
+
+enum ModifyServerlessCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidCredentialsException": return try await InvalidCredentialsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ModifyUserGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -16653,6 +18567,7 @@ extension ModifyUserGroupOutput: ClientRuntime.HttpResponseBinding {
             self.minimumEngineVersion = output.minimumEngineVersion
             self.pendingChanges = output.pendingChanges
             self.replicationGroups = output.replicationGroups
+            self.serverlessCaches = output.serverlessCaches
             self.status = output.status
             self.userGroupId = output.userGroupId
             self.userIds = output.userIds
@@ -16662,6 +18577,7 @@ extension ModifyUserGroupOutput: ClientRuntime.HttpResponseBinding {
             self.minimumEngineVersion = nil
             self.pendingChanges = nil
             self.replicationGroups = nil
+            self.serverlessCaches = nil
             self.status = nil
             self.userGroupId = nil
             self.userIds = nil
@@ -16680,6 +18596,8 @@ public struct ModifyUserGroupOutput: Swift.Equatable {
     public var pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
     /// A list of replication groups that the user group can access.
     public var replicationGroups: [Swift.String]?
+    /// Indicates which serverless caches the specified user group is associated with. Available for Redis only.
+    public var serverlessCaches: [Swift.String]?
     /// Indicates user group status. Can be "creating", "active", "modifying", "deleting".
     public var status: Swift.String?
     /// The ID of the user group.
@@ -16693,6 +18611,7 @@ public struct ModifyUserGroupOutput: Swift.Equatable {
         minimumEngineVersion: Swift.String? = nil,
         pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges? = nil,
         replicationGroups: [Swift.String]? = nil,
+        serverlessCaches: [Swift.String]? = nil,
         status: Swift.String? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
@@ -16703,6 +18622,7 @@ public struct ModifyUserGroupOutput: Swift.Equatable {
         self.minimumEngineVersion = minimumEngineVersion
         self.pendingChanges = pendingChanges
         self.replicationGroups = replicationGroups
+        self.serverlessCaches = serverlessCaches
         self.status = status
         self.userGroupId = userGroupId
         self.userIds = userIds
@@ -16717,6 +18637,7 @@ struct ModifyUserGroupOutputBody: Swift.Equatable {
     let minimumEngineVersion: Swift.String?
     let pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
     let replicationGroups: [Swift.String]?
+    let serverlessCaches: [Swift.String]?
     let arn: Swift.String?
 }
 
@@ -16727,6 +18648,7 @@ extension ModifyUserGroupOutputBody: Swift.Decodable {
         case minimumEngineVersion = "MinimumEngineVersion"
         case pendingChanges = "PendingChanges"
         case replicationGroups = "ReplicationGroups"
+        case serverlessCaches = "ServerlessCaches"
         case status = "Status"
         case userGroupId = "UserGroupId"
         case userIds = "UserIds"
@@ -16782,6 +18704,25 @@ extension ModifyUserGroupOutputBody: Swift.Decodable {
             }
         } else {
             replicationGroups = nil
+        }
+        if containerValues.contains(.serverlessCaches) {
+            struct KeyVal0{struct member{}}
+            let serverlessCachesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serverlessCaches)
+            if let serverlessCachesWrappedContainer = serverlessCachesWrappedContainer {
+                let serverlessCachesContainer = try serverlessCachesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var serverlessCachesBuffer:[Swift.String]? = nil
+                if let serverlessCachesContainer = serverlessCachesContainer {
+                    serverlessCachesBuffer = [Swift.String]()
+                    for stringContainer0 in serverlessCachesContainer {
+                        serverlessCachesBuffer?.append(stringContainer0)
+                    }
+                }
+                serverlessCaches = serverlessCachesBuffer
+            } else {
+                serverlessCaches = []
+            }
+        } else {
+            serverlessCaches = nil
         }
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -19372,8 +21313,12 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -20331,7 +22276,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * General purpose:
         ///
-        /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+        /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
         ///
@@ -20347,7 +22292,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * Memory optimized:
         ///
-        /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+        /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
         ///
@@ -20681,7 +22626,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * General purpose:
         ///
-        /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+        /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
         ///
@@ -20697,7 +22642,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * Memory optimized:
         ///
-        /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+        /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
         ///
@@ -21247,6 +23192,747 @@ extension ElastiCacheClientTypes {
         }
     }
 
+}
+
+extension ElastiCacheClientTypes.ServerlessCache: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "ARN"
+        case cacheUsageLimits = "CacheUsageLimits"
+        case createTime = "CreateTime"
+        case dailySnapshotTime = "DailySnapshotTime"
+        case description = "Description"
+        case endpoint = "Endpoint"
+        case engine = "Engine"
+        case fullEngineVersion = "FullEngineVersion"
+        case kmsKeyId = "KmsKeyId"
+        case majorEngineVersion = "MajorEngineVersion"
+        case readerEndpoint = "ReaderEndpoint"
+        case securityGroupIds = "SecurityGroupIds"
+        case serverlessCacheName = "ServerlessCacheName"
+        case snapshotRetentionLimit = "SnapshotRetentionLimit"
+        case status = "Status"
+        case subnetIds = "SubnetIds"
+        case userGroupId = "UserGroupId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let arn = arn {
+            try container.encode(arn, forKey: ClientRuntime.Key("ARN"))
+        }
+        if let cacheUsageLimits = cacheUsageLimits {
+            try container.encode(cacheUsageLimits, forKey: ClientRuntime.Key("CacheUsageLimits"))
+        }
+        if let createTime = createTime {
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
+        }
+        if let dailySnapshotTime = dailySnapshotTime {
+            try container.encode(dailySnapshotTime, forKey: ClientRuntime.Key("DailySnapshotTime"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let endpoint = endpoint {
+            try container.encode(endpoint, forKey: ClientRuntime.Key("Endpoint"))
+        }
+        if let engine = engine {
+            try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
+        }
+        if let fullEngineVersion = fullEngineVersion {
+            try container.encode(fullEngineVersion, forKey: ClientRuntime.Key("FullEngineVersion"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
+        }
+        if let majorEngineVersion = majorEngineVersion {
+            try container.encode(majorEngineVersion, forKey: ClientRuntime.Key("MajorEngineVersion"))
+        }
+        if let readerEndpoint = readerEndpoint {
+            try container.encode(readerEndpoint, forKey: ClientRuntime.Key("ReaderEndpoint"))
+        }
+        if let securityGroupIds = securityGroupIds {
+            if !securityGroupIds.isEmpty {
+                var securityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SecurityGroupIds"))
+                for (index0, string0) in securityGroupIds.enumerated() {
+                    try securityGroupIdsContainer.encode(string0, forKey: ClientRuntime.Key("SecurityGroupId.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var securityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SecurityGroupIds"))
+                try securityGroupIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+        if let snapshotRetentionLimit = snapshotRetentionLimit {
+            try container.encode(snapshotRetentionLimit, forKey: ClientRuntime.Key("SnapshotRetentionLimit"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let subnetIds = subnetIds {
+            if !subnetIds.isEmpty {
+                var subnetIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SubnetIds"))
+                for (index0, string0) in subnetIds.enumerated() {
+                    try subnetIdsContainer.encode(string0, forKey: ClientRuntime.Key("SubnetId.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var subnetIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SubnetIds"))
+                try subnetIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let userGroupId = userGroupId {
+            try container.encode(userGroupId, forKey: ClientRuntime.Key("UserGroupId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
+        majorEngineVersion = majorEngineVersionDecoded
+        let fullEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fullEngineVersion)
+        fullEngineVersion = fullEngineVersionDecoded
+        let cacheUsageLimitsDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheUsageLimits.self, forKey: .cacheUsageLimits)
+        cacheUsageLimits = cacheUsageLimitsDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.securityGroupIds) {
+            struct KeyVal0{struct SecurityGroupId{}}
+            let securityGroupIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.SecurityGroupId>.CodingKeys.self, forKey: .securityGroupIds)
+            if let securityGroupIdsWrappedContainer = securityGroupIdsWrappedContainer {
+                let securityGroupIdsContainer = try securityGroupIdsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var securityGroupIdsBuffer:[Swift.String]? = nil
+                if let securityGroupIdsContainer = securityGroupIdsContainer {
+                    securityGroupIdsBuffer = [Swift.String]()
+                    for stringContainer0 in securityGroupIdsContainer {
+                        securityGroupIdsBuffer?.append(stringContainer0)
+                    }
+                }
+                securityGroupIds = securityGroupIdsBuffer
+            } else {
+                securityGroupIds = []
+            }
+        } else {
+            securityGroupIds = nil
+        }
+        let endpointDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Endpoint.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+        let readerEndpointDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Endpoint.self, forKey: .readerEndpoint)
+        readerEndpoint = readerEndpointDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let userGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userGroupId)
+        userGroupId = userGroupIdDecoded
+        if containerValues.contains(.subnetIds) {
+            struct KeyVal0{struct SubnetId{}}
+            let subnetIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.SubnetId>.CodingKeys.self, forKey: .subnetIds)
+            if let subnetIdsWrappedContainer = subnetIdsWrappedContainer {
+                let subnetIdsContainer = try subnetIdsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var subnetIdsBuffer:[Swift.String]? = nil
+                if let subnetIdsContainer = subnetIdsContainer {
+                    subnetIdsBuffer = [Swift.String]()
+                    for stringContainer0 in subnetIdsContainer {
+                        subnetIdsBuffer?.append(stringContainer0)
+                    }
+                }
+                subnetIds = subnetIdsBuffer
+            } else {
+                subnetIds = []
+            }
+        } else {
+            subnetIds = nil
+        }
+        let snapshotRetentionLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotRetentionLimit)
+        snapshotRetentionLimit = snapshotRetentionLimitDecoded
+        let dailySnapshotTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dailySnapshotTime)
+        dailySnapshotTime = dailySnapshotTimeDecoded
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// The resource representing a serverless cache.
+    public struct ServerlessCache: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the serverless cache.
+        public var arn: Swift.String?
+        /// The cache usage limit for the serverless cache.
+        public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+        /// When the serverless cache was created.
+        public var createTime: ClientRuntime.Date?
+        /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Redis only.
+        public var dailySnapshotTime: Swift.String?
+        /// A description of the serverless cache.
+        public var description: Swift.String?
+        /// Represents the information required for client programs to connect to a cache node.
+        public var endpoint: ElastiCacheClientTypes.Endpoint?
+        /// The engine the serverless cache is compatible with.
+        public var engine: Swift.String?
+        /// The name and version number of the engine the serverless cache is compatible with.
+        public var fullEngineVersion: Swift.String?
+        /// The ID of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt data at rest in the serverless cache.
+        public var kmsKeyId: Swift.String?
+        /// The version number of the engine the serverless cache is compatible with.
+        public var majorEngineVersion: Swift.String?
+        /// Represents the information required for client programs to connect to a cache node.
+        public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
+        /// The IDs of the EC2 security groups associated with the serverless cache.
+        public var securityGroupIds: [Swift.String]?
+        /// The unique identifier of the serverless cache.
+        public var serverlessCacheName: Swift.String?
+        /// The current setting for the number of serverless cache snapshots the system will retain. Available for Redis only.
+        public var snapshotRetentionLimit: Swift.Int?
+        /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
+        public var status: Swift.String?
+        /// If no subnet IDs are given and your VPC is in SFO, then ElastiCache will select 2 default subnets across AZs in your VPC. For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the user group associated with the serverless cache. Available for Redis only. Default is NULL.
+        public var userGroupId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            dailySnapshotTime: Swift.String? = nil,
+            description: Swift.String? = nil,
+            endpoint: ElastiCacheClientTypes.Endpoint? = nil,
+            engine: Swift.String? = nil,
+            fullEngineVersion: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            majorEngineVersion: Swift.String? = nil,
+            readerEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            serverlessCacheName: Swift.String? = nil,
+            snapshotRetentionLimit: Swift.Int? = nil,
+            status: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            userGroupId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.cacheUsageLimits = cacheUsageLimits
+            self.createTime = createTime
+            self.dailySnapshotTime = dailySnapshotTime
+            self.description = description
+            self.endpoint = endpoint
+            self.engine = engine
+            self.fullEngineVersion = fullEngineVersion
+            self.kmsKeyId = kmsKeyId
+            self.majorEngineVersion = majorEngineVersion
+            self.readerEndpoint = readerEndpoint
+            self.securityGroupIds = securityGroupIds
+            self.serverlessCacheName = serverlessCacheName
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.status = status
+            self.subnetIds = subnetIds
+            self.userGroupId = userGroupId
+        }
+    }
+
+}
+
+extension ServerlessCacheAlreadyExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ServerlessCacheAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A serverless cache with this name already exists.
+public struct ServerlessCacheAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServerlessCacheAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServerlessCacheAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ElastiCacheClientTypes.ServerlessCacheConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case engine = "Engine"
+        case majorEngineVersion = "MajorEngineVersion"
+        case serverlessCacheName = "ServerlessCacheName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let engine = engine {
+            try container.encode(engine, forKey: ClientRuntime.Key("Engine"))
+        }
+        if let majorEngineVersion = majorEngineVersion {
+            try container.encode(majorEngineVersion, forKey: ClientRuntime.Key("MajorEngineVersion"))
+        }
+        if let serverlessCacheName = serverlessCacheName {
+            try container.encode(serverlessCacheName, forKey: ClientRuntime.Key("ServerlessCacheName"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheName)
+        serverlessCacheName = serverlessCacheNameDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let majorEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .majorEngineVersion)
+        majorEngineVersion = majorEngineVersionDecoded
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// The configuration settings for a specific serverless cache.
+    public struct ServerlessCacheConfiguration: Swift.Equatable {
+        /// The engine that the serverless cache is configured with.
+        public var engine: Swift.String?
+        /// The engine version number that the serverless cache is configured with.
+        public var majorEngineVersion: Swift.String?
+        /// The identifier of a serverless cache.
+        public var serverlessCacheName: Swift.String?
+
+        public init(
+            engine: Swift.String? = nil,
+            majorEngineVersion: Swift.String? = nil,
+            serverlessCacheName: Swift.String? = nil
+        )
+        {
+            self.engine = engine
+            self.majorEngineVersion = majorEngineVersion
+            self.serverlessCacheName = serverlessCacheName
+        }
+    }
+
+}
+
+extension ServerlessCacheNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ServerlessCacheNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The serverless cache was not found or does not exist.
+public struct ServerlessCacheNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServerlessCacheNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServerlessCacheNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ServerlessCacheQuotaForCustomerExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ServerlessCacheQuotaForCustomerExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The number of serverless caches exceeds the customer quota.
+public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheQuotaForCustomerExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServerlessCacheQuotaForCustomerExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServerlessCacheQuotaForCustomerExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ElastiCacheClientTypes.ServerlessCacheSnapshot: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "ARN"
+        case bytesUsedForCache = "BytesUsedForCache"
+        case createTime = "CreateTime"
+        case expiryTime = "ExpiryTime"
+        case kmsKeyId = "KmsKeyId"
+        case serverlessCacheConfiguration = "ServerlessCacheConfiguration"
+        case serverlessCacheSnapshotName = "ServerlessCacheSnapshotName"
+        case snapshotType = "SnapshotType"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let arn = arn {
+            try container.encode(arn, forKey: ClientRuntime.Key("ARN"))
+        }
+        if let bytesUsedForCache = bytesUsedForCache {
+            try container.encode(bytesUsedForCache, forKey: ClientRuntime.Key("BytesUsedForCache"))
+        }
+        if let createTime = createTime {
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
+        }
+        if let expiryTime = expiryTime {
+            try container.encodeTimestamp(expiryTime, format: .dateTime, forKey: ClientRuntime.Key("ExpiryTime"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
+        }
+        if let serverlessCacheConfiguration = serverlessCacheConfiguration {
+            try container.encode(serverlessCacheConfiguration, forKey: ClientRuntime.Key("ServerlessCacheConfiguration"))
+        }
+        if let serverlessCacheSnapshotName = serverlessCacheSnapshotName {
+            try container.encode(serverlessCacheSnapshotName, forKey: ClientRuntime.Key("ServerlessCacheSnapshotName"))
+        }
+        if let snapshotType = snapshotType {
+            try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverlessCacheSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverlessCacheSnapshotName)
+        serverlessCacheSnapshotName = serverlessCacheSnapshotNameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
+        snapshotType = snapshotTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let expiryTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expiryTime)
+        expiryTime = expiryTimeDecoded
+        let bytesUsedForCacheDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bytesUsedForCache)
+        bytesUsedForCache = bytesUsedForCacheDecoded
+        let serverlessCacheConfigurationDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ServerlessCacheConfiguration.self, forKey: .serverlessCacheConfiguration)
+        serverlessCacheConfiguration = serverlessCacheConfigurationDecoded
+    }
+}
+
+extension ElastiCacheClientTypes {
+    /// The resource representing a serverless cache snapshot. Available for Redis only.
+    public struct ServerlessCacheSnapshot: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a serverless cache snapshot. Available for Redis only.
+        public var arn: Swift.String?
+        /// The total size of a serverless cache snapshot, in bytes. Available for Redis only.
+        public var bytesUsedForCache: Swift.String?
+        /// The date and time that the source serverless cache's metadata and cache data set was obtained for the snapshot. Available for Redis only.
+        public var createTime: ClientRuntime.Date?
+        /// The time that the serverless cache snapshot will expire. Available for Redis only.
+        public var expiryTime: ClientRuntime.Date?
+        /// The ID of the Amazon Web Services Key Management Service (KMS) key of a serverless cache snapshot. Available for Redis only.
+        public var kmsKeyId: Swift.String?
+        /// The configuration of the serverless cache, at the time the snapshot was taken. Available for Redis only.
+        public var serverlessCacheConfiguration: ElastiCacheClientTypes.ServerlessCacheConfiguration?
+        /// The identifier of a serverless cache snapshot. Available for Redis only.
+        public var serverlessCacheSnapshotName: Swift.String?
+        /// The type of snapshot of serverless cache. Available for Redis only.
+        public var snapshotType: Swift.String?
+        /// The current status of the serverless cache. Available for Redis only.
+        public var status: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            bytesUsedForCache: Swift.String? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            expiryTime: ClientRuntime.Date? = nil,
+            kmsKeyId: Swift.String? = nil,
+            serverlessCacheConfiguration: ElastiCacheClientTypes.ServerlessCacheConfiguration? = nil,
+            serverlessCacheSnapshotName: Swift.String? = nil,
+            snapshotType: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.bytesUsedForCache = bytesUsedForCache
+            self.createTime = createTime
+            self.expiryTime = expiryTime
+            self.kmsKeyId = kmsKeyId
+            self.serverlessCacheConfiguration = serverlessCacheConfiguration
+            self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
+            self.snapshotType = snapshotType
+            self.status = status
+        }
+    }
+
+}
+
+extension ServerlessCacheSnapshotAlreadyExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ServerlessCacheSnapshotAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A serverless cache snapshot with this name already exists. Available for Redis only.
+public struct ServerlessCacheSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheSnapshotAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServerlessCacheSnapshotAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServerlessCacheSnapshotAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ServerlessCacheSnapshotNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ServerlessCacheSnapshotNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// This serverless cache snapshot could not be found or does not exist. Available for Redis only.
+public struct ServerlessCacheSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheSnapshotNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServerlessCacheSnapshotNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServerlessCacheSnapshotNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ServerlessCacheSnapshotQuotaExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ServerlessCacheSnapshotQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The number of serverless cache snapshots exceeds the customer snapshot quota. Available for Redis only.
+public struct ServerlessCacheSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheSnapshotQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServerlessCacheSnapshotQuotaExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServerlessCacheSnapshotQuotaExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ServiceLinkedRoleNotFoundFault {
@@ -21898,7 +24584,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * General purpose:
         ///
-        /// * Current generation: M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
+        /// * Current generation: M7g node types: cache.m7g.large, cache.m7g.xlarge, cache.m7g.2xlarge, cache.m7g.4xlarge, cache.m7g.8xlarge, cache.m7g.12xlarge, cache.m7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward): cache.t4g.micro, cache.t4g.small, cache.t4g.medium T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) T1 node types: cache.t1.micro M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge
         ///
@@ -21914,7 +24600,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * Memory optimized:
         ///
-        /// * Current generation: R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward). cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
+        /// * Current generation: R7g node types: cache.r7g.large, cache.r7g.xlarge, cache.r7g.2xlarge, cache.r7g.4xlarge, cache.r7g.8xlarge, cache.r7g.12xlarge, cache.r7g.16xlarge For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion) R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge
         ///
         /// * Previous generation: (not recommended. Existing clusters are still supported but creation of new clusters is not supported for these types.) M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge,
         ///
@@ -22291,6 +24977,8 @@ extension ElastiCacheClientTypes {
         case cacheSecurityGroup
         case cacheSubnetGroup
         case replicationGroup
+        case serverlessCache
+        case serverlessCacheSnapshot
         case user
         case userGroup
         case sdkUnknown(Swift.String)
@@ -22302,6 +24990,8 @@ extension ElastiCacheClientTypes {
                 .cacheSecurityGroup,
                 .cacheSubnetGroup,
                 .replicationGroup,
+                .serverlessCache,
+                .serverlessCacheSnapshot,
                 .user,
                 .userGroup,
                 .sdkUnknown("")
@@ -22318,6 +25008,8 @@ extension ElastiCacheClientTypes {
             case .cacheSecurityGroup: return "cache-security-group"
             case .cacheSubnetGroup: return "cache-subnet-group"
             case .replicationGroup: return "replication-group"
+            case .serverlessCache: return "serverless-cache"
+            case .serverlessCacheSnapshot: return "serverless-cache-snapshot"
             case .user: return "user"
             case .userGroup: return "user-group"
             case let .sdkUnknown(s): return s
@@ -23818,6 +26510,7 @@ extension ElastiCacheClientTypes.UserGroup: Swift.Codable {
         case minimumEngineVersion = "MinimumEngineVersion"
         case pendingChanges = "PendingChanges"
         case replicationGroups = "ReplicationGroups"
+        case serverlessCaches = "ServerlessCaches"
         case status = "Status"
         case userGroupId = "UserGroupId"
         case userIds = "UserIds"
@@ -23847,6 +26540,18 @@ extension ElastiCacheClientTypes.UserGroup: Swift.Codable {
             else {
                 var replicationGroupsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ReplicationGroups"))
                 try replicationGroupsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let serverlessCaches = serverlessCaches {
+            if !serverlessCaches.isEmpty {
+                var serverlessCachesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServerlessCaches"))
+                for (index0, string0) in serverlessCaches.enumerated() {
+                    try serverlessCachesContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var serverlessCachesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServerlessCaches"))
+                try serverlessCachesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
         if let status = status {
@@ -23919,6 +26624,25 @@ extension ElastiCacheClientTypes.UserGroup: Swift.Codable {
         } else {
             replicationGroups = nil
         }
+        if containerValues.contains(.serverlessCaches) {
+            struct KeyVal0{struct member{}}
+            let serverlessCachesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serverlessCaches)
+            if let serverlessCachesWrappedContainer = serverlessCachesWrappedContainer {
+                let serverlessCachesContainer = try serverlessCachesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var serverlessCachesBuffer:[Swift.String]? = nil
+                if let serverlessCachesContainer = serverlessCachesContainer {
+                    serverlessCachesBuffer = [Swift.String]()
+                    for stringContainer0 in serverlessCachesContainer {
+                        serverlessCachesBuffer?.append(stringContainer0)
+                    }
+                }
+                serverlessCaches = serverlessCachesBuffer
+            } else {
+                serverlessCaches = []
+            }
+        } else {
+            serverlessCaches = nil
+        }
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
@@ -23936,6 +26660,8 @@ extension ElastiCacheClientTypes {
         public var pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges?
         /// A list of replication groups that the user group can access.
         public var replicationGroups: [Swift.String]?
+        /// Indicates which serverless caches the specified user group is associated with. Available for Redis only.
+        public var serverlessCaches: [Swift.String]?
         /// Indicates user group status. Can be "creating", "active", "modifying", "deleting".
         public var status: Swift.String?
         /// The ID of the user group.
@@ -23949,6 +26675,7 @@ extension ElastiCacheClientTypes {
             minimumEngineVersion: Swift.String? = nil,
             pendingChanges: ElastiCacheClientTypes.UserGroupPendingChanges? = nil,
             replicationGroups: [Swift.String]? = nil,
+            serverlessCaches: [Swift.String]? = nil,
             status: Swift.String? = nil,
             userGroupId: Swift.String? = nil,
             userIds: [Swift.String]? = nil
@@ -23959,6 +26686,7 @@ extension ElastiCacheClientTypes {
             self.minimumEngineVersion = minimumEngineVersion
             self.pendingChanges = pendingChanges
             self.replicationGroups = replicationGroups
+            self.serverlessCaches = serverlessCaches
             self.status = status
             self.userGroupId = userGroupId
             self.userIds = userIds

@@ -754,14 +754,24 @@ extension CreateKxChangesetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateKxChangesetInput: Swift.Equatable {
-    /// A list of change request objects that are run in order. A change request object consists of changeType , s3Path, and a dbPath. A changeType can has the following values:
+    /// A list of change request objects that are run in order. A change request object consists of changeType , s3Path, and dbPath. A changeType can has the following values:
     ///
     /// * PUT – Adds or updates files in a database.
     ///
     /// * DELETE – Deletes files in a database.
     ///
     ///
-    /// All the change requests require a mandatory dbPath attribute that defines the path within the database directory. The s3Path attribute defines the s3 source file path and is required for a PUT change type. Here is an example of how you can use the change request object: [ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}, { "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}, { "changeType": "DELETE", "dbPath": "/2020.01.01/"} ] In this example, the first request with PUT change type allows you to add files in the given s3Path under the 2020.01.02 partition of the database. The second request with PUT change type allows you to add a single sym file at database root location. The last request with DELETE change type allows you to delete the files under the 2020.01.01 partition of the database.
+    /// All the change requests require a mandatory dbPath attribute that defines the path within the database directory. All database paths must start with a leading / and end with a trailing /. The s3Path attribute defines the s3 source file path and is required for a PUT change type. The s3path must end with a trailing / if it is a directory and must end without a trailing / if it is a file. Here are few examples of how you can use the change request object:
+    ///
+    /// * This request adds a single sym file at database root location. { "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}
+    ///
+    /// * This request adds files in the given s3Path under the 2020.01.02 partition of the database. { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}
+    ///
+    /// * This request adds files in the given s3Path under the taq table partition of the database. [ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]
+    ///
+    /// * This request deletes the 2020.01.02 partition of the database. [{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ]
+    ///
+    /// * The DELETE request allows you to delete the existing files under the 2020.01.02 partition of the database, and the PUT request adds a new taq table under it. [ {"changeType": "DELETE", "dbPath":"/2020.01.02/"}, {"changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]
     /// This member is required.
     public var changeRequests: [FinspaceClientTypes.ChangeRequest]?
     /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -1094,6 +1104,8 @@ public struct CreateKxClusterInput: Swift.Equatable {
     /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
     ///
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    ///
+    /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
     /// This member is required.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
@@ -1361,6 +1373,8 @@ public struct CreateKxClusterOutput: Swift.Equatable {
     /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
     ///
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    ///
+    /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
     public var code: FinspaceClientTypes.CodeConfiguration?
@@ -3490,6 +3504,8 @@ public struct GetKxClusterOutput: Swift.Equatable {
     /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
     ///
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    ///
+    /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
     public var code: FinspaceClientTypes.CodeConfiguration?
@@ -4871,6 +4887,8 @@ extension FinspaceClientTypes {
         /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
         ///
         /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+        ///
+        /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
         public var clusterType: FinspaceClientTypes.KxClusterType?
         /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var createdTimestamp: ClientRuntime.Date?
@@ -4961,6 +4979,8 @@ extension FinspaceClientTypes {
         ///
         /// * ROLLING – This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration.
         ///
+        /// * NO_RESTART – This option updates the cluster without stopping the running q process. It is only available for GP type cluster. This option is quicker as it reduces the turn around time to update configuration on a cluster. With this deployment mode, you cannot update the initializationScript and commandLineArguments parameters.
+        ///
         /// * FORCE – This option updates the cluster by immediately stopping all the running processes before starting up new ones with the updated configuration.
         /// This member is required.
         public var deploymentStrategy: FinspaceClientTypes.KxClusterCodeDeploymentStrategy?
@@ -4978,12 +4998,14 @@ extension FinspaceClientTypes {
 extension FinspaceClientTypes {
     public enum KxClusterCodeDeploymentStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case force
+        case noRestart
         case rolling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KxClusterCodeDeploymentStrategy] {
             return [
                 .force,
+                .noRestart,
                 .rolling,
                 .sdkUnknown("")
             ]
@@ -4995,6 +5017,7 @@ extension FinspaceClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .force: return "FORCE"
+            case .noRestart: return "NO_RESTART"
             case .rolling: return "ROLLING"
             case let .sdkUnknown(s): return s
             }
@@ -5060,6 +5083,7 @@ extension FinspaceClientTypes {
 extension FinspaceClientTypes {
     public enum KxClusterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case gateway
+        case gp
         case hdb
         case rdb
         case sdkUnknown(Swift.String)
@@ -5067,6 +5091,7 @@ extension FinspaceClientTypes {
         public static var allCases: [KxClusterType] {
             return [
                 .gateway,
+                .gp,
                 .hdb,
                 .rdb,
                 .sdkUnknown("")
@@ -5079,6 +5104,7 @@ extension FinspaceClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .gateway: return "GATEWAY"
+            case .gp: return "GP"
             case .hdb: return "HDB"
             case .rdb: return "RDB"
             case let .sdkUnknown(s): return s
@@ -6327,6 +6353,8 @@ public struct ListKxClustersInput: Swift.Equatable {
     /// * RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.
     ///
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
+    ///
+    /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// A unique identifier for the kdb environment.
     /// This member is required.
@@ -7838,14 +7866,14 @@ public struct UpdateKxClusterCodeConfigurationInput: Swift.Equatable {
     /// The structure of the customer code available within the running cluster.
     /// This member is required.
     public var code: FinspaceClientTypes.CodeConfiguration?
-    /// Specifies the key-value pairs to make them available inside the cluster.
+    /// Specifies the key-value pairs to make them available inside the cluster. You cannot update this parameter for a NO_RESTART deployment.
     public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
     /// The configuration that allows you to choose how you want to update the code on a cluster.
     public var deploymentConfiguration: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration?
     /// A unique identifier of the kdb environment.
     /// This member is required.
     public var environmentId: Swift.String?
-    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
+    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q. You cannot update this parameter for a NO_RESTART deployment.
     public var initializationScript: Swift.String?
 
     public init(

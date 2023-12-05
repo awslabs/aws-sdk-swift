@@ -1537,11 +1537,12 @@ enum CreateBillingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateCustomLineItemInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCustomLineItemInput(billingGroupArn: \(Swift.String(describing: billingGroupArn)), billingPeriodRange: \(Swift.String(describing: billingPeriodRange)), chargeDetails: \(Swift.String(describing: chargeDetails)), clientToken: \(Swift.String(describing: clientToken)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateCustomLineItemInput(accountId: \(Swift.String(describing: accountId)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), billingPeriodRange: \(Swift.String(describing: billingPeriodRange)), chargeDetails: \(Swift.String(describing: chargeDetails)), clientToken: \(Swift.String(describing: clientToken)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateCustomLineItemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case billingGroupArn = "BillingGroupArn"
         case billingPeriodRange = "BillingPeriodRange"
         case chargeDetails = "ChargeDetails"
@@ -1552,6 +1553,9 @@ extension CreateCustomLineItemInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let billingGroupArn = self.billingGroupArn {
             try encodeContainer.encode(billingGroupArn, forKey: .billingGroupArn)
         }
@@ -1593,6 +1597,8 @@ extension CreateCustomLineItemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateCustomLineItemInput: Swift.Equatable {
+    /// The Amazon Web Services account in which this custom line item will be applied to.
+    public var accountId: Swift.String?
     /// The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to.
     /// This member is required.
     public var billingGroupArn: Swift.String?
@@ -1613,6 +1619,7 @@ public struct CreateCustomLineItemInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        accountId: Swift.String? = nil,
         billingGroupArn: Swift.String? = nil,
         billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange? = nil,
         chargeDetails: BillingconductorClientTypes.CustomLineItemChargeDetails? = nil,
@@ -1622,6 +1629,7 @@ public struct CreateCustomLineItemInput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.accountId = accountId
         self.billingGroupArn = billingGroupArn
         self.billingPeriodRange = billingPeriodRange
         self.chargeDetails = chargeDetails
@@ -1639,10 +1647,12 @@ struct CreateCustomLineItemInputBody: Swift.Equatable {
     let billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange?
     let tags: [Swift.String:Swift.String]?
     let chargeDetails: BillingconductorClientTypes.CustomLineItemChargeDetails?
+    let accountId: Swift.String?
 }
 
 extension CreateCustomLineItemInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case billingGroupArn = "BillingGroupArn"
         case billingPeriodRange = "BillingPeriodRange"
         case chargeDetails = "ChargeDetails"
@@ -1674,6 +1684,8 @@ extension CreateCustomLineItemInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let chargeDetailsDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.CustomLineItemChargeDetails.self, forKey: .chargeDetails)
         chargeDetails = chargeDetailsDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -2440,6 +2452,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.CustomLineItemListElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case arn = "Arn"
         case associationSize = "AssociationSize"
         case billingGroupArn = "BillingGroupArn"
@@ -2454,6 +2467,9 @@ extension BillingconductorClientTypes.CustomLineItemListElement: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -2508,17 +2524,21 @@ extension BillingconductorClientTypes.CustomLineItemListElement: Swift.Codable {
         lastModifiedTime = lastModifiedTimeDecoded
         let associationSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .associationSize) ?? 0
         associationSize = associationSizeDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
 extension BillingconductorClientTypes.CustomLineItemListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomLineItemListElement(arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CustomLineItemListElement(accountId: \(Swift.String(describing: accountId)), arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
     /// A representation of a custom line item.
     public struct CustomLineItemListElement: Swift.Equatable {
+        /// The Amazon Web Services account in which this custom line item will be applied to.
+        public var accountId: Swift.String?
         /// The Amazon Resource Names (ARNs) for custom line items.
         public var arn: Swift.String?
         /// The number of resources that are associated to the custom line item.
@@ -2541,6 +2561,7 @@ extension BillingconductorClientTypes {
         public var productCode: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             associationSize: Swift.Int = 0,
             billingGroupArn: Swift.String? = nil,
@@ -2553,6 +2574,7 @@ extension BillingconductorClientTypes {
             productCode: Swift.String? = nil
         )
         {
+            self.accountId = accountId
             self.arn = arn
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
@@ -2692,6 +2714,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case arn = "Arn"
         case associationSize = "AssociationSize"
         case billingGroupArn = "BillingGroupArn"
@@ -2709,6 +2732,9 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Co
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -2778,17 +2804,21 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Co
         arn = arnDecoded
         let startTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTime) ?? 0
         startTime = startTimeDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
 extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomLineItemVersionListElement(arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), endBillingPeriod: \(Swift.String(describing: endBillingPeriod)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), startBillingPeriod: \(Swift.String(describing: startBillingPeriod)), startTime: \(Swift.String(describing: startTime)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CustomLineItemVersionListElement(accountId: \(Swift.String(describing: accountId)), arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), endBillingPeriod: \(Swift.String(describing: endBillingPeriod)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), startBillingPeriod: \(Swift.String(describing: startBillingPeriod)), startTime: \(Swift.String(describing: startTime)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
     /// A representation of a custom line item version.
     public struct CustomLineItemVersionListElement: Swift.Equatable {
+        /// The Amazon Web Services account in which this custom line item will be applied to.
+        public var accountId: Swift.String?
         /// A list of custom line item Amazon Resource Names (ARNs) to retrieve information.
         public var arn: Swift.String?
         /// The number of resources that are associated with the custom line item.
@@ -2817,6 +2847,7 @@ extension BillingconductorClientTypes {
         public var startTime: Swift.Int
 
         public init(
+            accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             associationSize: Swift.Int = 0,
             billingGroupArn: Swift.String? = nil,
@@ -2832,6 +2863,7 @@ extension BillingconductorClientTypes {
             startTime: Swift.Int = 0
         )
         {
+            self.accountId = accountId
             self.arn = arn
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
@@ -4891,6 +4923,7 @@ enum ListCustomLineItemVersionsOutputError: ClientRuntime.HttpResponseErrorBindi
 
 extension BillingconductorClientTypes.ListCustomLineItemsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds = "AccountIds"
         case arns = "Arns"
         case billingGroups = "BillingGroups"
         case names = "Names"
@@ -4898,6 +4931,12 @@ extension BillingconductorClientTypes.ListCustomLineItemsFilter: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
             for customlineitemarn0 in arns {
@@ -4953,12 +4992,25 @@ extension BillingconductorClientTypes.ListCustomLineItemsFilter: Swift.Codable {
             }
         }
         arns = arnsDecoded0
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
     }
 }
 
 extension BillingconductorClientTypes {
     /// A filter that specifies the custom line items and billing groups to retrieve FFLI information.
     public struct ListCustomLineItemsFilter: Swift.Equatable {
+        /// The Amazon Web Services accounts in which this custom line item will be applied to.
+        public var accountIds: [Swift.String]?
         /// A list of custom line item ARNs to retrieve information.
         public var arns: [Swift.String]?
         /// The billing group Amazon Resource Names (ARNs) to retrieve information.
@@ -4967,11 +5019,13 @@ extension BillingconductorClientTypes {
         public var names: [Swift.String]?
 
         public init(
+            accountIds: [Swift.String]? = nil,
             arns: [Swift.String]? = nil,
             billingGroups: [Swift.String]? = nil,
             names: [Swift.String]? = nil
         )
         {
+            self.accountIds = accountIds
             self.arns = arns
             self.billingGroups = billingGroups
             self.names = names
@@ -8440,6 +8494,7 @@ extension BillingconductorClientTypes {
         case duplicatePricingruleArns
         case fieldValidationFailed
         case illegalAccounts
+        case illegalAccountId
         case illegalBillingEntity
         case illegalBillingPeriod
         case illegalBillingPeriodRange
@@ -8503,6 +8558,7 @@ extension BillingconductorClientTypes {
                 .duplicatePricingruleArns,
                 .fieldValidationFailed,
                 .illegalAccounts,
+                .illegalAccountId,
                 .illegalBillingEntity,
                 .illegalBillingPeriod,
                 .illegalBillingPeriodRange,
@@ -8571,6 +8627,7 @@ extension BillingconductorClientTypes {
             case .duplicatePricingruleArns: return "DUPLICATE_PRICINGRULE_ARNS"
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
             case .illegalAccounts: return "ILLEGAL_ACCOUNTS"
+            case .illegalAccountId: return "ILLEGAL_ACCOUNT_ID"
             case .illegalBillingEntity: return "ILLEGAL_BILLING_ENTITY"
             case .illegalBillingPeriod: return "ILLEGAL_BILLING_PERIOD"
             case .illegalBillingPeriodRange: return "ILLEGAL_BILLING_PERIOD_RANGE"

@@ -13,6 +13,8 @@ import ClientRuntime
 ///
 /// For more information about the features of Amazon EventBridge, see the [Amazon EventBridge User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide).
 public protocol EventBridgeClientProtocol {
+    /// Performs the `ActivateEventSource` operation on the `AWSEvents` service.
+    ///
     /// Activates a partner event source that has been deactivated. Once activated, your matching event bus will start receiving events from the event source.
     ///
     /// - Parameter ActivateEventSourceInput : [no documentation found]
@@ -28,6 +30,8 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func activateEventSource(input: ActivateEventSourceInput) async throws -> ActivateEventSourceOutput
+    /// Performs the `CancelReplay` operation on the `AWSEvents` service.
+    ///
     /// Cancels the specified replay.
     ///
     /// - Parameter CancelReplayInput : [no documentation found]
@@ -42,7 +46,9 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func cancelReplay(input: CancelReplayInput) async throws -> CancelReplayOutput
-    /// Creates an API destination, which is an HTTP invocation endpoint configured as a target for events.
+    /// Performs the `CreateApiDestination` operation on the `AWSEvents` service.
+    ///
+    /// Creates an API destination, which is an HTTP invocation endpoint configured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see [API destinations](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html) in the EventBridge User Guide.
     ///
     /// - Parameter CreateApiDestinationInput : [no documentation found]
     ///
@@ -56,6 +62,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func createApiDestination(input: CreateApiDestinationInput) async throws -> CreateApiDestinationOutput
+    /// Performs the `CreateArchive` operation on the `AWSEvents` service.
+    ///
     /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.
     ///
     /// - Parameter CreateArchiveInput : [no documentation found]
@@ -72,6 +80,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func createArchive(input: CreateArchiveInput) async throws -> CreateArchiveOutput
+    /// Performs the `CreateConnection` operation on the `AWSEvents` service.
+    ///
     /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP endpoint.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
@@ -85,6 +95,8 @@ public protocol EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
+    /// Performs the `CreateEndpoint` operation on the `AWSEvents` service.
+    ///
     /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you define a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell EventBridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Region when the health check reports a "healthy" state.
     ///
     /// - Parameter CreateEndpointInput : [no documentation found]
@@ -98,6 +110,8 @@ public protocol EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
+    /// Performs the `CreateEventBus` operation on the `AWSEvents` service.
+    ///
     /// Creates a new event bus within your account. This can be a custom event bus which you can use to receive events from your custom applications and services, or it can be a partner event bus which can be matched to a partner event source.
     ///
     /// - Parameter CreateEventBusInput : [no documentation found]
@@ -115,7 +129,18 @@ public protocol EventBridgeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func createEventBus(input: CreateEventBusInput) async throws -> CreateEventBusOutput
-    /// Called by an SaaS partner to create a partner event source. This operation is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services account to create a matching partner event bus in that Amazon Web Services account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or application. An Amazon Web Services account that creates a partner event bus that matches the partner event source can use that event bus to receive events from the partner, and then process them using Amazon Web Services Events rules and targets. Partner event source names follow this format:  partner_name/event_namespace/event_name  partner_name is determined during partner registration and identifies the partner to Amazon Web Services customers. event_namespace is determined by the partner and is a way for the partner to categorize their events. event_name is determined by the partner, and should uniquely identify an event-generating resource within the partner system. The combination of event_namespace and event_name should help Amazon Web Services customers decide whether to create an event bus to receive these events.
+    /// Performs the `CreatePartnerEventSource` operation on the `AWSEvents` service.
+    ///
+    /// Called by an SaaS partner to create a partner event source. This operation is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services account to create a matching partner event bus in that Amazon Web Services account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or application. An Amazon Web Services account that creates a partner event bus that matches the partner event source can use that event bus to receive events from the partner, and then process them using Amazon Web Services Events rules and targets. Partner event source names follow this format:  partner_name/event_namespace/event_name
+    ///
+    /// * partner_name is determined during partner registration, and identifies the partner to Amazon Web Services customers.
+    ///
+    /// * event_namespace is determined by the partner, and is a way for the partner to categorize their events.
+    ///
+    /// * event_name is determined by the partner, and should uniquely identify an event-generating resource within the partner system. The event_name must be unique across all Amazon Web Services customers. This is because the event source is a shared resource between the partner and customer accounts, and each partner event source unique in the partner account.
+    ///
+    ///
+    /// The combination of event_namespace and event_name should help Amazon Web Services customers decide whether to create an event bus to receive these events.
     ///
     /// - Parameter CreatePartnerEventSourceInput : [no documentation found]
     ///
@@ -130,6 +155,8 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     func createPartnerEventSource(input: CreatePartnerEventSourceInput) async throws -> CreatePartnerEventSourceOutput
+    /// Performs the `DeactivateEventSource` operation on the `AWSEvents` service.
+    ///
     /// You can use this operation to temporarily stop receiving events from the specified partner event source. The matching event bus is not deleted. When you deactivate a partner event source, the source goes into PENDING state. If it remains in PENDING state for more than two weeks, it is deleted. To activate a deactivated partner event source, use [ActivateEventSource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ActivateEventSource.html).
     ///
     /// - Parameter DeactivateEventSourceInput : [no documentation found]
@@ -145,6 +172,8 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deactivateEventSource(input: DeactivateEventSourceInput) async throws -> DeactivateEventSourceOutput
+    /// Performs the `DeauthorizeConnection` operation on the `AWSEvents` service.
+    ///
     /// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without having to create a new connection.
     ///
     /// - Parameter DeauthorizeConnectionInput : [no documentation found]
@@ -158,6 +187,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deauthorizeConnection(input: DeauthorizeConnectionInput) async throws -> DeauthorizeConnectionOutput
+    /// Performs the `DeleteApiDestination` operation on the `AWSEvents` service.
+    ///
     /// Deletes the specified API destination.
     ///
     /// - Parameter DeleteApiDestinationInput : [no documentation found]
@@ -171,6 +202,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deleteApiDestination(input: DeleteApiDestinationInput) async throws -> DeleteApiDestinationOutput
+    /// Performs the `DeleteArchive` operation on the `AWSEvents` service.
+    ///
     /// Deletes the specified archive.
     ///
     /// - Parameter DeleteArchiveInput : [no documentation found]
@@ -184,6 +217,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput
+    /// Performs the `DeleteConnection` operation on the `AWSEvents` service.
+    ///
     /// Deletes a connection.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
@@ -197,6 +232,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
+    /// Performs the `DeleteEndpoint` operation on the `AWSEvents` service.
+    ///
     /// Delete an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter DeleteEndpointInput : [no documentation found]
@@ -210,6 +247,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
+    /// Performs the `DeleteEventBus` operation on the `AWSEvents` service.
+    ///
     /// Deletes the specified custom event bus or partner event bus. All rules associated with this event bus need to be deleted. You can't delete your account's default event bus.
     ///
     /// - Parameter DeleteEventBusInput : [no documentation found]
@@ -222,6 +261,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func deleteEventBus(input: DeleteEventBusInput) async throws -> DeleteEventBusOutput
+    /// Performs the `DeletePartnerEventSource` operation on the `AWSEvents` service.
+    ///
     /// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding partner event bus in the Amazon Web Services customer account becomes DELETED.
     ///
     /// - Parameter DeletePartnerEventSourceInput : [no documentation found]
@@ -235,6 +276,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     func deletePartnerEventSource(input: DeletePartnerEventSourceInput) async throws -> DeletePartnerEventSourceOutput
+    /// Performs the `DeleteRule` operation on the `AWSEvents` service.
+    ///
     /// Deletes the specified rule. Before you can delete the rule, you must remove all targets, using [RemoveTargets](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_RemoveTargets.html). When you delete a rule, incoming events might continue to match to the deleted rule. Allow a short period of time for changes to take effect. If you call delete rule multiple times for the same rule, all calls will succeed. When you call delete rule for a non-existent custom eventbus, ResourceNotFoundException is returned. Managed rules are rules created and managed by another Amazon Web Services service on your behalf. These rules are created by those other Amazon Web Services services to support functionality in those services. You can delete these rules using the Force option, but you should do so only if you are sure the other service is not still using that rule.
     ///
     /// - Parameter DeleteRuleInput : [no documentation found]
@@ -249,6 +292,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
+    /// Performs the `DescribeApiDestination` operation on the `AWSEvents` service.
+    ///
     /// Retrieves details about an API destination.
     ///
     /// - Parameter DescribeApiDestinationInput : [no documentation found]
@@ -261,6 +306,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeApiDestination(input: DescribeApiDestinationInput) async throws -> DescribeApiDestinationOutput
+    /// Performs the `DescribeArchive` operation on the `AWSEvents` service.
+    ///
     /// Retrieves details about an archive.
     ///
     /// - Parameter DescribeArchiveInput : [no documentation found]
@@ -274,6 +321,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeArchive(input: DescribeArchiveInput) async throws -> DescribeArchiveOutput
+    /// Performs the `DescribeConnection` operation on the `AWSEvents` service.
+    ///
     /// Retrieves details about a connection.
     ///
     /// - Parameter DescribeConnectionInput : [no documentation found]
@@ -286,7 +335,9 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeConnection(input: DescribeConnectionInput) async throws -> DescribeConnectionOutput
-    /// Get the information about an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide..
+    /// Performs the `DescribeEndpoint` operation on the `AWSEvents` service.
+    ///
+    /// Get the information about an existing global endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter DescribeEndpointInput : [no documentation found]
     ///
@@ -298,6 +349,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
+    /// Performs the `DescribeEventBus` operation on the `AWSEvents` service.
+    ///
     /// Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time. To enable your account to receive events from other accounts on its default event bus, use [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html). For more information about partner event buses, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html).
     ///
     /// - Parameter DescribeEventBusInput : [no documentation found]
@@ -310,6 +363,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeEventBus(input: DescribeEventBusInput) async throws -> DescribeEventBusOutput
+    /// Performs the `DescribeEventSource` operation on the `AWSEvents` service.
+    ///
     /// This operation lists details about a partner event source that is shared with your account.
     ///
     /// - Parameter DescribeEventSourceInput : [no documentation found]
@@ -323,6 +378,8 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeEventSource(input: DescribeEventSourceInput) async throws -> DescribeEventSourceOutput
+    /// Performs the `DescribePartnerEventSource` operation on the `AWSEvents` service.
+    ///
     /// An SaaS partner can use this operation to list details about a partner event source that they have created. Amazon Web Services customers do not use this operation. Instead, Amazon Web Services customers can use [DescribeEventSource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DescribeEventSource.html) to see details about a partner event source that is shared with them.
     ///
     /// - Parameter DescribePartnerEventSourceInput : [no documentation found]
@@ -336,6 +393,8 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describePartnerEventSource(input: DescribePartnerEventSourceInput) async throws -> DescribePartnerEventSourceOutput
+    /// Performs the `DescribeReplay` operation on the `AWSEvents` service.
+    ///
     /// Retrieves details about a replay. Use DescribeReplay to determine the progress of a running replay. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you use StartReplay and specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the progress of a replay. The value returned for EventLastReplayedTime indicates the time within the specified time range associated with the last event replayed.
     ///
     /// - Parameter DescribeReplayInput : [no documentation found]
@@ -348,6 +407,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeReplay(input: DescribeReplayInput) async throws -> DescribeReplayOutput
+    /// Performs the `DescribeRule` operation on the `AWSEvents` service.
+    ///
     /// Describes the specified rule. DescribeRule does not list the targets of a rule. To see the targets associated with a rule, use [ListTargetsByRule](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListTargetsByRule.html).
     ///
     /// - Parameter DescribeRuleInput : [no documentation found]
@@ -360,6 +421,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutput
+    /// Performs the `DisableRule` operation on the `AWSEvents` service.
+    ///
     /// Disables the specified rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression. When you disable a rule, incoming events might continue to match to the disabled rule. Allow a short period of time for changes to take effect.
     ///
     /// - Parameter DisableRuleInput : [no documentation found]
@@ -374,6 +437,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func disableRule(input: DisableRuleInput) async throws -> DisableRuleOutput
+    /// Performs the `EnableRule` operation on the `AWSEvents` service.
+    ///
     /// Enables the specified rule. If the rule does not exist, the operation fails. When you enable a rule, incoming events might not immediately start matching to a newly enabled rule. Allow a short period of time for changes to take effect.
     ///
     /// - Parameter EnableRuleInput : [no documentation found]
@@ -388,6 +453,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func enableRule(input: EnableRuleInput) async throws -> EnableRuleOutput
+    /// Performs the `ListApiDestinations` operation on the `AWSEvents` service.
+    ///
     /// Retrieves a list of API destination in the account in the current Region.
     ///
     /// - Parameter ListApiDestinationsInput : [no documentation found]
@@ -399,6 +466,8 @@ public protocol EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func listApiDestinations(input: ListApiDestinationsInput) async throws -> ListApiDestinationsOutput
+    /// Performs the `ListArchives` operation on the `AWSEvents` service.
+    ///
     /// Lists your archives. You can either list all the archives or you can provide a prefix to match to the archive names. Filter parameters are exclusive.
     ///
     /// - Parameter ListArchivesInput : [no documentation found]
@@ -411,6 +480,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func listArchives(input: ListArchivesInput) async throws -> ListArchivesOutput
+    /// Performs the `ListConnections` operation on the `AWSEvents` service.
+    ///
     /// Retrieves a list of connections from the account.
     ///
     /// - Parameter ListConnectionsInput : [no documentation found]
@@ -422,7 +493,9 @@ public protocol EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
-    /// List the global endpoints associated with this account. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide..
+    /// Performs the `ListEndpoints` operation on the `AWSEvents` service.
+    ///
+    /// List the global endpoints associated with this account. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter ListEndpointsInput : [no documentation found]
     ///
@@ -433,6 +506,8 @@ public protocol EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
+    /// Performs the `ListEventBuses` operation on the `AWSEvents` service.
+    ///
     /// Lists all the event buses in your account, including the default event bus, custom event buses, and partner event buses.
     ///
     /// - Parameter ListEventBusesInput : [no documentation found]
@@ -444,6 +519,8 @@ public protocol EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func listEventBuses(input: ListEventBusesInput) async throws -> ListEventBusesOutput
+    /// Performs the `ListEventSources` operation on the `AWSEvents` service.
+    ///
     /// You can use this to see all the partner event sources that have been shared with your Amazon Web Services account. For more information about partner event sources, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html).
     ///
     /// - Parameter ListEventSourcesInput : [no documentation found]
@@ -456,6 +533,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     func listEventSources(input: ListEventSourcesInput) async throws -> ListEventSourcesOutput
+    /// Performs the `ListPartnerEventSourceAccounts` operation on the `AWSEvents` service.
+    ///
     /// An SaaS partner can use this operation to display the Amazon Web Services account ID that a particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
     ///
     /// - Parameter ListPartnerEventSourceAccountsInput : [no documentation found]
@@ -469,6 +548,8 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func listPartnerEventSourceAccounts(input: ListPartnerEventSourceAccountsInput) async throws -> ListPartnerEventSourceAccountsOutput
+    /// Performs the `ListPartnerEventSources` operation on the `AWSEvents` service.
+    ///
     /// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Amazon Web Services customers.
     ///
     /// - Parameter ListPartnerEventSourcesInput : [no documentation found]
@@ -481,6 +562,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     func listPartnerEventSources(input: ListPartnerEventSourcesInput) async throws -> ListPartnerEventSourcesOutput
+    /// Performs the `ListReplays` operation on the `AWSEvents` service.
+    ///
     /// Lists your replays. You can either list all the replays or you can provide a prefix to match to the replay names. Filter parameters are exclusive.
     ///
     /// - Parameter ListReplaysInput : [no documentation found]
@@ -492,7 +575,9 @@ public protocol EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func listReplays(input: ListReplaysInput) async throws -> ListReplaysOutput
-    /// Lists the rules for the specified target. You can see which of the rules in Amazon EventBridge can invoke a specific target in your account.
+    /// Performs the `ListRuleNamesByTarget` operation on the `AWSEvents` service.
+    ///
+    /// Lists the rules for the specified target. You can see which of the rules in Amazon EventBridge can invoke a specific target in your account. The maximum number of results per page for requests is 100.
     ///
     /// - Parameter ListRuleNamesByTargetInput : [no documentation found]
     ///
@@ -504,7 +589,9 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func listRuleNamesByTarget(input: ListRuleNamesByTargetInput) async throws -> ListRuleNamesByTargetOutput
-    /// Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a prefix to match to the rule names. ListRules does not list the targets of a rule. To see the targets associated with a rule, use [ListTargetsByRule](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListTargetsByRule.html).
+    /// Performs the `ListRules` operation on the `AWSEvents` service.
+    ///
+    /// Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a prefix to match to the rule names. The maximum number of results per page for requests is 100. ListRules does not list the targets of a rule. To see the targets associated with a rule, use [ListTargetsByRule](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListTargetsByRule.html).
     ///
     /// - Parameter ListRulesInput : [no documentation found]
     ///
@@ -516,6 +603,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func listRules(input: ListRulesInput) async throws -> ListRulesOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSEvents` service.
+    ///
     /// Displays the tags associated with an EventBridge resource. In EventBridge, rules and event buses can be tagged.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -528,7 +617,9 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Lists the targets assigned to the specified rule.
+    /// Performs the `ListTargetsByRule` operation on the `AWSEvents` service.
+    ///
+    /// Lists the targets assigned to the specified rule. The maximum number of results per page for requests is 100.
     ///
     /// - Parameter ListTargetsByRuleInput : [no documentation found]
     ///
@@ -540,7 +631,9 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func listTargetsByRule(input: ListTargetsByRuleInput) async throws -> ListTargetsByRuleOutput
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. PutEvents will only process nested JSON up to 1100 levels deep.
+    /// Performs the `PutEvents` operation on the `AWSEvents` service.
+    ///
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see [Calculating PutEvents event entry size](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html) in the Amazon EventBridge User Guide PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807. PutEvents will only process nested JSON up to 1100 levels deep.
     ///
     /// - Parameter PutEventsInput : [no documentation found]
     ///
@@ -551,7 +644,9 @@ public protocol EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-    /// This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation.
+    /// Performs the `PutPartnerEvents` operation on the `AWSEvents` service.
+    ///
+    /// This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation. For information on calculating event batch size, see [Calculating EventBridge PutEvents event entry size](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html) in the EventBridge User Guide.
     ///
     /// - Parameter PutPartnerEventsInput : [no documentation found]
     ///
@@ -563,6 +658,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     func putPartnerEvents(input: PutPartnerEventsInput) async throws -> PutPartnerEventsOutput
+    /// Performs the `PutPermission` operation on the `AWSEvents` service.
+    ///
     /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus. Amazon EventBridge (CloudWatch Events) rules in your account are triggered by these events arriving to an event bus in your account. For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same Amazon Web Services organization, you can run PutPermission once specifying Principal as "*" and specifying the Amazon Web Services organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide. The permission policy on the event bus cannot exceed 10 KB in size.
     ///
     /// - Parameter PutPermissionInput : [no documentation found]
@@ -578,6 +675,8 @@ public protocol EventBridgeClientProtocol {
     /// - `PolicyLengthExceededException` : The event bus policy is too long. For more information, see the limits.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput
+    /// Performs the `PutRule` operation on the `AWSEvents` service.
+    ///
     /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using [DisableRule](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DisableRule.html). A single rule watches for events from a single event bus. Events generated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or a custom event bus that you have created. For more information, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html). If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. When you initially create a rule, you can optionally assign one or more tags to the rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only rules with certain tag values. To use the PutRule operation and assign tags, you must have both the events:PutRule and events:TagResource permissions. If you are updating an existing rule, any tags you specify in the PutRule operation are ignored. To update the tags of an existing rule, use [TagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UntagResource.html). Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In EventBridge, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change. An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see [Managing Your Costs with Budgets](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-managing-costs.html).
     ///
     /// - Parameter PutRuleInput : [no documentation found]
@@ -594,68 +693,27 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func putRule(input: PutRuleInput) async throws -> PutRuleOutput
-    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. Each rule can have up to five (5) targets associated with it at one time. You can configure the following as targets for Events:
+    /// Performs the `PutTargets` operation on the `AWSEvents` service.
     ///
-    /// * [API destination](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html)
+    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10. Each rule can have up to five (5) targets associated with it at one time. For a list of services you can configure as targets for events, see [EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html) in the Amazon EventBridge User Guide. Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are:
     ///
-    /// * [API Gateway](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-gateway-target.html)
+    /// * Amazon EBS CreateSnapshot API call
     ///
-    /// * Batch job queue
+    /// * Amazon EC2 RebootInstances API call
     ///
-    /// * CloudWatch group
+    /// * Amazon EC2 StopInstances API call
     ///
-    /// * CodeBuild project
-    ///
-    /// * CodePipeline
-    ///
-    /// * EC2 CreateSnapshot API call
-    ///
-    /// * EC2 Image Builder
-    ///
-    /// * EC2 RebootInstances API call
-    ///
-    /// * EC2 StopInstances API call
-    ///
-    /// * EC2 TerminateInstances API call
-    ///
-    /// * ECS task
-    ///
-    /// * [Event bus in a different account or Region](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cross-account.html)
-    ///
-    /// * [Event bus in the same account and Region](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-bus-to-bus.html)
-    ///
-    /// * Firehose delivery stream
-    ///
-    /// * Glue workflow
-    ///
-    /// * [Incident Manager response plan](https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-creation.html#incident-tracking-auto-eventbridge)
-    ///
-    /// * Inspector assessment template
-    ///
-    /// * Kinesis stream
-    ///
-    /// * Lambda function
-    ///
-    /// * Redshift cluster
-    ///
-    /// * Redshift Serverless workgroup
-    ///
-    /// * SageMaker Pipeline
-    ///
-    /// * SNS topic
-    ///
-    /// * SQS queue
-    ///
-    /// * Step Functions state machine
-    ///
-    /// * Systems Manager Automation
-    ///
-    /// * Systems Manager OpsItem
-    ///
-    /// * Systems Manager Run Command
+    /// * Amazon EC2 TerminateInstances API call
     ///
     ///
-    /// Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances API call, and EC2 TerminateInstances API call. For some target types, PutTargets provides target-specific parameters. If the target is a Kinesis data stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make API calls against the resources that you own, Amazon EventBridge needs the appropriate permissions. For Lambda and Amazon SNS resources, EventBridge relies on resource-based policies. For EC2 instances, Kinesis Data Streams, Step Functions state machines and API Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets. For more information, see [Authentication and Access Control](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html) in the Amazon EventBridge User Guide. If another Amazon Web Services account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see [Amazon EventBridge Pricing](http://aws.amazon.com/eventbridge/pricing/). Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different Amazon Web Services account. If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide. For more information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html). Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:
+    /// For some target types, PutTargets provides target-specific parameters. If the target is a Kinesis data stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make API calls against the resources that you own, Amazon EventBridge needs the appropriate permissions:
+    ///
+    /// * For Lambda and Amazon SNS resources, EventBridge relies on resource-based policies.
+    ///
+    /// * For EC2 instances, Kinesis Data Streams, Step Functions state machines and API Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets.
+    ///
+    ///
+    /// For more information, see [Authentication and Access Control](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html) in the Amazon EventBridge User Guide. If another Amazon Web Services account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see [Amazon EventBridge Pricing](http://aws.amazon.com/eventbridge/pricing/). Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different Amazon Web Services account. If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide. If you have an IAM role on a cross-account event bus target, a PutTargets call without a role on the same target (same Id and Arn) will not remove the role. For more information about enabling cross-account events, see [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html). Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:
     ///
     /// * If none of the following arguments are specified for a target, then the entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in which case nothing from the event is passed to the target).
     ///
@@ -681,6 +739,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func putTargets(input: PutTargetsInput) async throws -> PutTargetsOutput
+    /// Performs the `RemovePermission` operation on the `AWSEvents` service.
+    ///
     /// Revokes the permission of another Amazon Web Services account to be able to put events to the specified event bus. Specify the account to revoke by the StatementId value that you associated with the account when you granted it permission with PutPermission. You can find the StatementId by using [DescribeEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DescribeEventBus.html).
     ///
     /// - Parameter RemovePermissionInput : [no documentation found]
@@ -695,7 +755,9 @@ public protocol EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
-    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. A successful execution of RemoveTargets doesn't guarantee all targets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
+    /// Performs the `RemoveTargets` operation on the `AWSEvents` service.
+    ///
+    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. A successful execution of RemoveTargets doesn't guarantee all targets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code. The maximum number of entries per request is 10.
     ///
     /// - Parameter RemoveTargetsInput : [no documentation found]
     ///
@@ -709,6 +771,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func removeTargets(input: RemoveTargetsInput) async throws -> RemoveTargetsOutput
+    /// Performs the `StartReplay` operation on the `AWSEvents` service.
+    ///
     /// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the progress of a replay. The value returned for EventLastReplayedTime indicates the time within the specified time range associated with the last event replayed.
     ///
     /// - Parameter StartReplayInput : [no documentation found]
@@ -724,6 +788,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func startReplay(input: StartReplayInput) async throws -> StartReplayOutput
+    /// Performs the `TagResource` operation on the `AWSEvents` service.
+    ///
     /// Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In EventBridge, rules and event buses can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -738,6 +804,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `TestEventPattern` operation on the `AWSEvents` service.
+    ///
     /// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match.
     ///
     /// - Parameter TestEventPatternInput : [no documentation found]
@@ -750,6 +818,8 @@ public protocol EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `InvalidEventPatternException` : The event pattern is not valid.
     func testEventPattern(input: TestEventPatternInput) async throws -> TestEventPatternOutput
+    /// Performs the `UntagResource` operation on the `AWSEvents` service.
+    ///
     /// Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge (CloudWatch Events), rules and event buses can be tagged.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -764,6 +834,8 @@ public protocol EventBridgeClientProtocol {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateApiDestination` operation on the `AWSEvents` service.
+    ///
     /// Updates an API destination.
     ///
     /// - Parameter UpdateApiDestinationInput : [no documentation found]
@@ -778,6 +850,8 @@ public protocol EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func updateApiDestination(input: UpdateApiDestinationInput) async throws -> UpdateApiDestinationOutput
+    /// Performs the `UpdateArchive` operation on the `AWSEvents` service.
+    ///
     /// Updates the specified archive.
     ///
     /// - Parameter UpdateArchiveInput : [no documentation found]
@@ -793,6 +867,8 @@ public protocol EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func updateArchive(input: UpdateArchiveInput) async throws -> UpdateArchiveOutput
+    /// Performs the `UpdateConnection` operation on the `AWSEvents` service.
+    ///
     /// Updates settings for a connection.
     ///
     /// - Parameter UpdateConnectionInput : [no documentation found]
@@ -807,7 +883,9 @@ public protocol EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
-    /// Update an existing endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide..
+    /// Performs the `UpdateEndpoint` operation on the `AWSEvents` service.
+    ///
+    /// Update an existing endpoint. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter UpdateEndpointInput : [no documentation found]
     ///

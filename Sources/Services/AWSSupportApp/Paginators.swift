@@ -12,7 +12,7 @@ extension SupportAppClient {
     ///     - input: A `[ListSlackChannelConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSlackChannelConfigurationsOutput`
     public func listSlackChannelConfigurationsPaginated(input: ListSlackChannelConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput>(input: input, inputKey: \ListSlackChannelConfigurationsInput.nextToken, outputKey: \ListSlackChannelConfigurationsOutput.nextToken, paginationFunction: self.listSlackChannelConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSlackChannelConfigurations(input:))
     }
 }
 
@@ -32,7 +32,7 @@ extension SupportAppClient {
     ///     - input: A `[ListSlackWorkspaceConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSlackWorkspaceConfigurationsOutput`
     public func listSlackWorkspaceConfigurationsPaginated(input: ListSlackWorkspaceConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput>(input: input, inputKey: \ListSlackWorkspaceConfigurationsInput.nextToken, outputKey: \ListSlackWorkspaceConfigurationsOutput.nextToken, paginationFunction: self.listSlackWorkspaceConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSlackWorkspaceConfigurations(input:))
     }
 }
 

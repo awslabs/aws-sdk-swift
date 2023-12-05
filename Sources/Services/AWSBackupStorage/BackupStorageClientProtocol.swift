@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The frontend service for Cryo Storage.
 public protocol BackupStorageClientProtocol {
+    /// Performs the `DeleteObject` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Delete Object from the incremental base Backup.
     ///
     /// - Parameter DeleteObjectInput : [no documentation found]
@@ -21,6 +23,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
+    /// Performs the `GetChunk` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Gets the specified object's chunk.
     ///
     /// - Parameter GetChunkInput : [no documentation found]
@@ -38,6 +42,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func getChunk(input: GetChunkInput) async throws -> GetChunkOutput
+    /// Performs the `GetObjectMetadata` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Get metadata associated with an Object.
     ///
     /// - Parameter GetObjectMetadataInput : [no documentation found]
@@ -56,6 +62,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func getObjectMetadata(input: GetObjectMetadataInput) async throws -> GetObjectMetadataOutput
+    /// Performs the `ListChunks` operation on the `CryoStorageFrontendService` service.
+    ///
     /// List chunks in a given Object
     ///
     /// - Parameter ListChunksInput : [no documentation found]
@@ -72,6 +80,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     func listChunks(input: ListChunksInput) async throws -> ListChunksOutput
+    /// Performs the `ListObjects` operation on the `CryoStorageFrontendService` service.
+    ///
     /// List all Objects in a given Backup.
     ///
     /// - Parameter ListObjectsInput : [no documentation found]
@@ -90,6 +100,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput
+    /// Performs the `NotifyObjectComplete` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Complete upload
     ///
     /// - Parameter NotifyObjectCompleteInput : [no documentation found]
@@ -108,6 +120,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func notifyObjectComplete(input: NotifyObjectCompleteInput) async throws -> NotifyObjectCompleteOutput
+    /// Performs the `PutChunk` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Upload chunk.
     ///
     /// - Parameter PutChunkInput : [no documentation found]
@@ -126,6 +140,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func putChunk(input: PutChunkInput) async throws -> PutChunkOutput
+    /// Performs the `PutObject` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Upload object that can store object metadata String and data blob in single API call using inline chunk field.
     ///
     /// - Parameter PutObjectInput : [no documentation found]
@@ -144,6 +160,8 @@ public protocol BackupStorageClientProtocol {
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     func putObject(input: PutObjectInput) async throws -> PutObjectOutput
+    /// Performs the `StartObject` operation on the `CryoStorageFrontendService` service.
+    ///
     /// Start upload containing one or many chunks.
     ///
     /// - Parameter StartObjectInput : [no documentation found]

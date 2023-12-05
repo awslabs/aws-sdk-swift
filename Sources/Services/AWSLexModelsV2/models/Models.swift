@@ -3877,6 +3877,7 @@ extension LexModelsV2ClientTypes.AudioLogSetting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination
         case enabled
+        case selectiveLoggingEnabled
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3887,6 +3888,9 @@ extension LexModelsV2ClientTypes.AudioLogSetting: Swift.Codable {
         if enabled != false {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
+        if let selectiveLoggingEnabled = self.selectiveLoggingEnabled {
+            try encodeContainer.encode(selectiveLoggingEnabled, forKey: .selectiveLoggingEnabled)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3895,6 +3899,8 @@ extension LexModelsV2ClientTypes.AudioLogSetting: Swift.Codable {
         enabled = enabledDecoded
         let destinationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AudioLogDestination.self, forKey: .destination)
         destination = destinationDecoded
+        let selectiveLoggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selectiveLoggingEnabled)
+        selectiveLoggingEnabled = selectiveLoggingEnabledDecoded
     }
 }
 
@@ -3907,14 +3913,18 @@ extension LexModelsV2ClientTypes {
         /// Determines whether audio logging in enabled for the bot.
         /// This member is required.
         public var enabled: Swift.Bool
+        /// The option to enable selective conversation log capture for audio.
+        public var selectiveLoggingEnabled: Swift.Bool?
 
         public init(
             destination: LexModelsV2ClientTypes.AudioLogDestination? = nil,
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool = false,
+            selectiveLoggingEnabled: Swift.Bool? = nil
         )
         {
             self.destination = destination
             self.enabled = enabled
+            self.selectiveLoggingEnabled = selectiveLoggingEnabled
         }
     }
 
@@ -4585,6 +4595,42 @@ enum BatchUpdateCustomVocabularyItemOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension LexModelsV2ClientTypes.BedrockModelSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let modelArn = self.modelArn {
+            try encodeContainer.encode(modelArn, forKey: .modelArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
+    public struct BedrockModelSpecification: Swift.Equatable {
+        /// The ARN of the foundation model used in descriptive bot building.
+        /// This member is required.
+        public var modelArn: Swift.String?
+
+        public init(
+            modelArn: Swift.String? = nil
+        )
+        {
+            self.modelArn = modelArn
+        }
+    }
+
 }
 
 extension LexModelsV2ClientTypes.BotAliasHistoryEvent: Swift.Codable {
@@ -6594,6 +6640,51 @@ enum BuildBotLocaleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension LexModelsV2ClientTypes.BuildtimeSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case descriptiveBotBuilder
+        case sampleUtteranceGeneration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let descriptiveBotBuilder = self.descriptiveBotBuilder {
+            try encodeContainer.encode(descriptiveBotBuilder, forKey: .descriptiveBotBuilder)
+        }
+        if let sampleUtteranceGeneration = self.sampleUtteranceGeneration {
+            try encodeContainer.encode(sampleUtteranceGeneration, forKey: .sampleUtteranceGeneration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptiveBotBuilderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification.self, forKey: .descriptiveBotBuilder)
+        descriptiveBotBuilder = descriptiveBotBuilderDecoded
+        let sampleUtteranceGenerationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SampleUtteranceGenerationSpecification.self, forKey: .sampleUtteranceGeneration)
+        sampleUtteranceGeneration = sampleUtteranceGenerationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains specifications about the Amazon Lex build time generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+    public struct BuildtimeSettings: Swift.Equatable {
+        /// An object containing specifications for the descriptive bot building feature.
+        public var descriptiveBotBuilder: LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification?
+        /// Contains specifications for the sample utterance generation feature.
+        public var sampleUtteranceGeneration: LexModelsV2ClientTypes.SampleUtteranceGenerationSpecification?
+
+        public init(
+            descriptiveBotBuilder: LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification? = nil,
+            sampleUtteranceGeneration: LexModelsV2ClientTypes.SampleUtteranceGenerationSpecification? = nil
+        )
+        {
+            self.descriptiveBotBuilder = descriptiveBotBuilder
+            self.sampleUtteranceGeneration = sampleUtteranceGeneration
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes {
     public enum BuiltInIntentSortAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case intentsignature
@@ -8354,6 +8445,7 @@ extension CreateBotInputBody: Swift.Decodable {
 extension CreateBotLocaleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
+        case generativeAISettings
         case localeId
         case nluIntentConfidenceThreshold
         case voiceSettings
@@ -8363,6 +8455,9 @@ extension CreateBotLocaleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let generativeAISettings = self.generativeAISettings {
+            try encodeContainer.encode(generativeAISettings, forKey: .generativeAISettings)
         }
         if let localeId = self.localeId {
             try encodeContainer.encode(localeId, forKey: .localeId)
@@ -8397,6 +8492,8 @@ public struct CreateBotLocaleInput: Swift.Equatable {
     public var botVersion: Swift.String?
     /// A description of the bot locale. Use this to help identify the bot locale in lists.
     public var description: Swift.String?
+    /// Contains specifications about the generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+    public var generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
     /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
@@ -8418,6 +8515,7 @@ public struct CreateBotLocaleInput: Swift.Equatable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
@@ -8426,6 +8524,7 @@ public struct CreateBotLocaleInput: Swift.Equatable {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
+        self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.voiceSettings = voiceSettings
@@ -8437,11 +8536,13 @@ struct CreateBotLocaleInputBody: Swift.Equatable {
     let description: Swift.String?
     let nluIntentConfidenceThreshold: Swift.Double?
     let voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
+    let generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
 }
 
 extension CreateBotLocaleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
+        case generativeAISettings
         case localeId
         case nluIntentConfidenceThreshold
         case voiceSettings
@@ -8457,6 +8558,8 @@ extension CreateBotLocaleInputBody: Swift.Decodable {
         nluIntentConfidenceThreshold = nluIntentConfidenceThresholdDecoded
         let voiceSettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.VoiceSettings.self, forKey: .voiceSettings)
         voiceSettings = voiceSettingsDecoded
+        let generativeAISettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerativeAISettings.self, forKey: .generativeAISettings)
+        generativeAISettings = generativeAISettingsDecoded
     }
 }
 
@@ -8470,6 +8573,7 @@ extension CreateBotLocaleOutput: ClientRuntime.HttpResponseBinding {
             self.botVersion = output.botVersion
             self.creationDateTime = output.creationDateTime
             self.description = output.description
+            self.generativeAISettings = output.generativeAISettings
             self.localeId = output.localeId
             self.localeName = output.localeName
             self.nluIntentConfidenceThreshold = output.nluIntentConfidenceThreshold
@@ -8480,6 +8584,7 @@ extension CreateBotLocaleOutput: ClientRuntime.HttpResponseBinding {
             self.botVersion = nil
             self.creationDateTime = nil
             self.description = nil
+            self.generativeAISettings = nil
             self.localeId = nil
             self.localeName = nil
             self.nluIntentConfidenceThreshold = nil
@@ -8499,6 +8604,8 @@ public struct CreateBotLocaleOutput: Swift.Equatable {
     public var creationDateTime: ClientRuntime.Date?
     /// The specified description of the bot locale.
     public var description: Swift.String?
+    /// Contains specifications about the generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+    public var generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
     /// The specified locale identifier.
     public var localeId: Swift.String?
     /// The specified locale name.
@@ -8514,6 +8621,7 @@ public struct CreateBotLocaleOutput: Swift.Equatable {
         botVersion: Swift.String? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
@@ -8525,6 +8633,7 @@ public struct CreateBotLocaleOutput: Swift.Equatable {
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
         self.description = description
+        self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.localeName = localeName
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
@@ -8542,6 +8651,7 @@ struct CreateBotLocaleOutputBody: Swift.Equatable {
     let voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
     let botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus?
     let creationDateTime: ClientRuntime.Date?
+    let generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
 }
 
 extension CreateBotLocaleOutputBody: Swift.Decodable {
@@ -8551,6 +8661,7 @@ extension CreateBotLocaleOutputBody: Swift.Decodable {
         case botVersion
         case creationDateTime
         case description
+        case generativeAISettings
         case localeId
         case localeName
         case nluIntentConfidenceThreshold
@@ -8577,6 +8688,8 @@ extension CreateBotLocaleOutputBody: Swift.Decodable {
         botLocaleStatus = botLocaleStatusDecoded
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
         creationDateTime = creationDateTimeDecoded
+        let generativeAISettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerativeAISettings.self, forKey: .generativeAISettings)
+        generativeAISettings = generativeAISettingsDecoded
     }
 }
 
@@ -13190,6 +13303,7 @@ extension DescribeBotLocaleOutput: ClientRuntime.HttpResponseBinding {
             self.creationDateTime = output.creationDateTime
             self.description = output.description
             self.failureReasons = output.failureReasons
+            self.generativeAISettings = output.generativeAISettings
             self.intentsCount = output.intentsCount
             self.lastBuildSubmittedDateTime = output.lastBuildSubmittedDateTime
             self.lastUpdatedDateTime = output.lastUpdatedDateTime
@@ -13207,6 +13321,7 @@ extension DescribeBotLocaleOutput: ClientRuntime.HttpResponseBinding {
             self.creationDateTime = nil
             self.description = nil
             self.failureReasons = nil
+            self.generativeAISettings = nil
             self.intentsCount = nil
             self.lastBuildSubmittedDateTime = nil
             self.lastUpdatedDateTime = nil
@@ -13235,6 +13350,8 @@ public struct DescribeBotLocaleOutput: Swift.Equatable {
     public var description: Swift.String?
     /// if botLocaleStatus is Failed, Amazon Lex explains why it failed to build the bot.
     public var failureReasons: [Swift.String]?
+    /// Contains settings for Amazon Bedrock's generative AI features for your bot locale.
+    public var generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
     /// The number of intents defined for the locale.
     public var intentsCount: Swift.Int?
     /// The date and time that the locale was last submitted for building.
@@ -13262,6 +13379,7 @@ public struct DescribeBotLocaleOutput: Swift.Equatable {
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
+        generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         intentsCount: Swift.Int? = nil,
         lastBuildSubmittedDateTime: ClientRuntime.Date? = nil,
         lastUpdatedDateTime: ClientRuntime.Date? = nil,
@@ -13280,6 +13398,7 @@ public struct DescribeBotLocaleOutput: Swift.Equatable {
         self.creationDateTime = creationDateTime
         self.description = description
         self.failureReasons = failureReasons
+        self.generativeAISettings = generativeAISettings
         self.intentsCount = intentsCount
         self.lastBuildSubmittedDateTime = lastBuildSubmittedDateTime
         self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -13309,6 +13428,7 @@ struct DescribeBotLocaleOutputBody: Swift.Equatable {
     let lastBuildSubmittedDateTime: ClientRuntime.Date?
     let botLocaleHistoryEvents: [LexModelsV2ClientTypes.BotLocaleHistoryEvent]?
     let recommendedActions: [Swift.String]?
+    let generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
 }
 
 extension DescribeBotLocaleOutputBody: Swift.Decodable {
@@ -13320,6 +13440,7 @@ extension DescribeBotLocaleOutputBody: Swift.Decodable {
         case creationDateTime
         case description
         case failureReasons
+        case generativeAISettings
         case intentsCount
         case lastBuildSubmittedDateTime
         case lastUpdatedDateTime
@@ -13392,6 +13513,8 @@ extension DescribeBotLocaleOutputBody: Swift.Decodable {
             }
         }
         recommendedActions = recommendedActionsDecoded0
+        let generativeAISettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerativeAISettings.self, forKey: .generativeAISettings)
+        generativeAISettings = generativeAISettingsDecoded
     }
 }
 
@@ -13798,6 +13921,224 @@ extension DescribeBotRecommendationOutputBody: Swift.Decodable {
 }
 
 enum DescribeBotRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeBotResourceGenerationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        guard let botVersion = botVersion else {
+            return nil
+        }
+        guard let localeId = localeId else {
+            return nil
+        }
+        guard let generationId = generationId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/generations/\(generationId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeBotResourceGenerationInput: Swift.Equatable {
+    /// The unique identifier of the bot for which to return the generation details.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The version of the bot for which to return the generation details.
+    /// This member is required.
+    public var botVersion: Swift.String?
+    /// The unique identifier of the generation request for which to return the generation details.
+    /// This member is required.
+    public var generationId: Swift.String?
+    /// The locale of the bot for which to return the generation details.
+    /// This member is required.
+    public var localeId: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        generationId: Swift.String? = nil,
+        localeId: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.generationId = generationId
+        self.localeId = localeId
+    }
+}
+
+struct DescribeBotResourceGenerationInputBody: Swift.Equatable {
+}
+
+extension DescribeBotResourceGenerationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeBotResourceGenerationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeBotResourceGenerationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botVersion = output.botVersion
+            self.creationDateTime = output.creationDateTime
+            self.failureReasons = output.failureReasons
+            self.generatedBotLocaleUrl = output.generatedBotLocaleUrl
+            self.generationId = output.generationId
+            self.generationInputPrompt = output.generationInputPrompt
+            self.generationStatus = output.generationStatus
+            self.lastUpdatedDateTime = output.lastUpdatedDateTime
+            self.localeId = output.localeId
+            self.modelArn = output.modelArn
+        } else {
+            self.botId = nil
+            self.botVersion = nil
+            self.creationDateTime = nil
+            self.failureReasons = nil
+            self.generatedBotLocaleUrl = nil
+            self.generationId = nil
+            self.generationInputPrompt = nil
+            self.generationStatus = nil
+            self.lastUpdatedDateTime = nil
+            self.localeId = nil
+            self.modelArn = nil
+        }
+    }
+}
+
+public struct DescribeBotResourceGenerationOutput: Swift.Equatable {
+    /// The unique identifier of the bot for which the generation request was made.
+    public var botId: Swift.String?
+    /// The version of the bot for which the generation request was made.
+    public var botVersion: Swift.String?
+    /// The date and time at which the item was generated.
+    public var creationDateTime: ClientRuntime.Date?
+    /// A list of reasons why the generation of bot resources through natural language description failed.
+    public var failureReasons: [Swift.String]?
+    /// The Amazon S3 location of the generated bot locale configuration.
+    public var generatedBotLocaleUrl: Swift.String?
+    /// The generation ID for which to return the generation details.
+    public var generationId: Swift.String?
+    /// The prompt used in the generation request.
+    public var generationInputPrompt: Swift.String?
+    /// The status of the generation request.
+    public var generationStatus: LexModelsV2ClientTypes.GenerationStatus?
+    /// The date and time at which the generated item was updated.
+    public var lastUpdatedDateTime: ClientRuntime.Date?
+    /// The locale of the bot for which the generation request was made.
+    public var localeId: Swift.String?
+    /// The ARN of the model used to generate the bot resources.
+    public var modelArn: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        failureReasons: [Swift.String]? = nil,
+        generatedBotLocaleUrl: Swift.String? = nil,
+        generationId: Swift.String? = nil,
+        generationInputPrompt: Swift.String? = nil,
+        generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
+        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        localeId: Swift.String? = nil,
+        modelArn: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.creationDateTime = creationDateTime
+        self.failureReasons = failureReasons
+        self.generatedBotLocaleUrl = generatedBotLocaleUrl
+        self.generationId = generationId
+        self.generationInputPrompt = generationInputPrompt
+        self.generationStatus = generationStatus
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.localeId = localeId
+        self.modelArn = modelArn
+    }
+}
+
+struct DescribeBotResourceGenerationOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let botVersion: Swift.String?
+    let localeId: Swift.String?
+    let generationId: Swift.String?
+    let failureReasons: [Swift.String]?
+    let generationStatus: LexModelsV2ClientTypes.GenerationStatus?
+    let generationInputPrompt: Swift.String?
+    let generatedBotLocaleUrl: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let modelArn: Swift.String?
+    let lastUpdatedDateTime: ClientRuntime.Date?
+}
+
+extension DescribeBotResourceGenerationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botVersion
+        case creationDateTime
+        case failureReasons
+        case generatedBotLocaleUrl
+        case generationId
+        case generationInputPrompt
+        case generationStatus
+        case lastUpdatedDateTime
+        case localeId
+        case modelArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let generationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationId)
+        generationId = generationIdDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+        let generationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerationStatus.self, forKey: .generationStatus)
+        generationStatus = generationStatusDecoded
+        let generationInputPromptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationInputPrompt)
+        generationInputPrompt = generationInputPromptDecoded
+        let generatedBotLocaleUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedBotLocaleUrl)
+        generatedBotLocaleUrl = generatedBotLocaleUrlDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
+enum DescribeBotResourceGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -16190,6 +16531,52 @@ enum DescribeTestSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockModelSpecification
+        case enabled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bedrockModelSpecification = self.bedrockModelSpecification {
+            try encodeContainer.encode(bedrockModelSpecification, forKey: .bedrockModelSpecification)
+        }
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+        let bedrockModelSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BedrockModelSpecification.self, forKey: .bedrockModelSpecification)
+        bedrockModelSpecification = bedrockModelSpecificationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains specifications for the descriptive bot building feature.
+    public struct DescriptiveBotBuilderSpecification: Swift.Equatable {
+        /// An object containing information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
+        public var bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification?
+        /// Specifies whether the descriptive bot building feature is activated or not.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
+            enabled: Swift.Bool = false
+        )
+        {
+            self.bedrockModelSpecification = bedrockModelSpecification
+            self.enabled = enabled
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.DialogAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case slotToElicit
@@ -17443,6 +17830,412 @@ extension LexModelsV2ClientTypes {
             self.startResponse = startResponse
             self.timeoutInSeconds = timeoutInSeconds
             self.updateResponse = updateResponse
+        }
+    }
+
+}
+
+extension GenerateBotElementInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentId = self.intentId {
+            try encodeContainer.encode(intentId, forKey: .intentId)
+        }
+    }
+}
+
+extension GenerateBotElementInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        guard let botVersion = botVersion else {
+            return nil
+        }
+        guard let localeId = localeId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/generate"
+    }
+}
+
+public struct GenerateBotElementInput: Swift.Equatable {
+    /// The bot unique Id for the bot request to generate utterances.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The bot version for the bot request to generate utterances.
+    /// This member is required.
+    public var botVersion: Swift.String?
+    /// The intent unique Id for the bot request to generate utterances.
+    /// This member is required.
+    public var intentId: Swift.String?
+    /// The unique locale Id for the bot request to generate utterances.
+    /// This member is required.
+    public var localeId: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        intentId: Swift.String? = nil,
+        localeId: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.intentId = intentId
+        self.localeId = localeId
+    }
+}
+
+struct GenerateBotElementInputBody: Swift.Equatable {
+    let intentId: Swift.String?
+}
+
+extension GenerateBotElementInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentId)
+        intentId = intentIdDecoded
+    }
+}
+
+extension GenerateBotElementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GenerateBotElementOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botVersion = output.botVersion
+            self.intentId = output.intentId
+            self.localeId = output.localeId
+            self.sampleUtterances = output.sampleUtterances
+        } else {
+            self.botId = nil
+            self.botVersion = nil
+            self.intentId = nil
+            self.localeId = nil
+            self.sampleUtterances = nil
+        }
+    }
+}
+
+public struct GenerateBotElementOutput: Swift.Equatable {
+    /// The unique bot Id for the bot which received the response.
+    public var botId: Swift.String?
+    /// The unique bot version for the bot which received the response.
+    public var botVersion: Swift.String?
+    /// The unique intent Id for the bot which received the response.
+    public var intentId: Swift.String?
+    /// The unique locale Id for the bot which received the response.
+    public var localeId: Swift.String?
+    /// The sample utterances for the bot which received the response.
+    public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        intentId: Swift.String? = nil,
+        localeId: Swift.String? = nil,
+        sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.intentId = intentId
+        self.localeId = localeId
+        self.sampleUtterances = sampleUtterances
+    }
+}
+
+struct GenerateBotElementOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let botVersion: Swift.String?
+    let localeId: Swift.String?
+    let intentId: Swift.String?
+    let sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
+}
+
+extension GenerateBotElementOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botVersion
+        case intentId
+        case localeId
+        case sampleUtterances
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let intentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentId)
+        intentId = intentIdDecoded
+        let sampleUtterancesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.SampleUtterance?].self, forKey: .sampleUtterances)
+        var sampleUtterancesDecoded0:[LexModelsV2ClientTypes.SampleUtterance]? = nil
+        if let sampleUtterancesContainer = sampleUtterancesContainer {
+            sampleUtterancesDecoded0 = [LexModelsV2ClientTypes.SampleUtterance]()
+            for structure0 in sampleUtterancesContainer {
+                if let structure0 = structure0 {
+                    sampleUtterancesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sampleUtterances = sampleUtterancesDecoded0
+    }
+}
+
+enum GenerateBotElementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.GenerationSortBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attribute
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attribute = self.attribute {
+            try encodeContainer.encode(attribute.rawValue, forKey: .attribute)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerationSortByAttribute.self, forKey: .attribute)
+        attribute = attributeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Specifies the attribute and method by which to sort the generation request information.
+    public struct GenerationSortBy: Swift.Equatable {
+        /// The attribute by which to sort the generation request information. You can sort by the following attributes.
+        ///
+        /// * creationStartTime – The time at which the generation request was created.
+        ///
+        /// * lastUpdatedTime – The time at which the generation request was last updated.
+        /// This member is required.
+        public var attribute: LexModelsV2ClientTypes.GenerationSortByAttribute?
+        /// The order by which to sort the generation request information.
+        /// This member is required.
+        public var order: LexModelsV2ClientTypes.SortOrder?
+
+        public init(
+            attribute: LexModelsV2ClientTypes.GenerationSortByAttribute? = nil,
+            order: LexModelsV2ClientTypes.SortOrder? = nil
+        )
+        {
+            self.attribute = attribute
+            self.order = order
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum GenerationSortByAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case creationstarttime
+        case lastupdatedtime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GenerationSortByAttribute] {
+            return [
+                .creationstarttime,
+                .lastupdatedtime,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationstarttime: return "creationStartTime"
+            case .lastupdatedtime: return "lastUpdatedTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GenerationSortByAttribute(rawValue: rawValue) ?? GenerationSortByAttribute.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum GenerationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case failed
+        case inprogress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GenerationStatus] {
+            return [
+                .complete,
+                .failed,
+                .inprogress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "Complete"
+            case .failed: return "Failed"
+            case .inprogress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GenerationStatus(rawValue: rawValue) ?? GenerationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.GenerationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case generationId
+        case generationStatus
+        case lastUpdatedDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let generationId = self.generationId {
+            try encodeContainer.encode(generationId, forKey: .generationId)
+        }
+        if let generationStatus = self.generationStatus {
+            try encodeContainer.encode(generationStatus.rawValue, forKey: .generationStatus)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let generationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationId)
+        generationId = generationIdDecoded
+        let generationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerationStatus.self, forKey: .generationStatus)
+        generationStatus = generationStatusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about a generation request made for the bot locale.
+    public struct GenerationSummary: Swift.Equatable {
+        /// The date and time at which the generation request was made.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The unique identifier of the generation request.
+        public var generationId: Swift.String?
+        /// The status of the generation request.
+        public var generationStatus: LexModelsV2ClientTypes.GenerationStatus?
+        /// The date and time at which the generation request was last updated.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+
+        public init(
+            creationDateTime: ClientRuntime.Date? = nil,
+            generationId: Swift.String? = nil,
+            generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.generationId = generationId
+            self.generationStatus = generationStatus
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.GenerativeAISettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case buildtimeSettings
+        case runtimeSettings
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let buildtimeSettings = self.buildtimeSettings {
+            try encodeContainer.encode(buildtimeSettings, forKey: .buildtimeSettings)
+        }
+        if let runtimeSettings = self.runtimeSettings {
+            try encodeContainer.encode(runtimeSettings, forKey: .runtimeSettings)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runtimeSettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.RuntimeSettings.self, forKey: .runtimeSettings)
+        runtimeSettings = runtimeSettingsDecoded
+        let buildtimeSettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BuildtimeSettings.self, forKey: .buildtimeSettings)
+        buildtimeSettings = buildtimeSettingsDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains specifications about the generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+    public struct GenerativeAISettings: Swift.Equatable {
+        /// Contains specifications about the Amazon Lex build time generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+        public var buildtimeSettings: LexModelsV2ClientTypes.BuildtimeSettings?
+        /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+        public var runtimeSettings: LexModelsV2ClientTypes.RuntimeSettings?
+
+        public init(
+            buildtimeSettings: LexModelsV2ClientTypes.BuildtimeSettings? = nil,
+            runtimeSettings: LexModelsV2ClientTypes.RuntimeSettings? = nil
+        )
+        {
+            self.buildtimeSettings = buildtimeSettings
+            self.runtimeSettings = runtimeSettings
         }
     }
 
@@ -20440,6 +21233,204 @@ extension ListBotRecommendationsOutputBody: Swift.Decodable {
 }
 
 enum ListBotRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListBotResourceGenerationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy, forKey: .sortBy)
+        }
+    }
+}
+
+extension ListBotResourceGenerationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        guard let botVersion = botVersion else {
+            return nil
+        }
+        guard let localeId = localeId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/generations"
+    }
+}
+
+public struct ListBotResourceGenerationsInput: Swift.Equatable {
+    /// The unique identifier of the bot whose generation requests you want to view.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The version of the bot whose generation requests you want to view.
+    /// This member is required.
+    public var botVersion: Swift.String?
+    /// The locale of the bot whose generation requests you want to view.
+    /// This member is required.
+    public var localeId: Swift.String?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the number specified in the maxResults, the response returns a token in the nextToken field. Use this token when making a request to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// An object containing information about the attribute and the method by which to sort the results
+    public var sortBy: LexModelsV2ClientTypes.GenerationSortBy?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        localeId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: LexModelsV2ClientTypes.GenerationSortBy? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.localeId = localeId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+    }
+}
+
+struct ListBotResourceGenerationsInputBody: Swift.Equatable {
+    let sortBy: LexModelsV2ClientTypes.GenerationSortBy?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListBotResourceGenerationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerationSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListBotResourceGenerationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBotResourceGenerationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botVersion = output.botVersion
+            self.generationSummaries = output.generationSummaries
+            self.localeId = output.localeId
+            self.nextToken = output.nextToken
+        } else {
+            self.botId = nil
+            self.botVersion = nil
+            self.generationSummaries = nil
+            self.localeId = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListBotResourceGenerationsOutput: Swift.Equatable {
+    /// The unique identifier of the bot for which the generation requests were made.
+    public var botId: Swift.String?
+    /// The version of the bot for which the generation requests were made.
+    public var botVersion: Swift.String?
+    /// A list of objects, each containing information about a generation request for the bot locale.
+    public var generationSummaries: [LexModelsV2ClientTypes.GenerationSummary]?
+    /// The locale of the bot for which the generation requests were made.
+    public var localeId: Swift.String?
+    /// If the total number of results is greater than the number specified in the maxResults, the response returns a token in the nextToken field. Use this token when making a request to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        generationSummaries: [LexModelsV2ClientTypes.GenerationSummary]? = nil,
+        localeId: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.generationSummaries = generationSummaries
+        self.localeId = localeId
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBotResourceGenerationsOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let botVersion: Swift.String?
+    let localeId: Swift.String?
+    let generationSummaries: [LexModelsV2ClientTypes.GenerationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListBotResourceGenerationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botVersion
+        case generationSummaries
+        case localeId
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let generationSummariesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.GenerationSummary?].self, forKey: .generationSummaries)
+        var generationSummariesDecoded0:[LexModelsV2ClientTypes.GenerationSummary]? = nil
+        if let generationSummariesContainer = generationSummariesContainer {
+            generationSummariesDecoded0 = [LexModelsV2ClientTypes.GenerationSummary]()
+            for structure0 in generationSummariesContainer {
+                if let structure0 = structure0 {
+                    generationSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        generationSummaries = generationSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBotResourceGenerationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -26665,6 +27656,41 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes.RuntimeSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case slotResolutionImprovement
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let slotResolutionImprovement = self.slotResolutionImprovement {
+            try encodeContainer.encode(slotResolutionImprovement, forKey: .slotResolutionImprovement)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let slotResolutionImprovementDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SlotResolutionImprovementSpecification.self, forKey: .slotResolutionImprovement)
+        slotResolutionImprovement = slotResolutionImprovementDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
+    public struct RuntimeSettings: Swift.Equatable {
+        /// An object containing specifications for the assisted slot resolution feature.
+        public var slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification?
+
+        public init(
+            slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification? = nil
+        )
+        {
+            self.slotResolutionImprovement = slotResolutionImprovement
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.S3BucketLogDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyArn
@@ -26866,6 +27892,52 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.utterance = utterance
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.SampleUtteranceGenerationSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockModelSpecification
+        case enabled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bedrockModelSpecification = self.bedrockModelSpecification {
+            try encodeContainer.encode(bedrockModelSpecification, forKey: .bedrockModelSpecification)
+        }
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+        let bedrockModelSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BedrockModelSpecification.self, forKey: .bedrockModelSpecification)
+        bedrockModelSpecification = bedrockModelSpecificationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains specifications for the sample utterance generation feature.
+    public struct SampleUtteranceGenerationSpecification: Swift.Equatable {
+        /// Contains information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
+        public var bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification?
+        /// Specifies whether to enable sample utterance generation or not.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
+            enabled: Swift.Bool = false
+        )
+        {
+            self.bedrockModelSpecification = bedrockModelSpecification
+            self.enabled = enabled
         }
     }
 
@@ -27909,6 +28981,120 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes.SlotResolutionImprovementSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockModelSpecification
+        case enabled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bedrockModelSpecification = self.bedrockModelSpecification {
+            try encodeContainer.encode(bedrockModelSpecification, forKey: .bedrockModelSpecification)
+        }
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+        let bedrockModelSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BedrockModelSpecification.self, forKey: .bedrockModelSpecification)
+        bedrockModelSpecification = bedrockModelSpecificationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains specifications for the assisted slot resolution feature.
+    public struct SlotResolutionImprovementSpecification: Swift.Equatable {
+        /// An object containing information about the Amazon Bedrock model used to assist slot resolution.
+        public var bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification?
+        /// Specifies whether assisted slot resolution is turned on or off.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
+            enabled: Swift.Bool = false
+        )
+        {
+            self.bedrockModelSpecification = bedrockModelSpecification
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.SlotResolutionSetting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case slotResolutionStrategy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let slotResolutionStrategy = self.slotResolutionStrategy {
+            try encodeContainer.encode(slotResolutionStrategy.rawValue, forKey: .slotResolutionStrategy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let slotResolutionStrategyDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SlotResolutionStrategy.self, forKey: .slotResolutionStrategy)
+        slotResolutionStrategy = slotResolutionStrategyDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about whether assisted slot resolution is turned on for the slot or not.
+    public struct SlotResolutionSetting: Swift.Equatable {
+        /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
+        /// This member is required.
+        public var slotResolutionStrategy: LexModelsV2ClientTypes.SlotResolutionStrategy?
+
+        public init(
+            slotResolutionStrategy: LexModelsV2ClientTypes.SlotResolutionStrategy? = nil
+        )
+        {
+            self.slotResolutionStrategy = slotResolutionStrategy
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum SlotResolutionStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `default`
+        case enhancedfallback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlotResolutionStrategy] {
+            return [
+                .default,
+                .enhancedfallback,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "Default"
+            case .enhancedfallback: return "EnhancedFallback"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SlotResolutionStrategy(rawValue: rawValue) ?? SlotResolutionStrategy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LexModelsV2ClientTypes.SlotResolutionTestResultItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resultCounts
@@ -28719,6 +29905,7 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting: Swift.Codable {
         case sampleUtterances
         case slotCaptureSetting
         case slotConstraint
+        case slotResolutionSetting
         case waitAndContinueSpecification
     }
 
@@ -28741,6 +29928,9 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting: Swift.Codable {
         }
         if let slotConstraint = self.slotConstraint {
             try encodeContainer.encode(slotConstraint.rawValue, forKey: .slotConstraint)
+        }
+        if let slotResolutionSetting = self.slotResolutionSetting {
+            try encodeContainer.encode(slotResolutionSetting, forKey: .slotResolutionSetting)
         }
         if let waitAndContinueSpecification = self.waitAndContinueSpecification {
             try encodeContainer.encode(waitAndContinueSpecification, forKey: .waitAndContinueSpecification)
@@ -28770,6 +29960,8 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting: Swift.Codable {
         waitAndContinueSpecification = waitAndContinueSpecificationDecoded
         let slotCaptureSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SlotCaptureSetting.self, forKey: .slotCaptureSetting)
         slotCaptureSetting = slotCaptureSettingDecoded
+        let slotResolutionSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SlotResolutionSetting.self, forKey: .slotResolutionSetting)
+        slotResolutionSetting = slotResolutionSettingDecoded
     }
 }
 
@@ -28787,6 +29979,8 @@ extension LexModelsV2ClientTypes {
         /// Specifies whether the slot is required or optional.
         /// This member is required.
         public var slotConstraint: LexModelsV2ClientTypes.SlotConstraint?
+        /// An object containing information about whether assisted slot resolution is turned on for the slot or not.
+        public var slotResolutionSetting: LexModelsV2ClientTypes.SlotResolutionSetting?
         /// Specifies the prompts that Amazon Lex uses while a bot is waiting for customer input.
         public var waitAndContinueSpecification: LexModelsV2ClientTypes.WaitAndContinueSpecification?
 
@@ -28796,6 +29990,7 @@ extension LexModelsV2ClientTypes {
             sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
             slotCaptureSetting: LexModelsV2ClientTypes.SlotCaptureSetting? = nil,
             slotConstraint: LexModelsV2ClientTypes.SlotConstraint? = nil,
+            slotResolutionSetting: LexModelsV2ClientTypes.SlotResolutionSetting? = nil,
             waitAndContinueSpecification: LexModelsV2ClientTypes.WaitAndContinueSpecification? = nil
         )
         {
@@ -28804,6 +29999,7 @@ extension LexModelsV2ClientTypes {
             self.sampleUtterances = sampleUtterances
             self.slotCaptureSetting = slotCaptureSetting
             self.slotConstraint = slotConstraint
+            self.slotResolutionSetting = slotResolutionSetting
             self.waitAndContinueSpecification = waitAndContinueSpecification
         }
     }
@@ -29306,6 +30502,194 @@ enum StartBotRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartBotResourceGenerationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationInputPrompt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let generationInputPrompt = self.generationInputPrompt {
+            try encodeContainer.encode(generationInputPrompt, forKey: .generationInputPrompt)
+        }
+    }
+}
+
+extension StartBotResourceGenerationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let botId = botId else {
+            return nil
+        }
+        guard let botVersion = botVersion else {
+            return nil
+        }
+        guard let localeId = localeId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/startgeneration"
+    }
+}
+
+public struct StartBotResourceGenerationInput: Swift.Equatable {
+    /// The unique identifier of the bot for which to generate intents and slot types.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The version of the bot for which to generate intents and slot types.
+    /// This member is required.
+    public var botVersion: Swift.String?
+    /// The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help generate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process.
+    /// This member is required.
+    public var generationInputPrompt: Swift.String?
+    /// The locale of the bot for which to generate intents and slot types.
+    /// This member is required.
+    public var localeId: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        generationInputPrompt: Swift.String? = nil,
+        localeId: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.generationInputPrompt = generationInputPrompt
+        self.localeId = localeId
+    }
+}
+
+struct StartBotResourceGenerationInputBody: Swift.Equatable {
+    let generationInputPrompt: Swift.String?
+}
+
+extension StartBotResourceGenerationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationInputPrompt
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let generationInputPromptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationInputPrompt)
+        generationInputPrompt = generationInputPromptDecoded
+    }
+}
+
+extension StartBotResourceGenerationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartBotResourceGenerationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botVersion = output.botVersion
+            self.creationDateTime = output.creationDateTime
+            self.generationId = output.generationId
+            self.generationInputPrompt = output.generationInputPrompt
+            self.generationStatus = output.generationStatus
+            self.localeId = output.localeId
+        } else {
+            self.botId = nil
+            self.botVersion = nil
+            self.creationDateTime = nil
+            self.generationId = nil
+            self.generationInputPrompt = nil
+            self.generationStatus = nil
+            self.localeId = nil
+        }
+    }
+}
+
+public struct StartBotResourceGenerationOutput: Swift.Equatable {
+    /// The unique identifier of the bot for which the generation request was made.
+    public var botId: Swift.String?
+    /// The version of the bot for which the generation request was made.
+    public var botVersion: Swift.String?
+    /// The date and time at which the generation request was made.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The unique identifier of the generation request.
+    public var generationId: Swift.String?
+    /// The prompt that was used generate intents and slot types for the bot locale.
+    public var generationInputPrompt: Swift.String?
+    /// The status of the generation request.
+    public var generationStatus: LexModelsV2ClientTypes.GenerationStatus?
+    /// The locale of the bot for which the generation request was made.
+    public var localeId: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersion: Swift.String? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        generationId: Swift.String? = nil,
+        generationInputPrompt: Swift.String? = nil,
+        generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
+        localeId: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersion = botVersion
+        self.creationDateTime = creationDateTime
+        self.generationId = generationId
+        self.generationInputPrompt = generationInputPrompt
+        self.generationStatus = generationStatus
+        self.localeId = localeId
+    }
+}
+
+struct StartBotResourceGenerationOutputBody: Swift.Equatable {
+    let generationInputPrompt: Swift.String?
+    let generationId: Swift.String?
+    let botId: Swift.String?
+    let botVersion: Swift.String?
+    let localeId: Swift.String?
+    let generationStatus: LexModelsV2ClientTypes.GenerationStatus?
+    let creationDateTime: ClientRuntime.Date?
+}
+
+extension StartBotResourceGenerationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botVersion
+        case creationDateTime
+        case generationId
+        case generationInputPrompt
+        case generationStatus
+        case localeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let generationInputPromptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationInputPrompt)
+        generationInputPrompt = generationInputPromptDecoded
+        let generationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationId)
+        generationId = generationIdDecoded
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let generationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerationStatus.self, forKey: .generationStatus)
+        generationStatus = generationStatusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+    }
+}
+
+enum StartBotResourceGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -32093,6 +33477,7 @@ extension LexModelsV2ClientTypes.TextLogSetting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination
         case enabled
+        case selectiveLoggingEnabled
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -32103,6 +33488,9 @@ extension LexModelsV2ClientTypes.TextLogSetting: Swift.Codable {
         if enabled != false {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
+        if let selectiveLoggingEnabled = self.selectiveLoggingEnabled {
+            try encodeContainer.encode(selectiveLoggingEnabled, forKey: .selectiveLoggingEnabled)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -32111,6 +33499,8 @@ extension LexModelsV2ClientTypes.TextLogSetting: Swift.Codable {
         enabled = enabledDecoded
         let destinationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TextLogDestination.self, forKey: .destination)
         destination = destinationDecoded
+        let selectiveLoggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .selectiveLoggingEnabled)
+        selectiveLoggingEnabled = selectiveLoggingEnabledDecoded
     }
 }
 
@@ -32123,14 +33513,18 @@ extension LexModelsV2ClientTypes {
         /// Determines whether conversation logs should be stored for an alias.
         /// This member is required.
         public var enabled: Swift.Bool
+        /// The option to enable selective conversation log capture for text.
+        public var selectiveLoggingEnabled: Swift.Bool?
 
         public init(
             destination: LexModelsV2ClientTypes.TextLogDestination? = nil,
-            enabled: Swift.Bool = false
+            enabled: Swift.Bool = false,
+            selectiveLoggingEnabled: Swift.Bool? = nil
         )
         {
             self.destination = destination
             self.enabled = enabled
+            self.selectiveLoggingEnabled = selectiveLoggingEnabled
         }
     }
 
@@ -32903,6 +34297,7 @@ extension UpdateBotInputBody: Swift.Decodable {
 extension UpdateBotLocaleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
+        case generativeAISettings
         case nluIntentConfidenceThreshold
         case voiceSettings
     }
@@ -32911,6 +34306,9 @@ extension UpdateBotLocaleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let generativeAISettings = self.generativeAISettings {
+            try encodeContainer.encode(generativeAISettings, forKey: .generativeAISettings)
         }
         if let nluIntentConfidenceThreshold = self.nluIntentConfidenceThreshold {
             try encodeContainer.encode(nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
@@ -32945,6 +34343,8 @@ public struct UpdateBotLocaleInput: Swift.Equatable {
     public var botVersion: Swift.String?
     /// The new description of the locale.
     public var description: Swift.String?
+    /// Contains settings for generative AI features powered by Amazon Bedrock for your bot locale. Use this object to turn generative AI features on and off. Pricing may differ if you turn a feature on. For more information, see LINK.
+    public var generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
     /// The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
@@ -32958,6 +34358,7 @@ public struct UpdateBotLocaleInput: Swift.Equatable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
@@ -32966,6 +34367,7 @@ public struct UpdateBotLocaleInput: Swift.Equatable {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
+        self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.voiceSettings = voiceSettings
@@ -32976,11 +34378,13 @@ struct UpdateBotLocaleInputBody: Swift.Equatable {
     let description: Swift.String?
     let nluIntentConfidenceThreshold: Swift.Double?
     let voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
+    let generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
 }
 
 extension UpdateBotLocaleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
+        case generativeAISettings
         case nluIntentConfidenceThreshold
         case voiceSettings
     }
@@ -32993,6 +34397,8 @@ extension UpdateBotLocaleInputBody: Swift.Decodable {
         nluIntentConfidenceThreshold = nluIntentConfidenceThresholdDecoded
         let voiceSettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.VoiceSettings.self, forKey: .voiceSettings)
         voiceSettings = voiceSettingsDecoded
+        let generativeAISettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerativeAISettings.self, forKey: .generativeAISettings)
+        generativeAISettings = generativeAISettingsDecoded
     }
 }
 
@@ -33007,6 +34413,7 @@ extension UpdateBotLocaleOutput: ClientRuntime.HttpResponseBinding {
             self.creationDateTime = output.creationDateTime
             self.description = output.description
             self.failureReasons = output.failureReasons
+            self.generativeAISettings = output.generativeAISettings
             self.lastUpdatedDateTime = output.lastUpdatedDateTime
             self.localeId = output.localeId
             self.localeName = output.localeName
@@ -33020,6 +34427,7 @@ extension UpdateBotLocaleOutput: ClientRuntime.HttpResponseBinding {
             self.creationDateTime = nil
             self.description = nil
             self.failureReasons = nil
+            self.generativeAISettings = nil
             self.lastUpdatedDateTime = nil
             self.localeId = nil
             self.localeName = nil
@@ -33043,6 +34451,8 @@ public struct UpdateBotLocaleOutput: Swift.Equatable {
     public var description: Swift.String?
     /// If the botLocaleStatus is Failed, the failureReasons field lists the errors that occurred while building the bot.
     public var failureReasons: [Swift.String]?
+    /// Contains settings for generative AI features powered by Amazon Bedrock for your bot locale.
+    public var generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
     /// A timestamp of the date and time that the locale was last updated.
     public var lastUpdatedDateTime: ClientRuntime.Date?
     /// The language and locale of the updated bot locale.
@@ -33063,6 +34473,7 @@ public struct UpdateBotLocaleOutput: Swift.Equatable {
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
+        generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         lastUpdatedDateTime: ClientRuntime.Date? = nil,
         localeId: Swift.String? = nil,
         localeName: Swift.String? = nil,
@@ -33077,6 +34488,7 @@ public struct UpdateBotLocaleOutput: Swift.Equatable {
         self.creationDateTime = creationDateTime
         self.description = description
         self.failureReasons = failureReasons
+        self.generativeAISettings = generativeAISettings
         self.lastUpdatedDateTime = lastUpdatedDateTime
         self.localeId = localeId
         self.localeName = localeName
@@ -33099,6 +34511,7 @@ struct UpdateBotLocaleOutputBody: Swift.Equatable {
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
     let recommendedActions: [Swift.String]?
+    let generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
 }
 
 extension UpdateBotLocaleOutputBody: Swift.Decodable {
@@ -33109,6 +34522,7 @@ extension UpdateBotLocaleOutputBody: Swift.Decodable {
         case creationDateTime
         case description
         case failureReasons
+        case generativeAISettings
         case lastUpdatedDateTime
         case localeId
         case localeName
@@ -33161,6 +34575,8 @@ extension UpdateBotLocaleOutputBody: Swift.Decodable {
             }
         }
         recommendedActions = recommendedActionsDecoded0
+        let generativeAISettingsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.GenerativeAISettings.self, forKey: .generativeAISettings)
+        generativeAISettings = generativeAISettingsDecoded
     }
 }
 

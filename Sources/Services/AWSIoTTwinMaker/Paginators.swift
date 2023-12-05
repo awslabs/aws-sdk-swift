@@ -12,7 +12,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ExecuteQueryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ExecuteQueryOutput`
     public func executeQueryPaginated(input: ExecuteQueryInput) -> ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutput> {
-        return ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutput>(input: input, inputKey: \ExecuteQueryInput.nextToken, outputKey: \ExecuteQueryOutput.nextToken, paginationFunction: self.executeQuery(input:))
+        return ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.executeQuery(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[GetPropertyValueInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPropertyValueOutput`
     public func getPropertyValuePaginated(input: GetPropertyValueInput) -> ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutput> {
-        return ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutput>(input: input, inputKey: \GetPropertyValueInput.nextToken, outputKey: \GetPropertyValueOutput.nextToken, paginationFunction: self.getPropertyValue(input:))
+        return ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPropertyValue(input:))
     }
 }
 
@@ -43,6 +43,7 @@ extension GetPropertyValueInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetPropertyValueInput {
         return GetPropertyValueInput(
             componentName: self.componentName,
+            componentPath: self.componentPath,
             componentTypeId: self.componentTypeId,
             entityId: self.entityId,
             maxResults: self.maxResults,
@@ -63,7 +64,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[GetPropertyValueHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPropertyValueHistoryOutput`
     public func getPropertyValueHistoryPaginated(input: GetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput> {
-        return ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput>(input: input, inputKey: \GetPropertyValueHistoryInput.nextToken, outputKey: \GetPropertyValueHistoryOutput.nextToken, paginationFunction: self.getPropertyValueHistory(input:))
+        return ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPropertyValueHistory(input:))
     }
 }
 
@@ -71,6 +72,7 @@ extension GetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetPropertyValueHistoryInput {
         return GetPropertyValueHistoryInput(
             componentName: self.componentName,
+            componentPath: self.componentPath,
             componentTypeId: self.componentTypeId,
             endDateTime: self.endDateTime,
             endTime: self.endTime,
@@ -87,6 +89,30 @@ extension GetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
+    /// Paginate over `[ListComponentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComponentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutput`
+    public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponents(input:))
+    }
+}
+
+extension ListComponentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListComponentsInput {
+        return ListComponentsInput(
+            componentPath: self.componentPath,
+            entityId: self.entityId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )}
+}
+extension IoTTwinMakerClient {
     /// Paginate over `[ListComponentTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -96,7 +122,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ListComponentTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentTypesOutput`
     public func listComponentTypesPaginated(input: ListComponentTypesInput) -> ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutput>(input: input, inputKey: \ListComponentTypesInput.nextToken, outputKey: \ListComponentTypesOutput.nextToken, paginationFunction: self.listComponentTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponentTypes(input:))
     }
 }
 
@@ -119,7 +145,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ListEntitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesOutput`
     public func listEntitiesPaginated(input: ListEntitiesInput) -> ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput>(input: input, inputKey: \ListEntitiesInput.nextToken, outputKey: \ListEntitiesOutput.nextToken, paginationFunction: self.listEntities(input:))
+        return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntities(input:))
     }
 }
 
@@ -127,6 +153,55 @@ extension ListEntitiesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListEntitiesInput {
         return ListEntitiesInput(
             filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )}
+}
+extension IoTTwinMakerClient {
+    /// Paginate over `[ListMetadataTransferJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMetadataTransferJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMetadataTransferJobsOutput`
+    public func listMetadataTransferJobsPaginated(input: ListMetadataTransferJobsInput) -> ClientRuntime.PaginatorSequence<ListMetadataTransferJobsInput, ListMetadataTransferJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMetadataTransferJobsInput, ListMetadataTransferJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetadataTransferJobs(input:))
+    }
+}
+
+extension ListMetadataTransferJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMetadataTransferJobsInput {
+        return ListMetadataTransferJobsInput(
+            destinationType: self.destinationType,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sourceType: self.sourceType
+        )}
+}
+extension IoTTwinMakerClient {
+    /// Paginate over `[ListPropertiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPropertiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPropertiesOutput`
+    public func listPropertiesPaginated(input: ListPropertiesInput) -> ClientRuntime.PaginatorSequence<ListPropertiesInput, ListPropertiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPropertiesInput, ListPropertiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProperties(input:))
+    }
+}
+
+extension ListPropertiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPropertiesInput {
+        return ListPropertiesInput(
+            componentName: self.componentName,
+            componentPath: self.componentPath,
+            entityId: self.entityId,
             maxResults: self.maxResults,
             nextToken: token,
             workspaceId: self.workspaceId
@@ -142,7 +217,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ListScenesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScenesOutput`
     public func listScenesPaginated(input: ListScenesInput) -> ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutput> {
-        return ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutput>(input: input, inputKey: \ListScenesInput.nextToken, outputKey: \ListScenesOutput.nextToken, paginationFunction: self.listScenes(input:))
+        return ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScenes(input:))
     }
 }
 
@@ -164,7 +239,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ListSyncJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSyncJobsOutput`
     public func listSyncJobsPaginated(input: ListSyncJobsInput) -> ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutput>(input: input, inputKey: \ListSyncJobsInput.nextToken, outputKey: \ListSyncJobsOutput.nextToken, paginationFunction: self.listSyncJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSyncJobs(input:))
     }
 }
 
@@ -186,7 +261,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ListSyncResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSyncResourcesOutput`
     public func listSyncResourcesPaginated(input: ListSyncResourcesInput) -> ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutput>(input: input, inputKey: \ListSyncResourcesInput.nextToken, outputKey: \ListSyncResourcesOutput.nextToken, paginationFunction: self.listSyncResources(input:))
+        return ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSyncResources(input:))
     }
 }
 
@@ -210,7 +285,7 @@ extension IoTTwinMakerClient {
     ///     - input: A `[ListWorkspacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkspacesOutput`
     public func listWorkspacesPaginated(input: ListWorkspacesInput) -> ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput>(input: input, inputKey: \ListWorkspacesInput.nextToken, outputKey: \ListWorkspacesOutput.nextToken, paginationFunction: self.listWorkspaces(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkspaces(input:))
     }
 }
 

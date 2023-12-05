@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Web Services IoT FleetWise is a fully managed service that you can use to collect, model, and transfer vehicle data to the Amazon Web Services cloud at scale. With Amazon Web Services IoT FleetWise, you can standardize all of your vehicle data models, independent of the in-vehicle communication architecture, and define data collection rules to transfer only high-value data to the cloud. For more information, see [What is Amazon Web Services IoT FleetWise?](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/) in the Amazon Web Services IoT FleetWise Developer Guide.
 public protocol IoTFleetWiseClientProtocol {
+    /// Performs the `AssociateVehicleFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Adds, or associates, a vehicle with a fleet.
     ///
     /// - Parameter AssociateVehicleFleetInput : [no documentation found]
@@ -15,10 +17,13 @@ public protocol IoTFleetWiseClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func associateVehicleFleet(input: AssociateVehicleFleetInput) async throws -> AssociateVehicleFleetOutput
+    /// Performs the `BatchCreateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Create multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter BatchCreateVehicleInput : [no documentation found]
@@ -34,6 +39,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func batchCreateVehicle(input: BatchCreateVehicleInput) async throws -> BatchCreateVehicleOutput
+    /// Performs the `BatchUpdateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Update multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/update-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter BatchUpdateVehicleInput : [no documentation found]
@@ -48,6 +55,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func batchUpdateVehicle(input: BatchUpdateVehicleInput) async throws -> BatchUpdateVehicleOutput
+    /// Performs the `CreateCampaign` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter CreateCampaignInput : [no documentation found]
@@ -65,6 +74,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
+    /// Performs the `CreateDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates the decoder manifest associated with a model manifest. To create a decoder manifest, the following must be true:
     ///
     /// * Every signal decoder has a unique name.
@@ -91,6 +102,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createDecoderManifest(input: CreateDecoderManifestInput) async throws -> CreateDecoderManifestOutput
+    /// Performs the `CreateFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a fleet that represents a group of vehicles. You must create both a signal catalog and vehicles before you can create a fleet. For more information, see [Fleets](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter CreateFleetInput : [no documentation found]
@@ -108,6 +121,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
+    /// Performs the `CreateModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see [Vehicle models](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter CreateModelManifestInput : [no documentation found]
@@ -126,6 +141,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createModelManifest(input: CreateModelManifestInput) async throws -> CreateModelManifestOutput
+    /// Performs the `CreateSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a collection of standardized signals that can be reused to create vehicle models.
     ///
     /// - Parameter CreateSignalCatalogInput : [no documentation found]
@@ -144,6 +161,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createSignalCatalog(input: CreateSignalCatalogInput) async throws -> CreateSignalCatalogOutput
+    /// Performs the `CreateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see [Create a vehicle (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter CreateVehicleInput : [no documentation found]
@@ -161,6 +180,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createVehicle(input: CreateVehicleInput) async throws -> CreateVehicleOutput
+    /// Performs the `DeleteCampaign` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles.
     ///
     /// - Parameter DeleteCampaignInput : [no documentation found]
@@ -176,6 +197,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
+    /// Performs the `DeleteDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it. If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
     ///
     /// - Parameter DeleteDecoderManifestInput : [no documentation found]
@@ -191,6 +214,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteDecoderManifest(input: DeleteDecoderManifestInput) async throws -> DeleteDecoderManifestOutput
+    /// Performs the `DeleteFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide. If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
     ///
     /// - Parameter DeleteFleetInput : [no documentation found]
@@ -205,6 +230,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
+    /// Performs the `DeleteModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Deletes a vehicle model (model manifest). If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
     ///
     /// - Parameter DeleteModelManifestInput : [no documentation found]
@@ -220,6 +247,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteModelManifest(input: DeleteModelManifestInput) async throws -> DeleteModelManifestOutput
+    /// Performs the `DeleteSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Deletes a signal catalog. If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
     ///
     /// - Parameter DeleteSignalCatalogInput : [no documentation found]
@@ -235,6 +264,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteSignalCatalog(input: DeleteSignalCatalogInput) async throws -> DeleteSignalCatalogOutput
+    /// Performs the `DeleteVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Deletes a vehicle and removes it from any campaigns. If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
     ///
     /// - Parameter DeleteVehicleInput : [no documentation found]
@@ -249,6 +280,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteVehicle(input: DeleteVehicleInput) async throws -> DeleteVehicleOutput
+    /// Performs the `DisassociateVehicleFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
     ///
     /// - Parameter DisassociateVehicleFleetInput : [no documentation found]
@@ -264,6 +297,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func disassociateVehicleFleet(input: DisassociateVehicleFleetInput) async throws -> DisassociateVehicleFleetOutput
+    /// Performs the `GetCampaign` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about a campaign.
     ///
     /// - Parameter GetCampaignInput : [no documentation found]
@@ -279,6 +314,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutput
+    /// Performs the `GetDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about a created decoder manifest.
     ///
     /// - Parameter GetDecoderManifestInput : [no documentation found]
@@ -294,6 +331,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getDecoderManifest(input: GetDecoderManifestInput) async throws -> GetDecoderManifestOutput
+    /// Performs the `GetEncryptionConfiguration` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
     ///
     /// - Parameter GetEncryptionConfigurationInput : [no documentation found]
@@ -309,6 +348,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getEncryptionConfiguration(input: GetEncryptionConfigurationInput) async throws -> GetEncryptionConfigurationOutput
+    /// Performs the `GetFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about a fleet.
     ///
     /// - Parameter GetFleetInput : [no documentation found]
@@ -324,6 +365,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getFleet(input: GetFleetInput) async throws -> GetFleetOutput
+    /// Performs the `GetLoggingOptions` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves the logging options.
     ///
     /// - Parameter GetLoggingOptionsInput : [no documentation found]
@@ -337,6 +380,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput
+    /// Performs the `GetModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about a vehicle model (model manifest).
     ///
     /// - Parameter GetModelManifestInput : [no documentation found]
@@ -352,6 +397,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getModelManifest(input: GetModelManifestInput) async throws -> GetModelManifestOutput
+    /// Performs the `GetRegisterAccountStatus` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). This API operation doesn't require input parameters.
     ///
     /// - Parameter GetRegisterAccountStatusInput : [no documentation found]
@@ -367,6 +414,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getRegisterAccountStatus(input: GetRegisterAccountStatusInput) async throws -> GetRegisterAccountStatusOutput
+    /// Performs the `GetSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about a signal catalog.
     ///
     /// - Parameter GetSignalCatalogInput : [no documentation found]
@@ -382,6 +431,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getSignalCatalog(input: GetSignalCatalogInput) async throws -> GetSignalCatalogOutput
+    /// Performs the `GetVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about a vehicle.
     ///
     /// - Parameter GetVehicleInput : [no documentation found]
@@ -397,6 +448,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getVehicle(input: GetVehicleInput) async throws -> GetVehicleOutput
+    /// Performs the `GetVehicleStatus` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information about the status of a vehicle with any associated campaigns.
     ///
     /// - Parameter GetVehicleStatusInput : [no documentation found]
@@ -412,6 +465,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getVehicleStatus(input: GetVehicleStatusInput) async throws -> GetVehicleStatusOutput
+    /// Performs the `ImportDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a decoder manifest using your existing CAN DBC file from your local device.
     ///
     /// - Parameter ImportDecoderManifestInput : [no documentation found]
@@ -430,6 +485,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func importDecoderManifest(input: ImportDecoderManifestInput) async throws -> ImportDecoderManifestOutput
+    /// Performs the `ImportSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates a signal catalog using your existing VSS formatted content from your local device.
     ///
     /// - Parameter ImportSignalCatalogInput : [no documentation found]
@@ -448,6 +505,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func importSignalCatalog(input: ImportSignalCatalogInput) async throws -> ImportSignalCatalogOutput
+    /// Performs the `ListCampaigns` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists information about created campaigns. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListCampaignsInput : [no documentation found]
@@ -462,6 +521,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput
+    /// Performs the `ListDecoderManifestNetworkInterfaces` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists the network interfaces specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListDecoderManifestNetworkInterfacesInput : [no documentation found]
@@ -477,6 +538,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listDecoderManifestNetworkInterfaces(input: ListDecoderManifestNetworkInterfacesInput) async throws -> ListDecoderManifestNetworkInterfacesOutput
+    /// Performs the `ListDecoderManifests` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists decoder manifests. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListDecoderManifestsInput : [no documentation found]
@@ -491,6 +554,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listDecoderManifests(input: ListDecoderManifestsInput) async throws -> ListDecoderManifestsOutput
+    /// Performs the `ListDecoderManifestSignals` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// A list of information about signal decoders specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListDecoderManifestSignalsInput : [no documentation found]
@@ -506,6 +571,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listDecoderManifestSignals(input: ListDecoderManifestSignalsInput) async throws -> ListDecoderManifestSignalsOutput
+    /// Performs the `ListFleets` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves information for each created fleet in an Amazon Web Services account. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListFleetsInput : [no documentation found]
@@ -521,6 +588,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput
+    /// Performs the `ListFleetsForVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListFleetsForVehicleInput : [no documentation found]
@@ -536,6 +605,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listFleetsForVehicle(input: ListFleetsForVehicleInput) async throws -> ListFleetsForVehicleOutput
+    /// Performs the `ListModelManifestNodes` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists information about nodes specified in a vehicle model (model manifest). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListModelManifestNodesInput : [no documentation found]
@@ -552,6 +623,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listModelManifestNodes(input: ListModelManifestNodesInput) async throws -> ListModelManifestNodesOutput
+    /// Performs the `ListModelManifests` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves a list of vehicle models (model manifests). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListModelManifestsInput : [no documentation found]
@@ -566,6 +639,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listModelManifests(input: ListModelManifestsInput) async throws -> ListModelManifestsOutput
+    /// Performs the `ListSignalCatalogNodes` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists of information about the signals (nodes) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListSignalCatalogNodesInput : [no documentation found]
@@ -582,6 +657,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listSignalCatalogNodes(input: ListSignalCatalogNodesInput) async throws -> ListSignalCatalogNodesOutput
+    /// Performs the `ListSignalCatalogs` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListSignalCatalogsInput : [no documentation found]
@@ -596,6 +673,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listSignalCatalogs(input: ListSignalCatalogsInput) async throws -> ListSignalCatalogsOutput
+    /// Performs the `ListTagsForResource` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -611,6 +690,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListVehicles` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves a list of summaries of created vehicles. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListVehiclesInput : [no documentation found]
@@ -625,6 +706,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listVehicles(input: ListVehiclesInput) async throws -> ListVehiclesOutput
+    /// Performs the `ListVehiclesInFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Retrieves a list of summaries of all vehicles associated with a fleet. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// - Parameter ListVehiclesInFleetInput : [no documentation found]
@@ -640,6 +723,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listVehiclesInFleet(input: ListVehiclesInFleetInput) async throws -> ListVehiclesInFleetOutput
+    /// Performs the `PutEncryptionConfiguration` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see [Data encryption](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter PutEncryptionConfigurationInput : [no documentation found]
@@ -656,6 +741,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func putEncryptionConfiguration(input: PutEncryptionConfigurationInput) async throws -> PutEncryptionConfigurationOutput
+    /// Performs the `PutLoggingOptions` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Creates or updates the logging option.
     ///
     /// - Parameter PutLoggingOptionsInput : [no documentation found]
@@ -672,6 +759,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
+    /// Performs the `RegisterAccount` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the [CreateCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html) API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html) API operation. If you want to delete the Timestream inline policy from the service-linked role, such as to mitigate an overly permissive policy, you must first delete any existing campaigns. Then delete the service-linked role and register your account again to enable CloudWatch metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) in the Identity and Access Management API Reference. Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). An Amazon Web Services account is not the same thing as a "user." An [Amazon Web Services user](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#intro-identity-users) is an identity that you create using Identity and Access Management (IAM) and takes the form of either an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) or an [IAM role, both with credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). A single Amazon Web Services account can, and typically does, contain many users and roles.
     ///
     /// - Parameter RegisterAccountInput : [no documentation found]
@@ -688,6 +777,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutput
+    /// Performs the `TagResource` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -703,6 +794,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Removes the given tags (metadata) from the resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -718,6 +811,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateCampaign` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates a campaign.
     ///
     /// - Parameter UpdateCampaignInput : [no documentation found]
@@ -734,6 +829,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput
+    /// Performs the `UpdateDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
     ///
     /// - Parameter UpdateDecoderManifestInput : [no documentation found]
@@ -752,6 +849,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateDecoderManifest(input: UpdateDecoderManifestInput) async throws -> UpdateDecoderManifestOutput
+    /// Performs the `UpdateFleet` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates the description of an existing fleet. If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter UpdateFleetInput : [no documentation found]
@@ -768,6 +867,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput
+    /// Performs the `UpdateModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated.
     ///
     /// - Parameter UpdateModelManifestInput : [no documentation found]
@@ -785,6 +886,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateModelManifest(input: UpdateModelManifestInput) async throws -> UpdateModelManifestOutput
+    /// Performs the `UpdateSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates a signal catalog.
     ///
     /// - Parameter UpdateSignalCatalogInput : [no documentation found]
@@ -804,6 +907,8 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateSignalCatalog(input: UpdateSignalCatalogInput) async throws -> UpdateSignalCatalogOutput
+    /// Performs the `UpdateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    ///
     /// Updates a vehicle.
     ///
     /// - Parameter UpdateVehicleInput : [no documentation found]

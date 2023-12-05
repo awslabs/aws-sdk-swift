@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Cognito Federated Identities Amazon Cognito Federated Identities is a web service that delivers scoped temporary credentials to mobile devices and other untrusted environments. It uniquely identifies a device and supplies the user with a consistent identity over the lifetime of an application. Using Amazon Cognito Federated Identities, you can enable authentication with one or more third-party identity providers (Facebook, Google, or Login with Amazon) or an Amazon Cognito user pool, and you can also choose to support unauthenticated access from your app. Cognito delivers a unique identifier for each user and acts as an OpenID token provider trusted by AWS Security Token Service (STS) to access temporary, limited-privilege AWS credentials. For a description of the authentication flow from the Amazon Cognito Developer Guide see [Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html). For more information see [Amazon Cognito Federated Identities](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html).
 public protocol CognitoIdentityClientProtocol {
+    /// Performs the `CreateIdentityPool` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Creates a new identity pool. The identity pool is a store of user identity information that is specific to your AWS account. The keys for SupportedLoginProviders are as follows:
     ///
     /// * Facebook: graph.facebook.com
@@ -33,6 +35,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func createIdentityPool(input: CreateIdentityPoolInput) async throws -> CreateIdentityPoolOutput
+    /// Performs the `DeleteIdentities` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter DeleteIdentitiesInput : Input to the DeleteIdentities action.
@@ -46,6 +50,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `InvalidParameterException` : Thrown for missing or bad input parameter(s).
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func deleteIdentities(input: DeleteIdentitiesInput) async throws -> DeleteIdentitiesOutput
+    /// Performs the `DeleteIdentityPool` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter DeleteIdentityPoolInput : Input to the DeleteIdentityPool action.
@@ -61,6 +67,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func deleteIdentityPool(input: DeleteIdentityPoolInput) async throws -> DeleteIdentityPoolOutput
+    /// Performs the `DescribeIdentity` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter DescribeIdentityInput : Input to the DescribeIdentity action.
@@ -76,6 +84,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func describeIdentity(input: DescribeIdentityInput) async throws -> DescribeIdentityOutput
+    /// Performs the `DescribeIdentityPool` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter DescribeIdentityPoolInput : Input to the DescribeIdentityPool action.
@@ -91,6 +101,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func describeIdentityPool(input: DescribeIdentityPoolInput) async throws -> DescribeIdentityPoolOutput
+    /// Performs the `GetCredentialsForIdentity` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to AWS Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
     ///
     /// - Parameter GetCredentialsForIdentityInput : Input to the GetCredentialsForIdentity action.
@@ -109,6 +121,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func getCredentialsForIdentity(input: GetCredentialsForIdentityInput) async throws -> GetCredentialsForIdentityOutput
+    /// Performs the `GetId` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
     ///
     /// - Parameter GetIdInput : Input to the GetId action.
@@ -127,6 +141,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func getId(input: GetIdInput) async throws -> GetIdOutput
+    /// Performs the `GetIdentityPoolRoles` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Gets the roles for an identity pool. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter GetIdentityPoolRolesInput : Input to the GetIdentityPoolRoles action.
@@ -143,6 +159,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func getIdentityPoolRoles(input: GetIdentityPoolRolesInput) async throws -> GetIdentityPoolRolesOutput
+    /// Performs the `GetOpenIdToken` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by [GetId]. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenID token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API.
     ///
     /// - Parameter GetOpenIdTokenInput : Input to the GetOpenIdToken action.
@@ -160,6 +178,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func getOpenIdToken(input: GetOpenIdTokenInput) async throws -> GetOpenIdTokenOutput
+    /// Performs the `GetOpenIdTokenForDeveloperIdentity` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter GetOpenIdTokenForDeveloperIdentityInput : Input to the GetOpenIdTokenForDeveloperIdentity action.
@@ -177,6 +197,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func getOpenIdTokenForDeveloperIdentity(input: GetOpenIdTokenForDeveloperIdentityInput) async throws -> GetOpenIdTokenForDeveloperIdentityOutput
+    /// Performs the `GetPrincipalTagAttributeMap` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Use GetPrincipalTagAttributeMap to list all mappings between PrincipalTags and user attributes.
     ///
     /// - Parameter GetPrincipalTagAttributeMapInput : [no documentation found]
@@ -192,6 +214,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func getPrincipalTagAttributeMap(input: GetPrincipalTagAttributeMapInput) async throws -> GetPrincipalTagAttributeMapOutput
+    /// Performs the `ListIdentities` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Lists the identities in an identity pool. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter ListIdentitiesInput : Input to the ListIdentities action.
@@ -207,6 +231,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput
+    /// Performs the `ListIdentityPools` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Lists all of the Cognito identity pools registered for your account. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter ListIdentityPoolsInput : Input to the ListIdentityPools action.
@@ -222,6 +248,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func listIdentityPools(input: ListIdentityPoolsInput) async throws -> ListIdentityPoolsOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Lists the tags that are assigned to an Amazon Cognito identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -237,6 +265,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `LookupDeveloperIdentity` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown. LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. [GetOpenIdTokenForDeveloperIdentity] is a better option for higher-volume operations for user authentication. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter LookupDeveloperIdentityInput : Input to the LookupDeveloperIdentityInput action.
@@ -253,6 +283,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func lookupDeveloperIdentity(input: LookupDeveloperIdentityInput) async throws -> LookupDeveloperIdentityOutput
+    /// Performs the `MergeDeveloperIdentities` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter MergeDeveloperIdentitiesInput : Input to the MergeDeveloperIdentities action.
@@ -269,6 +301,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput) async throws -> MergeDeveloperIdentitiesOutput
+    /// Performs the `SetIdentityPoolRoles` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Sets the roles for an identity pool. These roles are used when making calls to [GetCredentialsForIdentity] action. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter SetIdentityPoolRolesInput : Input to the SetIdentityPoolRoles action.
@@ -286,6 +320,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func setIdentityPoolRoles(input: SetIdentityPoolRolesInput) async throws -> SetIdentityPoolRolesOutput
+    /// Performs the `SetPrincipalTagAttributeMap` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// You can use this operation to use default (username and clientID) attribute or custom attribute mappings.
     ///
     /// - Parameter SetPrincipalTagAttributeMapInput : [no documentation found]
@@ -301,6 +337,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func setPrincipalTagAttributeMap(input: SetPrincipalTagAttributeMapInput) async throws -> SetPrincipalTagAttributeMapOutput
+    /// Performs the `TagResource` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label that you can use to categorize and manage identity pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of an identity pool, one for testing and another for production, you might assign an Environment tag key to both identity pools. The value of this key might be Test for one identity pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your identity pools. In an IAM policy, you can constrain permissions for identity pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. An identity pool can have as many as 50 tags.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -316,6 +354,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UnlinkDeveloperIdentity` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter UnlinkDeveloperIdentityInput : Input to the UnlinkDeveloperIdentity action.
@@ -332,6 +372,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput) async throws -> UnlinkDeveloperIdentityOutput
+    /// Performs the `UnlinkIdentity` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible. This is a public API. You do not need any credentials to call this API.
     ///
     /// - Parameter UnlinkIdentityInput : Input to the UnlinkIdentity action.
@@ -349,6 +391,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func unlinkIdentity(input: UnlinkIdentityInput) async throws -> UnlinkIdentityOutput
+    /// Performs the `UntagResource` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Removes the specified tags from the specified Amazon Cognito identity pool. You can use this action up to 5 times per second, per account
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -364,6 +408,8 @@ public protocol CognitoIdentityClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateIdentityPool` operation on the `AWSCognitoIdentityService` service.
+    ///
     /// Updates an identity pool. You must use AWS Developer credentials to call this API.
     ///
     /// - Parameter UpdateIdentityPoolInput : An object representing an Amazon Cognito identity pool.
