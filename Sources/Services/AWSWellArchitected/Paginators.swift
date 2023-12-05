@@ -12,7 +12,7 @@ extension WellArchitectedClient {
     ///     - input: A `[GetConsolidatedReportInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConsolidatedReportOutput`
     public func getConsolidatedReportPaginated(input: GetConsolidatedReportInput) -> ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutput> {
-        return ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutput>(input: input, inputKey: \GetConsolidatedReportInput.nextToken, outputKey: \GetConsolidatedReportOutput.nextToken, paginationFunction: self.getConsolidatedReport(input:))
+        return ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConsolidatedReport(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListAnswersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnswersOutput`
     public func listAnswersPaginated(input: ListAnswersInput) -> ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutput> {
-        return ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutput>(input: input, inputKey: \ListAnswersInput.nextToken, outputKey: \ListAnswersOutput.nextToken, paginationFunction: self.listAnswers(input:))
+        return ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnswers(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListCheckDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCheckDetailsOutput`
     public func listCheckDetailsPaginated(input: ListCheckDetailsInput) -> ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutput>(input: input, inputKey: \ListCheckDetailsInput.nextToken, outputKey: \ListCheckDetailsOutput.nextToken, paginationFunction: self.listCheckDetails(input:))
+        return ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCheckDetails(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListCheckSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCheckSummariesOutput`
     public func listCheckSummariesPaginated(input: ListCheckSummariesInput) -> ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutput>(input: input, inputKey: \ListCheckSummariesInput.nextToken, outputKey: \ListCheckSummariesOutput.nextToken, paginationFunction: self.listCheckSummaries(input:))
+        return ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCheckSummaries(input:))
     }
 }
 
@@ -113,7 +113,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListLensesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLensesOutput`
     public func listLensesPaginated(input: ListLensesInput) -> ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutput> {
-        return ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutput>(input: input, inputKey: \ListLensesInput.nextToken, outputKey: \ListLensesOutput.nextToken, paginationFunction: self.listLenses(input:))
+        return ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLenses(input:))
     }
 }
 
@@ -137,7 +137,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListLensReviewImprovementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLensReviewImprovementsOutput`
     public func listLensReviewImprovementsPaginated(input: ListLensReviewImprovementsInput) -> ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutput>(input: input, inputKey: \ListLensReviewImprovementsInput.nextToken, outputKey: \ListLensReviewImprovementsOutput.nextToken, paginationFunction: self.listLensReviewImprovements(input:))
+        return ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLensReviewImprovements(input:))
     }
 }
 
@@ -163,7 +163,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListLensReviewsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLensReviewsOutput`
     public func listLensReviewsPaginated(input: ListLensReviewsInput) -> ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutput>(input: input, inputKey: \ListLensReviewsInput.nextToken, outputKey: \ListLensReviewsOutput.nextToken, paginationFunction: self.listLensReviews(input:))
+        return ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLensReviews(input:))
     }
 }
 
@@ -186,7 +186,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListLensSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLensSharesOutput`
     public func listLensSharesPaginated(input: ListLensSharesInput) -> ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput> {
-        return ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput>(input: input, inputKey: \ListLensSharesInput.nextToken, outputKey: \ListLensSharesOutput.nextToken, paginationFunction: self.listLensShares(input:))
+        return ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLensShares(input:))
     }
 }
 
@@ -210,7 +210,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListMilestonesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMilestonesOutput`
     public func listMilestonesPaginated(input: ListMilestonesInput) -> ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutput> {
-        return ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutput>(input: input, inputKey: \ListMilestonesInput.nextToken, outputKey: \ListMilestonesOutput.nextToken, paginationFunction: self.listMilestones(input:))
+        return ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMilestones(input:))
     }
 }
 
@@ -232,7 +232,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListNotificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationsOutput`
     public func listNotificationsPaginated(input: ListNotificationsInput) -> ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \ListNotificationsInput.nextToken, outputKey: \ListNotificationsOutput.nextToken, paginationFunction: self.listNotifications(input:))
+        return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotifications(input:))
     }
 }
 
@@ -255,7 +255,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListProfileNotificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProfileNotificationsOutput`
     public func listProfileNotificationsPaginated(input: ListProfileNotificationsInput) -> ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutput>(input: input, inputKey: \ListProfileNotificationsInput.nextToken, outputKey: \ListProfileNotificationsOutput.nextToken, paginationFunction: self.listProfileNotifications(input:))
+        return ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProfileNotifications(input:))
     }
 }
 
@@ -277,7 +277,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProfilesOutput`
     public func listProfilesPaginated(input: ListProfilesInput) -> ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutput>(input: input, inputKey: \ListProfilesInput.nextToken, outputKey: \ListProfilesOutput.nextToken, paginationFunction: self.listProfiles(input:))
+        return ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProfiles(input:))
     }
 }
 
@@ -300,7 +300,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListProfileSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProfileSharesOutput`
     public func listProfileSharesPaginated(input: ListProfileSharesInput) -> ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutput>(input: input, inputKey: \ListProfileSharesInput.nextToken, outputKey: \ListProfileSharesOutput.nextToken, paginationFunction: self.listProfileShares(input:))
+        return ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProfileShares(input:))
     }
 }
 
@@ -324,7 +324,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListReviewTemplateAnswersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReviewTemplateAnswersOutput`
     public func listReviewTemplateAnswersPaginated(input: ListReviewTemplateAnswersInput) -> ClientRuntime.PaginatorSequence<ListReviewTemplateAnswersInput, ListReviewTemplateAnswersOutput> {
-        return ClientRuntime.PaginatorSequence<ListReviewTemplateAnswersInput, ListReviewTemplateAnswersOutput>(input: input, inputKey: \ListReviewTemplateAnswersInput.nextToken, outputKey: \ListReviewTemplateAnswersOutput.nextToken, paginationFunction: self.listReviewTemplateAnswers(input:))
+        return ClientRuntime.PaginatorSequence<ListReviewTemplateAnswersInput, ListReviewTemplateAnswersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReviewTemplateAnswers(input:))
     }
 }
 
@@ -348,7 +348,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListReviewTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReviewTemplatesOutput`
     public func listReviewTemplatesPaginated(input: ListReviewTemplatesInput) -> ClientRuntime.PaginatorSequence<ListReviewTemplatesInput, ListReviewTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListReviewTemplatesInput, ListReviewTemplatesOutput>(input: input, inputKey: \ListReviewTemplatesInput.nextToken, outputKey: \ListReviewTemplatesOutput.nextToken, paginationFunction: self.listReviewTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListReviewTemplatesInput, ListReviewTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReviewTemplates(input:))
     }
 }
 
@@ -369,7 +369,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListShareInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListShareInvitationsOutput`
     public func listShareInvitationsPaginated(input: ListShareInvitationsInput) -> ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutput>(input: input, inputKey: \ListShareInvitationsInput.nextToken, outputKey: \ListShareInvitationsOutput.nextToken, paginationFunction: self.listShareInvitations(input:))
+        return ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listShareInvitations(input:))
     }
 }
 
@@ -395,7 +395,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListTemplateSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateSharesOutput`
     public func listTemplateSharesPaginated(input: ListTemplateSharesInput) -> ClientRuntime.PaginatorSequence<ListTemplateSharesInput, ListTemplateSharesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTemplateSharesInput, ListTemplateSharesOutput>(input: input, inputKey: \ListTemplateSharesInput.nextToken, outputKey: \ListTemplateSharesOutput.nextToken, paginationFunction: self.listTemplateShares(input:))
+        return ClientRuntime.PaginatorSequence<ListTemplateSharesInput, ListTemplateSharesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTemplateShares(input:))
     }
 }
 
@@ -419,7 +419,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListWorkloadsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadsOutput`
     public func listWorkloadsPaginated(input: ListWorkloadsInput) -> ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput>(input: input, inputKey: \ListWorkloadsInput.nextToken, outputKey: \ListWorkloadsOutput.nextToken, paginationFunction: self.listWorkloads(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkloads(input:))
     }
 }
 
@@ -441,7 +441,7 @@ extension WellArchitectedClient {
     ///     - input: A `[ListWorkloadSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadSharesOutput`
     public func listWorkloadSharesPaginated(input: ListWorkloadSharesInput) -> ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutput>(input: input, inputKey: \ListWorkloadSharesInput.nextToken, outputKey: \ListWorkloadSharesOutput.nextToken, paginationFunction: self.listWorkloadShares(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkloadShares(input:))
     }
 }
 

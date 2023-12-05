@@ -3555,6 +3555,392 @@ extension AppSyncClientTypes {
 
 }
 
+extension AppSyncClientTypes.DataSourceIntrospectionModel: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields
+        case indexes
+        case name
+        case primaryKey
+        case sdl
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
+            for datasourceintrospectionmodelfield0 in fields {
+                try fieldsContainer.encode(datasourceintrospectionmodelfield0)
+            }
+        }
+        if let indexes = indexes {
+            var indexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .indexes)
+            for datasourceintrospectionmodelindex0 in indexes {
+                try indexesContainer.encode(datasourceintrospectionmodelindex0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let primaryKey = self.primaryKey {
+            try encodeContainer.encode(primaryKey, forKey: .primaryKey)
+        }
+        if let sdl = self.sdl {
+            try encodeContainer.encode(sdl, forKey: .sdl)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let fieldsContainer = try containerValues.decodeIfPresent([AppSyncClientTypes.DataSourceIntrospectionModelField?].self, forKey: .fields)
+        var fieldsDecoded0:[AppSyncClientTypes.DataSourceIntrospectionModelField]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [AppSyncClientTypes.DataSourceIntrospectionModelField]()
+            for structure0 in fieldsContainer {
+                if let structure0 = structure0 {
+                    fieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fields = fieldsDecoded0
+        let primaryKeyDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceIntrospectionModelIndex.self, forKey: .primaryKey)
+        primaryKey = primaryKeyDecoded
+        let indexesContainer = try containerValues.decodeIfPresent([AppSyncClientTypes.DataSourceIntrospectionModelIndex?].self, forKey: .indexes)
+        var indexesDecoded0:[AppSyncClientTypes.DataSourceIntrospectionModelIndex]? = nil
+        if let indexesContainer = indexesContainer {
+            indexesDecoded0 = [AppSyncClientTypes.DataSourceIntrospectionModelIndex]()
+            for structure0 in indexesContainer {
+                if let structure0 = structure0 {
+                    indexesDecoded0?.append(structure0)
+                }
+            }
+        }
+        indexes = indexesDecoded0
+        let sdlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sdl)
+        sdl = sdlDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Contains the introspected data that was retrieved from the data source.
+    public struct DataSourceIntrospectionModel: Swift.Equatable {
+        /// The DataSourceIntrospectionModelField object data.
+        public var fields: [AppSyncClientTypes.DataSourceIntrospectionModelField]?
+        /// The array of DataSourceIntrospectionModelIndex objects.
+        public var indexes: [AppSyncClientTypes.DataSourceIntrospectionModelIndex]?
+        /// The name of the model. For example, this could be the name of a single table in a database.
+        public var name: Swift.String?
+        /// The primary key stored as a DataSourceIntrospectionModelIndex object.
+        public var primaryKey: AppSyncClientTypes.DataSourceIntrospectionModelIndex?
+        /// Contains the output of the SDL that was generated from the introspected types. This is controlled by the includeModelsSDL parameter of the GetDataSourceIntrospection operation.
+        public var sdl: Swift.String?
+
+        public init(
+            fields: [AppSyncClientTypes.DataSourceIntrospectionModelField]? = nil,
+            indexes: [AppSyncClientTypes.DataSourceIntrospectionModelIndex]? = nil,
+            name: Swift.String? = nil,
+            primaryKey: AppSyncClientTypes.DataSourceIntrospectionModelIndex? = nil,
+            sdl: Swift.String? = nil
+        )
+        {
+            self.fields = fields
+            self.indexes = indexes
+            self.name = name
+            self.primaryKey = primaryKey
+            self.sdl = sdl
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.DataSourceIntrospectionModelField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case length
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if length != 0 {
+            try encodeContainer.encode(length, forKey: .length)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceIntrospectionModelFieldType.self, forKey: .type)
+        type = typeDecoded
+        let lengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .length) ?? 0
+        length = lengthDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Represents the fields that were retrieved from the introspected data.
+    public struct DataSourceIntrospectionModelField: Swift.Equatable {
+        /// The length value of the introspected field.
+        public var length: Swift.Int
+        /// The name of the field that was retrieved from the introspected data.
+        public var name: Swift.String?
+        /// The DataSourceIntrospectionModelFieldType object data.
+        public var type: AppSyncClientTypes.DataSourceIntrospectionModelFieldType?
+
+        public init(
+            length: Swift.Int = 0,
+            name: Swift.String? = nil,
+            type: AppSyncClientTypes.DataSourceIntrospectionModelFieldType? = nil
+        )
+        {
+            self.length = length
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.DataSourceIntrospectionModelFieldType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kind
+        case name
+        case type
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kind = self.kind {
+            try encodeContainer.encode(kind, forKey: .kind)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for string0 in values {
+                try valuesContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kind)
+        kind = kindDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceIntrospectionModelFieldType.self, forKey: .type)
+        type = typeDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Represents the type data for each field retrieved from the introspection.
+    public struct DataSourceIntrospectionModelFieldType: Swift.Equatable {
+        /// Specifies the classification of data. For example, this could be set to values like Scalar or NonNull to indicate a fundamental property of the field. Valid values include:
+        ///
+        /// * Scalar: Indicates the value is a primitive type (scalar).
+        ///
+        /// * NonNull: Indicates the field cannot be null.
+        ///
+        /// * List: Indicates the field contains a list.
+        public var kind: Swift.String?
+        /// The name of the data type that represents the field. For example, String is a valid name value.
+        public var name: Swift.String?
+        /// The DataSourceIntrospectionModelFieldType object data. The type is only present if DataSourceIntrospectionModelFieldType.kind is set to NonNull or List. The type typically contains its own kind and name fields to represent the actual type data. For instance, type could contain a kind value of Scalar with a name value of String. The values Scalar and String will be collectively stored in the values field.
+        @Indirect public var type: AppSyncClientTypes.DataSourceIntrospectionModelFieldType?
+        /// The values of the type field. This field represents the AppSync data type equivalent of the introspected field.
+        public var values: [Swift.String]?
+
+        public init(
+            kind: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: AppSyncClientTypes.DataSourceIntrospectionModelFieldType? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.kind = kind
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.DataSourceIntrospectionModelIndex: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
+            for string0 in fields {
+                try fieldsContainer.encode(string0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let fieldsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fields)
+        var fieldsDecoded0:[Swift.String]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [Swift.String]()
+            for string0 in fieldsContainer {
+                if let string0 = string0 {
+                    fieldsDecoded0?.append(string0)
+                }
+            }
+        }
+        fields = fieldsDecoded0
+    }
+}
+
+extension AppSyncClientTypes {
+    /// The index that was retrieved from the introspected data.
+    public struct DataSourceIntrospectionModelIndex: Swift.Equatable {
+        /// The fields of the index.
+        public var fields: [Swift.String]?
+        /// The name of the index.
+        public var name: Swift.String?
+
+        public init(
+            fields: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.fields = fields
+            self.name = name
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.DataSourceIntrospectionResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case models
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let models = models {
+            var modelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .models)
+            for datasourceintrospectionmodel0 in models {
+                try modelsContainer.encode(datasourceintrospectionmodel0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelsContainer = try containerValues.decodeIfPresent([AppSyncClientTypes.DataSourceIntrospectionModel?].self, forKey: .models)
+        var modelsDecoded0:[AppSyncClientTypes.DataSourceIntrospectionModel]? = nil
+        if let modelsContainer = modelsContainer {
+            modelsDecoded0 = [AppSyncClientTypes.DataSourceIntrospectionModel]()
+            for structure0 in modelsContainer {
+                if let structure0 = structure0 {
+                    modelsDecoded0?.append(structure0)
+                }
+            }
+        }
+        models = modelsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Represents the output of a DataSourceIntrospectionResult. This is the populated result of a GetDataSourceIntrospection operation.
+    public struct DataSourceIntrospectionResult: Swift.Equatable {
+        /// The array of DataSourceIntrospectionModel objects.
+        public var models: [AppSyncClientTypes.DataSourceIntrospectionModel]?
+        /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response.
+        public var nextToken: Swift.String?
+
+        public init(
+            models: [AppSyncClientTypes.DataSourceIntrospectionModel]? = nil,
+            nextToken: Swift.String? = nil
+        )
+        {
+            self.models = models
+            self.nextToken = nextToken
+        }
+    }
+
+}
+
+extension AppSyncClientTypes {
+    public enum DataSourceIntrospectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case processing
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceIntrospectionStatus] {
+            return [
+                .failed,
+                .processing,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataSourceIntrospectionStatus(rawValue: rawValue) ?? DataSourceIntrospectionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AppSyncClientTypes {
     public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazonDynamodb
@@ -5518,6 +5904,153 @@ struct GetDataSourceInputBody: Swift.Equatable {
 extension GetDataSourceInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetDataSourceIntrospectionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let includeModelsSDL = includeModelsSDL {
+                let includeModelsSDLQueryItem = ClientRuntime.URLQueryItem(name: "includeModelsSDL".urlPercentEncoding(), value: Swift.String(includeModelsSDL).urlPercentEncoding())
+                items.append(includeModelsSDLQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetDataSourceIntrospectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let introspectionId = introspectionId else {
+            return nil
+        }
+        return "/v1/datasources/introspections/\(introspectionId.urlPercentEncoding())"
+    }
+}
+
+public struct GetDataSourceIntrospectionInput: Swift.Equatable {
+    /// A boolean flag that determines whether SDL should be generated for introspected types or not. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+    public var includeModelsSDL: Swift.Bool?
+    /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+    /// This member is required.
+    public var introspectionId: Swift.String?
+    /// The maximum number of introspected types that will be returned in a single response.
+    public var maxResults: Swift.Int?
+    /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response.
+    public var nextToken: Swift.String?
+
+    public init(
+        includeModelsSDL: Swift.Bool? = nil,
+        introspectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.includeModelsSDL = includeModelsSDL
+        self.introspectionId = introspectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct GetDataSourceIntrospectionInputBody: Swift.Equatable {
+}
+
+extension GetDataSourceIntrospectionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetDataSourceIntrospectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDataSourceIntrospectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.introspectionId = output.introspectionId
+            self.introspectionResult = output.introspectionResult
+            self.introspectionStatus = output.introspectionStatus
+            self.introspectionStatusDetail = output.introspectionStatusDetail
+        } else {
+            self.introspectionId = nil
+            self.introspectionResult = nil
+            self.introspectionStatus = nil
+            self.introspectionStatusDetail = nil
+        }
+    }
+}
+
+public struct GetDataSourceIntrospectionOutput: Swift.Equatable {
+    /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+    public var introspectionId: Swift.String?
+    /// The DataSourceIntrospectionResult object data.
+    public var introspectionResult: AppSyncClientTypes.DataSourceIntrospectionResult?
+    /// The status of the introspection during retrieval. By default, when a new instrospection is being retrieved, the status will be set to PROCESSING. Once the operation has been completed, the status will change to SUCCESS or FAILED depending on how the data was parsed. A FAILED operation will return an error and its details as an introspectionStatusDetail.
+    public var introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus?
+    /// The error detail field. When a FAILEDintrospectionStatus is returned, the introspectionStatusDetail will also return the exact error that was generated during the operation.
+    public var introspectionStatusDetail: Swift.String?
+
+    public init(
+        introspectionId: Swift.String? = nil,
+        introspectionResult: AppSyncClientTypes.DataSourceIntrospectionResult? = nil,
+        introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus? = nil,
+        introspectionStatusDetail: Swift.String? = nil
+    )
+    {
+        self.introspectionId = introspectionId
+        self.introspectionResult = introspectionResult
+        self.introspectionStatus = introspectionStatus
+        self.introspectionStatusDetail = introspectionStatusDetail
+    }
+}
+
+struct GetDataSourceIntrospectionOutputBody: Swift.Equatable {
+    let introspectionId: Swift.String?
+    let introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus?
+    let introspectionStatusDetail: Swift.String?
+    let introspectionResult: AppSyncClientTypes.DataSourceIntrospectionResult?
+}
+
+extension GetDataSourceIntrospectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case introspectionId
+        case introspectionResult
+        case introspectionStatus
+        case introspectionStatusDetail
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let introspectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .introspectionId)
+        introspectionId = introspectionIdDecoded
+        let introspectionStatusDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceIntrospectionStatus.self, forKey: .introspectionStatus)
+        introspectionStatus = introspectionStatusDecoded
+        let introspectionStatusDetailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .introspectionStatusDetail)
+        introspectionStatusDetail = introspectionStatusDetailDecoded
+        let introspectionResultDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceIntrospectionResult.self, forKey: .introspectionResult)
+        introspectionResult = introspectionResultDecoded
+    }
+}
+
+enum GetDataSourceIntrospectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8881,6 +9414,64 @@ extension AppSyncClientTypes {
 
 }
 
+extension AppSyncClientTypes.RdsDataApiConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName
+        case resourceArn
+        case secretArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let secretArn = self.secretArn {
+            try encodeContainer.encode(secretArn, forKey: .secretArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let secretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretArn)
+        secretArn = secretArnDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Contains the metadata required to introspect the RDS cluster.
+    public struct RdsDataApiConfig: Swift.Equatable {
+        /// The name of the database in the cluster.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The resource ARN of the RDS cluster.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The secret's ARN that was obtained from Secrets Manager. A secret consists of secret information, the secret value, plus metadata about the secret. A secret value can be a string or binary. It typically includes the ARN, secret name and description, policies, tags, encryption key from the Key Management Service, and key rotation data.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            databaseName: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.databaseName = databaseName
+            self.resourceArn = resourceArn
+            self.secretArn = secretArn
+        }
+    }
+
+}
+
 extension AppSyncClientTypes.RdsHttpEndpointConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsRegion
@@ -9609,6 +10200,127 @@ extension AppSyncClientTypes {
         }
     }
 
+}
+
+extension StartDataSourceIntrospectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rdsDataApiConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rdsDataApiConfig = self.rdsDataApiConfig {
+            try encodeContainer.encode(rdsDataApiConfig, forKey: .rdsDataApiConfig)
+        }
+    }
+}
+
+extension StartDataSourceIntrospectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/datasources/introspections"
+    }
+}
+
+public struct StartDataSourceIntrospectionInput: Swift.Equatable {
+    /// The rdsDataApiConfig object data.
+    public var rdsDataApiConfig: AppSyncClientTypes.RdsDataApiConfig?
+
+    public init(
+        rdsDataApiConfig: AppSyncClientTypes.RdsDataApiConfig? = nil
+    )
+    {
+        self.rdsDataApiConfig = rdsDataApiConfig
+    }
+}
+
+struct StartDataSourceIntrospectionInputBody: Swift.Equatable {
+    let rdsDataApiConfig: AppSyncClientTypes.RdsDataApiConfig?
+}
+
+extension StartDataSourceIntrospectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rdsDataApiConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rdsDataApiConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.RdsDataApiConfig.self, forKey: .rdsDataApiConfig)
+        rdsDataApiConfig = rdsDataApiConfigDecoded
+    }
+}
+
+extension StartDataSourceIntrospectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartDataSourceIntrospectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.introspectionId = output.introspectionId
+            self.introspectionStatus = output.introspectionStatus
+            self.introspectionStatusDetail = output.introspectionStatusDetail
+        } else {
+            self.introspectionId = nil
+            self.introspectionStatus = nil
+            self.introspectionStatusDetail = nil
+        }
+    }
+}
+
+public struct StartDataSourceIntrospectionOutput: Swift.Equatable {
+    /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
+    public var introspectionId: Swift.String?
+    /// The status of the introspection during creation. By default, when a new instrospection has been created, the status will be set to PROCESSING. Once the operation has been completed, the status will change to SUCCESS or FAILED depending on how the data was parsed. A FAILED operation will return an error and its details as an introspectionStatusDetail.
+    public var introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus?
+    /// The error detail field. When a FAILEDintrospectionStatus is returned, the introspectionStatusDetail will also return the exact error that was generated during the operation.
+    public var introspectionStatusDetail: Swift.String?
+
+    public init(
+        introspectionId: Swift.String? = nil,
+        introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus? = nil,
+        introspectionStatusDetail: Swift.String? = nil
+    )
+    {
+        self.introspectionId = introspectionId
+        self.introspectionStatus = introspectionStatus
+        self.introspectionStatusDetail = introspectionStatusDetail
+    }
+}
+
+struct StartDataSourceIntrospectionOutputBody: Swift.Equatable {
+    let introspectionId: Swift.String?
+    let introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus?
+    let introspectionStatusDetail: Swift.String?
+}
+
+extension StartDataSourceIntrospectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case introspectionId
+        case introspectionStatus
+        case introspectionStatusDetail
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let introspectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .introspectionId)
+        introspectionId = introspectionIdDecoded
+        let introspectionStatusDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceIntrospectionStatus.self, forKey: .introspectionStatus)
+        introspectionStatus = introspectionStatusDecoded
+        let introspectionStatusDetailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .introspectionStatusDetail)
+        introspectionStatusDetail = introspectionStatusDetailDecoded
+    }
+}
+
+enum StartDataSourceIntrospectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension StartSchemaCreationInput: Swift.Encodable {

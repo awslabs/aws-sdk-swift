@@ -2263,4 +2263,1136 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// ResourceARN test: Invalid ARN: Failed to parse ARN.
+    func testResolve110() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Failed to parse ARN.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: partition missing from ARN.
+    func testResolve111() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn::kinesis:us-west-2:123456789012:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Failed to parse ARN.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: partitions mismatch.
+    func testResolve112() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            resourceARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition: aws from ARN doesn't match with partition name: aws-us-gov.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: Not Kinesis
+    func testResolve113() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: The ARN was not for the Kinesis service, found: s3.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: Region is missing in ARN
+    func testResolve114() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis::123456789012:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid region.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: Region is empty string in ARN
+    func testResolve115() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:  :123456789012:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid region.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: Invalid account id
+    func testResolve116() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1::stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid account id.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: Invalid account id
+    func testResolve117() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:   :stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid account id.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Invalid ARN: Kinesis ARNs only support stream arn types
+    func testResolve118() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Kinesis ARNs don't support `accesspoint` arn types.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Dual Stack not supported region.
+    func testResolve119() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-west-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: OperationType not set
+    func testResolve120() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Operation Type is not set. Please contact service team for resolution.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as StreamARN test: Custom Endpoint is specified
+    func testResolve121() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint targeting control operation type
+    func testResolve122() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint targeting data operation type
+    func testResolve123() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with fips targeting data operation type
+    func testResolve124() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with fips targeting control operation type
+    func testResolve125() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with Dual Stack and FIPS enabled
+    func testResolve126() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with Dual Stack enabled
+    func testResolve127() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-west-1",
+            resourceARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis.us-west-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with FIPS and DualStack disabled
+    func testResolve128() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-west-1",
+            resourceARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis.us-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: RegionMismatch: client region should be used for endpoint region
+    func testResolve129() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-west-1:123:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with FIPS enabled
+    func testResolve130() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "cn-northwest-1",
+            resourceARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis-fips.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with FIPS and DualStack enabled for cn regions.
+    func testResolve131() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "cn-northwest-1",
+            resourceARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis-fips.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint targeting control operation type in ADC regions
+    func testResolve132() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-east-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint targeting control operation type in ADC regions
+    func testResolve133() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-west-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-west-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-iso-west-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint targeting data operation type in ADC regions
+    func testResolve134() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-isob-east-1",
+            resourceARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with fips targeting control operation type in ADC regions
+    func testResolve135() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-east-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as StreamARN test: Account endpoint with fips targeting data operation type in ADC regions
+    func testResolve136() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-isob-east-1",
+            resourceARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: partition missing from ARN.
+    func testResolve137() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn::kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Failed to parse ARN.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: partitions mismatch.
+    func testResolve138() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            resourceARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition: aws from ARN doesn't match with partition name: aws-us-gov.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: Not Kinesis
+    func testResolve139() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: The ARN was not for the Kinesis service, found: s3.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: Region is missing in ARN
+    func testResolve140() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis::123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid region.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: Region is empty string in ARN
+    func testResolve141() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:  :123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid region.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: Invalid account id
+    func testResolve142() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1::stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid account id.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: Invalid account id
+    func testResolve143() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:   :stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Invalid account id.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Invalid ARN: Kinesis ARNs only support stream arn/consumer arn types
+    func testResolve144() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid ARN: Kinesis ARNs don't support `accesspoint` arn types.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Dual Stack not supported region.
+    func testResolve145() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-west-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: OperationType not set
+    func testResolve146() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Operation Type is not set. Please contact service team for resolution.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// ResourceARN as ConsumerARN test: Custom Endpoint is specified
+    func testResolve147() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint targeting control operation type
+    func testResolve148() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint targeting data operation type
+    func testResolve149() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting data operation type
+    func testResolve150() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting control operation type
+    func testResolve151() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with Dual Stack and FIPS enabled
+    func testResolve152() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with Dual Stack enabled
+    func testResolve153() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-west-1",
+            resourceARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis.us-west-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with FIPS and DualStack disabled
+    func testResolve154() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-west-1",
+            resourceARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.control-kinesis.us-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: RegionMismatch: client region should be used for endpoint region
+    func testResolve155() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-east-1",
+            resourceARN: "arn:aws:kinesis:us-west-1:123:stream/testStream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with FIPS enabled
+    func testResolve156() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "cn-northwest-1",
+            resourceARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis-fips.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with FIPS and DualStack enabled for cn regions.
+    func testResolve157() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "cn-northwest-1",
+            resourceARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123.data-kinesis-fips.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint targeting control operation type in ADC regions
+    func testResolve158() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-east-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint targeting control operation type in ADC regions
+    func testResolve159() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-west-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-iso-west-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint targeting data operation type in ADC regions
+    func testResolve160() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-isob-east-1",
+            resourceARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting control operation type in ADC regions
+    func testResolve161() throws {
+        let endpointParams = EndpointParams(
+            operationType: "control",
+            region: "us-iso-east-1",
+            resourceARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting data operation type in ADC regions
+    func testResolve162() throws {
+        let endpointParams = EndpointParams(
+            operationType: "data",
+            region: "us-isob-east-1",
+            resourceARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
 }

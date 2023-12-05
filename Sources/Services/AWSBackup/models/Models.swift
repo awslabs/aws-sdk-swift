@@ -59,6 +59,41 @@ extension BackupClientTypes {
 
 }
 
+extension BackupClientTypes {
+    public enum AggregationPeriod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fourteenDays
+        case oneDay
+        case sevenDays
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggregationPeriod] {
+            return [
+                .fourteenDays,
+                .oneDay,
+                .sevenDays,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fourteenDays: return "FOURTEEN_DAYS"
+            case .oneDay: return "ONE_DAY"
+            case .sevenDays: return "SEVEN_DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AggregationPeriod(rawValue: rawValue) ?? AggregationPeriod.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -178,7 +213,9 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         case creationDate = "CreationDate"
         case expectedCompletionDate = "ExpectedCompletionDate"
         case iamRoleArn = "IamRoleArn"
+        case initiationDate = "InitiationDate"
         case isParent = "IsParent"
+        case messageCategory = "MessageCategory"
         case parentJobId = "ParentJobId"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
@@ -234,8 +271,14 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         if let iamRoleArn = self.iamRoleArn {
             try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
         }
+        if let initiationDate = self.initiationDate {
+            try encodeContainer.encodeTimestamp(initiationDate, format: .epochSeconds, forKey: .initiationDate)
+        }
         if isParent != false {
             try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
         }
         if let parentJobId = self.parentJobId {
             try encodeContainer.encode(parentJobId, forKey: .parentJobId)
@@ -323,6 +366,10 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         isParent = isParentDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let initiationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .initiationDate)
+        initiationDate = initiationDateDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
     }
 }
 
@@ -355,8 +402,12 @@ extension BackupClientTypes {
         public var expectedCompletionDate: ClientRuntime.Date?
         /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public var iamRoleArn: Swift.String?
+        /// This is the date on which the backup job was initiated.
+        public var initiationDate: ClientRuntime.Date?
         /// This is a boolean value indicating this is a parent (composite) backup job.
         public var isParent: Swift.Bool
+        /// This parameter is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+        public var messageCategory: Swift.String?
         /// This uniquely identifies a request to Backup to back up a resource. The return will be the parent (composite) job ID.
         public var parentJobId: Swift.String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
@@ -390,7 +441,9 @@ extension BackupClientTypes {
             creationDate: ClientRuntime.Date? = nil,
             expectedCompletionDate: ClientRuntime.Date? = nil,
             iamRoleArn: Swift.String? = nil,
+            initiationDate: ClientRuntime.Date? = nil,
             isParent: Swift.Bool = false,
+            messageCategory: Swift.String? = nil,
             parentJobId: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
@@ -415,7 +468,9 @@ extension BackupClientTypes {
             self.creationDate = creationDate
             self.expectedCompletionDate = expectedCompletionDate
             self.iamRoleArn = iamRoleArn
+            self.initiationDate = initiationDate
             self.isParent = isParent
+            self.messageCategory = messageCategory
             self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
@@ -481,6 +536,170 @@ extension BackupClientTypes {
             self = BackupJobState(rawValue: rawValue) ?? BackupJobState.sdkUnknown(rawValue)
         }
     }
+}
+
+extension BackupClientTypes {
+    public enum BackupJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case aborting
+        case aggregateAll
+        case any
+        case completed
+        case created
+        case expired
+        case failed
+        case partial
+        case pending
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BackupJobStatus] {
+            return [
+                .aborted,
+                .aborting,
+                .aggregateAll,
+                .any,
+                .completed,
+                .created,
+                .expired,
+                .failed,
+                .partial,
+                .pending,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .aborting: return "ABORTING"
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .expired: return "EXPIRED"
+            case .failed: return "FAILED"
+            case .partial: return "PARTIAL"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BackupJobStatus(rawValue: rawValue) ?? BackupJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.BackupJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case count = "Count"
+        case endTime = "EndTime"
+        case messageCategory = "MessageCategory"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.BackupJobStatus.self, forKey: .state)
+        state = stateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a summary of jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public struct BackupJobSummary: Swift.Equatable {
+        /// The account ID that owns the jobs within the summary.
+        public var accountId: Swift.String?
+        /// The value as a number of jobs in a job summary.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: ClientRuntime.Date?
+        /// This parameter is the job count for the specified message category. Example strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+        public var messageCategory: Swift.String?
+        /// The Amazon Web Services Regions within the job summary.
+        public var region: Swift.String?
+        /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types.
+        public var resourceType: Swift.String?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: ClientRuntime.Date?
+        /// This value is job count for jobs with the specified state.
+        public var state: BackupClientTypes.BackupJobStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: ClientRuntime.Date? = nil,
+            messageCategory: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: BackupClientTypes.BackupJobStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.messageCategory = messageCategory
+            self.region = region
+            self.resourceType = resourceType
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
 }
 
 extension BackupClientTypes.BackupPlan: Swift.Codable {
@@ -1227,7 +1446,7 @@ extension BackupClientTypes.BackupSelection: Swift.Codable {
 extension BackupClientTypes {
     /// Used to specify a set of resources to a backup plan. Specifying your desired Conditions, ListOfTags, NotResources, and/or Resources is recommended. If none of these are specified, Backup will attempt to select all supported and opted-in storage resources, which could have unintended cost implications.
     public struct BackupSelection: Swift.Equatable {
-        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "ConditionKey": "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },. Condition operators are case sensitive. Conditions differs from ListOfTags as follows:
+        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive. Conditions differs from ListOfTags as follows:
         ///
         /// * When you specify more than one condition, you only assign the resources that match ALL conditions (using AND logic).
         ///
@@ -1236,7 +1455,7 @@ extension BackupClientTypes {
         /// The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         /// This member is required.
         public var iamRoleArn: Swift.String?
-        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "ConditionKey": "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },. Condition operators are case sensitive. ListOfTags differs from Conditions as follows:
+        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive. ListOfTags differs from Conditions as follows:
         ///
         /// * When you specify more than one condition, you assign all resources that match AT LEAST ONE condition (using OR logic).
         ///
@@ -2211,6 +2430,7 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         case destinationRecoveryPointArn = "DestinationRecoveryPointArn"
         case iamRoleArn = "IamRoleArn"
         case isParent = "IsParent"
+        case messageCategory = "MessageCategory"
         case numberOfChildJobs = "NumberOfChildJobs"
         case parentJobId = "ParentJobId"
         case resourceArn = "ResourceArn"
@@ -2262,6 +2482,9 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         }
         if isParent != false {
             try encodeContainer.encode(isParent, forKey: .isParent)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
         }
         if let numberOfChildJobs = self.numberOfChildJobs {
             try encodeContainer.encode(numberOfChildJobs, forKey: .numberOfChildJobs)
@@ -2345,6 +2568,8 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         childJobsInState = childJobsInStateDecoded0
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
     }
 }
 
@@ -2375,6 +2600,8 @@ extension BackupClientTypes {
         public var iamRoleArn: Swift.String?
         /// This is a boolean value indicating this is a parent (composite) copy job.
         public var isParent: Swift.Bool
+        /// This parameter is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum
+        public var messageCategory: Swift.String?
         /// This is the number of child (nested) copy jobs.
         public var numberOfChildJobs: Swift.Int?
         /// This uniquely identifies a request to Backup to copy a resource. The return will be the parent (composite) job ID.
@@ -2407,6 +2634,7 @@ extension BackupClientTypes {
             destinationRecoveryPointArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             isParent: Swift.Bool = false,
+            messageCategory: Swift.String? = nil,
             numberOfChildJobs: Swift.Int? = nil,
             parentJobId: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
@@ -2430,6 +2658,7 @@ extension BackupClientTypes {
             self.destinationRecoveryPointArn = destinationRecoveryPointArn
             self.iamRoleArn = iamRoleArn
             self.isParent = isParent
+            self.messageCategory = messageCategory
             self.numberOfChildJobs = numberOfChildJobs
             self.parentJobId = parentJobId
             self.resourceArn = resourceArn
@@ -2483,6 +2712,170 @@ extension BackupClientTypes {
             self = CopyJobState(rawValue: rawValue) ?? CopyJobState.sdkUnknown(rawValue)
         }
     }
+}
+
+extension BackupClientTypes {
+    public enum CopyJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case aborting
+        case aggregateAll
+        case any
+        case completed
+        case completing
+        case created
+        case failed
+        case failing
+        case partial
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CopyJobStatus] {
+            return [
+                .aborted,
+                .aborting,
+                .aggregateAll,
+                .any,
+                .completed,
+                .completing,
+                .created,
+                .failed,
+                .failing,
+                .partial,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .aborting: return "ABORTING"
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .completed: return "COMPLETED"
+            case .completing: return "COMPLETING"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .failing: return "FAILING"
+            case .partial: return "PARTIAL"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CopyJobStatus(rawValue: rawValue) ?? CopyJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.CopyJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case count = "Count"
+        case endTime = "EndTime"
+        case messageCategory = "MessageCategory"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let messageCategory = self.messageCategory {
+            try encodeContainer.encode(messageCategory, forKey: .messageCategory)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.CopyJobStatus.self, forKey: .state)
+        state = stateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a summary of copy jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public struct CopyJobSummary: Swift.Equatable {
+        /// The account ID that owns the jobs within the summary.
+        public var accountId: Swift.String?
+        /// The value as a number of jobs in a job summary.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: ClientRuntime.Date?
+        /// This parameter is the job count for the specified message category. Example strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+        public var messageCategory: Swift.String?
+        /// This is the Amazon Web Services Regions within the job summary.
+        public var region: Swift.String?
+        /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types
+        public var resourceType: Swift.String?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: ClientRuntime.Date?
+        /// This value is job count for jobs with the specified state.
+        public var state: BackupClientTypes.CopyJobStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: ClientRuntime.Date? = nil,
+            messageCategory: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: BackupClientTypes.CopyJobStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.messageCategory = messageCategory
+            self.region = region
+            self.resourceType = resourceType
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
 }
 
 extension CreateBackupPlanInput: Swift.CustomDebugStringConvertible {
@@ -3454,7 +3847,7 @@ public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Equatable {
     public var backupVaultName: Swift.String?
     /// These are the tags that will be included in the newly-created vault.
     public var backupVaultTags: [Swift.String:Swift.String]?
-    /// This is the ID of the creation request.
+    /// This is the ID of the creation request. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
     /// This is the setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Backup does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault.
     /// This member is required.
@@ -3793,6 +4186,339 @@ enum CreateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRestoreTestingPlanInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRestoreTestingPlanInput(creatorRequestId: \(Swift.String(describing: creatorRequestId)), restoreTestingPlan: \(Swift.String(describing: restoreTestingPlan)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateRestoreTestingPlanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingPlan = "RestoreTestingPlan"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let restoreTestingPlan = self.restoreTestingPlan {
+            try encodeContainer.encode(restoreTestingPlan, forKey: .restoreTestingPlan)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, sensitiveStringMap0) in tags {
+                try tagsContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/restore-testing/plans"
+    }
+}
+
+public struct CreateRestoreTestingPlanInput: Swift.Equatable {
+    /// This is a unique string that identifies the request and allows failed requests to be retriedwithout the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    public var creatorRequestId: Swift.String?
+    /// A restore testing plan must contain a unique RestoreTestingPlanName string you create and must contain a ScheduleExpression cron. You may optionally include a StartWindowHours integer and a CreatorRequestId string. The RestoreTestingPlanName is a unique string that is the name of the restore testing plan. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+    /// This member is required.
+    public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate?
+    /// Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters,numbers, spaces, and the following characters: + - = . _ : /.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        creatorRequestId: Swift.String? = nil,
+        restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.creatorRequestId = creatorRequestId
+        self.restoreTestingPlan = restoreTestingPlan
+        self.tags = tags
+    }
+}
+
+struct CreateRestoreTestingPlanInputBody: Swift.Equatable {
+    let creatorRequestId: Swift.String?
+    let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateRestoreTestingPlanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingPlan = "RestoreTestingPlan"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let restoreTestingPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingPlanForCreate.self, forKey: .restoreTestingPlan)
+        restoreTestingPlan = restoreTestingPlanDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRestoreTestingPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+        }
+    }
+}
+
+public struct CreateRestoreTestingPlanOutput: Swift.Equatable {
+    /// The date and time a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// An Amazon Resource Name (ARN) that uniquely identifies the created restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// This unique string is the name of the restore testing plan. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct CreateRestoreTestingPlanOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+}
+
+extension CreateRestoreTestingPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+    }
+}
+
+enum CreateRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRestoreTestingSelectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let restoreTestingSelection = self.restoreTestingSelection {
+            try encodeContainer.encode(restoreTestingSelection, forKey: .restoreTestingSelection)
+        }
+    }
+}
+
+extension CreateRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections"
+    }
+}
+
+public struct CreateRestoreTestingSelectionInput: Swift.Equatable {
+    /// This is an optional unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    public var creatorRequestId: Swift.String?
+    /// Input the restore testing plan name that was returned from the related CreateRestoreTestingPlan request.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following:
+    ///
+    /// * ProtectedResourceArns
+    ///
+    /// * ProtectedResourceConditions
+    ///
+    ///
+    /// Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns.
+    /// This member is required.
+    public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate?
+
+    public init(
+        creatorRequestId: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate? = nil
+    )
+    {
+        self.creatorRequestId = creatorRequestId
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelection = restoreTestingSelection
+    }
+}
+
+struct CreateRestoreTestingSelectionInputBody: Swift.Equatable {
+    let creatorRequestId: Swift.String?
+    let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate?
+}
+
+extension CreateRestoreTestingSelectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creatorRequestId = "CreatorRequestId"
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let restoreTestingSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingSelectionForCreate.self, forKey: .restoreTestingSelection)
+        restoreTestingSelection = restoreTestingSelectionDecoded
+    }
+}
+
+extension CreateRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRestoreTestingSelectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+            self.restoreTestingSelectionName = output.restoreTestingSelectionName
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+            self.restoreTestingSelectionName = nil
+        }
+    }
+}
+
+public struct CreateRestoreTestingSelectionOutput: Swift.Equatable {
+    /// This is the time the resource testing selection was created successfully.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// This is the ARN of the restore testing plan with which the restore testing selection is associated.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// Unique string that is the name of the restore testing plan. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This is the unique name of the restore testing selection that belongs to the related restore testing plan.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct CreateRestoreTestingSelectionOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+    let restoreTestingSelectionName: Swift.String?
+}
+
+extension CreateRestoreTestingSelectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+    }
+}
+
+enum CreateRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4424,6 +5150,120 @@ enum DeleteReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteRestoreTestingPlanInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan you wish to delete.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct DeleteRestoreTestingPlanInputBody: Swift.Equatable {
+}
+
+extension DeleteRestoreTestingPlanInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRestoreTestingPlanOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteRestoreTestingSelectionInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan that contains the restore testing selection you wish to delete.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// Required unique name of the restore testing selection you wish to delete.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct DeleteRestoreTestingSelectionInputBody: Swift.Equatable {
+}
+
+extension DeleteRestoreTestingSelectionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRestoreTestingSelectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DependencyFailureException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4558,7 +5398,9 @@ extension DescribeBackupJobOutput: ClientRuntime.HttpResponseBinding {
             self.creationDate = output.creationDate
             self.expectedCompletionDate = output.expectedCompletionDate
             self.iamRoleArn = output.iamRoleArn
+            self.initiationDate = output.initiationDate
             self.isParent = output.isParent
+            self.messageCategory = output.messageCategory
             self.numberOfChildJobs = output.numberOfChildJobs
             self.parentJobId = output.parentJobId
             self.percentDone = output.percentDone
@@ -4584,7 +5426,9 @@ extension DescribeBackupJobOutput: ClientRuntime.HttpResponseBinding {
             self.creationDate = nil
             self.expectedCompletionDate = nil
             self.iamRoleArn = nil
+            self.initiationDate = nil
             self.isParent = false
+            self.messageCategory = nil
             self.numberOfChildJobs = nil
             self.parentJobId = nil
             self.percentDone = nil
@@ -4628,8 +5472,12 @@ public struct DescribeBackupJobOutput: Swift.Equatable {
     public var expectedCompletionDate: ClientRuntime.Date?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
+    /// This is the date a backup job was initiated.
+    public var initiationDate: ClientRuntime.Date?
     /// This returns the boolean value that a backup job is a parent (composite) job.
     public var isParent: Swift.Bool
+    /// This is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings.
+    public var messageCategory: Swift.String?
     /// This returns the number of child (nested) backup jobs.
     public var numberOfChildJobs: Swift.Int?
     /// This returns the parent (composite) resource backup job ID.
@@ -4666,7 +5514,9 @@ public struct DescribeBackupJobOutput: Swift.Equatable {
         creationDate: ClientRuntime.Date? = nil,
         expectedCompletionDate: ClientRuntime.Date? = nil,
         iamRoleArn: Swift.String? = nil,
+        initiationDate: ClientRuntime.Date? = nil,
         isParent: Swift.Bool = false,
+        messageCategory: Swift.String? = nil,
         numberOfChildJobs: Swift.Int? = nil,
         parentJobId: Swift.String? = nil,
         percentDone: Swift.String? = nil,
@@ -4693,7 +5543,9 @@ public struct DescribeBackupJobOutput: Swift.Equatable {
         self.creationDate = creationDate
         self.expectedCompletionDate = expectedCompletionDate
         self.iamRoleArn = iamRoleArn
+        self.initiationDate = initiationDate
         self.isParent = isParent
+        self.messageCategory = messageCategory
         self.numberOfChildJobs = numberOfChildJobs
         self.parentJobId = parentJobId
         self.percentDone = percentDone
@@ -4733,6 +5585,8 @@ struct DescribeBackupJobOutputBody: Swift.Equatable {
     let numberOfChildJobs: Swift.Int?
     let childJobsInState: [Swift.String:Swift.Int]?
     let resourceName: Swift.String?
+    let initiationDate: ClientRuntime.Date?
+    let messageCategory: Swift.String?
 }
 
 extension DescribeBackupJobOutputBody: Swift.Decodable {
@@ -4751,7 +5605,9 @@ extension DescribeBackupJobOutputBody: Swift.Decodable {
         case creationDate = "CreationDate"
         case expectedCompletionDate = "ExpectedCompletionDate"
         case iamRoleArn = "IamRoleArn"
+        case initiationDate = "InitiationDate"
         case isParent = "IsParent"
+        case messageCategory = "MessageCategory"
         case numberOfChildJobs = "NumberOfChildJobs"
         case parentJobId = "ParentJobId"
         case percentDone = "PercentDone"
@@ -4834,6 +5690,10 @@ extension DescribeBackupJobOutputBody: Swift.Decodable {
         childJobsInState = childJobsInStateDecoded0
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let initiationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .initiationDate)
+        initiationDate = initiationDateDecoded
+        let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
+        messageCategory = messageCategoryDecoded
     }
 }
 
@@ -4939,7 +5799,7 @@ public struct DescribeBackupVaultOutput: Swift.Equatable {
     public var backupVaultName: Swift.String?
     /// The date and time that a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: ClientRuntime.Date?
-    /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+    /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
     /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
@@ -5439,11 +6299,21 @@ extension DescribeProtectedResourceOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeProtectedResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.lastBackupTime = output.lastBackupTime
+            self.lastBackupVaultArn = output.lastBackupVaultArn
+            self.lastRecoveryPointArn = output.lastRecoveryPointArn
+            self.latestRestoreExecutionTimeMinutes = output.latestRestoreExecutionTimeMinutes
+            self.latestRestoreJobCreationDate = output.latestRestoreJobCreationDate
+            self.latestRestoreRecoveryPointCreationDate = output.latestRestoreRecoveryPointCreationDate
             self.resourceArn = output.resourceArn
             self.resourceName = output.resourceName
             self.resourceType = output.resourceType
         } else {
             self.lastBackupTime = nil
+            self.lastBackupVaultArn = nil
+            self.lastRecoveryPointArn = nil
+            self.latestRestoreExecutionTimeMinutes = nil
+            self.latestRestoreJobCreationDate = nil
+            self.latestRestoreRecoveryPointCreationDate = nil
             self.resourceArn = nil
             self.resourceName = nil
             self.resourceType = nil
@@ -5454,6 +6324,16 @@ extension DescribeProtectedResourceOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeProtectedResourceOutput: Swift.Equatable {
     /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastBackupTime: ClientRuntime.Date?
+    /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
+    public var lastBackupVaultArn: Swift.String?
+    /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+    public var lastRecoveryPointArn: Swift.String?
+    /// This is the time in minutes the most recent restore job took to complete.
+    public var latestRestoreExecutionTimeMinutes: Swift.Int?
+    /// This is the creation date of the most recent restore job.
+    public var latestRestoreJobCreationDate: ClientRuntime.Date?
+    /// This is the date the most recent recovery point was created.
+    public var latestRestoreRecoveryPointCreationDate: ClientRuntime.Date?
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
     /// This is the non-unique name of the resource that belongs to the specified backup.
@@ -5463,12 +6343,22 @@ public struct DescribeProtectedResourceOutput: Swift.Equatable {
 
     public init(
         lastBackupTime: ClientRuntime.Date? = nil,
+        lastBackupVaultArn: Swift.String? = nil,
+        lastRecoveryPointArn: Swift.String? = nil,
+        latestRestoreExecutionTimeMinutes: Swift.Int? = nil,
+        latestRestoreJobCreationDate: ClientRuntime.Date? = nil,
+        latestRestoreRecoveryPointCreationDate: ClientRuntime.Date? = nil,
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.lastBackupTime = lastBackupTime
+        self.lastBackupVaultArn = lastBackupVaultArn
+        self.lastRecoveryPointArn = lastRecoveryPointArn
+        self.latestRestoreExecutionTimeMinutes = latestRestoreExecutionTimeMinutes
+        self.latestRestoreJobCreationDate = latestRestoreJobCreationDate
+        self.latestRestoreRecoveryPointCreationDate = latestRestoreRecoveryPointCreationDate
         self.resourceArn = resourceArn
         self.resourceName = resourceName
         self.resourceType = resourceType
@@ -5480,11 +6370,21 @@ struct DescribeProtectedResourceOutputBody: Swift.Equatable {
     let resourceType: Swift.String?
     let lastBackupTime: ClientRuntime.Date?
     let resourceName: Swift.String?
+    let lastBackupVaultArn: Swift.String?
+    let lastRecoveryPointArn: Swift.String?
+    let latestRestoreExecutionTimeMinutes: Swift.Int?
+    let latestRestoreJobCreationDate: ClientRuntime.Date?
+    let latestRestoreRecoveryPointCreationDate: ClientRuntime.Date?
 }
 
 extension DescribeProtectedResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastBackupTime = "LastBackupTime"
+        case lastBackupVaultArn = "LastBackupVaultArn"
+        case lastRecoveryPointArn = "LastRecoveryPointArn"
+        case latestRestoreExecutionTimeMinutes = "LatestRestoreExecutionTimeMinutes"
+        case latestRestoreJobCreationDate = "LatestRestoreJobCreationDate"
+        case latestRestoreRecoveryPointCreationDate = "LatestRestoreRecoveryPointCreationDate"
         case resourceArn = "ResourceArn"
         case resourceName = "ResourceName"
         case resourceType = "ResourceType"
@@ -5500,6 +6400,16 @@ extension DescribeProtectedResourceOutputBody: Swift.Decodable {
         lastBackupTime = lastBackupTimeDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let lastBackupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastBackupVaultArn)
+        lastBackupVaultArn = lastBackupVaultArnDecoded
+        let lastRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastRecoveryPointArn)
+        lastRecoveryPointArn = lastRecoveryPointArnDecoded
+        let latestRestoreExecutionTimeMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestRestoreExecutionTimeMinutes)
+        latestRestoreExecutionTimeMinutes = latestRestoreExecutionTimeMinutesDecoded
+        let latestRestoreJobCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestRestoreJobCreationDate)
+        latestRestoreJobCreationDate = latestRestoreJobCreationDateDecoded
+        let latestRestoreRecoveryPointCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestRestoreRecoveryPointCreationDate)
+        latestRestoreRecoveryPointCreationDate = latestRestoreRecoveryPointCreationDateDecoded
     }
 }
 
@@ -6154,30 +7064,42 @@ extension DescribeRestoreJobOutput: ClientRuntime.HttpResponseBinding {
             self.accountId = output.accountId
             self.backupSizeInBytes = output.backupSizeInBytes
             self.completionDate = output.completionDate
+            self.createdBy = output.createdBy
             self.createdResourceArn = output.createdResourceArn
             self.creationDate = output.creationDate
+            self.deletionStatus = output.deletionStatus
+            self.deletionStatusMessage = output.deletionStatusMessage
             self.expectedCompletionTimeMinutes = output.expectedCompletionTimeMinutes
             self.iamRoleArn = output.iamRoleArn
             self.percentDone = output.percentDone
             self.recoveryPointArn = output.recoveryPointArn
+            self.recoveryPointCreationDate = output.recoveryPointCreationDate
             self.resourceType = output.resourceType
             self.restoreJobId = output.restoreJobId
             self.status = output.status
             self.statusMessage = output.statusMessage
+            self.validationStatus = output.validationStatus
+            self.validationStatusMessage = output.validationStatusMessage
         } else {
             self.accountId = nil
             self.backupSizeInBytes = nil
             self.completionDate = nil
+            self.createdBy = nil
             self.createdResourceArn = nil
             self.creationDate = nil
+            self.deletionStatus = nil
+            self.deletionStatusMessage = nil
             self.expectedCompletionTimeMinutes = nil
             self.iamRoleArn = nil
             self.percentDone = nil
             self.recoveryPointArn = nil
+            self.recoveryPointCreationDate = nil
             self.resourceType = nil
             self.restoreJobId = nil
             self.status = nil
             self.statusMessage = nil
+            self.validationStatus = nil
+            self.validationStatusMessage = nil
         }
     }
 }
@@ -6189,10 +7111,16 @@ public struct DescribeRestoreJobOutput: Swift.Equatable {
     public var backupSizeInBytes: Swift.Int?
     /// The date and time that a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var completionDate: ClientRuntime.Date?
+    /// Contains identifying information about the creation of a restore job.
+    public var createdBy: BackupClientTypes.RestoreJobCreator?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose recovery point is being restored. The format of the ARN depends on the resource type of the backed-up resource.
     public var createdResourceArn: Swift.String?
     /// The date and time that a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: ClientRuntime.Date?
+    /// This notes the status of the data generated by the restore test. The status may be Deleting, Failed, or Successful.
+    public var deletionStatus: BackupClientTypes.RestoreDeletionStatus?
+    /// This describes the restore job deletion status.
+    public var deletionStatusMessage: Swift.String?
     /// The amount of time in minutes that a job restoring a recovery point is expected to take.
     public var expectedCompletionTimeMinutes: Swift.Int?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -6201,6 +7129,8 @@ public struct DescribeRestoreJobOutput: Swift.Equatable {
     public var percentDone: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
+    /// This is the creation date of the recovery point made by the specifed restore job.
+    public var recoveryPointCreationDate: ClientRuntime.Date?
     /// Returns metadata associated with a restore job listed by resource type.
     public var resourceType: Swift.String?
     /// Uniquely identifies the job that restores a recovery point.
@@ -6209,36 +7139,52 @@ public struct DescribeRestoreJobOutput: Swift.Equatable {
     public var status: BackupClientTypes.RestoreJobStatus?
     /// A message showing the status of a job to restore a recovery point.
     public var statusMessage: Swift.String?
+    /// This is the status of validation run on the indicated restore job.
+    public var validationStatus: BackupClientTypes.RestoreValidationStatus?
+    /// This describes the status of validation run on the indicated restore job.
+    public var validationStatusMessage: Swift.String?
 
     public init(
         accountId: Swift.String? = nil,
         backupSizeInBytes: Swift.Int? = nil,
         completionDate: ClientRuntime.Date? = nil,
+        createdBy: BackupClientTypes.RestoreJobCreator? = nil,
         createdResourceArn: Swift.String? = nil,
         creationDate: ClientRuntime.Date? = nil,
+        deletionStatus: BackupClientTypes.RestoreDeletionStatus? = nil,
+        deletionStatusMessage: Swift.String? = nil,
         expectedCompletionTimeMinutes: Swift.Int? = nil,
         iamRoleArn: Swift.String? = nil,
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
+        recoveryPointCreationDate: ClientRuntime.Date? = nil,
         resourceType: Swift.String? = nil,
         restoreJobId: Swift.String? = nil,
         status: BackupClientTypes.RestoreJobStatus? = nil,
-        statusMessage: Swift.String? = nil
+        statusMessage: Swift.String? = nil,
+        validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
+        validationStatusMessage: Swift.String? = nil
     )
     {
         self.accountId = accountId
         self.backupSizeInBytes = backupSizeInBytes
         self.completionDate = completionDate
+        self.createdBy = createdBy
         self.createdResourceArn = createdResourceArn
         self.creationDate = creationDate
+        self.deletionStatus = deletionStatus
+        self.deletionStatusMessage = deletionStatusMessage
         self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
         self.iamRoleArn = iamRoleArn
         self.percentDone = percentDone
         self.recoveryPointArn = recoveryPointArn
+        self.recoveryPointCreationDate = recoveryPointCreationDate
         self.resourceType = resourceType
         self.restoreJobId = restoreJobId
         self.status = status
         self.statusMessage = statusMessage
+        self.validationStatus = validationStatus
+        self.validationStatusMessage = validationStatusMessage
     }
 }
 
@@ -6256,6 +7202,12 @@ struct DescribeRestoreJobOutputBody: Swift.Equatable {
     let expectedCompletionTimeMinutes: Swift.Int?
     let createdResourceArn: Swift.String?
     let resourceType: Swift.String?
+    let recoveryPointCreationDate: ClientRuntime.Date?
+    let createdBy: BackupClientTypes.RestoreJobCreator?
+    let validationStatus: BackupClientTypes.RestoreValidationStatus?
+    let validationStatusMessage: Swift.String?
+    let deletionStatus: BackupClientTypes.RestoreDeletionStatus?
+    let deletionStatusMessage: Swift.String?
 }
 
 extension DescribeRestoreJobOutputBody: Swift.Decodable {
@@ -6263,16 +7215,22 @@ extension DescribeRestoreJobOutputBody: Swift.Decodable {
         case accountId = "AccountId"
         case backupSizeInBytes = "BackupSizeInBytes"
         case completionDate = "CompletionDate"
+        case createdBy = "CreatedBy"
         case createdResourceArn = "CreatedResourceArn"
         case creationDate = "CreationDate"
+        case deletionStatus = "DeletionStatus"
+        case deletionStatusMessage = "DeletionStatusMessage"
         case expectedCompletionTimeMinutes = "ExpectedCompletionTimeMinutes"
         case iamRoleArn = "IamRoleArn"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
+        case recoveryPointCreationDate = "RecoveryPointCreationDate"
         case resourceType = "ResourceType"
         case restoreJobId = "RestoreJobId"
         case status = "Status"
         case statusMessage = "StatusMessage"
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6303,6 +7261,18 @@ extension DescribeRestoreJobOutputBody: Swift.Decodable {
         createdResourceArn = createdResourceArnDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let recoveryPointCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .recoveryPointCreationDate)
+        recoveryPointCreationDate = recoveryPointCreationDateDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreJobCreator.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let validationStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreValidationStatus.self, forKey: .validationStatus)
+        validationStatus = validationStatusDecoded
+        let validationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationStatusMessage)
+        validationStatusMessage = validationStatusMessageDecoded
+        let deletionStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreDeletionStatus.self, forKey: .deletionStatus)
+        deletionStatus = deletionStatusDecoded
+        let deletionStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionStatusMessage)
+        deletionStatusMessage = deletionStatusMessageDecoded
     }
 }
 
@@ -7662,7 +8632,7 @@ extension GetRecoveryPointRestoreMetadataInputBody: Swift.Decodable {
 
 extension GetRecoveryPointRestoreMetadataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRecoveryPointRestoreMetadataOutput(backupVaultArn: \(Swift.String(describing: backupVaultArn)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), restoreMetadata: \"CONTENT_REDACTED\")"}
+        "GetRecoveryPointRestoreMetadataOutput(backupVaultArn: \(Swift.String(describing: backupVaultArn)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceType: \(Swift.String(describing: resourceType)), restoreMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension GetRecoveryPointRestoreMetadataOutput: ClientRuntime.HttpResponseBinding {
@@ -7672,10 +8642,12 @@ extension GetRecoveryPointRestoreMetadataOutput: ClientRuntime.HttpResponseBindi
             let output: GetRecoveryPointRestoreMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.recoveryPointArn = output.recoveryPointArn
+            self.resourceType = output.resourceType
             self.restoreMetadata = output.restoreMetadata
         } else {
             self.backupVaultArn = nil
             self.recoveryPointArn = nil
+            self.resourceType = nil
             self.restoreMetadata = nil
         }
     }
@@ -7686,17 +8658,21 @@ public struct GetRecoveryPointRestoreMetadataOutput: Swift.Equatable {
     public var backupVaultArn: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
+    /// This is the resource type associated with the recovery point.
+    public var resourceType: Swift.String?
     /// The set of metadata key-value pairs that describe the original configuration of the backed-up resource. These values vary depending on the service that is being restored.
     public var restoreMetadata: [Swift.String:Swift.String]?
 
     public init(
         backupVaultArn: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
         restoreMetadata: [Swift.String:Swift.String]? = nil
     )
     {
         self.backupVaultArn = backupVaultArn
         self.recoveryPointArn = recoveryPointArn
+        self.resourceType = resourceType
         self.restoreMetadata = restoreMetadata
     }
 }
@@ -7705,12 +8681,14 @@ struct GetRecoveryPointRestoreMetadataOutputBody: Swift.Equatable {
     let backupVaultArn: Swift.String?
     let recoveryPointArn: Swift.String?
     let restoreMetadata: [Swift.String:Swift.String]?
+    let resourceType: Swift.String?
 }
 
 extension GetRecoveryPointRestoreMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupVaultArn = "BackupVaultArn"
         case recoveryPointArn = "RecoveryPointArn"
+        case resourceType = "ResourceType"
         case restoreMetadata = "RestoreMetadata"
     }
 
@@ -7731,6 +8709,8 @@ extension GetRecoveryPointRestoreMetadataOutputBody: Swift.Decodable {
             }
         }
         restoreMetadata = restoreMetadataDecoded0
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
     }
 }
 
@@ -7741,6 +8721,417 @@ enum GetRecoveryPointRestoreMetadataOutputError: ClientRuntime.HttpResponseError
         switch restJSONError.errorType {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreJobMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreJobId = restoreJobId else {
+            return nil
+        }
+        return "/restore-jobs/\(restoreJobId.urlPercentEncoding())/metadata"
+    }
+}
+
+public struct GetRestoreJobMetadataInput: Swift.Equatable {
+    /// This is a unique identifier of a restore job within Backup.
+    /// This member is required.
+    public var restoreJobId: Swift.String?
+
+    public init(
+        restoreJobId: Swift.String? = nil
+    )
+    {
+        self.restoreJobId = restoreJobId
+    }
+}
+
+struct GetRestoreJobMetadataInputBody: Swift.Equatable {
+}
+
+extension GetRestoreJobMetadataInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreJobMetadataOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetRestoreJobMetadataOutput(restoreJobId: \(Swift.String(describing: restoreJobId)), metadata: \"CONTENT_REDACTED\")"}
+}
+
+extension GetRestoreJobMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreJobMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.metadata = output.metadata
+            self.restoreJobId = output.restoreJobId
+        } else {
+            self.metadata = nil
+            self.restoreJobId = nil
+        }
+    }
+}
+
+public struct GetRestoreJobMetadataOutput: Swift.Equatable {
+    /// This contains the metadata of the specified backup job.
+    public var metadata: [Swift.String:Swift.String]?
+    /// This is a unique identifier of a restore job within Backup.
+    public var restoreJobId: Swift.String?
+
+    public init(
+        metadata: [Swift.String:Swift.String]? = nil,
+        restoreJobId: Swift.String? = nil
+    )
+    {
+        self.metadata = metadata
+        self.restoreJobId = restoreJobId
+    }
+}
+
+struct GetRestoreJobMetadataOutputBody: Swift.Equatable {
+    let restoreJobId: Swift.String?
+    let metadata: [Swift.String:Swift.String]?
+}
+
+extension GetRestoreJobMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadata = "Metadata"
+        case restoreJobId = "RestoreJobId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreJobId)
+        restoreJobId = restoreJobIdDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, metadatavalue0) in metadataContainer {
+                if let metadatavalue0 = metadatavalue0 {
+                    metadataDecoded0?[key0] = metadatavalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+    }
+}
+
+enum GetRestoreJobMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreTestingInferredMetadataInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let backupVaultName = backupVaultName else {
+                let message = "Creating a URL Query Item failed. backupVaultName is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let backupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
+            items.append(backupVaultNameQueryItem)
+            guard let recoveryPointArn = recoveryPointArn else {
+                let message = "Creating a URL Query Item failed. recoveryPointArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let recoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
+            items.append(recoveryPointArnQueryItem)
+            if let backupVaultAccountId = backupVaultAccountId {
+                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "BackupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+                items.append(backupVaultAccountIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetRestoreTestingInferredMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/restore-testing/inferred-metadata"
+    }
+}
+
+public struct GetRestoreTestingInferredMetadataInput: Swift.Equatable {
+    /// This is the account ID of the specified backup vault.
+    public var backupVaultAccountId: Swift.String?
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web ServicesRegion where they are created. They consist of letters, numbers, and hyphens.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+
+    public init(
+        backupVaultAccountId: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil
+    )
+    {
+        self.backupVaultAccountId = backupVaultAccountId
+        self.backupVaultName = backupVaultName
+        self.recoveryPointArn = recoveryPointArn
+    }
+}
+
+struct GetRestoreTestingInferredMetadataInputBody: Swift.Equatable {
+}
+
+extension GetRestoreTestingInferredMetadataInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreTestingInferredMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreTestingInferredMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.inferredMetadata = output.inferredMetadata
+        } else {
+            self.inferredMetadata = nil
+        }
+    }
+}
+
+public struct GetRestoreTestingInferredMetadataOutput: Swift.Equatable {
+    /// This is a string map of the metadata inferred from the request.
+    /// This member is required.
+    public var inferredMetadata: [Swift.String:Swift.String]?
+
+    public init(
+        inferredMetadata: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.inferredMetadata = inferredMetadata
+    }
+}
+
+struct GetRestoreTestingInferredMetadataOutputBody: Swift.Equatable {
+    let inferredMetadata: [Swift.String:Swift.String]?
+}
+
+extension GetRestoreTestingInferredMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inferredMetadata = "InferredMetadata"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inferredMetadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .inferredMetadata)
+        var inferredMetadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let inferredMetadataContainer = inferredMetadataContainer {
+            inferredMetadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in inferredMetadataContainer {
+                if let string0 = string0 {
+                    inferredMetadataDecoded0?[key0] = string0
+                }
+            }
+        }
+        inferredMetadata = inferredMetadataDecoded0
+    }
+}
+
+enum GetRestoreTestingInferredMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
+    }
+}
+
+public struct GetRestoreTestingPlanInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct GetRestoreTestingPlanInputBody: Swift.Equatable {
+}
+
+extension GetRestoreTestingPlanInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreTestingPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.restoreTestingPlan = output.restoreTestingPlan
+        } else {
+            self.restoreTestingPlan = nil
+        }
+    }
+}
+
+public struct GetRestoreTestingPlanOutput: Swift.Equatable {
+    /// Specifies the body of a restore testing plan. Includes RestoreTestingPlanName.
+    /// This member is required.
+    public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet?
+
+    public init(
+        restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet? = nil
+    )
+    {
+        self.restoreTestingPlan = restoreTestingPlan
+    }
+}
+
+struct GetRestoreTestingPlanOutputBody: Swift.Equatable {
+    let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet?
+}
+
+extension GetRestoreTestingPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlan = "RestoreTestingPlan"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingPlanForGet.self, forKey: .restoreTestingPlan)
+        restoreTestingPlan = restoreTestingPlanDecoded
+    }
+}
+
+enum GetRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+public struct GetRestoreTestingSelectionInput: Swift.Equatable {
+    /// Required unique name of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// Required unique name of the restore testing selection.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct GetRestoreTestingSelectionInputBody: Swift.Equatable {
+}
+
+extension GetRestoreTestingSelectionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRestoreTestingSelectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.restoreTestingSelection = output.restoreTestingSelection
+        } else {
+            self.restoreTestingSelection = nil
+        }
+    }
+}
+
+public struct GetRestoreTestingSelectionOutput: Swift.Equatable {
+    /// Unique name of the restore testing selection.
+    /// This member is required.
+    public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet?
+
+    public init(
+        restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet? = nil
+    )
+    {
+        self.restoreTestingSelection = restoreTestingSelection
+    }
+}
+
+struct GetRestoreTestingSelectionOutputBody: Swift.Equatable {
+    let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet?
+}
+
+extension GetRestoreTestingSelectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingSelectionForGet.self, forKey: .restoreTestingSelection)
+        restoreTestingSelection = restoreTestingSelectionDecoded
+    }
+}
+
+enum GetRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -8100,6 +9491,53 @@ extension InvalidResourceStateExceptionBody: Swift.Decodable {
     }
 }
 
+extension BackupClientTypes.KeyValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// Pair of two related strings. Allowed characters are letters, white space, and numbers that can be represented in UTF-8 and the following characters:  + - = . _ : /
+    public struct KeyValue: Swift.Equatable {
+        /// The tag key (String). The key can't start with aws:. Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension BackupClientTypes.LegalHold: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cancellationDate = "CancellationDate"
@@ -8237,6 +9675,7 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deleteAfterDays = "DeleteAfterDays"
         case moveToColdStorageAfterDays = "MoveToColdStorageAfterDays"
+        case optInToArchiveForSupportedResources = "OptInToArchiveForSupportedResources"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8247,6 +9686,9 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
         if let moveToColdStorageAfterDays = self.moveToColdStorageAfterDays {
             try encodeContainer.encode(moveToColdStorageAfterDays, forKey: .moveToColdStorageAfterDays)
         }
+        if let optInToArchiveForSupportedResources = self.optInToArchiveForSupportedResources {
+            try encodeContainer.encode(optInToArchiveForSupportedResources, forKey: .optInToArchiveForSupportedResources)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8255,6 +9697,8 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
         moveToColdStorageAfterDays = moveToColdStorageAfterDaysDecoded
         let deleteAfterDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deleteAfterDays)
         deleteAfterDays = deleteAfterDaysDecoded
+        let optInToArchiveForSupportedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optInToArchiveForSupportedResources)
+        optInToArchiveForSupportedResources = optInToArchiveForSupportedResourcesDecoded
     }
 }
 
@@ -8265,14 +9709,18 @@ extension BackupClientTypes {
         public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public var moveToColdStorageAfterDays: Swift.Int?
+        /// Optional Boolean. If this is true, this setting will instruct your backup plan to transition supported resources to archive (cold) storage tier in accordance with your lifecycle settings.
+        public var optInToArchiveForSupportedResources: Swift.Bool?
 
         public init(
             deleteAfterDays: Swift.Int? = nil,
-            moveToColdStorageAfterDays: Swift.Int? = nil
+            moveToColdStorageAfterDays: Swift.Int? = nil,
+            optInToArchiveForSupportedResources: Swift.Bool? = nil
         )
         {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
+            self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
         }
     }
 
@@ -8362,14 +9810,191 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListBackupJobSummariesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let aggregationPeriod = aggregationPeriod {
+                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+                items.append(aggregationPeriodQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            if let messageCategory = messageCategory {
+                let messageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+                items.append(messageCategoryQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListBackupJobSummariesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/backup-job-summaries"
+    }
+}
+
+public struct ListBackupJobSummariesInput: Swift.Equatable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// This is the period that sets the boundaries for returned results. Acceptable values include
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// This parameter returns the job count for the specified message category. Example accepted strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var messageCategory: Swift.String?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+    public var resourceType: Swift.String?
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    public var state: BackupClientTypes.BackupJobStatus?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        maxResults: Swift.Int? = nil,
+        messageCategory: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        state: BackupClientTypes.BackupJobStatus? = nil
+    )
+    {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.maxResults = maxResults
+        self.messageCategory = messageCategory
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.state = state
+    }
+}
+
+struct ListBackupJobSummariesInputBody: Swift.Equatable {
+}
+
+extension ListBackupJobSummariesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListBackupJobSummariesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBackupJobSummariesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationPeriod = output.aggregationPeriod
+            self.backupJobSummaries = output.backupJobSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.aggregationPeriod = nil
+            self.backupJobSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListBackupJobSummariesOutput: Swift.Equatable {
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: Swift.String?
+    /// This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public var backupJobSummaries: [BackupClientTypes.BackupJobSummary]?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        backupJobSummaries: [BackupClientTypes.BackupJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aggregationPeriod = aggregationPeriod
+        self.backupJobSummaries = backupJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBackupJobSummariesOutputBody: Swift.Equatable {
+    let backupJobSummaries: [BackupClientTypes.BackupJobSummary]?
+    let aggregationPeriod: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListBackupJobSummariesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case backupJobSummaries = "BackupJobSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupJobSummariesContainer = try containerValues.decodeIfPresent([BackupClientTypes.BackupJobSummary?].self, forKey: .backupJobSummaries)
+        var backupJobSummariesDecoded0:[BackupClientTypes.BackupJobSummary]? = nil
+        if let backupJobSummariesContainer = backupJobSummariesContainer {
+            backupJobSummariesDecoded0 = [BackupClientTypes.BackupJobSummary]()
+            for structure0 in backupJobSummariesContainer {
+                if let structure0 = structure0 {
+                    backupJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        backupJobSummaries = backupJobSummariesDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBackupJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
             if let byResourceType = byResourceType {
                 let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
                 items.append(byResourceTypeQueryItem)
@@ -8378,10 +10003,6 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
                 let byBackupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
                 items.append(byBackupVaultNameQueryItem)
             }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
             if let nextToken = nextToken {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
@@ -8389,10 +10010,6 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
             if let byResourceArn = byResourceArn {
                 let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
                 items.append(byResourceArnQueryItem)
-            }
-            if let byParentJobId = byParentJobId {
-                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
-                items.append(byParentJobIdQueryItem)
             }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -8406,13 +10023,29 @@ extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
                 let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
                 items.append(byAccountIdQueryItem)
             }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
+            }
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let byParentJobId = byParentJobId {
+                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+                items.append(byParentJobIdQueryItem)
+            }
+            if let byMessageCategory = byMessageCategory {
+                let byMessageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+                items.append(byMessageCategoryQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
             }
             return items
         }
@@ -8438,6 +10071,8 @@ public struct ListBackupJobsInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only backup jobs that were created before the specified date.
     public var byCreatedBefore: ClientRuntime.Date?
+    /// This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and InvalidParameters. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) The wildcard () returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var byMessageCategory: Swift.String?
     /// This is a filter to list child (nested) jobs based on parent job ID.
     public var byParentJobId: Swift.String?
     /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
@@ -8472,7 +10107,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
     public var byState: BackupClientTypes.BackupJobState?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8482,6 +10117,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
         byCompleteBefore: ClientRuntime.Date? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
+        byMessageCategory: Swift.String? = nil,
         byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
@@ -8496,6 +10132,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byMessageCategory = byMessageCategory
         self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
@@ -8531,7 +10168,7 @@ extension ListBackupJobsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListBackupJobsOutput: Swift.Equatable {
     /// An array of structures containing metadata about your backup jobs returned in JSON format.
     public var backupJobs: [BackupClientTypes.BackupJob]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8611,7 +10248,7 @@ extension ListBackupPlanTemplatesInput: ClientRuntime.URLPathProvider {
 public struct ListBackupPlanTemplatesInput: Swift.Equatable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8650,7 +10287,7 @@ extension ListBackupPlanTemplatesOutput: ClientRuntime.HttpResponseBinding {
 public struct ListBackupPlanTemplatesOutput: Swift.Equatable {
     /// An array of template list items containing metadata about your saved templates.
     public var backupPlanTemplatesList: [BackupClientTypes.BackupPlanTemplatesListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8738,7 +10375,7 @@ public struct ListBackupPlanVersionsInput: Swift.Equatable {
     public var backupPlanId: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8779,7 +10416,7 @@ extension ListBackupPlanVersionsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListBackupPlanVersionsOutput: Swift.Equatable {
     /// An array of version list items containing metadata about your backup plans.
     public var backupPlanVersionsList: [BackupClientTypes.BackupPlansListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8867,7 +10504,7 @@ public struct ListBackupPlansInput: Swift.Equatable {
     public var includeDeleted: Swift.Bool?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8908,7 +10545,7 @@ extension ListBackupPlansOutput: ClientRuntime.HttpResponseBinding {
 public struct ListBackupPlansOutput: Swift.Equatable {
     /// An array of backup plan list items containing metadata about your saved backup plans.
     public var backupPlansList: [BackupClientTypes.BackupPlansListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -8996,7 +10633,7 @@ public struct ListBackupSelectionsInput: Swift.Equatable {
     public var backupPlanId: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9037,7 +10674,7 @@ extension ListBackupSelectionsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListBackupSelectionsOutput: Swift.Equatable {
     /// An array of backup selection list items containing metadata about each resource in the list.
     public var backupSelectionsList: [BackupClientTypes.BackupSelectionsListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9131,7 +10768,7 @@ public struct ListBackupVaultsInput: Swift.Equatable {
     public var byVaultType: BackupClientTypes.VaultType?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9174,7 +10811,7 @@ extension ListBackupVaultsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListBackupVaultsOutput: Swift.Equatable {
     /// An array of backup vault list members containing vault metadata, including Amazon Resource Name (ARN), display name, creation date, number of saved recovery points, and encryption information if the resources saved in the backup vault are encrypted.
     public var backupVaultList: [BackupClientTypes.BackupVaultListMember]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9230,25 +10867,194 @@ enum ListBackupVaultsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListCopyJobSummariesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let aggregationPeriod = aggregationPeriod {
+                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+                items.append(aggregationPeriodQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            if let messageCategory = messageCategory {
+                let messageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+                items.append(messageCategoryQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCopyJobSummariesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/copy-job-summaries"
+    }
+}
+
+public struct ListCopyJobSummariesInput: Swift.Equatable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// This parameter returns the job count for the specified message category. Example accepted strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var messageCategory: Swift.String?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+    public var resourceType: Swift.String?
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    public var state: BackupClientTypes.CopyJobStatus?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        maxResults: Swift.Int? = nil,
+        messageCategory: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        state: BackupClientTypes.CopyJobStatus? = nil
+    )
+    {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.maxResults = maxResults
+        self.messageCategory = messageCategory
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.state = state
+    }
+}
+
+struct ListCopyJobSummariesInputBody: Swift.Equatable {
+}
+
+extension ListCopyJobSummariesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCopyJobSummariesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCopyJobSummariesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationPeriod = output.aggregationPeriod
+            self.copyJobSummaries = output.copyJobSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.aggregationPeriod = nil
+            self.copyJobSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCopyJobSummariesOutput: Swift.Equatable {
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: Swift.String?
+    /// This return shows a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public var copyJobSummaries: [BackupClientTypes.CopyJobSummary]?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        copyJobSummaries: [BackupClientTypes.CopyJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aggregationPeriod = aggregationPeriod
+        self.copyJobSummaries = copyJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCopyJobSummariesOutputBody: Swift.Equatable {
+    let copyJobSummaries: [BackupClientTypes.CopyJobSummary]?
+    let aggregationPeriod: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListCopyJobSummariesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case copyJobSummaries = "CopyJobSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let copyJobSummariesContainer = try containerValues.decodeIfPresent([BackupClientTypes.CopyJobSummary?].self, forKey: .copyJobSummaries)
+        var copyJobSummariesDecoded0:[BackupClientTypes.CopyJobSummary]? = nil
+        if let copyJobSummariesContainer = copyJobSummariesContainer {
+            copyJobSummariesDecoded0 = [BackupClientTypes.CopyJobSummary]()
+            for structure0 in copyJobSummariesContainer {
+                if let structure0 = structure0 {
+                    copyJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        copyJobSummaries = copyJobSummariesDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCopyJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
             if let byResourceType = byResourceType {
                 let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
                 items.append(byResourceTypeQueryItem)
-            }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
-            if let byDestinationVaultArn = byDestinationVaultArn {
-                let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
-                items.append(byDestinationVaultArnQueryItem)
             }
             if let nextToken = nextToken {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -9257,10 +11063,6 @@ extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
             if let byResourceArn = byResourceArn {
                 let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
                 items.append(byResourceArnQueryItem)
-            }
-            if let byParentJobId = byParentJobId {
-                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
-                items.append(byParentJobIdQueryItem)
             }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -9274,13 +11076,33 @@ extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
                 let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
                 items.append(byAccountIdQueryItem)
             }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
             if let byCreatedAfter = byCreatedAfter {
                 let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
                 items.append(byCreatedAfterQueryItem)
+            }
+            if let byCreatedBefore = byCreatedBefore {
+                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+                items.append(byCreatedBeforeQueryItem)
+            }
+            if let byCompleteAfter = byCompleteAfter {
+                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+                items.append(byCompleteAfterQueryItem)
+            }
+            if let byDestinationVaultArn = byDestinationVaultArn {
+                let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
+                items.append(byDestinationVaultArnQueryItem)
+            }
+            if let byParentJobId = byParentJobId {
+                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+                items.append(byParentJobIdQueryItem)
+            }
+            if let byMessageCategory = byMessageCategory {
+                let byMessageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+                items.append(byMessageCategoryQueryItem)
+            }
+            if let byCompleteBefore = byCompleteBefore {
+                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+                items.append(byCompleteBeforeQueryItem)
             }
             return items
         }
@@ -9306,6 +11128,8 @@ public struct ListCopyJobsInput: Swift.Equatable {
     public var byCreatedBefore: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var byDestinationVaultArn: Swift.String?
+    /// This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
+    public var byMessageCategory: Swift.String?
     /// This is a filter to list child (nested) jobs based on parent job ID.
     public var byParentJobId: Swift.String?
     /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
@@ -9340,7 +11164,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
     public var byState: BackupClientTypes.CopyJobState?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9350,6 +11174,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
         byDestinationVaultArn: Swift.String? = nil,
+        byMessageCategory: Swift.String? = nil,
         byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
@@ -9364,6 +11189,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
         self.byDestinationVaultArn = byDestinationVaultArn
+        self.byMessageCategory = byMessageCategory
         self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
@@ -9399,7 +11225,7 @@ extension ListCopyJobsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListCopyJobsOutput: Swift.Equatable {
     /// An array of structures containing metadata about your copy jobs returned in JSON format.
     public var copyJobs: [BackupClientTypes.CopyJob]?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9598,7 +11424,7 @@ extension ListLegalHoldsInput: ClientRuntime.URLPathProvider {
 public struct ListLegalHoldsInput: Swift.Equatable {
     /// The maximum number of resource list items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9637,7 +11463,7 @@ extension ListLegalHoldsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListLegalHoldsOutput: Swift.Equatable {
     /// This is an array of returned legal holds, both active and previous.
     public var legalHolds: [BackupClientTypes.LegalHold]?
-    /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9729,7 +11555,7 @@ public struct ListProtectedResourcesByBackupVaultInput: Swift.Equatable {
     public var backupVaultName: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9770,7 +11596,7 @@ extension ListProtectedResourcesByBackupVaultOutput: ClientRuntime.HttpResponseB
 }
 
 public struct ListProtectedResourcesByBackupVaultOutput: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// These are the results returned for the request ListProtectedResourcesByBackupVault.
     public var results: [BackupClientTypes.ProtectedResource]?
@@ -9853,7 +11679,7 @@ extension ListProtectedResourcesInput: ClientRuntime.URLPathProvider {
 public struct ListProtectedResourcesInput: Swift.Equatable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -9890,7 +11716,7 @@ extension ListProtectedResourcesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListProtectedResourcesOutput: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of resources successfully backed up by Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public var results: [BackupClientTypes.ProtectedResource]?
@@ -10020,7 +11846,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
     public var byResourceType: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -10073,7 +11899,7 @@ extension ListRecoveryPointsByBackupVaultOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListRecoveryPointsByBackupVaultOutput: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points saved in a backup vault.
     public var recoveryPoints: [BackupClientTypes.RecoveryPointByBackupVault]?
@@ -10163,7 +11989,7 @@ public struct ListRecoveryPointsByLegalHoldInput: Swift.Equatable {
     public var legalHoldId: Swift.String?
     /// This is the maximum number of resource list items to be returned.
     public var maxResults: Swift.Int?
-    /// This is the next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// This is the next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -10288,7 +12114,7 @@ extension ListRecoveryPointsByResourceInput: ClientRuntime.URLPathProvider {
 public struct ListRecoveryPointsByResourceInput: Swift.Equatable {
     /// The maximum number of items to be returned. Amazon RDS requires a value of at least 20.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
@@ -10330,7 +12156,7 @@ extension ListRecoveryPointsByResourceOutput: ClientRuntime.HttpResponseBinding 
 }
 
 public struct ListRecoveryPointsByResourceOutput: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points of the specified resource type. Only Amazon EFS and Amazon EC2 recovery points return BackupVaultName.
     public var recoveryPoints: [BackupClientTypes.RecoveryPointByResource]?
@@ -10659,6 +12485,332 @@ enum ListReportPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListRestoreJobSummariesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let aggregationPeriod = aggregationPeriod {
+                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+                items.append(aggregationPeriodQueryItem)
+            }
+            if let accountId = accountId {
+                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+                items.append(accountIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let state = state {
+                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+                items.append(stateQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let resourceType = resourceType {
+                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+                items.append(resourceTypeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreJobSummariesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/audit/restore-job-summaries"
+    }
+}
+
+public struct ListRestoreJobSummariesInput: Swift.Equatable {
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    public var accountId: Swift.String?
+    /// This is the period that sets the boundaries for returned results. Acceptable values include
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: BackupClientTypes.AggregationPeriod?
+    /// This parameter sets the maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+    public var resourceType: Swift.String?
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    public var state: BackupClientTypes.RestoreJobState?
+
+    public init(
+        accountId: Swift.String? = nil,
+        aggregationPeriod: BackupClientTypes.AggregationPeriod? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        state: BackupClientTypes.RestoreJobState? = nil
+    )
+    {
+        self.accountId = accountId
+        self.aggregationPeriod = aggregationPeriod
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.state = state
+    }
+}
+
+struct ListRestoreJobSummariesInputBody: Swift.Equatable {
+}
+
+extension ListRestoreJobSummariesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreJobSummariesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreJobSummariesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationPeriod = output.aggregationPeriod
+            self.nextToken = output.nextToken
+            self.restoreJobSummaries = output.restoreJobSummaries
+        } else {
+            self.aggregationPeriod = nil
+            self.nextToken = nil
+            self.restoreJobSummaries = nil
+        }
+    }
+}
+
+public struct ListRestoreJobSummariesOutput: Swift.Equatable {
+    /// This is the period that sets the boundaries for returned results.
+    ///
+    /// * ONE_DAY for daily job count for the prior 14 days.
+    ///
+    /// * SEVEN_DAYS for the aggregated job count for the prior 7 days.
+    ///
+    /// * FOURTEEN_DAYS for aggregated job count for prior 14 days.
+    public var aggregationPeriod: Swift.String?
+    /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// This return contains a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public var restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]?
+
+    public init(
+        aggregationPeriod: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]? = nil
+    )
+    {
+        self.aggregationPeriod = aggregationPeriod
+        self.nextToken = nextToken
+        self.restoreJobSummaries = restoreJobSummaries
+    }
+}
+
+struct ListRestoreJobSummariesOutputBody: Swift.Equatable {
+    let restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]?
+    let aggregationPeriod: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListRestoreJobSummariesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case nextToken = "NextToken"
+        case restoreJobSummaries = "RestoreJobSummaries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreJobSummariesContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreJobSummary?].self, forKey: .restoreJobSummaries)
+        var restoreJobSummariesDecoded0:[BackupClientTypes.RestoreJobSummary]? = nil
+        if let restoreJobSummariesContainer = restoreJobSummariesContainer {
+            restoreJobSummariesDecoded0 = [BackupClientTypes.RestoreJobSummary]()
+            for structure0 in restoreJobSummariesContainer {
+                if let structure0 = structure0 {
+                    restoreJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreJobSummaries = restoreJobSummariesDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRestoreJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter {
+                let byRecoveryPointCreationDateAfterQueryItem = ClientRuntime.URLQueryItem(name: "recoveryPointCreationDateAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateAfter)).urlPercentEncoding())
+                items.append(byRecoveryPointCreationDateAfterQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let byStatus = byStatus {
+                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+                items.append(byStatusQueryItem)
+            }
+            if let byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore {
+                let byRecoveryPointCreationDateBeforeQueryItem = ClientRuntime.URLQueryItem(name: "recoveryPointCreationDateBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateBefore)).urlPercentEncoding())
+                items.append(byRecoveryPointCreationDateBeforeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/resources/\(resourceArn.urlPercentEncoding())/restore-jobs"
+    }
+}
+
+public struct ListRestoreJobsByProtectedResourceInput: Swift.Equatable {
+    /// Returns only restore jobs of recovery points that were created after the specified date.
+    public var byRecoveryPointCreationDateAfter: ClientRuntime.Date?
+    /// Returns only restore jobs of recovery points that were created before the specified date.
+    public var byRecoveryPointCreationDateBefore: ClientRuntime.Date?
+    /// Returns only restore jobs associated with the specified job status.
+    public var byStatus: BackupClientTypes.RestoreJobStatus?
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request ismade to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns only restore jobs that match the specified resource Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        byRecoveryPointCreationDateAfter: ClientRuntime.Date? = nil,
+        byRecoveryPointCreationDateBefore: ClientRuntime.Date? = nil,
+        byStatus: BackupClientTypes.RestoreJobStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter
+        self.byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore
+        self.byStatus = byStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListRestoreJobsByProtectedResourceInputBody: Swift.Equatable {
+}
+
+extension ListRestoreJobsByProtectedResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreJobsByProtectedResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.restoreJobs = output.restoreJobs
+        } else {
+            self.nextToken = nil
+            self.restoreJobs = nil
+        }
+    }
+}
+
+public struct ListRestoreJobsByProtectedResourceOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows youto return more items in your list starting at the location pointed to by the next token
+    public var nextToken: Swift.String?
+    /// An array of objects that contain detailed information about jobs to restore saved resources.>
+    public var restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreJobs: [BackupClientTypes.RestoreJobsListMember]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.restoreJobs = restoreJobs
+    }
+}
+
+struct ListRestoreJobsByProtectedResourceOutputBody: Swift.Equatable {
+    let restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
+    let nextToken: Swift.String?
+}
+
+extension ListRestoreJobsByProtectedResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case restoreJobs = "RestoreJobs"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreJobsContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreJobsListMember?].self, forKey: .restoreJobs)
+        var restoreJobsDecoded0:[BackupClientTypes.RestoreJobsListMember]? = nil
+        if let restoreJobsContainer = restoreJobsContainer {
+            restoreJobsDecoded0 = [BackupClientTypes.RestoreJobsListMember]()
+            for structure0 in restoreJobsContainer {
+                if let structure0 = structure0 {
+                    restoreJobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreJobs = restoreJobsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRestoreJobsByProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10695,6 +12847,10 @@ extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
                 let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
                 items.append(byStatusQueryItem)
             }
+            if let byRestoreTestingPlanArn = byRestoreTestingPlanArn {
+                let byRestoreTestingPlanArnQueryItem = ClientRuntime.URLQueryItem(name: "restoreTestingPlanArn".urlPercentEncoding(), value: Swift.String(byRestoreTestingPlanArn).urlPercentEncoding())
+                items.append(byRestoreTestingPlanArnQueryItem)
+            }
             return items
         }
     }
@@ -10717,11 +12873,13 @@ public struct ListRestoreJobsInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only restore jobs that were created before the specified date.
     public var byCreatedBefore: ClientRuntime.Date?
+    /// This returns only restore testing jobs that match the specified resource Amazon Resource Name (ARN).
+    public var byRestoreTestingPlanArn: Swift.String?
     /// Returns only restore jobs associated with the specified job status.
     public var byStatus: BackupClientTypes.RestoreJobStatus?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
 
     public init(
@@ -10730,6 +12888,7 @@ public struct ListRestoreJobsInput: Swift.Equatable {
         byCompleteBefore: ClientRuntime.Date? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
+        byRestoreTestingPlanArn: Swift.String? = nil,
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10740,6 +12899,7 @@ public struct ListRestoreJobsInput: Swift.Equatable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byRestoreTestingPlanArn = byRestoreTestingPlanArn
         self.byStatus = byStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -10770,7 +12930,7 @@ extension ListRestoreJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListRestoreJobsOutput: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about jobs to restore saved resources.
     public var restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
@@ -10828,6 +12988,255 @@ enum ListRestoreJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListRestoreTestingPlansInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreTestingPlansInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/restore-testing/plans"
+    }
+}
+
+public struct ListRestoreTestingPlansInput: Swift.Equatable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListRestoreTestingPlansInputBody: Swift.Equatable {
+}
+
+extension ListRestoreTestingPlansInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreTestingPlansOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreTestingPlansOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.restoreTestingPlans = output.restoreTestingPlans
+        } else {
+            self.nextToken = nil
+            self.restoreTestingPlans = nil
+        }
+    }
+}
+
+public struct ListRestoreTestingPlansOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+    /// This is a returned list of restore testing plans.
+    /// This member is required.
+    public var restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.restoreTestingPlans = restoreTestingPlans
+    }
+}
+
+struct ListRestoreTestingPlansOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]?
+}
+
+extension ListRestoreTestingPlansOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case restoreTestingPlans = "RestoreTestingPlans"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let restoreTestingPlansContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreTestingPlanForList?].self, forKey: .restoreTestingPlans)
+        var restoreTestingPlansDecoded0:[BackupClientTypes.RestoreTestingPlanForList]? = nil
+        if let restoreTestingPlansContainer = restoreTestingPlansContainer {
+            restoreTestingPlansDecoded0 = [BackupClientTypes.RestoreTestingPlanForList]()
+            for structure0 in restoreTestingPlansContainer {
+                if let structure0 = structure0 {
+                    restoreTestingPlansDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreTestingPlans = restoreTestingPlansDecoded0
+    }
+}
+
+enum ListRestoreTestingPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRestoreTestingSelectionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRestoreTestingSelectionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections"
+    }
+}
+
+public struct ListRestoreTestingSelectionsInput: Swift.Equatable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+    /// Returns restore testing selections by the specified restore testing plan name.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct ListRestoreTestingSelectionsInputBody: Swift.Equatable {
+}
+
+extension ListRestoreTestingSelectionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRestoreTestingSelectionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRestoreTestingSelectionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.restoreTestingSelections = output.restoreTestingSelections
+        } else {
+            self.nextToken = nil
+            self.restoreTestingSelections = nil
+        }
+    }
+}
+
+public struct ListRestoreTestingSelectionsOutput: Swift.Equatable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
+    public var nextToken: Swift.String?
+    /// The returned restore testing selections associated with the restore testing plan.
+    /// This member is required.
+    public var restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.restoreTestingSelections = restoreTestingSelections
+    }
+}
+
+struct ListRestoreTestingSelectionsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]?
+}
+
+extension ListRestoreTestingSelectionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case restoreTestingSelections = "RestoreTestingSelections"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let restoreTestingSelectionsContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreTestingSelectionForList?].self, forKey: .restoreTestingSelections)
+        var restoreTestingSelectionsDecoded0:[BackupClientTypes.RestoreTestingSelectionForList]? = nil
+        if let restoreTestingSelectionsContainer = restoreTestingSelectionsContainer {
+            restoreTestingSelectionsDecoded0 = [BackupClientTypes.RestoreTestingSelectionForList]()
+            for structure0 in restoreTestingSelectionsContainer {
+                if let structure0 = structure0 {
+                    restoreTestingSelectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        restoreTestingSelections = restoreTestingSelectionsDecoded0
+    }
+}
+
+enum ListRestoreTestingSelectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10857,7 +13266,7 @@ extension ListTagsInput: ClientRuntime.URLPathProvider {
 public struct ListTagsInput: Swift.Equatable {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the type of resource. Valid targets for ListTags are recovery points, backup plans, and backup vaults.
     /// This member is required.
@@ -10904,7 +13313,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsOutput: Swift.Equatable {
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// To help organize your resources, you can assign your own metadata to the resources you create. Each tag is a key-value pair.
     public var tags: [Swift.String:Swift.String]?
@@ -11049,6 +13458,8 @@ extension MissingParameterValueExceptionBody: Swift.Decodable {
 extension BackupClientTypes.ProtectedResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastBackupTime = "LastBackupTime"
+        case lastBackupVaultArn = "LastBackupVaultArn"
+        case lastRecoveryPointArn = "LastRecoveryPointArn"
         case resourceArn = "ResourceArn"
         case resourceName = "ResourceName"
         case resourceType = "ResourceType"
@@ -11058,6 +13469,12 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lastBackupTime = self.lastBackupTime {
             try encodeContainer.encodeTimestamp(lastBackupTime, format: .epochSeconds, forKey: .lastBackupTime)
+        }
+        if let lastBackupVaultArn = self.lastBackupVaultArn {
+            try encodeContainer.encode(lastBackupVaultArn, forKey: .lastBackupVaultArn)
+        }
+        if let lastRecoveryPointArn = self.lastRecoveryPointArn {
+            try encodeContainer.encode(lastRecoveryPointArn, forKey: .lastRecoveryPointArn)
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
@@ -11080,6 +13497,10 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
         lastBackupTime = lastBackupTimeDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let lastBackupVaultArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastBackupVaultArn)
+        lastBackupVaultArn = lastBackupVaultArnDecoded
+        let lastRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastRecoveryPointArn)
+        lastRecoveryPointArn = lastRecoveryPointArnDecoded
     }
 }
 
@@ -11088,6 +13509,10 @@ extension BackupClientTypes {
     public struct ProtectedResource: Swift.Equatable {
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var lastBackupTime: ClientRuntime.Date?
+        /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
+        public var lastBackupVaultArn: Swift.String?
+        /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+        public var lastRecoveryPointArn: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var resourceArn: Swift.String?
         /// This is the non-unique name of the resource that belongs to the specified backup.
@@ -11097,15 +13522,88 @@ extension BackupClientTypes {
 
         public init(
             lastBackupTime: ClientRuntime.Date? = nil,
+            lastBackupVaultArn: Swift.String? = nil,
+            lastRecoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
         {
             self.lastBackupTime = lastBackupTime
+            self.lastBackupVaultArn = lastBackupVaultArn
+            self.lastRecoveryPointArn = lastRecoveryPointArn
             self.resourceArn = resourceArn
             self.resourceName = resourceName
             self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension BackupClientTypes.ProtectedResourceConditions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stringEquals = "StringEquals"
+        case stringNotEquals = "StringNotEquals"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stringEquals = stringEquals {
+            var stringEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringEquals)
+            for keyvalue0 in stringEquals {
+                try stringEqualsContainer.encode(keyvalue0)
+            }
+        }
+        if let stringNotEquals = stringNotEquals {
+            var stringNotEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringNotEquals)
+            for keyvalue0 in stringNotEquals {
+                try stringNotEqualsContainer.encode(keyvalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stringEqualsContainer = try containerValues.decodeIfPresent([BackupClientTypes.KeyValue?].self, forKey: .stringEquals)
+        var stringEqualsDecoded0:[BackupClientTypes.KeyValue]? = nil
+        if let stringEqualsContainer = stringEqualsContainer {
+            stringEqualsDecoded0 = [BackupClientTypes.KeyValue]()
+            for structure0 in stringEqualsContainer {
+                if let structure0 = structure0 {
+                    stringEqualsDecoded0?.append(structure0)
+                }
+            }
+        }
+        stringEquals = stringEqualsDecoded0
+        let stringNotEqualsContainer = try containerValues.decodeIfPresent([BackupClientTypes.KeyValue?].self, forKey: .stringNotEquals)
+        var stringNotEqualsDecoded0:[BackupClientTypes.KeyValue]? = nil
+        if let stringNotEqualsContainer = stringNotEqualsContainer {
+            stringNotEqualsDecoded0 = [BackupClientTypes.KeyValue]()
+            for structure0 in stringNotEqualsContainer {
+                if let structure0 = structure0 {
+                    stringNotEqualsDecoded0?.append(structure0)
+                }
+            }
+        }
+        stringNotEquals = stringNotEqualsDecoded0
+    }
+}
+
+extension BackupClientTypes {
+    /// A list of conditions that you define for resources in your restore testing plan using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive.
+    public struct ProtectedResourceConditions: Swift.Equatable {
+        /// Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching."
+        public var stringEquals: [BackupClientTypes.KeyValue]?
+        /// Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching."
+        public var stringNotEquals: [BackupClientTypes.KeyValue]?
+
+        public init(
+            stringEquals: [BackupClientTypes.KeyValue]? = nil,
+            stringNotEquals: [BackupClientTypes.KeyValue]? = nil
+        )
+        {
+            self.stringEquals = stringEquals
+            self.stringNotEquals = stringNotEquals
         }
     }
 
@@ -11402,6 +13900,99 @@ enum PutBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBind
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutRestoreValidationResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let validationStatus = self.validationStatus {
+            try encodeContainer.encode(validationStatus.rawValue, forKey: .validationStatus)
+        }
+        if let validationStatusMessage = self.validationStatusMessage {
+            try encodeContainer.encode(validationStatusMessage, forKey: .validationStatusMessage)
+        }
+    }
+}
+
+extension PutRestoreValidationResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreJobId = restoreJobId else {
+            return nil
+        }
+        return "/restore-jobs/\(restoreJobId.urlPercentEncoding())/validations"
+    }
+}
+
+public struct PutRestoreValidationResultInput: Swift.Equatable {
+    /// This is a unique identifier of a restore job within Backup.
+    /// This member is required.
+    public var restoreJobId: Swift.String?
+    /// This is the status of your restore validation.
+    /// This member is required.
+    public var validationStatus: BackupClientTypes.RestoreValidationStatus?
+    /// This is an optional message string you can input to describe the validation status for the restore test validation.
+    public var validationStatusMessage: Swift.String?
+
+    public init(
+        restoreJobId: Swift.String? = nil,
+        validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
+        validationStatusMessage: Swift.String? = nil
+    )
+    {
+        self.restoreJobId = restoreJobId
+        self.validationStatus = validationStatus
+        self.validationStatusMessage = validationStatusMessage
+    }
+}
+
+struct PutRestoreValidationResultInputBody: Swift.Equatable {
+    let validationStatus: BackupClientTypes.RestoreValidationStatus?
+    let validationStatusMessage: Swift.String?
+}
+
+extension PutRestoreValidationResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let validationStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreValidationStatus.self, forKey: .validationStatus)
+        validationStatus = validationStatusDecoded
+        let validationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationStatusMessage)
+        validationStatusMessage = validationStatusMessageDecoded
+    }
+}
+
+extension PutRestoreValidationResultOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutRestoreValidationResultOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutRestoreValidationResultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -12591,6 +15182,126 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension BackupClientTypes {
+    public enum RestoreDeletionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleting
+        case failed
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreDeletionStatus] {
+            return [
+                .deleting,
+                .failed,
+                .successful,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreDeletionStatus(rawValue: rawValue) ?? RestoreDeletionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.RestoreJobCreator: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restoreTestingPlanArn = self.restoreTestingPlanArn {
+            try encodeContainer.encode(restoreTestingPlanArn, forKey: .restoreTestingPlanArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// Contains information about the restore testing plan that Backup used to initiate the restore job.
+    public struct RestoreJobCreator: Swift.Equatable {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing plan.
+        public var restoreTestingPlanArn: Swift.String?
+
+        public init(
+            restoreTestingPlanArn: Swift.String? = nil
+        )
+        {
+            self.restoreTestingPlanArn = restoreTestingPlanArn
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum RestoreJobState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aborted
+        case aggregateAll
+        case any
+        case completed
+        case created
+        case failed
+        case pending
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreJobState] {
+            return [
+                .aborted,
+                .aggregateAll,
+                .any,
+                .completed,
+                .created,
+                .failed,
+                .pending,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .aggregateAll: return "AGGREGATE_ALL"
+            case .any: return "ANY"
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreJobState(rawValue: rawValue) ?? RestoreJobState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes {
     public enum RestoreJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aborted
         case completed
@@ -12631,21 +15342,122 @@ extension BackupClientTypes {
     }
 }
 
+extension BackupClientTypes.RestoreJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case count = "Count"
+        case endTime = "EndTime"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreJobState.self, forKey: .state)
+        state = stateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This is a summary of restore jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    public struct RestoreJobSummary: Swift.Equatable {
+        /// The account ID that owns the jobs within the summary.
+        public var accountId: Swift.String?
+        /// The value as a number of jobs in a job summary.
+        public var count: Swift.Int
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var endTime: ClientRuntime.Date?
+        /// The Amazon Web Services Regions within the job summary.
+        public var region: Swift.String?
+        /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types.
+        public var resourceType: Swift.String?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var startTime: ClientRuntime.Date?
+        /// This value is job count for jobs with the specified state.
+        public var state: BackupClientTypes.RestoreJobState?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            endTime: ClientRuntime.Date? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: BackupClientTypes.RestoreJobState? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.region = region
+            self.resourceType = resourceType
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
+}
+
 extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
         case backupSizeInBytes = "BackupSizeInBytes"
         case completionDate = "CompletionDate"
+        case createdBy = "CreatedBy"
         case createdResourceArn = "CreatedResourceArn"
         case creationDate = "CreationDate"
+        case deletionStatus = "DeletionStatus"
+        case deletionStatusMessage = "DeletionStatusMessage"
         case expectedCompletionTimeMinutes = "ExpectedCompletionTimeMinutes"
         case iamRoleArn = "IamRoleArn"
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
+        case recoveryPointCreationDate = "RecoveryPointCreationDate"
         case resourceType = "ResourceType"
         case restoreJobId = "RestoreJobId"
         case status = "Status"
         case statusMessage = "StatusMessage"
+        case validationStatus = "ValidationStatus"
+        case validationStatusMessage = "ValidationStatusMessage"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12659,11 +15471,20 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         if let completionDate = self.completionDate {
             try encodeContainer.encodeTimestamp(completionDate, format: .epochSeconds, forKey: .completionDate)
         }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
         if let createdResourceArn = self.createdResourceArn {
             try encodeContainer.encode(createdResourceArn, forKey: .createdResourceArn)
         }
         if let creationDate = self.creationDate {
             try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let deletionStatus = self.deletionStatus {
+            try encodeContainer.encode(deletionStatus.rawValue, forKey: .deletionStatus)
+        }
+        if let deletionStatusMessage = self.deletionStatusMessage {
+            try encodeContainer.encode(deletionStatusMessage, forKey: .deletionStatusMessage)
         }
         if let expectedCompletionTimeMinutes = self.expectedCompletionTimeMinutes {
             try encodeContainer.encode(expectedCompletionTimeMinutes, forKey: .expectedCompletionTimeMinutes)
@@ -12677,6 +15498,9 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         if let recoveryPointArn = self.recoveryPointArn {
             try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
         }
+        if let recoveryPointCreationDate = self.recoveryPointCreationDate {
+            try encodeContainer.encodeTimestamp(recoveryPointCreationDate, format: .epochSeconds, forKey: .recoveryPointCreationDate)
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
@@ -12688,6 +15512,12 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         }
         if let statusMessage = self.statusMessage {
             try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let validationStatus = self.validationStatus {
+            try encodeContainer.encode(validationStatus.rawValue, forKey: .validationStatus)
+        }
+        if let validationStatusMessage = self.validationStatusMessage {
+            try encodeContainer.encode(validationStatusMessage, forKey: .validationStatusMessage)
         }
     }
 
@@ -12719,6 +15549,18 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
         createdResourceArn = createdResourceArnDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let recoveryPointCreationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .recoveryPointCreationDate)
+        recoveryPointCreationDate = recoveryPointCreationDateDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreJobCreator.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let validationStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreValidationStatus.self, forKey: .validationStatus)
+        validationStatus = validationStatusDecoded
+        let validationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationStatusMessage)
+        validationStatusMessage = validationStatusMessageDecoded
+        let deletionStatusDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreDeletionStatus.self, forKey: .deletionStatus)
+        deletionStatus = deletionStatusDecoded
+        let deletionStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionStatusMessage)
+        deletionStatusMessage = deletionStatusMessageDecoded
     }
 }
 
@@ -12731,10 +15573,16 @@ extension BackupClientTypes {
         public var backupSizeInBytes: Swift.Int?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionDate: ClientRuntime.Date?
+        /// Contains identifying information about the creation of a restore job.
+        public var createdBy: BackupClientTypes.RestoreJobCreator?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var createdResourceArn: Swift.String?
         /// The date and time a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var creationDate: ClientRuntime.Date?
+        /// This notes the status of the data generated by the restore test. The status may be Deleting, Failed, or Successful.
+        public var deletionStatus: BackupClientTypes.RestoreDeletionStatus?
+        /// This describes the restore job deletion status.
+        public var deletionStatusMessage: Swift.String?
         /// The amount of time in minutes that a job restoring a recovery point is expected to take.
         public var expectedCompletionTimeMinutes: Swift.Int?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -12743,6 +15591,8 @@ extension BackupClientTypes {
         public var percentDone: Swift.String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
+        /// The date on which a recovery point was created.
+        public var recoveryPointCreationDate: ClientRuntime.Date?
         /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
         /// Uniquely identifies the job that restores a recovery point.
@@ -12751,39 +15601,1157 @@ extension BackupClientTypes {
         public var status: BackupClientTypes.RestoreJobStatus?
         /// A detailed message explaining the status of the job to restore a recovery point.
         public var statusMessage: Swift.String?
+        /// This is the status of validation run on the indicated restore job.
+        public var validationStatus: BackupClientTypes.RestoreValidationStatus?
+        /// This describes the status of validation run on the indicated restore job.
+        public var validationStatusMessage: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
             backupSizeInBytes: Swift.Int? = nil,
             completionDate: ClientRuntime.Date? = nil,
+            createdBy: BackupClientTypes.RestoreJobCreator? = nil,
             createdResourceArn: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
+            deletionStatus: BackupClientTypes.RestoreDeletionStatus? = nil,
+            deletionStatusMessage: Swift.String? = nil,
             expectedCompletionTimeMinutes: Swift.Int? = nil,
             iamRoleArn: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
+            recoveryPointCreationDate: ClientRuntime.Date? = nil,
             resourceType: Swift.String? = nil,
             restoreJobId: Swift.String? = nil,
             status: BackupClientTypes.RestoreJobStatus? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
+            validationStatusMessage: Swift.String? = nil
         )
         {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
+            self.createdBy = createdBy
             self.createdResourceArn = createdResourceArn
             self.creationDate = creationDate
+            self.deletionStatus = deletionStatus
+            self.deletionStatusMessage = deletionStatusMessage
             self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
             self.iamRoleArn = iamRoleArn
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
+            self.recoveryPointCreationDate = recoveryPointCreationDate
             self.resourceType = resourceType
             self.restoreJobId = restoreJobId
             self.status = status
             self.statusMessage = statusMessage
+            self.validationStatus = validationStatus
+            self.validationStatusMessage = validationStatusMessage
         }
     }
 
+}
+
+extension BackupClientTypes.RestoreTestingPlanForCreate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForCreate: Swift.Equatable {
+        /// Required: Algorithm; Required: Recovery point types; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (list of selectors), defaults to empty list if not listed.
+        /// This member is required.
+        public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
+        /// The RestoreTestingPlanName is a unique string that is the name of the restore testing plan. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.recoveryPointSelection = recoveryPointSelection
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingPlanForGet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case creatorRequestId = "CreatorRequestId"
+        case lastExecutionTime = "LastExecutionTime"
+        case lastUpdateTime = "LastUpdateTime"
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let lastExecutionTime = self.lastExecutionTime {
+            try encodeContainer.encodeTimestamp(lastExecutionTime, format: .epochSeconds, forKey: .lastExecutionTime)
+        }
+        if let lastUpdateTime = self.lastUpdateTime {
+            try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
+        }
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let restoreTestingPlanArn = self.restoreTestingPlanArn {
+            try encodeContainer.encode(restoreTestingPlanArn, forKey: .restoreTestingPlanArn)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let lastExecutionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastExecutionTime)
+        lastExecutionTime = lastExecutionTimeDecoded
+        let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
+        lastUpdateTime = lastUpdateTimeDecoded
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForGet: Swift.Equatable {
+        /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// This identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+        public var creatorRequestId: Swift.String?
+        /// The last time a restore test was run with the specified restore testing plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastExecutionTime: ClientRuntime.Date?
+        /// The date and time that the restore testing plan was updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastUpdateTime: ClientRuntime.Date?
+        /// The specified criteria to assign a set of resources, such as recovery point types or backup vaults.
+        /// This member is required.
+        public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing plan.
+        /// This member is required.
+        public var restoreTestingPlanArn: Swift.String?
+        /// This is the restore testing plan name.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            creatorRequestId: Swift.String? = nil,
+            lastExecutionTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: ClientRuntime.Date? = nil,
+            recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
+            restoreTestingPlanArn: Swift.String? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.lastExecutionTime = lastExecutionTime
+            self.lastUpdateTime = lastUpdateTime
+            self.recoveryPointSelection = recoveryPointSelection
+            self.restoreTestingPlanArn = restoreTestingPlanArn
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingPlanForList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case lastExecutionTime = "LastExecutionTime"
+        case lastUpdateTime = "LastUpdateTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let lastExecutionTime = self.lastExecutionTime {
+            try encodeContainer.encodeTimestamp(lastExecutionTime, format: .epochSeconds, forKey: .lastExecutionTime)
+        }
+        if let lastUpdateTime = self.lastUpdateTime {
+            try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
+        }
+        if let restoreTestingPlanArn = self.restoreTestingPlanArn {
+            try encodeContainer.encode(restoreTestingPlanArn, forKey: .restoreTestingPlanArn)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastExecutionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastExecutionTime)
+        lastExecutionTime = lastExecutionTimeDecoded
+        let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
+        lastUpdateTime = lastUpdateTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForList: Swift.Equatable {
+        /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// The last time a restore test was run with the specified restore testing plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastExecutionTime: ClientRuntime.Date?
+        /// The date and time that the restore testing plan was updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var lastUpdateTime: ClientRuntime.Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifiesa restore testing plan.
+        /// This member is required.
+        public var restoreTestingPlanArn: Swift.String?
+        /// This is the restore testing plan name.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            lastExecutionTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: ClientRuntime.Date? = nil,
+            restoreTestingPlanArn: Swift.String? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.lastExecutionTime = lastExecutionTime
+            self.lastUpdateTime = lastUpdateTime
+            self.restoreTestingPlanArn = restoreTestingPlanArn
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingPlanForUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryPointSelection = "RecoveryPointSelection"
+        case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
+        case startWindowHours = "StartWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recoveryPointSelection = self.recoveryPointSelection {
+            try encodeContainer.encode(recoveryPointSelection, forKey: .recoveryPointSelection)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+        }
+        if startWindowHours != 0 {
+            try encodeContainer.encode(startWindowHours, forKey: .startWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryPointSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelection.self, forKey: .recoveryPointSelection)
+        recoveryPointSelection = recoveryPointSelectionDecoded
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
+        let startWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startWindowHours) ?? 0
+        startWindowHours = startWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing plan.
+    public struct RestoreTestingPlanForUpdate: Swift.Equatable {
+        /// Required: Algorithm; RecoveryPointTypes; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (defaults to empty list if not listed).
+        public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
+        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        public var scheduleExpression: Swift.String?
+        /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
+        /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maximum value of 168 hours (one week).
+        public var startWindowHours: Swift.Int
+
+        public init(
+            recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
+            scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
+            startWindowHours: Swift.Int = 0
+        )
+        {
+            self.recoveryPointSelection = recoveryPointSelection
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
+            self.startWindowHours = startWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingRecoveryPointSelection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case algorithm = "Algorithm"
+        case excludeVaults = "ExcludeVaults"
+        case includeVaults = "IncludeVaults"
+        case recoveryPointTypes = "RecoveryPointTypes"
+        case selectionWindowDays = "SelectionWindowDays"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let algorithm = self.algorithm {
+            try encodeContainer.encode(algorithm.rawValue, forKey: .algorithm)
+        }
+        if let excludeVaults = excludeVaults {
+            var excludeVaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeVaults)
+            for string0 in excludeVaults {
+                try excludeVaultsContainer.encode(string0)
+            }
+        }
+        if let includeVaults = includeVaults {
+            var includeVaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeVaults)
+            for string0 in includeVaults {
+                try includeVaultsContainer.encode(string0)
+            }
+        }
+        if let recoveryPointTypes = recoveryPointTypes {
+            var recoveryPointTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recoveryPointTypes)
+            for restoretestingrecoverypointtype0 in recoveryPointTypes {
+                try recoveryPointTypesContainer.encode(restoretestingrecoverypointtype0.rawValue)
+            }
+        }
+        if selectionWindowDays != 0 {
+            try encodeContainer.encode(selectionWindowDays, forKey: .selectionWindowDays)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let algorithmDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm.self, forKey: .algorithm)
+        algorithm = algorithmDecoded
+        let excludeVaultsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludeVaults)
+        var excludeVaultsDecoded0:[Swift.String]? = nil
+        if let excludeVaultsContainer = excludeVaultsContainer {
+            excludeVaultsDecoded0 = [Swift.String]()
+            for string0 in excludeVaultsContainer {
+                if let string0 = string0 {
+                    excludeVaultsDecoded0?.append(string0)
+                }
+            }
+        }
+        excludeVaults = excludeVaultsDecoded0
+        let includeVaultsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeVaults)
+        var includeVaultsDecoded0:[Swift.String]? = nil
+        if let includeVaultsContainer = includeVaultsContainer {
+            includeVaultsDecoded0 = [Swift.String]()
+            for string0 in includeVaultsContainer {
+                if let string0 = string0 {
+                    includeVaultsDecoded0?.append(string0)
+                }
+            }
+        }
+        includeVaults = includeVaultsDecoded0
+        let recoveryPointTypesContainer = try containerValues.decodeIfPresent([BackupClientTypes.RestoreTestingRecoveryPointType?].self, forKey: .recoveryPointTypes)
+        var recoveryPointTypesDecoded0:[BackupClientTypes.RestoreTestingRecoveryPointType]? = nil
+        if let recoveryPointTypesContainer = recoveryPointTypesContainer {
+            recoveryPointTypesDecoded0 = [BackupClientTypes.RestoreTestingRecoveryPointType]()
+            for enum0 in recoveryPointTypesContainer {
+                if let enum0 = enum0 {
+                    recoveryPointTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        recoveryPointTypes = recoveryPointTypesDecoded0
+        let selectionWindowDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .selectionWindowDays) ?? 0
+        selectionWindowDays = selectionWindowDaysDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// Required: Algorithm; Required: Recovery point types; IncludeVaults(one or more). Optional: SelectionWindowDays ('30' if not specified);ExcludeVaults (list of selectors), defaults to empty list if not listed.
+    public struct RestoreTestingRecoveryPointSelection: Swift.Equatable {
+        /// Acceptable values include "LATEST_WITHIN_WINDOW" or "RANDOM_WITHIN_WINDOW"
+        public var algorithm: BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm?
+        /// Accepted values include specific ARNs or list of selectors. Defaults to empty list if not listed.
+        public var excludeVaults: [Swift.String]?
+        /// Accepted values include wildcard ["*"] or by specific ARNs or ARN wilcard replacement ["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf", ...] ["arn:aws:backup:*:*:backup-vault:asdf-*", ...]
+        public var includeVaults: [Swift.String]?
+        /// These are the types of recovery points.
+        public var recoveryPointTypes: [BackupClientTypes.RestoreTestingRecoveryPointType]?
+        /// Accepted values are integers from 1 to 365.
+        public var selectionWindowDays: Swift.Int
+
+        public init(
+            algorithm: BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm? = nil,
+            excludeVaults: [Swift.String]? = nil,
+            includeVaults: [Swift.String]? = nil,
+            recoveryPointTypes: [BackupClientTypes.RestoreTestingRecoveryPointType]? = nil,
+            selectionWindowDays: Swift.Int = 0
+        )
+        {
+            self.algorithm = algorithm
+            self.excludeVaults = excludeVaults
+            self.includeVaults = includeVaults
+            self.recoveryPointTypes = recoveryPointTypes
+            self.selectionWindowDays = selectionWindowDays
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum RestoreTestingRecoveryPointSelectionAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case latestWithinWindow
+        case randomWithinWindow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreTestingRecoveryPointSelectionAlgorithm] {
+            return [
+                .latestWithinWindow,
+                .randomWithinWindow,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .latestWithinWindow: return "LATEST_WITHIN_WINDOW"
+            case .randomWithinWindow: return "RANDOM_WITHIN_WINDOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreTestingRecoveryPointSelectionAlgorithm(rawValue: rawValue) ?? RestoreTestingRecoveryPointSelectionAlgorithm.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes {
+    public enum RestoreTestingRecoveryPointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case continuous
+        case snapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreTestingRecoveryPointType] {
+            return [
+                .continuous,
+                .snapshot,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .snapshot: return "SNAPSHOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreTestingRecoveryPointType(rawValue: rawValue) ?? RestoreTestingRecoveryPointType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForCreate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceArns = "ProtectedResourceArns"
+        case protectedResourceConditions = "ProtectedResourceConditions"
+        case protectedResourceType = "ProtectedResourceType"
+        case restoreMetadataOverrides = "RestoreMetadataOverrides"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceArns = protectedResourceArns {
+            var protectedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceArns)
+            for string0 in protectedResourceArns {
+                try protectedResourceArnsContainer.encode(string0)
+            }
+        }
+        if let protectedResourceConditions = self.protectedResourceConditions {
+            try encodeContainer.encode(protectedResourceConditions, forKey: .protectedResourceConditions)
+        }
+        if let protectedResourceType = self.protectedResourceType {
+            try encodeContainer.encode(protectedResourceType, forKey: .protectedResourceType)
+        }
+        if let restoreMetadataOverrides = restoreMetadataOverrides {
+            var restoreMetadataOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restoreMetadataOverrides)
+            for (dictKey0, sensitiveStringMap0) in restoreMetadataOverrides {
+                try restoreMetadataOverridesContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let restoreTestingSelectionName = self.restoreTestingSelectionName {
+            try encodeContainer.encode(restoreTestingSelectionName, forKey: .restoreTestingSelectionName)
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .protectedResourceArns)
+        var protectedResourceArnsDecoded0:[Swift.String]? = nil
+        if let protectedResourceArnsContainer = protectedResourceArnsContainer {
+            protectedResourceArnsDecoded0 = [Swift.String]()
+            for string0 in protectedResourceArnsContainer {
+                if let string0 = string0 {
+                    protectedResourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        protectedResourceArns = protectedResourceArnsDecoded0
+        let protectedResourceConditionsDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ProtectedResourceConditions.self, forKey: .protectedResourceConditions)
+        protectedResourceConditions = protectedResourceConditionsDecoded
+        let protectedResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protectedResourceType)
+        protectedResourceType = protectedResourceTypeDecoded
+        let restoreMetadataOverridesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .restoreMetadataOverrides)
+        var restoreMetadataOverridesDecoded0: [Swift.String:Swift.String]? = nil
+        if let restoreMetadataOverridesContainer = restoreMetadataOverridesContainer {
+            restoreMetadataOverridesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in restoreMetadataOverridesContainer {
+                if let string0 = string0 {
+                    restoreMetadataOverridesDecoded0?[key0] = string0
+                }
+            }
+        }
+        restoreMetadataOverrides = restoreMetadataOverridesDecoded0
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForCreate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreTestingSelectionForCreate(iamRoleArn: \(Swift.String(describing: iamRoleArn)), protectedResourceArns: \(Swift.String(describing: protectedResourceArns)), protectedResourceConditions: \(Swift.String(describing: protectedResourceConditions)), protectedResourceType: \(Swift.String(describing: protectedResourceType)), restoreTestingSelectionName: \(Swift.String(describing: restoreTestingSelectionName)), validationWindowHours: \(Swift.String(describing: validationWindowHours)), restoreMetadataOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a specific restore testing selection. ProtectedResourceType is required, such as Amazon EBS or Amazon EC2. This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following:
+    ///
+    /// * ProtectedResourceArns
+    ///
+    /// * ProtectedResourceConditions
+    ///
+    ///
+    /// Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns. ProtectedResourceConditions examples include as StringEquals and StringNotEquals.
+    public struct RestoreTestingSelectionForCreate: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// Each protected resource can be filtered by its specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or by a wildcard: ProtectedResourceArns: ["*"], but not both.
+        public var protectedResourceArns: [Swift.String]?
+        /// If you have included the wildcard in ProtectedResourceArns, you can include resource conditions, such as ProtectedResourceConditions: { StringEquals: [{ key: "XXXX", value: "YYYY" }].
+        public var protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions?
+        /// The type of Amazon Web Services resource included in a restore testing selection; for example, an Amazon EBS volume or an Amazon RDS database. Supported resource types accepted include:
+        ///
+        /// * Aurora for Amazon Aurora
+        ///
+        /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
+        ///
+        /// * DynamoDB for Amazon DynamoDB
+        ///
+        /// * EBS for Amazon Elastic Block Store
+        ///
+        /// * EC2 for Amazon Elastic Compute Cloud
+        ///
+        /// * EFS for Amazon Elastic File System
+        ///
+        /// * FSx for Amazon FSx
+        ///
+        /// * Neptune for Amazon Neptune
+        ///
+        /// * RDS for Amazon Relational Database Service
+        ///
+        /// * S3 for Amazon S3
+        /// This member is required.
+        public var protectedResourceType: Swift.String?
+        /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
+        public var restoreMetadataOverrides: [Swift.String:Swift.String]?
+        /// This is the unique name of the restore testing selection that belongs to the related restore testing plan.
+        /// This member is required.
+        public var restoreTestingSelectionName: Swift.String?
+        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceArns: [Swift.String]? = nil,
+            protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
+            protectedResourceType: Swift.String? = nil,
+            restoreMetadataOverrides: [Swift.String:Swift.String]? = nil,
+            restoreTestingSelectionName: Swift.String? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceArns = protectedResourceArns
+            self.protectedResourceConditions = protectedResourceConditions
+            self.protectedResourceType = protectedResourceType
+            self.restoreMetadataOverrides = restoreMetadataOverrides
+            self.restoreTestingSelectionName = restoreTestingSelectionName
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForGet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case creatorRequestId = "CreatorRequestId"
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceArns = "ProtectedResourceArns"
+        case protectedResourceConditions = "ProtectedResourceConditions"
+        case protectedResourceType = "ProtectedResourceType"
+        case restoreMetadataOverrides = "RestoreMetadataOverrides"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let creatorRequestId = self.creatorRequestId {
+            try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceArns = protectedResourceArns {
+            var protectedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceArns)
+            for string0 in protectedResourceArns {
+                try protectedResourceArnsContainer.encode(string0)
+            }
+        }
+        if let protectedResourceConditions = self.protectedResourceConditions {
+            try encodeContainer.encode(protectedResourceConditions, forKey: .protectedResourceConditions)
+        }
+        if let protectedResourceType = self.protectedResourceType {
+            try encodeContainer.encode(protectedResourceType, forKey: .protectedResourceType)
+        }
+        if let restoreMetadataOverrides = restoreMetadataOverrides {
+            var restoreMetadataOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restoreMetadataOverrides)
+            for (dictKey0, sensitiveStringMap0) in restoreMetadataOverrides {
+                try restoreMetadataOverridesContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let restoreTestingSelectionName = self.restoreTestingSelectionName {
+            try encodeContainer.encode(restoreTestingSelectionName, forKey: .restoreTestingSelectionName)
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let creatorRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creatorRequestId)
+        creatorRequestId = creatorRequestIdDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .protectedResourceArns)
+        var protectedResourceArnsDecoded0:[Swift.String]? = nil
+        if let protectedResourceArnsContainer = protectedResourceArnsContainer {
+            protectedResourceArnsDecoded0 = [Swift.String]()
+            for string0 in protectedResourceArnsContainer {
+                if let string0 = string0 {
+                    protectedResourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        protectedResourceArns = protectedResourceArnsDecoded0
+        let protectedResourceConditionsDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ProtectedResourceConditions.self, forKey: .protectedResourceConditions)
+        protectedResourceConditions = protectedResourceConditionsDecoded
+        let protectedResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protectedResourceType)
+        protectedResourceType = protectedResourceTypeDecoded
+        let restoreMetadataOverridesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .restoreMetadataOverrides)
+        var restoreMetadataOverridesDecoded0: [Swift.String:Swift.String]? = nil
+        if let restoreMetadataOverridesContainer = restoreMetadataOverridesContainer {
+            restoreMetadataOverridesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in restoreMetadataOverridesContainer {
+                if let string0 = string0 {
+                    restoreMetadataOverridesDecoded0?[key0] = string0
+                }
+            }
+        }
+        restoreMetadataOverrides = restoreMetadataOverridesDecoded0
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForGet: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreTestingSelectionForGet(creationTime: \(Swift.String(describing: creationTime)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), protectedResourceArns: \(Swift.String(describing: protectedResourceArns)), protectedResourceConditions: \(Swift.String(describing: protectedResourceConditions)), protectedResourceType: \(Swift.String(describing: protectedResourceType)), restoreTestingPlanName: \(Swift.String(describing: restoreTestingPlanName)), restoreTestingSelectionName: \(Swift.String(describing: restoreTestingSelectionName)), validationWindowHours: \(Swift.String(describing: validationWindowHours)), restoreMetadataOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing selection.
+    public struct RestoreTestingSelectionForGet: Swift.Equatable {
+        /// The date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 201812:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// This identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+        public var creatorRequestId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example:arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// You can include specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"], but not both.
+        public var protectedResourceArns: [Swift.String]?
+        /// In a resource testing selection, this parameter filters by specific conditions such as StringEquals or StringNotEquals.
+        public var protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions?
+        /// The type of Amazon Web Services resource included in a resource testing selection; for example, an Amazon EBS volume or an Amazon RDS database.
+        /// This member is required.
+        public var protectedResourceType: Swift.String?
+        /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
+        public var restoreMetadataOverrides: [Swift.String:Swift.String]?
+        /// The RestoreTestingPlanName is a unique string that is the name of the restore testing plan.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// This is the unique name of the restore testing selection that belongs to the related restore testing plan.
+        /// This member is required.
+        public var restoreTestingSelectionName: Swift.String?
+        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            creatorRequestId: Swift.String? = nil,
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceArns: [Swift.String]? = nil,
+            protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
+            protectedResourceType: Swift.String? = nil,
+            restoreMetadataOverrides: [Swift.String:Swift.String]? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            restoreTestingSelectionName: Swift.String? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceArns = protectedResourceArns
+            self.protectedResourceConditions = protectedResourceConditions
+            self.protectedResourceType = protectedResourceType
+            self.restoreMetadataOverrides = restoreMetadataOverrides
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.restoreTestingSelectionName = restoreTestingSelectionName
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceType = "ProtectedResourceType"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceType = self.protectedResourceType {
+            try encodeContainer.encode(protectedResourceType, forKey: .protectedResourceType)
+        }
+        if let restoreTestingPlanName = self.restoreTestingPlanName {
+            try encodeContainer.encode(restoreTestingPlanName, forKey: .restoreTestingPlanName)
+        }
+        if let restoreTestingSelectionName = self.restoreTestingSelectionName {
+            try encodeContainer.encode(restoreTestingSelectionName, forKey: .restoreTestingSelectionName)
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protectedResourceType)
+        protectedResourceType = protectedResourceTypeDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing selection.
+    public struct RestoreTestingSelectionForList: Swift.Equatable {
+        /// This is the date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26,2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+        /// The type of Amazon Web Services resource included in a restore testing selection; for example, an Amazon EBS volume or an Amazon RDS database.
+        /// This member is required.
+        public var protectedResourceType: Swift.String?
+        /// Unique string that is the name of the restore testing plan. The name cannot be changed after creation. The name must consist of only alphanumeric characters and underscores. Maximum length is 50.
+        /// This member is required.
+        public var restoreTestingPlanName: Swift.String?
+        /// Unique name of a restore testing selection.
+        /// This member is required.
+        public var restoreTestingSelectionName: Swift.String?
+        /// This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days).
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceType: Swift.String? = nil,
+            restoreTestingPlanName: Swift.String? = nil,
+            restoreTestingSelectionName: Swift.String? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.creationTime = creationTime
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceType = protectedResourceType
+            self.restoreTestingPlanName = restoreTestingPlanName
+            self.restoreTestingSelectionName = restoreTestingSelectionName
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iamRoleArn = "IamRoleArn"
+        case protectedResourceArns = "ProtectedResourceArns"
+        case protectedResourceConditions = "ProtectedResourceConditions"
+        case restoreMetadataOverrides = "RestoreMetadataOverrides"
+        case validationWindowHours = "ValidationWindowHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let protectedResourceArns = protectedResourceArns {
+            var protectedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceArns)
+            for string0 in protectedResourceArns {
+                try protectedResourceArnsContainer.encode(string0)
+            }
+        }
+        if let protectedResourceConditions = self.protectedResourceConditions {
+            try encodeContainer.encode(protectedResourceConditions, forKey: .protectedResourceConditions)
+        }
+        if let restoreMetadataOverrides = restoreMetadataOverrides {
+            var restoreMetadataOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restoreMetadataOverrides)
+            for (dictKey0, sensitiveStringMap0) in restoreMetadataOverrides {
+                try restoreMetadataOverridesContainer.encode(sensitiveStringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if validationWindowHours != 0 {
+            try encodeContainer.encode(validationWindowHours, forKey: .validationWindowHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let protectedResourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .protectedResourceArns)
+        var protectedResourceArnsDecoded0:[Swift.String]? = nil
+        if let protectedResourceArnsContainer = protectedResourceArnsContainer {
+            protectedResourceArnsDecoded0 = [Swift.String]()
+            for string0 in protectedResourceArnsContainer {
+                if let string0 = string0 {
+                    protectedResourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        protectedResourceArns = protectedResourceArnsDecoded0
+        let protectedResourceConditionsDecoded = try containerValues.decodeIfPresent(BackupClientTypes.ProtectedResourceConditions.self, forKey: .protectedResourceConditions)
+        protectedResourceConditions = protectedResourceConditionsDecoded
+        let restoreMetadataOverridesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .restoreMetadataOverrides)
+        var restoreMetadataOverridesDecoded0: [Swift.String:Swift.String]? = nil
+        if let restoreMetadataOverridesContainer = restoreMetadataOverridesContainer {
+            restoreMetadataOverridesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in restoreMetadataOverridesContainer {
+                if let string0 = string0 {
+                    restoreMetadataOverridesDecoded0?[key0] = string0
+                }
+            }
+        }
+        restoreMetadataOverrides = restoreMetadataOverridesDecoded0
+        let validationWindowHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validationWindowHours) ?? 0
+        validationWindowHours = validationWindowHoursDecoded
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForUpdate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreTestingSelectionForUpdate(iamRoleArn: \(Swift.String(describing: iamRoleArn)), protectedResourceArns: \(Swift.String(describing: protectedResourceArns)), protectedResourceConditions: \(Swift.String(describing: protectedResourceConditions)), validationWindowHours: \(Swift.String(describing: validationWindowHours)), restoreMetadataOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+    /// This contains metadata about a restore testing selection.
+    public struct RestoreTestingSelectionForUpdate: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
+        public var iamRoleArn: Swift.String?
+        /// You can include a list of specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"], but not both.
+        public var protectedResourceArns: [Swift.String]?
+        /// A list of conditions that you define for resources in your restore testing plan using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive.
+        public var protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions?
+        /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
+        public var restoreMetadataOverrides: [Swift.String:Swift.String]?
+        /// This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days).
+        public var validationWindowHours: Swift.Int
+
+        public init(
+            iamRoleArn: Swift.String? = nil,
+            protectedResourceArns: [Swift.String]? = nil,
+            protectedResourceConditions: BackupClientTypes.ProtectedResourceConditions? = nil,
+            restoreMetadataOverrides: [Swift.String:Swift.String]? = nil,
+            validationWindowHours: Swift.Int = 0
+        )
+        {
+            self.iamRoleArn = iamRoleArn
+            self.protectedResourceArns = protectedResourceArns
+            self.protectedResourceConditions = protectedResourceConditions
+            self.restoreMetadataOverrides = restoreMetadataOverrides
+            self.validationWindowHours = validationWindowHours
+        }
+    }
+
+}
+
+extension BackupClientTypes {
+    public enum RestoreValidationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case successful
+        case timedOut
+        case validating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreValidationStatus] {
+            return [
+                .failed,
+                .successful,
+                .timedOut,
+                .validating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .successful: return "SUCCESSFUL"
+            case .timedOut: return "TIMED_OUT"
+            case .validating: return "VALIDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RestoreValidationStatus(rawValue: rawValue) ?? RestoreValidationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ServiceUnavailableException {
@@ -14754,6 +18722,315 @@ extension UpdateReportPlanOutputBody: Swift.Decodable {
 }
 
 enum UpdateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateRestoreTestingPlanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlan = "RestoreTestingPlan"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restoreTestingPlan = self.restoreTestingPlan {
+            try encodeContainer.encode(restoreTestingPlan, forKey: .restoreTestingPlan)
+        }
+    }
+}
+
+extension UpdateRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateRestoreTestingPlanInput: Swift.Equatable {
+    /// Specifies the body of a restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate?
+    /// This is the restore testing plan name you wish to update.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+
+    public init(
+        restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate? = nil,
+        restoreTestingPlanName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlan = restoreTestingPlan
+        self.restoreTestingPlanName = restoreTestingPlanName
+    }
+}
+
+struct UpdateRestoreTestingPlanInputBody: Swift.Equatable {
+    let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate?
+}
+
+extension UpdateRestoreTestingPlanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingPlan = "RestoreTestingPlan"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingPlanDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingPlanForUpdate.self, forKey: .restoreTestingPlan)
+        restoreTestingPlan = restoreTestingPlanDecoded
+    }
+}
+
+extension UpdateRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRestoreTestingPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+            self.updateTime = output.updateTime
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct UpdateRestoreTestingPlanOutput: Swift.Equatable {
+    /// This is the time the resource testing plan was created.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// Unique ARN (Amazon Resource Name) of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This is the time the update completed for the restore testing plan.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.updateTime = updateTime
+    }
+}
+
+struct UpdateRestoreTestingPlanOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+    let updateTime: ClientRuntime.Date?
+}
+
+extension UpdateRestoreTestingPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case updateTime = "UpdateTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+enum UpdateRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateRestoreTestingSelectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restoreTestingSelection = self.restoreTestingSelection {
+            try encodeContainer.encode(restoreTestingSelection, forKey: .restoreTestingSelection)
+        }
+    }
+}
+
+extension UpdateRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let restoreTestingPlanName = restoreTestingPlanName else {
+            return nil
+        }
+        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+            return nil
+        }
+        return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateRestoreTestingSelectionInput: Swift.Equatable {
+    /// The restore testing plan name is required to update the indicated testing plan.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// To update your restore testing selection, you can use either protected resource ARNs or conditions, but not both. That is, if your selection has ProtectedResourceArns, requesting an update with the parameter ProtectedResourceConditions will be unsuccessful.
+    /// This member is required.
+    public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate?
+    /// This is the required restore testing selection name of the restore testing selection you wish to update.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+
+    public init(
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate? = nil,
+        restoreTestingSelectionName: Swift.String? = nil
+    )
+    {
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelection = restoreTestingSelection
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+    }
+}
+
+struct UpdateRestoreTestingSelectionInputBody: Swift.Equatable {
+    let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate?
+}
+
+extension UpdateRestoreTestingSelectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreTestingSelection = "RestoreTestingSelection"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreTestingSelectionDecoded = try containerValues.decodeIfPresent(BackupClientTypes.RestoreTestingSelectionForUpdate.self, forKey: .restoreTestingSelection)
+        restoreTestingSelection = restoreTestingSelectionDecoded
+    }
+}
+
+extension UpdateRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRestoreTestingSelectionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.restoreTestingPlanArn = output.restoreTestingPlanArn
+            self.restoreTestingPlanName = output.restoreTestingPlanName
+            self.restoreTestingSelectionName = output.restoreTestingSelectionName
+            self.updateTime = output.updateTime
+        } else {
+            self.creationTime = nil
+            self.restoreTestingPlanArn = nil
+            self.restoreTestingPlanName = nil
+            self.restoreTestingSelectionName = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct UpdateRestoreTestingSelectionOutput: Swift.Equatable {
+    /// This is the time the resource testing selection was updated successfully.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// Unique string that is the name of the restore testing plan.
+    /// This member is required.
+    public var restoreTestingPlanArn: Swift.String?
+    /// This is the restore testing plan with which the updated restore testing selection is associated.
+    /// This member is required.
+    public var restoreTestingPlanName: Swift.String?
+    /// This is the returned restore testing selection name.
+    /// This member is required.
+    public var restoreTestingSelectionName: Swift.String?
+    /// This is the time the update completed for the restore testing selection.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        restoreTestingPlanArn: Swift.String? = nil,
+        restoreTestingPlanName: Swift.String? = nil,
+        restoreTestingSelectionName: Swift.String? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.restoreTestingPlanArn = restoreTestingPlanArn
+        self.restoreTestingPlanName = restoreTestingPlanName
+        self.restoreTestingSelectionName = restoreTestingSelectionName
+        self.updateTime = updateTime
+    }
+}
+
+struct UpdateRestoreTestingSelectionOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let restoreTestingPlanArn: Swift.String?
+    let restoreTestingPlanName: Swift.String?
+    let restoreTestingSelectionName: Swift.String?
+    let updateTime: ClientRuntime.Date?
+}
+
+extension UpdateRestoreTestingSelectionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case restoreTestingPlanArn = "RestoreTestingPlanArn"
+        case restoreTestingPlanName = "RestoreTestingPlanName"
+        case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        case updateTime = "UpdateTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let restoreTestingPlanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanArn)
+        restoreTestingPlanArn = restoreTestingPlanArnDecoded
+        let restoreTestingPlanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingPlanName)
+        restoreTestingPlanName = restoreTestingPlanNameDecoded
+        let restoreTestingSelectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoreTestingSelectionName)
+        restoreTestingSelectionName = restoreTestingSelectionNameDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+enum UpdateRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

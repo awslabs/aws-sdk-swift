@@ -12,7 +12,7 @@ extension RekognitionClient {
     ///     - input: A `[DescribeProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeProjectsOutput`
     public func describeProjectsPaginated(input: DescribeProjectsInput) -> ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutput>(input: input, inputKey: \DescribeProjectsInput.nextToken, outputKey: \DescribeProjectsOutput.nextToken, paginationFunction: self.describeProjects(input:))
+        return ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeProjects(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeProjectsInput, Output == DescribeProjectsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeProjectsInput, OperationStackOutput == DescribeProjectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeProjectsPaginated`
     /// to access the nested member `[RekognitionClientTypes.ProjectDescription]`
     /// - Returns: `[RekognitionClientTypes.ProjectDescription]`
@@ -44,7 +44,7 @@ extension RekognitionClient {
     ///     - input: A `[DescribeProjectVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeProjectVersionsOutput`
     public func describeProjectVersionsPaginated(input: DescribeProjectVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(input: input, inputKey: \DescribeProjectVersionsInput.nextToken, outputKey: \DescribeProjectVersionsOutput.nextToken, paginationFunction: self.describeProjectVersions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeProjectVersions(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension DescribeProjectVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeProjectVersionsInput, Output == DescribeProjectVersionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeProjectVersionsInput, OperationStackOutput == DescribeProjectVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeProjectVersionsPaginated`
     /// to access the nested member `[RekognitionClientTypes.ProjectVersionDescription]`
     /// - Returns: `[RekognitionClientTypes.ProjectVersionDescription]`
@@ -76,7 +76,7 @@ extension RekognitionClient {
     ///     - input: A `[GetCelebrityRecognitionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCelebrityRecognitionOutput`
     public func getCelebrityRecognitionPaginated(input: GetCelebrityRecognitionInput) -> ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput> {
-        return ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(input: input, inputKey: \GetCelebrityRecognitionInput.nextToken, outputKey: \GetCelebrityRecognitionOutput.nextToken, paginationFunction: self.getCelebrityRecognition(input:))
+        return ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCelebrityRecognition(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension RekognitionClient {
     ///     - input: A `[GetContentModerationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetContentModerationOutput`
     public func getContentModerationPaginated(input: GetContentModerationInput) -> ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutput> {
-        return ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutput>(input: input, inputKey: \GetContentModerationInput.nextToken, outputKey: \GetContentModerationOutput.nextToken, paginationFunction: self.getContentModeration(input:))
+        return ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getContentModeration(input:))
     }
 }
 
@@ -123,7 +123,7 @@ extension RekognitionClient {
     ///     - input: A `[GetFaceDetectionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFaceDetectionOutput`
     public func getFaceDetectionPaginated(input: GetFaceDetectionInput) -> ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutput> {
-        return ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutput>(input: input, inputKey: \GetFaceDetectionInput.nextToken, outputKey: \GetFaceDetectionOutput.nextToken, paginationFunction: self.getFaceDetection(input:))
+        return ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFaceDetection(input:))
     }
 }
 
@@ -145,7 +145,7 @@ extension RekognitionClient {
     ///     - input: A `[GetFaceSearchInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFaceSearchOutput`
     public func getFaceSearchPaginated(input: GetFaceSearchInput) -> ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutput> {
-        return ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutput>(input: input, inputKey: \GetFaceSearchInput.nextToken, outputKey: \GetFaceSearchOutput.nextToken, paginationFunction: self.getFaceSearch(input:))
+        return ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFaceSearch(input:))
     }
 }
 
@@ -168,7 +168,7 @@ extension RekognitionClient {
     ///     - input: A `[GetLabelDetectionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetLabelDetectionOutput`
     public func getLabelDetectionPaginated(input: GetLabelDetectionInput) -> ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutput> {
-        return ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutput>(input: input, inputKey: \GetLabelDetectionInput.nextToken, outputKey: \GetLabelDetectionOutput.nextToken, paginationFunction: self.getLabelDetection(input:))
+        return ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getLabelDetection(input:))
     }
 }
 
@@ -192,7 +192,7 @@ extension RekognitionClient {
     ///     - input: A `[GetPersonTrackingInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPersonTrackingOutput`
     public func getPersonTrackingPaginated(input: GetPersonTrackingInput) -> ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutput> {
-        return ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutput>(input: input, inputKey: \GetPersonTrackingInput.nextToken, outputKey: \GetPersonTrackingOutput.nextToken, paginationFunction: self.getPersonTracking(input:))
+        return ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPersonTracking(input:))
     }
 }
 
@@ -215,7 +215,7 @@ extension RekognitionClient {
     ///     - input: A `[GetSegmentDetectionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSegmentDetectionOutput`
     public func getSegmentDetectionPaginated(input: GetSegmentDetectionInput) -> ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutput> {
-        return ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutput>(input: input, inputKey: \GetSegmentDetectionInput.nextToken, outputKey: \GetSegmentDetectionOutput.nextToken, paginationFunction: self.getSegmentDetection(input:))
+        return ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSegmentDetection(input:))
     }
 }
 
@@ -237,7 +237,7 @@ extension RekognitionClient {
     ///     - input: A `[GetTextDetectionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTextDetectionOutput`
     public func getTextDetectionPaginated(input: GetTextDetectionInput) -> ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutput> {
-        return ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutput>(input: input, inputKey: \GetTextDetectionInput.nextToken, outputKey: \GetTextDetectionOutput.nextToken, paginationFunction: self.getTextDetection(input:))
+        return ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTextDetection(input:))
     }
 }
 
@@ -259,7 +259,7 @@ extension RekognitionClient {
     ///     - input: A `[ListCollectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCollectionsOutput`
     public func listCollectionsPaginated(input: ListCollectionsInput) -> ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutput>(input: input, inputKey: \ListCollectionsInput.nextToken, outputKey: \ListCollectionsOutput.nextToken, paginationFunction: self.listCollections(input:))
+        return ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCollections(input:))
     }
 }
 
@@ -271,7 +271,7 @@ extension ListCollectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCollectionsInput, Output == ListCollectionsOutput {
+extension PaginatorSequence where OperationStackInput == ListCollectionsInput, OperationStackOutput == ListCollectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCollectionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -289,7 +289,7 @@ extension RekognitionClient {
     ///     - input: A `[ListDatasetEntriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetEntriesOutput`
     public func listDatasetEntriesPaginated(input: ListDatasetEntriesInput) -> ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput>(input: input, inputKey: \ListDatasetEntriesInput.nextToken, outputKey: \ListDatasetEntriesOutput.nextToken, paginationFunction: self.listDatasetEntries(input:))
+        return ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetEntries(input:))
     }
 }
 
@@ -306,7 +306,7 @@ extension ListDatasetEntriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatasetEntriesInput, Output == ListDatasetEntriesOutput {
+extension PaginatorSequence where OperationStackInput == ListDatasetEntriesInput, OperationStackOutput == ListDatasetEntriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetEntriesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -324,7 +324,7 @@ extension RekognitionClient {
     ///     - input: A `[ListDatasetLabelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetLabelsOutput`
     public func listDatasetLabelsPaginated(input: ListDatasetLabelsInput) -> ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutput>(input: input, inputKey: \ListDatasetLabelsInput.nextToken, outputKey: \ListDatasetLabelsOutput.nextToken, paginationFunction: self.listDatasetLabels(input:))
+        return ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetLabels(input:))
     }
 }
 
@@ -337,7 +337,7 @@ extension ListDatasetLabelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatasetLabelsInput, Output == ListDatasetLabelsOutput {
+extension PaginatorSequence where OperationStackInput == ListDatasetLabelsInput, OperationStackOutput == ListDatasetLabelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetLabelsPaginated`
     /// to access the nested member `[RekognitionClientTypes.DatasetLabelDescription]`
     /// - Returns: `[RekognitionClientTypes.DatasetLabelDescription]`
@@ -355,7 +355,7 @@ extension RekognitionClient {
     ///     - input: A `[ListFacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFacesOutput`
     public func listFacesPaginated(input: ListFacesInput) -> ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutput> {
-        return ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutput>(input: input, inputKey: \ListFacesInput.nextToken, outputKey: \ListFacesOutput.nextToken, paginationFunction: self.listFaces(input:))
+        return ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFaces(input:))
     }
 }
 
@@ -370,7 +370,7 @@ extension ListFacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFacesInput, Output == ListFacesOutput {
+extension PaginatorSequence where OperationStackInput == ListFacesInput, OperationStackOutput == ListFacesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFacesPaginated`
     /// to access the nested member `[RekognitionClientTypes.Face]`
     /// - Returns: `[RekognitionClientTypes.Face]`
@@ -388,7 +388,7 @@ extension RekognitionClient {
     ///     - input: A `[ListMediaAnalysisJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMediaAnalysisJobsOutput`
     public func listMediaAnalysisJobsPaginated(input: ListMediaAnalysisJobsInput) -> ClientRuntime.PaginatorSequence<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(input: input, inputKey: \ListMediaAnalysisJobsInput.nextToken, outputKey: \ListMediaAnalysisJobsOutput.nextToken, paginationFunction: self.listMediaAnalysisJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMediaAnalysisJobs(input:))
     }
 }
 
@@ -409,7 +409,7 @@ extension RekognitionClient {
     ///     - input: A `[ListProjectPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectPoliciesOutput`
     public func listProjectPoliciesPaginated(input: ListProjectPoliciesInput) -> ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutput>(input: input, inputKey: \ListProjectPoliciesInput.nextToken, outputKey: \ListProjectPoliciesOutput.nextToken, paginationFunction: self.listProjectPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjectPolicies(input:))
     }
 }
 
@@ -422,7 +422,7 @@ extension ListProjectPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProjectPoliciesInput, Output == ListProjectPoliciesOutput {
+extension PaginatorSequence where OperationStackInput == ListProjectPoliciesInput, OperationStackOutput == ListProjectPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProjectPoliciesPaginated`
     /// to access the nested member `[RekognitionClientTypes.ProjectPolicy]`
     /// - Returns: `[RekognitionClientTypes.ProjectPolicy]`
@@ -440,7 +440,7 @@ extension RekognitionClient {
     ///     - input: A `[ListStreamProcessorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamProcessorsOutput`
     public func listStreamProcessorsPaginated(input: ListStreamProcessorsInput) -> ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutput>(input: input, inputKey: \ListStreamProcessorsInput.nextToken, outputKey: \ListStreamProcessorsOutput.nextToken, paginationFunction: self.listStreamProcessors(input:))
+        return ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreamProcessors(input:))
     }
 }
 
@@ -461,7 +461,7 @@ extension RekognitionClient {
     ///     - input: A `[ListUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUsers(input:))
     }
 }
 
@@ -474,7 +474,7 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
+extension PaginatorSequence where OperationStackInput == ListUsersInput, OperationStackOutput == ListUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[RekognitionClientTypes.User]`
     /// - Returns: `[RekognitionClientTypes.User]`

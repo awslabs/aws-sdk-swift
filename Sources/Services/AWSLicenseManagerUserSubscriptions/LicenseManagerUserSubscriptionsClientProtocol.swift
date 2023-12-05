@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// With License Manager, you can create user-based subscriptions to utilize licensed software with a per user subscription fee on Amazon EC2 instances.
 public protocol LicenseManagerUserSubscriptionsClientProtocol {
+    /// Performs the `AssociateUser` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Associates the user to an EC2 instance to utilize user-based subscriptions. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     ///
     /// - Parameter AssociateUserInput : [no documentation found]
@@ -21,6 +23,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutput
+    /// Performs the `DeregisterIdentityProvider` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Deregisters the identity provider from providing user-based subscriptions.
     ///
     /// - Parameter DeregisterIdentityProviderInput : [no documentation found]
@@ -38,6 +42,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutput
+    /// Performs the `DisassociateUser` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Disassociates the user from an EC2 instance providing user-based subscriptions.
     ///
     /// - Parameter DisassociateUserInput : [no documentation found]
@@ -55,6 +61,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutput
+    /// Performs the `ListIdentityProviders` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Lists the identity providers for user-based subscriptions.
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
@@ -72,6 +80,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
+    /// Performs the `ListInstances` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Lists the EC2 instances providing user-based subscriptions.
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
@@ -89,6 +99,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
+    /// Performs the `ListProductSubscriptions` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Lists the user-based subscription products available from an identity provider.
     ///
     /// - Parameter ListProductSubscriptionsInput : [no documentation found]
@@ -106,6 +118,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutput
+    /// Performs the `ListUserAssociations` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Lists user associations for an identity provider.
     ///
     /// - Parameter ListUserAssociationsInput : [no documentation found]
@@ -123,6 +137,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutput
+    /// Performs the `RegisterIdentityProvider` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Registers an identity provider for user-based subscriptions.
     ///
     /// - Parameter RegisterIdentityProviderInput : [no documentation found]
@@ -140,6 +156,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutput
+    /// Performs the `StartProductSubscription` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Starts a product subscription for a user with the specified identity provider. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     ///
     /// - Parameter StartProductSubscriptionInput : [no documentation found]
@@ -157,6 +175,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutput
+    /// Performs the `StopProductSubscription` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Stops a product subscription for a user with the specified identity provider.
     ///
     /// - Parameter StopProductSubscriptionInput : [no documentation found]
@@ -174,6 +194,8 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
     func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutput
+    /// Performs the `UpdateIdentityProviderSettings` operation on the `LicenseManagerUserSubscriptions` service.
+    ///
     /// Updates additional product configuration settings for the registered identity provider.
     ///
     /// - Parameter UpdateIdentityProviderSettingsInput : [no documentation found]

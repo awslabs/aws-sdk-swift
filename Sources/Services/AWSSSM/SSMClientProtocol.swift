@@ -4,7 +4,7 @@ import ClientRuntime
 
 /// Amazon Web Services Systems Manager is the operations hub for your Amazon Web Services applications and resources and a secure end-to-end management solution for hybrid cloud environments that enables safe and secure operations at scale. This reference is intended to be used with the [Amazon Web Services Systems Manager User Guide](https://docs.aws.amazon.com/systems-manager/latest/userguide/). To get started, see [Setting up Amazon Web Services Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html). Related resources
 ///
-/// * For information about each of the capabilities that comprise Systems Manager, see [Systems Manager capabilities](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/systems-manager-capabilities.html) in the Amazon Web Services Systems Manager User Guide.
+/// * For information about each of the capabilities that comprise Systems Manager, see [Systems Manager capabilities](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html#systems-manager-capabilities) in the Amazon Web Services Systems Manager User Guide.
 ///
 /// * For details about predefined runbooks for Automation, a capability of Amazon Web Services Systems Manager, see the [Systems Manager Automation runbook reference](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-runbook-reference.html) .
 ///
@@ -12,6 +12,8 @@ import ClientRuntime
 ///
 /// * For information about Incident Manager, a capability of Systems Manager, see the [Systems Manager Incident Manager User Guide](https://docs.aws.amazon.com/incident-manager/latest/userguide/) and the [Systems Manager Incident Manager API Reference](https://docs.aws.amazon.com/incident-manager/latest/APIReference/) .
 public protocol SSMClientProtocol {
+    /// Performs the `AddTagsToResource` operation on the `AmazonSSM` service.
+    ///
     /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you track each node's owner and stack level. For example:
     ///
     /// * Key=Owner,Value=DbAdmin
@@ -42,6 +44,8 @@ public protocol SSMClientProtocol {
     /// - `TooManyTagsError` : The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
+    /// Performs the `AssociateOpsItemRelatedItem` operation on the `AmazonSSM` service.
+    ///
     /// Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are capabilities of Amazon Web Services Systems Manager.
     ///
     /// - Parameter AssociateOpsItemRelatedItemInput : [no documentation found]
@@ -58,6 +62,8 @@ public protocol SSMClientProtocol {
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     /// - `OpsItemRelatedItemAlreadyExistsException` : The Amazon Resource Name (ARN) is already associated with the OpsItem.
     func associateOpsItemRelatedItem(input: AssociateOpsItemRelatedItemInput) async throws -> AssociateOpsItemRelatedItemOutput
+    /// Performs the `CancelCommand` operation on the `AmazonSSM` service.
+    ///
     /// Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped.
     ///
     /// - Parameter CancelCommandInput :
@@ -80,6 +86,8 @@ public protocol SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     func cancelCommand(input: CancelCommandInput) async throws -> CancelCommandOutput
+    /// Performs the `CancelMaintenanceWindowExecution` operation on the `AmazonSSM` service.
+    ///
     /// Stops a maintenance window execution that is already in progress and cancels any tasks in the window that haven't already starting running. Tasks already in progress will continue to completion.
     ///
     /// - Parameter CancelMaintenanceWindowExecutionInput : [no documentation found]
@@ -92,6 +100,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func cancelMaintenanceWindowExecution(input: CancelMaintenanceWindowExecutionInput) async throws -> CancelMaintenanceWindowExecutionOutput
+    /// Performs the `CreateActivation` operation on the `AmazonSSM` service.
+    ///
     /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see [Setting up Amazon Web Services Systems Manager for hybrid environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html) in the Amazon Web Services Systems Manager User Guide. Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
     ///
     /// - Parameter CreateActivationInput : [no documentation found]
@@ -104,6 +114,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidParameters` : You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
     func createActivation(input: CreateActivationInput) async throws -> CreateActivationOutput
+    /// Performs the `CreateAssociation` operation on the `AmazonSSM` service.
+    ///
     /// A State Manager association defines the state that you want to maintain on your managed nodes. For example, an association can specify that anti-virus software must be installed and running on your managed nodes, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reapplied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a capability of Amazon Web Services Systems Manager applies the configuration when new managed nodes are added to the group. The association also specifies actions to take when applying the configuration. For example, an association for anti-virus software might run once a day. If the software isn't installed, then State Manager installs it. If the software is installed, but the service isn't running, then the association might instruct State Manager to start the service.
     ///
     /// - Parameter CreateAssociationInput : [no documentation found]
@@ -135,6 +147,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
     /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
     func createAssociation(input: CreateAssociationInput) async throws -> CreateAssociationOutput
+    /// Performs the `CreateAssociationBatch` operation on the `AmazonSSM` service.
+    ///
     /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes or targets. When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the managed node processes the document and configures the node as specified. If you associate a document with a managed node that already has an associated document, the system returns the AssociationAlreadyExists exception.
     ///
     /// - Parameter CreateAssociationBatchInput : [no documentation found]
@@ -165,6 +179,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
     /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
     func createAssociationBatch(input: CreateAssociationBatchInput) async throws -> CreateAssociationBatchOutput
+    /// Performs the `CreateDocument` operation on the `AmazonSSM` service.
+    ///
     /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see [Amazon Web Services Systems Manager Documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter CreateDocumentInput : [no documentation found]
@@ -181,6 +197,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
     func createDocument(input: CreateDocumentInput) async throws -> CreateDocumentOutput
+    /// Performs the `CreateMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Creates a new maintenance window. The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
     ///
     /// - Parameter CreateMaintenanceWindowInput : [no documentation found]
@@ -194,6 +212,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     func createMaintenanceWindow(input: CreateMaintenanceWindowInput) async throws -> CreateMaintenanceWindowOutput
+    /// Performs the `CreateOpsItem` operation on the `AmazonSSM` service.
+    ///
     /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter CreateOpsItemInput : [no documentation found]
@@ -209,6 +229,8 @@ public protocol SSMClientProtocol {
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     func createOpsItem(input: CreateOpsItemInput) async throws -> CreateOpsItemOutput
+    /// Performs the `CreateOpsMetadata` operation on the `AmazonSSM` service.
+    ///
     /// If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify information about the new application, including the application type.
     ///
     /// - Parameter CreateOpsMetadataInput : [no documentation found]
@@ -224,6 +246,8 @@ public protocol SSMClientProtocol {
     /// - `OpsMetadataLimitExceededException` : Your account reached the maximum number of OpsMetadata objects allowed by Application Manager. The maximum is 200 OpsMetadata objects. Delete one or more OpsMetadata object and try again.
     /// - `OpsMetadataTooManyUpdatesException` : The system is processing too many concurrent updates. Wait a few moments and try again.
     func createOpsMetadata(input: CreateOpsMetadataInput) async throws -> CreateOpsMetadataOutput
+    /// Performs the `CreatePatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Creates a patch baseline. For information about valid key-value pairs in PatchFilters for each supported operating system type, see [PatchFilter].
     ///
     /// - Parameter CreatePatchBaselineInput : [no documentation found]
@@ -237,6 +261,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     func createPatchBaseline(input: CreatePatchBaselineInput) async throws -> CreatePatchBaselineOutput
+    /// Performs the `CreateResourceDataSync` operation on the `AmazonSSM` service.
+    ///
     /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see [Configuring resource data sync for Inventory](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-datasync.html) in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see [Setting up Systems Manager Explorer to display data from multiple accounts and Regions](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the [ListResourceDataSync]. By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
     ///
     /// - Parameter CreateResourceDataSyncInput : [no documentation found]
@@ -251,6 +277,8 @@ public protocol SSMClientProtocol {
     /// - `ResourceDataSyncCountExceededException` : You have exceeded the allowed maximum sync configurations.
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
     func createResourceDataSync(input: CreateResourceDataSyncInput) async throws -> CreateResourceDataSyncOutput
+    /// Performs the `DeleteActivation` operation on the `AmazonSSM` service.
+    ///
     /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed nodes. Deleting an activation doesn't de-register managed nodes. You must manually de-register managed nodes.
     ///
     /// - Parameter DeleteActivationInput : [no documentation found]
@@ -265,6 +293,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidActivationId` : The activation ID isn't valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func deleteActivation(input: DeleteActivationInput) async throws -> DeleteActivationOutput
+    /// Performs the `DeleteAssociation` operation on the `AmazonSSM` service.
+    ///
     /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configuration and associate it with the node.
     ///
     /// - Parameter DeleteAssociationInput : [no documentation found]
@@ -288,6 +318,8 @@ public protocol SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput
+    /// Performs the `DeleteDocument` operation on the `AmazonSSM` service.
+    ///
     /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use [DeleteAssociation] to disassociate all managed nodes that are associated with the document.
     ///
     /// - Parameter DeleteDocumentInput : [no documentation found]
@@ -302,6 +334,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput
+    /// Performs the `DeleteInventory` operation on the `AmazonSSM` service.
+    ///
     /// Delete a custom inventory type or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema.
     ///
     /// - Parameter DeleteInventoryInput : [no documentation found]
@@ -317,6 +351,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidOptionException` : The delete inventory option specified isn't valid. Verify the option and try again.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     func deleteInventory(input: DeleteInventoryInput) async throws -> DeleteInventoryOutput
+    /// Performs the `DeleteMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Deletes a maintenance window.
     ///
     /// - Parameter DeleteMaintenanceWindowInput : [no documentation found]
@@ -328,6 +364,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func deleteMaintenanceWindow(input: DeleteMaintenanceWindowInput) async throws -> DeleteMaintenanceWindowOutput
+    /// Performs the `DeleteOpsItem` operation on the `AmazonSSM` service.
+    ///
     /// Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to delete an OpsItem. Note the following important information about this operation.
     ///
     /// * Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.
@@ -348,6 +386,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     func deleteOpsItem(input: DeleteOpsItemInput) async throws -> DeleteOpsItemOutput
+    /// Performs the `DeleteOpsMetadata` operation on the `AmazonSSM` service.
+    ///
     /// Delete OpsMetadata related to an application.
     ///
     /// - Parameter DeleteOpsMetadataInput : [no documentation found]
@@ -361,6 +401,8 @@ public protocol SSMClientProtocol {
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
     /// - `OpsMetadataNotFoundException` : The OpsMetadata object doesn't exist.
     func deleteOpsMetadata(input: DeleteOpsMetadataInput) async throws -> DeleteOpsMetadataOutput
+    /// Performs the `DeleteParameter` operation on the `AmazonSSM` service.
+    ///
     /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
     ///
     /// - Parameter DeleteParameterInput : [no documentation found]
@@ -373,6 +415,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
     func deleteParameter(input: DeleteParameterInput) async throws -> DeleteParameterOutput
+    /// Performs the `DeleteParameters` operation on the `AmazonSSM` service.
+    ///
     /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
     ///
     /// - Parameter DeleteParametersInput : [no documentation found]
@@ -384,6 +428,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func deleteParameters(input: DeleteParametersInput) async throws -> DeleteParametersOutput
+    /// Performs the `DeletePatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Deletes a patch baseline.
     ///
     /// - Parameter DeletePatchBaselineInput : [no documentation found]
@@ -396,6 +442,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceInUseException` : Error returned if an attempt is made to delete a patch baseline that is registered for a patch group.
     func deletePatchBaseline(input: DeletePatchBaselineInput) async throws -> DeletePatchBaselineOutput
+    /// Performs the `DeleteResourceDataSync` operation on the `AmazonSSM` service.
+    ///
     /// Deletes a resource data sync configuration. After the configuration is deleted, changes to data on managed nodes are no longer synced to or from the target. Deleting a sync configuration doesn't delete data.
     ///
     /// - Parameter DeleteResourceDataSyncInput : [no documentation found]
@@ -409,6 +457,8 @@ public protocol SSMClientProtocol {
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
     /// - `ResourceDataSyncNotFoundException` : The specified sync name wasn't found.
     func deleteResourceDataSync(input: DeleteResourceDataSyncInput) async throws -> DeleteResourceDataSyncOutput
+    /// Performs the `DeleteResourcePolicy` operation on the `AmazonSSM` service.
+    ///
     /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -422,6 +472,8 @@ public protocol SSMClientProtocol {
     /// - `ResourcePolicyConflictException` : The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
     /// - `ResourcePolicyInvalidParameterException` : One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+    /// Performs the `DeregisterManagedInstance` operation on the `AmazonSSM` service.
+    ///
     /// Removes the server or virtual machine from the list of registered servers. You can reregister the node again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
     ///
     /// - Parameter DeregisterManagedInstanceInput : [no documentation found]
@@ -442,6 +494,8 @@ public protocol SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     func deregisterManagedInstance(input: DeregisterManagedInstanceInput) async throws -> DeregisterManagedInstanceOutput
+    /// Performs the `DeregisterPatchBaselineForPatchGroup` operation on the `AmazonSSM` service.
+    ///
     /// Removes a patch group from a patch baseline.
     ///
     /// - Parameter DeregisterPatchBaselineForPatchGroupInput : [no documentation found]
@@ -454,6 +508,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     func deregisterPatchBaselineForPatchGroup(input: DeregisterPatchBaselineForPatchGroupInput) async throws -> DeregisterPatchBaselineForPatchGroupOutput
+    /// Performs the `DeregisterTargetFromMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Removes a target from a maintenance window.
     ///
     /// - Parameter DeregisterTargetFromMaintenanceWindowInput : [no documentation found]
@@ -467,6 +523,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `TargetInUseException` : You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
     func deregisterTargetFromMaintenanceWindow(input: DeregisterTargetFromMaintenanceWindowInput) async throws -> DeregisterTargetFromMaintenanceWindowOutput
+    /// Performs the `DeregisterTaskFromMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Removes a task from a maintenance window.
     ///
     /// - Parameter DeregisterTaskFromMaintenanceWindowInput : [no documentation found]
@@ -479,6 +537,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func deregisterTaskFromMaintenanceWindow(input: DeregisterTaskFromMaintenanceWindowInput) async throws -> DeregisterTaskFromMaintenanceWindowOutput
+    /// Performs the `DescribeActivations` operation on the `AmazonSSM` service.
+    ///
     /// Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the managed nodes in the activation, and the number of nodes registered by using this activation.
     ///
     /// - Parameter DescribeActivationsInput : [no documentation found]
@@ -492,6 +552,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeActivations(input: DescribeActivationsInput) async throws -> DescribeActivationsOutput
+    /// Performs the `DescribeAssociation` operation on the `AmazonSSM` service.
+    ///
     /// Describes the association for the specified target or managed node. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID.
     ///
     /// - Parameter DescribeAssociationInput : [no documentation found]
@@ -515,6 +577,8 @@ public protocol SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     func describeAssociation(input: DescribeAssociationInput) async throws -> DescribeAssociationOutput
+    /// Performs the `DescribeAssociationExecutions` operation on the `AmazonSSM` service.
+    ///
     /// Views all executions for a specific association ID.
     ///
     /// - Parameter DescribeAssociationExecutionsInput : [no documentation found]
@@ -528,6 +592,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeAssociationExecutions(input: DescribeAssociationExecutionsInput) async throws -> DescribeAssociationExecutionsOutput
+    /// Performs the `DescribeAssociationExecutionTargets` operation on the `AmazonSSM` service.
+    ///
     /// Views information about a specific execution of a specific association.
     ///
     /// - Parameter DescribeAssociationExecutionTargetsInput : [no documentation found]
@@ -542,6 +608,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeAssociationExecutionTargets(input: DescribeAssociationExecutionTargetsInput) async throws -> DescribeAssociationExecutionTargetsOutput
+    /// Performs the `DescribeAutomationExecutions` operation on the `AmazonSSM` service.
+    ///
     /// Provides details about all active and terminated Automation executions.
     ///
     /// - Parameter DescribeAutomationExecutionsInput : [no documentation found]
@@ -556,6 +624,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeAutomationExecutions(input: DescribeAutomationExecutionsInput) async throws -> DescribeAutomationExecutionsOutput
+    /// Performs the `DescribeAutomationStepExecutions` operation on the `AmazonSSM` service.
+    ///
     /// Information about all active and terminated step executions in an Automation workflow.
     ///
     /// - Parameter DescribeAutomationStepExecutionsInput : [no documentation found]
@@ -571,6 +641,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeAutomationStepExecutions(input: DescribeAutomationStepExecutionsInput) async throws -> DescribeAutomationStepExecutionsOutput
+    /// Performs the `DescribeAvailablePatches` operation on the `AmazonSSM` service.
+    ///
     /// Lists all patches eligible to be included in a patch baseline.
     ///
     /// - Parameter DescribeAvailablePatchesInput : [no documentation found]
@@ -582,6 +654,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describeAvailablePatches(input: DescribeAvailablePatchesInput) async throws -> DescribeAvailablePatchesOutput
+    /// Performs the `DescribeDocument` operation on the `AmazonSSM` service.
+    ///
     /// Describes the specified Amazon Web Services Systems Manager document (SSM document).
     ///
     /// - Parameter DescribeDocumentInput : [no documentation found]
@@ -595,6 +669,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     func describeDocument(input: DescribeDocumentInput) async throws -> DescribeDocumentOutput
+    /// Performs the `DescribeDocumentPermission` operation on the `AmazonSSM` service.
+    ///
     /// Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's Amazon Web Services account ID) or publicly (All).
     ///
     /// - Parameter DescribeDocumentPermissionInput : [no documentation found]
@@ -610,6 +686,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidPermissionType` : The permission type isn't supported. Share is the only supported permission type.
     func describeDocumentPermission(input: DescribeDocumentPermissionInput) async throws -> DescribeDocumentPermissionOutput
+    /// Performs the `DescribeEffectiveInstanceAssociations` operation on the `AmazonSSM` service.
+    ///
     /// All associations for the managed node(s).
     ///
     /// - Parameter DescribeEffectiveInstanceAssociationsInput : [no documentation found]
@@ -631,6 +709,8 @@ public protocol SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeEffectiveInstanceAssociations(input: DescribeEffectiveInstanceAssociationsInput) async throws -> DescribeEffectiveInstanceAssociationsOutput
+    /// Performs the `DescribeEffectivePatchesForPatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Applies to patch baselines for Windows only.
     ///
     /// - Parameter DescribeEffectivePatchesForPatchBaselineInput : [no documentation found]
@@ -645,6 +725,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `UnsupportedOperatingSystem` : The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
     func describeEffectivePatchesForPatchBaseline(input: DescribeEffectivePatchesForPatchBaselineInput) async throws -> DescribeEffectivePatchesForPatchBaselineOutput
+    /// Performs the `DescribeInstanceAssociationsStatus` operation on the `AmazonSSM` service.
+    ///
     /// The status of the associations for the managed node(s).
     ///
     /// - Parameter DescribeInstanceAssociationsStatusInput : [no documentation found]
@@ -666,6 +748,8 @@ public protocol SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeInstanceAssociationsStatus(input: DescribeInstanceAssociationsStatusInput) async throws -> DescribeInstanceAssociationsStatusOutput
+    /// Performs the `DescribeInstanceInformation` operation on the `AmazonSSM` service.
+    ///
     /// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error. The IamRole field returned for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This operation does not return the IAM role for EC2 instances.
     ///
     /// - Parameter DescribeInstanceInformationInput : [no documentation found]
@@ -689,6 +773,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidInstanceInformationFilterValue` : The specified filter value isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeInstanceInformation(input: DescribeInstanceInformationInput) async throws -> DescribeInstanceInformationOutput
+    /// Performs the `DescribeInstancePatches` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node.
     ///
     /// - Parameter DescribeInstancePatchesInput : [no documentation found]
@@ -711,6 +797,8 @@ public protocol SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeInstancePatches(input: DescribeInstancePatchesInput) async throws -> DescribeInstancePatchesOutput
+    /// Performs the `DescribeInstancePatchStates` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the high-level patch state of one or more managed nodes.
     ///
     /// - Parameter DescribeInstancePatchStatesInput : [no documentation found]
@@ -723,6 +811,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeInstancePatchStates(input: DescribeInstancePatchStatesInput) async throws -> DescribeInstancePatchStatesOutput
+    /// Performs the `DescribeInstancePatchStatesForPatchGroup` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the high-level patch state for the managed nodes in the specified patch group.
     ///
     /// - Parameter DescribeInstancePatchStatesForPatchGroupInput : [no documentation found]
@@ -736,6 +826,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeInstancePatchStatesForPatchGroup(input: DescribeInstancePatchStatesForPatchGroupInput) async throws -> DescribeInstancePatchStatesForPatchGroupOutput
+    /// Performs the `DescribeInventoryDeletions` operation on the `AmazonSSM` service.
+    ///
     /// Describes a specific delete inventory operation.
     ///
     /// - Parameter DescribeInventoryDeletionsInput : [no documentation found]
@@ -749,6 +841,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDeletionIdException` : The ID specified for the delete operation doesn't exist or isn't valid. Verify the ID and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeInventoryDeletions(input: DescribeInventoryDeletionsInput) async throws -> DescribeInventoryDeletionsOutput
+    /// Performs the `DescribeMaintenanceWindowExecutions` operation on the `AmazonSSM` service.
+    ///
     /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
     ///
     /// - Parameter DescribeMaintenanceWindowExecutionsInput : [no documentation found]
@@ -760,6 +854,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowExecutions(input: DescribeMaintenanceWindowExecutionsInput) async throws -> DescribeMaintenanceWindowExecutionsOutput
+    /// Performs the `DescribeMaintenanceWindowExecutionTaskInvocations` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
     ///
     /// - Parameter DescribeMaintenanceWindowExecutionTaskInvocationsInput : [no documentation found]
@@ -772,6 +868,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowExecutionTaskInvocations(input: DescribeMaintenanceWindowExecutionTaskInvocationsInput) async throws -> DescribeMaintenanceWindowExecutionTaskInvocationsOutput
+    /// Performs the `DescribeMaintenanceWindowExecutionTasks` operation on the `AmazonSSM` service.
+    ///
     /// For a given maintenance window execution, lists the tasks that were run.
     ///
     /// - Parameter DescribeMaintenanceWindowExecutionTasksInput : [no documentation found]
@@ -784,6 +882,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowExecutionTasks(input: DescribeMaintenanceWindowExecutionTasksInput) async throws -> DescribeMaintenanceWindowExecutionTasksOutput
+    /// Performs the `DescribeMaintenanceWindows` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the maintenance windows in an Amazon Web Services account.
     ///
     /// - Parameter DescribeMaintenanceWindowsInput : [no documentation found]
@@ -795,6 +895,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindows(input: DescribeMaintenanceWindowsInput) async throws -> DescribeMaintenanceWindowsOutput
+    /// Performs the `DescribeMaintenanceWindowSchedule` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves information about upcoming executions of a maintenance window.
     ///
     /// - Parameter DescribeMaintenanceWindowScheduleInput : [no documentation found]
@@ -807,6 +909,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowSchedule(input: DescribeMaintenanceWindowScheduleInput) async throws -> DescribeMaintenanceWindowScheduleOutput
+    /// Performs the `DescribeMaintenanceWindowsForTarget` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with.
     ///
     /// - Parameter DescribeMaintenanceWindowsForTargetInput : [no documentation found]
@@ -818,6 +922,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowsForTarget(input: DescribeMaintenanceWindowsForTargetInput) async throws -> DescribeMaintenanceWindowsForTargetOutput
+    /// Performs the `DescribeMaintenanceWindowTargets` operation on the `AmazonSSM` service.
+    ///
     /// Lists the targets registered with the maintenance window.
     ///
     /// - Parameter DescribeMaintenanceWindowTargetsInput : [no documentation found]
@@ -830,6 +936,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowTargets(input: DescribeMaintenanceWindowTargetsInput) async throws -> DescribeMaintenanceWindowTargetsOutput
+    /// Performs the `DescribeMaintenanceWindowTasks` operation on the `AmazonSSM` service.
+    ///
     /// Lists the tasks in a maintenance window. For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored.
     ///
     /// - Parameter DescribeMaintenanceWindowTasksInput : [no documentation found]
@@ -842,6 +950,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func describeMaintenanceWindowTasks(input: DescribeMaintenanceWindowTasksInput) async throws -> DescribeMaintenanceWindowTasksOutput
+    /// Performs the `DescribeOpsItems` operation on the `AmazonSSM` service.
+    ///
     /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter DescribeOpsItemsInput : [no documentation found]
@@ -853,6 +963,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describeOpsItems(input: DescribeOpsItemsInput) async throws -> DescribeOpsItemsOutput
+    /// Performs the `DescribeParameters` operation on the `AmazonSSM` service.
+    ///
     /// Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
     ///
     /// - Parameter DescribeParametersInput : [no documentation found]
@@ -868,6 +980,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput
+    /// Performs the `DescribePatchBaselines` operation on the `AmazonSSM` service.
+    ///
     /// Lists the patch baselines in your Amazon Web Services account.
     ///
     /// - Parameter DescribePatchBaselinesInput : [no documentation found]
@@ -879,6 +993,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describePatchBaselines(input: DescribePatchBaselinesInput) async throws -> DescribePatchBaselinesOutput
+    /// Performs the `DescribePatchGroups` operation on the `AmazonSSM` service.
+    ///
     /// Lists all patch groups that have been registered with patch baselines.
     ///
     /// - Parameter DescribePatchGroupsInput : [no documentation found]
@@ -890,6 +1006,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describePatchGroups(input: DescribePatchGroupsInput) async throws -> DescribePatchGroupsOutput
+    /// Performs the `DescribePatchGroupState` operation on the `AmazonSSM` service.
+    ///
     /// Returns high-level aggregated patch compliance state information for a patch group.
     ///
     /// - Parameter DescribePatchGroupStateInput : [no documentation found]
@@ -902,6 +1020,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describePatchGroupState(input: DescribePatchGroupStateInput) async throws -> DescribePatchGroupStateOutput
+    /// Performs the `DescribePatchProperties` operation on the `AmazonSSM` service.
+    ///
     /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as [CreatePatchBaseline], [UpdatePatchBaseline], [DescribeAvailablePatches], and [DescribePatchBaselines]. The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | CLASSIFICATION | SEVERITY AMAZON_LINUX_2 Valid properties: PRODUCT | CLASSIFICATION | SEVERITY CENTOS Valid properties: PRODUCT | CLASSIFICATION | SEVERITY DEBIAN Valid properties: PRODUCT | PRIORITY MACOS Valid properties: PRODUCT | CLASSIFICATION ORACLE_LINUX Valid properties: PRODUCT | CLASSIFICATION | SEVERITY REDHAT_ENTERPRISE_LINUX Valid properties: PRODUCT | CLASSIFICATION | SEVERITY SUSE Valid properties: PRODUCT | CLASSIFICATION | SEVERITY UBUNTU Valid properties: PRODUCT | PRIORITY WINDOWS Valid properties: PRODUCT | PRODUCT_FAMILY | CLASSIFICATION | MSRC_SEVERITY
     ///
     /// - Parameter DescribePatchPropertiesInput : [no documentation found]
@@ -913,6 +1033,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func describePatchProperties(input: DescribePatchPropertiesInput) async throws -> DescribePatchPropertiesOutput
+    /// Performs the `DescribeSessions` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
     ///
     /// - Parameter DescribeSessionsInput : [no documentation found]
@@ -926,6 +1048,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilterKey` : The specified key isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput
+    /// Performs the `DisassociateOpsItemRelatedItem` operation on the `AmazonSSM` service.
+    ///
     /// Deletes the association between an OpsItem and a related item. For example, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a capability of Amazon Web Services Systems Manager.
     ///
     /// - Parameter DisassociateOpsItemRelatedItemInput : [no documentation found]
@@ -941,6 +1065,8 @@ public protocol SSMClientProtocol {
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     /// - `OpsItemRelatedItemAssociationNotFoundException` : The association wasn't found using the parameters you specified in the call. Verify the information and try again.
     func disassociateOpsItemRelatedItem(input: DisassociateOpsItemRelatedItemInput) async throws -> DisassociateOpsItemRelatedItemOutput
+    /// Performs the `GetAutomationExecution` operation on the `AmazonSSM` service.
+    ///
     /// Get detailed information about a particular Automation execution.
     ///
     /// - Parameter GetAutomationExecutionInput : [no documentation found]
@@ -953,6 +1079,8 @@ public protocol SSMClientProtocol {
     /// - `AutomationExecutionNotFoundException` : There is no automation execution information for the requested automation execution ID.
     /// - `InternalServerError` : An error occurred on the server side.
     func getAutomationExecution(input: GetAutomationExecutionInput) async throws -> GetAutomationExecutionOutput
+    /// Performs the `GetCalendarState` operation on the `AmazonSSM` service.
+    ///
     /// Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If you specify a time, GetCalendarState returns the state of the calendar at that specific time, and returns the next time that the change calendar state will transition. If you don't specify a time, GetCalendarState uses the current time. Change Calendar entries have two possible states: OPEN or CLOSED. If you specify more than one calendar in a request, the command returns the status of OPEN only if all calendars in the request are open. If one or more calendars in the request are closed, the status returned is CLOSED. For more information about Change Calendar, a capability of Amazon Web Services Systems Manager, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter GetCalendarStateInput : [no documentation found]
@@ -967,6 +1095,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocumentType` : The SSM document type isn't valid. Valid document types are described in the DocumentType property.
     /// - `UnsupportedCalendarException` : The calendar entry contained in the specified SSM document isn't supported.
     func getCalendarState(input: GetCalendarStateInput) async throws -> GetCalendarStateOutput
+    /// Performs the `GetCommandInvocation` operation on the `AmazonSSM` service.
+    ///
     /// Returns detailed information about command execution for an invocation or plugin. GetCommandInvocation only gives the execution status of a plugin in a document. To get the command execution status on a specific managed node, use [ListCommandInvocations]. To get the command execution status across managed nodes, use [ListCommands].
     ///
     /// - Parameter GetCommandInvocationInput : [no documentation found]
@@ -990,6 +1120,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidPluginName` : The plugin name isn't valid.
     /// - `InvocationDoesNotExist` : The command ID and managed node ID you specified didn't match any invocations. Verify the command ID and the managed node ID and try again.
     func getCommandInvocation(input: GetCommandInvocationInput) async throws -> GetCommandInvocationOutput
+    /// Performs the `GetConnectionStatus` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the Session Manager connection status for a managed node to determine whether it is running and ready to receive Session Manager connections.
     ///
     /// - Parameter GetConnectionStatusInput : [no documentation found]
@@ -1001,6 +1133,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func getConnectionStatus(input: GetConnectionStatusInput) async throws -> GetConnectionStatusOutput
+    /// Performs the `GetDefaultPatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the default patch baseline. Amazon Web Services Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you don't specify an operating system value, the default patch baseline for Windows is returned.
     ///
     /// - Parameter GetDefaultPatchBaselineInput : [no documentation found]
@@ -1012,6 +1146,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func getDefaultPatchBaseline(input: GetDefaultPatchBaselineInput) async throws -> GetDefaultPatchBaselineOutput
+    /// Performs the `GetDeployablePatchSnapshotForInstance` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the current snapshot for the patch baseline the managed node uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document). If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a capability of Amazon Web Services Systems Manager, with an SSM document that enables you to target a managed node with a script or command. For example, run the command using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
     ///
     /// - Parameter GetDeployablePatchSnapshotForInstanceInput : [no documentation found]
@@ -1025,6 +1161,8 @@ public protocol SSMClientProtocol {
     /// - `UnsupportedFeatureRequiredException` : Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Enabling the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
     /// - `UnsupportedOperatingSystem` : The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
     func getDeployablePatchSnapshotForInstance(input: GetDeployablePatchSnapshotForInstanceInput) async throws -> GetDeployablePatchSnapshotForInstanceOutput
+    /// Performs the `GetDocument` operation on the `AmazonSSM` service.
+    ///
     /// Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
     ///
     /// - Parameter GetDocumentInput : [no documentation found]
@@ -1038,6 +1176,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutput
+    /// Performs the `GetInventory` operation on the `AmazonSSM` service.
+    ///
     /// Query inventory information. This includes managed node status, such as Stopped or Terminated.
     ///
     /// - Parameter GetInventoryInput : [no documentation found]
@@ -1055,6 +1195,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidResultAttributeException` : The specified inventory item result attribute isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     func getInventory(input: GetInventoryInput) async throws -> GetInventoryOutput
+    /// Performs the `GetInventorySchema` operation on the `AmazonSSM` service.
+    ///
     /// Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type.
     ///
     /// - Parameter GetInventorySchemaInput : [no documentation found]
@@ -1068,6 +1210,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     func getInventorySchema(input: GetInventorySchemaInput) async throws -> GetInventorySchemaOutput
+    /// Performs the `GetMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves a maintenance window.
     ///
     /// - Parameter GetMaintenanceWindowInput : [no documentation found]
@@ -1080,6 +1224,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func getMaintenanceWindow(input: GetMaintenanceWindowInput) async throws -> GetMaintenanceWindowOutput
+    /// Performs the `GetMaintenanceWindowExecution` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves details about a specific a maintenance window execution.
     ///
     /// - Parameter GetMaintenanceWindowExecutionInput : [no documentation found]
@@ -1092,6 +1238,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func getMaintenanceWindowExecution(input: GetMaintenanceWindowExecutionInput) async throws -> GetMaintenanceWindowExecutionOutput
+    /// Performs the `GetMaintenanceWindowExecutionTask` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the details about a specific task run as part of a maintenance window execution.
     ///
     /// - Parameter GetMaintenanceWindowExecutionTaskInput : [no documentation found]
@@ -1104,6 +1252,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func getMaintenanceWindowExecutionTask(input: GetMaintenanceWindowExecutionTaskInput) async throws -> GetMaintenanceWindowExecutionTaskOutput
+    /// Performs the `GetMaintenanceWindowExecutionTaskInvocation` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves information about a specific task running on a specific target.
     ///
     /// - Parameter GetMaintenanceWindowExecutionTaskInvocationInput : [no documentation found]
@@ -1116,6 +1266,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func getMaintenanceWindowExecutionTaskInvocation(input: GetMaintenanceWindowExecutionTaskInvocationInput) async throws -> GetMaintenanceWindowExecutionTaskInvocationOutput
+    /// Performs the `GetMaintenanceWindowTask` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the details of a maintenance window task. For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored. To retrieve a list of tasks in a maintenance window, instead use the [DescribeMaintenanceWindowTasks] command.
     ///
     /// - Parameter GetMaintenanceWindowTaskInput : [no documentation found]
@@ -1128,6 +1280,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func getMaintenanceWindowTask(input: GetMaintenanceWindowTaskInput) async throws -> GetMaintenanceWindowTaskOutput
+    /// Performs the `GetOpsItem` operation on the `AmazonSSM` service.
+    ///
     /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter GetOpsItemInput : [no documentation found]
@@ -1141,6 +1295,8 @@ public protocol SSMClientProtocol {
     /// - `OpsItemAccessDeniedException` : You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     func getOpsItem(input: GetOpsItemInput) async throws -> GetOpsItemOutput
+    /// Performs the `GetOpsMetadata` operation on the `AmazonSSM` service.
+    ///
     /// View operational metadata related to an application in Application Manager.
     ///
     /// - Parameter GetOpsMetadataInput : [no documentation found]
@@ -1154,6 +1310,8 @@ public protocol SSMClientProtocol {
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
     /// - `OpsMetadataNotFoundException` : The OpsMetadata object doesn't exist.
     func getOpsMetadata(input: GetOpsMetadataInput) async throws -> GetOpsMetadataOutput
+    /// Performs the `GetOpsSummary` operation on the `AmazonSSM` service.
+    ///
     /// View a summary of operations metadata (OpsData) based on specified filters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Explorer.
     ///
     /// - Parameter GetOpsSummaryInput : [no documentation found]
@@ -1170,6 +1328,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     /// - `ResourceDataSyncNotFoundException` : The specified sync name wasn't found.
     func getOpsSummary(input: GetOpsSummaryInput) async throws -> GetOpsSummaryOutput
+    /// Performs the `GetParameter` operation on the `AmazonSSM` service.
+    ///
     /// Get information about a single parameter by specifying the parameter name. To get information about more than one parameter at a time, use the [GetParameters] operation.
     ///
     /// - Parameter GetParameterInput : [no documentation found]
@@ -1184,6 +1344,8 @@ public protocol SSMClientProtocol {
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     func getParameter(input: GetParameterInput) async throws -> GetParameterOutput
+    /// Performs the `GetParameterHistory` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the history of all changes to a parameter. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
     ///
     /// - Parameter GetParameterHistoryInput : [no documentation found]
@@ -1198,6 +1360,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
     func getParameterHistory(input: GetParameterHistoryInput) async throws -> GetParameterHistoryOutput
+    /// Performs the `GetParameters` operation on the `AmazonSSM` service.
+    ///
     /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead.
     ///
     /// - Parameter GetParametersInput : [no documentation found]
@@ -1210,6 +1374,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidKeyId` : The query key ID isn't valid.
     func getParameters(input: GetParametersInput) async throws -> GetParametersOutput
+    /// Performs the `GetParametersByPath` operation on the `AmazonSSM` service.
+    ///
     /// Retrieve information about one or more parameters in a specific hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
     ///
     /// - Parameter GetParametersByPathInput : [no documentation found]
@@ -1226,6 +1392,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidKeyId` : The query key ID isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func getParametersByPath(input: GetParametersByPathInput) async throws -> GetParametersByPathOutput
+    /// Performs the `GetPatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves information about a patch baseline.
     ///
     /// - Parameter GetPatchBaselineInput : [no documentation found]
@@ -1239,6 +1407,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     func getPatchBaseline(input: GetPatchBaselineInput) async throws -> GetPatchBaselineOutput
+    /// Performs the `GetPatchBaselineForPatchGroup` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves the patch baseline that should be used for the specified patch group.
     ///
     /// - Parameter GetPatchBaselineForPatchGroupInput : [no documentation found]
@@ -1250,6 +1420,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func getPatchBaselineForPatchGroup(input: GetPatchBaselineForPatchGroupInput) async throws -> GetPatchBaselineForPatchGroupOutput
+    /// Performs the `GetResourcePolicies` operation on the `AmazonSSM` service.
+    ///
     /// Returns an array of the Policy object.
     ///
     /// - Parameter GetResourcePoliciesInput : [no documentation found]
@@ -1262,6 +1434,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourcePolicyInvalidParameterException` : One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
     func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
+    /// Performs the `GetServiceSetting` operation on the `AmazonSSM` service.
+    ///
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false. This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [UpdateServiceSetting] API operation to change the default setting. Or use the [ResetServiceSetting] to change the value back to the original value defined by the Amazon Web Services service team. Query the current service setting for the Amazon Web Services account.
     ///
     /// - Parameter GetServiceSettingInput : The request body of the GetServiceSetting API operation.
@@ -1274,6 +1448,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ServiceSettingNotFound` : The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     func getServiceSetting(input: GetServiceSettingInput) async throws -> GetServiceSettingOutput
+    /// Performs the `LabelParameterVersion` operation on the `AmazonSSM` service.
+    ///
     /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions.
     ///
     /// * A version of a parameter can have a maximum of 10 labels.
@@ -1305,6 +1481,8 @@ public protocol SSMClientProtocol {
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func labelParameterVersion(input: LabelParameterVersionInput) async throws -> LabelParameterVersionOutput
+    /// Performs the `ListAssociations` operation on the `AmazonSSM` service.
+    ///
     /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
     ///
     /// - Parameter ListAssociationsInput : [no documentation found]
@@ -1317,6 +1495,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput
+    /// Performs the `ListAssociationVersions` operation on the `AmazonSSM` service.
+    ///
     /// Retrieves all versions of an association for a specific association ID.
     ///
     /// - Parameter ListAssociationVersionsInput : [no documentation found]
@@ -1330,6 +1510,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listAssociationVersions(input: ListAssociationVersionsInput) async throws -> ListAssociationVersionsOutput
+    /// Performs the `ListCommandInvocations` operation on the `AmazonSSM` service.
+    ///
     /// An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
     ///
     /// - Parameter ListCommandInvocationsInput : [no documentation found]
@@ -1353,6 +1535,8 @@ public protocol SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listCommandInvocations(input: ListCommandInvocationsInput) async throws -> ListCommandInvocationsOutput
+    /// Performs the `ListCommands` operation on the `AmazonSSM` service.
+    ///
     /// Lists the commands requested by users of the Amazon Web Services account.
     ///
     /// - Parameter ListCommandsInput : [no documentation found]
@@ -1376,6 +1560,8 @@ public protocol SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listCommands(input: ListCommandsInput) async throws -> ListCommandsOutput
+    /// Performs the `ListComplianceItems` operation on the `AmazonSSM` service.
+    ///
     /// For a specified resource ID, this API operation returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter.
     ///
     /// - Parameter ListComplianceItemsInput : [no documentation found]
@@ -1391,6 +1577,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     func listComplianceItems(input: ListComplianceItemsInput) async throws -> ListComplianceItemsOutput
+    /// Performs the `ListComplianceSummaries` operation on the `AmazonSSM` service.
+    ///
     /// Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify.
     ///
     /// - Parameter ListComplianceSummariesInput : [no documentation found]
@@ -1404,6 +1592,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listComplianceSummaries(input: ListComplianceSummariesInput) async throws -> ListComplianceSummariesOutput
+    /// Performs the `ListDocumentMetadataHistory` operation on the `AmazonSSM` service.
+    ///
     /// Information about approval reviews for a version of a change template in Change Manager.
     ///
     /// - Parameter ListDocumentMetadataHistoryInput : [no documentation found]
@@ -1418,6 +1608,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listDocumentMetadataHistory(input: ListDocumentMetadataHistoryInput) async throws -> ListDocumentMetadataHistoryOutput
+    /// Performs the `ListDocuments` operation on the `AmazonSSM` service.
+    ///
     /// Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter.
     ///
     /// - Parameter ListDocumentsInput : [no documentation found]
@@ -1431,6 +1623,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilterKey` : The specified key isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listDocuments(input: ListDocumentsInput) async throws -> ListDocumentsOutput
+    /// Performs the `ListDocumentVersions` operation on the `AmazonSSM` service.
+    ///
     /// List all versions for a document.
     ///
     /// - Parameter ListDocumentVersionsInput : [no documentation found]
@@ -1444,6 +1638,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listDocumentVersions(input: ListDocumentVersionsInput) async throws -> ListDocumentVersionsOutput
+    /// Performs the `ListInventoryEntries` operation on the `AmazonSSM` service.
+    ///
     /// A list of inventory items returned by the request.
     ///
     /// - Parameter ListInventoryEntriesInput : [no documentation found]
@@ -1467,6 +1663,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     func listInventoryEntries(input: ListInventoryEntriesInput) async throws -> ListInventoryEntriesOutput
+    /// Performs the `ListOpsItemEvents` operation on the `AmazonSSM` service.
+    ///
     /// Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
     ///
     /// - Parameter ListOpsItemEventsInput : [no documentation found]
@@ -1481,6 +1679,8 @@ public protocol SSMClientProtocol {
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     func listOpsItemEvents(input: ListOpsItemEventsInput) async throws -> ListOpsItemEventsOutput
+    /// Performs the `ListOpsItemRelatedItems` operation on the `AmazonSSM` service.
+    ///
     /// Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a capability of Amazon Web Services Systems Manager.
     ///
     /// - Parameter ListOpsItemRelatedItemsInput : [no documentation found]
@@ -1493,6 +1693,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     func listOpsItemRelatedItems(input: ListOpsItemRelatedItemsInput) async throws -> ListOpsItemRelatedItemsOutput
+    /// Performs the `ListOpsMetadata` operation on the `AmazonSSM` service.
+    ///
     /// Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or blobs.
     ///
     /// - Parameter ListOpsMetadataInput : [no documentation found]
@@ -1505,6 +1707,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
     func listOpsMetadata(input: ListOpsMetadataInput) async throws -> ListOpsMetadataOutput
+    /// Performs the `ListResourceComplianceSummaries` operation on the `AmazonSSM` service.
+    ///
     /// Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
     ///
     /// - Parameter ListResourceComplianceSummariesInput : [no documentation found]
@@ -1518,6 +1722,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
     func listResourceComplianceSummaries(input: ListResourceComplianceSummariesInput) async throws -> ListResourceComplianceSummariesOutput
+    /// Performs the `ListResourceDataSync` operation on the `AmazonSSM` service.
+    ///
     /// Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call.
     ///
     /// - Parameter ListResourceDataSyncInput : [no documentation found]
@@ -1531,6 +1737,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
     func listResourceDataSync(input: ListResourceDataSyncInput) async throws -> ListResourceDataSyncOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonSSM` service.
+    ///
     /// Returns a list of the tags assigned to the specified resource. For information about the ID format for each supported resource type, see [AddTagsToResource].
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1544,6 +1752,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ModifyDocumentPermission` operation on the `AmazonSSM` service.
+    ///
     /// Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
     ///
     /// - Parameter ModifyDocumentPermissionInput : [no documentation found]
@@ -1559,6 +1769,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidPermissionType` : The permission type isn't supported. Share is the only supported permission type.
     func modifyDocumentPermission(input: ModifyDocumentPermissionInput) async throws -> ModifyDocumentPermissionOutput
+    /// Performs the `PutComplianceItems` operation on the `AmazonSSM` service.
+    ///
     /// Registers a compliance type and other compliance details on a designated resource. This operation lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following:
     ///
     /// * ExecutionId: The execution ID when the patch, association, or custom compliance item was applied.
@@ -1606,6 +1818,8 @@ public protocol SSMClientProtocol {
     /// - `ItemSizeLimitExceededException` : The inventory item size has exceeded the size limit.
     /// - `TotalSizeLimitExceededException` : The size of inventory data has exceeded the total size limit for the resource.
     func putComplianceItems(input: PutComplianceItemsInput) async throws -> PutComplianceItemsOutput
+    /// Performs the `PutInventory` operation on the `AmazonSSM` service.
+    ///
     /// Bulk update custom inventory items on one or more managed nodes. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
     ///
     /// - Parameter PutInventoryInput : [no documentation found]
@@ -1636,6 +1850,8 @@ public protocol SSMClientProtocol {
     /// - `UnsupportedInventoryItemContextException` : The Context attribute that you specified for the InventoryItem isn't allowed for this inventory type. You can only use the Context attribute with inventory types like AWS:ComplianceItem.
     /// - `UnsupportedInventorySchemaVersionException` : Inventory item type schema version has to match supported versions in the service. Check output of GetInventorySchema to see the available schema version for each type.
     func putInventory(input: PutInventoryInput) async throws -> PutInventoryOutput
+    /// Performs the `PutParameter` operation on the `AmazonSSM` service.
+    ///
     /// Add a parameter to the system.
     ///
     /// - Parameter PutParameterInput : [no documentation found]
@@ -1661,6 +1877,8 @@ public protocol SSMClientProtocol {
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     /// - `UnsupportedParameterType` : The parameter type isn't supported.
     func putParameter(input: PutParameterInput) async throws -> PutParameterOutput
+    /// Performs the `PutResourcePolicy` operation on the `AmazonSSM` service.
+    ///
     /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -1675,6 +1893,8 @@ public protocol SSMClientProtocol {
     /// - `ResourcePolicyInvalidParameterException` : One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
     /// - `ResourcePolicyLimitExceededException` : The [PutResourcePolicy] API action enforces two limits. A policy can't be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
+    /// Performs the `RegisterDefaultPatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
     ///
     /// - Parameter RegisterDefaultPatchBaselineInput : [no documentation found]
@@ -1688,6 +1908,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     func registerDefaultPatchBaseline(input: RegisterDefaultPatchBaselineInput) async throws -> RegisterDefaultPatchBaselineOutput
+    /// Performs the `RegisterPatchBaselineForPatchGroup` operation on the `AmazonSSM` service.
+    ///
     /// Registers a patch baseline for a patch group.
     ///
     /// - Parameter RegisterPatchBaselineForPatchGroupInput : [no documentation found]
@@ -1703,6 +1925,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     func registerPatchBaselineForPatchGroup(input: RegisterPatchBaselineForPatchGroupInput) async throws -> RegisterPatchBaselineForPatchGroupOutput
+    /// Performs the `RegisterTargetWithMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Registers a target with a maintenance window.
     ///
     /// - Parameter RegisterTargetWithMaintenanceWindowInput : [no documentation found]
@@ -1717,6 +1941,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     func registerTargetWithMaintenanceWindow(input: RegisterTargetWithMaintenanceWindowInput) async throws -> RegisterTargetWithMaintenanceWindowOutput
+    /// Performs the `RegisterTaskWithMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Adds a new task to a maintenance window.
     ///
     /// - Parameter RegisterTaskWithMaintenanceWindowInput : [no documentation found]
@@ -1732,6 +1958,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     func registerTaskWithMaintenanceWindow(input: RegisterTaskWithMaintenanceWindowInput) async throws -> RegisterTaskWithMaintenanceWindowOutput
+    /// Performs the `RemoveTagsFromResource` operation on the `AmazonSSM` service.
+    ///
     /// Removes tag keys from the specified resource.
     ///
     /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
@@ -1746,6 +1974,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
+    /// Performs the `ResetServiceSetting` operation on the `AmazonSSM` service.
+    ///
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [GetServiceSetting] API operation to view the current value. Use the [UpdateServiceSetting] API operation to change the default setting. Reset the service setting for the account to the default value as provisioned by the Amazon Web Services service team.
     ///
     /// - Parameter ResetServiceSettingInput : The request body of the ResetServiceSetting API operation.
@@ -1759,6 +1989,8 @@ public protocol SSMClientProtocol {
     /// - `ServiceSettingNotFound` : The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func resetServiceSetting(input: ResetServiceSettingInput) async throws -> ResetServiceSettingOutput
+    /// Performs the `ResumeSession` operation on the `AmazonSSM` service.
+    ///
     /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions. This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use.
     ///
     /// - Parameter ResumeSessionInput : [no documentation found]
@@ -1771,6 +2003,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func resumeSession(input: ResumeSessionInput) async throws -> ResumeSessionOutput
+    /// Performs the `SendAutomationSignal` operation on the `AmazonSSM` service.
+    ///
     /// Sends a signal to an Automation execution to change the current behavior or status of the execution.
     ///
     /// - Parameter SendAutomationSignalInput : [no documentation found]
@@ -1785,6 +2019,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationSignalException` : The signal isn't valid for the current Automation execution.
     func sendAutomationSignal(input: SendAutomationSignalInput) async throws -> SendAutomationSignalOutput
+    /// Performs the `SendCommand` operation on the `AmazonSSM` service.
+    ///
     /// Runs commands on one or more managed nodes.
     ///
     /// - Parameter SendCommandInput : [no documentation found]
@@ -1814,6 +2050,8 @@ public protocol SSMClientProtocol {
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
     /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
     func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput
+    /// Performs the `StartAssociationsOnce` operation on the `AmazonSSM` service.
+    ///
     /// Runs an association immediately and only one time. This operation can be helpful when troubleshooting associations.
     ///
     /// - Parameter StartAssociationsOnceInput : [no documentation found]
@@ -1826,6 +2064,8 @@ public protocol SSMClientProtocol {
     /// - `AssociationDoesNotExist` : The specified association doesn't exist.
     /// - `InvalidAssociation` : The association isn't valid or doesn't exist.
     func startAssociationsOnce(input: StartAssociationsOnceInput) async throws -> StartAssociationsOnceOutput
+    /// Performs the `StartAutomationExecution` operation on the `AmazonSSM` service.
+    ///
     /// Initiates execution of an Automation runbook.
     ///
     /// - Parameter StartAutomationExecutionInput : [no documentation found]
@@ -1843,6 +2083,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidAutomationExecutionParametersException` : The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
     /// - `InvalidTarget` : The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     func startAutomationExecution(input: StartAutomationExecutionInput) async throws -> StartAutomationExecutionOutput
+    /// Performs the `StartChangeRequestExecution` operation on the `AmazonSSM` service.
+    ///
     /// Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     ///
     /// - Parameter StartChangeRequestExecutionInput : [no documentation found]
@@ -1860,6 +2102,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationExecutionParametersException` : The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
     func startChangeRequestExecution(input: StartChangeRequestExecutionInput) async throws -> StartChangeRequestExecutionOutput
+    /// Performs the `StartSession` operation on the `AmazonSSM` service.
+    ///
     /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see [Install the Session Manager plugin for the Amazon Web Services CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) in the Amazon Web Services Systems Manager User Guide. Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently supported by Amazon Web Services Tools for PowerShell on Windows local machines.
     ///
     /// - Parameter StartSessionInput : [no documentation found]
@@ -1873,6 +2117,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `TargetNotConnected` : The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see [Getting started with Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html) in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
     func startSession(input: StartSessionInput) async throws -> StartSessionOutput
+    /// Performs the `StopAutomationExecution` operation on the `AmazonSSM` service.
+    ///
     /// Stop an Automation that is currently running.
     ///
     /// - Parameter StopAutomationExecutionInput : [no documentation found]
@@ -1886,6 +2132,8 @@ public protocol SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationStatusUpdateException` : The specified update status operation isn't valid.
     func stopAutomationExecution(input: StopAutomationExecutionInput) async throws -> StopAutomationExecutionOutput
+    /// Performs the `TerminateSession` operation on the `AmazonSSM` service.
+    ///
     /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the managed node. A terminated session can't be resumed.
     ///
     /// - Parameter TerminateSessionInput : [no documentation found]
@@ -1897,6 +2145,8 @@ public protocol SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput
+    /// Performs the `UnlabelParameterVersion` operation on the `AmazonSSM` service.
+    ///
     /// Remove a label or labels from a parameter.
     ///
     /// - Parameter UnlabelParameterVersionInput : [no documentation found]
@@ -1911,6 +2161,8 @@ public protocol SSMClientProtocol {
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func unlabelParameterVersion(input: UnlabelParameterVersionInput) async throws -> UnlabelParameterVersionOutput
+    /// Performs the `UpdateAssociation` operation on the `AmazonSSM` service.
+    ///
     /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation, the system removes all optional parameters from the request and overwrites the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parameter. Before calling this API action, we recommend that you call the [DescribeAssociation] API operation and make a note of all optional parameters required for your UpdateAssociation call. In order to call this API operation, a user, group, or role must be granted permission to call the [DescribeAssociation] API operation. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: isn't authorized to perform: ssm:DescribeAssociation on resource:  When you update an association, the association immediately runs against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
     ///
     /// - Parameter UpdateAssociationInput : [no documentation found]
@@ -1934,6 +2186,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidUpdate` : The update isn't valid.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func updateAssociation(input: UpdateAssociationInput) async throws -> UpdateAssociationOutput
+    /// Performs the `UpdateAssociationStatus` operation on the `AmazonSSM` service.
+    ///
     /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified managed node. UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter.
     ///
     /// - Parameter UpdateAssociationStatusInput : [no documentation found]
@@ -1958,6 +2212,8 @@ public protocol SSMClientProtocol {
     /// - `StatusUnchanged` : The updated status is the same as the current status.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     func updateAssociationStatus(input: UpdateAssociationStatusInput) async throws -> UpdateAssociationStatusOutput
+    /// Performs the `UpdateDocument` operation on the `AmazonSSM` service.
+    ///
     /// Updates one or more values for an SSM document.
     ///
     /// - Parameter UpdateDocumentInput : [no documentation found]
@@ -1978,6 +2234,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
     func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutput
+    /// Performs the `UpdateDocumentDefaultVersion` operation on the `AmazonSSM` service.
+    ///
     /// Set the default version of a document. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
     ///
     /// - Parameter UpdateDocumentDefaultVersionInput : [no documentation found]
@@ -1992,6 +2250,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     func updateDocumentDefaultVersion(input: UpdateDocumentDefaultVersionInput) async throws -> UpdateDocumentDefaultVersionOutput
+    /// Performs the `UpdateDocumentMetadata` operation on the `AmazonSSM` service.
+    ///
     /// Updates information related to approval reviews for a specific version of a change template in Change Manager.
     ///
     /// - Parameter UpdateDocumentMetadataInput : [no documentation found]
@@ -2006,6 +2266,8 @@ public protocol SSMClientProtocol {
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     func updateDocumentMetadata(input: UpdateDocumentMetadataInput) async throws -> UpdateDocumentMetadataOutput
+    /// Performs the `UpdateMaintenanceWindow` operation on the `AmazonSSM` service.
+    ///
     /// Updates an existing maintenance window. Only specified parameters are modified. The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
     ///
     /// - Parameter UpdateMaintenanceWindowInput : [no documentation found]
@@ -2018,6 +2280,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func updateMaintenanceWindow(input: UpdateMaintenanceWindowInput) async throws -> UpdateMaintenanceWindowOutput
+    /// Performs the `UpdateMaintenanceWindowTarget` operation on the `AmazonSSM` service.
+    ///
     /// Modifies the target of an existing maintenance window. You can change the following:
     ///
     /// * Name
@@ -2045,6 +2309,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func updateMaintenanceWindowTarget(input: UpdateMaintenanceWindowTargetInput) async throws -> UpdateMaintenanceWindowTargetOutput
+    /// Performs the `UpdateMaintenanceWindowTask` operation on the `AmazonSSM` service.
+    ///
     /// Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values:
     ///
     /// * TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.
@@ -2072,6 +2338,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func updateMaintenanceWindowTask(input: UpdateMaintenanceWindowTaskInput) async throws -> UpdateMaintenanceWindowTaskOutput
+    /// Performs the `UpdateManagedInstanceRole` operation on the `AmazonSSM` service.
+    ///
     /// Changes the Identity and Access Management (IAM) role that is assigned to the on-premises server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid nodes during the activation process. For more information, see [CreateActivation].
     ///
     /// - Parameter UpdateManagedInstanceRoleInput : [no documentation found]
@@ -2092,6 +2360,8 @@ public protocol SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     func updateManagedInstanceRole(input: UpdateManagedInstanceRoleInput) async throws -> UpdateManagedInstanceRoleOutput
+    /// Performs the `UpdateOpsItem` operation on the `AmazonSSM` service.
+    ///
     /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter UpdateOpsItemInput : [no documentation found]
@@ -2109,6 +2379,8 @@ public protocol SSMClientProtocol {
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     func updateOpsItem(input: UpdateOpsItemInput) async throws -> UpdateOpsItemOutput
+    /// Performs the `UpdateOpsMetadata` operation on the `AmazonSSM` service.
+    ///
     /// Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
     ///
     /// - Parameter UpdateOpsMetadataInput : [no documentation found]
@@ -2124,6 +2396,8 @@ public protocol SSMClientProtocol {
     /// - `OpsMetadataNotFoundException` : The OpsMetadata object doesn't exist.
     /// - `OpsMetadataTooManyUpdatesException` : The system is processing too many concurrent updates. Wait a few moments and try again.
     func updateOpsMetadata(input: UpdateOpsMetadataInput) async throws -> UpdateOpsMetadataOutput
+    /// Performs the `UpdatePatchBaseline` operation on the `AmazonSSM` service.
+    ///
     /// Modifies an existing patch baseline. Fields not specified in the request are left unchanged. For information about valid key-value pairs in PatchFilters for each supported operating system type, see [PatchFilter].
     ///
     /// - Parameter UpdatePatchBaselineInput : [no documentation found]
@@ -2136,6 +2410,8 @@ public protocol SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     func updatePatchBaseline(input: UpdatePatchBaselineInput) async throws -> UpdatePatchBaselineOutput
+    /// Performs the `UpdateResourceDataSync` operation on the `AmazonSSM` service.
+    ///
     /// Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For example, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my Organizations configuration option. Instead, you must delete the first resource data sync, and create a new one. This API operation only supports a resource data sync that was created with a SyncFromSource SyncType.
     ///
     /// - Parameter UpdateResourceDataSyncInput : [no documentation found]
@@ -2150,6 +2426,8 @@ public protocol SSMClientProtocol {
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
     /// - `ResourceDataSyncNotFoundException` : The specified sync name wasn't found.
     func updateResourceDataSync(input: UpdateResourceDataSyncInput) async throws -> UpdateResourceDataSyncOutput
+    /// Performs the `UpdateServiceSetting` operation on the `AmazonSSM` service.
+    ///
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [GetServiceSetting] API operation to view the current value. Or, use the [ResetServiceSetting] to change the value back to the original value defined by the Amazon Web Services service team. Update the service setting for the account.
     ///
     /// - Parameter UpdateServiceSettingInput : The request body of the UpdateServiceSetting API operation.

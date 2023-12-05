@@ -1718,10 +1718,6 @@ public struct CreateDataCatalogInput: Swift.Equatable {
     /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs. catalog-id=catalog_id
     ///
     /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-    ///
-    /// * Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
-    ///
-    /// * In Regions where Athena engine version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT error.
     public var parameters: [Swift.String:Swift.String]?
     /// A list of comma separated tags to add to the data catalog that is created.
     public var tags: [AthenaClientTypes.Tag]?
@@ -2475,9 +2471,9 @@ extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codabl
 }
 
 extension AthenaClientTypes {
-    /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
+    /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
     public struct CustomerContentEncryptionConfiguration: Swift.Equatable {
-        /// The KMS key that is used to encrypt the user's data stores in Athena.
+        /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
         /// This member is required.
         public var kmsKey: Swift.String?
 
@@ -2564,8 +2560,6 @@ extension AthenaClientTypes {
         /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue catalog belongs. catalog-id=catalog_id
         ///
         /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-        ///
-        /// * Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
         public var parameters: [Swift.String:Swift.String]?
         /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         /// This member is required.
@@ -9078,6 +9072,7 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
         case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
         case resultReuseInformation = "ResultReuseInformation"
+        case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
         case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
         case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
     }
@@ -9102,6 +9097,9 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         if let resultReuseInformation = self.resultReuseInformation {
             try encodeContainer.encode(resultReuseInformation, forKey: .resultReuseInformation)
         }
+        if let servicePreProcessingTimeInMillis = self.servicePreProcessingTimeInMillis {
+            try encodeContainer.encode(servicePreProcessingTimeInMillis, forKey: .servicePreProcessingTimeInMillis)
+        }
         if let serviceProcessingTimeInMillis = self.serviceProcessingTimeInMillis {
             try encodeContainer.encode(serviceProcessingTimeInMillis, forKey: .serviceProcessingTimeInMillis)
         }
@@ -9122,6 +9120,8 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         totalExecutionTimeInMillis = totalExecutionTimeInMillisDecoded
         let queryQueueTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryQueueTimeInMillis)
         queryQueueTimeInMillis = queryQueueTimeInMillisDecoded
+        let servicePreProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .servicePreProcessingTimeInMillis)
+        servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillisDecoded
         let queryPlanningTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryPlanningTimeInMillis)
         queryPlanningTimeInMillis = queryPlanningTimeInMillisDecoded
         let serviceProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serviceProcessingTimeInMillis)
@@ -9146,6 +9146,8 @@ extension AthenaClientTypes {
         public var queryQueueTimeInMillis: Swift.Int?
         /// Contains information about whether previous query results were reused for the query.
         public var resultReuseInformation: AthenaClientTypes.ResultReuseInformation?
+        /// The number of milliseconds that Athena took to preprocess the query before submitting the query to the query engine.
+        public var servicePreProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public var serviceProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to run the query.
@@ -9158,6 +9160,7 @@ extension AthenaClientTypes {
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
             resultReuseInformation: AthenaClientTypes.ResultReuseInformation? = nil,
+            servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
         )
@@ -9168,6 +9171,7 @@ extension AthenaClientTypes {
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
             self.resultReuseInformation = resultReuseInformation
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -9375,6 +9379,7 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
         case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
         case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
+        case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
         case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
         case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
     }
@@ -9390,6 +9395,9 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         if let queryQueueTimeInMillis = self.queryQueueTimeInMillis {
             try encodeContainer.encode(queryQueueTimeInMillis, forKey: .queryQueueTimeInMillis)
         }
+        if let servicePreProcessingTimeInMillis = self.servicePreProcessingTimeInMillis {
+            try encodeContainer.encode(servicePreProcessingTimeInMillis, forKey: .servicePreProcessingTimeInMillis)
+        }
         if let serviceProcessingTimeInMillis = self.serviceProcessingTimeInMillis {
             try encodeContainer.encode(serviceProcessingTimeInMillis, forKey: .serviceProcessingTimeInMillis)
         }
@@ -9402,6 +9410,8 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryQueueTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryQueueTimeInMillis)
         queryQueueTimeInMillis = queryQueueTimeInMillisDecoded
+        let servicePreProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .servicePreProcessingTimeInMillis)
+        servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillisDecoded
         let queryPlanningTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryPlanningTimeInMillis)
         queryPlanningTimeInMillis = queryPlanningTimeInMillisDecoded
         let engineExecutionTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .engineExecutionTimeInMillis)
@@ -9422,6 +9432,8 @@ extension AthenaClientTypes {
         public var queryPlanningTimeInMillis: Swift.Int?
         /// The number of milliseconds that the query was in your query queue waiting for resources. Note that if transient errors occur, Athena might automatically add the query back to the queue.
         public var queryQueueTimeInMillis: Swift.Int?
+        /// The number of milliseconds that Athena spends on preprocessing before it submits the query to the engine.
+        public var servicePreProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public var serviceProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to run the query.
@@ -9431,6 +9443,7 @@ extension AthenaClientTypes {
             engineExecutionTimeInMillis: Swift.Int? = nil,
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
+            servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
         )
@@ -9438,6 +9451,7 @@ extension AthenaClientTypes {
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -10290,7 +10304,7 @@ extension AthenaClientTypes {
     public struct SessionConfiguration: Swift.Equatable {
         /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
-        /// The ARN of the execution role used for the session.
+        /// The ARN of the execution role used in a Spark session to access user resources. This property applies only to Spark-enabled workgroups.
         public var executionRole: Swift.String?
         /// The idle timeout in seconds for the session.
         public var idleTimeoutSeconds: Swift.Int?
@@ -10599,7 +10613,7 @@ public struct StartCalculationExecutionInput: Swift.Equatable {
     public var calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
     /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
-    /// A string that contains the code of the calculation.
+    /// A string that contains the code of the calculation. Use this parameter instead of [CalculationConfiguration$CodeBlock], which is deprecated.
     public var codeBlock: Swift.String?
     /// A description of the calculation.
     public var description: Swift.String?
@@ -12933,7 +12947,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Role used in a session for accessing the user's resources.
+        /// Role used in a Spark session for accessing the user's resources. This property applies only to Spark-enabled workgroups.
         public var executionRole: Swift.String?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
@@ -13062,7 +13076,7 @@ extension AthenaClientTypes {
         public var additionalConfiguration: Swift.String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
-        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
+        /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. This setting does not apply to Spark-enabled workgroups. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
@@ -13070,7 +13084,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Contains the ARN of the execution role for the workgroup
+        /// The ARN of the execution role used to access user resources. This property applies only to Spark-enabled workgroups.
         public var executionRole: Swift.String?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?

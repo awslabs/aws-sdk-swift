@@ -1051,31 +1051,6 @@ enum ListSnapshotBlocksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public struct PutSnapshotBlockInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutSnapshotBlockInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutSnapshotBlockInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutSnapshotBlockOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let blockData = input.operationInput.blockData {
-            let blockDataBody = ClientRuntime.HttpBody(byteStream: blockData)
-            input.builder.withBody(blockDataBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutSnapshotBlockInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutSnapshotBlockOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension PutSnapshotBlockInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PutSnapshotBlockInput(blockIndex: \(Swift.String(describing: blockIndex)), checksum: \(Swift.String(describing: checksum)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), dataLength: \(Swift.String(describing: dataLength)), progress: \(Swift.String(describing: progress)), snapshotId: \(Swift.String(describing: snapshotId)), blockData: \"CONTENT_REDACTED\")"}

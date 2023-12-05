@@ -71,6 +71,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAutoScalingPlans](../../../../../swift/api/awsautoscalingplans/latest)
 
+[AWSB2bi](../../../../../swift/api/awsb2bi/latest)
+
+[AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
+
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
@@ -80,6 +84,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBatch](../../../../../swift/api/awsbatch/latest)
 
 [AWSBedrock](../../../../../swift/api/awsbedrock/latest)
+
+[AWSBedrockAgent](../../../../../swift/api/awsbedrockagent/latest)
+
+[AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
 
@@ -103,6 +111,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCleanRooms](../../../../../swift/api/awscleanrooms/latest)
 
+[AWSCleanRoomsML](../../../../../swift/api/awscleanroomsml/latest)
+
 [AWSCloud9](../../../../../swift/api/awscloud9/latest)
 
 [AWSCloudControl](../../../../../swift/api/awscloudcontrol/latest)
@@ -112,6 +122,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSCloudFormation](../../../../../swift/api/awscloudformation/latest)
 
 [AWSCloudFront](../../../../../swift/api/awscloudfront/latest)
+
+[AWSCloudFrontKeyValueStore](../../../../../swift/api/awscloudfrontkeyvaluestore/latest)
 
 [AWSCloudHSM](../../../../../swift/api/awscloudhsm/latest)
 
@@ -183,6 +195,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCostExplorer](../../../../../swift/api/awscostexplorer/latest)
 
+[AWSCostOptimizationHub](../../../../../swift/api/awscostoptimizationhub/latest)
+
 [AWSCostandUsageReportService](../../../../../swift/api/awscostandusagereportservice/latest)
 
 [AWSCustomerProfiles](../../../../../swift/api/awscustomerprofiles/latest)
@@ -239,6 +253,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEKS](../../../../../swift/api/awseks/latest)
 
+[AWSEKSAuth](../../../../../swift/api/awseksauth/latest)
+
 [AWSEMR](../../../../../swift/api/awsemr/latest)
 
 [AWSEMRServerless](../../../../../swift/api/awsemrserverless/latest)
@@ -283,6 +299,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSFraudDetector](../../../../../swift/api/awsfrauddetector/latest)
 
+[AWSFreeTier](../../../../../swift/api/awsfreetier/latest)
+
 [AWSGameLift](../../../../../swift/api/awsgamelift/latest)
 
 [AWSGlacier](../../../../../swift/api/awsglacier/latest)
@@ -318,6 +336,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSInspector](../../../../../swift/api/awsinspector/latest)
 
 [AWSInspector2](../../../../../swift/api/awsinspector2/latest)
+
+[AWSInspectorScan](../../../../../swift/api/awsinspectorscan/latest)
 
 [AWSInternetMonitor](../../../../../swift/api/awsinternetmonitor/latest)
 
@@ -425,17 +445,19 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMachineLearning](../../../../../swift/api/awsmachinelearning/latest)
 
-[AWSMacie](../../../../../swift/api/awsmacie/latest)
-
 [AWSMacie2](../../../../../swift/api/awsmacie2/latest)
 
 [AWSManagedBlockchain](../../../../../swift/api/awsmanagedblockchain/latest)
 
 [AWSManagedBlockchainQuery](../../../../../swift/api/awsmanagedblockchainquery/latest)
 
+[AWSMarketplaceAgreement](../../../../../swift/api/awsmarketplaceagreement/latest)
+
 [AWSMarketplaceCatalog](../../../../../swift/api/awsmarketplacecatalog/latest)
 
 [AWSMarketplaceCommerceAnalytics](../../../../../swift/api/awsmarketplacecommerceanalytics/latest)
+
+[AWSMarketplaceDeployment](../../../../../swift/api/awsmarketplacedeployment/latest)
 
 [AWSMarketplaceEntitlementService](../../../../../swift/api/awsmarketplaceentitlementservice/latest)
 
@@ -541,6 +563,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSProton](../../../../../swift/api/awsproton/latest)
 
+[AWSQBusiness](../../../../../swift/api/awsqbusiness/latest)
+
+[AWSQConnect](../../../../../swift/api/awsqconnect/latest)
+
 [AWSQLDB](../../../../../swift/api/awsqldb/latest)
 
 [AWSQLDBSession](../../../../../swift/api/awsqldbsession/latest)
@@ -564,6 +590,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSRedshiftServerless](../../../../../swift/api/awsredshiftserverless/latest)
 
 [AWSRekognition](../../../../../swift/api/awsrekognition/latest)
+
+[AWSRepostspace](../../../../../swift/api/awsrepostspace/latest)
 
 [AWSResiliencehub](../../../../../swift/api/awsresiliencehub/latest)
 
@@ -695,6 +723,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSTranslate](../../../../../swift/api/awstranslate/latest)
 
+[AWSTrustedAdvisor](../../../../../swift/api/awstrustedadvisor/latest)
+
 [AWSVPCLattice](../../../../../swift/api/awsvpclattice/latest)
 
 [AWSVerifiedPermissions](../../../../../swift/api/awsverifiedpermissions/latest)
@@ -720,6 +750,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSWorkMailMessageFlow](../../../../../swift/api/awsworkmailmessageflow/latest)
 
 [AWSWorkSpaces](../../../../../swift/api/awsworkspaces/latest)
+
+[AWSWorkSpacesThinClient](../../../../../swift/api/awsworkspacesthinclient/latest)
 
 [AWSWorkSpacesWeb](../../../../../swift/api/awsworkspacesweb/latest)
 

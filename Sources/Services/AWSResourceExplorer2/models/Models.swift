@@ -2,6 +2,38 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension ResourceExplorer2ClientTypes {
+    public enum AWSServiceAccessStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AWSServiceAccessStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AWSServiceAccessStatus(rawValue: rawValue) ?? AWSServiceAccessStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -364,7 +396,7 @@ extension ConflictException {
     }
 }
 
-/// The request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region.
+/// If you attempted to create a view, then the request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region. If you attempted to create an index, then the request failed because either you specified parameters that didn't match the original request, or an index already exists in the current Amazon Web Services Region. If you attempted to update an index type to AGGREGATOR, then the request failed because you already have an AGGREGATOR index in a different Amazon Web Services Region.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -405,6 +437,11 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateIndexInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateIndexInput(clientToken: \(Swift.String(describing: clientToken)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateIndexInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -432,7 +469,7 @@ extension CreateIndexInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateIndexInput: Swift.Equatable {
-    /// This value helps ensure idempotency. Resource Explorer uses this value to prevent the accidental creation of duplicate versions. We recommend that you generate a [UUID-type value](https://wikipedia.org/wiki/Universally_unique_identifier) to ensure the uniqueness of your views.
+    /// This value helps ensure idempotency. Resource Explorer uses this value to prevent the accidental creation of duplicate versions. We recommend that you generate a [UUID-type value](https://wikipedia.org/wiki/Universally_unique_identifier) to ensure the uniqueness of your index.
     public var clientToken: Swift.String?
     /// The specified tags are attached only to the index created in this Amazon Web Services Region. The tags aren't attached to any of the resources listed in the index.
     public var tags: [Swift.String:Swift.String]?
@@ -553,7 +590,7 @@ enum CreateIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateViewInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateViewInput(clientToken: \(Swift.String(describing: clientToken)), includedProperties: \(Swift.String(describing: includedProperties)), tags: \(Swift.String(describing: tags)), viewName: \(Swift.String(describing: viewName)), filters: \"CONTENT_REDACTED\")"}
+        "CreateViewInput(clientToken: \(Swift.String(describing: clientToken)), includedProperties: \(Swift.String(describing: includedProperties)), scope: \(Swift.String(describing: scope)), viewName: \(Swift.String(describing: viewName)), filters: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateViewInput: Swift.Encodable {
@@ -561,6 +598,7 @@ extension CreateViewInput: Swift.Encodable {
         case clientToken = "ClientToken"
         case filters = "Filters"
         case includedProperties = "IncludedProperties"
+        case scope = "Scope"
         case tags = "Tags"
         case viewName = "ViewName"
     }
@@ -578,6 +616,9 @@ extension CreateViewInput: Swift.Encodable {
             for includedproperty0 in includedProperties {
                 try includedPropertiesContainer.encode(includedproperty0)
             }
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -604,6 +645,8 @@ public struct CreateViewInput: Swift.Equatable {
     public var filters: ResourceExplorer2ClientTypes.SearchFilter?
     /// Specifies optional fields that you want included in search results from this view. It is a list of objects that each describe a field to include. The default is an empty list, with no optional fields included in the results.
     public var includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]?
+    /// The root ARN of the account, an organizational unit (OU), or an organization ARN. If left empty, the default is account.
+    public var scope: Swift.String?
     /// Tag key and value pairs that are attached to the view.
     public var tags: [Swift.String:Swift.String]?
     /// The name of the new view. This name appears in the list of views in Resource Explorer. The name must be no more than 64 characters long, and can include letters, digits, and the dash (-) character. The name must be unique within its Amazon Web Services Region.
@@ -614,6 +657,7 @@ public struct CreateViewInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
         includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]? = nil,
+        scope: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         viewName: Swift.String? = nil
     )
@@ -621,6 +665,7 @@ public struct CreateViewInput: Swift.Equatable {
         self.clientToken = clientToken
         self.filters = filters
         self.includedProperties = includedProperties
+        self.scope = scope
         self.tags = tags
         self.viewName = viewName
     }
@@ -630,6 +675,7 @@ struct CreateViewInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let viewName: Swift.String?
     let includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]?
+    let scope: Swift.String?
     let filters: ResourceExplorer2ClientTypes.SearchFilter?
     let tags: [Swift.String:Swift.String]?
 }
@@ -639,6 +685,7 @@ extension CreateViewInputBody: Swift.Decodable {
         case clientToken = "ClientToken"
         case filters = "Filters"
         case includedProperties = "IncludedProperties"
+        case scope = "Scope"
         case tags = "Tags"
         case viewName = "ViewName"
     }
@@ -660,6 +707,8 @@ extension CreateViewInputBody: Swift.Decodable {
             }
         }
         includedProperties = includedPropertiesDecoded0
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ResourceExplorer2ClientTypes.SearchFilter.self, forKey: .filters)
         filters = filtersDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
@@ -997,8 +1046,83 @@ enum DisassociateDefaultViewOutputError: ClientRuntime.HttpResponseErrorBinding 
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetAccountLevelServiceConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetAccountLevelServiceConfiguration"
+    }
+}
+
+public struct GetAccountLevelServiceConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetAccountLevelServiceConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetAccountLevelServiceConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAccountLevelServiceConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAccountLevelServiceConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.orgConfiguration = output.orgConfiguration
+        } else {
+            self.orgConfiguration = nil
+        }
+    }
+}
+
+public struct GetAccountLevelServiceConfigurationOutput: Swift.Equatable {
+    /// Details about the organization, and whether configuration is ENABLED or DISABLED.
+    public var orgConfiguration: ResourceExplorer2ClientTypes.OrgConfiguration?
+
+    public init(
+        orgConfiguration: ResourceExplorer2ClientTypes.OrgConfiguration? = nil
+    )
+    {
+        self.orgConfiguration = orgConfiguration
+    }
+}
+
+struct GetAccountLevelServiceConfigurationOutputBody: Swift.Equatable {
+    let orgConfiguration: ResourceExplorer2ClientTypes.OrgConfiguration?
+}
+
+extension GetAccountLevelServiceConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case orgConfiguration = "OrgConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orgConfigurationDecoded = try containerValues.decodeIfPresent(ResourceExplorer2ClientTypes.OrgConfiguration.self, forKey: .orgConfiguration)
+        orgConfiguration = orgConfigurationDecoded
+    }
+}
+
+enum GetAccountLevelServiceConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1097,6 +1221,11 @@ extension GetIndexInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
+}
+
+extension GetIndexOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIndexOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), replicatingFrom: \(Swift.String(describing: replicatingFrom)), replicatingTo: \(Swift.String(describing: replicatingTo)), state: \(Swift.String(describing: state)), type: \(Swift.String(describing: type)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension GetIndexOutput: ClientRuntime.HttpResponseBinding {
@@ -1297,6 +1426,11 @@ extension GetViewInputBody: Swift.Decodable {
         let viewArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewArn)
         viewArn = viewArnDecoded
     }
+}
+
+extension GetViewOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetViewOutput(view: \(Swift.String(describing: view)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension GetViewOutput: ClientRuntime.HttpResponseBinding {
@@ -1606,6 +1740,163 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListIndexesForMembersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdList = "AccountIdList"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIdList = accountIdList {
+            var accountIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIdList)
+            for accountid0 in accountIdList {
+                try accountIdListContainer.encode(accountid0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListIndexesForMembersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListIndexesForMembers"
+    }
+}
+
+public struct ListIndexesForMembersInput: Swift.Equatable {
+    /// The account IDs will limit the output to only indexes from these accounts.
+    /// This member is required.
+    public var accountIdList: [Swift.String]?
+    /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountIdList: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.accountIdList = accountIdList
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIndexesForMembersInputBody: Swift.Equatable {
+    let accountIdList: [Swift.String]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListIndexesForMembersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdList = "AccountIdList"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIdList)
+        var accountIdListDecoded0:[Swift.String]? = nil
+        if let accountIdListContainer = accountIdListContainer {
+            accountIdListDecoded0 = [Swift.String]()
+            for string0 in accountIdListContainer {
+                if let string0 = string0 {
+                    accountIdListDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIdList = accountIdListDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListIndexesForMembersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIndexesForMembersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.indexes = output.indexes
+            self.nextToken = output.nextToken
+        } else {
+            self.indexes = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListIndexesForMembersOutput: Swift.Equatable {
+    /// A structure that contains the details and status of each index.
+    public var indexes: [ResourceExplorer2ClientTypes.MemberIndex]?
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        indexes: [ResourceExplorer2ClientTypes.MemberIndex]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.indexes = indexes
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIndexesForMembersOutputBody: Swift.Equatable {
+    let indexes: [ResourceExplorer2ClientTypes.MemberIndex]?
+    let nextToken: Swift.String?
+}
+
+extension ListIndexesForMembersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case indexes = "Indexes"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexesContainer = try containerValues.decodeIfPresent([ResourceExplorer2ClientTypes.MemberIndex?].self, forKey: .indexes)
+        var indexesDecoded0:[ResourceExplorer2ClientTypes.MemberIndex]? = nil
+        if let indexesContainer = indexesContainer {
+            indexesDecoded0 = [ResourceExplorer2ClientTypes.MemberIndex]()
+            for structure0 in indexesContainer {
+                if let structure0 = structure0 {
+                    indexesDecoded0?.append(structure0)
+                }
+            }
+        }
+        indexes = indexesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListIndexesForMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListIndexesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -1643,7 +1934,7 @@ extension ListIndexesInput: ClientRuntime.URLPathProvider {
 public struct ListIndexesInput: Swift.Equatable {
     /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// If specified, limits the response to only information about the index in the specified list of Amazon Web Services Regions.
     public var regions: [Swift.String]?
@@ -1718,7 +2009,7 @@ extension ListIndexesOutput: ClientRuntime.HttpResponseBinding {
 public struct ListIndexesOutput: Swift.Equatable {
     /// A structure that contains the details and status of each index.
     public var indexes: [ResourceExplorer2ClientTypes.Index]?
-    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
@@ -1800,7 +2091,7 @@ extension ListSupportedResourceTypesInput: ClientRuntime.URLPathProvider {
 public struct ListSupportedResourceTypesInput: Swift.Equatable {
     /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
@@ -1848,7 +2139,7 @@ extension ListSupportedResourceTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListSupportedResourceTypesOutput: Swift.Equatable {
-    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// The list of resource types supported by Resource Explorer.
     public var resourceTypes: [ResourceExplorer2ClientTypes.SupportedResourceType]?
@@ -1935,6 +2226,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
+}
+
+extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
@@ -2028,7 +2324,7 @@ extension ListViewsInput: ClientRuntime.URLPathProvider {
 public struct ListViewsInput: Swift.Equatable {
     /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
@@ -2076,7 +2372,7 @@ extension ListViewsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListViewsOutput: Swift.Equatable {
-    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// The list of views available in the Amazon Web Services Region in which you called this operation.
     public var views: [Swift.String]?
@@ -2132,6 +2428,121 @@ enum ListViewsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension ResourceExplorer2ClientTypes.MemberIndex: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case arn = "Arn"
+        case region = "Region"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ResourceExplorer2ClientTypes.IndexType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+    /// An index is the data store used by Amazon Web Services Resource Explorer to hold information about your Amazon Web Services resources that the service discovers.
+    public struct MemberIndex: Swift.Equatable {
+        /// The account ID for the index.
+        public var accountId: Swift.String?
+        /// The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the index.
+        public var arn: Swift.String?
+        /// The Amazon Web Services Region in which the index exists.
+        public var region: Swift.String?
+        /// The type of index. It can be one of the following values:
+        ///
+        /// * LOCAL – The index contains information about resources from only the same Amazon Web Services Region.
+        ///
+        /// * AGGREGATOR – Resource Explorer replicates copies of the indexed information about resources in all other Amazon Web Services Regions to the aggregator index. This lets search results in the Region with the aggregator index to include resources from all Regions in the account where Resource Explorer is turned on.
+        public var type: ResourceExplorer2ClientTypes.IndexType?
+
+        public init(
+            accountId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            region: Swift.String? = nil,
+            type: ResourceExplorer2ClientTypes.IndexType? = nil
+        )
+        {
+            self.accountId = accountId
+            self.arn = arn
+            self.region = region
+            self.type = type
+        }
+    }
+
+}
+
+extension ResourceExplorer2ClientTypes.OrgConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsServiceAccessStatus = "AWSServiceAccessStatus"
+        case serviceLinkedRole = "ServiceLinkedRole"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsServiceAccessStatus = self.awsServiceAccessStatus {
+            try encodeContainer.encode(awsServiceAccessStatus.rawValue, forKey: .awsServiceAccessStatus)
+        }
+        if let serviceLinkedRole = self.serviceLinkedRole {
+            try encodeContainer.encode(serviceLinkedRole, forKey: .serviceLinkedRole)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let awsServiceAccessStatusDecoded = try containerValues.decodeIfPresent(ResourceExplorer2ClientTypes.AWSServiceAccessStatus.self, forKey: .awsServiceAccessStatus)
+        awsServiceAccessStatus = awsServiceAccessStatusDecoded
+        let serviceLinkedRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceLinkedRole)
+        serviceLinkedRole = serviceLinkedRoleDecoded
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+    /// This is a structure that contains the status of Amazon Web Services service access, and whether you have a valid service-linked role to enable multi-account search for your organization.
+    public struct OrgConfiguration: Swift.Equatable {
+        /// This value displays whether your Amazon Web Services service access is ENABLED or DISABLED.
+        /// This member is required.
+        public var awsServiceAccessStatus: ResourceExplorer2ClientTypes.AWSServiceAccessStatus?
+        /// This value shows whether or not you have a valid a service-linked role required to start the multi-account search feature.
+        public var serviceLinkedRole: Swift.String?
+
+        public init(
+            awsServiceAccessStatus: ResourceExplorer2ClientTypes.AWSServiceAccessStatus? = nil,
+            serviceLinkedRole: Swift.String? = nil
+        )
+        {
+            self.awsServiceAccessStatus = awsServiceAccessStatus
+            self.serviceLinkedRole = serviceLinkedRole
+        }
+    }
+
 }
 
 extension ResourceExplorer2ClientTypes.Resource: Swift.Codable {
@@ -2481,7 +2892,7 @@ extension SearchInput: ClientRuntime.URLPathProvider {
 public struct SearchInput: Swift.Equatable {
     /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// A string that includes keywords and filters that specify the resources that you want to include in the results. For the complete syntax supported by the QueryString parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html). The search is completely case insensitive. You can specify an empty string to return all results up to the limit of 1,000 total results. The operation can return only the first 1,000 results. If the resource you want is not included, then use a different value for QueryString to refine the results.
     /// This member is required.
@@ -2552,7 +2963,7 @@ extension SearchOutput: ClientRuntime.HttpResponseBinding {
 public struct SearchOutput: Swift.Equatable {
     /// The number of resources that match the query.
     public var count: ResourceExplorer2ClientTypes.ResourceCount?
-    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// The list of structures that describe the resources that match the query.
     public var resources: [ResourceExplorer2ClientTypes.Resource]?
@@ -2749,6 +3160,11 @@ extension ResourceExplorer2ClientTypes {
 
 }
 
+extension TagResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tags: \"CONTENT_REDACTED\")"}
+}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
@@ -2857,7 +3273,7 @@ extension ThrottlingException {
     }
 }
 
-/// The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+/// The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2950,6 +3366,11 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension UntagResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {

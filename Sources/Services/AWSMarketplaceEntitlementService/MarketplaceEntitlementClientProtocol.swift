@@ -6,6 +6,8 @@ import ClientRuntime
 ///
 /// * GetEntitlements- Gets the entitlements for a Marketplace product.
 public protocol MarketplaceEntitlementClientProtocol {
+    /// Performs the `GetEntitlements` operation on the `AWSMPEntitlementService` service.
+    ///
     /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
     ///
     /// - Parameter GetEntitlementsInput : The GetEntitlementsRequest contains parameters for the GetEntitlements operation.

@@ -12,7 +12,7 @@ extension ManagedBlockchainQueryClient {
     ///     - input: A `[ListAssetContractsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetContractsOutput`
     public func listAssetContractsPaginated(input: ListAssetContractsInput) -> ClientRuntime.PaginatorSequence<ListAssetContractsInput, ListAssetContractsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAssetContractsInput, ListAssetContractsOutput>(input: input, inputKey: \ListAssetContractsInput.nextToken, outputKey: \ListAssetContractsOutput.nextToken, paginationFunction: self.listAssetContracts(input:))
+        return ClientRuntime.PaginatorSequence<ListAssetContractsInput, ListAssetContractsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetContracts(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAssetContractsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAssetContractsInput, Output == ListAssetContractsOutput {
+extension PaginatorSequence where OperationStackInput == ListAssetContractsInput, OperationStackOutput == ListAssetContractsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAssetContractsPaginated`
     /// to access the nested member `[ManagedBlockchainQueryClientTypes.AssetContract]`
     /// - Returns: `[ManagedBlockchainQueryClientTypes.AssetContract]`
@@ -43,7 +43,7 @@ extension ManagedBlockchainQueryClient {
     ///     - input: A `[ListTokenBalancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTokenBalancesOutput`
     public func listTokenBalancesPaginated(input: ListTokenBalancesInput) -> ClientRuntime.PaginatorSequence<ListTokenBalancesInput, ListTokenBalancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTokenBalancesInput, ListTokenBalancesOutput>(input: input, inputKey: \ListTokenBalancesInput.nextToken, outputKey: \ListTokenBalancesOutput.nextToken, paginationFunction: self.listTokenBalances(input:))
+        return ClientRuntime.PaginatorSequence<ListTokenBalancesInput, ListTokenBalancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTokenBalances(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListTokenBalancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTokenBalancesInput, Output == ListTokenBalancesOutput {
+extension PaginatorSequence where OperationStackInput == ListTokenBalancesInput, OperationStackOutput == ListTokenBalancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTokenBalancesPaginated`
     /// to access the nested member `[ManagedBlockchainQueryClientTypes.TokenBalance]`
     /// - Returns: `[ManagedBlockchainQueryClientTypes.TokenBalance]`
@@ -75,7 +75,7 @@ extension ManagedBlockchainQueryClient {
     ///     - input: A `[ListTransactionEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTransactionEventsOutput`
     public func listTransactionEventsPaginated(input: ListTransactionEventsInput) -> ClientRuntime.PaginatorSequence<ListTransactionEventsInput, ListTransactionEventsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTransactionEventsInput, ListTransactionEventsOutput>(input: input, inputKey: \ListTransactionEventsInput.nextToken, outputKey: \ListTransactionEventsOutput.nextToken, paginationFunction: self.listTransactionEvents(input:))
+        return ClientRuntime.PaginatorSequence<ListTransactionEventsInput, ListTransactionEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTransactionEvents(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListTransactionEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTransactionEventsInput, Output == ListTransactionEventsOutput {
+extension PaginatorSequence where OperationStackInput == ListTransactionEventsInput, OperationStackOutput == ListTransactionEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTransactionEventsPaginated`
     /// to access the nested member `[ManagedBlockchainQueryClientTypes.TransactionEvent]`
     /// - Returns: `[ManagedBlockchainQueryClientTypes.TransactionEvent]`
@@ -107,7 +107,7 @@ extension ManagedBlockchainQueryClient {
     ///     - input: A `[ListTransactionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTransactionsOutput`
     public func listTransactionsPaginated(input: ListTransactionsInput) -> ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput>(input: input, inputKey: \ListTransactionsInput.nextToken, outputKey: \ListTransactionsOutput.nextToken, paginationFunction: self.listTransactions(input:))
+        return ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTransactions(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ListTransactionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTransactionsInput, Output == ListTransactionsOutput {
+extension PaginatorSequence where OperationStackInput == ListTransactionsInput, OperationStackOutput == ListTransactionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTransactionsPaginated`
     /// to access the nested member `[ManagedBlockchainQueryClientTypes.TransactionOutputItem]`
     /// - Returns: `[ManagedBlockchainQueryClientTypes.TransactionOutputItem]`

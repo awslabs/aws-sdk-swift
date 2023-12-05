@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// AWS IoT Events monitors your equipment or device fleets for failures or changes in operation, and triggers actions when such events occur. You can use AWS IoT Events API operations to create, read, update, and delete inputs and detector models, and to list their versions.
 public protocol IoTEventsClientProtocol {
+    /// Performs the `CreateAlarmModel` operation on the `IotColumboService` service.
+    ///
     /// Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see [Create an alarm model](https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html) in the AWS IoT Events Developer Guide.
     ///
     /// - Parameter CreateAlarmModelInput : [no documentation found]
@@ -21,6 +23,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func createAlarmModel(input: CreateAlarmModelInput) async throws -> CreateAlarmModelOutput
+    /// Performs the `CreateDetectorModel` operation on the `IotColumboService` service.
+    ///
     /// Creates a detector model.
     ///
     /// - Parameter CreateDetectorModelInput : [no documentation found]
@@ -38,6 +42,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func createDetectorModel(input: CreateDetectorModelInput) async throws -> CreateDetectorModelOutput
+    /// Performs the `CreateInput` operation on the `IotColumboService` service.
+    ///
     /// Creates an input.
     ///
     /// - Parameter CreateInputInput : [no documentation found]
@@ -53,6 +59,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func createInput(input: CreateInputInput) async throws -> CreateInputOutput
+    /// Performs the `DeleteAlarmModel` operation on the `IotColumboService` service.
+    ///
     /// Deletes an alarm model. Any alarm instances that were created based on this alarm model are also deleted. This action can't be undone.
     ///
     /// - Parameter DeleteAlarmModelInput : [no documentation found]
@@ -69,6 +77,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func deleteAlarmModel(input: DeleteAlarmModelInput) async throws -> DeleteAlarmModelOutput
+    /// Performs the `DeleteDetectorModel` operation on the `IotColumboService` service.
+    ///
     /// Deletes a detector model. Any active instances of the detector model are also deleted.
     ///
     /// - Parameter DeleteDetectorModelInput : [no documentation found]
@@ -85,6 +95,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func deleteDetectorModel(input: DeleteDetectorModelInput) async throws -> DeleteDetectorModelOutput
+    /// Performs the `DeleteInput` operation on the `IotColumboService` service.
+    ///
     /// Deletes an input.
     ///
     /// - Parameter DeleteInputInput : [no documentation found]
@@ -101,6 +113,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput
+    /// Performs the `DescribeAlarmModel` operation on the `IotColumboService` service.
+    ///
     /// Retrieves information about an alarm model. If you don't specify a value for the alarmModelVersion parameter, the latest version is returned.
     ///
     /// - Parameter DescribeAlarmModelInput : [no documentation found]
@@ -116,6 +130,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func describeAlarmModel(input: DescribeAlarmModelInput) async throws -> DescribeAlarmModelOutput
+    /// Performs the `DescribeDetectorModel` operation on the `IotColumboService` service.
+    ///
     /// Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
     ///
     /// - Parameter DescribeDetectorModelInput : [no documentation found]
@@ -131,6 +147,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func describeDetectorModel(input: DescribeDetectorModelInput) async throws -> DescribeDetectorModelOutput
+    /// Performs the `DescribeDetectorModelAnalysis` operation on the `IotColumboService` service.
+    ///
     /// Retrieves runtime information about a detector model analysis. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     ///
     /// - Parameter DescribeDetectorModelAnalysisInput : [no documentation found]
@@ -146,6 +164,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func describeDetectorModelAnalysis(input: DescribeDetectorModelAnalysisInput) async throws -> DescribeDetectorModelAnalysisOutput
+    /// Performs the `DescribeInput` operation on the `IotColumboService` service.
+    ///
     /// Describes an input.
     ///
     /// - Parameter DescribeInputInput : [no documentation found]
@@ -161,6 +181,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput
+    /// Performs the `DescribeLoggingOptions` operation on the `IotColumboService` service.
+    ///
     /// Retrieves the current settings of the AWS IoT Events logging options.
     ///
     /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
@@ -177,6 +199,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     /// - `UnsupportedOperationException` : The requested operation is not supported.
     func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput
+    /// Performs the `GetDetectorModelAnalysisResults` operation on the `IotColumboService` service.
+    ///
     /// Retrieves one or more analysis results of the detector model. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     ///
     /// - Parameter GetDetectorModelAnalysisResultsInput : [no documentation found]
@@ -192,6 +216,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func getDetectorModelAnalysisResults(input: GetDetectorModelAnalysisResultsInput) async throws -> GetDetectorModelAnalysisResultsOutput
+    /// Performs the `ListAlarmModels` operation on the `IotColumboService` service.
+    ///
     /// Lists the alarm models that you created. The operation returns only the metadata associated with each alarm model.
     ///
     /// - Parameter ListAlarmModelsInput : [no documentation found]
@@ -206,6 +232,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listAlarmModels(input: ListAlarmModelsInput) async throws -> ListAlarmModelsOutput
+    /// Performs the `ListAlarmModelVersions` operation on the `IotColumboService` service.
+    ///
     /// Lists all the versions of an alarm model. The operation returns only the metadata associated with each alarm model version.
     ///
     /// - Parameter ListAlarmModelVersionsInput : [no documentation found]
@@ -221,6 +249,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listAlarmModelVersions(input: ListAlarmModelVersionsInput) async throws -> ListAlarmModelVersionsOutput
+    /// Performs the `ListDetectorModels` operation on the `IotColumboService` service.
+    ///
     /// Lists the detector models you have created. Only the metadata associated with each detector model is returned.
     ///
     /// - Parameter ListDetectorModelsInput : [no documentation found]
@@ -235,6 +265,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listDetectorModels(input: ListDetectorModelsInput) async throws -> ListDetectorModelsOutput
+    /// Performs the `ListDetectorModelVersions` operation on the `IotColumboService` service.
+    ///
     /// Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
     ///
     /// - Parameter ListDetectorModelVersionsInput : [no documentation found]
@@ -250,6 +282,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listDetectorModelVersions(input: ListDetectorModelVersionsInput) async throws -> ListDetectorModelVersionsOutput
+    /// Performs the `ListInputRoutings` operation on the `IotColumboService` service.
+    ///
     /// Lists one or more input routings.
     ///
     /// - Parameter ListInputRoutingsInput : [no documentation found]
@@ -265,6 +299,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listInputRoutings(input: ListInputRoutingsInput) async throws -> ListInputRoutingsOutput
+    /// Performs the `ListInputs` operation on the `IotColumboService` service.
+    ///
     /// Lists the inputs you have created.
     ///
     /// - Parameter ListInputsInput : [no documentation found]
@@ -279,6 +315,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listInputs(input: ListInputsInput) async throws -> ListInputsOutput
+    /// Performs the `ListTagsForResource` operation on the `IotColumboService` service.
+    ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -294,6 +332,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutLoggingOptions` operation on the `IotColumboService` service.
+    ///
     /// Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
     /// - Parameter PutLoggingOptionsInput : [no documentation found]
@@ -310,6 +350,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     /// - `UnsupportedOperationException` : The requested operation is not supported.
     func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
+    /// Performs the `StartDetectorModelAnalysis` operation on the `IotColumboService` service.
+    ///
     /// Performs an analysis of your detector model. For more information, see [Troubleshooting a detector model](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html) in the AWS IoT Events Developer Guide.
     ///
     /// - Parameter StartDetectorModelAnalysisInput : [no documentation found]
@@ -325,6 +367,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func startDetectorModelAnalysis(input: StartDetectorModelAnalysisInput) async throws -> StartDetectorModelAnalysisOutput
+    /// Performs the `TagResource` operation on the `IotColumboService` service.
+    ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -341,6 +385,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `IotColumboService` service.
+    ///
     /// Removes the given tags (metadata) from the resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -356,6 +402,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateAlarmModel` operation on the `IotColumboService` service.
+    ///
     /// Updates an alarm model. Any alarms that were created based on the previous version are deleted and then created again as new data arrives.
     ///
     /// - Parameter UpdateAlarmModelInput : [no documentation found]
@@ -372,6 +420,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func updateAlarmModel(input: UpdateAlarmModelInput) async throws -> UpdateAlarmModelOutput
+    /// Performs the `UpdateDetectorModel` operation on the `IotColumboService` service.
+    ///
     /// Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
     ///
     /// - Parameter UpdateDetectorModelInput : [no documentation found]
@@ -388,6 +438,8 @@ public protocol IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func updateDetectorModel(input: UpdateDetectorModelInput) async throws -> UpdateDetectorModelOutput
+    /// Performs the `UpdateInput` operation on the `IotColumboService` service.
+    ///
     /// Updates an input.
     ///
     /// - Parameter UpdateInputInput : [no documentation found]

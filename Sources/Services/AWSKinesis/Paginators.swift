@@ -12,7 +12,7 @@ extension KinesisClient {
     ///     - input: A `[ListStreamConsumersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamConsumersOutput`
     public func listStreamConsumersPaginated(input: ListStreamConsumersInput) -> ClientRuntime.PaginatorSequence<ListStreamConsumersInput, ListStreamConsumersOutput> {
-        return ClientRuntime.PaginatorSequence<ListStreamConsumersInput, ListStreamConsumersOutput>(input: input, inputKey: \ListStreamConsumersInput.nextToken, outputKey: \ListStreamConsumersOutput.nextToken, paginationFunction: self.listStreamConsumers(input:))
+        return ClientRuntime.PaginatorSequence<ListStreamConsumersInput, ListStreamConsumersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreamConsumers(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension KinesisClient {
     ///     - input: A `[ListStreamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutput`
     public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutput.nextToken, paginationFunction: self.listStreams(input:))
+        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreams(input:))
     }
 }
 

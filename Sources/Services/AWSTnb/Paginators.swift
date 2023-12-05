@@ -12,7 +12,7 @@ extension TnbClient {
     ///     - input: A `[ListSolFunctionInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSolFunctionInstancesOutput`
     public func listSolFunctionInstancesPaginated(input: ListSolFunctionInstancesInput) -> ClientRuntime.PaginatorSequence<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(input: input, inputKey: \ListSolFunctionInstancesInput.nextToken, outputKey: \ListSolFunctionInstancesOutput.nextToken, paginationFunction: self.listSolFunctionInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSolFunctionInstances(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListSolFunctionInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSolFunctionInstancesInput, Output == ListSolFunctionInstancesOutput {
+extension PaginatorSequence where OperationStackInput == ListSolFunctionInstancesInput, OperationStackOutput == ListSolFunctionInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSolFunctionInstancesPaginated`
     /// to access the nested member `[TnbClientTypes.ListSolFunctionInstanceInfo]`
     /// - Returns: `[TnbClientTypes.ListSolFunctionInstanceInfo]`
@@ -42,7 +42,7 @@ extension TnbClient {
     ///     - input: A `[ListSolFunctionPackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSolFunctionPackagesOutput`
     public func listSolFunctionPackagesPaginated(input: ListSolFunctionPackagesInput) -> ClientRuntime.PaginatorSequence<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(input: input, inputKey: \ListSolFunctionPackagesInput.nextToken, outputKey: \ListSolFunctionPackagesOutput.nextToken, paginationFunction: self.listSolFunctionPackages(input:))
+        return ClientRuntime.PaginatorSequence<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSolFunctionPackages(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension ListSolFunctionPackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSolFunctionPackagesInput, Output == ListSolFunctionPackagesOutput {
+extension PaginatorSequence where OperationStackInput == ListSolFunctionPackagesInput, OperationStackOutput == ListSolFunctionPackagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSolFunctionPackagesPaginated`
     /// to access the nested member `[TnbClientTypes.ListSolFunctionPackageInfo]`
     /// - Returns: `[TnbClientTypes.ListSolFunctionPackageInfo]`
@@ -72,7 +72,7 @@ extension TnbClient {
     ///     - input: A `[ListSolNetworkInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSolNetworkInstancesOutput`
     public func listSolNetworkInstancesPaginated(input: ListSolNetworkInstancesInput) -> ClientRuntime.PaginatorSequence<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(input: input, inputKey: \ListSolNetworkInstancesInput.nextToken, outputKey: \ListSolNetworkInstancesOutput.nextToken, paginationFunction: self.listSolNetworkInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSolNetworkInstances(input:))
     }
 }
 
@@ -84,7 +84,7 @@ extension ListSolNetworkInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSolNetworkInstancesInput, Output == ListSolNetworkInstancesOutput {
+extension PaginatorSequence where OperationStackInput == ListSolNetworkInstancesInput, OperationStackOutput == ListSolNetworkInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSolNetworkInstancesPaginated`
     /// to access the nested member `[TnbClientTypes.ListSolNetworkInstanceInfo]`
     /// - Returns: `[TnbClientTypes.ListSolNetworkInstanceInfo]`
@@ -102,7 +102,7 @@ extension TnbClient {
     ///     - input: A `[ListSolNetworkOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSolNetworkOperationsOutput`
     public func listSolNetworkOperationsPaginated(input: ListSolNetworkOperationsInput) -> ClientRuntime.PaginatorSequence<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(input: input, inputKey: \ListSolNetworkOperationsInput.nextToken, outputKey: \ListSolNetworkOperationsOutput.nextToken, paginationFunction: self.listSolNetworkOperations(input:))
+        return ClientRuntime.PaginatorSequence<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSolNetworkOperations(input:))
     }
 }
 
@@ -114,7 +114,7 @@ extension ListSolNetworkOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSolNetworkOperationsInput, Output == ListSolNetworkOperationsOutput {
+extension PaginatorSequence where OperationStackInput == ListSolNetworkOperationsInput, OperationStackOutput == ListSolNetworkOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSolNetworkOperationsPaginated`
     /// to access the nested member `[TnbClientTypes.ListSolNetworkOperationsInfo]`
     /// - Returns: `[TnbClientTypes.ListSolNetworkOperationsInfo]`
@@ -132,7 +132,7 @@ extension TnbClient {
     ///     - input: A `[ListSolNetworkPackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSolNetworkPackagesOutput`
     public func listSolNetworkPackagesPaginated(input: ListSolNetworkPackagesInput) -> ClientRuntime.PaginatorSequence<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(input: input, inputKey: \ListSolNetworkPackagesInput.nextToken, outputKey: \ListSolNetworkPackagesOutput.nextToken, paginationFunction: self.listSolNetworkPackages(input:))
+        return ClientRuntime.PaginatorSequence<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSolNetworkPackages(input:))
     }
 }
 
@@ -144,7 +144,7 @@ extension ListSolNetworkPackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSolNetworkPackagesInput, Output == ListSolNetworkPackagesOutput {
+extension PaginatorSequence where OperationStackInput == ListSolNetworkPackagesInput, OperationStackOutput == ListSolNetworkPackagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSolNetworkPackagesPaginated`
     /// to access the nested member `[TnbClientTypes.ListSolNetworkPackageInfo]`
     /// - Returns: `[TnbClientTypes.ListSolNetworkPackageInfo]`

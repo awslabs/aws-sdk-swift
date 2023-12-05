@@ -12,7 +12,7 @@ extension ConnectClient {
     ///     - input: A `[GetCurrentMetricDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCurrentMetricDataOutput`
     public func getCurrentMetricDataPaginated(input: GetCurrentMetricDataInput) -> ClientRuntime.PaginatorSequence<GetCurrentMetricDataInput, GetCurrentMetricDataOutput> {
-        return ClientRuntime.PaginatorSequence<GetCurrentMetricDataInput, GetCurrentMetricDataOutput>(input: input, inputKey: \GetCurrentMetricDataInput.nextToken, outputKey: \GetCurrentMetricDataOutput.nextToken, paginationFunction: self.getCurrentMetricData(input:))
+        return ClientRuntime.PaginatorSequence<GetCurrentMetricDataInput, GetCurrentMetricDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCurrentMetricData(input:))
     }
 }
 
@@ -38,7 +38,7 @@ extension ConnectClient {
     ///     - input: A `[GetCurrentUserDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCurrentUserDataOutput`
     public func getCurrentUserDataPaginated(input: GetCurrentUserDataInput) -> ClientRuntime.PaginatorSequence<GetCurrentUserDataInput, GetCurrentUserDataOutput> {
-        return ClientRuntime.PaginatorSequence<GetCurrentUserDataInput, GetCurrentUserDataOutput>(input: input, inputKey: \GetCurrentUserDataInput.nextToken, outputKey: \GetCurrentUserDataOutput.nextToken, paginationFunction: self.getCurrentUserData(input:))
+        return ClientRuntime.PaginatorSequence<GetCurrentUserDataInput, GetCurrentUserDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCurrentUserData(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension ConnectClient {
     ///     - input: A `[GetMetricDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMetricDataOutput`
     public func getMetricDataPaginated(input: GetMetricDataInput) -> ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput> {
-        return ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput>(input: input, inputKey: \GetMetricDataInput.nextToken, outputKey: \GetMetricDataOutput.nextToken, paginationFunction: self.getMetricData(input:))
+        return ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMetricData(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ConnectClient {
     ///     - input: A `[GetMetricDataV2Input]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMetricDataV2Output`
     public func getMetricDataV2Paginated(input: GetMetricDataV2Input) -> ClientRuntime.PaginatorSequence<GetMetricDataV2Input, GetMetricDataV2Output> {
-        return ClientRuntime.PaginatorSequence<GetMetricDataV2Input, GetMetricDataV2Output>(input: input, inputKey: \GetMetricDataV2Input.nextToken, outputKey: \GetMetricDataV2Output.nextToken, paginationFunction: self.getMetricDataV2(input:))
+        return ClientRuntime.PaginatorSequence<GetMetricDataV2Input, GetMetricDataV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMetricDataV2(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ConnectClient {
     ///     - input: A `[ListAgentStatusesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAgentStatusesOutput`
     public func listAgentStatusesPaginated(input: ListAgentStatusesInput) -> ClientRuntime.PaginatorSequence<ListAgentStatusesInput, ListAgentStatusesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAgentStatusesInput, ListAgentStatusesOutput>(input: input, inputKey: \ListAgentStatusesInput.nextToken, outputKey: \ListAgentStatusesOutput.nextToken, paginationFunction: self.listAgentStatuses(input:))
+        return ClientRuntime.PaginatorSequence<ListAgentStatusesInput, ListAgentStatusesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentStatuses(input:))
     }
 }
 
@@ -130,7 +130,7 @@ extension ListAgentStatusesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAgentStatusesInput, Output == ListAgentStatusesOutput {
+extension PaginatorSequence where OperationStackInput == ListAgentStatusesInput, OperationStackOutput == ListAgentStatusesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAgentStatusesPaginated`
     /// to access the nested member `[ConnectClientTypes.AgentStatusSummary]`
     /// - Returns: `[ConnectClientTypes.AgentStatusSummary]`
@@ -148,7 +148,7 @@ extension ConnectClient {
     ///     - input: A `[ListApprovedOriginsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApprovedOriginsOutput`
     public func listApprovedOriginsPaginated(input: ListApprovedOriginsInput) -> ClientRuntime.PaginatorSequence<ListApprovedOriginsInput, ListApprovedOriginsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApprovedOriginsInput, ListApprovedOriginsOutput>(input: input, inputKey: \ListApprovedOriginsInput.nextToken, outputKey: \ListApprovedOriginsOutput.nextToken, paginationFunction: self.listApprovedOrigins(input:))
+        return ClientRuntime.PaginatorSequence<ListApprovedOriginsInput, ListApprovedOriginsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApprovedOrigins(input:))
     }
 }
 
@@ -161,7 +161,7 @@ extension ListApprovedOriginsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApprovedOriginsInput, Output == ListApprovedOriginsOutput {
+extension PaginatorSequence where OperationStackInput == ListApprovedOriginsInput, OperationStackOutput == ListApprovedOriginsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApprovedOriginsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -179,7 +179,7 @@ extension ConnectClient {
     ///     - input: A `[ListBotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBotsOutput`
     public func listBotsPaginated(input: ListBotsInput) -> ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput>(input: input, inputKey: \ListBotsInput.nextToken, outputKey: \ListBotsOutput.nextToken, paginationFunction: self.listBots(input:))
+        return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBots(input:))
     }
 }
 
@@ -193,7 +193,7 @@ extension ListBotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBotsInput, Output == ListBotsOutput {
+extension PaginatorSequence where OperationStackInput == ListBotsInput, OperationStackOutput == ListBotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBotsPaginated`
     /// to access the nested member `[ConnectClientTypes.LexBotConfig]`
     /// - Returns: `[ConnectClientTypes.LexBotConfig]`
@@ -211,7 +211,7 @@ extension ConnectClient {
     ///     - input: A `[ListContactEvaluationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactEvaluationsOutput`
     public func listContactEvaluationsPaginated(input: ListContactEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListContactEvaluationsInput, ListContactEvaluationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListContactEvaluationsInput, ListContactEvaluationsOutput>(input: input, inputKey: \ListContactEvaluationsInput.nextToken, outputKey: \ListContactEvaluationsOutput.nextToken, paginationFunction: self.listContactEvaluations(input:))
+        return ClientRuntime.PaginatorSequence<ListContactEvaluationsInput, ListContactEvaluationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactEvaluations(input:))
     }
 }
 
@@ -224,7 +224,7 @@ extension ListContactEvaluationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContactEvaluationsInput, Output == ListContactEvaluationsOutput {
+extension PaginatorSequence where OperationStackInput == ListContactEvaluationsInput, OperationStackOutput == ListContactEvaluationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactEvaluationsPaginated`
     /// to access the nested member `[ConnectClientTypes.EvaluationSummary]`
     /// - Returns: `[ConnectClientTypes.EvaluationSummary]`
@@ -242,7 +242,7 @@ extension ConnectClient {
     ///     - input: A `[ListContactFlowModulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactFlowModulesOutput`
     public func listContactFlowModulesPaginated(input: ListContactFlowModulesInput) -> ClientRuntime.PaginatorSequence<ListContactFlowModulesInput, ListContactFlowModulesOutput> {
-        return ClientRuntime.PaginatorSequence<ListContactFlowModulesInput, ListContactFlowModulesOutput>(input: input, inputKey: \ListContactFlowModulesInput.nextToken, outputKey: \ListContactFlowModulesOutput.nextToken, paginationFunction: self.listContactFlowModules(input:))
+        return ClientRuntime.PaginatorSequence<ListContactFlowModulesInput, ListContactFlowModulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactFlowModules(input:))
     }
 }
 
@@ -256,7 +256,7 @@ extension ListContactFlowModulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContactFlowModulesInput, Output == ListContactFlowModulesOutput {
+extension PaginatorSequence where OperationStackInput == ListContactFlowModulesInput, OperationStackOutput == ListContactFlowModulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactFlowModulesPaginated`
     /// to access the nested member `[ConnectClientTypes.ContactFlowModuleSummary]`
     /// - Returns: `[ConnectClientTypes.ContactFlowModuleSummary]`
@@ -274,7 +274,7 @@ extension ConnectClient {
     ///     - input: A `[ListContactFlowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactFlowsOutput`
     public func listContactFlowsPaginated(input: ListContactFlowsInput) -> ClientRuntime.PaginatorSequence<ListContactFlowsInput, ListContactFlowsOutput> {
-        return ClientRuntime.PaginatorSequence<ListContactFlowsInput, ListContactFlowsOutput>(input: input, inputKey: \ListContactFlowsInput.nextToken, outputKey: \ListContactFlowsOutput.nextToken, paginationFunction: self.listContactFlows(input:))
+        return ClientRuntime.PaginatorSequence<ListContactFlowsInput, ListContactFlowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactFlows(input:))
     }
 }
 
@@ -288,7 +288,7 @@ extension ListContactFlowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContactFlowsInput, Output == ListContactFlowsOutput {
+extension PaginatorSequence where OperationStackInput == ListContactFlowsInput, OperationStackOutput == ListContactFlowsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactFlowsPaginated`
     /// to access the nested member `[ConnectClientTypes.ContactFlowSummary]`
     /// - Returns: `[ConnectClientTypes.ContactFlowSummary]`
@@ -306,7 +306,7 @@ extension ConnectClient {
     ///     - input: A `[ListContactReferencesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactReferencesOutput`
     public func listContactReferencesPaginated(input: ListContactReferencesInput) -> ClientRuntime.PaginatorSequence<ListContactReferencesInput, ListContactReferencesOutput> {
-        return ClientRuntime.PaginatorSequence<ListContactReferencesInput, ListContactReferencesOutput>(input: input, inputKey: \ListContactReferencesInput.nextToken, outputKey: \ListContactReferencesOutput.nextToken, paginationFunction: self.listContactReferences(input:))
+        return ClientRuntime.PaginatorSequence<ListContactReferencesInput, ListContactReferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactReferences(input:))
     }
 }
 
@@ -320,7 +320,7 @@ extension ListContactReferencesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContactReferencesInput, Output == ListContactReferencesOutput {
+extension PaginatorSequence where OperationStackInput == ListContactReferencesInput, OperationStackOutput == ListContactReferencesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactReferencesPaginated`
     /// to access the nested member `[ConnectClientTypes.ReferenceSummary]`
     /// - Returns: `[ConnectClientTypes.ReferenceSummary]`
@@ -338,7 +338,7 @@ extension ConnectClient {
     ///     - input: A `[ListDefaultVocabulariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDefaultVocabulariesOutput`
     public func listDefaultVocabulariesPaginated(input: ListDefaultVocabulariesInput) -> ClientRuntime.PaginatorSequence<ListDefaultVocabulariesInput, ListDefaultVocabulariesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDefaultVocabulariesInput, ListDefaultVocabulariesOutput>(input: input, inputKey: \ListDefaultVocabulariesInput.nextToken, outputKey: \ListDefaultVocabulariesOutput.nextToken, paginationFunction: self.listDefaultVocabularies(input:))
+        return ClientRuntime.PaginatorSequence<ListDefaultVocabulariesInput, ListDefaultVocabulariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDefaultVocabularies(input:))
     }
 }
 
@@ -352,7 +352,7 @@ extension ListDefaultVocabulariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDefaultVocabulariesInput, Output == ListDefaultVocabulariesOutput {
+extension PaginatorSequence where OperationStackInput == ListDefaultVocabulariesInput, OperationStackOutput == ListDefaultVocabulariesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDefaultVocabulariesPaginated`
     /// to access the nested member `[ConnectClientTypes.DefaultVocabulary]`
     /// - Returns: `[ConnectClientTypes.DefaultVocabulary]`
@@ -370,7 +370,7 @@ extension ConnectClient {
     ///     - input: A `[ListEvaluationFormsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEvaluationFormsOutput`
     public func listEvaluationFormsPaginated(input: ListEvaluationFormsInput) -> ClientRuntime.PaginatorSequence<ListEvaluationFormsInput, ListEvaluationFormsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEvaluationFormsInput, ListEvaluationFormsOutput>(input: input, inputKey: \ListEvaluationFormsInput.nextToken, outputKey: \ListEvaluationFormsOutput.nextToken, paginationFunction: self.listEvaluationForms(input:))
+        return ClientRuntime.PaginatorSequence<ListEvaluationFormsInput, ListEvaluationFormsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEvaluationForms(input:))
     }
 }
 
@@ -383,7 +383,7 @@ extension ListEvaluationFormsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEvaluationFormsInput, Output == ListEvaluationFormsOutput {
+extension PaginatorSequence where OperationStackInput == ListEvaluationFormsInput, OperationStackOutput == ListEvaluationFormsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEvaluationFormsPaginated`
     /// to access the nested member `[ConnectClientTypes.EvaluationFormSummary]`
     /// - Returns: `[ConnectClientTypes.EvaluationFormSummary]`
@@ -401,7 +401,7 @@ extension ConnectClient {
     ///     - input: A `[ListEvaluationFormVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEvaluationFormVersionsOutput`
     public func listEvaluationFormVersionsPaginated(input: ListEvaluationFormVersionsInput) -> ClientRuntime.PaginatorSequence<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutput>(input: input, inputKey: \ListEvaluationFormVersionsInput.nextToken, outputKey: \ListEvaluationFormVersionsOutput.nextToken, paginationFunction: self.listEvaluationFormVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEvaluationFormVersions(input:))
     }
 }
 
@@ -415,12 +415,44 @@ extension ListEvaluationFormVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEvaluationFormVersionsInput, Output == ListEvaluationFormVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListEvaluationFormVersionsInput, OperationStackOutput == ListEvaluationFormVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEvaluationFormVersionsPaginated`
     /// to access the nested member `[ConnectClientTypes.EvaluationFormVersionSummary]`
     /// - Returns: `[ConnectClientTypes.EvaluationFormVersionSummary]`
     public func evaluationFormVersionSummaryList() async throws -> [ConnectClientTypes.EvaluationFormVersionSummary] {
         return try await self.asyncCompactMap { item in item.evaluationFormVersionSummaryList }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[ListFlowAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlowAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowAssociationsOutput`
+    public func listFlowAssociationsPaginated(input: ListFlowAssociationsInput) -> ClientRuntime.PaginatorSequence<ListFlowAssociationsInput, ListFlowAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFlowAssociationsInput, ListFlowAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlowAssociations(input:))
+    }
+}
+
+extension ListFlowAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFlowAssociationsInput {
+        return ListFlowAssociationsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFlowAssociationsInput, OperationStackOutput == ListFlowAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFlowAssociationsPaginated`
+    /// to access the nested member `[ConnectClientTypes.FlowAssociationSummary]`
+    /// - Returns: `[ConnectClientTypes.FlowAssociationSummary]`
+    public func flowAssociationSummaryList() async throws -> [ConnectClientTypes.FlowAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.flowAssociationSummaryList }
     }
 }
 extension ConnectClient {
@@ -433,7 +465,7 @@ extension ConnectClient {
     ///     - input: A `[ListHoursOfOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHoursOfOperationsOutput`
     public func listHoursOfOperationsPaginated(input: ListHoursOfOperationsInput) -> ClientRuntime.PaginatorSequence<ListHoursOfOperationsInput, ListHoursOfOperationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListHoursOfOperationsInput, ListHoursOfOperationsOutput>(input: input, inputKey: \ListHoursOfOperationsInput.nextToken, outputKey: \ListHoursOfOperationsOutput.nextToken, paginationFunction: self.listHoursOfOperations(input:))
+        return ClientRuntime.PaginatorSequence<ListHoursOfOperationsInput, ListHoursOfOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHoursOfOperations(input:))
     }
 }
 
@@ -446,7 +478,7 @@ extension ListHoursOfOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListHoursOfOperationsInput, Output == ListHoursOfOperationsOutput {
+extension PaginatorSequence where OperationStackInput == ListHoursOfOperationsInput, OperationStackOutput == ListHoursOfOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listHoursOfOperationsPaginated`
     /// to access the nested member `[ConnectClientTypes.HoursOfOperationSummary]`
     /// - Returns: `[ConnectClientTypes.HoursOfOperationSummary]`
@@ -464,7 +496,7 @@ extension ConnectClient {
     ///     - input: A `[ListInstanceAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceAttributesOutput`
     public func listInstanceAttributesPaginated(input: ListInstanceAttributesInput) -> ClientRuntime.PaginatorSequence<ListInstanceAttributesInput, ListInstanceAttributesOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstanceAttributesInput, ListInstanceAttributesOutput>(input: input, inputKey: \ListInstanceAttributesInput.nextToken, outputKey: \ListInstanceAttributesOutput.nextToken, paginationFunction: self.listInstanceAttributes(input:))
+        return ClientRuntime.PaginatorSequence<ListInstanceAttributesInput, ListInstanceAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstanceAttributes(input:))
     }
 }
 
@@ -477,7 +509,7 @@ extension ListInstanceAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstanceAttributesInput, Output == ListInstanceAttributesOutput {
+extension PaginatorSequence where OperationStackInput == ListInstanceAttributesInput, OperationStackOutput == ListInstanceAttributesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceAttributesPaginated`
     /// to access the nested member `[ConnectClientTypes.Attribute]`
     /// - Returns: `[ConnectClientTypes.Attribute]`
@@ -495,7 +527,7 @@ extension ConnectClient {
     ///     - input: A `[ListInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
     public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutput.nextToken, paginationFunction: self.listInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstances(input:))
     }
 }
 
@@ -507,7 +539,7 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutput {
+extension PaginatorSequence where OperationStackInput == ListInstancesInput, OperationStackOutput == ListInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstancesPaginated`
     /// to access the nested member `[ConnectClientTypes.InstanceSummary]`
     /// - Returns: `[ConnectClientTypes.InstanceSummary]`
@@ -525,7 +557,7 @@ extension ConnectClient {
     ///     - input: A `[ListInstanceStorageConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceStorageConfigsOutput`
     public func listInstanceStorageConfigsPaginated(input: ListInstanceStorageConfigsInput) -> ClientRuntime.PaginatorSequence<ListInstanceStorageConfigsInput, ListInstanceStorageConfigsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInstanceStorageConfigsInput, ListInstanceStorageConfigsOutput>(input: input, inputKey: \ListInstanceStorageConfigsInput.nextToken, outputKey: \ListInstanceStorageConfigsOutput.nextToken, paginationFunction: self.listInstanceStorageConfigs(input:))
+        return ClientRuntime.PaginatorSequence<ListInstanceStorageConfigsInput, ListInstanceStorageConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstanceStorageConfigs(input:))
     }
 }
 
@@ -539,7 +571,7 @@ extension ListInstanceStorageConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstanceStorageConfigsInput, Output == ListInstanceStorageConfigsOutput {
+extension PaginatorSequence where OperationStackInput == ListInstanceStorageConfigsInput, OperationStackOutput == ListInstanceStorageConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceStorageConfigsPaginated`
     /// to access the nested member `[ConnectClientTypes.InstanceStorageConfig]`
     /// - Returns: `[ConnectClientTypes.InstanceStorageConfig]`
@@ -557,7 +589,7 @@ extension ConnectClient {
     ///     - input: A `[ListIntegrationAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIntegrationAssociationsOutput`
     public func listIntegrationAssociationsPaginated(input: ListIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListIntegrationAssociationsInput, ListIntegrationAssociationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListIntegrationAssociationsInput, ListIntegrationAssociationsOutput>(input: input, inputKey: \ListIntegrationAssociationsInput.nextToken, outputKey: \ListIntegrationAssociationsOutput.nextToken, paginationFunction: self.listIntegrationAssociations(input:))
+        return ClientRuntime.PaginatorSequence<ListIntegrationAssociationsInput, ListIntegrationAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIntegrationAssociations(input:))
     }
 }
 
@@ -565,13 +597,14 @@ extension ListIntegrationAssociationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListIntegrationAssociationsInput {
         return ListIntegrationAssociationsInput(
             instanceId: self.instanceId,
+            integrationArn: self.integrationArn,
             integrationType: self.integrationType,
             maxResults: self.maxResults,
             nextToken: token
         )}
 }
 
-extension PaginatorSequence where Input == ListIntegrationAssociationsInput, Output == ListIntegrationAssociationsOutput {
+extension PaginatorSequence where OperationStackInput == ListIntegrationAssociationsInput, OperationStackOutput == ListIntegrationAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIntegrationAssociationsPaginated`
     /// to access the nested member `[ConnectClientTypes.IntegrationAssociationSummary]`
     /// - Returns: `[ConnectClientTypes.IntegrationAssociationSummary]`
@@ -589,7 +622,7 @@ extension ConnectClient {
     ///     - input: A `[ListLambdaFunctionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLambdaFunctionsOutput`
     public func listLambdaFunctionsPaginated(input: ListLambdaFunctionsInput) -> ClientRuntime.PaginatorSequence<ListLambdaFunctionsInput, ListLambdaFunctionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLambdaFunctionsInput, ListLambdaFunctionsOutput>(input: input, inputKey: \ListLambdaFunctionsInput.nextToken, outputKey: \ListLambdaFunctionsOutput.nextToken, paginationFunction: self.listLambdaFunctions(input:))
+        return ClientRuntime.PaginatorSequence<ListLambdaFunctionsInput, ListLambdaFunctionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLambdaFunctions(input:))
     }
 }
 
@@ -602,7 +635,7 @@ extension ListLambdaFunctionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLambdaFunctionsInput, Output == ListLambdaFunctionsOutput {
+extension PaginatorSequence where OperationStackInput == ListLambdaFunctionsInput, OperationStackOutput == ListLambdaFunctionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLambdaFunctionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -620,7 +653,7 @@ extension ConnectClient {
     ///     - input: A `[ListLexBotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLexBotsOutput`
     public func listLexBotsPaginated(input: ListLexBotsInput) -> ClientRuntime.PaginatorSequence<ListLexBotsInput, ListLexBotsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLexBotsInput, ListLexBotsOutput>(input: input, inputKey: \ListLexBotsInput.nextToken, outputKey: \ListLexBotsOutput.nextToken, paginationFunction: self.listLexBots(input:))
+        return ClientRuntime.PaginatorSequence<ListLexBotsInput, ListLexBotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLexBots(input:))
     }
 }
 
@@ -633,7 +666,7 @@ extension ListLexBotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLexBotsInput, Output == ListLexBotsOutput {
+extension PaginatorSequence where OperationStackInput == ListLexBotsInput, OperationStackOutput == ListLexBotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLexBotsPaginated`
     /// to access the nested member `[ConnectClientTypes.LexBot]`
     /// - Returns: `[ConnectClientTypes.LexBot]`
@@ -651,7 +684,7 @@ extension ConnectClient {
     ///     - input: A `[ListPhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersOutput`
     public func listPhoneNumbersPaginated(input: ListPhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \ListPhoneNumbersInput.nextToken, outputKey: \ListPhoneNumbersOutput.nextToken, paginationFunction: self.listPhoneNumbers(input:))
+        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumbers(input:))
     }
 }
 
@@ -666,7 +699,7 @@ extension ListPhoneNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPhoneNumbersInput, Output == ListPhoneNumbersOutput {
+extension PaginatorSequence where OperationStackInput == ListPhoneNumbersInput, OperationStackOutput == ListPhoneNumbersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPhoneNumbersPaginated`
     /// to access the nested member `[ConnectClientTypes.PhoneNumberSummary]`
     /// - Returns: `[ConnectClientTypes.PhoneNumberSummary]`
@@ -684,7 +717,7 @@ extension ConnectClient {
     ///     - input: A `[ListPhoneNumbersV2Input]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersV2Output`
     public func listPhoneNumbersV2Paginated(input: ListPhoneNumbersV2Input) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersV2Input, ListPhoneNumbersV2Output> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumbersV2Input, ListPhoneNumbersV2Output>(input: input, inputKey: \ListPhoneNumbersV2Input.nextToken, outputKey: \ListPhoneNumbersV2Output.nextToken, paginationFunction: self.listPhoneNumbersV2(input:))
+        return ClientRuntime.PaginatorSequence<ListPhoneNumbersV2Input, ListPhoneNumbersV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumbersV2(input:))
     }
 }
 
@@ -701,7 +734,7 @@ extension ListPhoneNumbersV2Input: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPhoneNumbersV2Input, Output == ListPhoneNumbersV2Output {
+extension PaginatorSequence where OperationStackInput == ListPhoneNumbersV2Input, OperationStackOutput == ListPhoneNumbersV2Output {
     /// This paginator transforms the `AsyncSequence` returned by `listPhoneNumbersV2Paginated`
     /// to access the nested member `[ConnectClientTypes.ListPhoneNumbersSummary]`
     /// - Returns: `[ConnectClientTypes.ListPhoneNumbersSummary]`
@@ -719,7 +752,7 @@ extension ConnectClient {
     ///     - input: A `[ListPromptsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPromptsOutput`
     public func listPromptsPaginated(input: ListPromptsInput) -> ClientRuntime.PaginatorSequence<ListPromptsInput, ListPromptsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPromptsInput, ListPromptsOutput>(input: input, inputKey: \ListPromptsInput.nextToken, outputKey: \ListPromptsOutput.nextToken, paginationFunction: self.listPrompts(input:))
+        return ClientRuntime.PaginatorSequence<ListPromptsInput, ListPromptsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPrompts(input:))
     }
 }
 
@@ -732,7 +765,7 @@ extension ListPromptsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPromptsInput, Output == ListPromptsOutput {
+extension PaginatorSequence where OperationStackInput == ListPromptsInput, OperationStackOutput == ListPromptsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPromptsPaginated`
     /// to access the nested member `[ConnectClientTypes.PromptSummary]`
     /// - Returns: `[ConnectClientTypes.PromptSummary]`
@@ -750,7 +783,7 @@ extension ConnectClient {
     ///     - input: A `[ListQueueQuickConnectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueueQuickConnectsOutput`
     public func listQueueQuickConnectsPaginated(input: ListQueueQuickConnectsInput) -> ClientRuntime.PaginatorSequence<ListQueueQuickConnectsInput, ListQueueQuickConnectsOutput> {
-        return ClientRuntime.PaginatorSequence<ListQueueQuickConnectsInput, ListQueueQuickConnectsOutput>(input: input, inputKey: \ListQueueQuickConnectsInput.nextToken, outputKey: \ListQueueQuickConnectsOutput.nextToken, paginationFunction: self.listQueueQuickConnects(input:))
+        return ClientRuntime.PaginatorSequence<ListQueueQuickConnectsInput, ListQueueQuickConnectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueueQuickConnects(input:))
     }
 }
 
@@ -764,7 +797,7 @@ extension ListQueueQuickConnectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListQueueQuickConnectsInput, Output == ListQueueQuickConnectsOutput {
+extension PaginatorSequence where OperationStackInput == ListQueueQuickConnectsInput, OperationStackOutput == ListQueueQuickConnectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listQueueQuickConnectsPaginated`
     /// to access the nested member `[ConnectClientTypes.QuickConnectSummary]`
     /// - Returns: `[ConnectClientTypes.QuickConnectSummary]`
@@ -782,7 +815,7 @@ extension ConnectClient {
     ///     - input: A `[ListQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueuesOutput`
     public func listQueuesPaginated(input: ListQueuesInput) -> ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput> {
-        return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \ListQueuesInput.nextToken, outputKey: \ListQueuesOutput.nextToken, paginationFunction: self.listQueues(input:))
+        return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueues(input:))
     }
 }
 
@@ -796,7 +829,7 @@ extension ListQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListQueuesInput, Output == ListQueuesOutput {
+extension PaginatorSequence where OperationStackInput == ListQueuesInput, OperationStackOutput == ListQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listQueuesPaginated`
     /// to access the nested member `[ConnectClientTypes.QueueSummary]`
     /// - Returns: `[ConnectClientTypes.QueueSummary]`
@@ -814,7 +847,7 @@ extension ConnectClient {
     ///     - input: A `[ListQuickConnectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQuickConnectsOutput`
     public func listQuickConnectsPaginated(input: ListQuickConnectsInput) -> ClientRuntime.PaginatorSequence<ListQuickConnectsInput, ListQuickConnectsOutput> {
-        return ClientRuntime.PaginatorSequence<ListQuickConnectsInput, ListQuickConnectsOutput>(input: input, inputKey: \ListQuickConnectsInput.nextToken, outputKey: \ListQuickConnectsOutput.nextToken, paginationFunction: self.listQuickConnects(input:))
+        return ClientRuntime.PaginatorSequence<ListQuickConnectsInput, ListQuickConnectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQuickConnects(input:))
     }
 }
 
@@ -828,13 +861,38 @@ extension ListQuickConnectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListQuickConnectsInput, Output == ListQuickConnectsOutput {
+extension PaginatorSequence where OperationStackInput == ListQuickConnectsInput, OperationStackOutput == ListQuickConnectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listQuickConnectsPaginated`
     /// to access the nested member `[ConnectClientTypes.QuickConnectSummary]`
     /// - Returns: `[ConnectClientTypes.QuickConnectSummary]`
     public func quickConnectSummaryList() async throws -> [ConnectClientTypes.QuickConnectSummary] {
         return try await self.asyncCompactMap { item in item.quickConnectSummaryList }
     }
+}
+extension ConnectClient {
+    /// Paginate over `[ListRealtimeContactAnalysisSegmentsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRealtimeContactAnalysisSegmentsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRealtimeContactAnalysisSegmentsV2Output`
+    public func listRealtimeContactAnalysisSegmentsV2Paginated(input: ListRealtimeContactAnalysisSegmentsV2Input) -> ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsV2Input, ListRealtimeContactAnalysisSegmentsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsV2Input, ListRealtimeContactAnalysisSegmentsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRealtimeContactAnalysisSegmentsV2(input:))
+    }
+}
+
+extension ListRealtimeContactAnalysisSegmentsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRealtimeContactAnalysisSegmentsV2Input {
+        return ListRealtimeContactAnalysisSegmentsV2Input(
+            contactId: self.contactId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outputType: self.outputType,
+            segmentTypes: self.segmentTypes
+        )}
 }
 extension ConnectClient {
     /// Paginate over `[ListRoutingProfileQueuesOutput]` results.
@@ -846,7 +904,7 @@ extension ConnectClient {
     ///     - input: A `[ListRoutingProfileQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoutingProfileQueuesOutput`
     public func listRoutingProfileQueuesPaginated(input: ListRoutingProfileQueuesInput) -> ClientRuntime.PaginatorSequence<ListRoutingProfileQueuesInput, ListRoutingProfileQueuesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoutingProfileQueuesInput, ListRoutingProfileQueuesOutput>(input: input, inputKey: \ListRoutingProfileQueuesInput.nextToken, outputKey: \ListRoutingProfileQueuesOutput.nextToken, paginationFunction: self.listRoutingProfileQueues(input:))
+        return ClientRuntime.PaginatorSequence<ListRoutingProfileQueuesInput, ListRoutingProfileQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoutingProfileQueues(input:))
     }
 }
 
@@ -860,7 +918,7 @@ extension ListRoutingProfileQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRoutingProfileQueuesInput, Output == ListRoutingProfileQueuesOutput {
+extension PaginatorSequence where OperationStackInput == ListRoutingProfileQueuesInput, OperationStackOutput == ListRoutingProfileQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRoutingProfileQueuesPaginated`
     /// to access the nested member `[ConnectClientTypes.RoutingProfileQueueConfigSummary]`
     /// - Returns: `[ConnectClientTypes.RoutingProfileQueueConfigSummary]`
@@ -878,7 +936,7 @@ extension ConnectClient {
     ///     - input: A `[ListRoutingProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoutingProfilesOutput`
     public func listRoutingProfilesPaginated(input: ListRoutingProfilesInput) -> ClientRuntime.PaginatorSequence<ListRoutingProfilesInput, ListRoutingProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoutingProfilesInput, ListRoutingProfilesOutput>(input: input, inputKey: \ListRoutingProfilesInput.nextToken, outputKey: \ListRoutingProfilesOutput.nextToken, paginationFunction: self.listRoutingProfiles(input:))
+        return ClientRuntime.PaginatorSequence<ListRoutingProfilesInput, ListRoutingProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoutingProfiles(input:))
     }
 }
 
@@ -891,7 +949,7 @@ extension ListRoutingProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRoutingProfilesInput, Output == ListRoutingProfilesOutput {
+extension PaginatorSequence where OperationStackInput == ListRoutingProfilesInput, OperationStackOutput == ListRoutingProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRoutingProfilesPaginated`
     /// to access the nested member `[ConnectClientTypes.RoutingProfileSummary]`
     /// - Returns: `[ConnectClientTypes.RoutingProfileSummary]`
@@ -909,7 +967,7 @@ extension ConnectClient {
     ///     - input: A `[ListRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutput`
     public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutput.nextToken, paginationFunction: self.listRules(input:))
+        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRules(input:))
     }
 }
 
@@ -924,7 +982,7 @@ extension ListRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutput {
+extension PaginatorSequence where OperationStackInput == ListRulesInput, OperationStackOutput == ListRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
     /// to access the nested member `[ConnectClientTypes.RuleSummary]`
     /// - Returns: `[ConnectClientTypes.RuleSummary]`
@@ -942,7 +1000,7 @@ extension ConnectClient {
     ///     - input: A `[ListSecurityKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityKeysOutput`
     public func listSecurityKeysPaginated(input: ListSecurityKeysInput) -> ClientRuntime.PaginatorSequence<ListSecurityKeysInput, ListSecurityKeysOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityKeysInput, ListSecurityKeysOutput>(input: input, inputKey: \ListSecurityKeysInput.nextToken, outputKey: \ListSecurityKeysOutput.nextToken, paginationFunction: self.listSecurityKeys(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityKeysInput, ListSecurityKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityKeys(input:))
     }
 }
 
@@ -955,7 +1013,7 @@ extension ListSecurityKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityKeysInput, Output == ListSecurityKeysOutput {
+extension PaginatorSequence where OperationStackInput == ListSecurityKeysInput, OperationStackOutput == ListSecurityKeysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityKeysPaginated`
     /// to access the nested member `[ConnectClientTypes.SecurityKey]`
     /// - Returns: `[ConnectClientTypes.SecurityKey]`
@@ -973,7 +1031,7 @@ extension ConnectClient {
     ///     - input: A `[ListSecurityProfileApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfileApplicationsOutput`
     public func listSecurityProfileApplicationsPaginated(input: ListSecurityProfileApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutput>(input: input, inputKey: \ListSecurityProfileApplicationsInput.nextToken, outputKey: \ListSecurityProfileApplicationsOutput.nextToken, paginationFunction: self.listSecurityProfileApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityProfileApplications(input:))
     }
 }
 
@@ -987,7 +1045,7 @@ extension ListSecurityProfileApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityProfileApplicationsInput, Output == ListSecurityProfileApplicationsOutput {
+extension PaginatorSequence where OperationStackInput == ListSecurityProfileApplicationsInput, OperationStackOutput == ListSecurityProfileApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfileApplicationsPaginated`
     /// to access the nested member `[ConnectClientTypes.Application]`
     /// - Returns: `[ConnectClientTypes.Application]`
@@ -1005,7 +1063,7 @@ extension ConnectClient {
     ///     - input: A `[ListSecurityProfilePermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfilePermissionsOutput`
     public func listSecurityProfilePermissionsPaginated(input: ListSecurityProfilePermissionsInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfilePermissionsInput, ListSecurityProfilePermissionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityProfilePermissionsInput, ListSecurityProfilePermissionsOutput>(input: input, inputKey: \ListSecurityProfilePermissionsInput.nextToken, outputKey: \ListSecurityProfilePermissionsOutput.nextToken, paginationFunction: self.listSecurityProfilePermissions(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityProfilePermissionsInput, ListSecurityProfilePermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityProfilePermissions(input:))
     }
 }
 
@@ -1019,7 +1077,7 @@ extension ListSecurityProfilePermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityProfilePermissionsInput, Output == ListSecurityProfilePermissionsOutput {
+extension PaginatorSequence where OperationStackInput == ListSecurityProfilePermissionsInput, OperationStackOutput == ListSecurityProfilePermissionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfilePermissionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1037,7 +1095,7 @@ extension ConnectClient {
     ///     - input: A `[ListSecurityProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfilesOutput`
     public func listSecurityProfilesPaginated(input: ListSecurityProfilesInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfilesInput, ListSecurityProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecurityProfilesInput, ListSecurityProfilesOutput>(input: input, inputKey: \ListSecurityProfilesInput.nextToken, outputKey: \ListSecurityProfilesOutput.nextToken, paginationFunction: self.listSecurityProfiles(input:))
+        return ClientRuntime.PaginatorSequence<ListSecurityProfilesInput, ListSecurityProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityProfiles(input:))
     }
 }
 
@@ -1050,7 +1108,7 @@ extension ListSecurityProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityProfilesInput, Output == ListSecurityProfilesOutput {
+extension PaginatorSequence where OperationStackInput == ListSecurityProfilesInput, OperationStackOutput == ListSecurityProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfilesPaginated`
     /// to access the nested member `[ConnectClientTypes.SecurityProfileSummary]`
     /// - Returns: `[ConnectClientTypes.SecurityProfileSummary]`
@@ -1068,7 +1126,7 @@ extension ConnectClient {
     ///     - input: A `[ListTaskTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTaskTemplatesOutput`
     public func listTaskTemplatesPaginated(input: ListTaskTemplatesInput) -> ClientRuntime.PaginatorSequence<ListTaskTemplatesInput, ListTaskTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTaskTemplatesInput, ListTaskTemplatesOutput>(input: input, inputKey: \ListTaskTemplatesInput.nextToken, outputKey: \ListTaskTemplatesOutput.nextToken, paginationFunction: self.listTaskTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListTaskTemplatesInput, ListTaskTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTaskTemplates(input:))
     }
 }
 
@@ -1083,7 +1141,7 @@ extension ListTaskTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTaskTemplatesInput, Output == ListTaskTemplatesOutput {
+extension PaginatorSequence where OperationStackInput == ListTaskTemplatesInput, OperationStackOutput == ListTaskTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTaskTemplatesPaginated`
     /// to access the nested member `[ConnectClientTypes.TaskTemplateMetadata]`
     /// - Returns: `[ConnectClientTypes.TaskTemplateMetadata]`
@@ -1101,7 +1159,7 @@ extension ConnectClient {
     ///     - input: A `[ListTrafficDistributionGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrafficDistributionGroupsOutput`
     public func listTrafficDistributionGroupsPaginated(input: ListTrafficDistributionGroupsInput) -> ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupsInput, ListTrafficDistributionGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupsInput, ListTrafficDistributionGroupsOutput>(input: input, inputKey: \ListTrafficDistributionGroupsInput.nextToken, outputKey: \ListTrafficDistributionGroupsOutput.nextToken, paginationFunction: self.listTrafficDistributionGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupsInput, ListTrafficDistributionGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrafficDistributionGroups(input:))
     }
 }
 
@@ -1114,7 +1172,7 @@ extension ListTrafficDistributionGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTrafficDistributionGroupsInput, Output == ListTrafficDistributionGroupsOutput {
+extension PaginatorSequence where OperationStackInput == ListTrafficDistributionGroupsInput, OperationStackOutput == ListTrafficDistributionGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTrafficDistributionGroupsPaginated`
     /// to access the nested member `[ConnectClientTypes.TrafficDistributionGroupSummary]`
     /// - Returns: `[ConnectClientTypes.TrafficDistributionGroupSummary]`
@@ -1132,7 +1190,7 @@ extension ConnectClient {
     ///     - input: A `[ListTrafficDistributionGroupUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrafficDistributionGroupUsersOutput`
     public func listTrafficDistributionGroupUsersPaginated(input: ListTrafficDistributionGroupUsersInput) -> ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutput> {
-        return ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutput>(input: input, inputKey: \ListTrafficDistributionGroupUsersInput.nextToken, outputKey: \ListTrafficDistributionGroupUsersOutput.nextToken, paginationFunction: self.listTrafficDistributionGroupUsers(input:))
+        return ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrafficDistributionGroupUsers(input:))
     }
 }
 
@@ -1145,7 +1203,7 @@ extension ListTrafficDistributionGroupUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTrafficDistributionGroupUsersInput, Output == ListTrafficDistributionGroupUsersOutput {
+extension PaginatorSequence where OperationStackInput == ListTrafficDistributionGroupUsersInput, OperationStackOutput == ListTrafficDistributionGroupUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTrafficDistributionGroupUsersPaginated`
     /// to access the nested member `[ConnectClientTypes.TrafficDistributionGroupUserSummary]`
     /// - Returns: `[ConnectClientTypes.TrafficDistributionGroupUserSummary]`
@@ -1163,7 +1221,7 @@ extension ConnectClient {
     ///     - input: A `[ListUseCasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUseCasesOutput`
     public func listUseCasesPaginated(input: ListUseCasesInput) -> ClientRuntime.PaginatorSequence<ListUseCasesInput, ListUseCasesOutput> {
-        return ClientRuntime.PaginatorSequence<ListUseCasesInput, ListUseCasesOutput>(input: input, inputKey: \ListUseCasesInput.nextToken, outputKey: \ListUseCasesOutput.nextToken, paginationFunction: self.listUseCases(input:))
+        return ClientRuntime.PaginatorSequence<ListUseCasesInput, ListUseCasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUseCases(input:))
     }
 }
 
@@ -1177,7 +1235,7 @@ extension ListUseCasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUseCasesInput, Output == ListUseCasesOutput {
+extension PaginatorSequence where OperationStackInput == ListUseCasesInput, OperationStackOutput == ListUseCasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUseCasesPaginated`
     /// to access the nested member `[ConnectClientTypes.UseCase]`
     /// - Returns: `[ConnectClientTypes.UseCase]`
@@ -1195,7 +1253,7 @@ extension ConnectClient {
     ///     - input: A `[ListUserHierarchyGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUserHierarchyGroupsOutput`
     public func listUserHierarchyGroupsPaginated(input: ListUserHierarchyGroupsInput) -> ClientRuntime.PaginatorSequence<ListUserHierarchyGroupsInput, ListUserHierarchyGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListUserHierarchyGroupsInput, ListUserHierarchyGroupsOutput>(input: input, inputKey: \ListUserHierarchyGroupsInput.nextToken, outputKey: \ListUserHierarchyGroupsOutput.nextToken, paginationFunction: self.listUserHierarchyGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListUserHierarchyGroupsInput, ListUserHierarchyGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUserHierarchyGroups(input:))
     }
 }
 
@@ -1208,7 +1266,7 @@ extension ListUserHierarchyGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUserHierarchyGroupsInput, Output == ListUserHierarchyGroupsOutput {
+extension PaginatorSequence where OperationStackInput == ListUserHierarchyGroupsInput, OperationStackOutput == ListUserHierarchyGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUserHierarchyGroupsPaginated`
     /// to access the nested member `[ConnectClientTypes.HierarchyGroupSummary]`
     /// - Returns: `[ConnectClientTypes.HierarchyGroupSummary]`
@@ -1226,7 +1284,7 @@ extension ConnectClient {
     ///     - input: A `[ListUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUsers(input:))
     }
 }
 
@@ -1239,7 +1297,7 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
+extension PaginatorSequence where OperationStackInput == ListUsersInput, OperationStackOutput == ListUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[ConnectClientTypes.UserSummary]`
     /// - Returns: `[ConnectClientTypes.UserSummary]`
@@ -1257,7 +1315,7 @@ extension ConnectClient {
     ///     - input: A `[ListViewsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListViewsOutput`
     public func listViewsPaginated(input: ListViewsInput) -> ClientRuntime.PaginatorSequence<ListViewsInput, ListViewsOutput> {
-        return ClientRuntime.PaginatorSequence<ListViewsInput, ListViewsOutput>(input: input, inputKey: \ListViewsInput.nextToken, outputKey: \ListViewsOutput.nextToken, paginationFunction: self.listViews(input:))
+        return ClientRuntime.PaginatorSequence<ListViewsInput, ListViewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listViews(input:))
     }
 }
 
@@ -1271,7 +1329,7 @@ extension ListViewsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListViewsInput, Output == ListViewsOutput {
+extension PaginatorSequence where OperationStackInput == ListViewsInput, OperationStackOutput == ListViewsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listViewsPaginated`
     /// to access the nested member `[ConnectClientTypes.ViewSummary]`
     /// - Returns: `[ConnectClientTypes.ViewSummary]`
@@ -1289,7 +1347,7 @@ extension ConnectClient {
     ///     - input: A `[ListViewVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListViewVersionsOutput`
     public func listViewVersionsPaginated(input: ListViewVersionsInput) -> ClientRuntime.PaginatorSequence<ListViewVersionsInput, ListViewVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListViewVersionsInput, ListViewVersionsOutput>(input: input, inputKey: \ListViewVersionsInput.nextToken, outputKey: \ListViewVersionsOutput.nextToken, paginationFunction: self.listViewVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListViewVersionsInput, ListViewVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listViewVersions(input:))
     }
 }
 
@@ -1303,7 +1361,7 @@ extension ListViewVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListViewVersionsInput, Output == ListViewVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListViewVersionsInput, OperationStackOutput == ListViewVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listViewVersionsPaginated`
     /// to access the nested member `[ConnectClientTypes.ViewVersionSummary]`
     /// - Returns: `[ConnectClientTypes.ViewVersionSummary]`
@@ -1321,7 +1379,7 @@ extension ConnectClient {
     ///     - input: A `[SearchAvailablePhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchAvailablePhoneNumbersOutput`
     public func searchAvailablePhoneNumbersPaginated(input: SearchAvailablePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \SearchAvailablePhoneNumbersInput.nextToken, outputKey: \SearchAvailablePhoneNumbersOutput.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
+        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
     }
 }
 
@@ -1338,7 +1396,7 @@ extension SearchAvailablePhoneNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchAvailablePhoneNumbersInput, Output == SearchAvailablePhoneNumbersOutput {
+extension PaginatorSequence where OperationStackInput == SearchAvailablePhoneNumbersInput, OperationStackOutput == SearchAvailablePhoneNumbersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchAvailablePhoneNumbersPaginated`
     /// to access the nested member `[ConnectClientTypes.AvailableNumberSummary]`
     /// - Returns: `[ConnectClientTypes.AvailableNumberSummary]`
@@ -1356,7 +1414,7 @@ extension ConnectClient {
     ///     - input: A `[SearchHoursOfOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchHoursOfOperationsOutput`
     public func searchHoursOfOperationsPaginated(input: SearchHoursOfOperationsInput) -> ClientRuntime.PaginatorSequence<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutput> {
-        return ClientRuntime.PaginatorSequence<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutput>(input: input, inputKey: \SearchHoursOfOperationsInput.nextToken, outputKey: \SearchHoursOfOperationsOutput.nextToken, paginationFunction: self.searchHoursOfOperations(input:))
+        return ClientRuntime.PaginatorSequence<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchHoursOfOperations(input:))
     }
 }
 
@@ -1371,7 +1429,7 @@ extension SearchHoursOfOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchHoursOfOperationsInput, Output == SearchHoursOfOperationsOutput {
+extension PaginatorSequence where OperationStackInput == SearchHoursOfOperationsInput, OperationStackOutput == SearchHoursOfOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchHoursOfOperationsPaginated`
     /// to access the nested member `[ConnectClientTypes.HoursOfOperation]`
     /// - Returns: `[ConnectClientTypes.HoursOfOperation]`
@@ -1389,7 +1447,7 @@ extension ConnectClient {
     ///     - input: A `[SearchPromptsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchPromptsOutput`
     public func searchPromptsPaginated(input: SearchPromptsInput) -> ClientRuntime.PaginatorSequence<SearchPromptsInput, SearchPromptsOutput> {
-        return ClientRuntime.PaginatorSequence<SearchPromptsInput, SearchPromptsOutput>(input: input, inputKey: \SearchPromptsInput.nextToken, outputKey: \SearchPromptsOutput.nextToken, paginationFunction: self.searchPrompts(input:))
+        return ClientRuntime.PaginatorSequence<SearchPromptsInput, SearchPromptsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchPrompts(input:))
     }
 }
 
@@ -1404,7 +1462,7 @@ extension SearchPromptsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchPromptsInput, Output == SearchPromptsOutput {
+extension PaginatorSequence where OperationStackInput == SearchPromptsInput, OperationStackOutput == SearchPromptsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchPromptsPaginated`
     /// to access the nested member `[ConnectClientTypes.Prompt]`
     /// - Returns: `[ConnectClientTypes.Prompt]`
@@ -1422,7 +1480,7 @@ extension ConnectClient {
     ///     - input: A `[SearchQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchQueuesOutput`
     public func searchQueuesPaginated(input: SearchQueuesInput) -> ClientRuntime.PaginatorSequence<SearchQueuesInput, SearchQueuesOutput> {
-        return ClientRuntime.PaginatorSequence<SearchQueuesInput, SearchQueuesOutput>(input: input, inputKey: \SearchQueuesInput.nextToken, outputKey: \SearchQueuesOutput.nextToken, paginationFunction: self.searchQueues(input:))
+        return ClientRuntime.PaginatorSequence<SearchQueuesInput, SearchQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchQueues(input:))
     }
 }
 
@@ -1437,7 +1495,7 @@ extension SearchQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchQueuesInput, Output == SearchQueuesOutput {
+extension PaginatorSequence where OperationStackInput == SearchQueuesInput, OperationStackOutput == SearchQueuesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchQueuesPaginated`
     /// to access the nested member `[ConnectClientTypes.Queue]`
     /// - Returns: `[ConnectClientTypes.Queue]`
@@ -1455,7 +1513,7 @@ extension ConnectClient {
     ///     - input: A `[SearchQuickConnectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchQuickConnectsOutput`
     public func searchQuickConnectsPaginated(input: SearchQuickConnectsInput) -> ClientRuntime.PaginatorSequence<SearchQuickConnectsInput, SearchQuickConnectsOutput> {
-        return ClientRuntime.PaginatorSequence<SearchQuickConnectsInput, SearchQuickConnectsOutput>(input: input, inputKey: \SearchQuickConnectsInput.nextToken, outputKey: \SearchQuickConnectsOutput.nextToken, paginationFunction: self.searchQuickConnects(input:))
+        return ClientRuntime.PaginatorSequence<SearchQuickConnectsInput, SearchQuickConnectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchQuickConnects(input:))
     }
 }
 
@@ -1470,7 +1528,7 @@ extension SearchQuickConnectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchQuickConnectsInput, Output == SearchQuickConnectsOutput {
+extension PaginatorSequence where OperationStackInput == SearchQuickConnectsInput, OperationStackOutput == SearchQuickConnectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchQuickConnectsPaginated`
     /// to access the nested member `[ConnectClientTypes.QuickConnect]`
     /// - Returns: `[ConnectClientTypes.QuickConnect]`
@@ -1488,7 +1546,7 @@ extension ConnectClient {
     ///     - input: A `[SearchResourceTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchResourceTagsOutput`
     public func searchResourceTagsPaginated(input: SearchResourceTagsInput) -> ClientRuntime.PaginatorSequence<SearchResourceTagsInput, SearchResourceTagsOutput> {
-        return ClientRuntime.PaginatorSequence<SearchResourceTagsInput, SearchResourceTagsOutput>(input: input, inputKey: \SearchResourceTagsInput.nextToken, outputKey: \SearchResourceTagsOutput.nextToken, paginationFunction: self.searchResourceTags(input:))
+        return ClientRuntime.PaginatorSequence<SearchResourceTagsInput, SearchResourceTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchResourceTags(input:))
     }
 }
 
@@ -1503,7 +1561,7 @@ extension SearchResourceTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchResourceTagsInput, Output == SearchResourceTagsOutput {
+extension PaginatorSequence where OperationStackInput == SearchResourceTagsInput, OperationStackOutput == SearchResourceTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchResourceTagsPaginated`
     /// to access the nested member `[ConnectClientTypes.TagSet]`
     /// - Returns: `[ConnectClientTypes.TagSet]`
@@ -1521,7 +1579,7 @@ extension ConnectClient {
     ///     - input: A `[SearchRoutingProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchRoutingProfilesOutput`
     public func searchRoutingProfilesPaginated(input: SearchRoutingProfilesInput) -> ClientRuntime.PaginatorSequence<SearchRoutingProfilesInput, SearchRoutingProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<SearchRoutingProfilesInput, SearchRoutingProfilesOutput>(input: input, inputKey: \SearchRoutingProfilesInput.nextToken, outputKey: \SearchRoutingProfilesOutput.nextToken, paginationFunction: self.searchRoutingProfiles(input:))
+        return ClientRuntime.PaginatorSequence<SearchRoutingProfilesInput, SearchRoutingProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchRoutingProfiles(input:))
     }
 }
 
@@ -1536,7 +1594,7 @@ extension SearchRoutingProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchRoutingProfilesInput, Output == SearchRoutingProfilesOutput {
+extension PaginatorSequence where OperationStackInput == SearchRoutingProfilesInput, OperationStackOutput == SearchRoutingProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchRoutingProfilesPaginated`
     /// to access the nested member `[ConnectClientTypes.RoutingProfile]`
     /// - Returns: `[ConnectClientTypes.RoutingProfile]`
@@ -1554,7 +1612,7 @@ extension ConnectClient {
     ///     - input: A `[SearchSecurityProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchSecurityProfilesOutput`
     public func searchSecurityProfilesPaginated(input: SearchSecurityProfilesInput) -> ClientRuntime.PaginatorSequence<SearchSecurityProfilesInput, SearchSecurityProfilesOutput> {
-        return ClientRuntime.PaginatorSequence<SearchSecurityProfilesInput, SearchSecurityProfilesOutput>(input: input, inputKey: \SearchSecurityProfilesInput.nextToken, outputKey: \SearchSecurityProfilesOutput.nextToken, paginationFunction: self.searchSecurityProfiles(input:))
+        return ClientRuntime.PaginatorSequence<SearchSecurityProfilesInput, SearchSecurityProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchSecurityProfiles(input:))
     }
 }
 
@@ -1569,7 +1627,7 @@ extension SearchSecurityProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchSecurityProfilesInput, Output == SearchSecurityProfilesOutput {
+extension PaginatorSequence where OperationStackInput == SearchSecurityProfilesInput, OperationStackOutput == SearchSecurityProfilesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchSecurityProfilesPaginated`
     /// to access the nested member `[ConnectClientTypes.SecurityProfileSearchSummary]`
     /// - Returns: `[ConnectClientTypes.SecurityProfileSearchSummary]`
@@ -1587,7 +1645,7 @@ extension ConnectClient {
     ///     - input: A `[SearchUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchUsersOutput`
     public func searchUsersPaginated(input: SearchUsersInput) -> ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput> {
-        return ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput>(input: input, inputKey: \SearchUsersInput.nextToken, outputKey: \SearchUsersOutput.nextToken, paginationFunction: self.searchUsers(input:))
+        return ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchUsers(input:))
     }
 }
 
@@ -1602,7 +1660,7 @@ extension SearchUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchUsersInput, Output == SearchUsersOutput {
+extension PaginatorSequence where OperationStackInput == SearchUsersInput, OperationStackOutput == SearchUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchUsersPaginated`
     /// to access the nested member `[ConnectClientTypes.UserSearchSummary]`
     /// - Returns: `[ConnectClientTypes.UserSearchSummary]`
@@ -1620,7 +1678,7 @@ extension ConnectClient {
     ///     - input: A `[SearchVocabulariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchVocabulariesOutput`
     public func searchVocabulariesPaginated(input: SearchVocabulariesInput) -> ClientRuntime.PaginatorSequence<SearchVocabulariesInput, SearchVocabulariesOutput> {
-        return ClientRuntime.PaginatorSequence<SearchVocabulariesInput, SearchVocabulariesOutput>(input: input, inputKey: \SearchVocabulariesInput.nextToken, outputKey: \SearchVocabulariesOutput.nextToken, paginationFunction: self.searchVocabularies(input:))
+        return ClientRuntime.PaginatorSequence<SearchVocabulariesInput, SearchVocabulariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchVocabularies(input:))
     }
 }
 
@@ -1636,7 +1694,7 @@ extension SearchVocabulariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchVocabulariesInput, Output == SearchVocabulariesOutput {
+extension PaginatorSequence where OperationStackInput == SearchVocabulariesInput, OperationStackOutput == SearchVocabulariesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchVocabulariesPaginated`
     /// to access the nested member `[ConnectClientTypes.VocabularySummary]`
     /// - Returns: `[ConnectClientTypes.VocabularySummary]`

@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run SQL statements, which are committed if the statement succeeds. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
 public protocol RedshiftDataClientProtocol {
+    /// Performs the `BatchExecuteStatement` operation on the `RedshiftData` service.
+    ///
     /// Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters:
     ///
     /// * Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password. The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.
@@ -33,6 +35,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `BatchExecuteStatementException` : An SQL statement encountered an environmental error while running.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
+    /// Performs the `CancelStatement` operation on the `RedshiftData` service.
+    ///
     /// Cancels a running query. To be canceled, a query must be running. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
     /// - Parameter CancelStatementInput : [no documentation found]
@@ -47,6 +51,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput
+    /// Performs the `DescribeStatement` operation on the `RedshiftData` service.
+    ///
     /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
     /// - Parameter DescribeStatementInput : [no documentation found]
@@ -60,6 +66,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func describeStatement(input: DescribeStatementInput) async throws -> DescribeStatementOutput
+    /// Performs the `DescribeTable` operation on the `RedshiftData` service.
+    ///
     /// Describes the detailed information about a table from metadata in the cluster. The information includes its columns. A token is returned to page through the column list. Depending on the authorization method, use one of the following combinations of request parameters:
     ///
     /// * Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password. The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.
@@ -89,6 +97,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput
+    /// Performs the `ExecuteStatement` operation on the `RedshiftData` service.
+    ///
     /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the following combinations of request parameters:
     ///
     /// * Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password. The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.
@@ -118,6 +128,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `ExecuteStatementException` : The SQL statement encountered an environmental error while running.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
+    /// Performs the `GetStatementResult` operation on the `RedshiftData` service.
+    ///
     /// Fetches the temporarily cached result of an SQL statement. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
     /// - Parameter GetStatementResultInput : [no documentation found]
@@ -131,6 +143,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func getStatementResult(input: GetStatementResultInput) async throws -> GetStatementResultOutput
+    /// Performs the `ListDatabases` operation on the `RedshiftData` service.
+    ///
     /// List the databases in a cluster. A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters:
     ///
     /// * Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password. The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.
@@ -160,6 +174,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
+    /// Performs the `ListSchemas` operation on the `RedshiftData` service.
+    ///
     /// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters:
     ///
     /// * Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password. The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.
@@ -189,6 +205,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
+    /// Performs the `ListStatements` operation on the `RedshiftData` service.
+    ///
     /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
     /// - Parameter ListStatementsInput : [no documentation found]
@@ -201,6 +219,8 @@ public protocol RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput
+    /// Performs the `ListTables` operation on the `RedshiftData` service.
+    ///
     /// List the tables in a database. If neither SchemaPattern nor TablePattern are specified, then all tables in the database are returned. A token is returned to page through the table list. Depending on the authorization method, use one of the following combinations of request parameters:
     ///
     /// * Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password. The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.

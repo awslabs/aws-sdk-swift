@@ -178,11 +178,13 @@ extension FSxClientTypes.AdministrativeAction: Swift.Codable {
         case administrativeActionType = "AdministrativeActionType"
         case failureDetails = "FailureDetails"
         case progressPercent = "ProgressPercent"
+        case remainingTransferBytes = "RemainingTransferBytes"
         case requestTime = "RequestTime"
         case status = "Status"
         case targetFileSystemValues = "TargetFileSystemValues"
         case targetSnapshotValues = "TargetSnapshotValues"
         case targetVolumeValues = "TargetVolumeValues"
+        case totalTransferBytes = "TotalTransferBytes"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -195,6 +197,9 @@ extension FSxClientTypes.AdministrativeAction: Swift.Codable {
         }
         if let progressPercent = self.progressPercent {
             try encodeContainer.encode(progressPercent, forKey: .progressPercent)
+        }
+        if let remainingTransferBytes = self.remainingTransferBytes {
+            try encodeContainer.encode(remainingTransferBytes, forKey: .remainingTransferBytes)
         }
         if let requestTime = self.requestTime {
             try encodeContainer.encodeTimestamp(requestTime, format: .epochSeconds, forKey: .requestTime)
@@ -210,6 +215,9 @@ extension FSxClientTypes.AdministrativeAction: Swift.Codable {
         }
         if let targetVolumeValues = self.targetVolumeValues {
             try encodeContainer.encode(targetVolumeValues, forKey: .targetVolumeValues)
+        }
+        if let totalTransferBytes = self.totalTransferBytes {
+            try encodeContainer.encode(totalTransferBytes, forKey: .totalTransferBytes)
         }
     }
 
@@ -231,11 +239,15 @@ extension FSxClientTypes.AdministrativeAction: Swift.Codable {
         targetVolumeValues = targetVolumeValuesDecoded
         let targetSnapshotValuesDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Snapshot.self, forKey: .targetSnapshotValues)
         targetSnapshotValues = targetSnapshotValuesDecoded
+        let totalTransferBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalTransferBytes)
+        totalTransferBytes = totalTransferBytesDecoded
+        let remainingTransferBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .remainingTransferBytes)
+        remainingTransferBytes = remainingTransferBytesDecoded
     }
 }
 
 extension FSxClientTypes {
-    /// Describes a specific Amazon FSx administrative action for the current Windows, Lustre, or OpenZFS file system.
+    /// Describes a specific Amazon FSx administrative action for the current Windows, Lustre, OpenZFS, or ONTAP file system or volume.
     public struct AdministrativeAction: Swift.Equatable {
         /// Describes the type of administrative action, as follows:
         ///
@@ -250,7 +262,7 @@ extension FSxClientTypes {
         /// * For Lustre, storage optimization consists of rebalancing the data across the existing and newly added file servers.
         ///
         ///
-        /// You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide, [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the Amazon FSx for Lustre User Guide, and [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+        /// You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide, [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the Amazon FSx for Lustre User Guide, and [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
         ///
         /// * FILE_SYSTEM_ALIAS_ASSOCIATION - A file system update to associate a new Domain Name System (DNS) alias with the file system. For more information, see [ AssociateFileSystemAliases](https://docs.aws.amazon.com/fsx/latest/APIReference/API_AssociateFileSystemAliases.html).
         ///
@@ -260,21 +272,27 @@ extension FSxClientTypes {
         ///
         /// * STORAGE_TYPE_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a STORAGE_TYPE_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_TYPE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED.
         ///
-        /// * VOLUME_UPDATE - A volume update to an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateVolume), or CLI (update-volume).
+        /// * VOLUME_UPDATE - A volume update to an Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateVolume), or CLI (update-volume).
         ///
         /// * VOLUME_RESTORE - An Amazon FSx for OpenZFS volume is returned to the state saved by the specified snapshot, initiated from an API (RestoreVolumeFromSnapshot) or CLI (restore-volume-from-snapshot).
         ///
         /// * SNAPSHOT_UPDATE - A snapshot update to an Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateSnapshot), or CLI (update-snapshot).
         ///
         /// * RELEASE_NFS_V3_LOCKS - Tracks the release of Network File System (NFS) V3 locks on an Amazon FSx for OpenZFS file system.
+        ///
+        /// * VOLUME_INITIALIZE_WITH_SNAPSHOT - A volume is being created from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CreateVolume), or CLI (create-volume) when using the using the FULL_COPY strategy.
+        ///
+        /// * VOLUME_UPDATE_WITH_SNAPSHOT - A volume is being updated from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CopySnapshotAndUpdateVolume), or CLI (copy-snapshot-and-update-volume).
         public var administrativeActionType: FSxClientTypes.AdministrativeActionType?
         /// Provides information about a failed administrative action.
         public var failureDetails: FSxClientTypes.AdministrativeActionFailureDetails?
         /// The percentage-complete status of a STORAGE_OPTIMIZATION administrative action. Does not apply to any other administrative action type.
         public var progressPercent: Swift.Int?
+        /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
+        public var remainingTransferBytes: Swift.Int?
         /// The time that the administrative action request was received.
         public var requestTime: ClientRuntime.Date?
-        /// Describes the status of the administrative action, as follows:
+        /// The status of the administrative action, as follows:
         ///
         /// * FAILED - Amazon FSx failed to process the administrative action successfully.
         ///
@@ -286,32 +304,38 @@ extension FSxClientTypes {
         ///
         /// * UPDATED_OPTIMIZING - For a storage-capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage-optimization process.
         public var status: FSxClientTypes.Status?
-        /// Describes the target value for the administration action, provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
+        /// The target value for the administration action, provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
         public var targetFileSystemValues: FSxClientTypes.FileSystem?
         /// A snapshot of an Amazon FSx for OpenZFS volume.
         public var targetSnapshotValues: FSxClientTypes.Snapshot?
-        /// Describes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
+        /// Describes an Amazon FSx volume.
         public var targetVolumeValues: FSxClientTypes.Volume?
+        /// The number of bytes that have transferred for the FSx for OpenZFS snapshot that you're copying.
+        public var totalTransferBytes: Swift.Int?
 
         public init(
             administrativeActionType: FSxClientTypes.AdministrativeActionType? = nil,
             failureDetails: FSxClientTypes.AdministrativeActionFailureDetails? = nil,
             progressPercent: Swift.Int? = nil,
+            remainingTransferBytes: Swift.Int? = nil,
             requestTime: ClientRuntime.Date? = nil,
             status: FSxClientTypes.Status? = nil,
             targetFileSystemValues: FSxClientTypes.FileSystem? = nil,
             targetSnapshotValues: FSxClientTypes.Snapshot? = nil,
-            targetVolumeValues: FSxClientTypes.Volume? = nil
+            targetVolumeValues: FSxClientTypes.Volume? = nil,
+            totalTransferBytes: Swift.Int? = nil
         )
         {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
             self.progressPercent = progressPercent
+            self.remainingTransferBytes = remainingTransferBytes
             self.requestTime = requestTime
             self.status = status
             self.targetFileSystemValues = targetFileSystemValues
             self.targetSnapshotValues = targetSnapshotValues
             self.targetVolumeValues = targetVolumeValues
+            self.totalTransferBytes = totalTransferBytes
         }
     }
 
@@ -366,7 +390,7 @@ extension FSxClientTypes {
     /// * For Lustre, storage optimization consists of rebalancing the data across the existing and newly added file servers.
     ///
     ///
-    /// You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide, [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the Amazon FSx for Lustre User Guide, and [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide, [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the Amazon FSx for Lustre User Guide, and [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
     ///
     /// * FILE_SYSTEM_ALIAS_ASSOCIATION - A file system update to associate a new Domain Name System (DNS) alias with the file system. For more information, see [ AssociateFileSystemAliases](https://docs.aws.amazon.com/fsx/latest/APIReference/API_AssociateFileSystemAliases.html).
     ///
@@ -376,13 +400,17 @@ extension FSxClientTypes {
     ///
     /// * STORAGE_TYPE_OPTIMIZATION - After the FILE_SYSTEM_UPDATE task to increase a file system's throughput capacity has been completed successfully, a STORAGE_TYPE_OPTIMIZATION task starts. You can track the storage-optimization progress using the ProgressPercent property. When STORAGE_TYPE_OPTIMIZATION has been completed successfully, the parent FILE_SYSTEM_UPDATE action status changes to COMPLETED.
     ///
-    /// * VOLUME_UPDATE - A volume update to an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateVolume), or CLI (update-volume).
+    /// * VOLUME_UPDATE - A volume update to an Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateVolume), or CLI (update-volume).
     ///
     /// * VOLUME_RESTORE - An Amazon FSx for OpenZFS volume is returned to the state saved by the specified snapshot, initiated from an API (RestoreVolumeFromSnapshot) or CLI (restore-volume-from-snapshot).
     ///
     /// * SNAPSHOT_UPDATE - A snapshot update to an Amazon FSx for OpenZFS volume initiated from the Amazon FSx console, API (UpdateSnapshot), or CLI (update-snapshot).
     ///
     /// * RELEASE_NFS_V3_LOCKS - Tracks the release of Network File System (NFS) V3 locks on an Amazon FSx for OpenZFS file system.
+    ///
+    /// * VOLUME_INITIALIZE_WITH_SNAPSHOT - A volume is being created from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CreateVolume), or CLI (create-volume) when using the using the FULL_COPY strategy.
+    ///
+    /// * VOLUME_UPDATE_WITH_SNAPSHOT - A volume is being updated from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CopySnapshotAndUpdateVolume), or CLI (copy-snapshot-and-update-volume).
     public enum AdministrativeActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case fileSystemAliasAssociation
         case fileSystemAliasDisassociation
@@ -394,8 +422,10 @@ extension FSxClientTypes {
         case storageOptimization
         case storageTypeOptimization
         case throughputOptimization
+        case volumeInitializeWithSnapshot
         case volumeRestore
         case volumeUpdate
+        case volumeUpdateWithSnapshot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AdministrativeActionType] {
@@ -410,8 +440,10 @@ extension FSxClientTypes {
                 .storageOptimization,
                 .storageTypeOptimization,
                 .throughputOptimization,
+                .volumeInitializeWithSnapshot,
                 .volumeRestore,
                 .volumeUpdate,
+                .volumeUpdateWithSnapshot,
                 .sdkUnknown("")
             ]
         }
@@ -431,8 +463,10 @@ extension FSxClientTypes {
             case .storageOptimization: return "STORAGE_OPTIMIZATION"
             case .storageTypeOptimization: return "STORAGE_TYPE_OPTIMIZATION"
             case .throughputOptimization: return "THROUGHPUT_OPTIMIZATION"
+            case .volumeInitializeWithSnapshot: return "VOLUME_INITIALIZE_WITH_SNAPSHOT"
             case .volumeRestore: return "VOLUME_RESTORE"
             case .volumeUpdate: return "VOLUME_UPDATE"
+            case .volumeUpdateWithSnapshot: return "VOLUME_UPDATE_WITH_SNAPSHOT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -442,6 +476,69 @@ extension FSxClientTypes {
             self = AdministrativeActionType(rawValue: rawValue) ?? AdministrativeActionType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension FSxClientTypes.AggregateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregates = "Aggregates"
+        case totalConstituents = "TotalConstituents"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregates = aggregates {
+            var aggregatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregates)
+            for aggregate0 in aggregates {
+                try aggregatesContainer.encode(aggregate0)
+            }
+        }
+        if let totalConstituents = self.totalConstituents {
+            try encodeContainer.encode(totalConstituents, forKey: .totalConstituents)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aggregatesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .aggregates)
+        var aggregatesDecoded0:[Swift.String]? = nil
+        if let aggregatesContainer = aggregatesContainer {
+            aggregatesDecoded0 = [Swift.String]()
+            for string0 in aggregatesContainer {
+                if let string0 = string0 {
+                    aggregatesDecoded0?.append(string0)
+                }
+            }
+        }
+        aggregates = aggregatesDecoded0
+        let totalConstituentsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalConstituents)
+        totalConstituents = totalConstituentsDecoded
+    }
+}
+
+extension FSxClientTypes {
+    /// Used to specify configuration options for a volume’s storage aggregate or aggregates.
+    public struct AggregateConfiguration: Swift.Equatable {
+        /// The list of aggregates that this volume resides on. Aggregates are storage pools which make up your primary storage tier. Each high-availability (HA) pair has one aggregate. The names of the aggregates map to the names of the aggregates in the ONTAP CLI and REST API. For FlexVols, there will always be a single entry. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The strings in the value of Aggregates are not are not formatted as aggrX, where X is a number between 1 and 6.
+        ///
+        /// * The value of Aggregates contains aggregates that are not present.
+        ///
+        /// * One or more of the aggregates supplied are too close to the volume limit to support adding more volumes.
+        public var aggregates: [Swift.String]?
+        /// The total number of constituents this FlexGroup volume has. Not applicable for FlexVols.
+        public var totalConstituents: Swift.Int?
+
+        public init(
+            aggregates: [Swift.String]? = nil,
+            totalConstituents: Swift.Int? = nil
+        )
+        {
+            self.aggregates = aggregates
+            self.totalConstituents = totalConstituents
+        }
+    }
+
 }
 
 extension FSxClientTypes.Alias: Swift.Codable {
@@ -1134,7 +1231,7 @@ extension FSxClientTypes {
         /// The type of the file-system backup.
         /// This member is required.
         public var type: FSxClientTypes.BackupType?
-        /// Describes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
+        /// Describes an Amazon FSx volume.
         public var volume: FSxClientTypes.Volume?
 
         public init(
@@ -1992,6 +2089,268 @@ enum CopyBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension CopySnapshotAndUpdateVolumeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case copyStrategy = "CopyStrategy"
+        case options = "Options"
+        case sourceSnapshotARN = "SourceSnapshotARN"
+        case volumeId = "VolumeId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let copyStrategy = self.copyStrategy {
+            try encodeContainer.encode(copyStrategy.rawValue, forKey: .copyStrategy)
+        }
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for updateopenzfsvolumeoption0 in options {
+                try optionsContainer.encode(updateopenzfsvolumeoption0.rawValue)
+            }
+        }
+        if let sourceSnapshotARN = self.sourceSnapshotARN {
+            try encodeContainer.encode(sourceSnapshotARN, forKey: .sourceSnapshotARN)
+        }
+        if let volumeId = self.volumeId {
+            try encodeContainer.encode(volumeId, forKey: .volumeId)
+        }
+    }
+}
+
+extension CopySnapshotAndUpdateVolumeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CopySnapshotAndUpdateVolumeInput: Swift.Equatable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the strategy to use when copying data from a snapshot to the volume.
+    ///
+    /// * FULL_COPY - Copies all data from the snapshot to the volume.
+    ///
+    /// * INCREMENTAL_COPY - Copies only the snapshot data that's changed since the previous replication.
+    ///
+    ///
+    /// CLONE isn't a valid copy strategy option for the CopySnapshotAndUpdateVolume operation.
+    public var copyStrategy: FSxClientTypes.OpenZFSCopyStrategy?
+    /// Confirms that you want to delete data on the destination volume that wasn’t there during the previous snapshot replication. Your replication will fail if you don’t include an option for a specific type of data and that data is on your destination. For example, if you don’t include DELETE_INTERMEDIATE_SNAPSHOTS and there are intermediate snapshots on the destination, you can’t copy the snapshot.
+    ///
+    /// * DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots on the destination volume that aren’t on the source volume.
+    ///
+    /// * DELETE_CLONED_VOLUMES - Deletes snapshot clones on the destination volume that aren't on the source volume.
+    ///
+    /// * DELETE_INTERMEDIATE_DATA - Overwrites snapshots on the destination volume that don’t match the source snapshot that you’re copying.
+    public var options: [FSxClientTypes.UpdateOpenZFSVolumeOption]?
+    /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var sourceSnapshotARN: Swift.String?
+    /// Specifies the ID of the volume that you are copying the snapshot to.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        copyStrategy: FSxClientTypes.OpenZFSCopyStrategy? = nil,
+        options: [FSxClientTypes.UpdateOpenZFSVolumeOption]? = nil,
+        sourceSnapshotARN: Swift.String? = nil,
+        volumeId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.copyStrategy = copyStrategy
+        self.options = options
+        self.sourceSnapshotARN = sourceSnapshotARN
+        self.volumeId = volumeId
+    }
+}
+
+struct CopySnapshotAndUpdateVolumeInputBody: Swift.Equatable {
+    let clientRequestToken: Swift.String?
+    let volumeId: Swift.String?
+    let sourceSnapshotARN: Swift.String?
+    let copyStrategy: FSxClientTypes.OpenZFSCopyStrategy?
+    let options: [FSxClientTypes.UpdateOpenZFSVolumeOption]?
+}
+
+extension CopySnapshotAndUpdateVolumeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case copyStrategy = "CopyStrategy"
+        case options = "Options"
+        case sourceSnapshotARN = "SourceSnapshotARN"
+        case volumeId = "VolumeId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let volumeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeId)
+        volumeId = volumeIdDecoded
+        let sourceSnapshotARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceSnapshotARN)
+        sourceSnapshotARN = sourceSnapshotARNDecoded
+        let copyStrategyDecoded = try containerValues.decodeIfPresent(FSxClientTypes.OpenZFSCopyStrategy.self, forKey: .copyStrategy)
+        copyStrategy = copyStrategyDecoded
+        let optionsContainer = try containerValues.decodeIfPresent([FSxClientTypes.UpdateOpenZFSVolumeOption?].self, forKey: .options)
+        var optionsDecoded0:[FSxClientTypes.UpdateOpenZFSVolumeOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [FSxClientTypes.UpdateOpenZFSVolumeOption]()
+            for enum0 in optionsContainer {
+                if let enum0 = enum0 {
+                    optionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        options = optionsDecoded0
+    }
+}
+
+extension CopySnapshotAndUpdateVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopySnapshotAndUpdateVolumeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.administrativeActions = output.administrativeActions
+            self.lifecycle = output.lifecycle
+            self.volumeId = output.volumeId
+        } else {
+            self.administrativeActions = nil
+            self.lifecycle = nil
+            self.volumeId = nil
+        }
+    }
+}
+
+public struct CopySnapshotAndUpdateVolumeOutput: Swift.Equatable {
+    /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system.
+    public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
+    /// The lifecycle state of the destination volume.
+    public var lifecycle: FSxClientTypes.VolumeLifecycle?
+    /// The ID of the volume that you copied the snapshot to.
+    public var volumeId: Swift.String?
+
+    public init(
+        administrativeActions: [FSxClientTypes.AdministrativeAction]? = nil,
+        lifecycle: FSxClientTypes.VolumeLifecycle? = nil,
+        volumeId: Swift.String? = nil
+    )
+    {
+        self.administrativeActions = administrativeActions
+        self.lifecycle = lifecycle
+        self.volumeId = volumeId
+    }
+}
+
+struct CopySnapshotAndUpdateVolumeOutputBody: Swift.Equatable {
+    let volumeId: Swift.String?
+    let lifecycle: FSxClientTypes.VolumeLifecycle?
+    let administrativeActions: [FSxClientTypes.AdministrativeAction]?
+}
+
+extension CopySnapshotAndUpdateVolumeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case administrativeActions = "AdministrativeActions"
+        case lifecycle = "Lifecycle"
+        case volumeId = "VolumeId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeId)
+        volumeId = volumeIdDecoded
+        let lifecycleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.VolumeLifecycle.self, forKey: .lifecycle)
+        lifecycle = lifecycleDecoded
+        let administrativeActionsContainer = try containerValues.decodeIfPresent([FSxClientTypes.AdministrativeAction?].self, forKey: .administrativeActions)
+        var administrativeActionsDecoded0:[FSxClientTypes.AdministrativeAction]? = nil
+        if let administrativeActionsContainer = administrativeActionsContainer {
+            administrativeActionsDecoded0 = [FSxClientTypes.AdministrativeAction]()
+            for structure0 in administrativeActionsContainer {
+                if let structure0 = structure0 {
+                    administrativeActionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        administrativeActions = administrativeActionsDecoded0
+    }
+}
+
+enum CopySnapshotAndUpdateVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension FSxClientTypes.CreateAggregateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregates = "Aggregates"
+        case constituentsPerAggregate = "ConstituentsPerAggregate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregates = aggregates {
+            var aggregatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregates)
+            for aggregate0 in aggregates {
+                try aggregatesContainer.encode(aggregate0)
+            }
+        }
+        if let constituentsPerAggregate = self.constituentsPerAggregate {
+            try encodeContainer.encode(constituentsPerAggregate, forKey: .constituentsPerAggregate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aggregatesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .aggregates)
+        var aggregatesDecoded0:[Swift.String]? = nil
+        if let aggregatesContainer = aggregatesContainer {
+            aggregatesDecoded0 = [Swift.String]()
+            for string0 in aggregatesContainer {
+                if let string0 = string0 {
+                    aggregatesDecoded0?.append(string0)
+                }
+            }
+        }
+        aggregates = aggregatesDecoded0
+        let constituentsPerAggregateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .constituentsPerAggregate)
+        constituentsPerAggregate = constituentsPerAggregateDecoded
+    }
+}
+
+extension FSxClientTypes {
+    /// Used to specify the configuration options for a volume's storage aggregate or aggregates.
+    public struct CreateAggregateConfiguration: Swift.Equatable {
+        /// Used to specify the names of aggregates on which the volume will be created.
+        public var aggregates: [Swift.String]?
+        /// Used to explicitly set the number of constituents within the FlexGroup per storage aggregate. This field is optional when creating a FlexGroup volume. If unspecified, the default value will be 8. This field cannot be provided when creating a FlexVol volume.
+        public var constituentsPerAggregate: Swift.Int?
+
+        public init(
+            aggregates: [Swift.String]? = nil,
+            constituentsPerAggregate: Swift.Int? = nil
+        )
+        {
+            self.aggregates = aggregates
+            self.constituentsPerAggregate = constituentsPerAggregate
+        }
+    }
+
 }
 
 extension CreateBackupInput: Swift.Encodable {
@@ -3038,7 +3397,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Equatable {
     public var openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration?
     /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
     public var securityGroupIds: [Swift.String]?
-    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with a 400 Bad Request.
+    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with with an HTTP status code 400 Bad Request.
     public var storageCapacity: Swift.Int?
     /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.
     ///
@@ -3364,7 +3723,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     /// * For SCRATCH_1 deployment type, valid values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.
     ///
     ///
-    /// FSx for ONTAP file systems - The amount of storage capacity that you can configure is from 1024 GiB up to 196,608 GiB (192 TiB). FSx for OpenZFS file systems - The amount of storage capacity that you can configure is from 64 GiB up to 524,288 GiB (512 TiB). FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:
+    /// FSx for ONTAP file systems - The amount of storage capacity that you can configure depends on the value of the HAPairs property. The minimum value is calculated as 1,024 * HAPairs and the maxium is calculated as 524,288 * HAPairs.. FSx for OpenZFS file systems - The amount of storage capacity that you can configure is from 64 GiB up to 524,288 GiB (512 TiB). FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:
     ///
     /// * For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
     ///
@@ -3716,9 +4075,11 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.Codable {
         case diskIopsConfiguration = "DiskIopsConfiguration"
         case endpointIpAddressRange = "EndpointIpAddressRange"
         case fsxAdminPassword = "FsxAdminPassword"
+        case haPairs = "HAPairs"
         case preferredSubnetId = "PreferredSubnetId"
         case routeTableIds = "RouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
+        case throughputCapacityPerHAPair = "ThroughputCapacityPerHAPair"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
 
@@ -3742,6 +4103,9 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.Codable {
         if let fsxAdminPassword = self.fsxAdminPassword {
             try encodeContainer.encode(fsxAdminPassword, forKey: .fsxAdminPassword)
         }
+        if let haPairs = self.haPairs {
+            try encodeContainer.encode(haPairs, forKey: .haPairs)
+        }
         if let preferredSubnetId = self.preferredSubnetId {
             try encodeContainer.encode(preferredSubnetId, forKey: .preferredSubnetId)
         }
@@ -3753,6 +4117,9 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.Codable {
         }
         if let throughputCapacity = self.throughputCapacity {
             try encodeContainer.encode(throughputCapacity, forKey: .throughputCapacity)
+        }
+        if let throughputCapacityPerHAPair = self.throughputCapacityPerHAPair {
+            try encodeContainer.encode(throughputCapacityPerHAPair, forKey: .throughputCapacityPerHAPair)
         }
         if let weeklyMaintenanceStartTime = self.weeklyMaintenanceStartTime {
             try encodeContainer.encode(weeklyMaintenanceStartTime, forKey: .weeklyMaintenanceStartTime)
@@ -3790,12 +4157,16 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.Codable {
         throughputCapacity = throughputCapacityDecoded
         let weeklyMaintenanceStartTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .weeklyMaintenanceStartTime)
         weeklyMaintenanceStartTime = weeklyMaintenanceStartTimeDecoded
+        let haPairsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .haPairs)
+        haPairs = haPairsDecoded
+        let throughputCapacityPerHAPairDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughputCapacityPerHAPair)
+        throughputCapacityPerHAPair = throughputCapacityPerHAPairDecoded
     }
 }
 
 extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFileSystemOntapConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
+        "CreateFileSystemOntapConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), haPairs: \(Swift.String(describing: haPairs)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -3811,6 +4182,8 @@ extension FSxClientTypes {
         ///
         /// * SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.
         ///
+        /// * SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.
+        ///
         ///
         /// For information about the use cases for Multi-AZ and Single-AZ deployments, refer to [Choosing a file system deployment type](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-AZ.html).
         /// This member is required.
@@ -3821,13 +4194,35 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public var fsxAdminPassword: Swift.String?
+        /// Specifies how many high-availability (HA) pairs the file system will have. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of HAPairs is less than 1 or greater than 6.
+        ///
+        /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1 or MULTI_AZ_1.
+        public var haPairs: Swift.Int?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
         public var routeTableIds: [Swift.String]?
-        /// Sets the throughput capacity for the file system that you're creating. Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps.
-        /// This member is required.
+        /// Sets the throughput capacity for the file system that you're creating in megabytes per second (MBps). For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html) in the FSx for ONTAP User Guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.
+        ///
+        /// * The value of ThroughputCapacity when divided by the value of HAPairs is outside of the valid range for ThroughputCapacity.
         public var throughputCapacity: Swift.Int?
+        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system. This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.
+        ///
+        /// * For SINGLE_AZ_1 and MULTI_AZ_1, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
+        ///
+        /// * For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.
+        ///
+        ///
+        /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value
+        ///
+        /// * The value of ThroughputCapacityPerHAPair is not a valid value.
+        public var throughputCapacityPerHAPair: Swift.Int?
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -3838,9 +4233,11 @@ extension FSxClientTypes {
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
             fsxAdminPassword: Swift.String? = nil,
+            haPairs: Swift.Int? = nil,
             preferredSubnetId: Swift.String? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
+            throughputCapacityPerHAPair: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
         {
@@ -3850,9 +4247,11 @@ extension FSxClientTypes {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
             self.fsxAdminPassword = fsxAdminPassword
+            self.haPairs = haPairs
             self.preferredSubnetId = preferredSubnetId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
+            self.throughputCapacityPerHAPair = throughputCapacityPerHAPair
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -4275,20 +4674,26 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.CreateOntapVolumeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateConfiguration = "AggregateConfiguration"
         case copyTagsToBackups = "CopyTagsToBackups"
         case junctionPath = "JunctionPath"
         case ontapVolumeType = "OntapVolumeType"
         case securityStyle = "SecurityStyle"
+        case sizeInBytes = "SizeInBytes"
         case sizeInMegabytes = "SizeInMegabytes"
         case snaplockConfiguration = "SnaplockConfiguration"
         case snapshotPolicy = "SnapshotPolicy"
         case storageEfficiencyEnabled = "StorageEfficiencyEnabled"
         case storageVirtualMachineId = "StorageVirtualMachineId"
         case tieringPolicy = "TieringPolicy"
+        case volumeStyle = "VolumeStyle"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregateConfiguration = self.aggregateConfiguration {
+            try encodeContainer.encode(aggregateConfiguration, forKey: .aggregateConfiguration)
+        }
         if let copyTagsToBackups = self.copyTagsToBackups {
             try encodeContainer.encode(copyTagsToBackups, forKey: .copyTagsToBackups)
         }
@@ -4300,6 +4705,9 @@ extension FSxClientTypes.CreateOntapVolumeConfiguration: Swift.Codable {
         }
         if let securityStyle = self.securityStyle {
             try encodeContainer.encode(securityStyle.rawValue, forKey: .securityStyle)
+        }
+        if let sizeInBytes = self.sizeInBytes {
+            try encodeContainer.encode(sizeInBytes, forKey: .sizeInBytes)
         }
         if let sizeInMegabytes = self.sizeInMegabytes {
             try encodeContainer.encode(sizeInMegabytes, forKey: .sizeInMegabytes)
@@ -4318,6 +4726,9 @@ extension FSxClientTypes.CreateOntapVolumeConfiguration: Swift.Codable {
         }
         if let tieringPolicy = self.tieringPolicy {
             try encodeContainer.encode(tieringPolicy, forKey: .tieringPolicy)
+        }
+        if let volumeStyle = self.volumeStyle {
+            try encodeContainer.encode(volumeStyle.rawValue, forKey: .volumeStyle)
         }
     }
 
@@ -4343,12 +4754,20 @@ extension FSxClientTypes.CreateOntapVolumeConfiguration: Swift.Codable {
         copyTagsToBackups = copyTagsToBackupsDecoded
         let snaplockConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.CreateSnaplockConfiguration.self, forKey: .snaplockConfiguration)
         snaplockConfiguration = snaplockConfigurationDecoded
+        let volumeStyleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.VolumeStyle.self, forKey: .volumeStyle)
+        volumeStyle = volumeStyleDecoded
+        let aggregateConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.CreateAggregateConfiguration.self, forKey: .aggregateConfiguration)
+        aggregateConfiguration = aggregateConfigurationDecoded
+        let sizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInBytes)
+        sizeInBytes = sizeInBytesDecoded
     }
 }
 
 extension FSxClientTypes {
     /// Specifies the configuration of the ONTAP volume that you are creating.
     public struct CreateOntapVolumeConfiguration: Swift.Equatable {
+        /// Use to specify configuration options for a volume’s storage aggregate or aggregates.
+        public var aggregateConfiguration: FSxClientTypes.CreateAggregateConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
         /// Specifies the location in the SVM's namespace where the volume is mounted. This parameter is required. The JunctionPath must have a leading forward slash, such as /vol3.
@@ -4370,8 +4789,10 @@ extension FSxClientTypes {
         ///
         /// * MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
         public var securityStyle: FSxClientTypes.SecurityStyle?
+        /// The configured size of the volume, in bytes.
+        public var sizeInBytes: Swift.Int?
         /// Specifies the size of the volume, in megabytes (MB), that you are creating.
-        /// This member is required.
+        @available(*, deprecated, message: "This property is deprecated, use SizeInBytes instead")
         public var sizeInMegabytes: Swift.Int?
         /// Specifies the SnapLock configuration for an FSx for ONTAP volume.
         public var snaplockConfiguration: FSxClientTypes.CreateSnaplockConfiguration?
@@ -4410,30 +4831,38 @@ extension FSxClientTypes {
         ///
         /// * NONE - keeps a volume's data in the primary storage tier, preventing it from being moved to the capacity pool tier.
         public var tieringPolicy: FSxClientTypes.TieringPolicy?
+        /// Use to specify the style of an ONTAP volume. For more information about FlexVols and FlexGroups, see [Volume types](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types.html) in Amazon FSx for NetApp ONTAP User Guide.
+        public var volumeStyle: FSxClientTypes.VolumeStyle?
 
         public init(
+            aggregateConfiguration: FSxClientTypes.CreateAggregateConfiguration? = nil,
             copyTagsToBackups: Swift.Bool? = nil,
             junctionPath: Swift.String? = nil,
             ontapVolumeType: FSxClientTypes.InputOntapVolumeType? = nil,
             securityStyle: FSxClientTypes.SecurityStyle? = nil,
+            sizeInBytes: Swift.Int? = nil,
             sizeInMegabytes: Swift.Int? = nil,
             snaplockConfiguration: FSxClientTypes.CreateSnaplockConfiguration? = nil,
             snapshotPolicy: Swift.String? = nil,
             storageEfficiencyEnabled: Swift.Bool? = nil,
             storageVirtualMachineId: Swift.String? = nil,
-            tieringPolicy: FSxClientTypes.TieringPolicy? = nil
+            tieringPolicy: FSxClientTypes.TieringPolicy? = nil,
+            volumeStyle: FSxClientTypes.VolumeStyle? = nil
         )
         {
+            self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.ontapVolumeType = ontapVolumeType
             self.securityStyle = securityStyle
+            self.sizeInBytes = sizeInBytes
             self.sizeInMegabytes = sizeInMegabytes
             self.snaplockConfiguration = snaplockConfiguration
             self.snapshotPolicy = snapshotPolicy
             self.storageEfficiencyEnabled = storageEfficiencyEnabled
             self.storageVirtualMachineId = storageVirtualMachineId
             self.tieringPolicy = tieringPolicy
+            self.volumeStyle = volumeStyle
         }
     }
 
@@ -4465,13 +4894,16 @@ extension FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration: Swift.Codable
 }
 
 extension FSxClientTypes {
-    /// The snapshot configuration to use when creating an OpenZFS volume from a snapshot.
+    /// The snapshot configuration to use when creating an Amazon FSx for OpenZFS volume from a snapshot.
     public struct CreateOpenZFSOriginSnapshotConfiguration: Swift.Equatable {
-        /// The strategy used when copying data from the snapshot to the new volume.
+        /// Specifies the strategy used when copying data from the snapshot to the new volume.
         ///
         /// * CLONE - The new volume references the data in the origin snapshot. Cloning a snapshot is faster than copying data from the snapshot to a new volume and doesn't consume disk throughput. However, the origin snapshot can't be deleted if there is a volume using its copied data.
         ///
-        /// * FULL_COPY - Copies all data from the snapshot to the new volume.
+        /// * FULL_COPY - Copies all data from the snapshot to the new volume. Specify this option to create the volume from a snapshot on another FSx for OpenZFS file system.
+        ///
+        ///
+        /// The INCREMENTAL_COPY option is only for updating an existing volume by using a snapshot from another FSx for OpenZFS file system. For more information, see [CopySnapshotAndUpdateVolume](https://docs.aws.amazon.com/fsx/latest/APIReference/API_CopySnapshotAndUpdateVolume.html).
         /// This member is required.
         public var copyStrategy: FSxClientTypes.OpenZFSCopyStrategy?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
@@ -9307,6 +9739,86 @@ enum DescribeFileSystemsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeSharedVpcConfigurationInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension DescribeSharedVpcConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeSharedVpcConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DescribeSharedVpcConfigurationInputBody: Swift.Equatable {
+}
+
+extension DescribeSharedVpcConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeSharedVpcConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeSharedVpcConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enableFsxRouteTableUpdatesFromParticipantAccounts = output.enableFsxRouteTableUpdatesFromParticipantAccounts
+        } else {
+            self.enableFsxRouteTableUpdatesFromParticipantAccounts = nil
+        }
+    }
+}
+
+public struct DescribeSharedVpcConfigurationOutput: Swift.Equatable {
+    /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
+    public var enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
+
+    public init(
+        enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String? = nil
+    )
+    {
+        self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
+    }
+}
+
+struct DescribeSharedVpcConfigurationOutputBody: Swift.Equatable {
+    let enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
+}
+
+extension DescribeSharedVpcConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableFsxRouteTableUpdatesFromParticipantAccounts = "EnableFsxRouteTableUpdatesFromParticipantAccounts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableFsxRouteTableUpdatesFromParticipantAccountsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enableFsxRouteTableUpdatesFromParticipantAccounts)
+        enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccountsDecoded
+    }
+}
+
+enum DescribeSharedVpcConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeSnapshotsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -10021,7 +10533,7 @@ extension FSxClientTypes.DiskIopsConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
     public struct DiskIopsConfiguration: Swift.Equatable {
-        /// The total number of SSD IOPS provisioned for the file system.
+        /// The total number of SSD IOPS provisioned for the file system. The minimum and maximum values for this property depend on the value of HAPairs and StorageCapacity. The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity). The maximum value is calculated as 200,000 * HAPairs. Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of Iops is outside of the minimum or maximum values.
         public var iops: Swift.Int?
         /// Specifies whether the file system is using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, , or if it using a USER_PROVISIONED value.
         public var mode: FSxClientTypes.DiskIopsConfigurationMode?
@@ -11377,7 +11889,7 @@ extension FSxClientTypes {
         public var ownerId: Swift.String?
         /// The Amazon Resource Name (ARN) of the file system resource.
         public var resourceARN: Swift.String?
-        /// The storage capacity of the file system in gibibytes (GiB).
+        /// The storage capacity of the file system in gibibytes (GiB). Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of StorageCapacity is outside of the minimum or maximum values.
         public var storageCapacity: Swift.Int?
         /// The type of storage the file system is using. If set to SSD, the file system uses solid state drive storage. If set to HDD, the file system uses hard disk drive storage.
         public var storageType: FSxClientTypes.StorageType?
@@ -13524,12 +14036,14 @@ extension FSxClientTypes {
     public enum OntapDeploymentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case multiAz1
         case singleAz1
+        case singleAz2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OntapDeploymentType] {
             return [
                 .multiAz1,
                 .singleAz1,
+                .singleAz2,
                 .sdkUnknown("")
             ]
         }
@@ -13541,6 +14055,7 @@ extension FSxClientTypes {
             switch self {
             case .multiAz1: return "MULTI_AZ_1"
             case .singleAz1: return "SINGLE_AZ_1"
+            case .singleAz2: return "SINGLE_AZ_2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13561,9 +14076,11 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         case endpointIpAddressRange = "EndpointIpAddressRange"
         case endpoints = "Endpoints"
         case fsxAdminPassword = "FsxAdminPassword"
+        case haPairs = "HAPairs"
         case preferredSubnetId = "PreferredSubnetId"
         case routeTableIds = "RouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
+        case throughputCapacityPerHAPair = "ThroughputCapacityPerHAPair"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
 
@@ -13590,6 +14107,9 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         if let fsxAdminPassword = self.fsxAdminPassword {
             try encodeContainer.encode(fsxAdminPassword, forKey: .fsxAdminPassword)
         }
+        if let haPairs = self.haPairs {
+            try encodeContainer.encode(haPairs, forKey: .haPairs)
+        }
         if let preferredSubnetId = self.preferredSubnetId {
             try encodeContainer.encode(preferredSubnetId, forKey: .preferredSubnetId)
         }
@@ -13601,6 +14121,9 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         }
         if let throughputCapacity = self.throughputCapacity {
             try encodeContainer.encode(throughputCapacity, forKey: .throughputCapacity)
+        }
+        if let throughputCapacityPerHAPair = self.throughputCapacityPerHAPair {
+            try encodeContainer.encode(throughputCapacityPerHAPair, forKey: .throughputCapacityPerHAPair)
         }
         if let weeklyMaintenanceStartTime = self.weeklyMaintenanceStartTime {
             try encodeContainer.encode(weeklyMaintenanceStartTime, forKey: .weeklyMaintenanceStartTime)
@@ -13640,12 +14163,16 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         weeklyMaintenanceStartTime = weeklyMaintenanceStartTimeDecoded
         let fsxAdminPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fsxAdminPassword)
         fsxAdminPassword = fsxAdminPasswordDecoded
+        let haPairsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .haPairs)
+        haPairs = haPairsDecoded
+        let throughputCapacityPerHAPairDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughputCapacityPerHAPair)
+        throughputCapacityPerHAPair = throughputCapacityPerHAPairDecoded
     }
 }
 
 extension FSxClientTypes.OntapFileSystemConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OntapFileSystemConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), endpoints: \(Swift.String(describing: endpoints)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
+        "OntapFileSystemConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), endpoints: \(Swift.String(describing: endpoints)), haPairs: \(Swift.String(describing: haPairs)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -13661,6 +14188,8 @@ extension FSxClientTypes {
         ///
         /// * SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.
         ///
+        /// * SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.
+        ///
         ///
         /// For information about the use cases for Multi-AZ and Single-AZ deployments, refer to [Choosing Multi-AZ or Single-AZ file system deployment](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html).
         public var deploymentType: FSxClientTypes.OntapDeploymentType?
@@ -13672,12 +14201,33 @@ extension FSxClientTypes {
         public var endpoints: FSxClientTypes.FileSystemEndpoints?
         /// You can use the fsxadmin user account to access the NetApp ONTAP CLI and REST API. The password value is always redacted in the response.
         public var fsxAdminPassword: Swift.String?
+        /// Specifies how many high-availability (HA) file server pairs the file system will have. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of HAPairs is less than 1 or greater than 6.
+        ///
+        /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1 or MULTI_AZ_1.
+        public var haPairs: Swift.Int?
         /// The ID for a subnet. A subnet is a range of IP addresses in your virtual private cloud (VPC). For more information, see [VPC and subnets](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) in the Amazon VPC User Guide.
         public var preferredSubnetId: Swift.String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
         public var routeTableIds: [Swift.String]?
         /// The sustained throughput of an Amazon FSx file system in Megabytes per second (MBps).
         public var throughputCapacity: Swift.Int?
+        /// Use to choose the throughput capacity per HA pair. When the value of HAPairs is equal to 1, the value of ThroughputCapacityPerHAPair is the total throughput for the file system. This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.
+        ///
+        /// * For SINGLE_AZ_1 and MULTI_AZ_1, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
+        ///
+        /// * For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.
+        ///
+        ///
+        /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.
+        ///
+        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 6).
+        ///
+        /// * The value of ThroughputCapacityPerHAPair is not a valid value.
+        public var throughputCapacityPerHAPair: Swift.Int?
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -13689,9 +14239,11 @@ extension FSxClientTypes {
             endpointIpAddressRange: Swift.String? = nil,
             endpoints: FSxClientTypes.FileSystemEndpoints? = nil,
             fsxAdminPassword: Swift.String? = nil,
+            haPairs: Swift.Int? = nil,
             preferredSubnetId: Swift.String? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
+            throughputCapacityPerHAPair: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
         {
@@ -13702,9 +14254,11 @@ extension FSxClientTypes {
             self.endpointIpAddressRange = endpointIpAddressRange
             self.endpoints = endpoints
             self.fsxAdminPassword = fsxAdminPassword
+            self.haPairs = haPairs
             self.preferredSubnetId = preferredSubnetId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
+            self.throughputCapacityPerHAPair = throughputCapacityPerHAPair
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -13713,11 +14267,13 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.OntapVolumeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateConfiguration = "AggregateConfiguration"
         case copyTagsToBackups = "CopyTagsToBackups"
         case flexCacheEndpointType = "FlexCacheEndpointType"
         case junctionPath = "JunctionPath"
         case ontapVolumeType = "OntapVolumeType"
         case securityStyle = "SecurityStyle"
+        case sizeInBytes = "SizeInBytes"
         case sizeInMegabytes = "SizeInMegabytes"
         case snaplockConfiguration = "SnaplockConfiguration"
         case snapshotPolicy = "SnapshotPolicy"
@@ -13726,10 +14282,14 @@ extension FSxClientTypes.OntapVolumeConfiguration: Swift.Codable {
         case storageVirtualMachineRoot = "StorageVirtualMachineRoot"
         case tieringPolicy = "TieringPolicy"
         case uuid = "UUID"
+        case volumeStyle = "VolumeStyle"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregateConfiguration = self.aggregateConfiguration {
+            try encodeContainer.encode(aggregateConfiguration, forKey: .aggregateConfiguration)
+        }
         if let copyTagsToBackups = self.copyTagsToBackups {
             try encodeContainer.encode(copyTagsToBackups, forKey: .copyTagsToBackups)
         }
@@ -13744,6 +14304,9 @@ extension FSxClientTypes.OntapVolumeConfiguration: Swift.Codable {
         }
         if let securityStyle = self.securityStyle {
             try encodeContainer.encode(securityStyle.rawValue, forKey: .securityStyle)
+        }
+        if let sizeInBytes = self.sizeInBytes {
+            try encodeContainer.encode(sizeInBytes, forKey: .sizeInBytes)
         }
         if let sizeInMegabytes = self.sizeInMegabytes {
             try encodeContainer.encode(sizeInMegabytes, forKey: .sizeInMegabytes)
@@ -13768,6 +14331,9 @@ extension FSxClientTypes.OntapVolumeConfiguration: Swift.Codable {
         }
         if let uuid = self.uuid {
             try encodeContainer.encode(uuid, forKey: .uuid)
+        }
+        if let volumeStyle = self.volumeStyle {
+            try encodeContainer.encode(volumeStyle.rawValue, forKey: .volumeStyle)
         }
     }
 
@@ -13799,12 +14365,20 @@ extension FSxClientTypes.OntapVolumeConfiguration: Swift.Codable {
         copyTagsToBackups = copyTagsToBackupsDecoded
         let snaplockConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.SnaplockConfiguration.self, forKey: .snaplockConfiguration)
         snaplockConfiguration = snaplockConfigurationDecoded
+        let volumeStyleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.VolumeStyle.self, forKey: .volumeStyle)
+        volumeStyle = volumeStyleDecoded
+        let aggregateConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.AggregateConfiguration.self, forKey: .aggregateConfiguration)
+        aggregateConfiguration = aggregateConfigurationDecoded
+        let sizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInBytes)
+        sizeInBytes = sizeInBytesDecoded
     }
 }
 
 extension FSxClientTypes {
     /// The configuration of an Amazon FSx for NetApp ONTAP volume.
     public struct OntapVolumeConfiguration: Swift.Equatable {
+        /// This structure specifies configuration options for a volume’s storage aggregate or aggregates.
+        public var aggregateConfiguration: FSxClientTypes.AggregateConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
         /// Specifies the FlexCache endpoint type of the volume. Valid values are the following:
@@ -13827,6 +14401,8 @@ extension FSxClientTypes {
         public var ontapVolumeType: FSxClientTypes.OntapVolumeType?
         /// The security style for the volume, which can be UNIX, NTFS, or MIXED.
         public var securityStyle: FSxClientTypes.SecurityStyle?
+        /// The configured size of the volume, in bytes.
+        public var sizeInBytes: Swift.Int?
         /// The configured size of the volume, in megabytes (MBs).
         public var sizeInMegabytes: Swift.Int?
         /// The SnapLock configuration object for an FSx for ONTAP SnapLock volume.
@@ -13852,13 +14428,17 @@ extension FSxClientTypes {
         public var tieringPolicy: FSxClientTypes.TieringPolicy?
         /// The volume's universally unique identifier (UUID).
         public var uuid: Swift.String?
+        /// Use to specify the style of an ONTAP volume. For more information about FlexVols and FlexGroups, see [Volume types](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types.html) in Amazon FSx for NetApp ONTAP User Guide.
+        public var volumeStyle: FSxClientTypes.VolumeStyle?
 
         public init(
+            aggregateConfiguration: FSxClientTypes.AggregateConfiguration? = nil,
             copyTagsToBackups: Swift.Bool? = nil,
             flexCacheEndpointType: FSxClientTypes.FlexCacheEndpointType? = nil,
             junctionPath: Swift.String? = nil,
             ontapVolumeType: FSxClientTypes.OntapVolumeType? = nil,
             securityStyle: FSxClientTypes.SecurityStyle? = nil,
+            sizeInBytes: Swift.Int? = nil,
             sizeInMegabytes: Swift.Int? = nil,
             snaplockConfiguration: FSxClientTypes.SnaplockConfiguration? = nil,
             snapshotPolicy: Swift.String? = nil,
@@ -13866,14 +14446,17 @@ extension FSxClientTypes {
             storageVirtualMachineId: Swift.String? = nil,
             storageVirtualMachineRoot: Swift.Bool? = nil,
             tieringPolicy: FSxClientTypes.TieringPolicy? = nil,
-            uuid: Swift.String? = nil
+            uuid: Swift.String? = nil,
+            volumeStyle: FSxClientTypes.VolumeStyle? = nil
         )
         {
+            self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.flexCacheEndpointType = flexCacheEndpointType
             self.junctionPath = junctionPath
             self.ontapVolumeType = ontapVolumeType
             self.securityStyle = securityStyle
+            self.sizeInBytes = sizeInBytes
             self.sizeInMegabytes = sizeInMegabytes
             self.snaplockConfiguration = snaplockConfiguration
             self.snapshotPolicy = snapshotPolicy
@@ -13882,6 +14465,7 @@ extension FSxClientTypes {
             self.storageVirtualMachineRoot = storageVirtualMachineRoot
             self.tieringPolicy = tieringPolicy
             self.uuid = uuid
+            self.volumeStyle = volumeStyle
         }
     }
 
@@ -13989,12 +14573,14 @@ extension FSxClientTypes {
     public enum OpenZFSCopyStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case clone
         case fullCopy
+        case incrementalCopy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OpenZFSCopyStrategy] {
             return [
                 .clone,
                 .fullCopy,
+                .incrementalCopy,
                 .sdkUnknown("")
             ]
         }
@@ -14006,6 +14592,7 @@ extension FSxClientTypes {
             switch self {
             case .clone: return "CLONE"
             case .fullCopy: return "FULL_COPY"
+            case .incrementalCopy: return "INCREMENTAL_COPY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14443,13 +15030,16 @@ extension FSxClientTypes.OpenZFSOriginSnapshotConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The snapshot configuration to use when creating an OpenZFS volume from a snapshot.
+    /// The snapshot configuration used when creating an Amazon FSx for OpenZFS volume from a snapshot.
     public struct OpenZFSOriginSnapshotConfiguration: Swift.Equatable {
         /// The strategy used when copying data from the snapshot to the new volume.
         ///
         /// * CLONE - The new volume references the data in the origin snapshot. Cloning a snapshot is faster than copying the data from a snapshot to a new volume and doesn't consume disk throughput. However, the origin snapshot can't be deleted if there is a volume using its copied data.
         ///
         /// * FULL_COPY - Copies all data from the snapshot to the new volume.
+        ///
+        ///
+        /// The INCREMENTAL_COPY option is only for updating an existing volume by using a snapshot from another FSx for OpenZFS file system. For more information, see [CopySnapshotAndUpdateVolume](https://docs.aws.amazon.com/fsx/latest/APIReference/API_CopySnapshotAndUpdateVolume.html).
         public var copyStrategy: FSxClientTypes.OpenZFSCopyStrategy?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var snapshotARN: Swift.String?
@@ -14561,13 +15151,16 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         case copyTagsToSnapshots = "CopyTagsToSnapshots"
         case dataCompressionType = "DataCompressionType"
         case deleteClonedVolumes = "DeleteClonedVolumes"
+        case deleteIntermediateData = "DeleteIntermediateData"
         case deleteIntermediateSnaphots = "DeleteIntermediateSnaphots"
+        case destinationSnapshot = "DestinationSnapshot"
         case nfsExports = "NfsExports"
         case originSnapshot = "OriginSnapshot"
         case parentVolumeId = "ParentVolumeId"
         case readOnly = "ReadOnly"
         case recordSizeKiB = "RecordSizeKiB"
         case restoreToSnapshot = "RestoreToSnapshot"
+        case sourceSnapshotARN = "SourceSnapshotARN"
         case storageCapacityQuotaGiB = "StorageCapacityQuotaGiB"
         case storageCapacityReservationGiB = "StorageCapacityReservationGiB"
         case userAndGroupQuotas = "UserAndGroupQuotas"
@@ -14585,8 +15178,14 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         if let deleteClonedVolumes = self.deleteClonedVolumes {
             try encodeContainer.encode(deleteClonedVolumes, forKey: .deleteClonedVolumes)
         }
+        if let deleteIntermediateData = self.deleteIntermediateData {
+            try encodeContainer.encode(deleteIntermediateData, forKey: .deleteIntermediateData)
+        }
         if let deleteIntermediateSnaphots = self.deleteIntermediateSnaphots {
             try encodeContainer.encode(deleteIntermediateSnaphots, forKey: .deleteIntermediateSnaphots)
+        }
+        if let destinationSnapshot = self.destinationSnapshot {
+            try encodeContainer.encode(destinationSnapshot, forKey: .destinationSnapshot)
         }
         if let nfsExports = nfsExports {
             var nfsExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nfsExports)
@@ -14608,6 +15207,9 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let restoreToSnapshot = self.restoreToSnapshot {
             try encodeContainer.encode(restoreToSnapshot, forKey: .restoreToSnapshot)
+        }
+        if let sourceSnapshotARN = self.sourceSnapshotARN {
+            try encodeContainer.encode(sourceSnapshotARN, forKey: .sourceSnapshotARN)
         }
         if let storageCapacityQuotaGiB = self.storageCapacityQuotaGiB {
             try encodeContainer.encode(storageCapacityQuotaGiB, forKey: .storageCapacityQuotaGiB)
@@ -14674,6 +15276,12 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         deleteIntermediateSnaphots = deleteIntermediateSnaphotsDecoded
         let deleteClonedVolumesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteClonedVolumes)
         deleteClonedVolumes = deleteClonedVolumesDecoded
+        let deleteIntermediateDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteIntermediateData)
+        deleteIntermediateData = deleteIntermediateDataDecoded
+        let sourceSnapshotARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceSnapshotARN)
+        sourceSnapshotARN = sourceSnapshotARNDecoded
+        let destinationSnapshotDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationSnapshot)
+        destinationSnapshot = destinationSnapshotDecoded
     }
 }
 
@@ -14692,8 +15300,12 @@ extension FSxClientTypes {
         public var dataCompressionType: FSxClientTypes.OpenZFSDataCompressionType?
         /// A Boolean value indicating whether dependent clone volumes created from intermediate snapshots should be deleted when a volume is restored from snapshot.
         public var deleteClonedVolumes: Swift.Bool?
+        /// A Boolean value indicating whether snapshot data that differs between the current state and the specified snapshot should be overwritten when a volume is restored from a snapshot.
+        public var deleteIntermediateData: Swift.Bool?
         /// A Boolean value indicating whether snapshots between the current state and the specified snapshot should be deleted when a volume is restored from snapshot.
         public var deleteIntermediateSnaphots: Swift.Bool?
+        /// The ID of the snapshot that's being copied or was most recently copied to the destination volume.
+        public var destinationSnapshot: Swift.String?
         /// The configuration object for mounting a Network File System (NFS) file system.
         public var nfsExports: [FSxClientTypes.OpenZFSNfsExport]?
         /// The configuration object that specifies the snapshot to use as the origin of the data for the volume.
@@ -14706,6 +15318,8 @@ extension FSxClientTypes {
         public var recordSizeKiB: Swift.Int?
         /// Specifies the ID of the snapshot to which the volume was restored.
         public var restoreToSnapshot: Swift.String?
+        /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var sourceSnapshotARN: Swift.String?
         /// The maximum amount of storage in gibibtyes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
         public var storageCapacityQuotaGiB: Swift.Int?
         /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
@@ -14719,13 +15333,16 @@ extension FSxClientTypes {
             copyTagsToSnapshots: Swift.Bool? = nil,
             dataCompressionType: FSxClientTypes.OpenZFSDataCompressionType? = nil,
             deleteClonedVolumes: Swift.Bool? = nil,
+            deleteIntermediateData: Swift.Bool? = nil,
             deleteIntermediateSnaphots: Swift.Bool? = nil,
+            destinationSnapshot: Swift.String? = nil,
             nfsExports: [FSxClientTypes.OpenZFSNfsExport]? = nil,
             originSnapshot: FSxClientTypes.OpenZFSOriginSnapshotConfiguration? = nil,
             parentVolumeId: Swift.String? = nil,
             readOnly: Swift.Bool? = nil,
             recordSizeKiB: Swift.Int? = nil,
             restoreToSnapshot: Swift.String? = nil,
+            sourceSnapshotARN: Swift.String? = nil,
             storageCapacityQuotaGiB: Swift.Int? = nil,
             storageCapacityReservationGiB: Swift.Int? = nil,
             userAndGroupQuotas: [FSxClientTypes.OpenZFSUserOrGroupQuota]? = nil,
@@ -14735,13 +15352,16 @@ extension FSxClientTypes {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.deleteClonedVolumes = deleteClonedVolumes
+            self.deleteIntermediateData = deleteIntermediateData
             self.deleteIntermediateSnaphots = deleteIntermediateSnaphots
+            self.destinationSnapshot = destinationSnapshot
             self.nfsExports = nfsExports
             self.originSnapshot = originSnapshot
             self.parentVolumeId = parentVolumeId
             self.readOnly = readOnly
             self.recordSizeKiB = recordSizeKiB
             self.restoreToSnapshot = restoreToSnapshot
+            self.sourceSnapshotARN = sourceSnapshotARN
             self.storageCapacityQuotaGiB = storageCapacityQuotaGiB
             self.storageCapacityReservationGiB = storageCapacityReservationGiB
             self.userAndGroupQuotas = userAndGroupQuotas
@@ -18241,6 +18861,7 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration: Swift.Codable {
         case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
         case dataCompressionType = "DataCompressionType"
         case logConfiguration = "LogConfiguration"
+        case perUnitStorageThroughput = "PerUnitStorageThroughput"
         case rootSquashConfiguration = "RootSquashConfiguration"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
@@ -18261,6 +18882,9 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration: Swift.Codable {
         }
         if let logConfiguration = self.logConfiguration {
             try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
+        }
+        if let perUnitStorageThroughput = self.perUnitStorageThroughput {
+            try encodeContainer.encode(perUnitStorageThroughput, forKey: .perUnitStorageThroughput)
         }
         if let rootSquashConfiguration = self.rootSquashConfiguration {
             try encodeContainer.encode(rootSquashConfiguration, forKey: .rootSquashConfiguration)
@@ -18286,6 +18910,8 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration: Swift.Codable {
         logConfiguration = logConfigurationDecoded
         let rootSquashConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.LustreRootSquashConfiguration.self, forKey: .rootSquashConfiguration)
         rootSquashConfiguration = rootSquashConfigurationDecoded
+        let perUnitStorageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .perUnitStorageThroughput)
+        perUnitStorageThroughput = perUnitStorageThroughputDecoded
     }
 }
 
@@ -18320,6 +18946,15 @@ extension FSxClientTypes {
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
         /// The Lustre logging configuration used when updating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
+        /// The throughput of an Amazon FSx for Lustre Persistent SSD-based file system, measured in megabytes per second per tebibyte (MB/s/TiB). You can increase or decrease your file system's throughput. Valid values depend on the deployment type of the file system, as follows:
+        ///
+        /// * For PERSISTENT_1 SSD-based deployment types, valid values are 50, 100, and 200 MB/s/TiB.
+        ///
+        /// * For PERSISTENT_2 SSD-based deployment types, valid values are 125, 250, 500, and 1000 MB/s/TiB.
+        ///
+        ///
+        /// For more information, see [ Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-throughput-capacity.html).
+        public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when updating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
@@ -18331,6 +18966,7 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
             logConfiguration: FSxClientTypes.LustreLogCreateConfiguration? = nil,
+            perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
@@ -18340,6 +18976,7 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
             self.logConfiguration = logConfiguration
+            self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -18356,6 +18993,7 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.Codable {
         case fsxAdminPassword = "FsxAdminPassword"
         case removeRouteTableIds = "RemoveRouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
+        case throughputCapacityPerHAPair = "ThroughputCapacityPerHAPair"
         case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
     }
 
@@ -18387,6 +19025,9 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.Codable {
         }
         if let throughputCapacity = self.throughputCapacity {
             try encodeContainer.encode(throughputCapacity, forKey: .throughputCapacity)
+        }
+        if let throughputCapacityPerHAPair = self.throughputCapacityPerHAPair {
+            try encodeContainer.encode(throughputCapacityPerHAPair, forKey: .throughputCapacityPerHAPair)
         }
         if let weeklyMaintenanceStartTime = self.weeklyMaintenanceStartTime {
             try encodeContainer.encode(weeklyMaintenanceStartTime, forKey: .weeklyMaintenanceStartTime)
@@ -18429,12 +19070,14 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.Codable {
             }
         }
         removeRouteTableIds = removeRouteTableIdsDecoded0
+        let throughputCapacityPerHAPairDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughputCapacityPerHAPair)
+        throughputCapacityPerHAPair = throughputCapacityPerHAPairDecoded
     }
 }
 
 extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFileSystemOntapConfiguration(addRouteTableIds: \(Swift.String(describing: addRouteTableIds)), automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), removeRouteTableIds: \(Swift.String(describing: removeRouteTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
+        "UpdateFileSystemOntapConfiguration(addRouteTableIds: \(Swift.String(describing: addRouteTableIds)), automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), removeRouteTableIds: \(Swift.String(describing: removeRouteTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -18452,8 +19095,21 @@ extension FSxClientTypes {
         public var fsxAdminPassword: Swift.String?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for NetApp ONTAP file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
         public var removeRouteTableIds: [Swift.String]?
-        /// Enter a new value to change the amount of throughput capacity for the file system. Throughput capacity is measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps. For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html) in the FSx for ONTAP User Guide.
+        /// Enter a new value to change the amount of throughput capacity for the file system in megabytes per second (MBps). For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html) in the FSx for ONTAP User Guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.
+        ///
+        /// * The value of ThroughputCapacity when divided by the value of HAPairs is outside of the valid range for ThroughputCapacity.
         public var throughputCapacity: Swift.Int?
+        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system. This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.
+        ///
+        /// * For SINGLE_AZ_1 and MULTI_AZ_1, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
+        ///
+        /// * For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.
+        ///
+        ///
+        /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions: The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value. The value of ThroughputCapacityPerHAPair is not a valid value.
+        public var throughputCapacityPerHAPair: Swift.Int?
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -18465,6 +19121,7 @@ extension FSxClientTypes {
             fsxAdminPassword: Swift.String? = nil,
             removeRouteTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
+            throughputCapacityPerHAPair: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         )
         {
@@ -18475,6 +19132,7 @@ extension FSxClientTypes {
             self.fsxAdminPassword = fsxAdminPassword
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
+            self.throughputCapacityPerHAPair = throughputCapacityPerHAPair
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -18591,7 +19249,7 @@ extension FSxClientTypes {
         public var removeRouteTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:
         ///
-        /// * For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.
+        /// * For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MB/s.
         ///
         /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
         public var throughputCapacity: Swift.Int?
@@ -18783,6 +19441,7 @@ extension FSxClientTypes.UpdateOntapVolumeConfiguration: Swift.Codable {
         case copyTagsToBackups = "CopyTagsToBackups"
         case junctionPath = "JunctionPath"
         case securityStyle = "SecurityStyle"
+        case sizeInBytes = "SizeInBytes"
         case sizeInMegabytes = "SizeInMegabytes"
         case snaplockConfiguration = "SnaplockConfiguration"
         case snapshotPolicy = "SnapshotPolicy"
@@ -18800,6 +19459,9 @@ extension FSxClientTypes.UpdateOntapVolumeConfiguration: Swift.Codable {
         }
         if let securityStyle = self.securityStyle {
             try encodeContainer.encode(securityStyle.rawValue, forKey: .securityStyle)
+        }
+        if let sizeInBytes = self.sizeInBytes {
+            try encodeContainer.encode(sizeInBytes, forKey: .sizeInBytes)
         }
         if let sizeInMegabytes = self.sizeInMegabytes {
             try encodeContainer.encode(sizeInMegabytes, forKey: .sizeInMegabytes)
@@ -18836,6 +19498,8 @@ extension FSxClientTypes.UpdateOntapVolumeConfiguration: Swift.Codable {
         copyTagsToBackups = copyTagsToBackupsDecoded
         let snaplockConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.UpdateSnaplockConfiguration.self, forKey: .snaplockConfiguration)
         snaplockConfiguration = snaplockConfigurationDecoded
+        let sizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInBytes)
+        sizeInBytes = sizeInBytesDecoded
     }
 }
 
@@ -18848,6 +19512,8 @@ extension FSxClientTypes {
         public var junctionPath: Swift.String?
         /// The security style for the volume, which can be UNIX, NTFS, or MIXED.
         public var securityStyle: FSxClientTypes.SecurityStyle?
+        /// The configured size of the volume, in bytes.
+        public var sizeInBytes: Swift.Int?
         /// Specifies the size of the volume in megabytes.
         public var sizeInMegabytes: Swift.Int?
         /// The configuration object for updating the SnapLock configuration of an FSx for ONTAP SnapLock volume.
@@ -18872,6 +19538,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             junctionPath: Swift.String? = nil,
             securityStyle: FSxClientTypes.SecurityStyle? = nil,
+            sizeInBytes: Swift.Int? = nil,
             sizeInMegabytes: Swift.Int? = nil,
             snaplockConfiguration: FSxClientTypes.UpdateSnaplockConfiguration? = nil,
             snapshotPolicy: Swift.String? = nil,
@@ -18882,6 +19549,7 @@ extension FSxClientTypes {
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.securityStyle = securityStyle
+            self.sizeInBytes = sizeInBytes
             self.sizeInMegabytes = sizeInMegabytes
             self.snaplockConfiguration = snaplockConfiguration
             self.snapshotPolicy = snapshotPolicy
@@ -19015,6 +19683,153 @@ extension FSxClientTypes {
         }
     }
 
+}
+
+extension FSxClientTypes {
+    public enum UpdateOpenZFSVolumeOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleteClonedVolumes
+        case deleteIntermediateData
+        case deleteIntermediateSnapshots
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateOpenZFSVolumeOption] {
+            return [
+                .deleteClonedVolumes,
+                .deleteIntermediateData,
+                .deleteIntermediateSnapshots,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteClonedVolumes: return "DELETE_CLONED_VOLUMES"
+            case .deleteIntermediateData: return "DELETE_INTERMEDIATE_DATA"
+            case .deleteIntermediateSnapshots: return "DELETE_INTERMEDIATE_SNAPSHOTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateOpenZFSVolumeOption(rawValue: rawValue) ?? UpdateOpenZFSVolumeOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension UpdateSharedVpcConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case enableFsxRouteTableUpdatesFromParticipantAccounts = "EnableFsxRouteTableUpdatesFromParticipantAccounts"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let enableFsxRouteTableUpdatesFromParticipantAccounts = self.enableFsxRouteTableUpdatesFromParticipantAccounts {
+            try encodeContainer.encode(enableFsxRouteTableUpdatesFromParticipantAccounts, forKey: .enableFsxRouteTableUpdatesFromParticipantAccounts)
+        }
+    }
+}
+
+extension UpdateSharedVpcConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateSharedVpcConfigurationInput: Swift.Equatable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets. Set to true to enable or false to disable.
+    public var enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
+    }
+}
+
+struct UpdateSharedVpcConfigurationInputBody: Swift.Equatable {
+    let enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension UpdateSharedVpcConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case enableFsxRouteTableUpdatesFromParticipantAccounts = "EnableFsxRouteTableUpdatesFromParticipantAccounts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableFsxRouteTableUpdatesFromParticipantAccountsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enableFsxRouteTableUpdatesFromParticipantAccounts)
+        enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccountsDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension UpdateSharedVpcConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSharedVpcConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enableFsxRouteTableUpdatesFromParticipantAccounts = output.enableFsxRouteTableUpdatesFromParticipantAccounts
+        } else {
+            self.enableFsxRouteTableUpdatesFromParticipantAccounts = nil
+        }
+    }
+}
+
+public struct UpdateSharedVpcConfigurationOutput: Swift.Equatable {
+    /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
+    public var enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
+
+    public init(
+        enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String? = nil
+    )
+    {
+        self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
+    }
+}
+
+struct UpdateSharedVpcConfigurationOutputBody: Swift.Equatable {
+    let enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
+}
+
+extension UpdateSharedVpcConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableFsxRouteTableUpdatesFromParticipantAccounts = "EnableFsxRouteTableUpdatesFromParticipantAccounts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableFsxRouteTableUpdatesFromParticipantAccountsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enableFsxRouteTableUpdatesFromParticipantAccounts)
+        enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccountsDecoded
+    }
+}
+
+enum UpdateSharedVpcConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension FSxClientTypes.UpdateSnaplockConfiguration: Swift.Codable {
@@ -19668,7 +20483,7 @@ extension FSxClientTypes.Volume: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// Describes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
+    /// Describes an Amazon FSx volume.
     public struct Volume: Swift.Equatable {
         /// A list of administrative actions for the volume that are in process or waiting to be processed. Administrative actions describe changes to the volume that you have initiated using the UpdateVolume action.
         public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
@@ -19930,6 +20745,38 @@ extension VolumeNotFoundBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension FSxClientTypes {
+    public enum VolumeStyle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case flexgroup
+        case flexvol
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VolumeStyle] {
+            return [
+                .flexgroup,
+                .flexvol,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .flexgroup: return "FLEXGROUP"
+            case .flexvol: return "FLEXVOL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VolumeStyle(rawValue: rawValue) ?? VolumeStyle.sdkUnknown(rawValue)
+        }
     }
 }
 

@@ -640,6 +640,9 @@ extension RedshiftClientTypes {
 extension AssociateDataShareConsumerInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allowWrites = allowWrites {
+            try container.encode(allowWrites, forKey: ClientRuntime.Key("AllowWrites"))
+        }
         if let associateEntireAccount = associateEntireAccount {
             try container.encode(associateEntireAccount, forKey: ClientRuntime.Key("AssociateEntireAccount"))
         }
@@ -664,6 +667,8 @@ extension AssociateDataShareConsumerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateDataShareConsumerInput: Swift.Equatable {
+    /// If set to true, allows write operations for a datashare.
+    public var allowWrites: Swift.Bool?
     /// A value that specifies whether the datashare is associated with the entire account.
     public var associateEntireAccount: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the consumer that is associated with the datashare.
@@ -675,12 +680,14 @@ public struct AssociateDataShareConsumerInput: Swift.Equatable {
     public var dataShareArn: Swift.String?
 
     public init(
+        allowWrites: Swift.Bool? = nil,
         associateEntireAccount: Swift.Bool? = nil,
         consumerArn: Swift.String? = nil,
         consumerRegion: Swift.String? = nil,
         dataShareArn: Swift.String? = nil
     )
     {
+        self.allowWrites = allowWrites
         self.associateEntireAccount = associateEntireAccount
         self.consumerArn = consumerArn
         self.consumerRegion = consumerRegion
@@ -693,10 +700,12 @@ struct AssociateDataShareConsumerInputBody: Swift.Equatable {
     let associateEntireAccount: Swift.Bool?
     let consumerArn: Swift.String?
     let consumerRegion: Swift.String?
+    let allowWrites: Swift.Bool?
 }
 
 extension AssociateDataShareConsumerInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowWrites = "AllowWrites"
         case associateEntireAccount = "AssociateEntireAccount"
         case consumerArn = "ConsumerArn"
         case consumerRegion = "ConsumerRegion"
@@ -713,6 +722,8 @@ extension AssociateDataShareConsumerInputBody: Swift.Decodable {
         consumerArn = consumerArnDecoded
         let consumerRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .consumerRegion)
         consumerRegion = consumerRegionDecoded
+        let allowWritesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowWrites)
+        allowWrites = allowWritesDecoded
     }
 }
 
@@ -1479,6 +1490,9 @@ enum AuthorizeClusterSecurityGroupIngressOutputError: ClientRuntime.HttpResponse
 extension AuthorizeDataShareInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allowWrites = allowWrites {
+            try container.encode(allowWrites, forKey: ClientRuntime.Key("AllowWrites"))
+        }
         if let consumerIdentifier = consumerIdentifier {
             try container.encode(consumerIdentifier, forKey: ClientRuntime.Key("ConsumerIdentifier"))
         }
@@ -1497,6 +1511,8 @@ extension AuthorizeDataShareInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AuthorizeDataShareInput: Swift.Equatable {
+    /// If set to true, allows write operations for a datashare.
+    public var allowWrites: Swift.Bool?
     /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
     /// This member is required.
     public var consumerIdentifier: Swift.String?
@@ -1505,10 +1521,12 @@ public struct AuthorizeDataShareInput: Swift.Equatable {
     public var dataShareArn: Swift.String?
 
     public init(
+        allowWrites: Swift.Bool? = nil,
         consumerIdentifier: Swift.String? = nil,
         dataShareArn: Swift.String? = nil
     )
     {
+        self.allowWrites = allowWrites
         self.consumerIdentifier = consumerIdentifier
         self.dataShareArn = dataShareArn
     }
@@ -1517,10 +1535,12 @@ public struct AuthorizeDataShareInput: Swift.Equatable {
 struct AuthorizeDataShareInputBody: Swift.Equatable {
     let dataShareArn: Swift.String?
     let consumerIdentifier: Swift.String?
+    let allowWrites: Swift.Bool?
 }
 
 extension AuthorizeDataShareInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowWrites = "AllowWrites"
         case consumerIdentifier = "ConsumerIdentifier"
         case dataShareArn = "DataShareArn"
     }
@@ -1531,6 +1551,8 @@ extension AuthorizeDataShareInputBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let consumerIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .consumerIdentifier)
         consumerIdentifier = consumerIdentifierDecoded
+        let allowWritesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowWrites)
+        allowWrites = allowWritesDecoded
     }
 }
 
@@ -2025,6 +2047,77 @@ enum AuthorizeSnapshotAccessOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
+}
+
+extension RedshiftClientTypes.AuthorizedTokenIssuer: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedAudiencesList = "AuthorizedAudiencesList"
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let authorizedAudiencesList = authorizedAudiencesList {
+            if !authorizedAudiencesList.isEmpty {
+                var authorizedAudiencesListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedAudiencesList"))
+                for (index0, string0) in authorizedAudiencesList.enumerated() {
+                    try authorizedAudiencesListContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var authorizedAudiencesListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedAudiencesList"))
+                try authorizedAudiencesListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let trustedTokenIssuerArn = trustedTokenIssuerArn {
+            try container.encode(trustedTokenIssuerArn, forKey: ClientRuntime.Key("TrustedTokenIssuerArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+        if containerValues.contains(.authorizedAudiencesList) {
+            struct KeyVal0{struct member{}}
+            let authorizedAudiencesListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .authorizedAudiencesList)
+            if let authorizedAudiencesListWrappedContainer = authorizedAudiencesListWrappedContainer {
+                let authorizedAudiencesListContainer = try authorizedAudiencesListWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var authorizedAudiencesListBuffer:[Swift.String]? = nil
+                if let authorizedAudiencesListContainer = authorizedAudiencesListContainer {
+                    authorizedAudiencesListBuffer = [Swift.String]()
+                    for stringContainer0 in authorizedAudiencesListContainer {
+                        authorizedAudiencesListBuffer?.append(stringContainer0)
+                    }
+                }
+                authorizedAudiencesList = authorizedAudiencesListBuffer
+            } else {
+                authorizedAudiencesList = []
+            }
+        } else {
+            authorizedAudiencesList = nil
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The authorized token issuer for the Amazon Redshift IAM Identity Center application.
+    public struct AuthorizedTokenIssuer: Swift.Equatable {
+        /// The list of audiences for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
+        public var authorizedAudiencesList: [Swift.String]?
+        /// The ARN for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
+        public var trustedTokenIssuerArn: Swift.String?
+
+        public init(
+            authorizedAudiencesList: [Swift.String]? = nil,
+            trustedTokenIssuerArn: Swift.String? = nil
+        )
+        {
+            self.authorizedAudiencesList = authorizedAudiencesList
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        }
+    }
+
 }
 
 extension RedshiftClientTypes.AvailabilityZone: Swift.Codable {
@@ -6129,7 +6222,7 @@ enum CreateAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension CreateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), redshiftIdcApplicationArn: \(Swift.String(describing: redshiftIdcApplicationArn)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateClusterInput: Swift.Encodable {
@@ -6257,6 +6350,9 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
+        }
+        if let redshiftIdcApplicationArn = redshiftIdcApplicationArn {
+            try container.encode(redshiftIdcApplicationArn, forKey: ClientRuntime.Key("RedshiftIdcApplicationArn"))
         }
         if let snapshotScheduleIdentifier = snapshotScheduleIdentifier {
             try container.encode(snapshotScheduleIdentifier, forKey: ClientRuntime.Key("SnapshotScheduleIdentifier"))
@@ -6423,6 +6519,8 @@ public struct CreateClusterInput: Swift.Equatable {
     public var preferredMaintenanceWindow: Swift.String?
     /// If true, the cluster can be accessed from a public network.
     public var publiclyAccessible: Swift.Bool?
+    /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center application.
+    public var redshiftIdcApplicationArn: Swift.String?
     /// A unique identifier for the snapshot schedule.
     public var snapshotScheduleIdentifier: Swift.String?
     /// A list of tag instances.
@@ -6466,6 +6564,7 @@ public struct CreateClusterInput: Swift.Equatable {
         port: Swift.Int? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        redshiftIdcApplicationArn: Swift.String? = nil,
         snapshotScheduleIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -6506,6 +6605,7 @@ public struct CreateClusterInput: Swift.Equatable {
         self.port = port
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
+        self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
         self.snapshotScheduleIdentifier = snapshotScheduleIdentifier
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -6551,6 +6651,7 @@ struct CreateClusterInputBody: Swift.Equatable {
     let masterPasswordSecretKmsKeyId: Swift.String?
     let ipAddressType: Swift.String?
     let multiAZ: Swift.Bool?
+    let redshiftIdcApplicationArn: Swift.String?
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
@@ -6590,6 +6691,7 @@ extension CreateClusterInputBody: Swift.Decodable {
         case port = "Port"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
+        case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
         case snapshotScheduleIdentifier = "SnapshotScheduleIdentifier"
         case tags = "Tags"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -6741,6 +6843,8 @@ extension CreateClusterInputBody: Swift.Decodable {
         ipAddressType = ipAddressTypeDecoded
         let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
+        let redshiftIdcApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationArn)
+        redshiftIdcApplicationArn = redshiftIdcApplicationArnDecoded
     }
 }
 
@@ -6809,6 +6913,7 @@ enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesPerClusterLimitExceeded": return try await NumberOfNodesPerClusterLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesQuotaExceeded": return try await NumberOfNodesQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RedshiftIdcApplicationNotExists": return try await RedshiftIdcApplicationNotExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SnapshotScheduleNotFound": return try await SnapshotScheduleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagLimitExceededFault": return try await TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8572,6 +8677,228 @@ enum CreateHsmConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateRedshiftIdcApplicationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let authorizedTokenIssuerList = authorizedTokenIssuerList {
+            if !authorizedTokenIssuerList.isEmpty {
+                var authorizedTokenIssuerListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedTokenIssuerList"))
+                for (index0, authorizedtokenissuer0) in authorizedTokenIssuerList.enumerated() {
+                    try authorizedTokenIssuerListContainer.encode(authorizedtokenissuer0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var authorizedTokenIssuerListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedTokenIssuerList"))
+                try authorizedTokenIssuerListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let iamRoleArn = iamRoleArn {
+            try container.encode(iamRoleArn, forKey: ClientRuntime.Key("IamRoleArn"))
+        }
+        if let idcDisplayName = idcDisplayName {
+            try container.encode(idcDisplayName, forKey: ClientRuntime.Key("IdcDisplayName"))
+        }
+        if let idcInstanceArn = idcInstanceArn {
+            try container.encode(idcInstanceArn, forKey: ClientRuntime.Key("IdcInstanceArn"))
+        }
+        if let identityNamespace = identityNamespace {
+            try container.encode(identityNamespace, forKey: ClientRuntime.Key("IdentityNamespace"))
+        }
+        if let redshiftIdcApplicationName = redshiftIdcApplicationName {
+            try container.encode(redshiftIdcApplicationName, forKey: ClientRuntime.Key("RedshiftIdcApplicationName"))
+        }
+        if let serviceIntegrations = serviceIntegrations {
+            if !serviceIntegrations.isEmpty {
+                var serviceIntegrationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServiceIntegrations"))
+                for (index0, serviceintegrationsunion0) in serviceIntegrations.enumerated() {
+                    try serviceIntegrationsContainer.encode(serviceintegrationsunion0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var serviceIntegrationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServiceIntegrations"))
+                try serviceIntegrationsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("CreateRedshiftIdcApplication", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateRedshiftIdcApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRedshiftIdcApplicationInput: Swift.Equatable {
+    /// The token issuer list for the Amazon Redshift IAM Identity Center application instance.
+    public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
+    /// The IAM role ARN for the Amazon Redshift IAM Identity Center application instance. It has the required permissions to be assumed and invoke the IDC Identity Center API.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// The display name for the Amazon Redshift IAM Identity Center application instance. It appears in the console.
+    /// This member is required.
+    public var idcDisplayName: Swift.String?
+    /// The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application.
+    /// This member is required.
+    public var idcInstanceArn: Swift.String?
+    /// The namespace for the Amazon Redshift IAM Identity Center application instance. It determines which managed application verifies the connection token.
+    public var identityNamespace: Swift.String?
+    /// The name of the Redshift application in IAM Identity Center.
+    /// This member is required.
+    public var redshiftIdcApplicationName: Swift.String?
+    /// A collection of service integrations for the Redshift IAM Identity Center application.
+    public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+
+    public init(
+        authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
+        iamRoleArn: Swift.String? = nil,
+        idcDisplayName: Swift.String? = nil,
+        idcInstanceArn: Swift.String? = nil,
+        identityNamespace: Swift.String? = nil,
+        redshiftIdcApplicationName: Swift.String? = nil,
+        serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+    )
+    {
+        self.authorizedTokenIssuerList = authorizedTokenIssuerList
+        self.iamRoleArn = iamRoleArn
+        self.idcDisplayName = idcDisplayName
+        self.idcInstanceArn = idcInstanceArn
+        self.identityNamespace = identityNamespace
+        self.redshiftIdcApplicationName = redshiftIdcApplicationName
+        self.serviceIntegrations = serviceIntegrations
+    }
+}
+
+struct CreateRedshiftIdcApplicationInputBody: Swift.Equatable {
+    let idcInstanceArn: Swift.String?
+    let redshiftIdcApplicationName: Swift.String?
+    let identityNamespace: Swift.String?
+    let idcDisplayName: Swift.String?
+    let iamRoleArn: Swift.String?
+    let authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
+    let serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+}
+
+extension CreateRedshiftIdcApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTokenIssuerList = "AuthorizedTokenIssuerList"
+        case iamRoleArn = "IamRoleArn"
+        case idcDisplayName = "IdcDisplayName"
+        case idcInstanceArn = "IdcInstanceArn"
+        case identityNamespace = "IdentityNamespace"
+        case redshiftIdcApplicationName = "RedshiftIdcApplicationName"
+        case serviceIntegrations = "ServiceIntegrations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idcInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcInstanceArn)
+        idcInstanceArn = idcInstanceArnDecoded
+        let redshiftIdcApplicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationName)
+        redshiftIdcApplicationName = redshiftIdcApplicationNameDecoded
+        let identityNamespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityNamespace)
+        identityNamespace = identityNamespaceDecoded
+        let idcDisplayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcDisplayName)
+        idcDisplayName = idcDisplayNameDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        if containerValues.contains(.authorizedTokenIssuerList) {
+            struct KeyVal0{struct member{}}
+            let authorizedTokenIssuerListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .authorizedTokenIssuerList)
+            if let authorizedTokenIssuerListWrappedContainer = authorizedTokenIssuerListWrappedContainer {
+                let authorizedTokenIssuerListContainer = try authorizedTokenIssuerListWrappedContainer.decodeIfPresent([RedshiftClientTypes.AuthorizedTokenIssuer].self, forKey: .member)
+                var authorizedTokenIssuerListBuffer:[RedshiftClientTypes.AuthorizedTokenIssuer]? = nil
+                if let authorizedTokenIssuerListContainer = authorizedTokenIssuerListContainer {
+                    authorizedTokenIssuerListBuffer = [RedshiftClientTypes.AuthorizedTokenIssuer]()
+                    for structureContainer0 in authorizedTokenIssuerListContainer {
+                        authorizedTokenIssuerListBuffer?.append(structureContainer0)
+                    }
+                }
+                authorizedTokenIssuerList = authorizedTokenIssuerListBuffer
+            } else {
+                authorizedTokenIssuerList = []
+            }
+        } else {
+            authorizedTokenIssuerList = nil
+        }
+        if containerValues.contains(.serviceIntegrations) {
+            struct KeyVal0{struct member{}}
+            let serviceIntegrationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serviceIntegrations)
+            if let serviceIntegrationsWrappedContainer = serviceIntegrationsWrappedContainer {
+                let serviceIntegrationsContainer = try serviceIntegrationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.ServiceIntegrationsUnion].self, forKey: .member)
+                var serviceIntegrationsBuffer:[RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+                if let serviceIntegrationsContainer = serviceIntegrationsContainer {
+                    serviceIntegrationsBuffer = [RedshiftClientTypes.ServiceIntegrationsUnion]()
+                    for unionContainer0 in serviceIntegrationsContainer {
+                        serviceIntegrationsBuffer?.append(unionContainer0)
+                    }
+                }
+                serviceIntegrations = serviceIntegrationsBuffer
+            } else {
+                serviceIntegrations = []
+            }
+        } else {
+            serviceIntegrations = nil
+        }
+    }
+}
+
+extension CreateRedshiftIdcApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRedshiftIdcApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.redshiftIdcApplication = output.redshiftIdcApplication
+        } else {
+            self.redshiftIdcApplication = nil
+        }
+    }
+}
+
+public struct CreateRedshiftIdcApplicationOutput: Swift.Equatable {
+    /// Contains properties for the Redshift IDC application.
+    public var redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication?
+
+    public init(
+        redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication? = nil
+    )
+    {
+        self.redshiftIdcApplication = redshiftIdcApplication
+    }
+}
+
+struct CreateRedshiftIdcApplicationOutputBody: Swift.Equatable {
+    let redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication?
+}
+
+extension CreateRedshiftIdcApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case redshiftIdcApplication = "RedshiftIdcApplication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateRedshiftIdcApplicationResult"))
+        let redshiftIdcApplicationDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.RedshiftIdcApplication.self, forKey: .redshiftIdcApplication)
+        redshiftIdcApplication = redshiftIdcApplicationDecoded
+    }
+}
+
+enum CreateRedshiftIdcApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DependentServiceAccessDenied": return try await DependentServiceAccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RedshiftIdcApplicationAlreadyExists": return try await RedshiftIdcApplicationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RedshiftIdcApplicationQuotaExceeded": return try await RedshiftIdcApplicationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension CreateScheduledActionInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -9962,15 +10289,20 @@ extension RedshiftClientTypes {
 
 extension RedshiftClientTypes.DataShareAssociation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerAcceptedWrites = "ConsumerAcceptedWrites"
         case consumerIdentifier = "ConsumerIdentifier"
         case consumerRegion = "ConsumerRegion"
         case createdDate = "CreatedDate"
+        case producerAllowedWrites = "ProducerAllowedWrites"
         case status = "Status"
         case statusChangeDate = "StatusChangeDate"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let consumerAcceptedWrites = consumerAcceptedWrites {
+            try container.encode(consumerAcceptedWrites, forKey: ClientRuntime.Key("ConsumerAcceptedWrites"))
+        }
         if let consumerIdentifier = consumerIdentifier {
             try container.encode(consumerIdentifier, forKey: ClientRuntime.Key("ConsumerIdentifier"))
         }
@@ -9979,6 +10311,9 @@ extension RedshiftClientTypes.DataShareAssociation: Swift.Codable {
         }
         if let createdDate = createdDate {
             try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("CreatedDate"))
+        }
+        if let producerAllowedWrites = producerAllowedWrites {
+            try container.encode(producerAllowedWrites, forKey: ClientRuntime.Key("ProducerAllowedWrites"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -10000,34 +10335,46 @@ extension RedshiftClientTypes.DataShareAssociation: Swift.Codable {
         createdDate = createdDateDecoded
         let statusChangeDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .statusChangeDate)
         statusChangeDate = statusChangeDateDecoded
+        let producerAllowedWritesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .producerAllowedWrites)
+        producerAllowedWrites = producerAllowedWritesDecoded
+        let consumerAcceptedWritesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consumerAcceptedWrites)
+        consumerAcceptedWrites = consumerAcceptedWritesDecoded
     }
 }
 
 extension RedshiftClientTypes {
     /// The association of a datashare from a producer account with a data consumer.
     public struct DataShareAssociation: Swift.Equatable {
+        /// Specifies whether write operations were allowed during data share association.
+        public var consumerAcceptedWrites: Swift.Bool?
         /// The name of the consumer accounts that have an association with a producer datashare.
         public var consumerIdentifier: Swift.String?
         /// The Amazon Web Services Region of the consumer accounts that have an association with a producer datashare.
         public var consumerRegion: Swift.String?
         /// The creation date of the datashare that is associated.
         public var createdDate: ClientRuntime.Date?
+        /// Specifies whether write operations were allowed during data share authorization.
+        public var producerAllowedWrites: Swift.Bool?
         /// The status of the datashare that is associated.
         public var status: RedshiftClientTypes.DataShareStatus?
         /// The status change data of the datashare that is associated.
         public var statusChangeDate: ClientRuntime.Date?
 
         public init(
+            consumerAcceptedWrites: Swift.Bool? = nil,
             consumerIdentifier: Swift.String? = nil,
             consumerRegion: Swift.String? = nil,
             createdDate: ClientRuntime.Date? = nil,
+            producerAllowedWrites: Swift.Bool? = nil,
             status: RedshiftClientTypes.DataShareStatus? = nil,
             statusChangeDate: ClientRuntime.Date? = nil
         )
         {
+            self.consumerAcceptedWrites = consumerAcceptedWrites
             self.consumerIdentifier = consumerIdentifier
             self.consumerRegion = consumerRegion
             self.createdDate = createdDate
+            self.producerAllowedWrites = producerAllowedWrites
             self.status = status
             self.statusChangeDate = statusChangeDate
         }
@@ -11157,6 +11504,9 @@ extension DeleteCustomDomainAssociationInput: Swift.Encodable {
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
         try container.encode("DeleteCustomDomainAssociation", forKey:ClientRuntime.Key("Action"))
         try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
     }
@@ -11172,28 +11522,37 @@ public struct DeleteCustomDomainAssociationInput: Swift.Equatable {
     /// The identifier of the cluster to delete a custom domain association for.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
+    /// The custom domain name for the custom domain association.
+    /// This member is required.
+    public var customDomainName: Swift.String?
 
     public init(
-        clusterIdentifier: Swift.String? = nil
+        clusterIdentifier: Swift.String? = nil,
+        customDomainName: Swift.String? = nil
     )
     {
         self.clusterIdentifier = clusterIdentifier
+        self.customDomainName = customDomainName
     }
 }
 
 struct DeleteCustomDomainAssociationInputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
+    let customDomainName: Swift.String?
 }
 
 extension DeleteCustomDomainAssociationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterIdentifier = "ClusterIdentifier"
+        case customDomainName = "CustomDomainName"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
         clusterIdentifier = clusterIdentifierDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
     }
 }
 
@@ -11213,6 +11572,7 @@ enum DeleteCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBi
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomDomainAssociationNotFoundFault": return try await CustomDomainAssociationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -11778,6 +12138,75 @@ enum DeletePartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteRedshiftIdcApplicationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let redshiftIdcApplicationArn = redshiftIdcApplicationArn {
+            try container.encode(redshiftIdcApplicationArn, forKey: ClientRuntime.Key("RedshiftIdcApplicationArn"))
+        }
+        try container.encode("DeleteRedshiftIdcApplication", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteRedshiftIdcApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRedshiftIdcApplicationInput: Swift.Equatable {
+    /// The ARN for a deleted Amazon Redshift IAM Identity Center application.
+    /// This member is required.
+    public var redshiftIdcApplicationArn: Swift.String?
+
+    public init(
+        redshiftIdcApplicationArn: Swift.String? = nil
+    )
+    {
+        self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
+    }
+}
+
+struct DeleteRedshiftIdcApplicationInputBody: Swift.Equatable {
+    let redshiftIdcApplicationArn: Swift.String?
+}
+
+extension DeleteRedshiftIdcApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redshiftIdcApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationArn)
+        redshiftIdcApplicationArn = redshiftIdcApplicationArnDecoded
+    }
+}
+
+extension DeleteRedshiftIdcApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRedshiftIdcApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteRedshiftIdcApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DependentServiceAccessDenied": return try await DependentServiceAccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RedshiftIdcApplicationNotExists": return try await RedshiftIdcApplicationNotExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DeleteResourcePolicyInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -12217,6 +12646,60 @@ enum DeleteUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UsageLimitNotFound": return try await UsageLimitNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
+    }
+}
+
+extension DependentServiceAccessDeniedFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<DependentServiceAccessDeniedFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A dependent service denied access for the integration.
+public struct DependentServiceAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DependentServiceAccessDenied" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct DependentServiceAccessDeniedFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DependentServiceAccessDeniedFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -17372,6 +17855,154 @@ enum DescribePartnersOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedPartnerIntegration": return try await UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeRedshiftIdcApplicationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        if let redshiftIdcApplicationArn = redshiftIdcApplicationArn {
+            try container.encode(redshiftIdcApplicationArn, forKey: ClientRuntime.Key("RedshiftIdcApplicationArn"))
+        }
+        try container.encode("DescribeRedshiftIdcApplications", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeRedshiftIdcApplicationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeRedshiftIdcApplicationsInput: Swift.Equatable {
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+    public var maxRecords: Swift.Int?
+    /// The ARN for the Redshift application that integrates with IAM Identity Center.
+    public var redshiftIdcApplicationArn: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        redshiftIdcApplicationArn: Swift.String? = nil
+    )
+    {
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
+    }
+}
+
+struct DescribeRedshiftIdcApplicationsInputBody: Swift.Equatable {
+    let redshiftIdcApplicationArn: Swift.String?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeRedshiftIdcApplicationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redshiftIdcApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationArn)
+        redshiftIdcApplicationArn = redshiftIdcApplicationArnDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension DescribeRedshiftIdcApplicationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRedshiftIdcApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.redshiftIdcApplications = output.redshiftIdcApplications
+        } else {
+            self.marker = nil
+            self.redshiftIdcApplications = nil
+        }
+    }
+}
+
+public struct DescribeRedshiftIdcApplicationsOutput: Swift.Equatable {
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+    /// The list of Amazon Redshift IAM Identity Center applications.
+    public var redshiftIdcApplications: [RedshiftClientTypes.RedshiftIdcApplication]?
+
+    public init(
+        marker: Swift.String? = nil,
+        redshiftIdcApplications: [RedshiftClientTypes.RedshiftIdcApplication]? = nil
+    )
+    {
+        self.marker = marker
+        self.redshiftIdcApplications = redshiftIdcApplications
+    }
+}
+
+struct DescribeRedshiftIdcApplicationsOutputBody: Swift.Equatable {
+    let redshiftIdcApplications: [RedshiftClientTypes.RedshiftIdcApplication]?
+    let marker: Swift.String?
+}
+
+extension DescribeRedshiftIdcApplicationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case redshiftIdcApplications = "RedshiftIdcApplications"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeRedshiftIdcApplicationsResult"))
+        if containerValues.contains(.redshiftIdcApplications) {
+            struct KeyVal0{struct member{}}
+            let redshiftIdcApplicationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .redshiftIdcApplications)
+            if let redshiftIdcApplicationsWrappedContainer = redshiftIdcApplicationsWrappedContainer {
+                let redshiftIdcApplicationsContainer = try redshiftIdcApplicationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.RedshiftIdcApplication].self, forKey: .member)
+                var redshiftIdcApplicationsBuffer:[RedshiftClientTypes.RedshiftIdcApplication]? = nil
+                if let redshiftIdcApplicationsContainer = redshiftIdcApplicationsContainer {
+                    redshiftIdcApplicationsBuffer = [RedshiftClientTypes.RedshiftIdcApplication]()
+                    for structureContainer0 in redshiftIdcApplicationsContainer {
+                        redshiftIdcApplicationsBuffer?.append(structureContainer0)
+                    }
+                }
+                redshiftIdcApplications = redshiftIdcApplicationsBuffer
+            } else {
+                redshiftIdcApplications = []
+            }
+        } else {
+            redshiftIdcApplications = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+enum DescribeRedshiftIdcApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DependentServiceAccessDenied": return try await DependentServiceAccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RedshiftIdcApplicationNotExists": return try await RedshiftIdcApplicationNotExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -25636,6 +26267,79 @@ extension Ipv6CidrBlockNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension RedshiftClientTypes.LakeFormationQuery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorization = "Authorization"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let authorization = authorization {
+            try container.encode(authorization, forKey: ClientRuntime.Key("Authorization"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ServiceAuthorization.self, forKey: .authorization)
+        authorization = authorizationDecoded
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The Lake Formation scope.
+    public struct LakeFormationQuery: Swift.Equatable {
+        /// Determines whether the query scope is enabled or disabled.
+        /// This member is required.
+        public var authorization: RedshiftClientTypes.ServiceAuthorization?
+
+        public init(
+            authorization: RedshiftClientTypes.ServiceAuthorization? = nil
+        )
+        {
+            self.authorization = authorization
+        }
+    }
+
+}
+
+extension RedshiftClientTypes.LakeFormationScopeUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lakeformationquery = "LakeFormationQuery"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .lakeformationquery(lakeformationquery):
+                try container.encode(lakeformationquery, forKey: .lakeformationquery)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let lakeformationqueryDecoded = try values.decodeIfPresent(RedshiftClientTypes.LakeFormationQuery.self, forKey: .lakeformationquery)
+        if let lakeformationquery = lakeformationqueryDecoded {
+            self = .lakeformationquery(lakeformationquery)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension RedshiftClientTypes {
+    /// A list of scopes set up for Lake Formation integration.
+    public enum LakeFormationScopeUnion: Swift.Equatable {
+        /// The Lake Formation scope.
+        case lakeformationquery(RedshiftClientTypes.LakeFormationQuery)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension LimitExceededFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -27567,8 +28271,10 @@ public struct ModifyCustomDomainAssociationInput: Swift.Equatable {
     /// This member is required.
     public var clusterIdentifier: Swift.String?
     /// The certificate Amazon Resource Name (ARN) for the changed custom domain association.
+    /// This member is required.
     public var customDomainCertificateArn: Swift.String?
     /// The custom domain name for a changed custom domain association.
+    /// This member is required.
     public var customDomainName: Swift.String?
 
     public init(
@@ -27684,6 +28390,7 @@ enum ModifyCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBi
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomDomainAssociationNotFoundFault": return try await CustomDomainAssociationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -28156,6 +28863,213 @@ enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "SubscriptionEventIdNotFound": return try await SubscriptionEventIdNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SubscriptionSeverityNotFound": return try await SubscriptionSeverityNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ModifyRedshiftIdcApplicationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let authorizedTokenIssuerList = authorizedTokenIssuerList {
+            if !authorizedTokenIssuerList.isEmpty {
+                var authorizedTokenIssuerListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedTokenIssuerList"))
+                for (index0, authorizedtokenissuer0) in authorizedTokenIssuerList.enumerated() {
+                    try authorizedTokenIssuerListContainer.encode(authorizedtokenissuer0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var authorizedTokenIssuerListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedTokenIssuerList"))
+                try authorizedTokenIssuerListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let iamRoleArn = iamRoleArn {
+            try container.encode(iamRoleArn, forKey: ClientRuntime.Key("IamRoleArn"))
+        }
+        if let idcDisplayName = idcDisplayName {
+            try container.encode(idcDisplayName, forKey: ClientRuntime.Key("IdcDisplayName"))
+        }
+        if let identityNamespace = identityNamespace {
+            try container.encode(identityNamespace, forKey: ClientRuntime.Key("IdentityNamespace"))
+        }
+        if let redshiftIdcApplicationArn = redshiftIdcApplicationArn {
+            try container.encode(redshiftIdcApplicationArn, forKey: ClientRuntime.Key("RedshiftIdcApplicationArn"))
+        }
+        if let serviceIntegrations = serviceIntegrations {
+            if !serviceIntegrations.isEmpty {
+                var serviceIntegrationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServiceIntegrations"))
+                for (index0, serviceintegrationsunion0) in serviceIntegrations.enumerated() {
+                    try serviceIntegrationsContainer.encode(serviceintegrationsunion0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var serviceIntegrationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServiceIntegrations"))
+                try serviceIntegrationsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("ModifyRedshiftIdcApplication", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyRedshiftIdcApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyRedshiftIdcApplicationInput: Swift.Equatable {
+    /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application to change.
+    public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
+    /// The IAM role ARN associated with the Amazon Redshift IAM Identity Center application to change. It has the required permissions to be assumed and invoke the IDC Identity Center API.
+    public var iamRoleArn: Swift.String?
+    /// The display name for the Amazon Redshift IAM Identity Center application to change. It appears on the console.
+    public var idcDisplayName: Swift.String?
+    /// The namespace for the Amazon Redshift IAM Identity Center application to change. It determines which managed application verifies the connection token.
+    public var identityNamespace: Swift.String?
+    /// The ARN for the Redshift application that integrates with IAM Identity Center.
+    /// This member is required.
+    public var redshiftIdcApplicationArn: Swift.String?
+    /// A collection of service integrations associated with the application.
+    public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+
+    public init(
+        authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
+        iamRoleArn: Swift.String? = nil,
+        idcDisplayName: Swift.String? = nil,
+        identityNamespace: Swift.String? = nil,
+        redshiftIdcApplicationArn: Swift.String? = nil,
+        serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+    )
+    {
+        self.authorizedTokenIssuerList = authorizedTokenIssuerList
+        self.iamRoleArn = iamRoleArn
+        self.idcDisplayName = idcDisplayName
+        self.identityNamespace = identityNamespace
+        self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
+        self.serviceIntegrations = serviceIntegrations
+    }
+}
+
+struct ModifyRedshiftIdcApplicationInputBody: Swift.Equatable {
+    let redshiftIdcApplicationArn: Swift.String?
+    let identityNamespace: Swift.String?
+    let iamRoleArn: Swift.String?
+    let idcDisplayName: Swift.String?
+    let authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
+    let serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+}
+
+extension ModifyRedshiftIdcApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTokenIssuerList = "AuthorizedTokenIssuerList"
+        case iamRoleArn = "IamRoleArn"
+        case idcDisplayName = "IdcDisplayName"
+        case identityNamespace = "IdentityNamespace"
+        case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
+        case serviceIntegrations = "ServiceIntegrations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redshiftIdcApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationArn)
+        redshiftIdcApplicationArn = redshiftIdcApplicationArnDecoded
+        let identityNamespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityNamespace)
+        identityNamespace = identityNamespaceDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let idcDisplayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcDisplayName)
+        idcDisplayName = idcDisplayNameDecoded
+        if containerValues.contains(.authorizedTokenIssuerList) {
+            struct KeyVal0{struct member{}}
+            let authorizedTokenIssuerListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .authorizedTokenIssuerList)
+            if let authorizedTokenIssuerListWrappedContainer = authorizedTokenIssuerListWrappedContainer {
+                let authorizedTokenIssuerListContainer = try authorizedTokenIssuerListWrappedContainer.decodeIfPresent([RedshiftClientTypes.AuthorizedTokenIssuer].self, forKey: .member)
+                var authorizedTokenIssuerListBuffer:[RedshiftClientTypes.AuthorizedTokenIssuer]? = nil
+                if let authorizedTokenIssuerListContainer = authorizedTokenIssuerListContainer {
+                    authorizedTokenIssuerListBuffer = [RedshiftClientTypes.AuthorizedTokenIssuer]()
+                    for structureContainer0 in authorizedTokenIssuerListContainer {
+                        authorizedTokenIssuerListBuffer?.append(structureContainer0)
+                    }
+                }
+                authorizedTokenIssuerList = authorizedTokenIssuerListBuffer
+            } else {
+                authorizedTokenIssuerList = []
+            }
+        } else {
+            authorizedTokenIssuerList = nil
+        }
+        if containerValues.contains(.serviceIntegrations) {
+            struct KeyVal0{struct member{}}
+            let serviceIntegrationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serviceIntegrations)
+            if let serviceIntegrationsWrappedContainer = serviceIntegrationsWrappedContainer {
+                let serviceIntegrationsContainer = try serviceIntegrationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.ServiceIntegrationsUnion].self, forKey: .member)
+                var serviceIntegrationsBuffer:[RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+                if let serviceIntegrationsContainer = serviceIntegrationsContainer {
+                    serviceIntegrationsBuffer = [RedshiftClientTypes.ServiceIntegrationsUnion]()
+                    for unionContainer0 in serviceIntegrationsContainer {
+                        serviceIntegrationsBuffer?.append(unionContainer0)
+                    }
+                }
+                serviceIntegrations = serviceIntegrationsBuffer
+            } else {
+                serviceIntegrations = []
+            }
+        } else {
+            serviceIntegrations = nil
+        }
+    }
+}
+
+extension ModifyRedshiftIdcApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyRedshiftIdcApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.redshiftIdcApplication = output.redshiftIdcApplication
+        } else {
+            self.redshiftIdcApplication = nil
+        }
+    }
+}
+
+public struct ModifyRedshiftIdcApplicationOutput: Swift.Equatable {
+    /// Contains properties for the Redshift IDC application.
+    public var redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication?
+
+    public init(
+        redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication? = nil
+    )
+    {
+        self.redshiftIdcApplication = redshiftIdcApplication
+    }
+}
+
+struct ModifyRedshiftIdcApplicationOutputBody: Swift.Equatable {
+    let redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication?
+}
+
+extension ModifyRedshiftIdcApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case redshiftIdcApplication = "RedshiftIdcApplication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyRedshiftIdcApplicationResult"))
+        let redshiftIdcApplicationDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.RedshiftIdcApplication.self, forKey: .redshiftIdcApplication)
+        redshiftIdcApplication = redshiftIdcApplicationDecoded
+    }
+}
+
+enum ModifyRedshiftIdcApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DependentServiceAccessDenied": return try await DependentServiceAccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RedshiftIdcApplicationNotExists": return try await RedshiftIdcApplicationNotExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -30516,6 +31430,345 @@ extension RedshiftClientTypes {
         }
     }
 
+}
+
+extension RedshiftClientTypes.RedshiftIdcApplication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTokenIssuerList = "AuthorizedTokenIssuerList"
+        case iamRoleArn = "IamRoleArn"
+        case idcDisplayName = "IdcDisplayName"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcManagedApplicationArn = "IdcManagedApplicationArn"
+        case idcOnboardStatus = "IdcOnboardStatus"
+        case identityNamespace = "IdentityNamespace"
+        case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
+        case redshiftIdcApplicationName = "RedshiftIdcApplicationName"
+        case serviceIntegrations = "ServiceIntegrations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let authorizedTokenIssuerList = authorizedTokenIssuerList {
+            if !authorizedTokenIssuerList.isEmpty {
+                var authorizedTokenIssuerListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedTokenIssuerList"))
+                for (index0, authorizedtokenissuer0) in authorizedTokenIssuerList.enumerated() {
+                    try authorizedTokenIssuerListContainer.encode(authorizedtokenissuer0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var authorizedTokenIssuerListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AuthorizedTokenIssuerList"))
+                try authorizedTokenIssuerListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let iamRoleArn = iamRoleArn {
+            try container.encode(iamRoleArn, forKey: ClientRuntime.Key("IamRoleArn"))
+        }
+        if let idcDisplayName = idcDisplayName {
+            try container.encode(idcDisplayName, forKey: ClientRuntime.Key("IdcDisplayName"))
+        }
+        if let idcInstanceArn = idcInstanceArn {
+            try container.encode(idcInstanceArn, forKey: ClientRuntime.Key("IdcInstanceArn"))
+        }
+        if let idcManagedApplicationArn = idcManagedApplicationArn {
+            try container.encode(idcManagedApplicationArn, forKey: ClientRuntime.Key("IdcManagedApplicationArn"))
+        }
+        if let idcOnboardStatus = idcOnboardStatus {
+            try container.encode(idcOnboardStatus, forKey: ClientRuntime.Key("IdcOnboardStatus"))
+        }
+        if let identityNamespace = identityNamespace {
+            try container.encode(identityNamespace, forKey: ClientRuntime.Key("IdentityNamespace"))
+        }
+        if let redshiftIdcApplicationArn = redshiftIdcApplicationArn {
+            try container.encode(redshiftIdcApplicationArn, forKey: ClientRuntime.Key("RedshiftIdcApplicationArn"))
+        }
+        if let redshiftIdcApplicationName = redshiftIdcApplicationName {
+            try container.encode(redshiftIdcApplicationName, forKey: ClientRuntime.Key("RedshiftIdcApplicationName"))
+        }
+        if let serviceIntegrations = serviceIntegrations {
+            if !serviceIntegrations.isEmpty {
+                var serviceIntegrationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServiceIntegrations"))
+                for (index0, serviceintegrationsunion0) in serviceIntegrations.enumerated() {
+                    try serviceIntegrationsContainer.encode(serviceintegrationsunion0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var serviceIntegrationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ServiceIntegrations"))
+                try serviceIntegrationsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idcInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcInstanceArn)
+        idcInstanceArn = idcInstanceArnDecoded
+        let redshiftIdcApplicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationName)
+        redshiftIdcApplicationName = redshiftIdcApplicationNameDecoded
+        let redshiftIdcApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationArn)
+        redshiftIdcApplicationArn = redshiftIdcApplicationArnDecoded
+        let identityNamespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityNamespace)
+        identityNamespace = identityNamespaceDecoded
+        let idcDisplayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcDisplayName)
+        idcDisplayName = idcDisplayNameDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let idcManagedApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcManagedApplicationArn)
+        idcManagedApplicationArn = idcManagedApplicationArnDecoded
+        let idcOnboardStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcOnboardStatus)
+        idcOnboardStatus = idcOnboardStatusDecoded
+        if containerValues.contains(.authorizedTokenIssuerList) {
+            struct KeyVal0{struct member{}}
+            let authorizedTokenIssuerListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .authorizedTokenIssuerList)
+            if let authorizedTokenIssuerListWrappedContainer = authorizedTokenIssuerListWrappedContainer {
+                let authorizedTokenIssuerListContainer = try authorizedTokenIssuerListWrappedContainer.decodeIfPresent([RedshiftClientTypes.AuthorizedTokenIssuer].self, forKey: .member)
+                var authorizedTokenIssuerListBuffer:[RedshiftClientTypes.AuthorizedTokenIssuer]? = nil
+                if let authorizedTokenIssuerListContainer = authorizedTokenIssuerListContainer {
+                    authorizedTokenIssuerListBuffer = [RedshiftClientTypes.AuthorizedTokenIssuer]()
+                    for structureContainer0 in authorizedTokenIssuerListContainer {
+                        authorizedTokenIssuerListBuffer?.append(structureContainer0)
+                    }
+                }
+                authorizedTokenIssuerList = authorizedTokenIssuerListBuffer
+            } else {
+                authorizedTokenIssuerList = []
+            }
+        } else {
+            authorizedTokenIssuerList = nil
+        }
+        if containerValues.contains(.serviceIntegrations) {
+            struct KeyVal0{struct member{}}
+            let serviceIntegrationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .serviceIntegrations)
+            if let serviceIntegrationsWrappedContainer = serviceIntegrationsWrappedContainer {
+                let serviceIntegrationsContainer = try serviceIntegrationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.ServiceIntegrationsUnion].self, forKey: .member)
+                var serviceIntegrationsBuffer:[RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+                if let serviceIntegrationsContainer = serviceIntegrationsContainer {
+                    serviceIntegrationsBuffer = [RedshiftClientTypes.ServiceIntegrationsUnion]()
+                    for unionContainer0 in serviceIntegrationsContainer {
+                        serviceIntegrationsBuffer?.append(unionContainer0)
+                    }
+                }
+                serviceIntegrations = serviceIntegrationsBuffer
+            } else {
+                serviceIntegrations = []
+            }
+        } else {
+            serviceIntegrations = nil
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// Contains properties for the Redshift IDC application.
+    public struct RedshiftIdcApplication: Swift.Equatable {
+        /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application.
+        public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
+        /// The ARN for the Amazon Redshift IAM Identity Center application. It has the required permissions to be assumed and invoke the IDC Identity Center API.
+        public var iamRoleArn: Swift.String?
+        /// The display name for the Amazon Redshift IAM Identity Center application. It appears on the console.
+        public var idcDisplayName: Swift.String?
+        /// The ARN for the IAM Identity Center instance that Redshift integrates with.
+        public var idcInstanceArn: Swift.String?
+        /// The ARN for the Amazon Redshift IAM Identity Center application.
+        public var idcManagedApplicationArn: Swift.String?
+        /// The onboarding status for the Amazon Redshift IAM Identity Center application.
+        public var idcOnboardStatus: Swift.String?
+        /// The identity namespace for the Amazon Redshift IAM Identity Center application. It determines which managed application verifies the connection token.
+        public var identityNamespace: Swift.String?
+        /// The ARN for the Redshift application that integrates with IAM Identity Center.
+        public var redshiftIdcApplicationArn: Swift.String?
+        /// The name of the Redshift application in IAM Identity Center.
+        public var redshiftIdcApplicationName: Swift.String?
+        /// A list of service integrations for the Redshift IAM Identity Center application.
+        public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+
+        public init(
+            authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
+            iamRoleArn: Swift.String? = nil,
+            idcDisplayName: Swift.String? = nil,
+            idcInstanceArn: Swift.String? = nil,
+            idcManagedApplicationArn: Swift.String? = nil,
+            idcOnboardStatus: Swift.String? = nil,
+            identityNamespace: Swift.String? = nil,
+            redshiftIdcApplicationArn: Swift.String? = nil,
+            redshiftIdcApplicationName: Swift.String? = nil,
+            serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+        )
+        {
+            self.authorizedTokenIssuerList = authorizedTokenIssuerList
+            self.iamRoleArn = iamRoleArn
+            self.idcDisplayName = idcDisplayName
+            self.idcInstanceArn = idcInstanceArn
+            self.idcManagedApplicationArn = idcManagedApplicationArn
+            self.idcOnboardStatus = idcOnboardStatus
+            self.identityNamespace = identityNamespace
+            self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
+            self.redshiftIdcApplicationName = redshiftIdcApplicationName
+            self.serviceIntegrations = serviceIntegrations
+        }
+    }
+
+}
+
+extension RedshiftIdcApplicationAlreadyExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<RedshiftIdcApplicationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The application you attempted to add already exists.
+public struct RedshiftIdcApplicationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RedshiftIdcApplicationAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RedshiftIdcApplicationAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RedshiftIdcApplicationAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RedshiftIdcApplicationNotExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<RedshiftIdcApplicationNotExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The application you attempted to find doesn't exist.
+public struct RedshiftIdcApplicationNotExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RedshiftIdcApplicationNotExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RedshiftIdcApplicationNotExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RedshiftIdcApplicationNotExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RedshiftIdcApplicationQuotaExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<RedshiftIdcApplicationQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The maximum number of Redshift IAM Identity Center applications was exceeded.
+public struct RedshiftIdcApplicationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RedshiftIdcApplicationQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RedshiftIdcApplicationQuotaExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RedshiftIdcApplicationQuotaExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension RejectDataShareInput: Swift.Encodable {
@@ -34858,6 +36111,87 @@ extension RedshiftClientTypes {
             self.availabilityZone = availabilityZone
             self.clusterNodes = clusterNodes
         }
+    }
+
+}
+
+extension RedshiftClientTypes {
+    public enum ServiceAuthorization: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceAuthorization] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ServiceAuthorization(rawValue: rawValue) ?? ServiceAuthorization.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RedshiftClientTypes.ServiceIntegrationsUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lakeformation = "LakeFormation"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .lakeformation(lakeformation):
+                var lakeformationContainer = container.nestedUnkeyedContainer(forKey: .lakeformation)
+                for lakeformationscopeunion0 in lakeformation {
+                    try lakeformationContainer.encode(lakeformationscopeunion0)
+                }
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let lakeformationContainer = try values.decodeIfPresent([RedshiftClientTypes.LakeFormationScopeUnion?].self, forKey: .lakeformation)
+        var lakeformationDecoded0:[RedshiftClientTypes.LakeFormationScopeUnion]? = nil
+        if let lakeformationContainer = lakeformationContainer {
+            lakeformationDecoded0 = [RedshiftClientTypes.LakeFormationScopeUnion]()
+            for union0 in lakeformationContainer {
+                if let union0 = union0 {
+                    lakeformationDecoded0?.append(union0)
+                }
+            }
+        }
+        if let lakeformation = lakeformationDecoded0 {
+            self = .lakeformation(lakeformation)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension RedshiftClientTypes {
+    /// A list of service integrations.
+    public enum ServiceIntegrationsUnion: Swift.Equatable {
+        /// A list of scopes set up for Lake Formation integration.
+        case lakeformation([RedshiftClientTypes.LakeFormationScopeUnion])
+        case sdkUnknown(Swift.String)
     }
 
 }

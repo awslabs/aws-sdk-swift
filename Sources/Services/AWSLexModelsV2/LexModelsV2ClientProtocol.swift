@@ -4,6 +4,8 @@ import ClientRuntime
 
 ///
 public protocol LexModelsV2ClientProtocol {
+    /// Performs the `BatchCreateCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
     /// - Parameter BatchCreateCustomVocabularyItemInput : [no documentation found]
@@ -19,6 +21,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func batchCreateCustomVocabularyItem(input: BatchCreateCustomVocabularyItemInput) async throws -> BatchCreateCustomVocabularyItemOutput
+    /// Performs the `BatchDeleteCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
     /// - Parameter BatchDeleteCustomVocabularyItemInput : [no documentation found]
@@ -34,6 +38,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func batchDeleteCustomVocabularyItem(input: BatchDeleteCustomVocabularyItemInput) async throws -> BatchDeleteCustomVocabularyItemOutput
+    /// Performs the `BatchUpdateCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
     /// - Parameter BatchUpdateCustomVocabularyItemInput : [no documentation found]
@@ -49,6 +55,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func batchUpdateCustomVocabularyItem(input: BatchUpdateCustomVocabularyItemInput) async throws -> BatchUpdateCustomVocabularyItemOutput
+    /// Performs the `BuildBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
     ///
     /// - Parameter BuildBotLocaleInput : [no documentation found]
@@ -65,6 +73,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func buildBotLocale(input: BuildBotLocaleInput) async throws -> BuildBotLocaleOutput
+    /// Performs the `CreateBot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates an Amazon Lex conversational bot.
     ///
     /// - Parameter CreateBotInput : [no documentation found]
@@ -81,6 +91,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createBot(input: CreateBotInput) async throws -> CreateBotOutput
+    /// Performs the `CreateBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot.
     ///
     /// - Parameter CreateBotAliasInput : [no documentation found]
@@ -97,6 +109,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createBotAlias(input: CreateBotAliasInput) async throws -> CreateBotAliasOutput
+    /// Performs the `CreateBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot.
     ///
     /// - Parameter CreateBotLocaleInput : [no documentation found]
@@ -113,7 +127,9 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createBotLocale(input: CreateBotLocaleInput) async throws -> CreateBotLocaleOutput
-    /// Creates a new version of the bot based on the DRAFT version. If the DRAFT version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version, it returns the last created version. When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1.
+    /// Performs the `CreateBotVersion` operation on the `LexModelBuildingServiceV2` service.
+    ///
+    /// Creates an immutable version of the bot. When you create the first version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused.
     ///
     /// - Parameter CreateBotVersionInput : [no documentation found]
     ///
@@ -129,6 +145,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createBotVersion(input: CreateBotVersionInput) async throws -> CreateBotVersionOutput
+    /// Performs the `CreateExport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see [ Importing and exporting bots ](https://docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html)
     ///
     /// - Parameter CreateExportInput : [no documentation found]
@@ -145,6 +163,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createExport(input: CreateExportInput) async throws -> CreateExportOutput
+    /// Performs the `CreateIntent` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following:
     ///
     /// * Sample utterances. For example, "I want to order a pizza" and "Can I order a pizza." You can't provide utterances for built-in intents.
@@ -173,6 +193,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createIntent(input: CreateIntentInput) async throws -> CreateIntentOutput
+    /// Performs the `CreateResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates a new resource policy with the specified policy statements.
     ///
     /// - Parameter CreateResourcePolicyInput : [no documentation found]
@@ -189,6 +211,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createResourcePolicy(input: CreateResourcePolicyInput) async throws -> CreateResourcePolicyOutput
+    /// Performs the `CreateResourcePolicyStatement` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access.
     ///
     /// - Parameter CreateResourcePolicyStatementInput : [no documentation found]
@@ -206,6 +230,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createResourcePolicyStatement(input: CreateResourcePolicyStatementInput) async throws -> CreateResourcePolicyStatementOutput
+    /// Performs the `CreateSlot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user.
     ///
     /// - Parameter CreateSlotInput : [no documentation found]
@@ -222,6 +248,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createSlot(input: CreateSlotInput) async throws -> CreateSlotOutput
+    /// Performs the `CreateSlotType` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume.
     ///
     /// - Parameter CreateSlotTypeInput : [no documentation found]
@@ -238,6 +266,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createSlotType(input: CreateSlotTypeInput) async throws -> CreateSlotTypeOutput
+    /// Performs the `CreateTestSetDiscrepancyReport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Create a report that describes the differences between the bot and the test set.
     ///
     /// - Parameter CreateTestSetDiscrepancyReportInput : [no documentation found]
@@ -254,6 +284,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createTestSetDiscrepancyReport(input: CreateTestSetDiscrepancyReportInput) async throws -> CreateTestSetDiscrepancyReportOutput
+    /// Performs the `CreateUploadUrl` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
     ///
     /// - Parameter CreateUploadUrlInput : [no documentation found]
@@ -269,6 +301,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutput
+    /// Performs the `DeleteBot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.
     ///
     /// - Parameter DeleteBotInput : [no documentation found]
@@ -285,6 +319,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteBot(input: DeleteBotInput) async throws -> DeleteBotOutput
+    /// Performs the `DeleteBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes the specified bot alias.
     ///
     /// - Parameter DeleteBotAliasInput : [no documentation found]
@@ -301,6 +337,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutput
+    /// Performs the `DeleteBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
     ///
     /// - Parameter DeleteBotLocaleInput : [no documentation found]
@@ -317,6 +355,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteBotLocale(input: DeleteBotLocaleInput) async throws -> DeleteBotLocaleOutput
+    /// Performs the `DeleteBotVersion` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DeleteBot.html) operation.
     ///
     /// - Parameter DeleteBotVersionInput : [no documentation found]
@@ -333,6 +373,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutput
+    /// Performs the `DeleteCustomVocabulary` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes a custom vocabulary from the specified locale in the specified bot.
     ///
     /// - Parameter DeleteCustomVocabularyInput : [no documentation found]
@@ -349,6 +391,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteCustomVocabulary(input: DeleteCustomVocabularyInput) async throws -> DeleteCustomVocabularyOutput
+    /// Performs the `DeleteExport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes a previous export and the associated files stored in an S3 bucket.
     ///
     /// - Parameter DeleteExportInput : [no documentation found]
@@ -364,6 +408,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteExport(input: DeleteExportInput) async throws -> DeleteExportOutput
+    /// Performs the `DeleteImport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes a previous import and the associated file stored in an S3 bucket.
     ///
     /// - Parameter DeleteImportInput : [no documentation found]
@@ -379,6 +425,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteImport(input: DeleteImportInput) async throws -> DeleteImportOutput
+    /// Performs the `DeleteIntent` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes the specified intent. Deleting an intent also deletes the slots associated with the intent.
     ///
     /// - Parameter DeleteIntentInput : [no documentation found]
@@ -395,6 +443,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteIntent(input: DeleteIntentInput) async throws -> DeleteIntentOutput
+    /// Performs the `DeleteResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -409,6 +459,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+    /// Performs the `DeleteResourcePolicyStatement` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception.
     ///
     /// - Parameter DeleteResourcePolicyStatementInput : [no documentation found]
@@ -423,6 +475,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     func deleteResourcePolicyStatement(input: DeleteResourcePolicyStatementInput) async throws -> DeleteResourcePolicyStatementOutput
+    /// Performs the `DeleteSlot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes the specified slot from an intent.
     ///
     /// - Parameter DeleteSlotInput : [no documentation found]
@@ -439,6 +493,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteSlot(input: DeleteSlotInput) async throws -> DeleteSlotOutput
+    /// Performs the `DeleteSlotType` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true.
     ///
     /// - Parameter DeleteSlotTypeInput : [no documentation found]
@@ -455,6 +511,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutput
+    /// Performs the `DeleteTestSet` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The action to delete the selected test set.
     ///
     /// - Parameter DeleteTestSetInput : [no documentation found]
@@ -471,6 +529,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteTestSet(input: DeleteTestSetInput) async throws -> DeleteTestSetOutput
+    /// Performs the `DeleteUtterances` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
     ///
     /// - Parameter DeleteUtterancesInput : [no documentation found]
@@ -484,6 +544,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutput
+    /// Performs the `DescribeBot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Provides metadata information about a bot.
     ///
     /// - Parameter DescribeBotInput : [no documentation found]
@@ -499,6 +561,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeBot(input: DescribeBotInput) async throws -> DescribeBotOutput
+    /// Performs the `DescribeBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Get information about a specific bot alias.
     ///
     /// - Parameter DescribeBotAliasInput : [no documentation found]
@@ -514,6 +578,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeBotAlias(input: DescribeBotAliasInput) async throws -> DescribeBotAliasOutput
+    /// Performs the `DescribeBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Describes the settings that a bot has for a specific locale.
     ///
     /// - Parameter DescribeBotLocaleInput : [no documentation found]
@@ -529,6 +595,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeBotLocale(input: DescribeBotLocaleInput) async throws -> DescribeBotLocaleOutput
+    /// Performs the `DescribeBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Provides metadata information about a bot recommendation. This information will enable you to get a description on the request inputs, to download associated transcripts after processing is complete, and to download intents and slot-types generated by the bot recommendation.
     ///
     /// - Parameter DescribeBotRecommendationInput : [no documentation found]
@@ -543,6 +611,24 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeBotRecommendation(input: DescribeBotRecommendationInput) async throws -> DescribeBotRecommendationOutput
+    /// Performs the `DescribeBotResourceGeneration` operation on the `LexModelBuildingServiceV2` service.
+    ///
+    /// Returns information about a request to generate a bot through natural language description, made through the StartBotResource API. Use the generatedBotLocaleUrl to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration.
+    ///
+    /// - Parameter DescribeBotResourceGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBotResourceGenerationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    func describeBotResourceGeneration(input: DescribeBotResourceGenerationInput) async throws -> DescribeBotResourceGenerationOutput
+    /// Performs the `DescribeBotVersion` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Provides metadata about a version of a bot.
     ///
     /// - Parameter DescribeBotVersionInput : [no documentation found]
@@ -558,6 +644,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeBotVersion(input: DescribeBotVersionInput) async throws -> DescribeBotVersionOutput
+    /// Performs the `DescribeCustomVocabularyMetadata` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Provides metadata information about a custom vocabulary.
     ///
     /// - Parameter DescribeCustomVocabularyMetadataInput : [no documentation found]
@@ -573,6 +661,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeCustomVocabularyMetadata(input: DescribeCustomVocabularyMetadataInput) async throws -> DescribeCustomVocabularyMetadataOutput
+    /// Performs the `DescribeExport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets information about a specific export.
     ///
     /// - Parameter DescribeExportInput : [no documentation found]
@@ -587,6 +677,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeExport(input: DescribeExportInput) async throws -> DescribeExportOutput
+    /// Performs the `DescribeImport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets information about a specific import.
     ///
     /// - Parameter DescribeImportInput : [no documentation found]
@@ -601,6 +693,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeImport(input: DescribeImportInput) async throws -> DescribeImportOutput
+    /// Performs the `DescribeIntent` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Returns metadata about an intent.
     ///
     /// - Parameter DescribeIntentInput : [no documentation found]
@@ -616,6 +710,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeIntent(input: DescribeIntentInput) async throws -> DescribeIntentOutput
+    /// Performs the `DescribeResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets the resource policy and policy revision for a bot or bot alias.
     ///
     /// - Parameter DescribeResourcePolicyInput : [no documentation found]
@@ -629,6 +725,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
+    /// Performs the `DescribeSlot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets metadata information about a slot.
     ///
     /// - Parameter DescribeSlotInput : [no documentation found]
@@ -644,6 +742,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeSlot(input: DescribeSlotInput) async throws -> DescribeSlotOutput
+    /// Performs the `DescribeSlotType` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets metadata information about a slot type.
     ///
     /// - Parameter DescribeSlotTypeInput : [no documentation found]
@@ -659,6 +759,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeSlotType(input: DescribeSlotTypeInput) async throws -> DescribeSlotTypeOutput
+    /// Performs the `DescribeTestExecution` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets metadata information about the test execution.
     ///
     /// - Parameter DescribeTestExecutionInput : [no documentation found]
@@ -674,6 +776,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeTestExecution(input: DescribeTestExecutionInput) async throws -> DescribeTestExecutionOutput
+    /// Performs the `DescribeTestSet` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets metadata information about the test set.
     ///
     /// - Parameter DescribeTestSetInput : [no documentation found]
@@ -689,6 +793,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeTestSet(input: DescribeTestSetInput) async throws -> DescribeTestSetOutput
+    /// Performs the `DescribeTestSetDiscrepancyReport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets metadata information about the test set discrepancy report.
     ///
     /// - Parameter DescribeTestSetDiscrepancyReportInput : [no documentation found]
@@ -704,6 +810,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeTestSetDiscrepancyReport(input: DescribeTestSetDiscrepancyReportInput) async throws -> DescribeTestSetDiscrepancyReportOutput
+    /// Performs the `DescribeTestSetGeneration` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets metadata information about the test set generation.
     ///
     /// - Parameter DescribeTestSetGenerationInput : [no documentation found]
@@ -719,6 +827,27 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func describeTestSetGeneration(input: DescribeTestSetGenerationInput) async throws -> DescribeTestSetGenerationOutput
+    /// Performs the `GenerateBotElement` operation on the `LexModelBuildingServiceV2` service.
+    ///
+    /// Generates sample utterances for an intent.
+    ///
+    /// - Parameter GenerateBotElementInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateBotElementOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    func generateBotElement(input: GenerateBotElementInput) async throws -> GenerateBotElementOutput
+    /// Performs the `GetTestExecutionArtifactsUrl` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The pre-signed Amazon S3 URL to download the test execution result artifacts.
     ///
     /// - Parameter GetTestExecutionArtifactsUrlInput : [no documentation found]
@@ -734,6 +863,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func getTestExecutionArtifactsUrl(input: GetTestExecutionArtifactsUrlInput) async throws -> GetTestExecutionArtifactsUrlOutput
+    /// Performs the `ListAggregatedUtterances` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:
     ///
     /// * The childDirected field was set to true when the bot was created.
@@ -754,6 +885,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listAggregatedUtterances(input: ListAggregatedUtterancesInput) async throws -> ListAggregatedUtterancesOutput
+    /// Performs the `ListBotAliases` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of aliases for the specified bot.
     ///
     /// - Parameter ListBotAliasesInput : [no documentation found]
@@ -768,6 +901,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBotAliases(input: ListBotAliasesInput) async throws -> ListBotAliasesOutput
+    /// Performs the `ListBotLocales` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of locales for the specified bot.
     ///
     /// - Parameter ListBotLocalesInput : [no documentation found]
@@ -782,6 +917,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBotLocales(input: ListBotLocalesInput) async throws -> ListBotLocalesOutput
+    /// Performs the `ListBotRecommendations` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Get a list of bot recommendations that meet the specified criteria.
     ///
     /// - Parameter ListBotRecommendationsInput : [no documentation found]
@@ -796,6 +933,24 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBotRecommendations(input: ListBotRecommendationsInput) async throws -> ListBotRecommendationsOutput
+    /// Performs the `ListBotResourceGenerations` operation on the `LexModelBuildingServiceV2` service.
+    ///
+    /// Lists the generation requests made for a bot locale.
+    ///
+    /// - Parameter ListBotResourceGenerationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotResourceGenerationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    func listBotResourceGenerations(input: ListBotResourceGenerationsInput) async throws -> ListBotResourceGenerationsOutput
+    /// Performs the `ListBots` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of available bots.
     ///
     /// - Parameter ListBotsInput : [no documentation found]
@@ -810,6 +965,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBots(input: ListBotsInput) async throws -> ListBotsOutput
+    /// Performs the `ListBotVersions` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     ///
     /// - Parameter ListBotVersionsInput : [no documentation found]
@@ -824,6 +981,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBotVersions(input: ListBotVersionsInput) async throws -> ListBotVersionsOutput
+    /// Performs the `ListBuiltInIntents` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateIntent.html).
     ///
     /// - Parameter ListBuiltInIntentsInput : [no documentation found]
@@ -838,6 +997,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBuiltInIntents(input: ListBuiltInIntentsInput) async throws -> ListBuiltInIntentsOutput
+    /// Performs the `ListBuiltInSlotTypes` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of built-in slot types that meet the specified criteria.
     ///
     /// - Parameter ListBuiltInSlotTypesInput : [no documentation found]
@@ -852,6 +1013,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput) async throws -> ListBuiltInSlotTypesOutput
+    /// Performs the `ListCustomVocabularyItems` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
     /// - Parameter ListCustomVocabularyItemsInput : [no documentation found]
@@ -867,6 +1030,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listCustomVocabularyItems(input: ListCustomVocabularyItemsInput) async throws -> ListCustomVocabularyItemsOutput
+    /// Performs the `ListExports` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     ///
     /// - Parameter ListExportsInput : [no documentation found]
@@ -880,6 +1045,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listExports(input: ListExportsInput) async throws -> ListExportsOutput
+    /// Performs the `ListImports` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     ///
     /// - Parameter ListImportsInput : [no documentation found]
@@ -893,6 +1060,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutput
+    /// Performs the `ListIntentMetrics` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Retrieves summary metrics for the intents in your bot. The following fields are required:
     ///
     /// * metrics – A list of [AnalyticsIntentMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsIntentMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
@@ -922,6 +1091,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listIntentMetrics(input: ListIntentMetricsInput) async throws -> ListIntentMetricsOutput
+    /// Performs the `ListIntentPaths` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required:
     ///
     /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
@@ -944,6 +1115,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listIntentPaths(input: ListIntentPathsInput) async throws -> ListIntentPathsOutput
+    /// Performs the `ListIntents` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Get a list of intents that meet the specified criteria.
     ///
     /// - Parameter ListIntentsInput : [no documentation found]
@@ -958,6 +1131,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listIntents(input: ListIntentsInput) async throws -> ListIntentsOutput
+    /// Performs the `ListIntentStageMetrics` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required:
     ///
     /// * metrics – A list of [AnalyticsIntentStageMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsIntentStageMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
@@ -987,6 +1162,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listIntentStageMetrics(input: ListIntentStageMetricsInput) async throws -> ListIntentStageMetricsOutput
+    /// Performs the `ListRecommendedIntents` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the response are ordered by relevance.
     ///
     /// - Parameter ListRecommendedIntentsInput : [no documentation found]
@@ -1002,6 +1179,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listRecommendedIntents(input: ListRecommendedIntentsInput) async throws -> ListRecommendedIntentsOutput
+    /// Performs the `ListSessionAnalyticsData` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways:
     ///
     /// * Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.
@@ -1021,6 +1200,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listSessionAnalyticsData(input: ListSessionAnalyticsDataInput) async throws -> ListSessionAnalyticsDataOutput
+    /// Performs the `ListSessionMetrics` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Retrieves summary metrics for the user sessions with your bot. The following fields are required:
     ///
     /// * metrics – A list of [AnalyticsSessionMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsSessionMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
@@ -1050,6 +1231,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listSessionMetrics(input: ListSessionMetricsInput) async throws -> ListSessionMetricsOutput
+    /// Performs the `ListSlots` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of slots that match the specified criteria.
     ///
     /// - Parameter ListSlotsInput : [no documentation found]
@@ -1064,6 +1247,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listSlots(input: ListSlotsInput) async throws -> ListSlotsOutput
+    /// Performs the `ListSlotTypes` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of slot types that match the specified criteria.
     ///
     /// - Parameter ListSlotTypesInput : [no documentation found]
@@ -1078,6 +1263,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listSlotTypes(input: ListSlotTypesInput) async throws -> ListSlotTypesOutput
+    /// Performs the `ListTagsForResource` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1092,6 +1279,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTestExecutionResultItems` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Gets a list of test execution result items.
     ///
     /// - Parameter ListTestExecutionResultItemsInput : [no documentation found]
@@ -1107,6 +1296,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listTestExecutionResultItems(input: ListTestExecutionResultItemsInput) async throws -> ListTestExecutionResultItemsOutput
+    /// Performs the `ListTestExecutions` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The list of test set executions.
     ///
     /// - Parameter ListTestExecutionsInput : [no documentation found]
@@ -1121,6 +1312,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listTestExecutions(input: ListTestExecutionsInput) async throws -> ListTestExecutionsOutput
+    /// Performs the `ListTestSetRecords` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The list of test set records.
     ///
     /// - Parameter ListTestSetRecordsInput : [no documentation found]
@@ -1136,6 +1329,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listTestSetRecords(input: ListTestSetRecordsInput) async throws -> ListTestSetRecordsOutput
+    /// Performs the `ListTestSets` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The list of the test sets
     ///
     /// - Parameter ListTestSetsInput : [no documentation found]
@@ -1150,6 +1345,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listTestSets(input: ListTestSetsInput) async throws -> ListTestSetsOutput
+    /// Performs the `ListUtteranceAnalyticsData` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required:
     ///
     /// * startDateTime and endDateTime – Define a time range for which you want to retrieve results.
@@ -1174,6 +1371,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listUtteranceAnalyticsData(input: ListUtteranceAnalyticsDataInput) async throws -> ListUtteranceAnalyticsDataOutput
+    /// Performs the `ListUtteranceMetrics` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role. Retrieves summary metrics for the utterances in your bot. The following fields are required:
     ///
     /// * metrics – A list of [AnalyticsUtteranceMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsUtteranceMetric.html) objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum, Average, or Max number, and the order field to specify whether to sort the results in Ascending or Descending order.
@@ -1203,6 +1402,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func listUtteranceMetrics(input: ListUtteranceMetricsInput) async throws -> ListUtteranceMetricsOutput
+    /// Performs the `SearchAssociatedTranscripts` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Search for associated transcripts that meet the specified criteria.
     ///
     /// - Parameter SearchAssociatedTranscriptsInput : [no documentation found]
@@ -1218,6 +1419,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func searchAssociatedTranscripts(input: SearchAssociatedTranscriptsInput) async throws -> SearchAssociatedTranscriptsOutput
+    /// Performs the `StartBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Use this to provide your transcript data, and to start the bot recommendation process.
     ///
     /// - Parameter StartBotRecommendationInput : [no documentation found]
@@ -1235,6 +1438,26 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func startBotRecommendation(input: StartBotRecommendationInput) async throws -> StartBotRecommendationOutput
+    /// Performs the `StartBotResourceGeneration` operation on the `LexModelBuildingServiceV2` service.
+    ///
+    /// Starts a request for the descriptive bot builder to generate a bot locale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration.
+    ///
+    /// - Parameter StartBotResourceGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `StartBotResourceGenerationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    func startBotResourceGeneration(input: StartBotResourceGenerationInput) async throws -> StartBotResourceGenerationOutput
+    /// Performs the `StartImport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket.
     ///
     /// - Parameter StartImportInput : [no documentation found]
@@ -1251,6 +1474,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func startImport(input: StartImportInput) async throws -> StartImportOutput
+    /// Performs the `StartTestExecution` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The action to start test set execution.
     ///
     /// - Parameter StartTestExecutionInput : [no documentation found]
@@ -1267,6 +1492,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func startTestExecution(input: StartTestExecutionInput) async throws -> StartTestExecutionOutput
+    /// Performs the `StartTestSetGeneration` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The action to start the generation of test set.
     ///
     /// - Parameter StartTestSetGenerationInput : [no documentation found]
@@ -1283,6 +1510,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func startTestSetGeneration(input: StartTestSetGenerationInput) async throws -> StartTestSetGenerationOutput
+    /// Performs the `StopBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Stop an already running Bot Recommendation request.
     ///
     /// - Parameter StopBotRecommendationInput : [no documentation found]
@@ -1300,6 +1529,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func stopBotRecommendation(input: StopBotRecommendationInput) async throws -> StopBotRecommendationOutput
+    /// Performs the `TagResource` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1314,6 +1545,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Removes tags from a bot, bot alias, or bot channel.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1328,6 +1561,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateBot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the configuration of an existing bot.
     ///
     /// - Parameter UpdateBotInput : [no documentation found]
@@ -1344,6 +1579,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateBot(input: UpdateBotInput) async throws -> UpdateBotOutput
+    /// Performs the `UpdateBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the configuration of an existing bot alias.
     ///
     /// - Parameter UpdateBotAliasInput : [no documentation found]
@@ -1360,6 +1597,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateBotAlias(input: UpdateBotAliasInput) async throws -> UpdateBotAliasOutput
+    /// Performs the `UpdateBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the settings that a bot has for a specific locale.
     ///
     /// - Parameter UpdateBotLocaleInput : [no documentation found]
@@ -1376,6 +1615,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateBotLocale(input: UpdateBotLocaleInput) async throws -> UpdateBotLocaleOutput
+    /// Performs the `UpdateBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates an existing bot recommendation request.
     ///
     /// - Parameter UpdateBotRecommendationInput : [no documentation found]
@@ -1393,6 +1634,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateBotRecommendation(input: UpdateBotRecommendationInput) async throws -> UpdateBotRecommendationOutput
+    /// Performs the `UpdateExport` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation.
     ///
     /// - Parameter UpdateExportInput : [no documentation found]
@@ -1409,6 +1652,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateExport(input: UpdateExportInput) async throws -> UpdateExportOutput
+    /// Performs the `UpdateIntent` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the settings for an intent.
     ///
     /// - Parameter UpdateIntentInput : [no documentation found]
@@ -1425,6 +1670,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateIntent(input: UpdateIntentInput) async throws -> UpdateIntentOutput
+    /// Performs the `UpdateResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception.
     ///
     /// - Parameter UpdateResourcePolicyInput : [no documentation found]
@@ -1441,6 +1688,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateResourcePolicy(input: UpdateResourcePolicyInput) async throws -> UpdateResourcePolicyOutput
+    /// Performs the `UpdateSlot` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the settings for a slot.
     ///
     /// - Parameter UpdateSlotInput : [no documentation found]
@@ -1457,6 +1706,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateSlot(input: UpdateSlotInput) async throws -> UpdateSlotOutput
+    /// Performs the `UpdateSlotType` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// Updates the configuration of an existing slot type.
     ///
     /// - Parameter UpdateSlotTypeInput : [no documentation found]
@@ -1473,6 +1724,8 @@ public protocol LexModelsV2ClientProtocol {
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     func updateSlotType(input: UpdateSlotTypeInput) async throws -> UpdateSlotTypeOutput
+    /// Performs the `UpdateTestSet` operation on the `LexModelBuildingServiceV2` service.
+    ///
     /// The action to update the test set.
     ///
     /// - Parameter UpdateTestSetInput : [no documentation found]

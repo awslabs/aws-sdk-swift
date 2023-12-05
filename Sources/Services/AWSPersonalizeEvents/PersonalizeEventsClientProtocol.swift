@@ -2,9 +2,41 @@
 
 import ClientRuntime
 
-/// Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
+/// Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see [Recording item interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-item-interaction-events.html).
 public protocol PersonalizeEventsClientProtocol {
-    /// Records user interaction event data. For more information see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
+    /// Performs the `PutActionInteractions` operation on the `AmazonPersonalizeEvents` service.
+    ///
+    /// Records action interaction event data. An action interaction event is an interaction between a user and an action. For example, a user taking an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see [Recording action interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-action-interaction-events.html). For more information about actions in an Actions dataset, see [Actions dataset](https://docs.aws.amazon.com/personalize/latest/dg/actions-datasets.html).
+    ///
+    /// - Parameter PutActionInteractionsInput : [no documentation found]
+    ///
+    /// - Returns: `PutActionInteractionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : Could not find the specified resource.
+    func putActionInteractions(input: PutActionInteractionsInput) async throws -> PutActionInteractionsOutput
+    /// Performs the `PutActions` operation on the `AmazonPersonalizeEvents` service.
+    ///
+    /// Adds one or more actions to an Actions dataset. For more information see [Importing actions individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html).
+    ///
+    /// - Parameter PutActionsInput : [no documentation found]
+    ///
+    /// - Returns: `PutActionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : Could not find the specified resource.
+    func putActions(input: PutActionsInput) async throws -> PutActionsOutput
+    /// Performs the `PutEvents` operation on the `AmazonPersonalizeEvents` service.
+    ///
+    /// Records item interaction event data. For more information see [Recording item interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-item-interaction-events.html).
     ///
     /// - Parameter PutEventsInput : [no documentation found]
     ///
@@ -15,7 +47,9 @@ public protocol PersonalizeEventsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-    /// Adds one or more items to an Items dataset. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
+    /// Performs the `PutItems` operation on the `AmazonPersonalizeEvents` service.
+    ///
+    /// Adds one or more items to an Items dataset. For more information see [Importing items individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
     ///
     /// - Parameter PutItemsInput : [no documentation found]
     ///
@@ -28,7 +62,9 @@ public protocol PersonalizeEventsClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     func putItems(input: PutItemsInput) async throws -> PutItemsOutput
-    /// Adds one or more users to a Users dataset. For more information see [Importing Users Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
+    /// Performs the `PutUsers` operation on the `AmazonPersonalizeEvents` service.
+    ///
+    /// Adds one or more users to a Users dataset. For more information see [Importing users individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
     ///
     /// - Parameter PutUsersInput : [no documentation found]
     ///

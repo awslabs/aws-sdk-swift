@@ -1607,31 +1607,6 @@ extension NotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public struct PostContentInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PostContentInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PostContentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PostContentOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let inputStream = input.operationInput.inputStream {
-            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
-            input.builder.withBody(inputStreamBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PostContentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PostContentOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension PostContentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PostContentInput(accept: \(Swift.String(describing: accept)), botAlias: \(Swift.String(describing: botAlias)), botName: \(Swift.String(describing: botName)), contentType: \(Swift.String(describing: contentType)), inputStream: \(Swift.String(describing: inputStream)), userId: \(Swift.String(describing: userId)), activeContexts: \"CONTENT_REDACTED\", requestAttributes: \"CONTENT_REDACTED\", sessionAttributes: \"CONTENT_REDACTED\")"}

@@ -12,7 +12,7 @@ extension SchemasClient {
     ///     - input: A `[ListDiscoverersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoverersOutput`
     public func listDiscoverersPaginated(input: ListDiscoverersInput) -> ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutput> {
-        return ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutput>(input: input, inputKey: \ListDiscoverersInput.nextToken, outputKey: \ListDiscoverersOutput.nextToken, paginationFunction: self.listDiscoverers(input:))
+        return ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDiscoverers(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListDiscoverersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDiscoverersInput, Output == ListDiscoverersOutput {
+extension PaginatorSequence where OperationStackInput == ListDiscoverersInput, OperationStackOutput == ListDiscoverersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDiscoverersPaginated`
     /// to access the nested member `[SchemasClientTypes.DiscovererSummary]`
     /// - Returns: `[SchemasClientTypes.DiscovererSummary]`
@@ -44,7 +44,7 @@ extension SchemasClient {
     ///     - input: A `[ListRegistriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutput`
     public func listRegistriesPaginated(input: ListRegistriesInput) -> ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput>(input: input, inputKey: \ListRegistriesInput.nextToken, outputKey: \ListRegistriesOutput.nextToken, paginationFunction: self.listRegistries(input:))
+        return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRegistries(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRegistriesOutput {
+extension PaginatorSequence where OperationStackInput == ListRegistriesInput, OperationStackOutput == ListRegistriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
     /// to access the nested member `[SchemasClientTypes.RegistrySummary]`
     /// - Returns: `[SchemasClientTypes.RegistrySummary]`
@@ -76,7 +76,7 @@ extension SchemasClient {
     ///     - input: A `[ListSchemasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutput`
     public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput> {
-        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutput.nextToken, paginationFunction: self.listSchemas(input:))
+        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemas(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutput {
+extension PaginatorSequence where OperationStackInput == ListSchemasInput, OperationStackOutput == ListSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
     /// to access the nested member `[SchemasClientTypes.SchemaSummary]`
     /// - Returns: `[SchemasClientTypes.SchemaSummary]`
@@ -108,7 +108,7 @@ extension SchemasClient {
     ///     - input: A `[ListSchemaVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutput`
     public func listSchemaVersionsPaginated(input: ListSchemaVersionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput>(input: input, inputKey: \ListSchemaVersionsInput.nextToken, outputKey: \ListSchemaVersionsOutput.nextToken, paginationFunction: self.listSchemaVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemaVersions(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension ListSchemaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == ListSchemaVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListSchemaVersionsInput, OperationStackOutput == ListSchemaVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
     /// to access the nested member `[SchemasClientTypes.SchemaVersionSummary]`
     /// - Returns: `[SchemasClientTypes.SchemaVersionSummary]`
@@ -140,7 +140,7 @@ extension SchemasClient {
     ///     - input: A `[SearchSchemasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchSchemasOutput`
     public func searchSchemasPaginated(input: SearchSchemasInput) -> ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutput> {
-        return ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutput>(input: input, inputKey: \SearchSchemasInput.nextToken, outputKey: \SearchSchemasOutput.nextToken, paginationFunction: self.searchSchemas(input:))
+        return ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchSchemas(input:))
     }
 }
 
@@ -154,7 +154,7 @@ extension SearchSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchSchemasInput, Output == SearchSchemasOutput {
+extension PaginatorSequence where OperationStackInput == SearchSchemasInput, OperationStackOutput == SearchSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchSchemasPaginated`
     /// to access the nested member `[SchemasClientTypes.SearchSchemaSummary]`
     /// - Returns: `[SchemasClientTypes.SearchSchemaSummary]`

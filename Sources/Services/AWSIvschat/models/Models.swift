@@ -207,6 +207,11 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateChatTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateChatTokenInput(capabilities: \(Swift.String(describing: capabilities)), roomIdentifier: \(Swift.String(describing: roomIdentifier)), sessionDurationInMinutes: \(Swift.String(describing: sessionDurationInMinutes)), attributes: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateChatTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes
@@ -233,7 +238,7 @@ extension CreateChatTokenInput: Swift.Encodable {
         if let roomIdentifier = self.roomIdentifier {
             try encodeContainer.encode(roomIdentifier, forKey: .roomIdentifier)
         }
-        if sessionDurationInMinutes != 0 {
+        if let sessionDurationInMinutes = self.sessionDurationInMinutes {
             try encodeContainer.encode(sessionDurationInMinutes, forKey: .sessionDurationInMinutes)
         }
         if let userId = self.userId {
@@ -257,7 +262,7 @@ public struct CreateChatTokenInput: Swift.Equatable {
     /// This member is required.
     public var roomIdentifier: Swift.String?
     /// Session duration (in minutes), after which the session expires. Default: 60 (1 hour).
-    public var sessionDurationInMinutes: Swift.Int
+    public var sessionDurationInMinutes: Swift.Int?
     /// Application-provided ID that uniquely identifies the user associated with this token. This can be any UTF-8 encoded text.
     /// This member is required.
     public var userId: Swift.String?
@@ -266,7 +271,7 @@ public struct CreateChatTokenInput: Swift.Equatable {
         attributes: [Swift.String:Swift.String]? = nil,
         capabilities: [IvschatClientTypes.ChatTokenCapability]? = nil,
         roomIdentifier: Swift.String? = nil,
-        sessionDurationInMinutes: Swift.Int = 0,
+        sessionDurationInMinutes: Swift.Int? = nil,
         userId: Swift.String? = nil
     )
     {
@@ -282,7 +287,7 @@ struct CreateChatTokenInputBody: Swift.Equatable {
     let roomIdentifier: Swift.String?
     let userId: Swift.String?
     let capabilities: [IvschatClientTypes.ChatTokenCapability]?
-    let sessionDurationInMinutes: Swift.Int
+    let sessionDurationInMinutes: Swift.Int?
     let attributes: [Swift.String:Swift.String]?
 }
 
@@ -312,7 +317,7 @@ extension CreateChatTokenInputBody: Swift.Decodable {
             }
         }
         capabilities = capabilitiesDecoded0
-        let sessionDurationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionDurationInMinutes) ?? 0
+        let sessionDurationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionDurationInMinutes)
         sessionDurationInMinutes = sessionDurationInMinutesDecoded
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:Swift.String]? = nil
@@ -326,6 +331,11 @@ extension CreateChatTokenInputBody: Swift.Decodable {
         }
         attributes = attributesDecoded0
     }
+}
+
+extension CreateChatTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateChatTokenOutput(sessionExpirationTime: \(Swift.String(describing: sessionExpirationTime)), tokenExpirationTime: \(Swift.String(describing: tokenExpirationTime)), token: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateChatTokenOutput: ClientRuntime.HttpResponseBinding {
@@ -668,10 +678,10 @@ extension CreateRoomInput: Swift.Encodable {
                 try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
-        if maximumMessageLength != 0 {
+        if let maximumMessageLength = self.maximumMessageLength {
             try encodeContainer.encode(maximumMessageLength, forKey: .maximumMessageLength)
         }
-        if maximumMessageRatePerSecond != 0 {
+        if let maximumMessageRatePerSecond = self.maximumMessageRatePerSecond {
             try encodeContainer.encode(maximumMessageRatePerSecond, forKey: .maximumMessageRatePerSecond)
         }
         if let messageReviewHandler = self.messageReviewHandler {
@@ -699,9 +709,9 @@ public struct CreateRoomInput: Swift.Equatable {
     /// Array of logging-configuration identifiers attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
@@ -711,8 +721,8 @@ public struct CreateRoomInput: Swift.Equatable {
 
     public init(
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -729,8 +739,8 @@ public struct CreateRoomInput: Swift.Equatable {
 
 struct CreateRoomInputBody: Swift.Equatable {
     let name: Swift.String?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
@@ -750,9 +760,9 @@ extension CreateRoomInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -801,8 +811,8 @@ extension CreateRoomOutput: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.id = nil
             self.loggingConfigurationIdentifiers = nil
-            self.maximumMessageLength = 0
-            self.maximumMessageRatePerSecond = 0
+            self.maximumMessageLength = nil
+            self.maximumMessageRatePerSecond = nil
             self.messageReviewHandler = nil
             self.name = nil
             self.tags = nil
@@ -821,9 +831,9 @@ public struct CreateRoomOutput: Swift.Equatable {
     /// Array of logging configurations attached to the room, from the request (if specified).
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message, from the request (if specified).
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name, from the request (if specified).
@@ -838,8 +848,8 @@ public struct CreateRoomOutput: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -865,8 +875,8 @@ struct CreateRoomOutputBody: Swift.Equatable {
     let name: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
@@ -898,9 +908,9 @@ extension CreateRoomOutputBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -1273,6 +1283,11 @@ extension IvschatClientTypes {
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension DisconnectUserInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DisconnectUserInput(reason: \(Swift.String(describing: reason)), roomIdentifier: \(Swift.String(describing: roomIdentifier)), userId: \"CONTENT_REDACTED\")"}
 }
 
 extension DisconnectUserInput: Swift.Encodable {
@@ -1689,8 +1704,8 @@ extension GetRoomOutput: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.id = nil
             self.loggingConfigurationIdentifiers = nil
-            self.maximumMessageLength = 0
-            self.maximumMessageRatePerSecond = 0
+            self.maximumMessageLength = nil
+            self.maximumMessageRatePerSecond = nil
             self.messageReviewHandler = nil
             self.name = nil
             self.tags = nil
@@ -1709,9 +1724,9 @@ public struct GetRoomOutput: Swift.Equatable {
     /// Array of logging configurations attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
@@ -1726,8 +1741,8 @@ public struct GetRoomOutput: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -1753,8 +1768,8 @@ struct GetRoomOutputBody: Swift.Equatable {
     let name: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
@@ -1786,9 +1801,9 @@ extension GetRoomOutputBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -1894,7 +1909,7 @@ extension ListLoggingConfigurationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -1911,12 +1926,12 @@ extension ListLoggingConfigurationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListLoggingConfigurationsInput: Swift.Equatable {
     /// Maximum number of logging configurations to return. Default: 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first logging configurations to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1927,7 +1942,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
 
 struct ListLoggingConfigurationsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListLoggingConfigurationsInputBody: Swift.Decodable {
@@ -1940,7 +1955,7 @@ extension ListLoggingConfigurationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -2031,7 +2046,7 @@ extension ListRoomsInput: Swift.Encodable {
         if let loggingConfigurationIdentifier = self.loggingConfigurationIdentifier {
             try encodeContainer.encode(loggingConfigurationIdentifier, forKey: .loggingConfigurationIdentifier)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let messageReviewHandlerUri = self.messageReviewHandlerUri {
@@ -2056,7 +2071,7 @@ public struct ListRoomsInput: Swift.Equatable {
     /// Logging-configuration identifier.
     public var loggingConfigurationIdentifier: Swift.String?
     /// Maximum number of rooms to return. Default: 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Filters the list to match the specified message review handler URI.
     public var messageReviewHandlerUri: Swift.String?
     /// Filters the list to match the specified room name.
@@ -2066,7 +2081,7 @@ public struct ListRoomsInput: Swift.Equatable {
 
     public init(
         loggingConfigurationIdentifier: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         messageReviewHandlerUri: Swift.String? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -2083,7 +2098,7 @@ public struct ListRoomsInput: Swift.Equatable {
 struct ListRoomsInputBody: Swift.Equatable {
     let name: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let messageReviewHandlerUri: Swift.String?
     let loggingConfigurationIdentifier: Swift.String?
 }
@@ -2103,7 +2118,7 @@ extension ListRoomsInputBody: Swift.Decodable {
         name = nameDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let messageReviewHandlerUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageReviewHandlerUri)
         messageReviewHandlerUri = messageReviewHandlerUriDecoded
@@ -3557,10 +3572,10 @@ extension UpdateRoomInput: Swift.Encodable {
                 try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
-        if maximumMessageLength != 0 {
+        if let maximumMessageLength = self.maximumMessageLength {
             try encodeContainer.encode(maximumMessageLength, forKey: .maximumMessageLength)
         }
-        if maximumMessageRatePerSecond != 0 {
+        if let maximumMessageRatePerSecond = self.maximumMessageRatePerSecond {
             try encodeContainer.encode(maximumMessageRatePerSecond, forKey: .maximumMessageRatePerSecond)
         }
         if let messageReviewHandler = self.messageReviewHandler {
@@ -3585,9 +3600,9 @@ public struct UpdateRoomInput: Swift.Equatable {
     /// Array of logging-configuration identifiers attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages. Specify an empty uri string to disassociate a message review handler from the specified room.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
@@ -3596,8 +3611,8 @@ public struct UpdateRoomInput: Swift.Equatable {
     public init(
         identifier: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil
     )
@@ -3614,8 +3629,8 @@ public struct UpdateRoomInput: Swift.Equatable {
 struct UpdateRoomInputBody: Swift.Equatable {
     let identifier: Swift.String?
     let name: Swift.String?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let loggingConfigurationIdentifiers: [Swift.String]?
 }
@@ -3636,9 +3651,9 @@ extension UpdateRoomInputBody: Swift.Decodable {
         identifier = identifierDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded
@@ -3676,8 +3691,8 @@ extension UpdateRoomOutput: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.id = nil
             self.loggingConfigurationIdentifiers = nil
-            self.maximumMessageLength = 0
-            self.maximumMessageRatePerSecond = 0
+            self.maximumMessageLength = nil
+            self.maximumMessageRatePerSecond = nil
             self.messageReviewHandler = nil
             self.name = nil
             self.tags = nil
@@ -3696,9 +3711,9 @@ public struct UpdateRoomOutput: Swift.Equatable {
     /// Array of logging configurations attached to the room, from the request (if specified).
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message, from the request (if specified).
-    public var maximumMessageLength: Swift.Int
+    public var maximumMessageLength: Swift.Int?
     /// Maximum number of messages per second that can be sent to the room (by all clients), from the request (if specified).
-    public var maximumMessageRatePerSecond: Swift.Int
+    public var maximumMessageRatePerSecond: Swift.Int?
     /// Configuration information for optional review of messages.
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name, from the request (if specified).
@@ -3713,8 +3728,8 @@ public struct UpdateRoomOutput: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         loggingConfigurationIdentifiers: [Swift.String]? = nil,
-        maximumMessageLength: Swift.Int = 0,
-        maximumMessageRatePerSecond: Swift.Int = 0,
+        maximumMessageLength: Swift.Int? = nil,
+        maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -3740,8 +3755,8 @@ struct UpdateRoomOutputBody: Swift.Equatable {
     let name: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
-    let maximumMessageRatePerSecond: Swift.Int
-    let maximumMessageLength: Swift.Int
+    let maximumMessageRatePerSecond: Swift.Int?
+    let maximumMessageLength: Swift.Int?
     let messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     let tags: [Swift.String:Swift.String]?
     let loggingConfigurationIdentifiers: [Swift.String]?
@@ -3773,9 +3788,9 @@ extension UpdateRoomOutputBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
-        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond) ?? 0
+        let maximumMessageRatePerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageRatePerSecond)
         maximumMessageRatePerSecond = maximumMessageRatePerSecondDecoded
-        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength) ?? 0
+        let maximumMessageLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumMessageLength)
         maximumMessageLength = maximumMessageLengthDecoded
         let messageReviewHandlerDecoded = try containerValues.decodeIfPresent(IvschatClientTypes.MessageReviewHandler.self, forKey: .messageReviewHandler)
         messageReviewHandler = messageReviewHandlerDecoded

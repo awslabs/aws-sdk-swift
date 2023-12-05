@@ -245,7 +245,7 @@ extension CreateMonitorInput: Swift.Encodable {
         if let internetMeasurementsLogDelivery = self.internetMeasurementsLogDelivery {
             try encodeContainer.encode(internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
         }
-        if maxCityNetworksToMonitor != 0 {
+        if let maxCityNetworksToMonitor = self.maxCityNetworksToMonitor {
             try encodeContainer.encode(maxCityNetworksToMonitor, forKey: .maxCityNetworksToMonitor)
         }
         if let monitorName = self.monitorName {
@@ -263,7 +263,7 @@ extension CreateMonitorInput: Swift.Encodable {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if trafficPercentageToMonitor != 0 {
+        if let trafficPercentageToMonitor = self.trafficPercentageToMonitor {
             try encodeContainer.encode(trafficPercentageToMonitor, forKey: .trafficPercentageToMonitor)
         }
     }
@@ -283,7 +283,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     /// Publish internet measurements for Internet Monitor to an Amazon S3 bucket in addition to CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. Setting this limit can help control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    public var maxCityNetworksToMonitor: Swift.Int
+    public var maxCityNetworksToMonitor: Swift.Int?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -292,17 +292,17 @@ public struct CreateMonitorInput: Swift.Equatable {
     /// The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor.
     public var tags: [Swift.String:Swift.String]?
     /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    public var trafficPercentageToMonitor: Swift.Int
+    public var trafficPercentageToMonitor: Swift.Int?
 
     public init(
         clientToken: Swift.String? = nil,
         healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
-        maxCityNetworksToMonitor: Swift.Int = 0,
+        maxCityNetworksToMonitor: Swift.Int? = nil,
         monitorName: Swift.String? = nil,
         resources: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        trafficPercentageToMonitor: Swift.Int = 0
+        trafficPercentageToMonitor: Swift.Int? = nil
     )
     {
         self.clientToken = clientToken
@@ -321,9 +321,9 @@ struct CreateMonitorInputBody: Swift.Equatable {
     let resources: [Swift.String]?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
-    let maxCityNetworksToMonitor: Swift.Int
+    let maxCityNetworksToMonitor: Swift.Int?
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    let trafficPercentageToMonitor: Swift.Int
+    let trafficPercentageToMonitor: Swift.Int?
     let healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
 }
 
@@ -367,11 +367,11 @@ extension CreateMonitorInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor) ?? 0
+        let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor)
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
-        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
+        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor)
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
         let healthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventsConfig.self, forKey: .healthEventsConfig)
         healthEventsConfig = healthEventsConfigDecoded
@@ -501,6 +501,73 @@ enum DeleteMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension InternetMonitorClientTypes.FilterParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case field = "Field"
+        case `operator` = "Operator"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let field = self.field {
+            try encodeContainer.encode(field, forKey: .field)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for string0 in values {
+                try valuesContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .field)
+        field = fieldDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.Operator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// A filter that you use with the results of a Amazon CloudWatch Internet Monitor query that you created and ran. The query sets up a repository of data that is a subset of your application's Internet Monitor data. FilterParameter is a string that defines how you want to filter the repository of data to return a set of results, based on your criteria. The filter parameters that you can specify depend on the query type that you used to create the repository, since each query type returns a different set of Internet Monitor data. For each filter, you specify a field (such as city), an operator (such as not_equals, and a value or array of values (such as ["Seattle", "Redmond"]). Separate values in the array with commas. For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
+    public struct FilterParameter: Swift.Equatable {
+        /// A data field that you want to filter, to further scope your application's Internet Monitor data in a repository that you created by running a query. A field might be city, for example. The field must be one of the fields that was returned by the specific query that you used to create the repository.
+        public var field: Swift.String?
+        /// The operator to use with the filter field and a value, such as not_equals.
+        public var `operator`: InternetMonitorClientTypes.Operator?
+        /// One or more values to be used, together with the specified operator, to filter data for a query. For example, you could specify an array of values such as ["Seattle", "Redmond"]. Values in the array are separated by commas.
+        public var values: [Swift.String]?
+
+        public init(
+            field: Swift.String? = nil,
+            `operator`: InternetMonitorClientTypes.Operator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.field = field
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
 extension GetHealthEventInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let monitorName = monitorName else {
@@ -514,7 +581,7 @@ extension GetHealthEventInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetHealthEventInput: Swift.Equatable {
-    /// The internally generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must URL-encode the EventID field in the request URL.
+    /// The internally-generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must URL-encode the EventID field in the request URL.
     /// This member is required.
     public var eventId: Swift.String?
     /// The name of the monitor.
@@ -580,7 +647,7 @@ public struct GetHealthEventOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the event.
     /// This member is required.
     public var eventArn: Swift.String?
-    /// The internally generated identifier of a health event.
+    /// The internally-generated identifier of a health event.
     /// This member is required.
     public var eventId: Swift.String?
     /// The threshold percentage for a health score that determines, along with other configuration information, when Internet Monitor creates a health event when there's an internet issue that affects your application end users.
@@ -763,7 +830,7 @@ extension GetMonitorOutput: ClientRuntime.HttpResponseBinding {
             self.createdAt = nil
             self.healthEventsConfig = nil
             self.internetMeasurementsLogDelivery = nil
-            self.maxCityNetworksToMonitor = 0
+            self.maxCityNetworksToMonitor = nil
             self.modifiedAt = nil
             self.monitorArn = nil
             self.monitorName = nil
@@ -772,7 +839,7 @@ extension GetMonitorOutput: ClientRuntime.HttpResponseBinding {
             self.resources = nil
             self.status = nil
             self.tags = nil
-            self.trafficPercentageToMonitor = 0
+            self.trafficPercentageToMonitor = nil
         }
     }
 }
@@ -786,7 +853,7 @@ public struct GetMonitorOutput: Swift.Equatable {
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. This limit can help control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    public var maxCityNetworksToMonitor: Swift.Int
+    public var maxCityNetworksToMonitor: Swift.Int?
     /// The last time that the monitor was modified.
     /// This member is required.
     public var modifiedAt: ClientRuntime.Date?
@@ -809,13 +876,13 @@ public struct GetMonitorOutput: Swift.Equatable {
     /// The tags that have been added to monitor.
     public var tags: [Swift.String:Swift.String]?
     /// The percentage of the internet-facing traffic for your application to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    public var trafficPercentageToMonitor: Swift.Int
+    public var trafficPercentageToMonitor: Swift.Int?
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
         healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
-        maxCityNetworksToMonitor: Swift.Int = 0,
+        maxCityNetworksToMonitor: Swift.Int? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         monitorArn: Swift.String? = nil,
         monitorName: Swift.String? = nil,
@@ -824,7 +891,7 @@ public struct GetMonitorOutput: Swift.Equatable {
         resources: [Swift.String]? = nil,
         status: InternetMonitorClientTypes.MonitorConfigState? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        trafficPercentageToMonitor: Swift.Int = 0
+        trafficPercentageToMonitor: Swift.Int? = nil
     )
     {
         self.createdAt = createdAt
@@ -853,9 +920,9 @@ struct GetMonitorOutputBody: Swift.Equatable {
     let processingStatus: InternetMonitorClientTypes.MonitorProcessingStatusCode?
     let processingStatusInfo: Swift.String?
     let tags: [Swift.String:Swift.String]?
-    let maxCityNetworksToMonitor: Swift.Int
+    let maxCityNetworksToMonitor: Swift.Int?
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    let trafficPercentageToMonitor: Swift.Int
+    let trafficPercentageToMonitor: Swift.Int?
     let healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
 }
 
@@ -914,11 +981,11 @@ extension GetMonitorOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor) ?? 0
+        let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor)
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
-        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
+        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor)
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
         let healthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventsConfig.self, forKey: .healthEventsConfig)
         healthEventsConfig = healthEventsConfigDecoded
@@ -932,6 +999,269 @@ enum GetMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetQueryResultsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetQueryResultsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let monitorName = monitorName else {
+            return nil
+        }
+        guard let queryId = queryId else {
+            return nil
+        }
+        return "/v20210603/Monitors/\(monitorName.urlPercentEncoding())/Queries/\(queryId.urlPercentEncoding())/Results"
+    }
+}
+
+public struct GetQueryResultsInput: Swift.Equatable {
+    /// The number of query results that you want to return with this call.
+    public var maxResults: Swift.Int?
+    /// The name of the monitor to return data for.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The ID of the query that you want to return data results for. A QueryId is an internally-generated identifier for a specific query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        monitorName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.monitorName = monitorName
+        self.nextToken = nextToken
+        self.queryId = queryId
+    }
+}
+
+struct GetQueryResultsInputBody: Swift.Equatable {
+}
+
+extension GetQueryResultsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetQueryResultsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetQueryResultsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.data = output.data
+            self.fields = output.fields
+            self.nextToken = output.nextToken
+        } else {
+            self.data = nil
+            self.fields = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetQueryResultsOutput: Swift.Equatable {
+    /// The data results that the query returns. Data is returned in arrays, aligned with the Fields for the query, which creates a repository of Amazon CloudWatch Internet Monitor information for your application. Then, you can filter the information in the repository by using FilterParameters that you define.
+    /// This member is required.
+    public var data: [[Swift.String]]?
+    /// The fields that the query returns data for. Fields are name-data type pairs, such as availability_score-float.
+    /// This member is required.
+    public var fields: [InternetMonitorClientTypes.QueryField]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        data: [[Swift.String]]? = nil,
+        fields: [InternetMonitorClientTypes.QueryField]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.data = data
+        self.fields = fields
+        self.nextToken = nextToken
+    }
+}
+
+struct GetQueryResultsOutputBody: Swift.Equatable {
+    let fields: [InternetMonitorClientTypes.QueryField]?
+    let data: [[Swift.String]]?
+    let nextToken: Swift.String?
+}
+
+extension GetQueryResultsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case data = "Data"
+        case fields = "Fields"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldsContainer = try containerValues.decodeIfPresent([InternetMonitorClientTypes.QueryField?].self, forKey: .fields)
+        var fieldsDecoded0:[InternetMonitorClientTypes.QueryField]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [InternetMonitorClientTypes.QueryField]()
+            for structure0 in fieldsContainer {
+                if let structure0 = structure0 {
+                    fieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fields = fieldsDecoded0
+        let dataContainer = try containerValues.decodeIfPresent([[Swift.String?]?].self, forKey: .data)
+        var dataDecoded0:[[Swift.String]]? = nil
+        if let dataContainer = dataContainer {
+            dataDecoded0 = [[Swift.String]]()
+            for list0 in dataContainer {
+                var list0Decoded0: [Swift.String]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [Swift.String]()
+                    for string1 in list0 {
+                        if let string1 = string1 {
+                            list0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    dataDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        data = dataDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum GetQueryResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetQueryStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let monitorName = monitorName else {
+            return nil
+        }
+        guard let queryId = queryId else {
+            return nil
+        }
+        return "/v20210603/Monitors/\(monitorName.urlPercentEncoding())/Queries/\(queryId.urlPercentEncoding())/Status"
+    }
+}
+
+public struct GetQueryStatusInput: Swift.Equatable {
+    /// The name of the monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The ID of the query that you want to return the status for. A QueryId is an internally-generated dentifier for a specific query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        monitorName: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    )
+    {
+        self.monitorName = monitorName
+        self.queryId = queryId
+    }
+}
+
+struct GetQueryStatusInputBody: Swift.Equatable {
+}
+
+extension GetQueryStatusInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetQueryStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetQueryStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct GetQueryStatusOutput: Swift.Equatable {
+    /// The current status for a query.
+    /// This member is required.
+    public var status: InternetMonitorClientTypes.QueryStatus?
+
+    public init(
+        status: InternetMonitorClientTypes.QueryStatus? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct GetQueryStatusOutputBody: Swift.Equatable {
+    let status: InternetMonitorClientTypes.QueryStatus?
+}
+
+extension GetQueryStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.QueryStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum GetQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -1040,7 +1370,7 @@ extension InternetMonitorClientTypes {
         /// The Amazon Resource Name (ARN) of the event.
         /// This member is required.
         public var eventArn: Swift.String?
-        /// The internally generated identifier of a specific network traffic impairment health event.
+        /// The internally-generated identifier of a specific network traffic impairment health event.
         /// This member is required.
         public var eventId: Swift.String?
         /// The value of the threshold percentage for performance or availability that was configured when Amazon CloudWatch Internet Monitor created the health event.
@@ -1654,7 +1984,7 @@ extension ListHealthEventsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1686,7 +2016,7 @@ public struct ListHealthEventsInput: Swift.Equatable {
     /// The status of a health event.
     public var eventStatus: InternetMonitorClientTypes.HealthEventStatus?
     /// The number of health event objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -1698,7 +2028,7 @@ public struct ListHealthEventsInput: Swift.Equatable {
     public init(
         endTime: ClientRuntime.Date? = nil,
         eventStatus: InternetMonitorClientTypes.HealthEventStatus? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         monitorName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil
@@ -1804,7 +2134,7 @@ extension ListMonitorsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1825,14 +2155,14 @@ extension ListMonitorsInput: ClientRuntime.URLPathProvider {
 
 public struct ListMonitorsInput: Swift.Equatable {
     /// The number of monitor objects that you want to return with this call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The status of a monitor. This includes the status of the data processing for the monitor and the status of the monitor itself. For information about the statuses for a monitor, see [ Monitor](https://docs.aws.amazon.com/internet-monitor/latest/api/API_Monitor.html).
     public var monitorStatus: Swift.String?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         monitorStatus: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2053,11 +2383,11 @@ extension InternetMonitorClientTypes.LocalHealthEventsConfig: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// A complex type with the configuration information that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance or availability issue, when scores cross a threshold for one or more city-networks. Defines the percentages, for performance scores or availability scores, that are the local thresholds for when Amazon CloudWatch Internet Monitor creates a health event. Also defines whether a local threshold is enabled or disabled, and the minimum percentage of overall traffic that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
+    /// A complex type with the configuration information that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance or availability issue, when scores cross a threshold for one or more city-networks. Defines the percentages, for performance scores or availability scores, that are the local thresholds for when Amazon CloudWatch Internet Monitor creates a health event. Also defines whether a local threshold is enabled or disabled, and the minimum percentage of overall traffic that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a local health event threshold, the default value is 60%. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
     public struct LocalHealthEventsConfig: Swift.Equatable {
         /// The health event threshold percentage set for a local health score.
         public var healthScoreThreshold: Swift.Double
-        /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score.
+        /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the default value is 0.01%.
         public var minTrafficImpact: Swift.Double
         /// The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED.
         public var status: InternetMonitorClientTypes.LocalHealthEventsConfigStatus?
@@ -2474,6 +2804,38 @@ extension NotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension InternetMonitorClientTypes {
+    public enum Operator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Operator] {
+            return [
+                .equals,
+                .notEquals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .notEquals: return "NOT_EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Operator(rawValue: rawValue) ?? Operator.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InternetMonitorClientTypes.PerformanceMeasurement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case experienceScore = "ExperienceScore"
@@ -2537,6 +2899,127 @@ extension InternetMonitorClientTypes {
         }
     }
 
+}
+
+extension InternetMonitorClientTypes.QueryField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// Defines a field to query for your application's Amazon CloudWatch Internet Monitor data. You create a data repository by running a query of a specific type. Each QueryType includes a specific set of fields and datatypes to retrieve data for.
+    public struct QueryField: Swift.Equatable {
+        /// The name of a field to query your application's Amazon CloudWatch Internet Monitor data for, such as availability_score.
+        public var name: Swift.String?
+        /// The data type for a query field, which must correspond to the field you're defining for QueryField. For example, if the query field name is availability_score, the data type is float.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension InternetMonitorClientTypes {
+    public enum QueryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case canceled
+        case failed
+        case queued
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryStatus] {
+            return [
+                .canceled,
+                .failed,
+                .queued,
+                .running,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryStatus(rawValue: rawValue) ?? QueryStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension InternetMonitorClientTypes {
+    public enum QueryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case measurements
+        case topLocations
+        case topLocationDetails
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryType] {
+            return [
+                .measurements,
+                .topLocations,
+                .topLocationDetails,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .measurements: return "MEASUREMENTS"
+            case .topLocations: return "TOP_LOCATIONS"
+            case .topLocationDetails: return "TOP_LOCATION_DETAILS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryType(rawValue: rawValue) ?? QueryType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResourceNotFoundException {
@@ -2702,6 +3185,241 @@ extension InternetMonitorClientTypes {
         }
     }
 
+}
+
+extension StartQueryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case filterParameters = "FilterParameters"
+        case queryType = "QueryType"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let filterParameters = filterParameters {
+            var filterParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterParameters)
+            for filterparameter0 in filterParameters {
+                try filterParametersContainer.encode(filterparameter0)
+            }
+        }
+        if let queryType = self.queryType {
+            try encodeContainer.encode(queryType.rawValue, forKey: .queryType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+    }
+}
+
+extension StartQueryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let monitorName = monitorName else {
+            return nil
+        }
+        return "/v20210603/Monitors/\(monitorName.urlPercentEncoding())/Queries"
+    }
+}
+
+public struct StartQueryInput: Swift.Equatable {
+    /// The timestamp that is the end of the period that you want to retrieve data for with your query.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// The FilterParameters field that you use with Amazon CloudWatch Internet Monitor queries is a string the defines how you want a query to be filtered. The filter parameters that you can specify depend on the query type, since each query type returns a different set of Internet Monitor data. For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
+    public var filterParameters: [InternetMonitorClientTypes.FilterParameter]?
+    /// The name of the monitor to query.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The type of query to run. The following are the three types of queries that you can run using the Internet Monitor query interface:
+    ///
+    /// * MEASUREMENTS: TBD definition
+    ///
+    /// * TOP_LOCATIONS: TBD definition
+    ///
+    /// * TOP_LOCATION_DETAILS: TBD definition
+    ///
+    ///
+    /// For lists of the fields returned with each query type and more information about how each type of query is performed, see [ Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
+    /// This member is required.
+    public var queryType: InternetMonitorClientTypes.QueryType?
+    /// The timestamp that is the beginning of the period that you want to retrieve data for with your query.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+
+    public init(
+        endTime: ClientRuntime.Date? = nil,
+        filterParameters: [InternetMonitorClientTypes.FilterParameter]? = nil,
+        monitorName: Swift.String? = nil,
+        queryType: InternetMonitorClientTypes.QueryType? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.filterParameters = filterParameters
+        self.monitorName = monitorName
+        self.queryType = queryType
+        self.startTime = startTime
+    }
+}
+
+struct StartQueryInputBody: Swift.Equatable {
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let queryType: InternetMonitorClientTypes.QueryType?
+    let filterParameters: [InternetMonitorClientTypes.FilterParameter]?
+}
+
+extension StartQueryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case filterParameters = "FilterParameters"
+        case queryType = "QueryType"
+        case startTime = "StartTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        let queryTypeDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.QueryType.self, forKey: .queryType)
+        queryType = queryTypeDecoded
+        let filterParametersContainer = try containerValues.decodeIfPresent([InternetMonitorClientTypes.FilterParameter?].self, forKey: .filterParameters)
+        var filterParametersDecoded0:[InternetMonitorClientTypes.FilterParameter]? = nil
+        if let filterParametersContainer = filterParametersContainer {
+            filterParametersDecoded0 = [InternetMonitorClientTypes.FilterParameter]()
+            for structure0 in filterParametersContainer {
+                if let structure0 = structure0 {
+                    filterParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filterParameters = filterParametersDecoded0
+    }
+}
+
+extension StartQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.queryId = output.queryId
+        } else {
+            self.queryId = nil
+        }
+    }
+}
+
+public struct StartQueryOutput: Swift.Equatable {
+    /// The internally-generated identifier of a specific query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        queryId: Swift.String? = nil
+    )
+    {
+        self.queryId = queryId
+    }
+}
+
+struct StartQueryOutputBody: Swift.Equatable {
+    let queryId: Swift.String?
+}
+
+extension StartQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryId = "QueryId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+    }
+}
+
+enum StartQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopQueryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let monitorName = monitorName else {
+            return nil
+        }
+        guard let queryId = queryId else {
+            return nil
+        }
+        return "/v20210603/Monitors/\(monitorName.urlPercentEncoding())/Queries/\(queryId.urlPercentEncoding())"
+    }
+}
+
+public struct StopQueryInput: Swift.Equatable {
+    /// The name of the monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The ID of the query that you want to stop. A QueryId is an internally-generated identifier for a specific query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        monitorName: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    )
+    {
+        self.monitorName = monitorName
+        self.queryId = queryId
+    }
+}
+
+struct StopQueryInputBody: Swift.Equatable {
+}
+
+extension StopQueryInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopQueryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -3040,7 +3758,7 @@ extension UpdateMonitorInput: Swift.Encodable {
         if let internetMeasurementsLogDelivery = self.internetMeasurementsLogDelivery {
             try encodeContainer.encode(internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
         }
-        if maxCityNetworksToMonitor != 0 {
+        if let maxCityNetworksToMonitor = self.maxCityNetworksToMonitor {
             try encodeContainer.encode(maxCityNetworksToMonitor, forKey: .maxCityNetworksToMonitor)
         }
         if let resourcesToAdd = resourcesToAdd {
@@ -3058,7 +3776,7 @@ extension UpdateMonitorInput: Swift.Encodable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
-        if trafficPercentageToMonitor != 0 {
+        if let trafficPercentageToMonitor = self.trafficPercentageToMonitor {
             try encodeContainer.encode(trafficPercentageToMonitor, forKey: .trafficPercentageToMonitor)
         }
     }
@@ -3081,7 +3799,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your application. A city-network is the location (city) where clients access your application resources from and the ASN or network provider, such as an internet service provider (ISP), that clients access the resources through. Setting this limit can help control billing costs.
-    public var maxCityNetworksToMonitor: Swift.Int
+    public var maxCityNetworksToMonitor: Swift.Int?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -3092,18 +3810,18 @@ public struct UpdateMonitorInput: Swift.Equatable {
     /// The status for a monitor. The accepted values for Status with the UpdateMonitor API call are the following: ACTIVE and INACTIVE. The following values are not accepted: PENDING, and ERROR.
     public var status: InternetMonitorClientTypes.MonitorConfigState?
     /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor. If you set a city-networks maximum, that limit overrides the traffic percentage that you set. To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    public var trafficPercentageToMonitor: Swift.Int
+    public var trafficPercentageToMonitor: Swift.Int?
 
     public init(
         clientToken: Swift.String? = nil,
         healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
-        maxCityNetworksToMonitor: Swift.Int = 0,
+        maxCityNetworksToMonitor: Swift.Int? = nil,
         monitorName: Swift.String? = nil,
         resourcesToAdd: [Swift.String]? = nil,
         resourcesToRemove: [Swift.String]? = nil,
         status: InternetMonitorClientTypes.MonitorConfigState? = nil,
-        trafficPercentageToMonitor: Swift.Int = 0
+        trafficPercentageToMonitor: Swift.Int? = nil
     )
     {
         self.clientToken = clientToken
@@ -3123,9 +3841,9 @@ struct UpdateMonitorInputBody: Swift.Equatable {
     let resourcesToRemove: [Swift.String]?
     let status: InternetMonitorClientTypes.MonitorConfigState?
     let clientToken: Swift.String?
-    let maxCityNetworksToMonitor: Swift.Int
+    let maxCityNetworksToMonitor: Swift.Int?
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    let trafficPercentageToMonitor: Swift.Int
+    let trafficPercentageToMonitor: Swift.Int?
     let healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
 }
 
@@ -3169,11 +3887,11 @@ extension UpdateMonitorInputBody: Swift.Decodable {
         status = statusDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
-        let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor) ?? 0
+        let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor)
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
-        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
+        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor)
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
         let healthEventsConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.HealthEventsConfig.self, forKey: .healthEventsConfig)
         healthEventsConfig = healthEventsConfigDecoded

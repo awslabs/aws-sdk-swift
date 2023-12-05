@@ -969,8 +969,10 @@ extension ConfigClientTypes.BaseConfigurationItem: Swift.Codable {
         case awsRegion
         case configuration
         case configurationItemCaptureTime
+        case configurationItemDeliveryTime
         case configurationItemStatus
         case configurationStateId
+        case recordingFrequency
         case resourceCreationTime
         case resourceId
         case resourceName
@@ -999,11 +1001,17 @@ extension ConfigClientTypes.BaseConfigurationItem: Swift.Codable {
         if let configurationItemCaptureTime = self.configurationItemCaptureTime {
             try encodeContainer.encodeTimestamp(configurationItemCaptureTime, format: .epochSeconds, forKey: .configurationItemCaptureTime)
         }
+        if let configurationItemDeliveryTime = self.configurationItemDeliveryTime {
+            try encodeContainer.encodeTimestamp(configurationItemDeliveryTime, format: .epochSeconds, forKey: .configurationItemDeliveryTime)
+        }
         if let configurationItemStatus = self.configurationItemStatus {
             try encodeContainer.encode(configurationItemStatus.rawValue, forKey: .configurationItemStatus)
         }
         if let configurationStateId = self.configurationStateId {
             try encodeContainer.encode(configurationStateId, forKey: .configurationStateId)
+        }
+        if let recordingFrequency = self.recordingFrequency {
+            try encodeContainer.encode(recordingFrequency.rawValue, forKey: .recordingFrequency)
         }
         if let resourceCreationTime = self.resourceCreationTime {
             try encodeContainer.encodeTimestamp(resourceCreationTime, format: .epochSeconds, forKey: .resourceCreationTime)
@@ -1067,11 +1075,15 @@ extension ConfigClientTypes.BaseConfigurationItem: Swift.Codable {
             }
         }
         supplementaryConfiguration = supplementaryConfigurationDecoded0
+        let recordingFrequencyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingFrequency.self, forKey: .recordingFrequency)
+        recordingFrequency = recordingFrequencyDecoded
+        let configurationItemDeliveryTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .configurationItemDeliveryTime)
+        configurationItemDeliveryTime = configurationItemDeliveryTimeDecoded
     }
 }
 
 extension ConfigClientTypes {
-    /// The detailed configuration of a specified resource.
+    /// The detailed configurations of a specified resource.
     public struct BaseConfigurationItem: Swift.Equatable {
         /// The 12-digit Amazon Web Services account ID associated with the resource.
         public var accountId: Swift.String?
@@ -1083,22 +1095,26 @@ extension ConfigClientTypes {
         public var awsRegion: Swift.String?
         /// The description of the resource configuration.
         public var configuration: Swift.String?
-        /// The time when the configuration recording was initiated.
+        /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: ClientRuntime.Date?
-        /// The configuration item status. The valid values are:
+        /// The time when configuration changes for the resource were delivered.
+        public var configurationItemDeliveryTime: ClientRuntime.Date?
+        /// The configuration item status. Valid values include:
         ///
-        /// * OK – The resource configuration has been updated
+        /// * OK – The resource configuration has been updated.
         ///
-        /// * ResourceDiscovered – The resource was newly discovered
+        /// * ResourceDiscovered – The resource was newly discovered.
         ///
-        /// * ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type
+        /// * ResourceNotRecorded – The resource was discovered, but its configuration was not recorded since the recorder doesn't record resources of this type.
         ///
         /// * ResourceDeleted – The resource was deleted
         ///
-        /// * ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type
+        /// * ResourceDeletedNotRecorded – The resource was deleted, but its configuration was not recorded since the recorder doesn't record resources of this type.
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
+        /// The recording frequency that Config uses to record configuration changes for the resource.
+        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
         /// The time stamp when the resource was created.
         public var resourceCreationTime: ClientRuntime.Date?
         /// The ID of the resource (for example., sg-xxxxxx).
@@ -1119,8 +1135,10 @@ extension ConfigClientTypes {
             awsRegion: Swift.String? = nil,
             configuration: Swift.String? = nil,
             configurationItemCaptureTime: ClientRuntime.Date? = nil,
+            configurationItemDeliveryTime: ClientRuntime.Date? = nil,
             configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus? = nil,
             configurationStateId: Swift.String? = nil,
+            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
             resourceCreationTime: ClientRuntime.Date? = nil,
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
@@ -1135,8 +1153,10 @@ extension ConfigClientTypes {
             self.awsRegion = awsRegion
             self.configuration = configuration
             self.configurationItemCaptureTime = configurationItemCaptureTime
+            self.configurationItemDeliveryTime = configurationItemDeliveryTime
             self.configurationItemStatus = configurationItemStatus
             self.configurationStateId = configurationStateId
+            self.recordingFrequency = recordingFrequency
             self.resourceCreationTime = resourceCreationTime
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -2633,9 +2653,11 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
         case awsRegion
         case configuration
         case configurationItemCaptureTime
+        case configurationItemDeliveryTime
         case configurationItemMD5Hash
         case configurationItemStatus
         case configurationStateId
+        case recordingFrequency
         case relatedEvents
         case relationships
         case resourceCreationTime
@@ -2667,6 +2689,9 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
         if let configurationItemCaptureTime = self.configurationItemCaptureTime {
             try encodeContainer.encodeTimestamp(configurationItemCaptureTime, format: .epochSeconds, forKey: .configurationItemCaptureTime)
         }
+        if let configurationItemDeliveryTime = self.configurationItemDeliveryTime {
+            try encodeContainer.encodeTimestamp(configurationItemDeliveryTime, format: .epochSeconds, forKey: .configurationItemDeliveryTime)
+        }
         if let configurationItemMD5Hash = self.configurationItemMD5Hash {
             try encodeContainer.encode(configurationItemMD5Hash, forKey: .configurationItemMD5Hash)
         }
@@ -2675,6 +2700,9 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
         }
         if let configurationStateId = self.configurationStateId {
             try encodeContainer.encode(configurationStateId, forKey: .configurationStateId)
+        }
+        if let recordingFrequency = self.recordingFrequency {
+            try encodeContainer.encode(recordingFrequency.rawValue, forKey: .recordingFrequency)
         }
         if let relatedEvents = relatedEvents {
             var relatedEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedEvents)
@@ -2791,6 +2819,10 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
             }
         }
         supplementaryConfiguration = supplementaryConfigurationDecoded0
+        let recordingFrequencyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingFrequency.self, forKey: .recordingFrequency)
+        recordingFrequency = recordingFrequencyDecoded
+        let configurationItemDeliveryTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .configurationItemDeliveryTime)
+        configurationItemDeliveryTime = configurationItemDeliveryTimeDecoded
     }
 }
 
@@ -2807,24 +2839,28 @@ extension ConfigClientTypes {
         public var awsRegion: Swift.String?
         /// The description of the resource configuration.
         public var configuration: Swift.String?
-        /// The time when the configuration recording was initiated.
+        /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: ClientRuntime.Date?
+        /// The time when configuration changes for the resource were delivered.
+        public var configurationItemDeliveryTime: ClientRuntime.Date?
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public var configurationItemMD5Hash: Swift.String?
-        /// The configuration item status. The valid values are:
+        /// The configuration item status. Valid values include:
         ///
         /// * OK – The resource configuration has been updated
         ///
         /// * ResourceDiscovered – The resource was newly discovered
         ///
-        /// * ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder excludes the recording of resources of this type
+        /// * ResourceNotRecorded – The resource was discovered but its configuration was not recorded since the recorder doesn't record resources of this type
         ///
         /// * ResourceDeleted – The resource was deleted
         ///
-        /// * ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type
+        /// * ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder doesn't record resources of this type
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
+        /// The recording frequency that Config uses to record configuration changes for the resource.
+        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see [What Is CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html). An empty field indicates that the current configuration was not initiated by any event. As of Version 1.3, the relatedEvents field is empty. You can access the [LookupEvents API](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html) in the CloudTrail API Reference to retrieve the events for the resource.
         public var relatedEvents: [Swift.String]?
         /// A list of related Amazon Web Services resources.
@@ -2851,9 +2887,11 @@ extension ConfigClientTypes {
             awsRegion: Swift.String? = nil,
             configuration: Swift.String? = nil,
             configurationItemCaptureTime: ClientRuntime.Date? = nil,
+            configurationItemDeliveryTime: ClientRuntime.Date? = nil,
             configurationItemMD5Hash: Swift.String? = nil,
             configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus? = nil,
             configurationStateId: Swift.String? = nil,
+            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
             relatedEvents: [Swift.String]? = nil,
             relationships: [ConfigClientTypes.Relationship]? = nil,
             resourceCreationTime: ClientRuntime.Date? = nil,
@@ -2871,9 +2909,11 @@ extension ConfigClientTypes {
             self.awsRegion = awsRegion
             self.configuration = configuration
             self.configurationItemCaptureTime = configurationItemCaptureTime
+            self.configurationItemDeliveryTime = configurationItemDeliveryTime
             self.configurationItemMD5Hash = configurationItemMD5Hash
             self.configurationItemStatus = configurationItemStatus
             self.configurationStateId = configurationStateId
+            self.recordingFrequency = recordingFrequency
             self.relatedEvents = relatedEvents
             self.relationships = relationships
             self.resourceCreationTime = resourceCreationTime
@@ -2933,6 +2973,7 @@ extension ConfigClientTypes.ConfigurationRecorder: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
         case recordingGroup
+        case recordingMode
         case roleARN
     }
 
@@ -2943,6 +2984,9 @@ extension ConfigClientTypes.ConfigurationRecorder: Swift.Codable {
         }
         if let recordingGroup = self.recordingGroup {
             try encodeContainer.encode(recordingGroup, forKey: .recordingGroup)
+        }
+        if let recordingMode = self.recordingMode {
+            try encodeContainer.encode(recordingMode, forKey: .recordingMode)
         }
         if let roleARN = self.roleARN {
             try encodeContainer.encode(roleARN, forKey: .roleARN)
@@ -2957,27 +3001,40 @@ extension ConfigClientTypes.ConfigurationRecorder: Swift.Codable {
         roleARN = roleARNDecoded
         let recordingGroupDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingGroup.self, forKey: .recordingGroup)
         recordingGroup = recordingGroupDecoded
+        let recordingModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingMode.self, forKey: .recordingMode)
+        recordingMode = recordingModeDecoded
     }
 }
 
 extension ConfigClientTypes {
-    /// Records configuration changes to specified resource types. For more information about the configuration recorder, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
+    /// Records configuration changes to your specified resource types. For more information about the configuration recorder, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
     public struct ConfigurationRecorder: Swift.Equatable {
         /// The name of the configuration recorder. Config automatically assigns the name of "default" when creating the configuration recorder. You cannot change the name of the configuration recorder after it has been created. To change the configuration recorder name, you must delete it and create a new configuration recorder with a new name.
         public var name: Swift.String?
         /// Specifies which resource types Config records for configuration changes. High Number of Config Evaluations You may notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
         public var recordingGroup: ConfigClientTypes.RecordingGroup?
+        /// Specifies the default recording frequency that Config uses to record configuration changes. Config supports Continuous recording and Daily recording.
+        ///
+        /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
+        ///
+        /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
+        ///
+        ///
+        /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
+        public var recordingMode: ConfigClientTypes.RecordingMode?
         /// Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the configuration recorder. While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Pre-existing Config role If you have used an Amazon Web Services service that uses Config, such as Security Hub or Control Tower, and an Config role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the already created Config role. You must do this so that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read Amazon Simple Storage Service (Amazon S3) objects, make sure that the same permissions are granted within the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. For more information about IAM roles for Config, see [ Identity and Access Management for Config ](https://docs.aws.amazon.com/config/latest/developerguide/security-iam.html) in the Config Developer Guide.
         public var roleARN: Swift.String?
 
         public init(
             name: Swift.String? = nil,
             recordingGroup: ConfigClientTypes.RecordingGroup? = nil,
+            recordingMode: ConfigClientTypes.RecordingMode? = nil,
             roleARN: Swift.String? = nil
         )
         {
             self.name = name
             self.recordingGroup = recordingGroup
+            self.recordingMode = recordingMode
             self.roleARN = roleARN
         }
     }
@@ -9759,7 +9816,7 @@ extension ConfigClientTypes.ExclusionByResourceTypes: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Specifies whether the configuration recorder excludes certain resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types you want to exclude from recording. By default, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. How to use To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES. Config will then record configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded. Globally recorded resources Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded automatically in all enabled Config Regions where Config was available before February 2022. This list does not include the following Regions:
+    /// Specifies whether the configuration recorder excludes certain resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types you want to exclude from recording. By default, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. How to use the exclusion recording strategy To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES. Config will then record configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded. Global resource types and the exclusion recording strategy Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
     ///
     /// * Asia Pacific (Hyderabad)
     ///
@@ -18864,6 +18921,7 @@ enum PutConfigurationRecorderOutputError: ClientRuntime.HttpResponseErrorBinding
             case "InvalidRecordingGroupException": return try await InvalidRecordingGroupException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MaxNumberOfConfigurationRecordersExceededException": return try await MaxNumberOfConfigurationRecordersExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -20465,6 +20523,38 @@ extension ConfigClientTypes {
     }
 }
 
+extension ConfigClientTypes {
+    public enum RecordingFrequency: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case continuous
+        case daily
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordingFrequency] {
+            return [
+                .continuous,
+                .daily,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .daily: return "DAILY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecordingFrequency(rawValue: rawValue) ?? RecordingFrequency.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConfigClientTypes.RecordingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allSupported
@@ -20521,20 +20611,20 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Specifies which resource types Config records for configuration changes. By default, Config records configuration changes for all current and future supported resource types in the Amazon Web Services Region where you have enabled Config (excluding the globally recorded IAM resource types: IAM users, groups, roles, and customer managed policies). In the recording group, you specify whether you want to record all supported current and future supported resource types or to include or exclude specific resources types. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. If you don't want Config to record all current and future supported resource types, use one of the following recording strategies:
+    /// Specifies which resource types Config records for configuration changes. By default, Config records configuration changes for all current and future supported resource types in the Amazon Web Services Region where you have enabled Config, excluding the global IAM resource types: IAM users, groups, roles, and customer managed policies. In the recording group, you specify whether you want to record all supported current and future supported resource types or to include or exclude specific resources types. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. If you don't want Config to record all current and future supported resource types (excluding the global IAM resource types), use one of the following recording strategies:
     ///
     /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
     ///
     /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
     ///
     ///
-    /// Aurora global clusters are automatically globally recorded The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use the EXCLUSION_BY_RESOURCE_TYPES or INCLUSION_BY_RESOURCE_TYPES recording strategy.
+    /// If you use the recording strategy to Record all current and future resource types (ALL_SUPPORTED_RESOURCE_TYPES), you can use the flag includeGlobalResourceTypes to include the global IAM resource types in your recording. Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use the EXCLUSION_BY_RESOURCE_TYPES or INCLUSION_BY_RESOURCE_TYPES recording strategy.
     public struct RecordingGroup: Swift.Equatable {
-        /// Specifies whether Config records configuration changes for all supported regionally recorded resource types. If you set this field to true, when Config adds support for a new regionally recorded resource type, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Region Availability Check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if a resource type is supported in the Amazon Web Services Region where you set up Config.
+        /// Specifies whether Config records configuration changes for all supported resource types, excluding the global IAM resource types. If you set this field to true, when Config adds support for a new resource type, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Region availability Check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if a resource type is supported in the Amazon Web Services Region where you set up Config.
         public var allSupported: Swift.Bool
-        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
+        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. Required fields To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
         public var exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes?
-        /// A legacy field which only applies to the globally recorded IAM resource types: IAM users, groups, roles, and customer managed policies. If you select this option, these resource types will be recorded in all enabled Config regions where Config was available before February 2022. This list does not include the following Regions:
+        /// This option is a bundle which only applies to the global IAM resource types: IAM users, groups, roles, and customer managed policies. These global IAM resource types can only be recorded by Config in Regions where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
         ///
         /// * Asia Pacific (Hyderabad)
         ///
@@ -20549,25 +20639,25 @@ extension ConfigClientTypes {
         /// * Middle East (UAE)
         ///
         ///
-        /// Aurora global clusters are automatically globally recorded The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is not set to true. includeGlobalResourceTypes is a legacy field which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
+        /// Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is not set to true. The includeGlobalResourceTypes option is a bundle which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
         ///
         /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
         ///
         /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
         ///
         ///
-        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. Required and optional fields Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list globally recorded IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the globally recorded IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
+        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list global IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the global IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
         public var includeGlobalResourceTypes: Swift.Bool
         /// An object that specifies the recording strategy for the configuration recorder.
         ///
-        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regionally recorded resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new regionally recorded resource type, Config automatically starts recording resources of that type.
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type.
         ///
         /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
         ///
         /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
         ///
         ///
-        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, globally recorded IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resources types and the resource exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. In addition, unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded automatically in all enabled Config Regions where Config was available before February 2022. This list does not include the following Regions:
+        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resources types and the resource exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
         ///
         /// * Asia Pacific (Hyderabad)
         ///
@@ -20581,7 +20671,7 @@ extension ConfigClientTypes {
         ///
         /// * Middle East (UAE)
         public var recordingStrategy: ConfigClientTypes.RecordingStrategy?
-        /// A comma-separated list that specifies which resource types Config records. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the Resource Type Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. Region Availability Before specifying a resource type for Config to track, check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if the resource type is supported in the Amazon Web Services Region where you set up Config. If a resource type is supported by Config in at least one Region, you can enable the recording of that resource type in all Regions supported by Config, even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
+        /// A comma-separated list that specifies which resource types Config records. For a list of valid resourceTypes values, see the Resource Type Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. Required and optional fields Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. Region availability Before specifying a resource type for Config to track, check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if the resource type is supported in the Amazon Web Services Region where you set up Config. If a resource type is supported by Config in at least one Region, you can enable the recording of that resource type in all Regions supported by Config, even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
         public var resourceTypes: [ConfigClientTypes.ResourceType]?
 
         public init(
@@ -20596,6 +20686,162 @@ extension ConfigClientTypes {
             self.exclusionByResourceTypes = exclusionByResourceTypes
             self.includeGlobalResourceTypes = includeGlobalResourceTypes
             self.recordingStrategy = recordingStrategy
+            self.resourceTypes = resourceTypes
+        }
+    }
+
+}
+
+extension ConfigClientTypes.RecordingMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recordingFrequency
+        case recordingModeOverrides
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recordingFrequency = self.recordingFrequency {
+            try encodeContainer.encode(recordingFrequency.rawValue, forKey: .recordingFrequency)
+        }
+        if let recordingModeOverrides = recordingModeOverrides {
+            var recordingModeOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordingModeOverrides)
+            for recordingmodeoverride0 in recordingModeOverrides {
+                try recordingModeOverridesContainer.encode(recordingmodeoverride0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recordingFrequencyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingFrequency.self, forKey: .recordingFrequency)
+        recordingFrequency = recordingFrequencyDecoded
+        let recordingModeOverridesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.RecordingModeOverride?].self, forKey: .recordingModeOverrides)
+        var recordingModeOverridesDecoded0:[ConfigClientTypes.RecordingModeOverride]? = nil
+        if let recordingModeOverridesContainer = recordingModeOverridesContainer {
+            recordingModeOverridesDecoded0 = [ConfigClientTypes.RecordingModeOverride]()
+            for structure0 in recordingModeOverridesContainer {
+                if let structure0 = structure0 {
+                    recordingModeOverridesDecoded0?.append(structure0)
+                }
+            }
+        }
+        recordingModeOverrides = recordingModeOverridesDecoded0
+    }
+}
+
+extension ConfigClientTypes {
+    /// Specifies the default recording frequency that Config uses to record configuration changes. Config supports Continuous recording and Daily recording.
+    ///
+    /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
+    ///
+    /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
+    ///
+    ///
+    /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
+    public struct RecordingMode: Swift.Equatable {
+        /// The default recording frequency that Config uses to record configuration changes. Daily recording is not supported for the following resource types:
+        ///
+        /// * AWS::Config::ResourceCompliance
+        ///
+        /// * AWS::Config::ConformancePackCompliance
+        ///
+        /// * AWS::Config::ConfigurationRecorder
+        ///
+        ///
+        /// For the allSupported (ALL_SUPPORTED_RESOURCE_TYPES) recording strategy, these resource types will be set to Continuous recording.
+        /// This member is required.
+        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
+        /// An array of recordingModeOverride objects for you to specify your overrides for the recording mode. The recordingModeOverride object in the recordingModeOverrides array consists of three fields: a description, the new recordingFrequency, and an array of resourceTypes to override.
+        public var recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]?
+
+        public init(
+            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
+            recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]? = nil
+        )
+        {
+            self.recordingFrequency = recordingFrequency
+            self.recordingModeOverrides = recordingModeOverrides
+        }
+    }
+
+}
+
+extension ConfigClientTypes.RecordingModeOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case recordingFrequency
+        case resourceTypes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let recordingFrequency = self.recordingFrequency {
+            try encodeContainer.encode(recordingFrequency.rawValue, forKey: .recordingFrequency)
+        }
+        if let resourceTypes = resourceTypes {
+            var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
+            for resourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcetype0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let resourceTypesContainer = try containerValues.decodeIfPresent([ConfigClientTypes.ResourceType?].self, forKey: .resourceTypes)
+        var resourceTypesDecoded0:[ConfigClientTypes.ResourceType]? = nil
+        if let resourceTypesContainer = resourceTypesContainer {
+            resourceTypesDecoded0 = [ConfigClientTypes.ResourceType]()
+            for enum0 in resourceTypesContainer {
+                if let enum0 = enum0 {
+                    resourceTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        resourceTypes = resourceTypesDecoded0
+        let recordingFrequencyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.RecordingFrequency.self, forKey: .recordingFrequency)
+        recordingFrequency = recordingFrequencyDecoded
+    }
+}
+
+extension ConfigClientTypes {
+    /// An object for you to specify your overrides for the recording mode.
+    public struct RecordingModeOverride: Swift.Equatable {
+        /// A description that you provide for the override.
+        public var description: Swift.String?
+        /// The recording frequency that will be applied to all the resource types specified in the override.
+        ///
+        /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
+        ///
+        /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
+        ///
+        ///
+        /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous.
+        /// This member is required.
+        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
+        /// A comma-separated list that specifies which resource types Config includes in the override. Daily recording is not supported for the following resource types:
+        ///
+        /// * AWS::Config::ResourceCompliance
+        ///
+        /// * AWS::Config::ConformancePackCompliance
+        ///
+        /// * AWS::Config::ConfigurationRecorder
+        /// This member is required.
+        public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+        public init(
+            description: Swift.String? = nil,
+            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
+            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+        )
+        {
+            self.description = description
+            self.recordingFrequency = recordingFrequency
             self.resourceTypes = resourceTypes
         }
     }
@@ -20626,14 +20872,14 @@ extension ConfigClientTypes {
     public struct RecordingStrategy: Swift.Equatable {
         /// The recording strategy for the configuration recorder.
         ///
-        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regionally recorded resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new regionally recorded resource type, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
+        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
         ///
         /// * If you set this option to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types that you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
         ///
         /// * If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
         ///
         ///
-        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, globally recorded IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resource types and the exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. In addition, unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded automatically in all enabled Config Regions where Config was available before February 2022. This list does not include the following Regions:
+        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resource types and the exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
         ///
         /// * Asia Pacific (Hyderabad)
         ///

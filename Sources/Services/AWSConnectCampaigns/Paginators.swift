@@ -12,7 +12,7 @@ extension ConnectCampaignsClient {
     ///     - input: A `[ListCampaignsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCampaignsOutput`
     public func listCampaignsPaginated(input: ListCampaignsInput) -> ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutput>(input: input, inputKey: \ListCampaignsInput.nextToken, outputKey: \ListCampaignsOutput.nextToken, paginationFunction: self.listCampaigns(input:))
+        return ClientRuntime.PaginatorSequence<ListCampaignsInput, ListCampaignsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCampaigns(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListCampaignsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCampaignsInput, Output == ListCampaignsOutput {
+extension PaginatorSequence where OperationStackInput == ListCampaignsInput, OperationStackOutput == ListCampaignsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCampaignsPaginated`
     /// to access the nested member `[ConnectCampaignsClientTypes.CampaignSummary]`
     /// - Returns: `[ConnectCampaignsClientTypes.CampaignSummary]`

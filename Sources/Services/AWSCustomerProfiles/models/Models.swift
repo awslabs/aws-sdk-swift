@@ -3693,6 +3693,237 @@ extension CustomerProfilesClientTypes {
 
 }
 
+extension DetectProfileObjectTypeInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DetectProfileObjectTypeInput(domainName: \(Swift.String(describing: domainName)), objects: \"CONTENT_REDACTED\")"}
+}
+
+extension DetectProfileObjectTypeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objects = "Objects"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let objects = objects {
+            var objectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objects)
+            for stringifiedjson0 in objects {
+                try objectsContainer.encode(stringifiedjson0)
+            }
+        }
+    }
+}
+
+extension DetectProfileObjectTypeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/detect/object-types"
+    }
+}
+
+public struct DetectProfileObjectTypeInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A string that is serialized from a JSON object.
+    /// This member is required.
+    public var objects: [Swift.String]?
+
+    public init(
+        domainName: Swift.String? = nil,
+        objects: [Swift.String]? = nil
+    )
+    {
+        self.domainName = domainName
+        self.objects = objects
+    }
+}
+
+struct DetectProfileObjectTypeInputBody: Swift.Equatable {
+    let objects: [Swift.String]?
+}
+
+extension DetectProfileObjectTypeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objects = "Objects"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let objectsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .objects)
+        var objectsDecoded0:[Swift.String]? = nil
+        if let objectsContainer = objectsContainer {
+            objectsDecoded0 = [Swift.String]()
+            for string0 in objectsContainer {
+                if let string0 = string0 {
+                    objectsDecoded0?.append(string0)
+                }
+            }
+        }
+        objects = objectsDecoded0
+    }
+}
+
+extension DetectProfileObjectTypeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DetectProfileObjectTypeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.detectedProfileObjectTypes = output.detectedProfileObjectTypes
+        } else {
+            self.detectedProfileObjectTypes = nil
+        }
+    }
+}
+
+public struct DetectProfileObjectTypeOutput: Swift.Equatable {
+    /// Detected ProfileObjectType mappings from given objects. A maximum of one mapping is supported.
+    public var detectedProfileObjectTypes: [CustomerProfilesClientTypes.DetectedProfileObjectType]?
+
+    public init(
+        detectedProfileObjectTypes: [CustomerProfilesClientTypes.DetectedProfileObjectType]? = nil
+    )
+    {
+        self.detectedProfileObjectTypes = detectedProfileObjectTypes
+    }
+}
+
+struct DetectProfileObjectTypeOutputBody: Swift.Equatable {
+    let detectedProfileObjectTypes: [CustomerProfilesClientTypes.DetectedProfileObjectType]?
+}
+
+extension DetectProfileObjectTypeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detectedProfileObjectTypes = "DetectedProfileObjectTypes"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detectedProfileObjectTypesContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.DetectedProfileObjectType?].self, forKey: .detectedProfileObjectTypes)
+        var detectedProfileObjectTypesDecoded0:[CustomerProfilesClientTypes.DetectedProfileObjectType]? = nil
+        if let detectedProfileObjectTypesContainer = detectedProfileObjectTypesContainer {
+            detectedProfileObjectTypesDecoded0 = [CustomerProfilesClientTypes.DetectedProfileObjectType]()
+            for structure0 in detectedProfileObjectTypesContainer {
+                if let structure0 = structure0 {
+                    detectedProfileObjectTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        detectedProfileObjectTypes = detectedProfileObjectTypesDecoded0
+    }
+}
+
+enum DetectProfileObjectTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.DetectedProfileObjectType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields = "Fields"
+        case keys = "Keys"
+        case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
+            for (dictKey0, fieldMap0) in fields {
+                try fieldsContainer.encode(fieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let keys = keys {
+            var keysContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .keys)
+            for (dictKey0, keyMap0) in keys {
+                var keyMap0Container = keysContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for objecttypekey1 in keyMap0 {
+                    try keyMap0Container.encode(objecttypekey1)
+                }
+            }
+        }
+        if let sourceLastUpdatedTimestampFormat = self.sourceLastUpdatedTimestampFormat {
+            try encodeContainer.encode(sourceLastUpdatedTimestampFormat, forKey: .sourceLastUpdatedTimestampFormat)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceLastUpdatedTimestampFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLastUpdatedTimestampFormat)
+        sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormatDecoded
+        let fieldsContainer = try containerValues.decodeIfPresent([Swift.String: CustomerProfilesClientTypes.ObjectTypeField?].self, forKey: .fields)
+        var fieldsDecoded0: [Swift.String:CustomerProfilesClientTypes.ObjectTypeField]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [Swift.String:CustomerProfilesClientTypes.ObjectTypeField]()
+            for (key0, objecttypefield0) in fieldsContainer {
+                if let objecttypefield0 = objecttypefield0 {
+                    fieldsDecoded0?[key0] = objecttypefield0
+                }
+            }
+        }
+        fields = fieldsDecoded0
+        let keysContainer = try containerValues.decodeIfPresent([Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey?]?].self, forKey: .keys)
+        var keysDecoded0: [Swift.String:[CustomerProfilesClientTypes.ObjectTypeKey]]? = nil
+        if let keysContainer = keysContainer {
+            keysDecoded0 = [Swift.String:[CustomerProfilesClientTypes.ObjectTypeKey]]()
+            for (key0, objecttypekeylist0) in keysContainer {
+                var objecttypekeylist0Decoded0: [CustomerProfilesClientTypes.ObjectTypeKey]? = nil
+                if let objecttypekeylist0 = objecttypekeylist0 {
+                    objecttypekeylist0Decoded0 = [CustomerProfilesClientTypes.ObjectTypeKey]()
+                    for structure1 in objecttypekeylist0 {
+                        if let structure1 = structure1 {
+                            objecttypekeylist0Decoded0?.append(structure1)
+                        }
+                    }
+                }
+                keysDecoded0?[key0] = objecttypekeylist0Decoded0
+            }
+        }
+        keys = keysDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes.DetectedProfileObjectType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DetectedProfileObjectType(sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+    /// Contains ProfileObjectType mapping information from the model.
+    public struct DetectedProfileObjectType: Swift.Equatable {
+        /// A map of the name and the ObjectType field.
+        public var fields: [Swift.String:CustomerProfilesClientTypes.ObjectTypeField]?
+        /// A list of unique keys that can be used to map data to a profile.
+        public var keys: [Swift.String:[CustomerProfilesClientTypes.ObjectTypeKey]]?
+        /// The format of sourceLastUpdatedTimestamp that was detected in fields.
+        public var sourceLastUpdatedTimestampFormat: Swift.String?
+
+        public init(
+            fields: [Swift.String:CustomerProfilesClientTypes.ObjectTypeField]? = nil,
+            keys: [Swift.String:[CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
+            sourceLastUpdatedTimestampFormat: Swift.String? = nil
+        )
+        {
+            self.fields = fields
+            self.keys = keys
+            self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
+        }
+    }
+
+}
+
 extension CustomerProfilesClientTypes.DomainStats: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case meteringProfileCount = "MeteringProfileCount"

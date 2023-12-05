@@ -12,7 +12,7 @@ extension MigrationHubRefactorSpacesClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.ApplicationSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.ApplicationSummary]`
@@ -43,7 +43,7 @@ extension MigrationHubRefactorSpacesClient {
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
     public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutput {
+extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, OperationStackOutput == ListEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.EnvironmentSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.EnvironmentSummary]`
@@ -73,7 +73,7 @@ extension MigrationHubRefactorSpacesClient {
     ///     - input: A `[ListEnvironmentVpcsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentVpcsOutput`
     public func listEnvironmentVpcsPaginated(input: ListEnvironmentVpcsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutput> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutput>(input: input, inputKey: \ListEnvironmentVpcsInput.nextToken, outputKey: \ListEnvironmentVpcsOutput.nextToken, paginationFunction: self.listEnvironmentVpcs(input:))
+        return ClientRuntime.PaginatorSequence<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironmentVpcs(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListEnvironmentVpcsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEnvironmentVpcsInput, Output == ListEnvironmentVpcsOutput {
+extension PaginatorSequence where OperationStackInput == ListEnvironmentVpcsInput, OperationStackOutput == ListEnvironmentVpcsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentVpcsPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.EnvironmentVpc]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.EnvironmentVpc]`
@@ -104,7 +104,7 @@ extension MigrationHubRefactorSpacesClient {
     ///     - input: A `[ListRoutesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoutesOutput`
     public func listRoutesPaginated(input: ListRoutesInput) -> ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutput> {
-        return ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutput>(input: input, inputKey: \ListRoutesInput.nextToken, outputKey: \ListRoutesOutput.nextToken, paginationFunction: self.listRoutes(input:))
+        return ClientRuntime.PaginatorSequence<ListRoutesInput, ListRoutesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoutes(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListRoutesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRoutesInput, Output == ListRoutesOutput {
+extension PaginatorSequence where OperationStackInput == ListRoutesInput, OperationStackOutput == ListRoutesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRoutesPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.RouteSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.RouteSummary]`
@@ -136,7 +136,7 @@ extension MigrationHubRefactorSpacesClient {
     ///     - input: A `[ListServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
     public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServices(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutput {
+extension PaginatorSequence where OperationStackInput == ListServicesInput, OperationStackOutput == ListServicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServicesPaginated`
     /// to access the nested member `[MigrationHubRefactorSpacesClientTypes.ServiceSummary]`
     /// - Returns: `[MigrationHubRefactorSpacesClientTypes.ServiceSummary]`

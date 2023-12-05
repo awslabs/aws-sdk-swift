@@ -12,7 +12,7 @@ extension TextractClient {
     ///     - input: A `[ListAdaptersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAdaptersOutput`
     public func listAdaptersPaginated(input: ListAdaptersInput) -> ClientRuntime.PaginatorSequence<ListAdaptersInput, ListAdaptersOutput> {
-        return ClientRuntime.PaginatorSequence<ListAdaptersInput, ListAdaptersOutput>(input: input, inputKey: \ListAdaptersInput.nextToken, outputKey: \ListAdaptersOutput.nextToken, paginationFunction: self.listAdapters(input:))
+        return ClientRuntime.PaginatorSequence<ListAdaptersInput, ListAdaptersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAdapters(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListAdaptersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAdaptersInput, Output == ListAdaptersOutput {
+extension PaginatorSequence where OperationStackInput == ListAdaptersInput, OperationStackOutput == ListAdaptersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAdaptersPaginated`
     /// to access the nested member `[TextractClientTypes.AdapterOverview]`
     /// - Returns: `[TextractClientTypes.AdapterOverview]`
@@ -44,7 +44,7 @@ extension TextractClient {
     ///     - input: A `[ListAdapterVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAdapterVersionsOutput`
     public func listAdapterVersionsPaginated(input: ListAdapterVersionsInput) -> ClientRuntime.PaginatorSequence<ListAdapterVersionsInput, ListAdapterVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAdapterVersionsInput, ListAdapterVersionsOutput>(input: input, inputKey: \ListAdapterVersionsInput.nextToken, outputKey: \ListAdapterVersionsOutput.nextToken, paginationFunction: self.listAdapterVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListAdapterVersionsInput, ListAdapterVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAdapterVersions(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension ListAdapterVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAdapterVersionsInput, Output == ListAdapterVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListAdapterVersionsInput, OperationStackOutput == ListAdapterVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAdapterVersionsPaginated`
     /// to access the nested member `[TextractClientTypes.AdapterVersionOverview]`
     /// - Returns: `[TextractClientTypes.AdapterVersionOverview]`

@@ -3750,6 +3750,7 @@ extension IoTClientTypes {
 extension IoTClientTypes.Behavior: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case criteria
+        case exportMetric
         case metric
         case metricDimension
         case name
@@ -3760,6 +3761,9 @@ extension IoTClientTypes.Behavior: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let criteria = self.criteria {
             try encodeContainer.encode(criteria, forKey: .criteria)
+        }
+        if let exportMetric = self.exportMetric {
+            try encodeContainer.encode(exportMetric, forKey: .exportMetric)
         }
         if let metric = self.metric {
             try encodeContainer.encode(metric, forKey: .metric)
@@ -3787,6 +3791,8 @@ extension IoTClientTypes.Behavior: Swift.Codable {
         criteria = criteriaDecoded
         let suppressAlertsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .suppressAlerts)
         suppressAlerts = suppressAlertsDecoded
+        let exportMetricDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exportMetric)
+        exportMetric = exportMetricDecoded
     }
 }
 
@@ -3795,6 +3801,8 @@ extension IoTClientTypes {
     public struct Behavior: Swift.Equatable {
         /// The criteria that determine if a device is behaving normally in regard to the metric. In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously.
         public var criteria: IoTClientTypes.BehaviorCriteria?
+        /// Value indicates exporting metrics related to the behavior when it is true.
+        public var exportMetric: Swift.Bool?
         /// What is measured by the behavior.
         public var metric: Swift.String?
         /// The dimension for a metric in your behavior. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric to only MQTT topics where the name matches the pattern specified in the dimension. This can't be used with custom metrics.
@@ -3807,6 +3815,7 @@ extension IoTClientTypes {
 
         public init(
             criteria: IoTClientTypes.BehaviorCriteria? = nil,
+            exportMetric: Swift.Bool? = nil,
             metric: Swift.String? = nil,
             metricDimension: IoTClientTypes.MetricDimension? = nil,
             name: Swift.String? = nil,
@@ -3814,6 +3823,7 @@ extension IoTClientTypes {
         )
         {
             self.criteria = criteria
+            self.exportMetric = exportMetric
             self.metric = metric
             self.metricDimension = metricDimension
             self.name = name
@@ -8040,7 +8050,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A short text description of the job.
     public var description: Swift.String?
-    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -8382,7 +8392,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     /// A description of the job document.
     /// This member is required.
     public var description: Swift.String?
-    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -10847,6 +10857,7 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         case additionalMetricsToRetainV2
         case alertTargets
         case behaviors
+        case metricsExportConfig
         case securityProfileDescription
         case tags
     }
@@ -10876,6 +10887,9 @@ extension CreateSecurityProfileInput: Swift.Encodable {
             for behavior0 in behaviors {
                 try behaviorsContainer.encode(behavior0)
             }
+        }
+        if let metricsExportConfig = self.metricsExportConfig {
+            try encodeContainer.encode(metricsExportConfig, forKey: .metricsExportConfig)
         }
         if let securityProfileDescription = self.securityProfileDescription {
             try encodeContainer.encode(securityProfileDescription, forKey: .securityProfileDescription)
@@ -10908,6 +10922,8 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     public var alertTargets: [Swift.String:IoTClientTypes.AlertTarget]?
     /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
     public var behaviors: [IoTClientTypes.Behavior]?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// A description of the security profile.
     public var securityProfileDescription: Swift.String?
     /// The name you are giving to the security profile.
@@ -10921,6 +10937,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
         additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]? = nil,
         alertTargets: [Swift.String:IoTClientTypes.AlertTarget]? = nil,
         behaviors: [IoTClientTypes.Behavior]? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
@@ -10930,6 +10947,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
         self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
         self.alertTargets = alertTargets
         self.behaviors = behaviors
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
         self.tags = tags
@@ -10943,6 +10961,7 @@ struct CreateSecurityProfileInputBody: Swift.Equatable {
     let additionalMetricsToRetain: [Swift.String]?
     let additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]?
     let tags: [IoTClientTypes.Tag]?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
 }
 
 extension CreateSecurityProfileInputBody: Swift.Decodable {
@@ -10951,6 +10970,7 @@ extension CreateSecurityProfileInputBody: Swift.Decodable {
         case additionalMetricsToRetainV2
         case alertTargets
         case behaviors
+        case metricsExportConfig
         case securityProfileDescription
         case tags
     }
@@ -11014,6 +11034,8 @@ extension CreateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
     }
 }
 
@@ -11867,44 +11889,6 @@ enum CreateTopicRuleDestinationOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public struct CreateTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateTopicRuleInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateTopicRuleInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateTopicRuleOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let topicRulePayload = input.operationInput.topicRulePayload {
-                let topicRulePayloadData = try encoder.encode(topicRulePayload)
-                let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                input.builder.withBody(topicRulePayloadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let topicRulePayloadData = "{}".data(using: .utf8)!
-                    let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                    input.builder.withBody(topicRulePayloadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateTopicRuleInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateTopicRuleOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension CreateTopicRuleInput: Swift.Encodable {
@@ -17052,7 +17036,7 @@ public struct DescribeJobTemplateOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// A description of the job template.
     public var description: Swift.String?
-    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     public var destinationPackageVersions: [Swift.String]?
     /// The job document.
     public var document: Swift.String?
@@ -18119,6 +18103,7 @@ extension DescribeSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = output.behaviors
             self.creationDate = output.creationDate
             self.lastModifiedDate = output.lastModifiedDate
+            self.metricsExportConfig = output.metricsExportConfig
             self.securityProfileArn = output.securityProfileArn
             self.securityProfileDescription = output.securityProfileDescription
             self.securityProfileName = output.securityProfileName
@@ -18130,6 +18115,7 @@ extension DescribeSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = nil
             self.creationDate = nil
             self.lastModifiedDate = nil
+            self.metricsExportConfig = nil
             self.securityProfileArn = nil
             self.securityProfileDescription = nil
             self.securityProfileName = nil
@@ -18152,6 +18138,8 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// The time the security profile was last modified.
     public var lastModifiedDate: ClientRuntime.Date?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// The ARN of the security profile.
     public var securityProfileArn: Swift.String?
     /// A description of the security profile (associated with the security profile when it was created or updated).
@@ -18168,6 +18156,7 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
         behaviors: [IoTClientTypes.Behavior]? = nil,
         creationDate: ClientRuntime.Date? = nil,
         lastModifiedDate: ClientRuntime.Date? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileArn: Swift.String? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
@@ -18180,6 +18169,7 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
         self.behaviors = behaviors
         self.creationDate = creationDate
         self.lastModifiedDate = lastModifiedDate
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileArn = securityProfileArn
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
@@ -18198,6 +18188,7 @@ struct DescribeSecurityProfileOutputBody: Swift.Equatable {
     let version: Swift.Int
     let creationDate: ClientRuntime.Date?
     let lastModifiedDate: ClientRuntime.Date?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
 }
 
 extension DescribeSecurityProfileOutputBody: Swift.Decodable {
@@ -18208,6 +18199,7 @@ extension DescribeSecurityProfileOutputBody: Swift.Decodable {
         case behaviors
         case creationDate
         case lastModifiedDate
+        case metricsExportConfig
         case securityProfileArn
         case securityProfileDescription
         case securityProfileName
@@ -18272,6 +18264,8 @@ extension DescribeSecurityProfileOutputBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
         lastModifiedDate = lastModifiedDateDecoded
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
     }
 }
 
@@ -21250,6 +21244,51 @@ extension IoTClientTypes {
     }
 }
 
+extension IoTClientTypes.GeoLocationTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TargetFieldOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// A geolocation target that you select to index. Each geolocation target contains a name and order key-value pair that specifies the geolocation target fields.
+    public struct GeoLocationTarget: Swift.Equatable {
+        /// The name of the geolocation target field. If the target field is part of a named shadow, you must select the named shadow using the namedShadow filter.
+        public var name: Swift.String?
+        /// The order of the geolocation target field. This field is optional. The default value is LatLon.
+        public var order: IoTClientTypes.TargetFieldOrder?
+
+        public init(
+            name: Swift.String? = nil,
+            order: IoTClientTypes.TargetFieldOrder? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+        }
+    }
+
+}
+
 extension GetBehaviorModelTrainingSummariesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -24076,11 +24115,18 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.IndexingFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geoLocations
         case namedShadowNames
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let geoLocations = geoLocations {
+            var geoLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .geoLocations)
+            for geolocationtarget0 in geoLocations {
+                try geoLocationsContainer.encode(geolocationtarget0)
+            }
+        }
         if let namedShadowNames = namedShadowNames {
             var namedShadowNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .namedShadowNames)
             for shadowname0 in namedShadowNames {
@@ -24102,19 +24148,38 @@ extension IoTClientTypes.IndexingFilter: Swift.Codable {
             }
         }
         namedShadowNames = namedShadowNamesDecoded0
+        let geoLocationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.GeoLocationTarget?].self, forKey: .geoLocations)
+        var geoLocationsDecoded0:[IoTClientTypes.GeoLocationTarget]? = nil
+        if let geoLocationsContainer = geoLocationsContainer {
+            geoLocationsDecoded0 = [IoTClientTypes.GeoLocationTarget]()
+            for structure0 in geoLocationsContainer {
+                if let structure0 = structure0 {
+                    geoLocationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        geoLocations = geoLocationsDecoded0
     }
 }
 
 extension IoTClientTypes {
-    /// Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in filter.
+    /// Provides additional selections for named shadows and geolocation data. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in namedShadowNames filter. To add geolocation data to your fleet indexing configuration:
+    ///
+    /// * If you store geolocation data in a class/unnamed shadow, set thingIndexingMode to be REGISTRY_AND_SHADOW and specify your geolocation data in geoLocations filter.
+    ///
+    /// * If you store geolocation data in a named shadow, set namedShadowIndexingMode to be ON, add the shadow name in namedShadowNames filter, and specify your geolocation data in geoLocations filter. For more information, see [Managing fleet indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html).
     public struct IndexingFilter: Swift.Equatable {
+        /// The list of geolocation targets that you select to index. The default maximum number of geolocation targets for indexing is 1. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
+        public var geoLocations: [IoTClientTypes.GeoLocationTarget]?
         /// The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
         public var namedShadowNames: [Swift.String]?
 
         public init(
+            geoLocations: [IoTClientTypes.GeoLocationTarget]? = nil,
             namedShadowNames: [Swift.String]? = nil
         )
         {
+            self.geoLocations = geoLocations
             self.namedShadowNames = namedShadowNames
         }
     }
@@ -25037,7 +25102,7 @@ extension IoTClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// A short text description of the job.
         public var description: Swift.String?
-        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
         public var destinationPackageVersions: [Swift.String]?
         /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public var documentParameters: [Swift.String:Swift.String]?
@@ -35295,12 +35360,16 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.MetricToRetain: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportMetric
         case metric
         case metricDimension
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportMetric = self.exportMetric {
+            try encodeContainer.encode(exportMetric, forKey: .exportMetric)
+        }
         if let metric = self.metric {
             try encodeContainer.encode(metric, forKey: .metric)
         }
@@ -35315,12 +35384,16 @@ extension IoTClientTypes.MetricToRetain: Swift.Codable {
         metric = metricDecoded
         let metricDimensionDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricDimension.self, forKey: .metricDimension)
         metricDimension = metricDimensionDecoded
+        let exportMetricDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exportMetric)
+        exportMetric = exportMetricDecoded
     }
 }
 
 extension IoTClientTypes {
     /// The metric you want to retain. Dimensions are optional.
     public struct MetricToRetain: Swift.Equatable {
+        /// Value added in both Behavior and AdditionalMetricsToRetainV2 to indicate if Device Defender Detect should export the corresponding metrics.
+        public var exportMetric: Swift.Bool?
         /// What is measured by the behavior.
         /// This member is required.
         public var metric: Swift.String?
@@ -35328,10 +35401,12 @@ extension IoTClientTypes {
         public var metricDimension: IoTClientTypes.MetricDimension?
 
         public init(
+            exportMetric: Swift.Bool? = nil,
             metric: Swift.String? = nil,
             metricDimension: IoTClientTypes.MetricDimension? = nil
         )
         {
+            self.exportMetric = exportMetric
             self.metric = metric
             self.metricDimension = metricDimension
         }
@@ -35467,6 +35542,53 @@ extension IoTClientTypes {
             self.numbers = numbers
             self.ports = ports
             self.strings = strings
+        }
+    }
+
+}
+
+extension IoTClientTypes.MetricsExportConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mqttTopic
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mqttTopic = self.mqttTopic {
+            try encodeContainer.encode(mqttTopic, forKey: .mqttTopic)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mqttTopicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mqttTopic)
+        mqttTopic = mqttTopicDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// Set configurations for metrics export.
+    public struct MetricsExportConfig: Swift.Equatable {
+        /// The MQTT topic that Device Defender Detect should publish messages to for metrics export.
+        /// This member is required.
+        public var mqttTopic: Swift.String?
+        /// This role ARN has permission to publish MQTT messages, after which Device Defender Detect can assume the role and publish messages on your behalf.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            mqttTopic: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.mqttTopic = mqttTopic
+            self.roleArn = roleArn
         }
     }
 
@@ -38805,44 +38927,6 @@ extension IoTClientTypes {
 
 }
 
-public struct ReplaceTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ReplaceTopicRuleInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<ReplaceTopicRuleInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ReplaceTopicRuleOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let topicRulePayload = input.operationInput.topicRulePayload {
-                let topicRulePayloadData = try encoder.encode(topicRulePayload)
-                let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                input.builder.withBody(topicRulePayloadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let topicRulePayloadData = "{}".data(using: .utf8)!
-                    let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                    input.builder.withBody(topicRulePayloadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<ReplaceTopicRuleInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<ReplaceTopicRuleOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension ReplaceTopicRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case topicRulePayload
@@ -40008,7 +40092,7 @@ extension SearchIndexInput: ClientRuntime.URLPathProvider {
 public struct SearchIndexInput: Swift.Equatable {
     /// The search index name.
     public var indexName: Swift.String?
-    /// The maximum number of results to return at one time.
+    /// The maximum number of results to return per page at one time. The response might contain fewer results but will never contain more.
     public var maxResults: Swift.Int?
     /// The token used to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
@@ -40702,44 +40786,6 @@ enum SetDefaultPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public struct SetLoggingOptionsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "SetLoggingOptionsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<SetLoggingOptionsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SetLoggingOptionsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let loggingOptionsPayload = input.operationInput.loggingOptionsPayload {
-                let loggingOptionsPayloadData = try encoder.encode(loggingOptionsPayload)
-                let loggingOptionsPayloadBody = ClientRuntime.HttpBody.data(loggingOptionsPayloadData)
-                input.builder.withBody(loggingOptionsPayloadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let loggingOptionsPayloadData = "{}".data(using: .utf8)!
-                    let loggingOptionsPayloadBody = ClientRuntime.HttpBody.data(loggingOptionsPayloadData)
-                    input.builder.withBody(loggingOptionsPayloadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<SetLoggingOptionsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SetLoggingOptionsOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension SetLoggingOptionsInput: Swift.Encodable {
@@ -42642,6 +42688,38 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension IoTClientTypes {
+    public enum TargetFieldOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case latlon
+        case lonlat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetFieldOrder] {
+            return [
+                .latlon,
+                .lonlat,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .latlon: return "LatLon"
+            case .lonlat: return "LonLat"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TargetFieldOrder(rawValue: rawValue) ?? TargetFieldOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTClientTypes {
     public enum TargetSelection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case continuous
         case snapshot
@@ -43851,7 +43929,7 @@ extension IoTClientTypes {
     public struct ThingGroupIndexingConfiguration: Swift.Equatable {
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public var customFields: [IoTClientTypes.Field]?
-        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide.
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide. You can't modify managed fields by updating fleet indexing configuration.
         public var managedFields: [IoTClientTypes.Field]?
         /// Thing group indexing mode.
         /// This member is required.
@@ -44108,9 +44186,13 @@ extension IoTClientTypes {
         ///
         /// For more information about Device Defender violations, see [Device Defender Detect.](https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-detect.html)
         public var deviceDefenderIndexingMode: IoTClientTypes.DeviceDefenderIndexingMode?
-        /// Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in filter.
+        /// Provides additional selections for named shadows and geolocation data. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in namedShadowNames filter. To add geolocation data to your fleet indexing configuration:
+        ///
+        /// * If you store geolocation data in a class/unnamed shadow, set thingIndexingMode to be REGISTRY_AND_SHADOW and specify your geolocation data in geoLocations filter.
+        ///
+        /// * If you store geolocation data in a named shadow, set namedShadowIndexingMode to be ON, add the shadow name in namedShadowNames filter, and specify your geolocation data in geoLocations filter. For more information, see [Managing fleet indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html).
         public var filter: IoTClientTypes.IndexingFilter?
-        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide. You can't modify managed fields by updating fleet indexing configuration.
         public var managedFields: [IoTClientTypes.Field]?
         /// Named shadow indexing mode. Valid values are:
         ///
@@ -48663,6 +48745,8 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         case deleteAdditionalMetricsToRetain
         case deleteAlertTargets
         case deleteBehaviors
+        case deleteMetricsExportConfig
+        case metricsExportConfig
         case securityProfileDescription
     }
 
@@ -48700,6 +48784,12 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         }
         if let deleteBehaviors = self.deleteBehaviors {
             try encodeContainer.encode(deleteBehaviors, forKey: .deleteBehaviors)
+        }
+        if let deleteMetricsExportConfig = self.deleteMetricsExportConfig {
+            try encodeContainer.encode(deleteMetricsExportConfig, forKey: .deleteMetricsExportConfig)
+        }
+        if let metricsExportConfig = self.metricsExportConfig {
+            try encodeContainer.encode(metricsExportConfig, forKey: .metricsExportConfig)
         }
         if let securityProfileDescription = self.securityProfileDescription {
             try encodeContainer.encode(securityProfileDescription, forKey: .securityProfileDescription)
@@ -48745,8 +48835,12 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     public var deleteAlertTargets: Swift.Bool?
     /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation, an exception occurs.
     public var deleteBehaviors: Swift.Bool?
+    /// Set the value as true to delete metrics export related configurations.
+    public var deleteMetricsExportConfig: Swift.Bool?
     /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
     public var expectedVersion: Swift.Int?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// A description of the security profile.
     public var securityProfileDescription: Swift.String?
     /// The name of the security profile you want to update.
@@ -48761,7 +48855,9 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
         deleteAdditionalMetricsToRetain: Swift.Bool? = nil,
         deleteAlertTargets: Swift.Bool? = nil,
         deleteBehaviors: Swift.Bool? = nil,
+        deleteMetricsExportConfig: Swift.Bool? = nil,
         expectedVersion: Swift.Int? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
     )
@@ -48773,7 +48869,9 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
         self.deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetain
         self.deleteAlertTargets = deleteAlertTargets
         self.deleteBehaviors = deleteBehaviors
+        self.deleteMetricsExportConfig = deleteMetricsExportConfig
         self.expectedVersion = expectedVersion
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
     }
@@ -48788,6 +48886,8 @@ struct UpdateSecurityProfileInputBody: Swift.Equatable {
     let deleteBehaviors: Swift.Bool?
     let deleteAlertTargets: Swift.Bool?
     let deleteAdditionalMetricsToRetain: Swift.Bool?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
+    let deleteMetricsExportConfig: Swift.Bool?
 }
 
 extension UpdateSecurityProfileInputBody: Swift.Decodable {
@@ -48799,6 +48899,8 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
         case deleteAdditionalMetricsToRetain
         case deleteAlertTargets
         case deleteBehaviors
+        case deleteMetricsExportConfig
+        case metricsExportConfig
         case securityProfileDescription
     }
 
@@ -48856,6 +48958,10 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
         deleteAlertTargets = deleteAlertTargetsDecoded
         let deleteAdditionalMetricsToRetainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAdditionalMetricsToRetain)
         deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetainDecoded
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
+        let deleteMetricsExportConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteMetricsExportConfig)
+        deleteMetricsExportConfig = deleteMetricsExportConfigDecoded
     }
 }
 
@@ -48870,6 +48976,7 @@ extension UpdateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = output.behaviors
             self.creationDate = output.creationDate
             self.lastModifiedDate = output.lastModifiedDate
+            self.metricsExportConfig = output.metricsExportConfig
             self.securityProfileArn = output.securityProfileArn
             self.securityProfileDescription = output.securityProfileDescription
             self.securityProfileName = output.securityProfileName
@@ -48881,6 +48988,7 @@ extension UpdateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = nil
             self.creationDate = nil
             self.lastModifiedDate = nil
+            self.metricsExportConfig = nil
             self.securityProfileArn = nil
             self.securityProfileDescription = nil
             self.securityProfileName = nil
@@ -48903,6 +49011,8 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// The time the security profile was last modified.
     public var lastModifiedDate: ClientRuntime.Date?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// The ARN of the security profile that was updated.
     public var securityProfileArn: Swift.String?
     /// The description of the security profile.
@@ -48919,6 +49029,7 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
         behaviors: [IoTClientTypes.Behavior]? = nil,
         creationDate: ClientRuntime.Date? = nil,
         lastModifiedDate: ClientRuntime.Date? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileArn: Swift.String? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
@@ -48931,6 +49042,7 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
         self.behaviors = behaviors
         self.creationDate = creationDate
         self.lastModifiedDate = lastModifiedDate
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileArn = securityProfileArn
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
@@ -48949,6 +49061,7 @@ struct UpdateSecurityProfileOutputBody: Swift.Equatable {
     let version: Swift.Int
     let creationDate: ClientRuntime.Date?
     let lastModifiedDate: ClientRuntime.Date?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
 }
 
 extension UpdateSecurityProfileOutputBody: Swift.Decodable {
@@ -48959,6 +49072,7 @@ extension UpdateSecurityProfileOutputBody: Swift.Decodable {
         case behaviors
         case creationDate
         case lastModifiedDate
+        case metricsExportConfig
         case securityProfileArn
         case securityProfileDescription
         case securityProfileName
@@ -49023,6 +49137,8 @@ extension UpdateSecurityProfileOutputBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
         lastModifiedDate = lastModifiedDateDecoded
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
     }
 }
 

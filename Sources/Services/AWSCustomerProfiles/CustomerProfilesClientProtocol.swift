@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Connect Customer Profiles Amazon Connect Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Amazon Connect contact center. If you're new to Amazon Connect, you might find it helpful to review the [Amazon Connect Administrator Guide](https://docs.aws.amazon.com/connect/latest/adminguide/).
 public protocol CustomerProfilesClientProtocol {
+    /// Performs the `AddProfileKey` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
     ///
     /// - Parameter AddProfileKeyInput : [no documentation found]
@@ -19,6 +21,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func addProfileKey(input: AddProfileKeyInput) async throws -> AddProfileKeyOutput
+    /// Performs the `CreateCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html) API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     ///
     /// - Parameter CreateCalculatedAttributeDefinitionInput : [no documentation found]
@@ -34,6 +38,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func createCalculatedAttributeDefinition(input: CreateCalculatedAttributeDefinitionInput) async throws -> CreateCalculatedAttributeDefinitionOutput
+    /// Performs the `CreateDomain` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply.
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
@@ -49,6 +55,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
+    /// Performs the `CreateEventStream` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     ///
     /// - Parameter CreateEventStreamInput : [no documentation found]
@@ -64,6 +72,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func createEventStream(input: CreateEventStreamInput) async throws -> CreateEventStreamOutput
+    /// Performs the `CreateIntegrationWorkflow` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
     /// - Parameter CreateIntegrationWorkflowInput : [no documentation found]
@@ -79,6 +89,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func createIntegrationWorkflow(input: CreateIntegrationWorkflowInput) async throws -> CreateIntegrationWorkflowOutput
+    /// Performs the `CreateProfile` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
@@ -94,6 +106,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
+    /// Performs the `DeleteCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     ///
     /// - Parameter DeleteCalculatedAttributeDefinitionInput : [no documentation found]
@@ -109,6 +123,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteCalculatedAttributeDefinition(input: DeleteCalculatedAttributeDefinitionInput) async throws -> DeleteCalculatedAttributeDefinitionOutput
+    /// Performs the `DeleteDomain` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
@@ -124,6 +140,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
+    /// Performs the `DeleteEventStream` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Disables and deletes the specified event stream.
     ///
     /// - Parameter DeleteEventStreamInput : [no documentation found]
@@ -139,6 +157,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutput
+    /// Performs the `DeleteIntegration` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Removes an integration from a specific domain.
     ///
     /// - Parameter DeleteIntegrationInput : [no documentation found]
@@ -154,6 +174,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
+    /// Performs the `DeleteProfile` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Deletes the standard customer profile and all data pertaining to the profile.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
@@ -169,6 +191,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
+    /// Performs the `DeleteProfileKey` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Removes a searchable key from a customer profile.
     ///
     /// - Parameter DeleteProfileKeyInput : [no documentation found]
@@ -184,6 +208,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteProfileKey(input: DeleteProfileKeyInput) async throws -> DeleteProfileKeyOutput
+    /// Performs the `DeleteProfileObject` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Removes an object associated with a profile of a given ProfileObjectType.
     ///
     /// - Parameter DeleteProfileObjectInput : [no documentation found]
@@ -199,6 +225,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteProfileObject(input: DeleteProfileObjectInput) async throws -> DeleteProfileObjectOutput
+    /// Performs the `DeleteProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType.
     ///
     /// - Parameter DeleteProfileObjectTypeInput : [no documentation found]
@@ -214,6 +242,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteProfileObjectType(input: DeleteProfileObjectTypeInput) async throws -> DeleteProfileObjectTypeOutput
+    /// Performs the `DeleteWorkflow` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
@@ -229,6 +259,25 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
+    /// Performs the `DetectProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    ///
+    /// The process of detecting profile object type mapping by using given objects.
+    ///
+    /// - Parameter DetectProfileObjectTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DetectProfileObjectTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `InternalServerException` : An internal service error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
+    /// - `ThrottlingException` : You exceeded the maximum number of requests.
+    func detectProfileObjectType(input: DetectProfileObjectTypeInput) async throws -> DetectProfileObjectTypeOutput
+    /// Performs the `GetAutoMergingPreview` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be merged. We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     ///
     /// - Parameter GetAutoMergingPreviewInput : [no documentation found]
@@ -244,6 +293,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getAutoMergingPreview(input: GetAutoMergingPreviewInput) async throws -> GetAutoMergingPreviewOutput
+    /// Performs the `GetCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Provides more information on a calculated attribute definition for Customer Profiles.
     ///
     /// - Parameter GetCalculatedAttributeDefinitionInput : [no documentation found]
@@ -259,6 +310,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getCalculatedAttributeDefinition(input: GetCalculatedAttributeDefinitionInput) async throws -> GetCalculatedAttributeDefinitionOutput
+    /// Performs the `GetCalculatedAttributeForProfile` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Retrieve a calculated attribute for a customer profile.
     ///
     /// - Parameter GetCalculatedAttributeForProfileInput : [no documentation found]
@@ -274,6 +327,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getCalculatedAttributeForProfile(input: GetCalculatedAttributeForProfileInput) async throws -> GetCalculatedAttributeForProfileOutput
+    /// Performs the `GetDomain` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns information about a specific domain.
     ///
     /// - Parameter GetDomainInput : [no documentation found]
@@ -289,6 +344,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
+    /// Performs the `GetEventStream` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns information about the specified event stream in a specific domain.
     ///
     /// - Parameter GetEventStreamInput : [no documentation found]
@@ -304,6 +361,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutput
+    /// Performs the `GetIdentityResolutionJob` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see [Use Identity Resolution to consolidate similar profiles](https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html).
     ///
     /// - Parameter GetIdentityResolutionJobInput : [no documentation found]
@@ -319,6 +378,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getIdentityResolutionJob(input: GetIdentityResolutionJobInput) async throws -> GetIdentityResolutionJobOutput
+    /// Performs the `GetIntegration` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns an integration for a domain.
     ///
     /// - Parameter GetIntegrationInput : [no documentation found]
@@ -334,6 +395,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
+    /// Performs the `GetMatches` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Before calling this API, use [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable identity resolution: set Matching to true. GetMatches returns potentially matching profiles, based on the results of the latest run of a machine learning process. The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3. Amazon Connect uses the following profile attributes to identify matches:
     ///
     /// * PhoneNumber
@@ -368,6 +431,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getMatches(input: GetMatchesInput) async throws -> GetMatchesOutput
+    /// Performs the `GetProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns the object types for a specific domain.
     ///
     /// - Parameter GetProfileObjectTypeInput : [no documentation found]
@@ -383,6 +448,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getProfileObjectType(input: GetProfileObjectTypeInput) async throws -> GetProfileObjectTypeOutput
+    /// Performs the `GetProfileObjectTypeTemplate` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
     ///
     /// - Parameter GetProfileObjectTypeTemplateInput : [no documentation found]
@@ -398,6 +465,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getProfileObjectTypeTemplate(input: GetProfileObjectTypeTemplateInput) async throws -> GetProfileObjectTypeTemplateOutput
+    /// Performs the `GetSimilarProfiles` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     ///
     /// - Parameter GetSimilarProfilesInput : [no documentation found]
@@ -413,6 +482,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getSimilarProfiles(input: GetSimilarProfilesInput) async throws -> GetSimilarProfilesOutput
+    /// Performs the `GetWorkflow` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Get details of specified workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
@@ -428,6 +499,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
+    /// Performs the `GetWorkflowSteps` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Get granular list of steps in workflow.
     ///
     /// - Parameter GetWorkflowStepsInput : [no documentation found]
@@ -443,6 +516,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func getWorkflowSteps(input: GetWorkflowStepsInput) async throws -> GetWorkflowStepsOutput
+    /// Performs the `ListAccountIntegrations` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     ///
     /// - Parameter ListAccountIntegrationsInput : [no documentation found]
@@ -458,6 +533,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listAccountIntegrations(input: ListAccountIntegrationsInput) async throws -> ListAccountIntegrationsOutput
+    /// Performs the `ListCalculatedAttributeDefinitions` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Lists calculated attribute definitions for Customer Profiles
     ///
     /// - Parameter ListCalculatedAttributeDefinitionsInput : [no documentation found]
@@ -473,6 +550,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listCalculatedAttributeDefinitions(input: ListCalculatedAttributeDefinitionsInput) async throws -> ListCalculatedAttributeDefinitionsOutput
+    /// Performs the `ListCalculatedAttributesForProfile` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Retrieve a list of calculated attributes for a customer profile.
     ///
     /// - Parameter ListCalculatedAttributesForProfileInput : [no documentation found]
@@ -488,6 +567,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listCalculatedAttributesForProfile(input: ListCalculatedAttributesForProfileInput) async throws -> ListCalculatedAttributesForProfileOutput
+    /// Performs the `ListDomains` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns a list of all the domains for an AWS account that have been created.
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
@@ -503,6 +584,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
+    /// Performs the `ListEventStreams` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns a list of all the event streams in a specific domain.
     ///
     /// - Parameter ListEventStreamsInput : [no documentation found]
@@ -518,6 +601,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listEventStreams(input: ListEventStreamsInput) async throws -> ListEventStreamsOutput
+    /// Performs the `ListIdentityResolutionJobs` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
     ///
     /// - Parameter ListIdentityResolutionJobsInput : [no documentation found]
@@ -533,6 +618,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listIdentityResolutionJobs(input: ListIdentityResolutionJobsInput) async throws -> ListIdentityResolutionJobsOutput
+    /// Performs the `ListIntegrations` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Lists all of the integrations in your domain.
     ///
     /// - Parameter ListIntegrationsInput : [no documentation found]
@@ -548,6 +635,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listIntegrations(input: ListIntegrationsInput) async throws -> ListIntegrationsOutput
+    /// Performs the `ListProfileObjects` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns a list of objects associated with a profile of a given ProfileObjectType.
     ///
     /// - Parameter ListProfileObjectsInput : [no documentation found]
@@ -563,6 +652,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listProfileObjects(input: ListProfileObjectsInput) async throws -> ListProfileObjectsOutput
+    /// Performs the `ListProfileObjectTypes` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Lists all of the templates available within the service.
     ///
     /// - Parameter ListProfileObjectTypesInput : [no documentation found]
@@ -578,6 +669,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listProfileObjectTypes(input: ListProfileObjectTypesInput) async throws -> ListProfileObjectTypesOutput
+    /// Performs the `ListProfileObjectTypeTemplates` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Lists all of the template information for object types.
     ///
     /// - Parameter ListProfileObjectTypeTemplatesInput : [no documentation found]
@@ -593,6 +686,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listProfileObjectTypeTemplates(input: ListProfileObjectTypeTemplatesInput) async throws -> ListProfileObjectTypeTemplatesOutput
+    /// Performs the `ListRuleBasedMatches` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Returns a set of MatchIds that belong to the given domain.
     ///
     /// - Parameter ListRuleBasedMatchesInput : [no documentation found]
@@ -608,6 +703,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listRuleBasedMatches(input: ListRuleBasedMatchesInput) async throws -> ListRuleBasedMatchesOutput
+    /// Performs the `ListTagsForResource` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -621,6 +718,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListWorkflows` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Query to list all workflows.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
@@ -636,6 +735,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
+    /// Performs the `MergeProfiles` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Runs an AWS Lambda job that does the following:
     ///
     /// * All the profileKeys in the ProfileToBeMerged will be moved to the main profile.
@@ -677,6 +778,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func mergeProfiles(input: MergeProfilesInput) async throws -> MergeProfilesOutput
+    /// Performs the `PutIntegration` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see [ TagResource ](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[ UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
     /// - Parameter PutIntegrationInput : [no documentation found]
@@ -692,6 +795,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutput
+    /// Performs the `PutProfileObject` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
     ///
     /// - Parameter PutProfileObjectInput : [no documentation found]
@@ -707,6 +812,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func putProfileObject(input: PutProfileObjectInput) async throws -> PutProfileObjectOutput
+    /// Performs the `PutProfileObjectType` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see [ TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
     /// - Parameter PutProfileObjectTypeInput : [no documentation found]
@@ -722,6 +829,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func putProfileObjectType(input: PutProfileObjectTypeInput) async throws -> PutProfileObjectTypeOutput
+    /// Performs the `SearchProfiles` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
     ///
     /// - Parameter SearchProfilesInput : [no documentation found]
@@ -737,6 +846,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutput
+    /// Performs the `TagResource` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -750,6 +861,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -763,6 +876,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `InternalServerException` : An internal service error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateCalculatedAttributeDefinition` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
     ///
     /// - Parameter UpdateCalculatedAttributeDefinitionInput : [no documentation found]
@@ -778,6 +893,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func updateCalculatedAttributeDefinition(input: UpdateCalculatedAttributeDefinitionInput) async throws -> UpdateCalculatedAttributeDefinitionOutput
+    /// Performs the `UpdateDomain` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
     /// - Parameter UpdateDomainInput : [no documentation found]
@@ -793,6 +910,8 @@ public protocol CustomerProfilesClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : You exceeded the maximum number of requests.
     func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput
+    /// Performs the `UpdateProfile` operation on the `CustomerProfiles_20200815` service.
+    ///
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]

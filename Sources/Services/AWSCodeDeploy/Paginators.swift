@@ -12,7 +12,7 @@ extension CodeDeployClient {
     ///     - input: A `[ListApplicationRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationRevisionsOutput`
     public func listApplicationRevisionsPaginated(input: ListApplicationRevisionsInput) -> ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(input: input, inputKey: \ListApplicationRevisionsInput.nextToken, outputKey: \ListApplicationRevisionsOutput.nextToken, paginationFunction: self.listApplicationRevisions(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationRevisions(input:))
     }
 }
 
@@ -29,7 +29,7 @@ extension ListApplicationRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationRevisionsInput, Output == ListApplicationRevisionsOutput {
+extension PaginatorSequence where OperationStackInput == ListApplicationRevisionsInput, OperationStackOutput == ListApplicationRevisionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationRevisionsPaginated`
     /// to access the nested member `[CodeDeployClientTypes.RevisionLocation]`
     /// - Returns: `[CodeDeployClientTypes.RevisionLocation]`
@@ -47,7 +47,7 @@ extension CodeDeployClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -76,7 +76,7 @@ extension CodeDeployClient {
     ///     - input: A `[ListDeploymentConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentConfigsOutput`
     public func listDeploymentConfigsPaginated(input: ListDeploymentConfigsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(input: input, inputKey: \ListDeploymentConfigsInput.nextToken, outputKey: \ListDeploymentConfigsOutput.nextToken, paginationFunction: self.listDeploymentConfigs(input:))
+        return ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentConfigs(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListDeploymentConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentConfigsInput, Output == ListDeploymentConfigsOutput {
+extension PaginatorSequence where OperationStackInput == ListDeploymentConfigsInput, OperationStackOutput == ListDeploymentConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentConfigsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -105,7 +105,7 @@ extension CodeDeployClient {
     ///     - input: A `[ListDeploymentGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentGroupsOutput`
     public func listDeploymentGroupsPaginated(input: ListDeploymentGroupsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(input: input, inputKey: \ListDeploymentGroupsInput.nextToken, outputKey: \ListDeploymentGroupsOutput.nextToken, paginationFunction: self.listDeploymentGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentGroups(input:))
     }
 }
 
@@ -117,7 +117,7 @@ extension ListDeploymentGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentGroupsInput, Output == ListDeploymentGroupsOutput {
+extension PaginatorSequence where OperationStackInput == ListDeploymentGroupsInput, OperationStackOutput == ListDeploymentGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentGroupsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -135,7 +135,7 @@ extension CodeDeployClient {
     ///     - input: A `[ListDeploymentInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentInstancesOutput`
     public func listDeploymentInstancesPaginated(input: ListDeploymentInstancesInput) -> ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(input: input, inputKey: \ListDeploymentInstancesInput.nextToken, outputKey: \ListDeploymentInstancesOutput.nextToken, paginationFunction: self.listDeploymentInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentInstances(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListDeploymentInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentInstancesInput, Output == ListDeploymentInstancesOutput {
+extension PaginatorSequence where OperationStackInput == ListDeploymentInstancesInput, OperationStackOutput == ListDeploymentInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentInstancesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -167,7 +167,7 @@ extension CodeDeployClient {
     ///     - input: A `[ListDeploymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutput`
     public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutput.nextToken, paginationFunction: self.listDeployments(input:))
+        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeployments(input:))
     }
 }
 
@@ -183,7 +183,7 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutput {
+extension PaginatorSequence where OperationStackInput == ListDeploymentsInput, OperationStackOutput == ListDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Amazon Chime SDK telephony APIs in this section enable developers to create PSTN calling solutions that use Amazon Chime SDK Voice Connectors, and Amazon Chime SDK SIP media applications. Developers can also order and manage phone numbers, create and manage Voice Connectors and SIP media applications, and run voice analytics.
 public protocol ChimeSDKVoiceClientProtocol {
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter AssociatePhoneNumbersWithVoiceConnectorInput : [no documentation found]
@@ -22,6 +24,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
     ///
     /// - Parameter AssociatePhoneNumbersWithVoiceConnectorGroupInput : [no documentation found]
@@ -40,6 +44,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput
+    /// Performs the `BatchDeletePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
     /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
@@ -57,6 +63,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput) async throws -> BatchDeletePhoneNumberOutput
+    /// Performs the `BatchUpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates one or more phone numbers.
     ///
     /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
@@ -74,6 +82,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput) async throws -> BatchUpdatePhoneNumberOutput
+    /// Performs the `CreatePhoneNumberOrder` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
     ///
     /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
@@ -92,6 +102,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput) async throws -> CreatePhoneNumberOrderOutput
+    /// Performs the `CreateProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers.
     ///
     /// - Parameter CreateProxySessionInput : [no documentation found]
@@ -109,6 +121,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutput
+    /// Performs the `CreateSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a SIP media application. For more information about SIP media applications, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
     /// - Parameter CreateSipMediaApplicationInput : [no documentation found]
@@ -128,6 +142,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutput
+    /// Performs the `CreateSipMediaApplicationCall` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
     ///
     /// - Parameter CreateSipMediaApplicationCallInput : [no documentation found]
@@ -146,6 +162,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutput
+    /// Performs the `CreateSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
     /// - Parameter CreateSipRuleInput : [no documentation found]
@@ -165,6 +183,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutput
+    /// Performs the `CreateVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see [Managing Amazon Chime SDK Voice Connector groups](https://docs.aws.amazon.com/chime-sdk/latest/ag/voice-connector-groups.html) in the Amazon Chime SDK Administrator Guide.
     ///
     /// - Parameter CreateVoiceConnectorInput : [no documentation found]
@@ -183,6 +203,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutput
+    /// Performs the `CreateVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
     ///
     /// - Parameter CreateVoiceConnectorGroupInput : [no documentation found]
@@ -201,6 +223,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutput
+    /// Performs the `CreateVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
     /// - Parameter CreateVoiceProfileInput : [no documentation found]
@@ -222,6 +246,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createVoiceProfile(input: CreateVoiceProfileInput) async throws -> CreateVoiceProfileOutput
+    /// Performs the `CreateVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
     /// - Parameter CreateVoiceProfileDomainInput : [no documentation found]
@@ -241,6 +267,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func createVoiceProfileDomain(input: CreateVoiceProfileDomainInput) async throws -> CreateVoiceProfileDomainOutput
+    /// Performs the `DeletePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently.
     ///
     /// - Parameter DeletePhoneNumberInput : [no documentation found]
@@ -258,6 +286,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deletePhoneNumber(input: DeletePhoneNumberInput) async throws -> DeletePhoneNumberOutput
+    /// Performs the `DeleteProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter DeleteProxySessionInput : [no documentation found]
@@ -275,6 +305,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutput
+    /// Performs the `DeleteSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a SIP media application.
     ///
     /// - Parameter DeleteSipMediaApplicationInput : [no documentation found]
@@ -293,6 +325,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutput
+    /// Performs the `DeleteSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a SIP rule.
     ///
     /// - Parameter DeleteSipRuleInput : [no documentation found]
@@ -311,6 +345,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutput
+    /// Performs the `DeleteVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted.
     ///
     /// - Parameter DeleteVoiceConnectorInput : [no documentation found]
@@ -329,6 +365,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutput
+    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter DeleteVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
@@ -346,6 +384,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput
+    /// Performs the `DeleteVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
     ///
     /// - Parameter DeleteVoiceConnectorGroupInput : [no documentation found]
@@ -364,6 +404,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutput
+    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the origination settings.
     ///
     /// - Parameter DeleteVoiceConnectorOriginationInput : [no documentation found]
@@ -381,6 +423,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutput
+    /// Performs the `DeleteVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter DeleteVoiceConnectorProxyInput : [no documentation found]
@@ -398,6 +442,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutput
+    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a Voice Connector's streaming configuration.
     ///
     /// - Parameter DeleteVoiceConnectorStreamingConfigurationInput : [no documentation found]
@@ -415,6 +461,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput
+    /// Performs the `DeleteVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the termination settings.
     ///
     /// - Parameter DeleteVoiceConnectorTerminationInput : [no documentation found]
@@ -432,6 +480,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutput
+    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
     ///
     /// - Parameter DeleteVoiceConnectorTerminationCredentialsInput : [no documentation found]
@@ -449,6 +499,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput
+    /// Performs the `DeleteVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
     ///
     /// - Parameter DeleteVoiceProfileInput : [no documentation found]
@@ -468,6 +520,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceProfile(input: DeleteVoiceProfileInput) async throws -> DeleteVoiceProfileOutput
+    /// Performs the `DeleteVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible.
     ///
     /// - Parameter DeleteVoiceProfileDomainInput : [no documentation found]
@@ -487,6 +541,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func deleteVoiceProfileDomain(input: DeleteVoiceProfileDomainInput) async throws -> DeleteVoiceProfileDomainOutput
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorInput : [no documentation found]
@@ -504,6 +560,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group.
     ///
     /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorGroupInput : [no documentation found]
@@ -521,6 +579,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput
+    /// Performs the `GetGlobalSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
     /// - Parameter GetGlobalSettingsInput : [no documentation found]
@@ -537,6 +597,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutput
+    /// Performs the `GetPhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
     /// - Parameter GetPhoneNumberInput : [no documentation found]
@@ -554,6 +616,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getPhoneNumber(input: GetPhoneNumberInput) async throws -> GetPhoneNumberOutput
+    /// Performs the `GetPhoneNumberOrder` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
     /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
@@ -571,6 +635,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getPhoneNumberOrder(input: GetPhoneNumberOrderInput) async throws -> GetPhoneNumberOrderOutput
+    /// Performs the `GetPhoneNumberSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
     /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
@@ -587,6 +653,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getPhoneNumberSettings(input: GetPhoneNumberSettingsInput) async throws -> GetPhoneNumberSettingsOutput
+    /// Performs the `GetProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter GetProxySessionInput : [no documentation found]
@@ -604,6 +672,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutput
+    /// Performs the `GetSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
     ///
     /// - Parameter GetSipMediaApplicationInput : [no documentation found]
@@ -621,6 +691,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutput
+    /// Performs the `GetSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Gets the Alexa Skill configuration for the SIP media application.
     ///
     /// - Parameter GetSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
@@ -638,6 +710,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getSipMediaApplicationAlexaSkillConfiguration(input: GetSipMediaApplicationAlexaSkillConfigurationInput) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutput
+    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the logging configuration for the specified SIP media application.
     ///
     /// - Parameter GetSipMediaApplicationLoggingConfigurationInput : [no documentation found]
@@ -655,6 +729,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutput
+    /// Performs the `GetSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
     ///
     /// - Parameter GetSipRuleInput : [no documentation found]
@@ -672,6 +748,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutput
+    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of the specified speaker search task.
     ///
     /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
@@ -691,6 +769,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutput
+    /// Performs the `GetVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
     ///
     /// - Parameter GetVoiceConnectorInput : [no documentation found]
@@ -708,6 +788,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutput
+    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the emergency calling configuration details for the specified Voice Connector.
     ///
     /// - Parameter GetVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
@@ -725,6 +807,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput
+    /// Performs the `GetVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
     ///
     /// - Parameter GetVoiceConnectorGroupInput : [no documentation found]
@@ -742,6 +826,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutput
+    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     ///
     /// - Parameter GetVoiceConnectorLoggingConfigurationInput : [no documentation found]
@@ -759,6 +845,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutput
+    /// Performs the `GetVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the origination settings for the specified Voice Connector.
     ///
     /// - Parameter GetVoiceConnectorOriginationInput : [no documentation found]
@@ -776,6 +864,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutput
+    /// Performs the `GetVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter GetVoiceConnectorProxyInput : [no documentation found]
@@ -793,6 +883,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutput
+    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
     ///
     /// - Parameter GetVoiceConnectorStreamingConfigurationInput : [no documentation found]
@@ -810,6 +902,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutput
+    /// Performs the `GetVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the termination setting details for the specified Voice Connector.
     ///
     /// - Parameter GetVoiceConnectorTerminationInput : [no documentation found]
@@ -827,6 +921,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutput
+    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter GetVoiceConnectorTerminationHealthInput : [no documentation found]
@@ -844,6 +940,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutput
+    /// Performs the `GetVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of the specified voice profile.
     ///
     /// - Parameter GetVoiceProfileInput : [no documentation found]
@@ -862,6 +960,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceProfile(input: GetVoiceProfileInput) async throws -> GetVoiceProfileOutput
+    /// Performs the `GetVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of the specified voice profile domain.
     ///
     /// - Parameter GetVoiceProfileDomainInput : [no documentation found]
@@ -880,6 +980,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceProfileDomain(input: GetVoiceProfileDomainInput) async throws -> GetVoiceProfileDomainOutput
+    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Retrieves the details of a voice tone analysis task.
     ///
     /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
@@ -899,6 +1001,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutput
+    /// Performs the `ListAvailableVoiceConnectorRegions` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter ListAvailableVoiceConnectorRegionsInput : [no documentation found]
@@ -915,6 +1019,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listAvailableVoiceConnectorRegions(input: ListAvailableVoiceConnectorRegionsInput) async throws -> ListAvailableVoiceConnectorRegionsOutput
+    /// Performs the `ListPhoneNumberOrders` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
     ///
     /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
@@ -931,6 +1037,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listPhoneNumberOrders(input: ListPhoneNumberOrdersInput) async throws -> ListPhoneNumberOrdersOutput
+    /// Performs the `ListPhoneNumbers` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the phone numbers for the specified Amazon Chime SDK account, Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice Connector group.
     ///
     /// - Parameter ListPhoneNumbersInput : [no documentation found]
@@ -948,6 +1056,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput
+    /// Performs the `ListProxySessions` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter ListProxySessionsInput : [no documentation found]
@@ -965,6 +1075,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutput
+    /// Performs the `ListSipMediaApplications` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the SIP media applications under the administrator's AWS account.
     ///
     /// - Parameter ListSipMediaApplicationsInput : [no documentation found]
@@ -981,6 +1093,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutput
+    /// Performs the `ListSipRules` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the SIP rules under the administrator's AWS account.
     ///
     /// - Parameter ListSipRulesInput : [no documentation found]
@@ -997,6 +1111,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutput
+    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the countries that you can order phone numbers from.
     ///
     /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
@@ -1014,6 +1130,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listSupportedPhoneNumberCountries(input: ListSupportedPhoneNumberCountriesInput) async throws -> ListSupportedPhoneNumberCountriesOutput
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Returns a list of the tags in a given resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1030,6 +1148,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListVoiceConnectorGroups` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS account.
     ///
     /// - Parameter ListVoiceConnectorGroupsInput : [no documentation found]
@@ -1046,6 +1166,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutput
+    /// Performs the `ListVoiceConnectors` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account.
     ///
     /// - Parameter ListVoiceConnectorsInput : [no documentation found]
@@ -1062,6 +1184,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutput
+    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter ListVoiceConnectorTerminationCredentialsInput : [no documentation found]
@@ -1079,6 +1203,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutput
+    /// Performs the `ListVoiceProfileDomains` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the specified voice profile domains in the administrator's AWS account.
     ///
     /// - Parameter ListVoiceProfileDomainsInput : [no documentation found]
@@ -1096,6 +1222,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listVoiceProfileDomains(input: ListVoiceProfileDomainsInput) async throws -> ListVoiceProfileDomainsOutput
+    /// Performs the `ListVoiceProfiles` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Lists the voice profiles in a voice profile domain.
     ///
     /// - Parameter ListVoiceProfilesInput : [no documentation found]
@@ -1113,6 +1241,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func listVoiceProfiles(input: ListVoiceProfilesInput) async throws -> ListVoiceProfilesOutput
+    /// Performs the `PutSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the Alexa Skill configuration for the SIP media application.
     ///
     /// - Parameter PutSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
@@ -1130,6 +1260,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putSipMediaApplicationAlexaSkillConfiguration(input: PutSipMediaApplicationAlexaSkillConfigurationInput) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutput
+    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the logging configuration for the specified SIP media application.
     ///
     /// - Parameter PutSipMediaApplicationLoggingConfigurationInput : [no documentation found]
@@ -1147,6 +1279,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutput
+    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's emergency calling configuration.
     ///
     /// - Parameter PutVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
@@ -1164,6 +1298,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput
+    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's logging configuration.
     ///
     /// - Parameter PutVoiceConnectorLoggingConfigurationInput : [no documentation found]
@@ -1181,6 +1317,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutput
+    /// Performs the `PutVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's origination settings.
     ///
     /// - Parameter PutVoiceConnectorOriginationInput : [no documentation found]
@@ -1198,6 +1336,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutput
+    /// Performs the `PutVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter PutVoiceConnectorProxyInput : [no documentation found]
@@ -1216,6 +1356,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutput
+    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's streaming configuration settings.
     ///
     /// - Parameter PutVoiceConnectorStreamingConfigurationInput : [no documentation found]
@@ -1233,6 +1375,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutput
+    /// Performs the `PutVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's termination settings.
     ///
     /// - Parameter PutVoiceConnectorTerminationInput : [no documentation found]
@@ -1251,6 +1395,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutput
+    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates a Voice Connector's termination credentials.
     ///
     /// - Parameter PutVoiceConnectorTerminationCredentialsInput : [no documentation found]
@@ -1268,6 +1414,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutput
+    /// Performs the `RestorePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Restores a deleted phone number.
     ///
     /// - Parameter RestorePhoneNumberInput : [no documentation found]
@@ -1286,6 +1434,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func restorePhoneNumber(input: RestorePhoneNumberInput) async throws -> RestorePhoneNumberOutput
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Searches the provisioned phone numbers in an organization.
     ///
     /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
@@ -1303,6 +1453,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput
+    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
     /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
@@ -1325,6 +1477,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
     func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutput
+    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
     /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
@@ -1347,6 +1501,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
     func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutput
+    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Stops a speaker search task.
     ///
     /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
@@ -1367,6 +1523,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
     func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutput
+    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Stops a voice tone analysis task.
     ///
     /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
@@ -1387,6 +1545,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
     func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutput
+    /// Performs the `TagResource` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Adds a tag to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1404,6 +1564,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1420,6 +1582,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateGlobalSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
     /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
@@ -1436,6 +1600,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
+    /// Performs the `UpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
     /// - Parameter UpdatePhoneNumberInput : [no documentation found]
@@ -1454,6 +1620,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
+    /// Performs the `UpdatePhoneNumberSettings` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
     /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
@@ -1470,6 +1638,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput) async throws -> UpdatePhoneNumberSettingsOutput
+    /// Performs the `UpdateProxySession` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities.
     ///
     /// - Parameter UpdateProxySessionInput : [no documentation found]
@@ -1487,6 +1657,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutput
+    /// Performs the `UpdateSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the details of the specified SIP media application.
     ///
     /// - Parameter UpdateSipMediaApplicationInput : [no documentation found]
@@ -1505,6 +1677,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutput
+    /// Performs the `UpdateSipMediaApplicationCall` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
     ///
     /// - Parameter UpdateSipMediaApplicationCallInput : [no documentation found]
@@ -1523,6 +1697,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutput
+    /// Performs the `UpdateSipRule` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the details of the specified SIP rule.
     ///
     /// - Parameter UpdateSipRuleInput : [no documentation found]
@@ -1542,6 +1718,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutput
+    /// Performs the `UpdateVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the details for the specified Amazon Chime SDK Voice Connector.
     ///
     /// - Parameter UpdateVoiceConnectorInput : [no documentation found]
@@ -1559,6 +1737,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutput
+    /// Performs the `UpdateVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
     ///
     /// - Parameter UpdateVoiceConnectorGroupInput : [no documentation found]
@@ -1577,6 +1757,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutput
+    /// Performs the `UpdateVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the specified voice profile’s voice print and refreshes its expiration timestamp. As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your caller’s biometric identifiers and biometric information (“biometric data”) in the form of a digital voiceprint requires the caller’s informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other state privacy laws. You must provide a written release to each caller through a process that clearly reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement with AWS governing your use of the service.
     ///
     /// - Parameter UpdateVoiceProfileInput : [no documentation found]
@@ -1597,6 +1779,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateVoiceProfile(input: UpdateVoiceProfileInput) async throws -> UpdateVoiceProfileOutput
+    /// Performs the `UpdateVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Updates the settings for the specified voice profile domain.
     ///
     /// - Parameter UpdateVoiceProfileDomainInput : [no documentation found]
@@ -1615,6 +1799,8 @@ public protocol ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     func updateVoiceProfileDomain(input: UpdateVoiceProfileDomainInput) async throws -> UpdateVoiceProfileDomainOutput
+    /// Performs the `ValidateE911Address` operation on the `ChimeSDKTelephonyService` service.
+    ///
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
     ///
     /// - Parameter ValidateE911AddressInput : [no documentation found]

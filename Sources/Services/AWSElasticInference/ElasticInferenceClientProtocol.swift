@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Elastic Inference public APIs. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
 public protocol ElasticInferenceClientProtocol {
+    /// Performs the `DescribeAcceleratorOfferings` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    ///
     /// Describes the locations in which a given accelerator type or set of types is present in a given region. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter DescribeAcceleratorOfferingsInput : [no documentation found]
@@ -17,6 +19,8 @@ public protocol ElasticInferenceClientProtocol {
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
     func describeAcceleratorOfferings(input: DescribeAcceleratorOfferingsInput) async throws -> DescribeAcceleratorOfferingsOutput
+    /// Performs the `DescribeAccelerators` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    ///
     /// Describes information over a provided set of accelerators belonging to an account. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter DescribeAcceleratorsInput : [no documentation found]
@@ -30,6 +34,8 @@ public protocol ElasticInferenceClientProtocol {
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
     func describeAccelerators(input: DescribeAcceleratorsInput) async throws -> DescribeAcceleratorsOutput
+    /// Performs the `DescribeAcceleratorTypes` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    ///
     /// Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter DescribeAcceleratorTypesInput : [no documentation found]
@@ -41,6 +47,8 @@ public protocol ElasticInferenceClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     func describeAcceleratorTypes(input: DescribeAcceleratorTypesInput) async throws -> DescribeAcceleratorTypesOutput
+    /// Performs the `ListTagsForResource` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    ///
     /// Returns all tags of an Elastic Inference Accelerator. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -54,6 +62,8 @@ public protocol ElasticInferenceClientProtocol {
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `TagResource` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    ///
     /// Adds the specified tags to an Elastic Inference Accelerator. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -67,6 +77,8 @@ public protocol ElasticInferenceClientProtocol {
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
+    ///
     /// Removes the specified tags from an Elastic Inference Accelerator. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

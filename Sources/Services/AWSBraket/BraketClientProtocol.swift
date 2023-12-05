@@ -6,6 +6,8 @@ import ClientRuntime
 ///
 /// * [Amazon Braket Developer Guide](https://docs.aws.amazon.com/braket/latest/developerguide/what-is-braket.html)
 public protocol BraketClientProtocol {
+    /// Performs the `CancelJob` operation on the `Braket` service.
+    ///
     /// Cancels an Amazon Braket job.
     ///
     /// - Parameter CancelJobInput : [no documentation found]
@@ -22,6 +24,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
+    /// Performs the `CancelQuantumTask` operation on the `Braket` service.
+    ///
     /// Cancels the specified task.
     ///
     /// - Parameter CancelQuantumTaskInput : [no documentation found]
@@ -38,6 +42,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelQuantumTask(input: CancelQuantumTaskInput) async throws -> CancelQuantumTaskOutput
+    /// Performs the `CreateJob` operation on the `Braket` service.
+    ///
     /// Creates an Amazon Braket job.
     ///
     /// - Parameter CreateJobInput : [no documentation found]
@@ -55,6 +61,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+    /// Performs the `CreateQuantumTask` operation on the `Braket` service.
+    ///
     /// Creates a quantum task.
     ///
     /// - Parameter CreateQuantumTaskInput : [no documentation found]
@@ -72,6 +80,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createQuantumTask(input: CreateQuantumTaskInput) async throws -> CreateQuantumTaskOutput
+    /// Performs the `GetDevice` operation on the `Braket` service.
+    ///
     /// Retrieves the devices available in Amazon Braket. For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
     ///
     /// - Parameter GetDeviceInput : [no documentation found]
@@ -87,6 +97,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
+    /// Performs the `GetJob` operation on the `Braket` service.
+    ///
     /// Retrieves the specified Amazon Braket job.
     ///
     /// - Parameter GetJobInput : [no documentation found]
@@ -102,6 +114,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getJob(input: GetJobInput) async throws -> GetJobOutput
+    /// Performs the `GetQuantumTask` operation on the `Braket` service.
+    ///
     /// Retrieves the specified quantum task.
     ///
     /// - Parameter GetQuantumTaskInput : [no documentation found]
@@ -117,6 +131,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getQuantumTask(input: GetQuantumTaskInput) async throws -> GetQuantumTaskOutput
+    /// Performs the `ListTagsForResource` operation on the `Braket` service.
+    ///
     /// Shows the tags associated with this resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -130,6 +146,8 @@ public protocol BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `SearchDevices` operation on the `Braket` service.
+    ///
     /// Searches for devices using the specified filters.
     ///
     /// - Parameter SearchDevicesInput : [no documentation found]
@@ -144,6 +162,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput
+    /// Performs the `SearchJobs` operation on the `Braket` service.
+    ///
     /// Searches for Amazon Braket jobs that match the specified filter values.
     ///
     /// - Parameter SearchJobsInput : [no documentation found]
@@ -158,6 +178,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput
+    /// Performs the `SearchQuantumTasks` operation on the `Braket` service.
+    ///
     /// Searches for tasks that match the specified filter values.
     ///
     /// - Parameter SearchQuantumTasksInput : [no documentation found]
@@ -172,6 +194,8 @@ public protocol BraketClientProtocol {
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func searchQuantumTasks(input: SearchQuantumTasksInput) async throws -> SearchQuantumTasksOutput
+    /// Performs the `TagResource` operation on the `Braket` service.
+    ///
     /// Add a tag to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -185,6 +209,8 @@ public protocol BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `Braket` service.
+    ///
     /// Remove tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

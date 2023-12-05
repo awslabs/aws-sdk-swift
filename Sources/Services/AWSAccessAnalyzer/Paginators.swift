@@ -3,6 +3,38 @@
 import ClientRuntime
 
 extension AccessAnalyzerClient {
+    /// Paginate over `[GetFindingV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetFindingV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingV2Output`
+    public func getFindingV2Paginated(input: GetFindingV2Input) -> ClientRuntime.PaginatorSequence<GetFindingV2Input, GetFindingV2Output> {
+        return ClientRuntime.PaginatorSequence<GetFindingV2Input, GetFindingV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindingV2(input:))
+    }
+}
+
+extension GetFindingV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetFindingV2Input {
+        return GetFindingV2Input(
+            analyzerArn: self.analyzerArn,
+            id: self.id,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetFindingV2Input, OperationStackOutput == GetFindingV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getFindingV2Paginated`
+    /// to access the nested member `[AccessAnalyzerClientTypes.FindingDetails]`
+    /// - Returns: `[AccessAnalyzerClientTypes.FindingDetails]`
+    public func findingDetails() async throws -> [AccessAnalyzerClientTypes.FindingDetails] {
+        return try await self.asyncCompactMap { item in item.findingDetails }
+    }
+}
+extension AccessAnalyzerClient {
     /// Paginate over `[ListAccessPreviewFindingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -12,7 +44,7 @@ extension AccessAnalyzerClient {
     ///     - input: A `[ListAccessPreviewFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPreviewFindingsOutput`
     public func listAccessPreviewFindingsPaginated(input: ListAccessPreviewFindingsInput) -> ClientRuntime.PaginatorSequence<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutput>(input: input, inputKey: \ListAccessPreviewFindingsInput.nextToken, outputKey: \ListAccessPreviewFindingsOutput.nextToken, paginationFunction: self.listAccessPreviewFindings(input:))
+        return ClientRuntime.PaginatorSequence<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPreviewFindings(input:))
     }
 }
 
@@ -27,7 +59,7 @@ extension ListAccessPreviewFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccessPreviewFindingsInput, Output == ListAccessPreviewFindingsOutput {
+extension PaginatorSequence where OperationStackInput == ListAccessPreviewFindingsInput, OperationStackOutput == ListAccessPreviewFindingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccessPreviewFindingsPaginated`
     /// to access the nested member `[AccessAnalyzerClientTypes.AccessPreviewFinding]`
     /// - Returns: `[AccessAnalyzerClientTypes.AccessPreviewFinding]`
@@ -45,7 +77,7 @@ extension AccessAnalyzerClient {
     ///     - input: A `[ListAccessPreviewsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPreviewsOutput`
     public func listAccessPreviewsPaginated(input: ListAccessPreviewsInput) -> ClientRuntime.PaginatorSequence<ListAccessPreviewsInput, ListAccessPreviewsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessPreviewsInput, ListAccessPreviewsOutput>(input: input, inputKey: \ListAccessPreviewsInput.nextToken, outputKey: \ListAccessPreviewsOutput.nextToken, paginationFunction: self.listAccessPreviews(input:))
+        return ClientRuntime.PaginatorSequence<ListAccessPreviewsInput, ListAccessPreviewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPreviews(input:))
     }
 }
 
@@ -58,7 +90,7 @@ extension ListAccessPreviewsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccessPreviewsInput, Output == ListAccessPreviewsOutput {
+extension PaginatorSequence where OperationStackInput == ListAccessPreviewsInput, OperationStackOutput == ListAccessPreviewsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccessPreviewsPaginated`
     /// to access the nested member `[AccessAnalyzerClientTypes.AccessPreviewSummary]`
     /// - Returns: `[AccessAnalyzerClientTypes.AccessPreviewSummary]`
@@ -76,7 +108,7 @@ extension AccessAnalyzerClient {
     ///     - input: A `[ListAnalyzedResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnalyzedResourcesOutput`
     public func listAnalyzedResourcesPaginated(input: ListAnalyzedResourcesInput) -> ClientRuntime.PaginatorSequence<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutput>(input: input, inputKey: \ListAnalyzedResourcesInput.nextToken, outputKey: \ListAnalyzedResourcesOutput.nextToken, paginationFunction: self.listAnalyzedResources(input:))
+        return ClientRuntime.PaginatorSequence<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnalyzedResources(input:))
     }
 }
 
@@ -90,7 +122,7 @@ extension ListAnalyzedResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAnalyzedResourcesInput, Output == ListAnalyzedResourcesOutput {
+extension PaginatorSequence where OperationStackInput == ListAnalyzedResourcesInput, OperationStackOutput == ListAnalyzedResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAnalyzedResourcesPaginated`
     /// to access the nested member `[AccessAnalyzerClientTypes.AnalyzedResourceSummary]`
     /// - Returns: `[AccessAnalyzerClientTypes.AnalyzedResourceSummary]`
@@ -108,7 +140,7 @@ extension AccessAnalyzerClient {
     ///     - input: A `[ListFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsOutput`
     public func listFindingsPaginated(input: ListFindingsInput) -> ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \ListFindingsInput.nextToken, outputKey: \ListFindingsOutput.nextToken, paginationFunction: self.listFindings(input:))
+        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindings(input:))
     }
 }
 
@@ -123,11 +155,44 @@ extension ListFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFindingsInput, Output == ListFindingsOutput {
+extension PaginatorSequence where OperationStackInput == ListFindingsInput, OperationStackOutput == ListFindingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsPaginated`
     /// to access the nested member `[AccessAnalyzerClientTypes.FindingSummary]`
     /// - Returns: `[AccessAnalyzerClientTypes.FindingSummary]`
     public func findings() async throws -> [AccessAnalyzerClientTypes.FindingSummary] {
+        return try await self.asyncCompactMap { item in item.findings }
+    }
+}
+extension AccessAnalyzerClient {
+    /// Paginate over `[ListFindingsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFindingsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsV2Output`
+    public func listFindingsV2Paginated(input: ListFindingsV2Input) -> ClientRuntime.PaginatorSequence<ListFindingsV2Input, ListFindingsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListFindingsV2Input, ListFindingsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindingsV2(input:))
+    }
+}
+
+extension ListFindingsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFindingsV2Input {
+        return ListFindingsV2Input(
+            analyzerArn: self.analyzerArn,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFindingsV2Input, OperationStackOutput == ListFindingsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listFindingsV2Paginated`
+    /// to access the nested member `[AccessAnalyzerClientTypes.FindingSummaryV2]`
+    /// - Returns: `[AccessAnalyzerClientTypes.FindingSummaryV2]`
+    public func findings() async throws -> [AccessAnalyzerClientTypes.FindingSummaryV2] {
         return try await self.asyncCompactMap { item in item.findings }
     }
 }
@@ -141,7 +206,7 @@ extension AccessAnalyzerClient {
     ///     - input: A `[ListPolicyGenerationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyGenerationsOutput`
     public func listPolicyGenerationsPaginated(input: ListPolicyGenerationsInput) -> ClientRuntime.PaginatorSequence<ListPolicyGenerationsInput, ListPolicyGenerationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPolicyGenerationsInput, ListPolicyGenerationsOutput>(input: input, inputKey: \ListPolicyGenerationsInput.nextToken, outputKey: \ListPolicyGenerationsOutput.nextToken, paginationFunction: self.listPolicyGenerations(input:))
+        return ClientRuntime.PaginatorSequence<ListPolicyGenerationsInput, ListPolicyGenerationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicyGenerations(input:))
     }
 }
 
@@ -154,7 +219,7 @@ extension ListPolicyGenerationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPolicyGenerationsInput, Output == ListPolicyGenerationsOutput {
+extension PaginatorSequence where OperationStackInput == ListPolicyGenerationsInput, OperationStackOutput == ListPolicyGenerationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPolicyGenerationsPaginated`
     /// to access the nested member `[AccessAnalyzerClientTypes.PolicyGeneration]`
     /// - Returns: `[AccessAnalyzerClientTypes.PolicyGeneration]`
@@ -172,7 +237,7 @@ extension AccessAnalyzerClient {
     ///     - input: A `[ValidatePolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ValidatePolicyOutput`
     public func validatePolicyPaginated(input: ValidatePolicyInput) -> ClientRuntime.PaginatorSequence<ValidatePolicyInput, ValidatePolicyOutput> {
-        return ClientRuntime.PaginatorSequence<ValidatePolicyInput, ValidatePolicyOutput>(input: input, inputKey: \ValidatePolicyInput.nextToken, outputKey: \ValidatePolicyOutput.nextToken, paginationFunction: self.validatePolicy(input:))
+        return ClientRuntime.PaginatorSequence<ValidatePolicyInput, ValidatePolicyOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.validatePolicy(input:))
     }
 }
 
@@ -188,7 +253,7 @@ extension ValidatePolicyInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ValidatePolicyInput, Output == ValidatePolicyOutput {
+extension PaginatorSequence where OperationStackInput == ValidatePolicyInput, OperationStackOutput == ValidatePolicyOutput {
     /// This paginator transforms the `AsyncSequence` returned by `validatePolicyPaginated`
     /// to access the nested member `[AccessAnalyzerClientTypes.ValidatePolicyFinding]`
     /// - Returns: `[AccessAnalyzerClientTypes.ValidatePolicyFinding]`

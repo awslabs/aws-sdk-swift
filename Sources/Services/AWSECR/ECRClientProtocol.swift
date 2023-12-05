@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Elastic Container Registry Amazon Elastic Container Registry (Amazon ECR) is a managed container image registry service. Customers can use the familiar Docker CLI, or their preferred client, to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry for your Docker or Open Container Initiative (OCI) images. Amazon ECR supports private repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Amazon ECR has service endpoints in each supported Region. For more information, see [Amazon ECR endpoints](https://docs.aws.amazon.com/general/latest/gr/ecr.html) in the Amazon Web Services General Reference.
 public protocol ECRClientProtocol {
+    /// Performs the `BatchCheckLayerAvailability` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Checks the availability of one or more image layers in a repository. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter BatchCheckLayerAvailabilityInput : [no documentation found]
@@ -17,6 +19,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput
+    /// Performs the `BatchDeleteImage` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Deletes a list of specified images within a repository. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the image's digest in your request.
     ///
     /// - Parameter BatchDeleteImageInput : Deletes specified images within a specified repository. Images are specified with either the imageTag or imageDigest.
@@ -30,6 +34,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput
+    /// Performs the `BatchGetImage` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Gets detailed information for an image. Images are specified with either an imageTag or imageDigest. When an image is pulled, the BatchGetImage API is called once to retrieve the image manifest.
     ///
     /// - Parameter BatchGetImageInput : [no documentation found]
@@ -40,9 +46,13 @@ public protocol ECRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnableToGetUpstreamImageException` : The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
     func batchGetImage(input: BatchGetImageInput) async throws -> BatchGetImageOutput
+    /// Performs the `BatchGetRepositoryScanningConfiguration` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Gets the scanning configuration for one or more repositories.
     ///
     /// - Parameter BatchGetRepositoryScanningConfigurationInput : [no documentation found]
@@ -57,6 +67,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func batchGetRepositoryScanningConfiguration(input: BatchGetRepositoryScanningConfigurationInput) async throws -> BatchGetRepositoryScanningConfigurationOutput
+    /// Performs the `CompleteLayerUpload` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter CompleteLayerUploadInput : [no documentation found]
@@ -76,7 +88,9 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UploadNotFoundException` : The upload could not be found, or the specified upload ID is not valid for this repository.
     func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput
-    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an external public registry in your Amazon ECR private registry.
+    /// Performs the `CreatePullThroughCacheRule` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
+    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an upstream registry source in your Amazon ECR private registry. For more information, see [Using pull through cache rules](https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter CreatePullThroughCacheRuleInput : [no documentation found]
     ///
@@ -88,10 +102,15 @@ public protocol ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
     /// - `PullThroughCacheRuleAlreadyExistsException` : A pull through cache rule with these settings already exists for the private registry.
+    /// - `SecretNotFoundException` : The ARN of the secret specified in the pull through cache rule was not found. Update the pull through cache rule with a valid secret ARN and try again.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnableToAccessSecretException` : The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
+    /// - `UnableToDecryptSecretValueException` : The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
     /// - `UnsupportedUpstreamRegistryException` : The specified upstream registry isn't supported.
     /// - `ValidationException` : There was an exception validating this request.
     func createPullThroughCacheRule(input: CreatePullThroughCacheRuleInput) async throws -> CreatePullThroughCacheRuleOutput
+    /// Performs the `CreateRepository` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Creates a repository. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter CreateRepositoryInput : [no documentation found]
@@ -109,6 +128,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
+    /// Performs the `DeleteLifecyclePolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Deletes the lifecycle policy associated with the specified repository.
     ///
     /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
@@ -124,6 +145,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
+    /// Performs the `DeletePullThroughCacheRule` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Deletes a pull through cache rule.
     ///
     /// - Parameter DeletePullThroughCacheRuleInput : [no documentation found]
@@ -138,6 +161,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func deletePullThroughCacheRule(input: DeletePullThroughCacheRuleInput) async throws -> DeletePullThroughCacheRuleOutput
+    /// Performs the `DeleteRegistryPolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Deletes the registry permissions policy.
     ///
     /// - Parameter DeleteRegistryPolicyInput : [no documentation found]
@@ -152,7 +177,9 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func deleteRegistryPolicy(input: DeleteRegistryPolicyInput) async throws -> DeleteRegistryPolicyOutput
-    /// Deletes a repository. If the repository contains images, you must either delete all images in the repository or use the force option to delete the repository.
+    /// Performs the `DeleteRepository` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
+    /// Deletes a repository. If the repository isn't empty, you must either delete the contents of the repository or use the force option to delete the repository and have Amazon ECR delete all of its contents on your behalf.
     ///
     /// - Parameter DeleteRepositoryInput : [no documentation found]
     ///
@@ -167,6 +194,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
+    /// Performs the `DeleteRepositoryPolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Deletes the repository policy associated with the specified repository.
     ///
     /// - Parameter DeleteRepositoryPolicyInput : [no documentation found]
@@ -181,6 +210,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination does not have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput
+    /// Performs the `DescribeImageReplicationStatus` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Returns the replication status for a specified image.
     ///
     /// - Parameter DescribeImageReplicationStatusInput : [no documentation found]
@@ -196,6 +227,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func describeImageReplicationStatus(input: DescribeImageReplicationStatusInput) async throws -> DescribeImageReplicationStatusOutput
+    /// Performs the `DescribeImages` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Returns metadata about the images in a repository. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by [DescribeImages].
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
@@ -210,6 +243,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
+    /// Performs the `DescribeImageScanFindings` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Returns the scan findings for the specified image.
     ///
     /// - Parameter DescribeImageScanFindingsInput : [no documentation found]
@@ -226,6 +261,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func describeImageScanFindings(input: DescribeImageScanFindingsInput) async throws -> DescribeImageScanFindingsOutput
+    /// Performs the `DescribePullThroughCacheRules` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Returns the pull through cache rules for a registry.
     ///
     /// - Parameter DescribePullThroughCacheRulesInput : [no documentation found]
@@ -240,6 +277,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func describePullThroughCacheRules(input: DescribePullThroughCacheRulesInput) async throws -> DescribePullThroughCacheRulesOutput
+    /// Performs the `DescribeRegistry` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the [PutReplicationConfiguration] API action.
     ///
     /// - Parameter DescribeRegistryInput : [no documentation found]
@@ -253,6 +292,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput
+    /// Performs the `DescribeRepositories` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Describes image repositories in a registry.
     ///
     /// - Parameter DescribeRepositoriesInput : [no documentation found]
@@ -266,6 +307,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput
+    /// Performs the `GetAuthorizationToken` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The CLI offers an get-login-password command that simplifies the login process. For more information, see [Registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter GetAuthorizationTokenInput : [no documentation found]
@@ -278,6 +321,8 @@ public protocol ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
+    /// Performs the `GetDownloadUrlForLayer` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter GetDownloadUrlForLayerInput : [no documentation found]
@@ -292,7 +337,10 @@ public protocol ECRClientProtocol {
     /// - `LayersNotFoundException` : The specified layers could not be found, or the specified layer is not valid for this repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnableToGetUpstreamLayerException` : There was an issue getting the upstream layer matching the pull through cache rule.
     func getDownloadUrlForLayer(input: GetDownloadUrlForLayerInput) async throws -> GetDownloadUrlForLayerOutput
+    /// Performs the `GetLifecyclePolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves the lifecycle policy for the specified repository.
     ///
     /// - Parameter GetLifecyclePolicyInput : [no documentation found]
@@ -308,6 +356,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
+    /// Performs the `GetLifecyclePolicyPreview` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves the results of the lifecycle policy preview request for the specified repository.
     ///
     /// - Parameter GetLifecyclePolicyPreviewInput : [no documentation found]
@@ -323,6 +373,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func getLifecyclePolicyPreview(input: GetLifecyclePolicyPreviewInput) async throws -> GetLifecyclePolicyPreviewOutput
+    /// Performs the `GetRegistryPolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves the permissions policy for a registry.
     ///
     /// - Parameter GetRegistryPolicyInput : [no documentation found]
@@ -337,6 +389,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func getRegistryPolicy(input: GetRegistryPolicyInput) async throws -> GetRegistryPolicyOutput
+    /// Performs the `GetRegistryScanningConfiguration` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves the scanning configuration for a registry.
     ///
     /// - Parameter GetRegistryScanningConfigurationInput : [no documentation found]
@@ -350,6 +404,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func getRegistryScanningConfiguration(input: GetRegistryScanningConfigurationInput) async throws -> GetRegistryScanningConfigurationOutput
+    /// Performs the `GetRepositoryPolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Retrieves the repository policy for the specified repository.
     ///
     /// - Parameter GetRepositoryPolicyInput : [no documentation found]
@@ -364,6 +420,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination does not have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput
+    /// Performs the `InitiateLayerUpload` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter InitiateLayerUploadInput : [no documentation found]
@@ -378,6 +436,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput
+    /// Performs the `ListImages` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a [BatchDeleteImage] operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     ///
     /// - Parameter ListImagesInput : [no documentation found]
@@ -391,6 +451,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func listImages(input: ListImagesInput) async throws -> ListImagesOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// List the tags for an Amazon ECR resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -404,6 +466,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutImage` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter PutImageInput : [no documentation found]
@@ -424,6 +488,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func putImage(input: PutImageInput) async throws -> PutImageOutput
+    /// Performs the `PutImageScanningConfiguration` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// The PutImageScanningConfiguration API is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see [PutRegistryScanningConfiguration]. Updates the image scanning configuration for the specified repository.
     ///
     /// - Parameter PutImageScanningConfigurationInput : [no documentation found]
@@ -438,6 +504,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func putImageScanningConfiguration(input: PutImageScanningConfigurationInput) async throws -> PutImageScanningConfigurationOutput
+    /// Performs the `PutImageTagMutability` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Updates the image tag mutability settings for the specified repository. For more information, see [Image tag mutability](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter PutImageTagMutabilityInput : [no documentation found]
@@ -451,6 +519,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func putImageTagMutability(input: PutImageTagMutabilityInput) async throws -> PutImageTagMutabilityOutput
+    /// Performs the `PutLifecyclePolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Creates or updates the lifecycle policy for the specified repository. For more information, see [Lifecycle policy template](https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html).
     ///
     /// - Parameter PutLifecyclePolicyInput : [no documentation found]
@@ -465,6 +535,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutput
+    /// Performs the `PutRegistryPolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see [Registry permissions](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter PutRegistryPolicyInput : [no documentation found]
@@ -478,6 +550,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func putRegistryPolicy(input: PutRegistryPolicyInput) async throws -> PutRegistryPolicyOutput
+    /// Performs the `PutRegistryScanningConfiguration` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Creates or updates the scanning configuration for your private registry.
     ///
     /// - Parameter PutRegistryScanningConfigurationInput : [no documentation found]
@@ -491,6 +565,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func putRegistryScanningConfiguration(input: PutRegistryScanningConfigurationInput) async throws -> PutRegistryScanningConfigurationOutput
+    /// Performs the `PutReplicationConfiguration` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the [DescribeRegistry] API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see [Using service-linked roles for Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html) in the Amazon Elastic Container Registry User Guide. When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see [PutRegistryPolicy].
     ///
     /// - Parameter PutReplicationConfigurationInput : [no documentation found]
@@ -504,6 +580,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func putReplicationConfiguration(input: PutReplicationConfigurationInput) async throws -> PutReplicationConfigurationOutput
+    /// Performs the `SetRepositoryPolicy` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Applies a repository policy to the specified repository to control access permissions. For more information, see [Amazon ECR Repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter SetRepositoryPolicyInput : [no documentation found]
@@ -517,6 +595,8 @@ public protocol ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput
+    /// Performs the `StartImageScan` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Starts an image vulnerability scan. An image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. For more information, see [Image scanning](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter StartImageScanInput : [no documentation found]
@@ -534,6 +614,8 @@ public protocol ECRClientProtocol {
     /// - `UnsupportedImageTypeException` : The image is of a type that cannot be scanned.
     /// - `ValidationException` : There was an exception validating this request.
     func startImageScan(input: StartImageScanInput) async throws -> StartImageScanOutput
+    /// Performs the `StartLifecyclePolicyPreview` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Starts a preview of a lifecycle policy for the specified repository. This allows you to see the results before associating the lifecycle policy with the repository.
     ///
     /// - Parameter StartLifecyclePolicyPreviewInput : [no documentation found]
@@ -550,6 +632,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     func startLifecyclePolicyPreview(input: StartLifecyclePolicyPreviewInput) async throws -> StartLifecyclePolicyPreviewOutput
+    /// Performs the `TagResource` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -565,6 +649,8 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -580,6 +666,27 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdatePullThroughCacheRule` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
+    /// Updates an existing pull through cache rule.
+    ///
+    /// - Parameter UpdatePullThroughCacheRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePullThroughCacheRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `PullThroughCacheRuleNotFoundException` : The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
+    /// - `SecretNotFoundException` : The ARN of the secret specified in the pull through cache rule was not found. Update the pull through cache rule with a valid secret ARN and try again.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnableToAccessSecretException` : The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
+    /// - `UnableToDecryptSecretValueException` : The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
+    /// - `ValidationException` : There was an exception validating this request.
+    func updatePullThroughCacheRule(input: UpdatePullThroughCacheRuleInput) async throws -> UpdatePullThroughCacheRuleOutput
+    /// Performs the `UploadLayerPart` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter UploadLayerPartInput : [no documentation found]
@@ -597,6 +704,22 @@ public protocol ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UploadNotFoundException` : The upload could not be found, or the specified upload ID is not valid for this repository.
     func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput
+    /// Performs the `ValidatePullThroughCacheRule` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
+    ///
+    /// Validates an existing pull through cache rule for an upstream registry that requires authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the syntax, and then validate that authentication to the upstream registry is successful.
+    ///
+    /// - Parameter ValidatePullThroughCacheRuleInput : [no documentation found]
+    ///
+    /// - Returns: `ValidatePullThroughCacheRuleOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `PullThroughCacheRuleNotFoundException` : The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    func validatePullThroughCacheRule(input: ValidatePullThroughCacheRuleInput) async throws -> ValidatePullThroughCacheRuleOutput
 }
 
 public enum ECRClientTypes {}

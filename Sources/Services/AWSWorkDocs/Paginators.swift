@@ -12,7 +12,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeActivitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeActivitiesOutput`
     public func describeActivitiesPaginated(input: DescribeActivitiesInput) -> ClientRuntime.PaginatorSequence<DescribeActivitiesInput, DescribeActivitiesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeActivitiesInput, DescribeActivitiesOutput>(input: input, inputKey: \DescribeActivitiesInput.marker, outputKey: \DescribeActivitiesOutput.marker, paginationFunction: self.describeActivities(input:))
+        return ClientRuntime.PaginatorSequence<DescribeActivitiesInput, DescribeActivitiesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeActivities(input:))
     }
 }
 
@@ -32,7 +32,7 @@ extension DescribeActivitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeActivitiesInput, Output == DescribeActivitiesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeActivitiesInput, OperationStackOutput == DescribeActivitiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeActivitiesPaginated`
     /// to access the nested member `[WorkDocsClientTypes.Activity]`
     /// - Returns: `[WorkDocsClientTypes.Activity]`
@@ -50,7 +50,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeCommentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCommentsOutput`
     public func describeCommentsPaginated(input: DescribeCommentsInput) -> ClientRuntime.PaginatorSequence<DescribeCommentsInput, DescribeCommentsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeCommentsInput, DescribeCommentsOutput>(input: input, inputKey: \DescribeCommentsInput.marker, outputKey: \DescribeCommentsOutput.marker, paginationFunction: self.describeComments(input:))
+        return ClientRuntime.PaginatorSequence<DescribeCommentsInput, DescribeCommentsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeComments(input:))
     }
 }
 
@@ -65,7 +65,7 @@ extension DescribeCommentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCommentsInput, Output == DescribeCommentsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeCommentsInput, OperationStackOutput == DescribeCommentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCommentsPaginated`
     /// to access the nested member `[WorkDocsClientTypes.Comment]`
     /// - Returns: `[WorkDocsClientTypes.Comment]`
@@ -83,7 +83,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeDocumentVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDocumentVersionsOutput`
     public func describeDocumentVersionsPaginated(input: DescribeDocumentVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDocumentVersionsInput, DescribeDocumentVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDocumentVersionsInput, DescribeDocumentVersionsOutput>(input: input, inputKey: \DescribeDocumentVersionsInput.marker, outputKey: \DescribeDocumentVersionsOutput.marker, paginationFunction: self.describeDocumentVersions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDocumentVersionsInput, DescribeDocumentVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDocumentVersions(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension DescribeDocumentVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDocumentVersionsInput, Output == DescribeDocumentVersionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDocumentVersionsInput, OperationStackOutput == DescribeDocumentVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDocumentVersionsPaginated`
     /// to access the nested member `[WorkDocsClientTypes.DocumentVersionMetadata]`
     /// - Returns: `[WorkDocsClientTypes.DocumentVersionMetadata]`
@@ -117,7 +117,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeFolderContentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderContentsOutput`
     public func describeFolderContentsPaginated(input: DescribeFolderContentsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderContentsInput, DescribeFolderContentsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeFolderContentsInput, DescribeFolderContentsOutput>(input: input, inputKey: \DescribeFolderContentsInput.marker, outputKey: \DescribeFolderContentsOutput.marker, paginationFunction: self.describeFolderContents(input:))
+        return ClientRuntime.PaginatorSequence<DescribeFolderContentsInput, DescribeFolderContentsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeFolderContents(input:))
     }
 }
 
@@ -144,7 +144,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGroupsOutput`
     public func describeGroupsPaginated(input: DescribeGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeGroupsInput, DescribeGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeGroupsInput, DescribeGroupsOutput>(input: input, inputKey: \DescribeGroupsInput.marker, outputKey: \DescribeGroupsOutput.marker, paginationFunction: self.describeGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeGroupsInput, DescribeGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeGroups(input:))
     }
 }
 
@@ -159,7 +159,7 @@ extension DescribeGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGroupsInput, Output == DescribeGroupsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeGroupsInput, OperationStackOutput == DescribeGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGroupsPaginated`
     /// to access the nested member `[WorkDocsClientTypes.GroupMetadata]`
     /// - Returns: `[WorkDocsClientTypes.GroupMetadata]`
@@ -177,7 +177,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeNotificationSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationSubscriptionsOutput`
     public func describeNotificationSubscriptionsPaginated(input: DescribeNotificationSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutput>(input: input, inputKey: \DescribeNotificationSubscriptionsInput.marker, outputKey: \DescribeNotificationSubscriptionsOutput.marker, paginationFunction: self.describeNotificationSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeNotificationSubscriptions(input:))
     }
 }
 
@@ -190,7 +190,7 @@ extension DescribeNotificationSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeNotificationSubscriptionsInput, Output == DescribeNotificationSubscriptionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeNotificationSubscriptionsInput, OperationStackOutput == DescribeNotificationSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeNotificationSubscriptionsPaginated`
     /// to access the nested member `[WorkDocsClientTypes.Subscription]`
     /// - Returns: `[WorkDocsClientTypes.Subscription]`
@@ -208,7 +208,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeResourcePermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeResourcePermissionsOutput`
     public func describeResourcePermissionsPaginated(input: DescribeResourcePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutput>(input: input, inputKey: \DescribeResourcePermissionsInput.marker, outputKey: \DescribeResourcePermissionsOutput.marker, paginationFunction: self.describeResourcePermissions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeResourcePermissions(input:))
     }
 }
 
@@ -223,7 +223,7 @@ extension DescribeResourcePermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeResourcePermissionsInput, Output == DescribeResourcePermissionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeResourcePermissionsInput, OperationStackOutput == DescribeResourcePermissionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeResourcePermissionsPaginated`
     /// to access the nested member `[WorkDocsClientTypes.Principal]`
     /// - Returns: `[WorkDocsClientTypes.Principal]`
@@ -241,7 +241,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeRootFoldersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRootFoldersOutput`
     public func describeRootFoldersPaginated(input: DescribeRootFoldersInput) -> ClientRuntime.PaginatorSequence<DescribeRootFoldersInput, DescribeRootFoldersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeRootFoldersInput, DescribeRootFoldersOutput>(input: input, inputKey: \DescribeRootFoldersInput.marker, outputKey: \DescribeRootFoldersOutput.marker, paginationFunction: self.describeRootFolders(input:))
+        return ClientRuntime.PaginatorSequence<DescribeRootFoldersInput, DescribeRootFoldersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeRootFolders(input:))
     }
 }
 
@@ -254,7 +254,7 @@ extension DescribeRootFoldersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRootFoldersInput, Output == DescribeRootFoldersOutput {
+extension PaginatorSequence where OperationStackInput == DescribeRootFoldersInput, OperationStackOutput == DescribeRootFoldersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRootFoldersPaginated`
     /// to access the nested member `[WorkDocsClientTypes.FolderMetadata]`
     /// - Returns: `[WorkDocsClientTypes.FolderMetadata]`
@@ -272,7 +272,7 @@ extension WorkDocsClient {
     ///     - input: A `[DescribeUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutput`
     public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \DescribeUsersInput.marker, outputKey: \DescribeUsersOutput.marker, paginationFunction: self.describeUsers(input:))
+        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeUsers(input:))
     }
 }
 
@@ -292,7 +292,7 @@ extension DescribeUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutput {
+extension PaginatorSequence where OperationStackInput == DescribeUsersInput, OperationStackOutput == DescribeUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUsersPaginated`
     /// to access the nested member `[WorkDocsClientTypes.User]`
     /// - Returns: `[WorkDocsClientTypes.User]`
@@ -310,7 +310,7 @@ extension WorkDocsClient {
     ///     - input: A `[SearchResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutput`
     public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \SearchResourcesInput.marker, outputKey: \SearchResourcesOutput.marker, paginationFunction: self.searchResources(input:))
+        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.searchResources(input:))
     }
 }
 
@@ -329,7 +329,7 @@ extension SearchResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutput {
+extension PaginatorSequence where OperationStackInput == SearchResourcesInput, OperationStackOutput == SearchResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchResourcesPaginated`
     /// to access the nested member `[WorkDocsClientTypes.ResponseItem]`
     /// - Returns: `[WorkDocsClientTypes.ResponseItem]`

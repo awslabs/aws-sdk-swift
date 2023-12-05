@@ -12,7 +12,7 @@ extension MediaStoreClient {
     ///     - input: A `[ListContainersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContainersOutput`
     public func listContainersPaginated(input: ListContainersInput) -> ClientRuntime.PaginatorSequence<ListContainersInput, ListContainersOutput> {
-        return ClientRuntime.PaginatorSequence<ListContainersInput, ListContainersOutput>(input: input, inputKey: \ListContainersInput.nextToken, outputKey: \ListContainersOutput.nextToken, paginationFunction: self.listContainers(input:))
+        return ClientRuntime.PaginatorSequence<ListContainersInput, ListContainersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContainers(input:))
     }
 }
 

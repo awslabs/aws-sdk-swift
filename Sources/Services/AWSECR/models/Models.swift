@@ -736,8 +736,10 @@ enum BatchGetImageOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToGetUpstreamImageException": return try await UnableToGetUpstreamImageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1074,18 +1076,26 @@ enum CompleteLayerUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreatePullThroughCacheRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialArn
         case ecrRepositoryPrefix
         case registryId
+        case upstreamRegistry
         case upstreamRegistryUrl
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let credentialArn = self.credentialArn {
+            try encodeContainer.encode(credentialArn, forKey: .credentialArn)
+        }
         if let ecrRepositoryPrefix = self.ecrRepositoryPrefix {
             try encodeContainer.encode(ecrRepositoryPrefix, forKey: .ecrRepositoryPrefix)
         }
         if let registryId = self.registryId {
             try encodeContainer.encode(registryId, forKey: .registryId)
+        }
+        if let upstreamRegistry = self.upstreamRegistry {
+            try encodeContainer.encode(upstreamRegistry.rawValue, forKey: .upstreamRegistry)
         }
         if let upstreamRegistryUrl = self.upstreamRegistryUrl {
             try encodeContainer.encode(upstreamRegistryUrl, forKey: .upstreamRegistryUrl)
@@ -1100,23 +1110,43 @@ extension CreatePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePullThroughCacheRuleInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
+    public var credentialArn: Swift.String?
     /// The repository name prefix to use when caching images from the source registry.
     /// This member is required.
     public var ecrRepositoryPrefix: Swift.String?
     /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
-    /// The registry URL of the upstream public registry to use as the source for the pull through cache rule.
+    /// The name of the upstream registry.
+    public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
+    /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.
+    ///
+    /// * Amazon ECR Public (ecr-public) - public.ecr.aws
+    ///
+    /// * Docker Hub (docker-hub) - registry-1.docker.io
+    ///
+    /// * Quay (quay) - quay.io
+    ///
+    /// * Kubernetes (k8s) - registry.k8s.io
+    ///
+    /// * GitHub Container Registry (github-container-registry) - ghcr.io
+    ///
+    /// * Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
     /// This member is required.
     public var upstreamRegistryUrl: Swift.String?
 
     public init(
+        credentialArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
+        upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
         upstreamRegistryUrl: Swift.String? = nil
     )
     {
+        self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
+        self.upstreamRegistry = upstreamRegistry
         self.upstreamRegistryUrl = upstreamRegistryUrl
     }
 }
@@ -1125,12 +1155,16 @@ struct CreatePullThroughCacheRuleInputBody: Swift.Equatable {
     let ecrRepositoryPrefix: Swift.String?
     let upstreamRegistryUrl: Swift.String?
     let registryId: Swift.String?
+    let upstreamRegistry: ECRClientTypes.UpstreamRegistry?
+    let credentialArn: Swift.String?
 }
 
 extension CreatePullThroughCacheRuleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialArn
         case ecrRepositoryPrefix
         case registryId
+        case upstreamRegistry
         case upstreamRegistryUrl
     }
 
@@ -1142,6 +1176,10 @@ extension CreatePullThroughCacheRuleInputBody: Swift.Decodable {
         upstreamRegistryUrl = upstreamRegistryUrlDecoded
         let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
         registryId = registryIdDecoded
+        let upstreamRegistryDecoded = try containerValues.decodeIfPresent(ECRClientTypes.UpstreamRegistry.self, forKey: .upstreamRegistry)
+        upstreamRegistry = upstreamRegistryDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
     }
 }
 
@@ -1151,13 +1189,17 @@ extension CreatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreatePullThroughCacheRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
+            self.credentialArn = output.credentialArn
             self.ecrRepositoryPrefix = output.ecrRepositoryPrefix
             self.registryId = output.registryId
+            self.upstreamRegistry = output.upstreamRegistry
             self.upstreamRegistryUrl = output.upstreamRegistryUrl
         } else {
             self.createdAt = nil
+            self.credentialArn = nil
             self.ecrRepositoryPrefix = nil
             self.registryId = nil
+            self.upstreamRegistry = nil
             self.upstreamRegistryUrl = nil
         }
     }
@@ -1166,23 +1208,31 @@ extension CreatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
 public struct CreatePullThroughCacheRuleOutput: Swift.Equatable {
     /// The date and time, in JavaScript date format, when the pull through cache rule was created.
     public var createdAt: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+    public var credentialArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the pull through cache rule.
     public var ecrRepositoryPrefix: Swift.String?
     /// The registry ID associated with the request.
     public var registryId: Swift.String?
+    /// The name of the upstream registry associated with the pull through cache rule.
+    public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
     /// The upstream registry URL associated with the pull through cache rule.
     public var upstreamRegistryUrl: Swift.String?
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
+        credentialArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
+        upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
         upstreamRegistryUrl: Swift.String? = nil
     )
     {
         self.createdAt = createdAt
+        self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
+        self.upstreamRegistry = upstreamRegistry
         self.upstreamRegistryUrl = upstreamRegistryUrl
     }
 }
@@ -1192,13 +1242,17 @@ struct CreatePullThroughCacheRuleOutputBody: Swift.Equatable {
     let upstreamRegistryUrl: Swift.String?
     let createdAt: ClientRuntime.Date?
     let registryId: Swift.String?
+    let upstreamRegistry: ECRClientTypes.UpstreamRegistry?
+    let credentialArn: Swift.String?
 }
 
 extension CreatePullThroughCacheRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case credentialArn
         case ecrRepositoryPrefix
         case registryId
+        case upstreamRegistry
         case upstreamRegistryUrl
     }
 
@@ -1212,6 +1266,10 @@ extension CreatePullThroughCacheRuleOutputBody: Swift.Decodable {
         createdAt = createdAtDecoded
         let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
         registryId = registryIdDecoded
+        let upstreamRegistryDecoded = try containerValues.decodeIfPresent(ECRClientTypes.UpstreamRegistry.self, forKey: .upstreamRegistry)
+        upstreamRegistry = upstreamRegistryDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
     }
 }
 
@@ -1223,7 +1281,10 @@ enum CreatePullThroughCacheRuleOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PullThroughCacheRuleAlreadyExistsException": return try await PullThroughCacheRuleAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SecretNotFoundException": return try await SecretNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToAccessSecretException": return try await UnableToAccessSecretException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToDecryptSecretValueException": return try await UnableToDecryptSecretValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedUpstreamRegistryException": return try await UnsupportedUpstreamRegistryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -1816,11 +1877,13 @@ extension DeletePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DeletePullThroughCacheRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
+            self.credentialArn = output.credentialArn
             self.ecrRepositoryPrefix = output.ecrRepositoryPrefix
             self.registryId = output.registryId
             self.upstreamRegistryUrl = output.upstreamRegistryUrl
         } else {
             self.createdAt = nil
+            self.credentialArn = nil
             self.ecrRepositoryPrefix = nil
             self.registryId = nil
             self.upstreamRegistryUrl = nil
@@ -1831,6 +1894,8 @@ extension DeletePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
 public struct DeletePullThroughCacheRuleOutput: Swift.Equatable {
     /// The timestamp associated with the pull through cache rule.
     public var createdAt: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+    public var credentialArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the request.
     public var ecrRepositoryPrefix: Swift.String?
     /// The registry ID associated with the request.
@@ -1840,12 +1905,14 @@ public struct DeletePullThroughCacheRuleOutput: Swift.Equatable {
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
+        credentialArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
         upstreamRegistryUrl: Swift.String? = nil
     )
     {
         self.createdAt = createdAt
+        self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
         self.upstreamRegistryUrl = upstreamRegistryUrl
@@ -1857,11 +1924,13 @@ struct DeletePullThroughCacheRuleOutputBody: Swift.Equatable {
     let upstreamRegistryUrl: Swift.String?
     let createdAt: ClientRuntime.Date?
     let registryId: Swift.String?
+    let credentialArn: Swift.String?
 }
 
 extension DeletePullThroughCacheRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case credentialArn
         case ecrRepositoryPrefix
         case registryId
         case upstreamRegistryUrl
@@ -1877,6 +1946,8 @@ extension DeletePullThroughCacheRuleOutputBody: Swift.Decodable {
         createdAt = createdAtDecoded
         let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
         registryId = registryIdDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
     }
 }
 
@@ -2014,7 +2085,7 @@ extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteRepositoryInput: Swift.Equatable {
-    /// If a repository contains images, forces the deletion.
+    /// If true, deleting the repository force deletes the contents of the repository. If false, the repository must be empty before attempting to delete it.
     public var force: Swift.Bool?
     /// The Amazon Web Services account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
@@ -3880,6 +3951,7 @@ enum GetDownloadUrlForLayerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "LayersNotFoundException": return try await LayersNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToGetUpstreamLayerException": return try await UnableToGetUpstreamLayerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -5017,6 +5089,9 @@ extension ECRClientTypes {
         case invalidimagetag
         case kmserror
         case missingdigestandtag
+        case upstreamaccessdenied
+        case upstreamtoomanyrequests
+        case upstreamunavailable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageFailureCode] {
@@ -5028,6 +5103,9 @@ extension ECRClientTypes {
                 .invalidimagetag,
                 .kmserror,
                 .missingdigestandtag,
+                .upstreamaccessdenied,
+                .upstreamtoomanyrequests,
+                .upstreamunavailable,
                 .sdkUnknown("")
             ]
         }
@@ -5044,6 +5122,9 @@ extension ECRClientTypes {
             case .invalidimagetag: return "InvalidImageTag"
             case .kmserror: return "KmsError"
             case .missingdigestandtag: return "MissingDigestAndTag"
+            case .upstreamaccessdenied: return "UpstreamAccessDenied"
+            case .upstreamtoomanyrequests: return "UpstreamTooManyRequests"
+            case .upstreamunavailable: return "UpstreamUnavailable"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7452,8 +7533,11 @@ extension ECRClientTypes {
 extension ECRClientTypes.PullThroughCacheRule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case credentialArn
         case ecrRepositoryPrefix
         case registryId
+        case updatedAt
+        case upstreamRegistry
         case upstreamRegistryUrl
     }
 
@@ -7462,11 +7546,20 @@ extension ECRClientTypes.PullThroughCacheRule: Swift.Codable {
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
         }
+        if let credentialArn = self.credentialArn {
+            try encodeContainer.encode(credentialArn, forKey: .credentialArn)
+        }
         if let ecrRepositoryPrefix = self.ecrRepositoryPrefix {
             try encodeContainer.encode(ecrRepositoryPrefix, forKey: .ecrRepositoryPrefix)
         }
         if let registryId = self.registryId {
             try encodeContainer.encode(registryId, forKey: .registryId)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+        if let upstreamRegistry = self.upstreamRegistry {
+            try encodeContainer.encode(upstreamRegistry.rawValue, forKey: .upstreamRegistry)
         }
         if let upstreamRegistryUrl = self.upstreamRegistryUrl {
             try encodeContainer.encode(upstreamRegistryUrl, forKey: .upstreamRegistryUrl)
@@ -7483,6 +7576,12 @@ extension ECRClientTypes.PullThroughCacheRule: Swift.Codable {
         createdAt = createdAtDecoded
         let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
         registryId = registryIdDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
+        let upstreamRegistryDecoded = try containerValues.decodeIfPresent(ECRClientTypes.UpstreamRegistry.self, forKey: .upstreamRegistry)
+        upstreamRegistry = upstreamRegistryDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
     }
 }
 
@@ -7491,23 +7590,35 @@ extension ECRClientTypes {
     public struct PullThroughCacheRule: Swift.Equatable {
         /// The date and time the pull through cache was created.
         public var createdAt: ClientRuntime.Date?
+        /// The ARN of the Secrets Manager secret associated with the pull through cache rule.
+        public var credentialArn: Swift.String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public var ecrRepositoryPrefix: Swift.String?
         /// The Amazon Web Services account ID associated with the registry the pull through cache rule is associated with.
         public var registryId: Swift.String?
+        /// The date and time, in JavaScript date format, when the pull through cache rule was last updated.
+        public var updatedAt: ClientRuntime.Date?
+        /// The name of the upstream source registry associated with the pull through cache rule.
+        public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
         /// The upstream registry URL associated with the pull through cache rule.
         public var upstreamRegistryUrl: Swift.String?
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
+            credentialArn: Swift.String? = nil,
             ecrRepositoryPrefix: Swift.String? = nil,
             registryId: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
             upstreamRegistryUrl: Swift.String? = nil
         )
         {
             self.createdAt = createdAt
+            self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
+            self.updatedAt = updatedAt
+            self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
         }
     }
@@ -10046,6 +10157,61 @@ extension ECRClientTypes {
 
 }
 
+extension SecretNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SecretNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The ARN of the secret specified in the pull through cache rule was not found. Update the pull through cache rule with a valid secret ARN and try again.
+public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SecretNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct SecretNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension SecretNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10813,6 +10979,226 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
+extension UnableToAccessSecretException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnableToAccessSecretExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
+public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToAccessSecretException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnableToAccessSecretExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnableToAccessSecretExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension UnableToDecryptSecretValueException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnableToDecryptSecretValueExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
+public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToDecryptSecretValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnableToDecryptSecretValueExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnableToDecryptSecretValueExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension UnableToGetUpstreamImageException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnableToGetUpstreamImageExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
+public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToGetUpstreamImageException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnableToGetUpstreamImageExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnableToGetUpstreamImageExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension UnableToGetUpstreamLayerException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnableToGetUpstreamLayerExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// There was an issue getting the upstream layer matching the pull through cache rule.
+public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToGetUpstreamLayerException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnableToGetUpstreamLayerExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnableToGetUpstreamLayerExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension UnsupportedImageTypeException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11016,6 +11402,166 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePullThroughCacheRuleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialArn
+        case ecrRepositoryPrefix
+        case registryId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let credentialArn = self.credentialArn {
+            try encodeContainer.encode(credentialArn, forKey: .credentialArn)
+        }
+        if let ecrRepositoryPrefix = self.ecrRepositoryPrefix {
+            try encodeContainer.encode(ecrRepositoryPrefix, forKey: .ecrRepositoryPrefix)
+        }
+        if let registryId = self.registryId {
+            try encodeContainer.encode(registryId, forKey: .registryId)
+        }
+    }
+}
+
+extension UpdatePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdatePullThroughCacheRuleInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
+    /// This member is required.
+    public var credentialArn: Swift.String?
+    /// The repository name prefix to use when caching images from the source registry.
+    /// This member is required.
+    public var ecrRepositoryPrefix: Swift.String?
+    /// The Amazon Web Services account ID associated with the registry associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+
+    public init(
+        credentialArn: Swift.String? = nil,
+        ecrRepositoryPrefix: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    )
+    {
+        self.credentialArn = credentialArn
+        self.ecrRepositoryPrefix = ecrRepositoryPrefix
+        self.registryId = registryId
+    }
+}
+
+struct UpdatePullThroughCacheRuleInputBody: Swift.Equatable {
+    let registryId: Swift.String?
+    let ecrRepositoryPrefix: Swift.String?
+    let credentialArn: Swift.String?
+}
+
+extension UpdatePullThroughCacheRuleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialArn
+        case ecrRepositoryPrefix
+        case registryId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
+        registryId = registryIdDecoded
+        let ecrRepositoryPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ecrRepositoryPrefix)
+        ecrRepositoryPrefix = ecrRepositoryPrefixDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
+    }
+}
+
+extension UpdatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePullThroughCacheRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.credentialArn = output.credentialArn
+            self.ecrRepositoryPrefix = output.ecrRepositoryPrefix
+            self.registryId = output.registryId
+            self.updatedAt = output.updatedAt
+        } else {
+            self.credentialArn = nil
+            self.ecrRepositoryPrefix = nil
+            self.registryId = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct UpdatePullThroughCacheRuleOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+    public var credentialArn: Swift.String?
+    /// The Amazon ECR repository prefix associated with the pull through cache rule.
+    public var ecrRepositoryPrefix: Swift.String?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The date and time, in JavaScript date format, when the pull through cache rule was updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        credentialArn: Swift.String? = nil,
+        ecrRepositoryPrefix: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.credentialArn = credentialArn
+        self.ecrRepositoryPrefix = ecrRepositoryPrefix
+        self.registryId = registryId
+        self.updatedAt = updatedAt
+    }
+}
+
+struct UpdatePullThroughCacheRuleOutputBody: Swift.Equatable {
+    let ecrRepositoryPrefix: Swift.String?
+    let registryId: Swift.String?
+    let updatedAt: ClientRuntime.Date?
+    let credentialArn: Swift.String?
+}
+
+extension UpdatePullThroughCacheRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialArn
+        case ecrRepositoryPrefix
+        case registryId
+        case updatedAt
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ecrRepositoryPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ecrRepositoryPrefix)
+        ecrRepositoryPrefix = ecrRepositoryPrefixDecoded
+        let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
+        registryId = registryIdDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
+    }
+}
+
+enum UpdatePullThroughCacheRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullThroughCacheRuleNotFoundException": return try await PullThroughCacheRuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SecretNotFoundException": return try await SecretNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToAccessSecretException": return try await UnableToAccessSecretException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToDecryptSecretValueException": return try await UnableToDecryptSecretValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -11273,6 +11819,214 @@ extension UploadNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ECRClientTypes {
+    public enum UpstreamRegistry: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case azurecontainerregistry
+        case dockerhub
+        case ecrpublic
+        case githubcontainerregistry
+        case k8s
+        case quay
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpstreamRegistry] {
+            return [
+                .azurecontainerregistry,
+                .dockerhub,
+                .ecrpublic,
+                .githubcontainerregistry,
+                .k8s,
+                .quay,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .azurecontainerregistry: return "azure-container-registry"
+            case .dockerhub: return "docker-hub"
+            case .ecrpublic: return "ecr-public"
+            case .githubcontainerregistry: return "github-container-registry"
+            case .k8s: return "k8s"
+            case .quay: return "quay"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpstreamRegistry(rawValue: rawValue) ?? UpstreamRegistry.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ValidatePullThroughCacheRuleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ecrRepositoryPrefix
+        case registryId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ecrRepositoryPrefix = self.ecrRepositoryPrefix {
+            try encodeContainer.encode(ecrRepositoryPrefix, forKey: .ecrRepositoryPrefix)
+        }
+        if let registryId = self.registryId {
+            try encodeContainer.encode(registryId, forKey: .registryId)
+        }
+    }
+}
+
+extension ValidatePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ValidatePullThroughCacheRuleInput: Swift.Equatable {
+    /// The repository name prefix associated with the pull through cache rule.
+    /// This member is required.
+    public var ecrRepositoryPrefix: Swift.String?
+    /// The registry ID associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+
+    public init(
+        ecrRepositoryPrefix: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    )
+    {
+        self.ecrRepositoryPrefix = ecrRepositoryPrefix
+        self.registryId = registryId
+    }
+}
+
+struct ValidatePullThroughCacheRuleInputBody: Swift.Equatable {
+    let ecrRepositoryPrefix: Swift.String?
+    let registryId: Swift.String?
+}
+
+extension ValidatePullThroughCacheRuleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ecrRepositoryPrefix
+        case registryId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ecrRepositoryPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ecrRepositoryPrefix)
+        ecrRepositoryPrefix = ecrRepositoryPrefixDecoded
+        let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
+        registryId = registryIdDecoded
+    }
+}
+
+extension ValidatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidatePullThroughCacheRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.credentialArn = output.credentialArn
+            self.ecrRepositoryPrefix = output.ecrRepositoryPrefix
+            self.failure = output.failure
+            self.isValid = output.isValid
+            self.registryId = output.registryId
+            self.upstreamRegistryUrl = output.upstreamRegistryUrl
+        } else {
+            self.credentialArn = nil
+            self.ecrRepositoryPrefix = nil
+            self.failure = nil
+            self.isValid = false
+            self.registryId = nil
+            self.upstreamRegistryUrl = nil
+        }
+    }
+}
+
+public struct ValidatePullThroughCacheRuleOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
+    public var credentialArn: Swift.String?
+    /// The Amazon ECR repository prefix associated with the pull through cache rule.
+    public var ecrRepositoryPrefix: Swift.String?
+    /// The reason the validation failed. For more details about possible causes and how to address them, see [Using pull through cache rules](https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html) in the Amazon Elastic Container Registry User Guide.
+    public var failure: Swift.String?
+    /// Whether or not the pull through cache rule was validated. If true, Amazon ECR was able to reach the upstream registry and authentication was successful. If false, there was an issue and validation failed. The failure reason indicates the cause.
+    public var isValid: Swift.Bool
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The upstream registry URL associated with the pull through cache rule.
+    public var upstreamRegistryUrl: Swift.String?
+
+    public init(
+        credentialArn: Swift.String? = nil,
+        ecrRepositoryPrefix: Swift.String? = nil,
+        failure: Swift.String? = nil,
+        isValid: Swift.Bool = false,
+        registryId: Swift.String? = nil,
+        upstreamRegistryUrl: Swift.String? = nil
+    )
+    {
+        self.credentialArn = credentialArn
+        self.ecrRepositoryPrefix = ecrRepositoryPrefix
+        self.failure = failure
+        self.isValid = isValid
+        self.registryId = registryId
+        self.upstreamRegistryUrl = upstreamRegistryUrl
+    }
+}
+
+struct ValidatePullThroughCacheRuleOutputBody: Swift.Equatable {
+    let ecrRepositoryPrefix: Swift.String?
+    let registryId: Swift.String?
+    let upstreamRegistryUrl: Swift.String?
+    let credentialArn: Swift.String?
+    let isValid: Swift.Bool
+    let failure: Swift.String?
+}
+
+extension ValidatePullThroughCacheRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialArn
+        case ecrRepositoryPrefix
+        case failure
+        case isValid
+        case registryId
+        case upstreamRegistryUrl
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ecrRepositoryPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ecrRepositoryPrefix)
+        ecrRepositoryPrefix = ecrRepositoryPrefixDecoded
+        let registryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registryId)
+        registryId = registryIdDecoded
+        let upstreamRegistryUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .upstreamRegistryUrl)
+        upstreamRegistryUrl = upstreamRegistryUrlDecoded
+        let credentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialArn)
+        credentialArn = credentialArnDecoded
+        let isValidDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isValid) ?? false
+        isValid = isValidDecoded
+        let failureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failure)
+        failure = failureDecoded
+    }
+}
+
+enum ValidatePullThroughCacheRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullThroughCacheRuleNotFoundException": return try await PullThroughCacheRuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

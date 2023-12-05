@@ -12,7 +12,7 @@ extension DrsClient {
     ///     - input: A `[ListExtensibleSourceServersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExtensibleSourceServersOutput`
     public func listExtensibleSourceServersPaginated(input: ListExtensibleSourceServersInput) -> ClientRuntime.PaginatorSequence<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutput> {
-        return ClientRuntime.PaginatorSequence<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutput>(input: input, inputKey: \ListExtensibleSourceServersInput.nextToken, outputKey: \ListExtensibleSourceServersOutput.nextToken, paginationFunction: self.listExtensibleSourceServers(input:))
+        return ClientRuntime.PaginatorSequence<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExtensibleSourceServers(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListExtensibleSourceServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListExtensibleSourceServersInput, Output == ListExtensibleSourceServersOutput {
+extension PaginatorSequence where OperationStackInput == ListExtensibleSourceServersInput, OperationStackOutput == ListExtensibleSourceServersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listExtensibleSourceServersPaginated`
     /// to access the nested member `[DrsClientTypes.StagingSourceServer]`
     /// - Returns: `[DrsClientTypes.StagingSourceServer]`
@@ -43,7 +43,7 @@ extension DrsClient {
     ///     - input: A `[ListLaunchActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLaunchActionsOutput`
     public func listLaunchActionsPaginated(input: ListLaunchActionsInput) -> ClientRuntime.PaginatorSequence<ListLaunchActionsInput, ListLaunchActionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLaunchActionsInput, ListLaunchActionsOutput>(input: input, inputKey: \ListLaunchActionsInput.nextToken, outputKey: \ListLaunchActionsOutput.nextToken, paginationFunction: self.listLaunchActions(input:))
+        return ClientRuntime.PaginatorSequence<ListLaunchActionsInput, ListLaunchActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLaunchActions(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListLaunchActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLaunchActionsInput, Output == ListLaunchActionsOutput {
+extension PaginatorSequence where OperationStackInput == ListLaunchActionsInput, OperationStackOutput == ListLaunchActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLaunchActionsPaginated`
     /// to access the nested member `[DrsClientTypes.LaunchAction]`
     /// - Returns: `[DrsClientTypes.LaunchAction]`
@@ -75,7 +75,7 @@ extension DrsClient {
     ///     - input: A `[ListStagingAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStagingAccountsOutput`
     public func listStagingAccountsPaginated(input: ListStagingAccountsInput) -> ClientRuntime.PaginatorSequence<ListStagingAccountsInput, ListStagingAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListStagingAccountsInput, ListStagingAccountsOutput>(input: input, inputKey: \ListStagingAccountsInput.nextToken, outputKey: \ListStagingAccountsOutput.nextToken, paginationFunction: self.listStagingAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListStagingAccountsInput, ListStagingAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStagingAccounts(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListStagingAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStagingAccountsInput, Output == ListStagingAccountsOutput {
+extension PaginatorSequence where OperationStackInput == ListStagingAccountsInput, OperationStackOutput == ListStagingAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStagingAccountsPaginated`
     /// to access the nested member `[DrsClientTypes.Account]`
     /// - Returns: `[DrsClientTypes.Account]`

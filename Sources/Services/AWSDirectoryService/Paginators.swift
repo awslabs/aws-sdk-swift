@@ -12,7 +12,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeClientAuthenticationSettingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientAuthenticationSettingsOutput`
     public func describeClientAuthenticationSettingsPaginated(input: DescribeClientAuthenticationSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(input: input, inputKey: \DescribeClientAuthenticationSettingsInput.nextToken, outputKey: \DescribeClientAuthenticationSettingsOutput.nextToken, paginationFunction: self.describeClientAuthenticationSettings(input:))
+        return ClientRuntime.PaginatorSequence<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClientAuthenticationSettings(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeClientAuthenticationSettingsInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where Input == DescribeClientAuthenticationSettingsInput, Output == DescribeClientAuthenticationSettingsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeClientAuthenticationSettingsInput, OperationStackOutput == DescribeClientAuthenticationSettingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClientAuthenticationSettingsPaginated`
     /// to access the nested member `[DirectoryClientTypes.ClientAuthenticationSettingInfo]`
     /// - Returns: `[DirectoryClientTypes.ClientAuthenticationSettingInfo]`
@@ -44,7 +44,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeDirectoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDirectoriesOutput`
     public func describeDirectoriesPaginated(input: DescribeDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutput>(input: input, inputKey: \DescribeDirectoriesInput.nextToken, outputKey: \DescribeDirectoriesOutput.nextToken, paginationFunction: self.describeDirectories(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDirectoriesInput, DescribeDirectoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDirectories(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension DescribeDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDirectoriesInput, Output == DescribeDirectoriesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDirectoriesInput, OperationStackOutput == DescribeDirectoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDirectoriesPaginated`
     /// to access the nested member `[DirectoryClientTypes.DirectoryDescription]`
     /// - Returns: `[DirectoryClientTypes.DirectoryDescription]`
@@ -75,7 +75,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeDomainControllersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainControllersOutput`
     public func describeDomainControllersPaginated(input: DescribeDomainControllersInput) -> ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutput>(input: input, inputKey: \DescribeDomainControllersInput.nextToken, outputKey: \DescribeDomainControllersOutput.nextToken, paginationFunction: self.describeDomainControllers(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDomainControllersInput, DescribeDomainControllersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDomainControllers(input:))
     }
 }
 
@@ -98,7 +98,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeLDAPSSettingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLDAPSSettingsOutput`
     public func describeLDAPSSettingsPaginated(input: DescribeLDAPSSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(input: input, inputKey: \DescribeLDAPSSettingsInput.nextToken, outputKey: \DescribeLDAPSSettingsOutput.nextToken, paginationFunction: self.describeLDAPSSettings(input:))
+        return ClientRuntime.PaginatorSequence<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLDAPSSettings(input:))
     }
 }
 
@@ -112,7 +112,7 @@ extension DescribeLDAPSSettingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeLDAPSSettingsInput, Output == DescribeLDAPSSettingsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeLDAPSSettingsInput, OperationStackOutput == DescribeLDAPSSettingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeLDAPSSettingsPaginated`
     /// to access the nested member `[DirectoryClientTypes.LDAPSSettingInfo]`
     /// - Returns: `[DirectoryClientTypes.LDAPSSettingInfo]`
@@ -130,7 +130,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeRegionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegionsOutput`
     public func describeRegionsPaginated(input: DescribeRegionsInput) -> ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutput>(input: input, inputKey: \DescribeRegionsInput.nextToken, outputKey: \DescribeRegionsOutput.nextToken, paginationFunction: self.describeRegions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeRegionsInput, DescribeRegionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegions(input:))
     }
 }
 
@@ -143,7 +143,7 @@ extension DescribeRegionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRegionsInput, Output == DescribeRegionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeRegionsInput, OperationStackOutput == DescribeRegionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRegionsPaginated`
     /// to access the nested member `[DirectoryClientTypes.RegionDescription]`
     /// - Returns: `[DirectoryClientTypes.RegionDescription]`
@@ -161,7 +161,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeSharedDirectoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSharedDirectoriesOutput`
     public func describeSharedDirectoriesPaginated(input: DescribeSharedDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(input: input, inputKey: \DescribeSharedDirectoriesInput.nextToken, outputKey: \DescribeSharedDirectoriesOutput.nextToken, paginationFunction: self.describeSharedDirectories(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSharedDirectories(input:))
     }
 }
 
@@ -175,7 +175,7 @@ extension DescribeSharedDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSharedDirectoriesInput, Output == DescribeSharedDirectoriesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeSharedDirectoriesInput, OperationStackOutput == DescribeSharedDirectoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSharedDirectoriesPaginated`
     /// to access the nested member `[DirectoryClientTypes.SharedDirectory]`
     /// - Returns: `[DirectoryClientTypes.SharedDirectory]`
@@ -193,7 +193,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
     public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutput.nextToken, paginationFunction: self.describeSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapshots(input:))
     }
 }
 
@@ -207,7 +207,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeSnapshotsInput, OperationStackOutput == DescribeSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[DirectoryClientTypes.Snapshot]`
     /// - Returns: `[DirectoryClientTypes.Snapshot]`
@@ -225,7 +225,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeTrustsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrustsOutput`
     public func describeTrustsPaginated(input: DescribeTrustsInput) -> ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutput>(input: input, inputKey: \DescribeTrustsInput.nextToken, outputKey: \DescribeTrustsOutput.nextToken, paginationFunction: self.describeTrusts(input:))
+        return ClientRuntime.PaginatorSequence<DescribeTrustsInput, DescribeTrustsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTrusts(input:))
     }
 }
 
@@ -239,7 +239,7 @@ extension DescribeTrustsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeTrustsInput, Output == DescribeTrustsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeTrustsInput, OperationStackOutput == DescribeTrustsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTrustsPaginated`
     /// to access the nested member `[DirectoryClientTypes.Trust]`
     /// - Returns: `[DirectoryClientTypes.Trust]`
@@ -257,7 +257,7 @@ extension DirectoryClient {
     ///     - input: A `[DescribeUpdateDirectoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUpdateDirectoryOutput`
     public func describeUpdateDirectoryPaginated(input: DescribeUpdateDirectoryInput) -> ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(input: input, inputKey: \DescribeUpdateDirectoryInput.nextToken, outputKey: \DescribeUpdateDirectoryOutput.nextToken, paginationFunction: self.describeUpdateDirectory(input:))
+        return ClientRuntime.PaginatorSequence<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeUpdateDirectory(input:))
     }
 }
 
@@ -271,7 +271,7 @@ extension DescribeUpdateDirectoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUpdateDirectoryInput, Output == DescribeUpdateDirectoryOutput {
+extension PaginatorSequence where OperationStackInput == DescribeUpdateDirectoryInput, OperationStackOutput == DescribeUpdateDirectoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUpdateDirectoryPaginated`
     /// to access the nested member `[DirectoryClientTypes.UpdateInfoEntry]`
     /// - Returns: `[DirectoryClientTypes.UpdateInfoEntry]`
@@ -289,7 +289,7 @@ extension DirectoryClient {
     ///     - input: A `[ListCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutput`
     public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutput.nextToken, paginationFunction: self.listCertificates(input:))
+        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCertificates(input:))
     }
 }
 
@@ -302,7 +302,7 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutput {
+extension PaginatorSequence where OperationStackInput == ListCertificatesInput, OperationStackOutput == ListCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
     /// to access the nested member `[DirectoryClientTypes.CertificateInfo]`
     /// - Returns: `[DirectoryClientTypes.CertificateInfo]`
@@ -320,7 +320,7 @@ extension DirectoryClient {
     ///     - input: A `[ListIpRoutesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIpRoutesOutput`
     public func listIpRoutesPaginated(input: ListIpRoutesInput) -> ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutput> {
-        return ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutput>(input: input, inputKey: \ListIpRoutesInput.nextToken, outputKey: \ListIpRoutesOutput.nextToken, paginationFunction: self.listIpRoutes(input:))
+        return ClientRuntime.PaginatorSequence<ListIpRoutesInput, ListIpRoutesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIpRoutes(input:))
     }
 }
 
@@ -333,7 +333,7 @@ extension ListIpRoutesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIpRoutesInput, Output == ListIpRoutesOutput {
+extension PaginatorSequence where OperationStackInput == ListIpRoutesInput, OperationStackOutput == ListIpRoutesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIpRoutesPaginated`
     /// to access the nested member `[DirectoryClientTypes.IpRouteInfo]`
     /// - Returns: `[DirectoryClientTypes.IpRouteInfo]`
@@ -351,7 +351,7 @@ extension DirectoryClient {
     ///     - input: A `[ListLogSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLogSubscriptionsOutput`
     public func listLogSubscriptionsPaginated(input: ListLogSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(input: input, inputKey: \ListLogSubscriptionsInput.nextToken, outputKey: \ListLogSubscriptionsOutput.nextToken, paginationFunction: self.listLogSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLogSubscriptions(input:))
     }
 }
 
@@ -364,7 +364,7 @@ extension ListLogSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLogSubscriptionsInput, Output == ListLogSubscriptionsOutput {
+extension PaginatorSequence where OperationStackInput == ListLogSubscriptionsInput, OperationStackOutput == ListLogSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLogSubscriptionsPaginated`
     /// to access the nested member `[DirectoryClientTypes.LogSubscription]`
     /// - Returns: `[DirectoryClientTypes.LogSubscription]`
@@ -382,7 +382,7 @@ extension DirectoryClient {
     ///     - input: A `[ListSchemaExtensionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaExtensionsOutput`
     public func listSchemaExtensionsPaginated(input: ListSchemaExtensionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(input: input, inputKey: \ListSchemaExtensionsInput.nextToken, outputKey: \ListSchemaExtensionsOutput.nextToken, paginationFunction: self.listSchemaExtensions(input:))
+        return ClientRuntime.PaginatorSequence<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemaExtensions(input:))
     }
 }
 
@@ -395,7 +395,7 @@ extension ListSchemaExtensionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemaExtensionsInput, Output == ListSchemaExtensionsOutput {
+extension PaginatorSequence where OperationStackInput == ListSchemaExtensionsInput, OperationStackOutput == ListSchemaExtensionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemaExtensionsPaginated`
     /// to access the nested member `[DirectoryClientTypes.SchemaExtensionInfo]`
     /// - Returns: `[DirectoryClientTypes.SchemaExtensionInfo]`
@@ -413,7 +413,7 @@ extension DirectoryClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -426,7 +426,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[DirectoryClientTypes.Tag]`
     /// - Returns: `[DirectoryClientTypes.Tag]`

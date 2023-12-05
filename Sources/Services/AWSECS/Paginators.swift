@@ -12,7 +12,7 @@ extension ECSClient {
     ///     - input: A `[ListAccountSettingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountSettingsOutput`
     public func listAccountSettingsPaginated(input: ListAccountSettingsInput) -> ClientRuntime.PaginatorSequence<ListAccountSettingsInput, ListAccountSettingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccountSettingsInput, ListAccountSettingsOutput>(input: input, inputKey: \ListAccountSettingsInput.nextToken, outputKey: \ListAccountSettingsOutput.nextToken, paginationFunction: self.listAccountSettings(input:))
+        return ClientRuntime.PaginatorSequence<ListAccountSettingsInput, ListAccountSettingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountSettings(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension ListAccountSettingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccountSettingsInput, Output == ListAccountSettingsOutput {
+extension PaginatorSequence where OperationStackInput == ListAccountSettingsInput, OperationStackOutput == ListAccountSettingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccountSettingsPaginated`
     /// to access the nested member `[ECSClientTypes.Setting]`
     /// - Returns: `[ECSClientTypes.Setting]`
@@ -46,7 +46,7 @@ extension ECSClient {
     ///     - input: A `[ListAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttributesOutput`
     public func listAttributesPaginated(input: ListAttributesInput) -> ClientRuntime.PaginatorSequence<ListAttributesInput, ListAttributesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAttributesInput, ListAttributesOutput>(input: input, inputKey: \ListAttributesInput.nextToken, outputKey: \ListAttributesOutput.nextToken, paginationFunction: self.listAttributes(input:))
+        return ClientRuntime.PaginatorSequence<ListAttributesInput, ListAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttributes(input:))
     }
 }
 
@@ -62,7 +62,7 @@ extension ListAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAttributesInput, Output == ListAttributesOutput {
+extension PaginatorSequence where OperationStackInput == ListAttributesInput, OperationStackOutput == ListAttributesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAttributesPaginated`
     /// to access the nested member `[ECSClientTypes.Attribute]`
     /// - Returns: `[ECSClientTypes.Attribute]`
@@ -80,7 +80,7 @@ extension ECSClient {
     ///     - input: A `[ListClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
     public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutput.nextToken, paginationFunction: self.listClusters(input:))
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
+extension PaginatorSequence where OperationStackInput == ListClustersInput, OperationStackOutput == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -110,7 +110,7 @@ extension ECSClient {
     ///     - input: A `[ListContainerInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContainerInstancesOutput`
     public func listContainerInstancesPaginated(input: ListContainerInstancesInput) -> ClientRuntime.PaginatorSequence<ListContainerInstancesInput, ListContainerInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<ListContainerInstancesInput, ListContainerInstancesOutput>(input: input, inputKey: \ListContainerInstancesInput.nextToken, outputKey: \ListContainerInstancesOutput.nextToken, paginationFunction: self.listContainerInstances(input:))
+        return ClientRuntime.PaginatorSequence<ListContainerInstancesInput, ListContainerInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContainerInstances(input:))
     }
 }
 
@@ -125,7 +125,7 @@ extension ListContainerInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContainerInstancesInput, Output == ListContainerInstancesOutput {
+extension PaginatorSequence where OperationStackInput == ListContainerInstancesInput, OperationStackOutput == ListContainerInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContainerInstancesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -143,7 +143,7 @@ extension ECSClient {
     ///     - input: A `[ListServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
     public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServices(input:))
     }
 }
 
@@ -158,7 +158,7 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutput {
+extension PaginatorSequence where OperationStackInput == ListServicesInput, OperationStackOutput == ListServicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServicesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -176,7 +176,7 @@ extension ECSClient {
     ///     - input: A `[ListServicesByNamespaceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesByNamespaceOutput`
     public func listServicesByNamespacePaginated(input: ListServicesByNamespaceInput) -> ClientRuntime.PaginatorSequence<ListServicesByNamespaceInput, ListServicesByNamespaceOutput> {
-        return ClientRuntime.PaginatorSequence<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(input: input, inputKey: \ListServicesByNamespaceInput.nextToken, outputKey: \ListServicesByNamespaceOutput.nextToken, paginationFunction: self.listServicesByNamespace(input:))
+        return ClientRuntime.PaginatorSequence<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServicesByNamespace(input:))
     }
 }
 
@@ -189,7 +189,7 @@ extension ListServicesByNamespaceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListServicesByNamespaceInput, Output == ListServicesByNamespaceOutput {
+extension PaginatorSequence where OperationStackInput == ListServicesByNamespaceInput, OperationStackOutput == ListServicesByNamespaceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServicesByNamespacePaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -207,7 +207,7 @@ extension ECSClient {
     ///     - input: A `[ListTaskDefinitionFamiliesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTaskDefinitionFamiliesOutput`
     public func listTaskDefinitionFamiliesPaginated(input: ListTaskDefinitionFamiliesInput) -> ClientRuntime.PaginatorSequence<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput> {
-        return ClientRuntime.PaginatorSequence<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(input: input, inputKey: \ListTaskDefinitionFamiliesInput.nextToken, outputKey: \ListTaskDefinitionFamiliesOutput.nextToken, paginationFunction: self.listTaskDefinitionFamilies(input:))
+        return ClientRuntime.PaginatorSequence<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTaskDefinitionFamilies(input:))
     }
 }
 
@@ -221,7 +221,7 @@ extension ListTaskDefinitionFamiliesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTaskDefinitionFamiliesInput, Output == ListTaskDefinitionFamiliesOutput {
+extension PaginatorSequence where OperationStackInput == ListTaskDefinitionFamiliesInput, OperationStackOutput == ListTaskDefinitionFamiliesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTaskDefinitionFamiliesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -239,7 +239,7 @@ extension ECSClient {
     ///     - input: A `[ListTaskDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTaskDefinitionsOutput`
     public func listTaskDefinitionsPaginated(input: ListTaskDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListTaskDefinitionsInput, ListTaskDefinitionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(input: input, inputKey: \ListTaskDefinitionsInput.nextToken, outputKey: \ListTaskDefinitionsOutput.nextToken, paginationFunction: self.listTaskDefinitions(input:))
+        return ClientRuntime.PaginatorSequence<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTaskDefinitions(input:))
     }
 }
 
@@ -254,7 +254,7 @@ extension ListTaskDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTaskDefinitionsInput, Output == ListTaskDefinitionsOutput {
+extension PaginatorSequence where OperationStackInput == ListTaskDefinitionsInput, OperationStackOutput == ListTaskDefinitionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTaskDefinitionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -272,7 +272,7 @@ extension ECSClient {
     ///     - input: A `[ListTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTasksOutput`
     public func listTasksPaginated(input: ListTasksInput) -> ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput> {
-        return ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput>(input: input, inputKey: \ListTasksInput.nextToken, outputKey: \ListTasksOutput.nextToken, paginationFunction: self.listTasks(input:))
+        return ClientRuntime.PaginatorSequence<ListTasksInput, ListTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTasks(input:))
     }
 }
 
@@ -291,7 +291,7 @@ extension ListTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTasksInput, Output == ListTasksOutput {
+extension PaginatorSequence where OperationStackInput == ListTasksInput, OperationStackOutput == ListTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTasksPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

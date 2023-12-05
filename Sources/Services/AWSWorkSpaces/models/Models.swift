@@ -3334,6 +3334,83 @@ enum CreateWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension WorkSpacesClientTypes {
+    public enum DataReplication: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case noReplication
+        case primaryAsSource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataReplication] {
+            return [
+                .noReplication,
+                .primaryAsSource,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .noReplication: return "NO_REPLICATION"
+            case .primaryAsSource: return "PRIMARY_AS_SOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataReplication(rawValue: rawValue) ?? DataReplication.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkSpacesClientTypes.DataReplicationSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataReplication = "DataReplication"
+        case recoverySnapshotTime = "RecoverySnapshotTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataReplication = self.dataReplication {
+            try encodeContainer.encode(dataReplication.rawValue, forKey: .dataReplication)
+        }
+        if let recoverySnapshotTime = self.recoverySnapshotTime {
+            try encodeContainer.encodeTimestamp(recoverySnapshotTime, format: .epochSeconds, forKey: .recoverySnapshotTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataReplicationDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DataReplication.self, forKey: .dataReplication)
+        dataReplication = dataReplicationDecoded
+        let recoverySnapshotTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .recoverySnapshotTime)
+        recoverySnapshotTime = recoverySnapshotTimeDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes the data replication settings.
+    public struct DataReplicationSettings: Swift.Equatable {
+        /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
+        public var dataReplication: WorkSpacesClientTypes.DataReplication?
+        /// The date and time at which the last successful snapshot was taken of the primary WorkSpace used for replicating data.
+        public var recoverySnapshotTime: ClientRuntime.Date?
+
+        public init(
+            dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
+            recoverySnapshotTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.dataReplication = dataReplication
+            self.recoverySnapshotTime = recoverySnapshotTime
+        }
+    }
+
+}
+
+extension WorkSpacesClientTypes {
     public enum DedicatedTenancyModificationStateEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed
         case failed
@@ -10184,12 +10261,16 @@ enum ModifyWorkspaceCreationPropertiesOutputError: ClientRuntime.HttpResponseErr
 
 extension ModifyWorkspacePropertiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataReplication = "DataReplication"
         case workspaceId = "WorkspaceId"
         case workspaceProperties = "WorkspaceProperties"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataReplication = self.dataReplication {
+            try encodeContainer.encode(dataReplication.rawValue, forKey: .dataReplication)
+        }
         if let workspaceId = self.workspaceId {
             try encodeContainer.encode(workspaceId, forKey: .workspaceId)
         }
@@ -10206,18 +10287,21 @@ extension ModifyWorkspacePropertiesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ModifyWorkspacePropertiesInput: Swift.Equatable {
+    /// Indicates the data replication status.
+    public var dataReplication: WorkSpacesClientTypes.DataReplication?
     /// The identifier of the WorkSpace.
     /// This member is required.
     public var workspaceId: Swift.String?
     /// The properties of the WorkSpace.
-    /// This member is required.
     public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
 
     public init(
+        dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
         workspaceId: Swift.String? = nil,
         workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
     )
     {
+        self.dataReplication = dataReplication
         self.workspaceId = workspaceId
         self.workspaceProperties = workspaceProperties
     }
@@ -10226,10 +10310,12 @@ public struct ModifyWorkspacePropertiesInput: Swift.Equatable {
 struct ModifyWorkspacePropertiesInputBody: Swift.Equatable {
     let workspaceId: Swift.String?
     let workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
+    let dataReplication: WorkSpacesClientTypes.DataReplication?
 }
 
 extension ModifyWorkspacePropertiesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataReplication = "DataReplication"
         case workspaceId = "WorkspaceId"
         case workspaceProperties = "WorkspaceProperties"
     }
@@ -10240,6 +10326,8 @@ extension ModifyWorkspacePropertiesInputBody: Swift.Decodable {
         workspaceId = workspaceIdDecoded
         let workspacePropertiesDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceProperties.self, forKey: .workspaceProperties)
         workspaceProperties = workspacePropertiesDecoded
+        let dataReplicationDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DataReplication.self, forKey: .dataReplication)
+        dataReplication = dataReplicationDecoded
     }
 }
 
@@ -12155,6 +12243,7 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataReplication = "DataReplication"
         case directoryId = "DirectoryId"
         case primaryWorkspaceId = "PrimaryWorkspaceId"
         case tags = "Tags"
@@ -12163,6 +12252,9 @@ extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataReplication = self.dataReplication {
+            try encodeContainer.encode(dataReplication.rawValue, forKey: .dataReplication)
+        }
         if let directoryId = self.directoryId {
             try encodeContainer.encode(directoryId, forKey: .directoryId)
         }
@@ -12199,12 +12291,16 @@ extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let dataReplicationDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DataReplication.self, forKey: .dataReplication)
+        dataReplication = dataReplicationDecoded
     }
 }
 
 extension WorkSpacesClientTypes {
     /// Describes a standby WorkSpace.
     public struct StandbyWorkspace: Swift.Equatable {
+        /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
+        public var dataReplication: WorkSpacesClientTypes.DataReplication?
         /// The identifier of the directory for the standby WorkSpace.
         /// This member is required.
         public var directoryId: Swift.String?
@@ -12217,12 +12313,14 @@ extension WorkSpacesClientTypes {
         public var volumeEncryptionKey: Swift.String?
 
         public init(
+            dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
             directoryId: Swift.String? = nil,
             primaryWorkspaceId: Swift.String? = nil,
             tags: [WorkSpacesClientTypes.Tag]? = nil,
             volumeEncryptionKey: Swift.String? = nil
         )
         {
+            self.dataReplication = dataReplication
             self.directoryId = directoryId
             self.primaryWorkspaceId = primaryWorkspaceId
             self.tags = tags
@@ -12262,6 +12360,61 @@ extension WorkSpacesClientTypes {
             self = StandbyWorkspaceRelationshipType(rawValue: rawValue) ?? StandbyWorkspaceRelationshipType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension WorkSpacesClientTypes.StandbyWorkspacesProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataReplication = "DataReplication"
+        case recoverySnapshotTime = "RecoverySnapshotTime"
+        case standbyWorkspaceId = "StandbyWorkspaceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataReplication = self.dataReplication {
+            try encodeContainer.encode(dataReplication.rawValue, forKey: .dataReplication)
+        }
+        if let recoverySnapshotTime = self.recoverySnapshotTime {
+            try encodeContainer.encodeTimestamp(recoverySnapshotTime, format: .epochSeconds, forKey: .recoverySnapshotTime)
+        }
+        if let standbyWorkspaceId = self.standbyWorkspaceId {
+            try encodeContainer.encode(standbyWorkspaceId, forKey: .standbyWorkspaceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standbyWorkspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standbyWorkspaceId)
+        standbyWorkspaceId = standbyWorkspaceIdDecoded
+        let dataReplicationDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DataReplication.self, forKey: .dataReplication)
+        dataReplication = dataReplicationDecoded
+        let recoverySnapshotTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .recoverySnapshotTime)
+        recoverySnapshotTime = recoverySnapshotTimeDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes the properties of the related standby WorkSpaces.
+    public struct StandbyWorkspacesProperties: Swift.Equatable {
+        /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
+        public var dataReplication: WorkSpacesClientTypes.DataReplication?
+        /// The date and time at which the last successful snapshot was taken of the primary WorkSpace used for replicating data.
+        public var recoverySnapshotTime: ClientRuntime.Date?
+        /// The identifier of the standby WorkSpace
+        public var standbyWorkspaceId: Swift.String?
+
+        public init(
+            dataReplication: WorkSpacesClientTypes.DataReplication? = nil,
+            recoverySnapshotTime: ClientRuntime.Date? = nil,
+            standbyWorkspaceId: Swift.String? = nil
+        )
+        {
+            self.dataReplication = dataReplication
+            self.recoverySnapshotTime = recoverySnapshotTime
+            self.standbyWorkspaceId = standbyWorkspaceId
+        }
+    }
+
 }
 
 extension WorkSpacesClientTypes.StartRequest: Swift.Codable {
@@ -13793,6 +13946,7 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bundleId = "BundleId"
         case computerName = "ComputerName"
+        case dataReplicationSettings = "DataReplicationSettings"
         case directoryId = "DirectoryId"
         case errorCode = "ErrorCode"
         case errorMessage = "ErrorMessage"
@@ -13800,6 +13954,7 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         case modificationStates = "ModificationStates"
         case relatedWorkspaces = "RelatedWorkspaces"
         case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
+        case standbyWorkspacesProperties = "StandbyWorkspacesProperties"
         case state = "State"
         case subnetId = "SubnetId"
         case userName = "UserName"
@@ -13816,6 +13971,9 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         }
         if let computerName = self.computerName {
             try encodeContainer.encode(computerName, forKey: .computerName)
+        }
+        if let dataReplicationSettings = self.dataReplicationSettings {
+            try encodeContainer.encode(dataReplicationSettings, forKey: .dataReplicationSettings)
         }
         if let directoryId = self.directoryId {
             try encodeContainer.encode(directoryId, forKey: .directoryId)
@@ -13843,6 +14001,12 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         }
         if let rootVolumeEncryptionEnabled = self.rootVolumeEncryptionEnabled {
             try encodeContainer.encode(rootVolumeEncryptionEnabled, forKey: .rootVolumeEncryptionEnabled)
+        }
+        if let standbyWorkspacesProperties = standbyWorkspacesProperties {
+            var standbyWorkspacesPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standbyWorkspacesProperties)
+            for standbyworkspacesproperties0 in standbyWorkspacesProperties {
+                try standbyWorkspacesPropertiesContainer.encode(standbyworkspacesproperties0)
+            }
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -13919,6 +14083,19 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
             }
         }
         relatedWorkspaces = relatedWorkspacesDecoded0
+        let dataReplicationSettingsDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DataReplicationSettings.self, forKey: .dataReplicationSettings)
+        dataReplicationSettings = dataReplicationSettingsDecoded
+        let standbyWorkspacesPropertiesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.StandbyWorkspacesProperties?].self, forKey: .standbyWorkspacesProperties)
+        var standbyWorkspacesPropertiesDecoded0:[WorkSpacesClientTypes.StandbyWorkspacesProperties]? = nil
+        if let standbyWorkspacesPropertiesContainer = standbyWorkspacesPropertiesContainer {
+            standbyWorkspacesPropertiesDecoded0 = [WorkSpacesClientTypes.StandbyWorkspacesProperties]()
+            for structure0 in standbyWorkspacesPropertiesContainer {
+                if let structure0 = structure0 {
+                    standbyWorkspacesPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        standbyWorkspacesProperties = standbyWorkspacesPropertiesDecoded0
     }
 }
 
@@ -13929,6 +14106,8 @@ extension WorkSpacesClientTypes {
         public var bundleId: Swift.String?
         /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see [ Launch a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/launch-workspaces-tutorials.html).
         public var computerName: Swift.String?
+        /// Indicates the settings of the data replication.
+        public var dataReplicationSettings: WorkSpacesClientTypes.DataReplicationSettings?
         /// The identifier of the Directory Service directory for the WorkSpace.
         public var directoryId: Swift.String?
         /// The error code that is returned if the WorkSpace cannot be created.
@@ -13943,6 +14122,8 @@ extension WorkSpacesClientTypes {
         public var relatedWorkspaces: [WorkSpacesClientTypes.RelatedWorkspaceProperties]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public var rootVolumeEncryptionEnabled: Swift.Bool?
+        /// The properties of the standby WorkSpace
+        public var standbyWorkspacesProperties: [WorkSpacesClientTypes.StandbyWorkspacesProperties]?
         /// The operational state of the WorkSpace. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using [ DescribeWorkSpaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html). If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
         public var state: WorkSpacesClientTypes.WorkspaceState?
         /// The identifier of the subnet for the WorkSpace.
@@ -13961,6 +14142,7 @@ extension WorkSpacesClientTypes {
         public init(
             bundleId: Swift.String? = nil,
             computerName: Swift.String? = nil,
+            dataReplicationSettings: WorkSpacesClientTypes.DataReplicationSettings? = nil,
             directoryId: Swift.String? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
@@ -13968,6 +14150,7 @@ extension WorkSpacesClientTypes {
             modificationStates: [WorkSpacesClientTypes.ModificationState]? = nil,
             relatedWorkspaces: [WorkSpacesClientTypes.RelatedWorkspaceProperties]? = nil,
             rootVolumeEncryptionEnabled: Swift.Bool? = nil,
+            standbyWorkspacesProperties: [WorkSpacesClientTypes.StandbyWorkspacesProperties]? = nil,
             state: WorkSpacesClientTypes.WorkspaceState? = nil,
             subnetId: Swift.String? = nil,
             userName: Swift.String? = nil,
@@ -13979,6 +14162,7 @@ extension WorkSpacesClientTypes {
         {
             self.bundleId = bundleId
             self.computerName = computerName
+            self.dataReplicationSettings = dataReplicationSettings
             self.directoryId = directoryId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -13986,6 +14170,7 @@ extension WorkSpacesClientTypes {
             self.modificationStates = modificationStates
             self.relatedWorkspaces = relatedWorkspaces
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
+            self.standbyWorkspacesProperties = standbyWorkspacesProperties
             self.state = state
             self.subnetId = subnetId
             self.userName = userName

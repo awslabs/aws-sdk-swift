@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// IoT Analytics allows you to collect large amounts of device data, process messages, and store them. You can then query the data and run sophisticated analytics on it. IoT Analytics enables advanced data exploration through integration with Jupyter Notebooks and data visualization through integration with Amazon QuickSight. Traditional analytics and business intelligence tools are designed to process structured data. IoT data often comes from devices that record noisy processes (such as temperature, motion, or sound). As a result the data from these devices can have significant gaps, corrupted messages, and false readings that must be cleaned up before analysis can occur. Also, IoT data is often only meaningful in the context of other data from external sources. IoT Analytics automates the steps required to analyze data from IoT devices. IoT Analytics filters, transforms, and enriches IoT data before storing it in a time-series data store for analysis. You can set up the service to collect only the data you need from your devices, apply mathematical transforms to process the data, and enrich the data with device-specific metadata such as device type and location before storing it. Then, you can analyze your data by running queries using the built-in SQL query engine, or perform more complex analytics and machine learning inference. IoT Analytics includes pre-built models for common IoT use cases so you can answer questions like which devices are about to fail or which customers are at risk of abandoning their wearable devices.
 public protocol IoTAnalyticsClientProtocol {
+    /// Performs the `BatchPutMessage` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Sends messages to a channel.
     ///
     /// - Parameter BatchPutMessageInput : [no documentation found]
@@ -19,6 +21,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutput
+    /// Performs the `CancelPipelineReprocessing` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Cancels the reprocessing of data through the pipeline.
     ///
     /// - Parameter CancelPipelineReprocessingInput : [no documentation found]
@@ -34,6 +38,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func cancelPipelineReprocessing(input: CancelPipelineReprocessingInput) async throws -> CancelPipelineReprocessingOutput
+    /// Performs the `CreateChannel` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Used to create a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
@@ -50,6 +56,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
+    /// Performs the `CreateDataset` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Used to create a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
     ///
     /// - Parameter CreateDatasetInput : [no documentation found]
@@ -66,6 +74,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
+    /// Performs the `CreateDatasetContent` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
     ///
     /// - Parameter CreateDatasetContentInput : [no documentation found]
@@ -81,6 +91,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createDatasetContent(input: CreateDatasetContentInput) async throws -> CreateDatasetContentOutput
+    /// Performs the `CreateDatastore` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Creates a data store, which is a repository for messages.
     ///
     /// - Parameter CreateDatastoreInput : [no documentation found]
@@ -97,6 +109,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput
+    /// Performs the `CreatePipeline` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
     /// - Parameter CreatePipelineInput : [no documentation found]
@@ -113,6 +127,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
+    /// Performs the `DeleteChannel` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Deletes the specified channel.
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
@@ -128,6 +144,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
+    /// Performs the `DeleteDataset` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
@@ -143,6 +161,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
+    /// Performs the `DeleteDatasetContent` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Deletes the content of the specified dataset.
     ///
     /// - Parameter DeleteDatasetContentInput : [no documentation found]
@@ -158,6 +178,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func deleteDatasetContent(input: DeleteDatasetContentInput) async throws -> DeleteDatasetContentOutput
+    /// Performs the `DeleteDatastore` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Deletes the specified data store.
     ///
     /// - Parameter DeleteDatastoreInput : [no documentation found]
@@ -173,6 +195,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput
+    /// Performs the `DeletePipeline` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Deletes the specified pipeline.
     ///
     /// - Parameter DeletePipelineInput : [no documentation found]
@@ -188,6 +212,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
+    /// Performs the `DescribeChannel` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves information about a channel.
     ///
     /// - Parameter DescribeChannelInput : [no documentation found]
@@ -203,6 +229,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
+    /// Performs the `DescribeDataset` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves information about a dataset.
     ///
     /// - Parameter DescribeDatasetInput : [no documentation found]
@@ -218,6 +246,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
+    /// Performs the `DescribeDatastore` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves information about a data store.
     ///
     /// - Parameter DescribeDatastoreInput : [no documentation found]
@@ -233,6 +263,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeDatastore(input: DescribeDatastoreInput) async throws -> DescribeDatastoreOutput
+    /// Performs the `DescribeLoggingOptions` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves the current settings of the IoT Analytics logging options.
     ///
     /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
@@ -248,6 +280,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput
+    /// Performs the `DescribePipeline` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves information about a pipeline.
     ///
     /// - Parameter DescribePipelineInput : [no documentation found]
@@ -263,6 +297,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutput
+    /// Performs the `GetDatasetContent` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves the contents of a dataset as presigned URIs.
     ///
     /// - Parameter GetDatasetContentInput : [no documentation found]
@@ -278,6 +314,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getDatasetContent(input: GetDatasetContentInput) async throws -> GetDatasetContentOutput
+    /// Performs the `ListChannels` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves a list of channels.
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
@@ -292,6 +330,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
+    /// Performs the `ListDatasetContents` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Lists information about dataset contents that have been created.
     ///
     /// - Parameter ListDatasetContentsInput : [no documentation found]
@@ -307,6 +347,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listDatasetContents(input: ListDatasetContentsInput) async throws -> ListDatasetContentsOutput
+    /// Performs the `ListDatasets` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves information about datasets.
     ///
     /// - Parameter ListDatasetsInput : [no documentation found]
@@ -321,6 +363,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
+    /// Performs the `ListDatastores` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves a list of data stores.
     ///
     /// - Parameter ListDatastoresInput : [no documentation found]
@@ -335,6 +379,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput
+    /// Performs the `ListPipelines` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves a list of pipelines.
     ///
     /// - Parameter ListPipelinesInput : [no documentation found]
@@ -349,6 +395,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Lists the tags (metadata) that you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -365,6 +413,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PutLoggingOptions` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Sets or updates the IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
     /// - Parameter PutLoggingOptionsInput : [no documentation found]
@@ -379,6 +429,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
+    /// Performs the `RunPipelineActivity` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Simulates the results of running a pipeline activity on a message payload.
     ///
     /// - Parameter RunPipelineActivityInput : [no documentation found]
@@ -393,6 +445,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func runPipelineActivity(input: RunPipelineActivityInput) async throws -> RunPipelineActivityOutput
+    /// Performs the `SampleChannelData` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
     ///
     /// - Parameter SampleChannelDataInput : [no documentation found]
@@ -408,6 +462,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func sampleChannelData(input: SampleChannelDataInput) async throws -> SampleChannelDataOutput
+    /// Performs the `StartPipelineReprocessing` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Starts the reprocessing of raw message data through the pipeline.
     ///
     /// - Parameter StartPipelineReprocessingInput : [no documentation found]
@@ -424,6 +480,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func startPipelineReprocessing(input: StartPipelineReprocessingInput) async throws -> StartPipelineReprocessingOutput
+    /// Performs the `TagResource` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -440,6 +498,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Removes the given tags (metadata) from the resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -456,6 +516,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateChannel` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Used to update the settings of a channel.
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]
@@ -471,6 +533,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
+    /// Performs the `UpdateDataset` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Updates the settings of a dataset.
     ///
     /// - Parameter UpdateDatasetInput : [no documentation found]
@@ -486,6 +550,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
+    /// Performs the `UpdateDatastore` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Used to update the settings of a data store.
     ///
     /// - Parameter UpdateDatastoreInput : [no documentation found]
@@ -501,6 +567,8 @@ public protocol IoTAnalyticsClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func updateDatastore(input: UpdateDatastoreInput) async throws -> UpdateDatastoreOutput
+    /// Performs the `UpdatePipeline` operation on the `AWSIoTAnalytics` service.
+    ///
     /// Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
     /// - Parameter UpdatePipelineInput : [no documentation found]

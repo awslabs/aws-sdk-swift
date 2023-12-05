@@ -225,6 +225,42 @@ extension AmpClientTypes {
     }
 }
 
+extension AmpClientTypes.AmpConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workspaceArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let workspaceArn = self.workspaceArn {
+            try encodeContainer.encode(workspaceArn, forKey: .workspaceArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workspaceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceArn)
+        workspaceArn = workspaceArnDecoded
+    }
+}
+
+extension AmpClientTypes {
+    /// A representation of an AMP destination.
+    public struct AmpConfiguration: Swift.Equatable {
+        /// The ARN of an AMP workspace.
+        /// This member is required.
+        public var workspaceArn: Swift.String?
+
+        public init(
+            workspaceArn: Swift.String? = nil
+        )
+        {
+            self.workspaceArn = workspaceArn
+        }
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -763,6 +799,229 @@ enum CreateRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension CreateScraperInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias
+        case clientToken
+        case destination
+        case scrapeConfiguration
+        case source
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alias = self.alias {
+            try encodeContainer.encode(alias, forKey: .alias)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let scrapeConfiguration = self.scrapeConfiguration {
+            try encodeContainer.encode(scrapeConfiguration, forKey: .scrapeConfiguration)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateScraperInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/scrapers"
+    }
+}
+
+/// Represents the input of a CreateScraper operation.
+public struct CreateScraperInput: Swift.Equatable {
+    /// An optional user-assigned alias for this scraper. This alias is for user reference and does not need to be unique.
+    public var alias: Swift.String?
+    /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The destination that the scraper will be producing metrics to.
+    /// This member is required.
+    public var destination: AmpClientTypes.Destination?
+    /// The configuration used to create the scraper.
+    /// This member is required.
+    public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
+    /// The source that the scraper will be discovering and collecting metrics from.
+    /// This member is required.
+    public var source: AmpClientTypes.Source?
+    /// Optional, user-provided tags for this scraper.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        alias: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        destination: AmpClientTypes.Destination? = nil,
+        scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
+        source: AmpClientTypes.Source? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.alias = alias
+        self.clientToken = clientToken
+        self.destination = destination
+        self.scrapeConfiguration = scrapeConfiguration
+        self.source = source
+        self.tags = tags
+    }
+}
+
+struct CreateScraperInputBody: Swift.Equatable {
+    let alias: Swift.String?
+    let scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
+    let source: AmpClientTypes.Source?
+    let destination: AmpClientTypes.Destination?
+    let clientToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateScraperInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias
+        case clientToken
+        case destination
+        case scrapeConfiguration
+        case source
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
+        alias = aliasDecoded
+        let scrapeConfigurationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScrapeConfiguration.self, forKey: .scrapeConfiguration)
+        scrapeConfiguration = scrapeConfigurationDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Source.self, forKey: .source)
+        source = sourceDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Destination.self, forKey: .destination)
+        destination = destinationDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateScraperOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateScraperOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.scraperId = output.scraperId
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.scraperId = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Represents the output of a CreateScraper operation.
+public struct CreateScraperOutput: Swift.Equatable {
+    /// The ARN of the scraper that was just created.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The generated ID of the scraper that was just created.
+    /// This member is required.
+    public var scraperId: Swift.String?
+    /// The status of the scraper that was just created (usually CREATING).
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperStatus?
+    /// The tags of this scraper.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        scraperId: Swift.String? = nil,
+        status: AmpClientTypes.ScraperStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.scraperId = scraperId
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct CreateScraperOutputBody: Swift.Equatable {
+    let scraperId: Swift.String?
+    let arn: Swift.String?
+    let status: AmpClientTypes.ScraperStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateScraperOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case scraperId
+        case status
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scraperIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scraperId)
+        scraperId = scraperIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateWorkspaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
@@ -1178,6 +1437,124 @@ enum DeleteRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension DeleteScraperInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteScraperInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let scraperId = scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())"
+    }
+}
+
+/// Represents the input of a DeleteScraper operation.
+public struct DeleteScraperInput: Swift.Equatable {
+    /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the scraper to delete.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        scraperId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.scraperId = scraperId
+    }
+}
+
+struct DeleteScraperInputBody: Swift.Equatable {
+}
+
+extension DeleteScraperInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteScraperOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteScraperOutputBody = try responseDecoder.decode(responseBody: data)
+            self.scraperId = output.scraperId
+            self.status = output.status
+        } else {
+            self.scraperId = nil
+            self.status = nil
+        }
+    }
+}
+
+/// Represents the output of a DeleteScraper operation.
+public struct DeleteScraperOutput: Swift.Equatable {
+    /// The ID of the scraper that was deleted.
+    /// This member is required.
+    public var scraperId: Swift.String?
+    /// The status of the scraper that is being deleted.
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperStatus?
+
+    public init(
+        scraperId: Swift.String? = nil,
+        status: AmpClientTypes.ScraperStatus? = nil
+    )
+    {
+        self.scraperId = scraperId
+        self.status = status
+    }
+}
+
+struct DeleteScraperOutputBody: Swift.Equatable {
+    let scraperId: Swift.String?
+    let status: AmpClientTypes.ScraperStatus?
+}
+
+extension DeleteScraperOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scraperId
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scraperIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scraperId)
+        scraperId = scraperIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum DeleteScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteWorkspaceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -1527,6 +1904,95 @@ enum DescribeRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension DescribeScraperInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let scraperId = scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())"
+    }
+}
+
+/// Represents the input of a DescribeScraper operation.
+public struct DescribeScraperInput: Swift.Equatable {
+    /// The IDs of the scraper to describe.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        scraperId: Swift.String? = nil
+    )
+    {
+        self.scraperId = scraperId
+    }
+}
+
+struct DescribeScraperInputBody: Swift.Equatable {
+}
+
+extension DescribeScraperInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeScraperOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeScraperOutputBody = try responseDecoder.decode(responseBody: data)
+            self.scraper = output.scraper
+        } else {
+            self.scraper = nil
+        }
+    }
+}
+
+/// Represents the output of a DescribeScraper operation.
+public struct DescribeScraperOutput: Swift.Equatable {
+    /// The properties of the selected scrapers.
+    /// This member is required.
+    public var scraper: AmpClientTypes.ScraperDescription?
+
+    public init(
+        scraper: AmpClientTypes.ScraperDescription? = nil
+    )
+    {
+        self.scraper = scraper
+    }
+}
+
+struct DescribeScraperOutputBody: Swift.Equatable {
+    let scraper: AmpClientTypes.ScraperDescription?
+}
+
+extension DescribeScraperOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scraper
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scraperDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperDescription.self, forKey: .scraper)
+        scraper = scraperDecoded
+    }
+}
+
+enum DescribeScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeWorkspaceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let workspaceId = workspaceId else {
@@ -1611,6 +2077,200 @@ enum DescribeWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AmpClientTypes.Destination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ampconfiguration = "ampConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .ampconfiguration(ampconfiguration):
+                try container.encode(ampconfiguration, forKey: .ampconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let ampconfigurationDecoded = try values.decodeIfPresent(AmpClientTypes.AmpConfiguration.self, forKey: .ampconfiguration)
+        if let ampconfiguration = ampconfigurationDecoded {
+            self = .ampconfiguration(ampconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AmpClientTypes {
+    /// A representation of a destination that a scraper can produce metrics to.
+    public enum Destination: Swift.Equatable {
+        /// A representation of an AMP destination.
+        case ampconfiguration(AmpClientTypes.AmpConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension AmpClientTypes.EksConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterArn
+        case securityGroupIds
+        case subnetIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterArn = self.clusterArn {
+            try encodeContainer.encode(clusterArn, forKey: .clusterArn)
+        }
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
+        clusterArn = clusterArnDecoded
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+    }
+}
+
+extension AmpClientTypes {
+    /// A representation of an EKS source.
+    public struct EksConfiguration: Swift.Equatable {
+        /// The ARN of an EKS cluster.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// A list of security group IDs specified for VPC configuration.
+        public var securityGroupIds: [Swift.String]?
+        /// A list of subnet IDs specified for VPC configuration.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        )
+        {
+            self.clusterArn = clusterArn
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+
+}
+
+extension GetDefaultScraperConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/scraperconfiguration"
+    }
+}
+
+/// Represents the input of a GetDefaultScraperConfiguration operation.
+public struct GetDefaultScraperConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetDefaultScraperConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetDefaultScraperConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetDefaultScraperConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDefaultScraperConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuration = output.configuration
+        } else {
+            self.configuration = nil
+        }
+    }
+}
+
+/// Represents the output of a GetDefaultScraperConfiguration operation.
+public struct GetDefaultScraperConfigurationOutput: Swift.Equatable {
+    /// The default configuration.
+    /// This member is required.
+    public var configuration: ClientRuntime.Data?
+
+    public init(
+        configuration: ClientRuntime.Data? = nil
+    )
+    {
+        self.configuration = configuration
+    }
+}
+
+struct GetDefaultScraperConfigurationOutputBody: Swift.Equatable {
+    let configuration: ClientRuntime.Data?
+}
+
+extension GetDefaultScraperConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+enum GetDefaultScraperConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1816,6 +2476,145 @@ enum ListRuleGroupsNamespacesOutputError: ClientRuntime.HttpResponseErrorBinding
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListScrapersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let filters = filters {
+                let currentQueryItemNames = items.map({$0.name})
+                filters.forEach { key0, value0 in
+                    if !currentQueryItemNames.contains(key0) {
+                        value0.forEach { value1 in
+                            let queryItem = ClientRuntime.URLQueryItem(name: key0.urlPercentEncoding(), value: value1.urlPercentEncoding())
+                            items.append(queryItem)
+                        }
+                    }
+                }
+            }
+            return items
+        }
+    }
+}
+
+extension ListScrapersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/scrapers"
+    }
+}
+
+/// Represents the input of a ListScrapers operation.
+public struct ListScrapersInput: Swift.Equatable {
+    /// A list of scraper filters.
+    public var filters: [Swift.String:[Swift.String]]?
+    /// Maximum results to return in response (default=100, maximum=1000).
+    public var maxResults: Swift.Int?
+    /// Pagination token to request the next page in a paginated list. This token is obtained from the output of the previous ListScrapers request.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [Swift.String:[Swift.String]]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListScrapersInputBody: Swift.Equatable {
+}
+
+extension ListScrapersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListScrapersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListScrapersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scrapers = output.scrapers
+        } else {
+            self.nextToken = nil
+            self.scrapers = nil
+        }
+    }
+}
+
+/// Represents the output of a ListScrapers operation.
+public struct ListScrapersOutput: Swift.Equatable {
+    /// Pagination token to use when requesting the next page in this list.
+    public var nextToken: Swift.String?
+    /// The list of scrapers, filtered down if a set of filters was provided in the request.
+    /// This member is required.
+    public var scrapers: [AmpClientTypes.ScraperSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scrapers: [AmpClientTypes.ScraperSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scrapers = scrapers
+    }
+}
+
+struct ListScrapersOutputBody: Swift.Equatable {
+    let scrapers: [AmpClientTypes.ScraperSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListScrapersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case scrapers
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scrapersContainer = try containerValues.decodeIfPresent([AmpClientTypes.ScraperSummary?].self, forKey: .scrapers)
+        var scrapersDecoded0:[AmpClientTypes.ScraperSummary]? = nil
+        if let scrapersContainer = scrapersContainer {
+            scrapersDecoded0 = [AmpClientTypes.ScraperSummary]()
+            for structure0 in scrapersContainer {
+                if let structure0 = structure0 {
+                    scrapersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scrapers = scrapersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListScrapersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2923,6 +3722,447 @@ extension AmpClientTypes {
 
 }
 
+extension AmpClientTypes.ScrapeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationblob = "configurationBlob"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .configurationblob(configurationblob):
+                try container.encode(configurationblob.base64EncodedString(), forKey: .configurationblob)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationblobDecoded = try values.decodeIfPresent(ClientRuntime.Data.self, forKey: .configurationblob)
+        if let configurationblob = configurationblobDecoded {
+            self = .configurationblob(configurationblob)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AmpClientTypes {
+    /// A representation of a Prometheus configuration file.
+    public enum ScrapeConfiguration: Swift.Equatable {
+        /// Binary data representing a Prometheus configuration file.
+        case configurationblob(ClientRuntime.Data)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension AmpClientTypes.ScraperDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias
+        case arn
+        case createdAt
+        case destination
+        case lastModifiedAt
+        case roleArn
+        case scrapeConfiguration
+        case scraperId
+        case source
+        case status
+        case statusReason
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alias = self.alias {
+            try encodeContainer.encode(alias, forKey: .alias)
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let scrapeConfiguration = self.scrapeConfiguration {
+            try encodeContainer.encode(scrapeConfiguration, forKey: .scrapeConfiguration)
+        }
+        if let scraperId = self.scraperId {
+            try encodeContainer.encode(scraperId, forKey: .scraperId)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
+        alias = aliasDecoded
+        let scraperIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scraperId)
+        scraperId = scraperIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let scrapeConfigurationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScrapeConfiguration.self, forKey: .scrapeConfiguration)
+        scrapeConfiguration = scrapeConfigurationDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Source.self, forKey: .source)
+        source = sourceDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Destination.self, forKey: .destination)
+        destination = destinationDecoded
+    }
+}
+
+extension AmpClientTypes {
+    /// Represents the properties of a scraper.
+    public struct ScraperDescription: Swift.Equatable {
+        /// Alias of this scraper.
+        public var alias: Swift.String?
+        /// The Amazon Resource Name (ARN) of this scraper.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The time when the scraper was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The destination that the scraper is producing metrics to.
+        /// This member is required.
+        public var destination: AmpClientTypes.Destination?
+        /// The time when the scraper was last modified.
+        /// This member is required.
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to dsicover, collect, and produce metrics on your behalf.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The configuration used to create the scraper.
+        /// This member is required.
+        public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
+        /// Unique string identifying this scraper.
+        /// This member is required.
+        public var scraperId: Swift.String?
+        /// The source that the scraper is discovering and collecting metrics from.
+        /// This member is required.
+        public var source: AmpClientTypes.Source?
+        /// The status of this scraper.
+        /// This member is required.
+        public var status: AmpClientTypes.ScraperStatus?
+        /// The reason for failure if any.
+        public var statusReason: Swift.String?
+        /// The tags of this scraper.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            alias: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            destination: AmpClientTypes.Destination? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            roleArn: Swift.String? = nil,
+            scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
+            scraperId: Swift.String? = nil,
+            source: AmpClientTypes.Source? = nil,
+            status: AmpClientTypes.ScraperStatus? = nil,
+            statusReason: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.alias = alias
+            self.arn = arn
+            self.createdAt = createdAt
+            self.destination = destination
+            self.lastModifiedAt = lastModifiedAt
+            self.roleArn = roleArn
+            self.scrapeConfiguration = scrapeConfiguration
+            self.scraperId = scraperId
+            self.source = source
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+        }
+    }
+
+}
+
+extension AmpClientTypes.ScraperStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case statusCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let statusCode = self.statusCode {
+            try encodeContainer.encode(statusCode.rawValue, forKey: .statusCode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperStatusCode.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+    }
+}
+
+extension AmpClientTypes {
+    /// Represents the status of a scraper.
+    public struct ScraperStatus: Swift.Equatable {
+        /// Status code of this scraper.
+        /// This member is required.
+        public var statusCode: AmpClientTypes.ScraperStatusCode?
+
+        public init(
+            statusCode: AmpClientTypes.ScraperStatusCode? = nil
+        )
+        {
+            self.statusCode = statusCode
+        }
+    }
+
+}
+
+extension AmpClientTypes {
+    /// State of a scraper.
+    public enum ScraperStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// Scraper has been created and is usable.
+        case active
+        /// Scraper is being created. Deletion is disallowed until status is ACTIVE.
+        case creating
+        /// Scraper creation failed.
+        case creationFailed
+        /// Scraper is being deleted. Deletions are allowed only when status is ACTIVE.
+        case deleting
+        /// Scraper deletion failed.
+        case deletionFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScraperStatusCode] {
+            return [
+                .active,
+                .creating,
+                .creationFailed,
+                .deleting,
+                .deletionFailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .deleting: return "DELETING"
+            case .deletionFailed: return "DELETION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScraperStatusCode(rawValue: rawValue) ?? ScraperStatusCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmpClientTypes.ScraperSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias
+        case arn
+        case createdAt
+        case destination
+        case lastModifiedAt
+        case roleArn
+        case scraperId
+        case source
+        case status
+        case statusReason
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alias = self.alias {
+            try encodeContainer.encode(alias, forKey: .alias)
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let lastModifiedAt = self.lastModifiedAt {
+            try encodeContainer.encodeTimestamp(lastModifiedAt, format: .epochSeconds, forKey: .lastModifiedAt)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let scraperId = self.scraperId {
+            try encodeContainer.encode(scraperId, forKey: .scraperId)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
+        alias = aliasDecoded
+        let scraperIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scraperId)
+        scraperId = scraperIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let lastModifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedAt)
+        lastModifiedAt = lastModifiedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Source.self, forKey: .source)
+        source = sourceDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Destination.self, forKey: .destination)
+        destination = destinationDecoded
+    }
+}
+
+extension AmpClientTypes {
+    /// Represents a summary of the properties of a scraper.
+    public struct ScraperSummary: Swift.Equatable {
+        /// Alias of this scraper.
+        public var alias: Swift.String?
+        /// The Amazon Resource Name (ARN) of this scraper.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The time when the scraper was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The destination that the scraper is producing metrics to.
+        /// This member is required.
+        public var destination: AmpClientTypes.Destination?
+        /// The time when the scraper was last modified.
+        /// This member is required.
+        public var lastModifiedAt: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to dsicover, collect, and produce metrics on your behalf.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// Unique string identifying this scraper.
+        /// This member is required.
+        public var scraperId: Swift.String?
+        /// The source that the scraper is discovering and collecting metrics from.
+        /// This member is required.
+        public var source: AmpClientTypes.Source?
+        /// The status of this scraper.
+        /// This member is required.
+        public var status: AmpClientTypes.ScraperStatus?
+        /// The reason for failure if any.
+        public var statusReason: Swift.String?
+        /// The tags of this scraper.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            alias: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            destination: AmpClientTypes.Destination? = nil,
+            lastModifiedAt: ClientRuntime.Date? = nil,
+            roleArn: Swift.String? = nil,
+            scraperId: Swift.String? = nil,
+            source: AmpClientTypes.Source? = nil,
+            status: AmpClientTypes.ScraperStatus? = nil,
+            statusReason: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.alias = alias
+            self.arn = arn
+            self.createdAt = createdAt
+            self.destination = destination
+            self.lastModifiedAt = lastModifiedAt
+            self.roleArn = roleArn
+            self.scraperId = scraperId
+            self.source = source
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+        }
+    }
+
+}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3022,6 +4262,43 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
         quotaCode = quotaCodeDecoded
     }
+}
+
+extension AmpClientTypes.Source: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksconfiguration = "eksConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .eksconfiguration(eksconfiguration):
+                try container.encode(eksconfiguration, forKey: .eksconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let eksconfigurationDecoded = try values.decodeIfPresent(AmpClientTypes.EksConfiguration.self, forKey: .eksconfiguration)
+        if let eksconfiguration = eksconfigurationDecoded {
+            self = .eksconfiguration(eksconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AmpClientTypes {
+    /// A representation of a source that a scraper can discover and collect metrics from.
+    public enum Source: Swift.Equatable {
+        /// A representation of an EKS source.
+        case eksconfiguration(AmpClientTypes.EksConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension TagResourceInput: Swift.Encodable {

@@ -12,7 +12,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeBudgetActionHistoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionHistoriesOutput`
     public func describeBudgetActionHistoriesPaginated(input: DescribeBudgetActionHistoriesInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(input: input, inputKey: \DescribeBudgetActionHistoriesInput.nextToken, outputKey: \DescribeBudgetActionHistoriesOutput.nextToken, paginationFunction: self.describeBudgetActionHistories(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBudgetActionHistories(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension DescribeBudgetActionHistoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBudgetActionHistoriesInput, Output == DescribeBudgetActionHistoriesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeBudgetActionHistoriesInput, OperationStackOutput == DescribeBudgetActionHistoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionHistoriesPaginated`
     /// to access the nested member `[BudgetsClientTypes.ActionHistory]`
     /// - Returns: `[BudgetsClientTypes.ActionHistory]`
@@ -46,7 +46,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeBudgetActionsForAccountInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionsForAccountOutput`
     public func describeBudgetActionsForAccountPaginated(input: DescribeBudgetActionsForAccountInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(input: input, inputKey: \DescribeBudgetActionsForAccountInput.nextToken, outputKey: \DescribeBudgetActionsForAccountOutput.nextToken, paginationFunction: self.describeBudgetActionsForAccount(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBudgetActionsForAccount(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension DescribeBudgetActionsForAccountInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBudgetActionsForAccountInput, Output == DescribeBudgetActionsForAccountOutput {
+extension PaginatorSequence where OperationStackInput == DescribeBudgetActionsForAccountInput, OperationStackOutput == DescribeBudgetActionsForAccountOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionsForAccountPaginated`
     /// to access the nested member `[BudgetsClientTypes.Action]`
     /// - Returns: `[BudgetsClientTypes.Action]`
@@ -77,7 +77,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeBudgetActionsForBudgetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionsForBudgetOutput`
     public func describeBudgetActionsForBudgetPaginated(input: DescribeBudgetActionsForBudgetInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(input: input, inputKey: \DescribeBudgetActionsForBudgetInput.nextToken, outputKey: \DescribeBudgetActionsForBudgetOutput.nextToken, paginationFunction: self.describeBudgetActionsForBudget(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBudgetActionsForBudget(input:))
     }
 }
 
@@ -91,7 +91,7 @@ extension DescribeBudgetActionsForBudgetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBudgetActionsForBudgetInput, Output == DescribeBudgetActionsForBudgetOutput {
+extension PaginatorSequence where OperationStackInput == DescribeBudgetActionsForBudgetInput, OperationStackOutput == DescribeBudgetActionsForBudgetOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionsForBudgetPaginated`
     /// to access the nested member `[BudgetsClientTypes.Action]`
     /// - Returns: `[BudgetsClientTypes.Action]`
@@ -109,7 +109,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeBudgetNotificationsForAccountInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetNotificationsForAccountOutput`
     public func describeBudgetNotificationsForAccountPaginated(input: DescribeBudgetNotificationsForAccountInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(input: input, inputKey: \DescribeBudgetNotificationsForAccountInput.nextToken, outputKey: \DescribeBudgetNotificationsForAccountOutput.nextToken, paginationFunction: self.describeBudgetNotificationsForAccount(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBudgetNotificationsForAccount(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension DescribeBudgetNotificationsForAccountInput: ClientRuntime.PaginateToke
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBudgetNotificationsForAccountInput, Output == DescribeBudgetNotificationsForAccountOutput {
+extension PaginatorSequence where OperationStackInput == DescribeBudgetNotificationsForAccountInput, OperationStackOutput == DescribeBudgetNotificationsForAccountOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBudgetNotificationsForAccountPaginated`
     /// to access the nested member `[BudgetsClientTypes.BudgetNotificationsForAccount]`
     /// - Returns: `[BudgetsClientTypes.BudgetNotificationsForAccount]`
@@ -140,7 +140,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeBudgetPerformanceHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetPerformanceHistoryOutput`
     public func describeBudgetPerformanceHistoryPaginated(input: DescribeBudgetPerformanceHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(input: input, inputKey: \DescribeBudgetPerformanceHistoryInput.nextToken, outputKey: \DescribeBudgetPerformanceHistoryOutput.nextToken, paginationFunction: self.describeBudgetPerformanceHistory(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBudgetPerformanceHistory(input:))
     }
 }
 
@@ -164,7 +164,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeBudgetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetsOutput`
     public func describeBudgetsPaginated(input: DescribeBudgetsInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetsInput, DescribeBudgetsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeBudgetsInput, DescribeBudgetsOutput>(input: input, inputKey: \DescribeBudgetsInput.nextToken, outputKey: \DescribeBudgetsOutput.nextToken, paginationFunction: self.describeBudgets(input:))
+        return ClientRuntime.PaginatorSequence<DescribeBudgetsInput, DescribeBudgetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBudgets(input:))
     }
 }
 
@@ -177,7 +177,7 @@ extension DescribeBudgetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBudgetsInput, Output == DescribeBudgetsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeBudgetsInput, OperationStackOutput == DescribeBudgetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBudgetsPaginated`
     /// to access the nested member `[BudgetsClientTypes.Budget]`
     /// - Returns: `[BudgetsClientTypes.Budget]`
@@ -195,7 +195,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeNotificationsForBudgetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationsForBudgetOutput`
     public func describeNotificationsForBudgetPaginated(input: DescribeNotificationsForBudgetInput) -> ClientRuntime.PaginatorSequence<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(input: input, inputKey: \DescribeNotificationsForBudgetInput.nextToken, outputKey: \DescribeNotificationsForBudgetOutput.nextToken, paginationFunction: self.describeNotificationsForBudget(input:))
+        return ClientRuntime.PaginatorSequence<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNotificationsForBudget(input:))
     }
 }
 
@@ -209,7 +209,7 @@ extension DescribeNotificationsForBudgetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeNotificationsForBudgetInput, Output == DescribeNotificationsForBudgetOutput {
+extension PaginatorSequence where OperationStackInput == DescribeNotificationsForBudgetInput, OperationStackOutput == DescribeNotificationsForBudgetOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeNotificationsForBudgetPaginated`
     /// to access the nested member `[BudgetsClientTypes.Notification]`
     /// - Returns: `[BudgetsClientTypes.Notification]`
@@ -227,7 +227,7 @@ extension BudgetsClient {
     ///     - input: A `[DescribeSubscribersForNotificationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubscribersForNotificationOutput`
     public func describeSubscribersForNotificationPaginated(input: DescribeSubscribersForNotificationInput) -> ClientRuntime.PaginatorSequence<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(input: input, inputKey: \DescribeSubscribersForNotificationInput.nextToken, outputKey: \DescribeSubscribersForNotificationOutput.nextToken, paginationFunction: self.describeSubscribersForNotification(input:))
+        return ClientRuntime.PaginatorSequence<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSubscribersForNotification(input:))
     }
 }
 
@@ -242,7 +242,7 @@ extension DescribeSubscribersForNotificationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSubscribersForNotificationInput, Output == DescribeSubscribersForNotificationOutput {
+extension PaginatorSequence where OperationStackInput == DescribeSubscribersForNotificationInput, OperationStackOutput == DescribeSubscribersForNotificationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSubscribersForNotificationPaginated`
     /// to access the nested member `[BudgetsClientTypes.Subscriber]`
     /// - Returns: `[BudgetsClientTypes.Subscriber]`
