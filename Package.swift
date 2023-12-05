@@ -28,7 +28,8 @@ let package = Package(
     name: "aws-sdk-swift",
     platforms: [
         .macOS(.v10_15),
-        .iOS(.v13)
+        .iOS(.v13),
+        .tvOS(.v13)
     ],
     products: [
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
