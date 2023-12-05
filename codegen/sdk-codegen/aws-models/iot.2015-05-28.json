@@ -4400,6 +4400,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n            Suppresses alerts.\n        </p>"
                     }
+                },
+                "exportMetric": {
+                    "target": "com.amazonaws.iot#ExportMetric",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Value indicates exporting metrics related to the behavior when it is true.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7243,7 +7249,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n        job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n        job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n        Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -7383,7 +7389,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n            Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -8784,6 +8790,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Metadata that can be used to manage the security profile.</p>"
                     }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
+                    }
                 }
             },
             "traits": {
@@ -8990,7 +9002,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Create a thing group.</p>\n         <note>\n            <p>This is a control plane operation. See <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html\">Authorization</a> for\n\t\t\t\tinformation about authorizing control plane actions.</p>\n         </note>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateThingGroup</a> action.</p>",
+                "smithy.api#documentation": "<p>Create a thing group.</p>\n         <note>\n            <p>This is a control plane operation. See <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html\">Authorization</a> for\n\t\t\t\tinformation about authorizing control plane actions.</p>\n            <p>If the <code>ThingGroup</code> that you create has the exact same attributes as an existing\n\t\t\t\t\t<code>ThingGroup</code>, you will get a 200 success response.\n\t\t\t</p>\n         </note>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateThingGroup</a> action.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/thing-groups/{thingGroupName}",
@@ -10393,6 +10405,12 @@
             },
             "traits": {
                 "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.iot#DeleteMetricsExportConfig": {
+            "type": "boolean",
+            "traits": {
+                "smithy.api#default": false
             }
         },
         "com.amazonaws.iot#DeleteMitigationAction": {
@@ -13369,7 +13387,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n            Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -14070,6 +14088,12 @@
                     "target": "com.amazonaws.iot#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The time the security profile was last modified.</p>"
+                    }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
                     }
                 }
             },
@@ -16018,6 +16042,9 @@
                 "smithy.api#documentation": "<p>Allows you to create an exponential rate of rollout for a job.</p>"
             }
         },
+        "com.amazonaws.iot#ExportMetric": {
+            "type": "boolean"
+        },
         "com.amazonaws.iot#FailedChecksCount": {
             "type": "integer"
         },
@@ -16442,6 +16469,32 @@
         },
         "com.amazonaws.iot#GenericLongValue": {
             "type": "long"
+        },
+        "com.amazonaws.iot#GeoLocationTarget": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.iot#TargetFieldName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>name</code> of the geolocation target field. If the target field is part of a\n      named shadow, you must select the named shadow using the <code>namedShadow</code> filter.</p>"
+                    }
+                },
+                "order": {
+                    "target": "com.amazonaws.iot#TargetFieldOrder",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>order</code> of the geolocation target field. This field is optional. The\n      default value is <code>LatLon</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A geolocation target that you select to index. Each geolocation target contains a\n        <code>name</code> and <code>order</code> key-value pair that specifies the geolocation\n      target fields.</p>"
+            }
+        },
+        "com.amazonaws.iot#GeoLocationsFilter": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.iot#GeoLocationTarget"
+            }
         },
         "com.amazonaws.iot#GetBehaviorModelTrainingSummaries": {
             "type": "operation",
@@ -18300,10 +18353,16 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase \n      the limit, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits\">Amazon Web Services IoT Device Management \n        Quotas</a> in the <i>Amazon Web Services General Reference</i>.\n    </p>"
                     }
+                },
+                "geoLocations": {
+                    "target": "com.amazonaws.iot#GeoLocationsFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of geolocation targets that you select to index. The default maximum number of\n      geolocation targets for indexing is <code>1</code>. To increase the limit, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits\">Amazon Web Services IoT Device\n        Management Quotas</a> in the <i>Amazon Web Services General Reference</i>.</p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter.\n      To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to be <code>ON</code> and \n      specify your shadow names in <code>filter</code>.</p>"
+                "smithy.api#documentation": "<p>Provides additional selections for named shadows and geolocation data. </p>\n         <p>To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to\n      be ON and specify your shadow names in <code>namedShadowNames</code> filter.</p>\n         <p>To add geolocation data to your fleet indexing configuration: </p>\n         <ul>\n            <li>\n               <p>If you store geolocation data in a class/unnamed shadow, set\n            <code>thingIndexingMode</code> to be <code>REGISTRY_AND_SHADOW</code> and specify your\n          geolocation data in <code>geoLocations</code> filter. </p>\n            </li>\n            <li>\n               <p>If you store geolocation data in a named shadow, set\n            <code>namedShadowIndexingMode</code> to be <code>ON</code>, add the shadow name in\n            <code>namedShadowNames</code> filter, and specify your geolocation data in\n            <code>geoLocations</code> filter. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html\">Managing fleet\n            indexing</a>.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.iot#InlineDocument": {
@@ -18749,7 +18808,7 @@
                 "destinationPackageVersions": {
                     "target": "com.amazonaws.iot#DestinationPackageVersions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single string. \n        Up to five strings are allowed.</p>"
+                        "smithy.api#documentation": "<p>The package version Amazon Resource Names (ARNs) that are installed on the device when the \n            job successfully completes. </p>\n         <p>\n            <b>Note:</b>The following Length Constraints relates to a single ARN. \n            Up to 25  package version ARNs are allowed.</p>"
                     }
                 }
             },
@@ -25618,6 +25677,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The dimension of a metric. This can't be used with custom metrics.</p>"
                     }
+                },
+                "exportMetric": {
+                    "target": "com.amazonaws.iot#ExportMetric",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Value added in both Behavior and AdditionalMetricsToRetainV2 to indicate if Device\n            Defender Detect should export the corresponding metrics.</p>"
+                    }
                 }
             },
             "traits": {
@@ -25666,6 +25731,28 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The value to be compared with the <code>metric</code>.</p>"
+            }
+        },
+        "com.amazonaws.iot#MetricsExportConfig": {
+            "type": "structure",
+            "members": {
+                "mqttTopic": {
+                    "target": "com.amazonaws.iot#MqttTopic",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The MQTT topic that Device Defender Detect should publish messages to for metrics\n      export.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "roleArn": {
+                    "target": "com.amazonaws.iot#RoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>This role ARN has permission to publish MQTT messages, after which Device Defender Detect\n      can assume the role and publish messages on your behalf.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Set configurations for metrics export.</p>"
             }
         },
         "com.amazonaws.iot#Minimum": {
@@ -25993,6 +26080,15 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 65535
+                }
+            }
+        },
+        "com.amazonaws.iot#MqttTopic": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 512
                 }
             }
         },
@@ -29056,7 +29152,7 @@
                 "maxResults": {
                     "target": "com.amazonaws.iot#QueryMaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>The maximum number of results to return at one time.</p>"
+                        "smithy.api#documentation": "<p>The maximum number of results to return per page at one time. The response might\n      contain fewer results but will never contain more.</p>"
                     }
                 },
                 "queryVersion": {
@@ -29669,7 +29765,7 @@
                     "min": 1,
                     "max": 64
                 },
-                "smithy.api#pattern": "^[a-zA-Z0-9:_-]+$"
+                "smithy.api#pattern": "^[$a-zA-Z0-9:_-]+$"
             }
         },
         "com.amazonaws.iot#SigV4Authorization": {
@@ -30800,6 +30896,26 @@
                 "target": "com.amazonaws.iot#AuditCheckName"
             }
         },
+        "com.amazonaws.iot#TargetFieldName": {
+            "type": "string"
+        },
+        "com.amazonaws.iot#TargetFieldOrder": {
+            "type": "enum",
+            "members": {
+                "LatLon": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LatLon"
+                    }
+                },
+                "LonLat": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LonLat"
+                    }
+                }
+            }
+        },
         "com.amazonaws.iot#TargetSelection": {
             "type": "enum",
             "members": {
@@ -31481,7 +31597,7 @@
                 "managedFields": {
                     "target": "com.amazonaws.iot#Fields",
                     "traits": {
-                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service. This is an optional field. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field\">Managed fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service. This is an optional field. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field\">Managed fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.</p>\n         <note>\n            <p>You can't modify managed fields by updating fleet indexing configuration.</p>\n         </note>"
                     }
                 },
                 "customFields": {
@@ -31632,7 +31748,7 @@
                 "managedFields": {
                     "target": "com.amazonaws.iot#Fields",
                     "traits": {
-                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service.</p>"
+                        "smithy.api#documentation": "<p>Contains fields that are indexed and whose types are already known by the Fleet Indexing\n      service. This is an optional field. For more information, see <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field\">Managed fields</a> in the <i>Amazon Web Services IoT Core Developer Guide</i>.</p>\n         <note>\n            <p>You can't modify managed fields by updating fleet indexing configuration.</p>\n         </note>"
                     }
                 },
                 "customFields": {
@@ -31644,7 +31760,7 @@
                 "filter": {
                     "target": "com.amazonaws.iot#IndexingFilter",
                     "traits": {
-                        "smithy.api#documentation": "<p>Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter.\n      To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to be <code>ON</code> and \n      specify your shadow names in <code>filter</code>.</p>"
+                        "smithy.api#documentation": "<p>Provides additional selections for named shadows and geolocation data. </p>\n         <p>To add named shadows to your fleet indexing configuration, set <code>namedShadowIndexingMode</code> to\n      be ON and specify your shadow names in <code>namedShadowNames</code> filter.</p>\n         <p>To add geolocation data to your fleet indexing configuration: </p>\n         <ul>\n            <li>\n               <p>If you store geolocation data in a class/unnamed shadow, set\n          <code>thingIndexingMode</code> to be <code>REGISTRY_AND_SHADOW</code> and specify your\n          geolocation data in <code>geoLocations</code> filter. </p>\n            </li>\n            <li>\n               <p>If you store geolocation data in a named shadow, set <code>namedShadowIndexingMode</code>\n          to be <code>ON</code>, add the shadow name in <code>namedShadowNames</code> filter, and\n          specify your geolocation data in <code>geoLocations</code> filter. For more information, see\n          <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html\">Managing fleet indexing</a>.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -34502,6 +34618,19 @@
                         "smithy.api#documentation": "<p>The expected version of the security profile. A new version is generated whenever\n        the security profile is updated. If you specify a value that is different from the actual\n        version, a <code>VersionConflictException</code> is thrown.</p>",
                         "smithy.api#httpQuery": "expectedVersion"
                     }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
+                    }
+                },
+                "deleteMetricsExportConfig": {
+                    "target": "com.amazonaws.iot#DeleteMetricsExportConfig",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Set the value as true to delete metrics export related configurations.</p>"
+                    }
                 }
             },
             "traits": {
@@ -34573,6 +34702,12 @@
                     "target": "com.amazonaws.iot#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The time the security profile was last modified.</p>"
+                    }
+                },
+                "metricsExportConfig": {
+                    "target": "com.amazonaws.iot#MetricsExportConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the MQTT topic and role ARN required for metric export.</p>"
                     }
                 }
             },
